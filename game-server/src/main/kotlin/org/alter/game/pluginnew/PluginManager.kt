@@ -38,16 +38,59 @@ object PluginManager {
 
     fun load(world: World) {
         val start = System.currentTimeMillis()
-        val classOutputDir = File("../content/build/classes/kotlin/main")
-        val resourcesDir = File("../content/build/resources/main/")
+        val startCandidates = listOf(
+            File("../content/build/classes/kotlin/main"),
+            File("../content/build/classes/java/main"),
+            File("content/build/classes/kotlin/main"),
+            File("content/build/classes/java/main")
+        )
 
-        validateWindowsClasspathPath(classOutputDir)
-
-        ClassGraph()
-            .overrideClasspath(classOutputDir)
+        // First attempt: scan the runtime classpath (works when running from IDE or a fat jar)
+        var scanResult = ClassGraph()
             .acceptPackages(PLUGIN_PACKAGE)
             .enableClassInfo()
-            .scan().use { scanResult ->
+            .scan()
+
+        // If no plugin classes found on the runtime classpath, try common content build output locations.
+        var resourcesDir: File? = null
+        var pluginScanResult: io.github.classgraph.ScanResult? = null
+
+        fun tryScanWithDir(dir: File): io.github.classgraph.ScanResult? {
+            if (!dir.exists()) return null
+            validateWindowsClasspathPath(dir)
+            return ClassGraph()
+                .overrideClasspath(dir)
+                .acceptPackages(PLUGIN_PACKAGE)
+                .enableClassInfo()
+                .scan()
+        }
+
+        val initialPlugins = scanResult.getSubclasses(PluginEvent::class.java.name)
+        if (initialPlugins.isEmpty()) {
+            for (candidate in startCandidates) {
+                val result = tryScanWithDir(candidate)
+                if (result != null) {
+                    val found = result.getSubclasses(PluginEvent::class.java.name)
+                    if (found.isNotEmpty()) {
+                        pluginScanResult = result
+                        // Attempt to find matching resources dir relative to the build output
+                        val possibleResources = File(candidate.parentFile?.parentFile, "resources/main")
+                        if (possibleResources.exists()) {
+                            resourcesDir = possibleResources
+                        } else {
+                            resourcesDir = File("../content/build/resources/main/")
+                        }
+                        break
+                    } else {
+                        result.close()
+                    }
+                }
+            }
+        } else {
+            pluginScanResult = scanResult
+        }
+
+        pluginScanResult?.use { scanResult ->
 
                 // Get all subclasses of PluginEvent (including indirect)
                 val pluginClasses = scanResult
@@ -74,7 +117,7 @@ object PluginManager {
                             val instance = pluginClass.getDeclaredConstructor().newInstance()
 
                             // Load plugin settings if available
-                            loadPluginSettings(pluginClass, scanResult, resourcesDir)?.let { settings ->
+                            loadPluginSettings(pluginClass, scanResult, resourcesDir ?: File("../content/build/resources/main/"))?.let { settings ->
                                 instance.settings = settings
                             }
 
