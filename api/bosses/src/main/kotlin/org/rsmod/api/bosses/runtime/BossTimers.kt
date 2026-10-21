@@ -41,6 +41,7 @@ internal fun BossDeps.startTimers(encounter: BossEncounter, tick: Int) {
     encounter.timersStarted = true
     val hasTimers = encounter.spec.timers.isNotEmpty() || encounter.spec.phases.values.any { it.timers.isNotEmpty() }
     if (!hasTimers) return
+    bossLogger.info { "${encounter.npc.bossTag} timers started (tick $tick)" }
     val schedule = TimerSchedule(encounter, tick) { random.of(it) }
     fun step() {
         worldQueues.add(1) {
@@ -52,6 +53,8 @@ internal fun BossDeps.startTimers(encounter: BossEncounter, tick: Int) {
                 for (effect in effects) {
                     EffectInterpreter(npc, target, encounter.spec, encounter, this).run(null, effect)
                 }
+            } else if (effects.isNotEmpty()) {
+                bossLogger.info { "${npc.bossTag} timer fire dropped: no valid target or boss dead" }
             }
             step()
         }

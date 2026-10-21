@@ -423,6 +423,10 @@ object SpecValidator {
                 is Effect.Debris -> target(effect.center, scope, name)
                 is Effect.Summon -> target(effect.centeredOn, scope, name)
                 is Effect.Teleport -> target(effect.to, scope, name)
+                is Effect.WalkTo -> {
+                    target(effect.to, scope, name)
+                    effect(effect.onArrival, scope.copy(deferred = true))
+                }
                 is Effect.FaceTile -> target(effect.at, scope, name)
                 is Effect.External ->
                     effect.at?.let { target(it, scope, "External '${effect.handler}'") }

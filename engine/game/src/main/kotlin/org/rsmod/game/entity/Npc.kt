@@ -99,6 +99,14 @@ public class Npc(
     public var movementLocked: Boolean = false
 
     /**
+     * Whether scripts own this Npc's movement and facing. Its ai interactions (e.g. combat) still
+     * trigger from wherever it stands, but never route it toward or face the target, abort its
+     * current route, step it out from under the target, or end because it moved; and it keeps
+     * walking its own route on cycles an interaction triggers.
+     */
+    public var scriptedMovement: Boolean = false
+
+    /**
      * Used for temporarily overwriting a Npc's ap-range, i.e. the distance at which it can
      * perform a ranged attack.
      */

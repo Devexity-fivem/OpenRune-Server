@@ -89,6 +89,22 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setHeadIconChange(slot, graphic, index)
     }
 
+    override fun setTransparency(
+        startTime: Int,
+        endTime: Int,
+        startTransparency: Int,
+        endTransparency: Int,
+        useStartTransparency: Boolean,
+    ) {
+        rspAvatar.extendedInfo.setTransparency(
+            startTime,
+            endTime,
+            startTransparency,
+            endTransparency,
+            useStartTransparency,
+        )
+    }
+
     override fun exactMove(
         deltaX1: Int,
         deltaZ1: Int,

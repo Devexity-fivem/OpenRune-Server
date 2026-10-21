@@ -17100,3 +17100,17 @@ inherit = "npc.crystal_hunllef_crystals_hm"
 id = "npc.poh_sawmill_opp"
 inherit = "npc.poh_sawmill_opp"
 wanderRange = 0
+
+[[npc]]
+id = "npc.tfa_ocellus_p1"
+inherit = "npc.tfa_ocellus_p1"
+moveRestrict = "PassThru"
+attackRange = 20
+[npc.params]
+"param.headbar"="headbar.shield_100"
+"param.hitmark_lit"="hitmark.shield_damage_lit"
+"param.hitmark_tint"="hitmark.shield_damage_tint"
+"param.hitmark_max"="hitmark.shield_damage_max"
+"param.boss_hp_bar_colour_back"=8224
+"param.boss_hp_bar_colour_sliding"=39032
+"param.boss_hp_bar_colour_remaining"=53416

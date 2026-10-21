@@ -10,12 +10,14 @@ import net.rsprot.protocol.game.outgoing.zone.payload.MapProjAnimV2
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjAdd
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjCount
 import net.rsprot.protocol.game.outgoing.zone.payload.ObjDel
+import net.rsprot.protocol.game.outgoing.zone.payload.ScriptedProjAdd
 import net.rsprot.protocol.game.outgoing.zone.payload.SoundArea
 import net.rsprot.protocol.message.ZoneProt
 import org.rsmod.api.registry.loc.LocRegistry
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.proj.ProjAnim
+import org.rsmod.game.proj.ScriptedProjAnim
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneGrid
 
@@ -135,6 +137,31 @@ public object ZoneUpdateTransformer {
             endX = projAnim.endCoord.x,
             endZ = projAnim.endCoord.z,
             endLevel = projAnim.endCoord.level,
+        )
+    }
+
+    public fun toScriptedProjAddProt(proj: ScriptedProjAnim): ZoneProt {
+        return ScriptedProjAdd(
+            slot = proj.slot,
+            id = proj.spotanim,
+            xInZone = proj.zoneGridX,
+            zInZone = proj.zoneGridZ,
+            sourceOffsetX = 0,
+            sourceOffsetZ = 0,
+            sourceHeight = proj.sourceHeight,
+            sourceIndex = proj.sourceIndex,
+            targetLevel = proj.endCoord.level,
+            targetX = proj.endCoord.x,
+            targetZ = proj.endCoord.z,
+            targetOffsetX = 0,
+            targetOffsetZ = 0,
+            targetHeight = proj.targetHeight,
+            targetIndex = proj.targetIndex,
+            startTime = proj.startTime,
+            endTime = proj.endTime,
+            curveScriptH = proj.curveScriptH,
+            curveScriptA = proj.curveScriptA,
+            curveScriptT = proj.curveScriptT,
         )
     }
 

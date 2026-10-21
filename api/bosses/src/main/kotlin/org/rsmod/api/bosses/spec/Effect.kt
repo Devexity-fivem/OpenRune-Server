@@ -51,6 +51,9 @@ sealed interface Effect {
     ) : Effect
     data class Spotanim(val spot: String, val height: Int = 0, val delay: Int = 0, val slot: Int = 0) : Effect
     data class MapSpotanim(val spot: String, val at: TargetExpr.Single, val height: Int = 0, val delay: Int = 0) : Effect
+
+    /** Fades the caster from [from] to [to] transparency (0 opaque, 255 invisible) over client cycles. */
+    data class Transparency(val startCycle: Int, val endCycle: Int, val from: Int, val to: Int) : Effect
     data class Broadcast(val text: String, val radius: Int = 15) : Effect
 
     /**
@@ -204,8 +207,15 @@ sealed interface Effect {
     data class HealSelf(val amount: Int) : Effect
 
     data class Teleport(val to: TargetExpr.Single) : Effect
+
+    /**
+     * Walks the caster to [to] without holding up the ability, like [After], and runs [onArrival]
+     * once the route completes. An [Interrupt] in the meantime drops [onArrival]. Combat chases
+     * override the route unless the phase has [PhaseSpec.scriptedMovement].
+     */
+    data class WalkTo(val to: TargetExpr.Single, val onArrival: Effect = NoOp) : Effect
     data object FaceTarget : Effect
-    data class FaceTile(val at: TargetExpr.Single) : Effect
+    data class FaceTile(val at: TargetExpr.Single, val instant: Boolean = false) : Effect
 
     data class Poison(val damage: Int, val chance: Int = 1, val outOf: Int = 1) : Effect
     data class Freeze(val ticks: Int, val chance: Int = 1, val outOf: Int = 1) : Effect

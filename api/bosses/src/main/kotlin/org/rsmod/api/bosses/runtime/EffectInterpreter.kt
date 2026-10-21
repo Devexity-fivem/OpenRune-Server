@@ -154,6 +154,16 @@ class EffectInterpreter internal constructor(
                     PathingEntityCommon.telejump(npc, deps.collision, resolveTile(effect.to))
                 }
             }
+            is Effect.WalkTo -> {
+                if (npc.isValidTarget()) {
+                    val dest = resolveTile(effect.to)
+                    bossLogger.info { "${npc.bossTag} walking to $dest from ${npc.coords}" }
+                    npc.walk(dest) {
+                        bossLogger.info { "${npc.bossTag} arrived at ${npc.coords} (interrupted=$interrupted)" }
+                        if (npc.isValidTarget() && !interrupted) run(access, effect.onArrival)
+                    }
+                }
+            }
             is Effect.FaceTarget -> {
                 if (npc.isValidTarget()) {
                     npc.resetFaceEntity()
@@ -162,12 +172,21 @@ class EffectInterpreter internal constructor(
             }
             is Effect.FaceTile -> {
                 if (npc.isValidTarget()) {
-                    npc.faceSquare(resolveTile(effect.at))
+                    npc.faceSquare(resolveTile(effect.at), instant = effect.instant)
                     npc.resetFaceEntity()
                 }
             }
+            is Effect.Transparency ->
+                npc.infoProtocol.setTransparency(
+                    effect.startCycle,
+                    effect.endCycle,
+                    effect.from,
+                    effect.to,
+                    useStartTransparency = true,
+                )
 
             is Effect.Run -> {
+                bossLogger.info { "${npc.bossTag} run: ${effect.ability}" }
                 val ability = spec.abilities[effect.ability]
                 if (ability != null) run(access, ability, onComplete) else onComplete()
                 return
@@ -176,6 +195,7 @@ class EffectInterpreter internal constructor(
                 encounter.transitionTo(effect.phase, deps.mapClock.cycle)
             }
             is Effect.External -> {
+                bossLogger.info { "${npc.bossTag} external: ${effect.handler}" }
                 val tile = effect.at?.let(::resolveTile)
                 deps.extensionRegistry.invoke(effect.handler, access, npc, target, effect.params, tile)
             }

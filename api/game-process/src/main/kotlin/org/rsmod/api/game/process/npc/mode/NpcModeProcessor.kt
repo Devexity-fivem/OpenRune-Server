@@ -26,6 +26,7 @@ constructor(
         }
         val mode = npc.mode ?: npc.defaultMode
         npc.mode = mode
+        if (npc.scriptedMovement && mode in SELF_MOVING_MODES) return
         npc.processMode(mode)
     }
 
@@ -110,5 +111,10 @@ constructor(
     // `npc_setmode`. Will need to verify this in the future.
     private fun queueMode(mode: NpcMode) {
         throw IllegalStateException("`$mode` cannot be set on npc via `setmode`.")
+    }
+
+    private companion object {
+        val SELF_MOVING_MODES =
+            setOf(NpcMode.Wander, NpcMode.Patrol, NpcMode.PlayerEscape, NpcMode.PlayerFollow)
     }
 }

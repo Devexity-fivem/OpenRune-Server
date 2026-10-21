@@ -67,7 +67,8 @@ constructor(
         val interaction = npc.interaction
         var interacted = false
 
-        val isUnderTarget = interaction != null && npc.isUnderTarget(interaction)
+        val isUnderTarget =
+            interaction != null && !npc.scriptedMovement && npc.isUnderTarget(interaction)
         if (isUnderTarget) {
             // TODO(engine): Red-X has changed a bit over the past revisions. Exceptions have been
             //  added to the condition; will need to test and investigate further.
@@ -84,6 +85,12 @@ constructor(
         if (interaction != null && !npc.isBusy) {
             val cancel = npc.shouldCancelInteraction(interaction)
             if (cancel) {
+                if (npc.scriptedMovement) {
+                    npc.clearInteraction()
+                    npc.defaultMode()
+                    movement.process(npc)
+                    return
+                }
                 npc.clearInteractionRoute()
                 npc.defaultMode()
                 return
@@ -105,6 +112,8 @@ constructor(
             if (interaction != null && !npc.isBusy) {
                 npc.postMovementInteraction(interaction)
             }
+        } else if (npc.scriptedMovement) {
+            movement.process(npc)
         }
     }
 
@@ -131,7 +140,7 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
-                    abortRoute()
+                    if (!scriptedMovement) abortRoute()
                     triggerAp(interaction)
                     interacted = true
                 }
@@ -439,7 +448,7 @@ constructor(
     }
 
     private fun Npc.shouldCancelChase(): Boolean {
-        return hasMovedThisCycle && !visType.giveChase
+        return hasMovedThisCycle && !visType.giveChase && !scriptedMovement
     }
 
     /* Interaction event launch functions */

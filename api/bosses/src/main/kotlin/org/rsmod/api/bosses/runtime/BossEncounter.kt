@@ -122,7 +122,8 @@ class BossEncounter(
     private var forceAttackThreshold = -1
 
     init {
-        npc.movementLocked = currentPhase?.lockMovement == true
+        applyMovementMode(currentPhase)
+        bossLogger.info { "${npc.bossTag} encounter created in phase '$currentPhaseName'" }
     }
 
     val currentPhase: PhaseSpec?
@@ -131,6 +132,7 @@ class BossEncounter(
     /** Switches phase state only; does not run the phase's [PhaseSpec.entry]. */
     fun transitionTo(phaseName: String, tick: Int) {
         val from = currentPhaseName
+        bossLogger.info { "${npc.bossTag} phase '$from' -> '$phaseName' (tick $tick)" }
         currentPhaseName = phaseName
         queuedAbility = null
         phaseEnteredTick = tick
@@ -149,9 +151,16 @@ class BossEncounter(
         val idle = phase?.idleAnim
         if (idle != null) npc.setIdleAnim(idle) else npc.clearIdleAnim()
 
-        npc.movementLocked = phase?.lockMovement == true
+        applyMovementMode(phase)
 
         npc.clearFacingLock()
+    }
+
+    private fun applyMovementMode(phase: PhaseSpec?) {
+        npc.movementLocked = phase?.lockMovement == true
+        npc.scriptedMovement = phase?.scriptedMovement == true
+        // A face lock from before the phase (e.g. intro dialogue) would otherwise persist.
+        if (npc.scriptedMovement) npc.resetFaceEntity()
     }
 
     fun selectAbility(selector: Selector, tick: Int, target: Player? = null): String? {

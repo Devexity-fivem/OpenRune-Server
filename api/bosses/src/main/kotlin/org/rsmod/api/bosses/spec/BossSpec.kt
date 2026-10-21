@@ -20,6 +20,12 @@ data class PhaseSpec(
     val transmog: String? = null,
     val lockMovement: Boolean = false,
     /**
+     * Hands the npc's movement and facing to the spec while in this phase: it stays engaged with
+     * its target (so the combat loop keeps ticking) but never chases or turns to face it. Pair with
+     * [Effect.WalkTo] for scripted routes.
+     */
+    val scriptedMovement: Boolean = false,
+    /**
      * Per-phase attack-rate default (ticks between ability uses). When set, it overrides
      * [BossStats.attackRate] while this phase is active. A per-encounter
      * [org.rsmod.api.bosses.runtime.BossEncounter.attackRateOverride] takes precedence over both.

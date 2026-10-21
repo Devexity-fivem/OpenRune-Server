@@ -48,6 +48,7 @@ class BossSpecBuilder(private val npcTypes: List<String>) {
         entryHp: Double? = null,
         transmog: String? = null,
         lockMovement: Boolean = false,
+        scriptedMovement: Boolean = false,
         exitAfter: Int? = null,
         nextPhase: String? = null,
         idleAnim: String? = null,
@@ -61,6 +62,7 @@ class BossSpecBuilder(private val npcTypes: List<String>) {
                 entryHp = entryHp,
                 transmog = transmog,
                 lockMovement = lockMovement,
+                scriptedMovement = scriptedMovement,
                 exitAfter = exitAfter,
                 nextPhase = nextPhase,
                 idleAnim = idleAnim,
@@ -291,8 +293,16 @@ class AbilityBuilder {
         effects += Effect.FaceTarget
     }
 
-    fun faceTile(at: TargetExpr.Single) {
-        effects += Effect.FaceTile(at)
+    fun faceTile(at: TargetExpr.Single, instant: Boolean = false) {
+        effects += Effect.FaceTile(at, instant)
+    }
+
+    fun transparency(startCycle: Int, endCycle: Int, from: Int, to: Int) {
+        effects += Effect.Transparency(startCycle, endCycle, from, to)
+    }
+
+    fun walkTo(to: TargetExpr.Single, onArrival: Effect = Effect.NoOp) {
+        effects += Effect.WalkTo(to, onArrival)
     }
 
     fun broadcastInArea(text: String, radius: Int = 15) {

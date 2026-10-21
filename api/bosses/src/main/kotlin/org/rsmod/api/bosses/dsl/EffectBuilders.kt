@@ -325,9 +325,14 @@ fun spawnTile(dx: Int = 0, dz: Int = 0): TargetExpr.Single = TargetExpr.SpawnTil
 
 fun teleport(to: TargetExpr.Single): Effect = Effect.Teleport(to)
 
+fun walkTo(to: TargetExpr.Single, onArrival: Effect = Effect.NoOp): Effect = Effect.WalkTo(to, onArrival)
+
 fun faceTarget(): Effect = Effect.FaceTarget
 
-fun faceTile(at: TargetExpr.Single): Effect = Effect.FaceTile(at)
+fun faceTile(at: TargetExpr.Single, instant: Boolean = false): Effect = Effect.FaceTile(at, instant)
+
+fun transparency(startCycle: Int, endCycle: Int, from: Int, to: Int): Effect =
+    Effect.Transparency(startCycle, endCycle, from, to)
 
 fun randomWalkableTile(radius: Int, of: TargetExpr.Single = TargetExpr.Self): TargetExpr =
     TargetExpr.RandomWalkableTile(radius, of)

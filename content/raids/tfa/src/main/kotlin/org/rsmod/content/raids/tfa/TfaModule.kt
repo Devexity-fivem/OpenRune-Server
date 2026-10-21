@@ -1,0 +1,11 @@
+package org.rsmod.content.raids.tfa
+
+import org.rsmod.api.npc.hit.NpcHitpointsFloorHook
+import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusShieldFloor
+import org.rsmod.plugin.module.PluginModule
+
+class TfaModule : PluginModule() {
+    override fun bind() {
+        addSetBinding<NpcHitpointsFloorHook>(OcellusShieldFloor::class.java)
+    }
+}

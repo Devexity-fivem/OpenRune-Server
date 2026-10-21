@@ -5,6 +5,7 @@ import net.rsprot.protocol.message.ZoneProt
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.obj.Obj
 import org.rsmod.game.proj.ProjAnim
+import org.rsmod.game.proj.ScriptedProjAnim
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 
@@ -95,6 +96,11 @@ public class ZoneUpdateMap {
         val updates = projAnim.startCoord.getOrPutUpdateList()
         val prot = ZoneUpdateTransformer.toMapProjAnimProt(projAnim)
         updates += prot
+    }
+
+    public fun scriptedProjAnim(proj: ScriptedProjAnim) {
+        val updates = proj.startCoord.getOrPutUpdateList()
+        updates += ZoneUpdateTransformer.toScriptedProjAddProt(proj)
     }
 
     public operator fun get(zone: Int): ZoneUpdateList? = updatedZones.getOrDefault(zone, null)

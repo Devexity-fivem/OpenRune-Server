@@ -36,6 +36,14 @@ public interface NpcInfoProtocol {
 
     public fun setHeadIcon(slot: Int, graphic: Int, index: Int)
 
+    public fun setTransparency(
+        startTime: Int,
+        endTime: Int,
+        startTransparency: Int,
+        endTransparency: Int,
+        useStartTransparency: Boolean,
+    )
+
     public fun exactMove(
         deltaX1: Int,
         deltaZ1: Int,
@@ -93,6 +101,14 @@ public data object NoopNpcInfo : NpcInfoProtocol {
     override fun toggleOps(ops: OpVisibility) {}
 
     override fun setHeadIcon(slot: Int, graphic: Int, index: Int) {}
+
+    override fun setTransparency(
+        startTime: Int,
+        endTime: Int,
+        startTransparency: Int,
+        endTransparency: Int,
+        useStartTransparency: Boolean,
+    ) {}
 
     override fun exactMove(
         deltaX1: Int,

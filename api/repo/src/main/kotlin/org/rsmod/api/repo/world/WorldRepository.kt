@@ -14,6 +14,7 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.proj.ProjAnim
+import org.rsmod.game.proj.ScriptedProjAnim
 import org.rsmod.map.CoordGrid
 
 public class WorldRepository @Inject constructor(private val zoneUpdates: ZoneUpdateMap) {
@@ -58,6 +59,18 @@ public class WorldRepository @Inject constructor(private val zoneUpdates: ZoneUp
     public fun projAnim(projAnim: ProjAnim) {
         zoneUpdates.mapProjAnim(projAnim)
     }
+
+    public fun scriptedProjAnim(proj: ScriptedProjAnim) {
+        zoneUpdates.scriptedProjAnim(proj)
+    }
+
+    /** The next [ScriptedProjAnim.slot]; the client keys live scripted projectiles by it. */
+    public fun nextScriptedProjSlot(): Int {
+        scriptedProjSlot = (scriptedProjSlot + 1) and SCRIPTED_PROJ_SLOT_MASK
+        return scriptedProjSlot
+    }
+
+    private var scriptedProjSlot = 0
 
     public fun projAnim(
         source: Player,
@@ -189,5 +202,9 @@ public class WorldRepository @Inject constructor(private val zoneUpdates: ZoneUp
         val projAnim = ProjAnim.fromNpcToCoord(source, target, spotanim.id, type)
         projAnim(projAnim)
         return projAnim
+    }
+
+    private companion object {
+        const val SCRIPTED_PROJ_SLOT_MASK = 0xFFFF
     }
 }

@@ -219,3 +219,27 @@ id = "varn.slayer_engaged_clock"
 
 [[varn]]
 id = "varn.slayer_finishing_until"
+
+[[varn]]
+id = "varn.ocellus_arrived_at"
+
+[[varn]]
+id = "varn.ocellus_volley_style"
+
+[[varn]]
+id = "varn.ocellus_corner"
+
+[[varn]]
+id = "varn.ocellus_centre_side"
+
+[[varn]]
+id = "varn.ocellus_threshold"
+
+[[varn]]
+id = "varn.ocellus_active_tendrils"
+
+[[varn]]
+id = "varn.ocellus_meter"
+
+[[varn]]
+id = "varn.ocellus_barrage_waves"
