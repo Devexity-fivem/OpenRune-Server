@@ -1,0 +1,27 @@
+[gamevals.varn]
+ocellus_arrived_at = 64420
+ocellus_volley_style = 64421
+ocellus_corner = 64422
+ocellus_centre_side = 64423
+ocellus_threshold = 64424
+ocellus_active_tendrils = 64425
+ocellus_meter = 64426
+ocellus_barrage_waves = 64427
+
+[gamevals.clientscript]
+ocellus_proj_curve_height = 10024
+ocellus_proj_curve_angle = 10018
+ocellus_proj_curve_time = 10017
+
+[gamevals.synth]
+leather_hit = 24
+mark_of_darkness_hit = 5041
+ocellus_tendril_resolve_01 = 12512
+ocellus_tendril_resolve_02 = 12513
+ocellus_tendril_charge_01 = 12514
+ocellus_tendril_charge_02 = 12515
+ocellus_fire_attack_cast = 12516
+ocellus_fire_attack_travel = 12518
+ocellus_water_attack_cast = 12519
+ocellus_water_attack_travel = 12520
+ancient_spell_activate = 6589
