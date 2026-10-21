@@ -78,7 +78,7 @@ constructor(
         val watchers = stall.owners + stall.guards
         return npcRepo
             .findAll(ZoneKey.from(player.coords), zoneRadius = 1)
-            .filter { npc -> watchers.any { npc.type.isType(it) } }
+            .filter { npc -> watchers.any { npc.visType.isType(it) } }
             .filter { it.coords.level == player.coords.level }
             .filter { it.coords.chebyshevDistance(player.coords) <= SPOT_RANGE }
             .filter { lineOfSight(it.coords, player.coords) }
@@ -93,7 +93,7 @@ constructor(
             } else {
                 npcRepo
                     .findAll(ZoneKey.from(player.coords), zoneRadius = 1)
-                    .filter { npc -> stall.guards.any { npc.type.isType(it) } }
+                    .filter { npc -> stall.guards.any { npc.visType.isType(it) } }
                     .minByOrNull { it.coords.chebyshevDistance(player.coords) }
             }
         guard?.opPlayer2(player, aiPlayerInteractions)

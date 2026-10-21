@@ -114,7 +114,7 @@ constructor(
     }
 
     private val Npc.hitpointsLocked: Boolean
-        get() = type.paramOrNull(params.hitpoints_locked) == true
+        get() = visType.paramOrNull(params.hitpoints_locked) == true
 
     private fun StandardNpcAccess.playDefendSound(hit: Hit) {
         val source = if (hit.isFromPlayer) hit.resolvePlayerSource(playerList) else null

@@ -12,7 +12,7 @@ public class NpcPlayerEscapeModeProcessor
 @Inject
 constructor(private val playerList: PlayerList, private val stepFactory: StepFactory) {
     private val Npc.retreatRange: Int
-        get() = type.maxRange
+        get() = visType.maxRange
 
     public fun process(npc: Npc) {
         val target = npc.facingTarget(playerList)

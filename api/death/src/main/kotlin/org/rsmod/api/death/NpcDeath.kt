@@ -55,7 +55,8 @@ constructor(
             val lootTrackerEventId = nextLootTrackerEventId()
 
             val remainsParam = paramOrNull(params.dropped_remains)
-            val explicitlyNoRemains = remainsParam == null && type.hasParam(params.dropped_remains.raw)
+            val explicitlyNoRemains =
+                remainsParam == null && visType.hasParam(params.dropped_remains.raw)
             if (!explicitlyNoRemains) {
                 val droppedRemains =
                     remainsParam

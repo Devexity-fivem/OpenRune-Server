@@ -228,7 +228,7 @@ constructor(
             deps.playerList.filter {
                 it.isValidTarget() &&
                     it.coords.level == npc.coords.level &&
-                    it.coords.chebyshevDistance(npc.spawnCoords) <= npc.type.maxRange
+                    it.coords.chebyshevDistance(npc.spawnCoords) <= npc.visType.maxRange
             }
         if (candidates.isEmpty()) return null
         val inAttackRange =

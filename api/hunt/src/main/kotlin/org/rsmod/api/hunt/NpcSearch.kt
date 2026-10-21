@@ -24,7 +24,7 @@ public class NpcSearch @Inject constructor(private val hunt: Hunt) {
 
         val npcs = hunt.findNpcs(center, distance, vis)
         for (npc in npcs) {
-            if (!npc.type.hasOp(InteractionOp.Op2.slot)) {
+            if (!npc.visType.hasOp(InteractionOp.Op2.slot)) {
                 continue
             }
             val distance = center.euclideanSquaredDistance(npc.coords)
@@ -50,10 +50,10 @@ public class NpcSearch @Inject constructor(private val hunt: Hunt) {
         return sequence {
             val npcs = hunt.findNpcs(center, distance, vis)
             for (npc in npcs) {
-                if (npc.id != type.id) {
+                if (npc.visType.id != type.id) {
                     continue
                 }
-                if (!npc.type.hasOp(InteractionOp.Op2.slot)) {
+                if (!npc.visType.hasOp(InteractionOp.Op2.slot)) {
                     continue
                 }
                 yield(npc)
@@ -74,7 +74,7 @@ public class NpcSearch @Inject constructor(private val hunt: Hunt) {
 
         val npcs = hunt.findNpcs(center, distance, vis)
         for (npc in npcs) {
-            if (npc.id != type.asRSCM(RSCMType.NPC)) {
+            if (npc.visType.id != type.asRSCM(RSCMType.NPC)) {
                 continue
             }
             val distance = center.euclideanSquaredDistance(npc.coords)
@@ -98,7 +98,7 @@ public class NpcSearch @Inject constructor(private val hunt: Hunt) {
 
         val npcs = hunt.findNpcs(center, distance, vis)
         for (npc in npcs) {
-            if (npc.type.category != type.id) {
+            if (npc.visType.category != type.id) {
                 continue
             }
             val distance = center.euclideanSquaredDistance(npc.coords)

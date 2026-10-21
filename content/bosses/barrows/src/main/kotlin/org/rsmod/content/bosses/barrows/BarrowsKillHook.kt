@@ -23,6 +23,6 @@ internal fun Player.creditBarrowsKill(npc: Npc) {
         return
     }
     if (npc.isCryptMonster() && npc.coords.inBarrowsCrypt()) {
-        addPotential(npc.type.combatLevel)
+        addPotential(npc.visType.combatLevel)
     }
 }

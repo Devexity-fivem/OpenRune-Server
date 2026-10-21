@@ -79,7 +79,7 @@ constructor(
             }
 
             if (mode.checkNotTooStrong == HuntCheckNotTooStrong.OutsideWilderness) {
-                if (player.combatLevel > type.combatLevel * 2 && !player.isInWilderness()) {
+                if (player.combatLevel > visType.combatLevel * 2 && !player.isInWilderness()) {
                     continue
                 }
             }

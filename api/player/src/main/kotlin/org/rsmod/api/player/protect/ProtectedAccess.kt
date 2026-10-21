@@ -3601,27 +3601,26 @@ public class ProtectedAccess(
     }
 
     /**
-     * Retrieves the [param] value for the base [npc].
+     * Retrieves the [param] value for the [npc]'s current (transmogrified) type.
      *
-     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any `multinpc` or
-     * transmogrification effects._
+     * _Note: This ignores the player's `multinpc` view; use [npcVisType] for that._
      *
      * @throws IllegalStateException if npc type does not have an associated value for [param] and
      *   [param] does not have a [ParamType.default] value.
      */
     public fun <T : Any> npcParam(npc: Npc, param: TypedParamType<T>): T {
-        return npc.type.param(param)
+        return npc.visType.param(param)
     }
 
     /**
-     * Retrieves the [param] value for the base [npc], or returns `null` if the npc's type lacks an
-     * associated value for [param] and [param] does not have a [ParamType.default] value.
+     * Retrieves the [param] value for the [npc]'s current (transmogrified) type, or returns `null`
+     * if that type lacks an associated value for [param] and [param] does not have a
+     * [ParamType.default] value.
      *
-     * _Note: This retrieves the parameter from the npc's **base** type, ignoring any `multinpc` or
-     * transmogrification effects._
+     * _Note: This ignores the player's `multinpc` view; use [npcVisType] for that._
      */
     public fun <T : Any> npcParamOrNull(npc: Npc, param: TypedParamType<T>): T? {
-        return npc.type.paramOrNull(param)
+        return npc.visType.paramOrNull(param)
     }
 
     /* Obj helper functions (oc=obj config) */

@@ -437,14 +437,15 @@ constructor(
         if (level != target.level) {
             return false
         }
-        return spawnCoords.chebyshevDistance(target) <= type.maxRange
+        return spawnCoords.chebyshevDistance(target) <= visType.maxRange
     }
 
     private fun Npc.isWithinMaxOpRange(target: PathingEntity): Boolean {
         if (level != target.level) {
             return false
         }
-        return spawnCoords.chebyshevDistance(target.coords) <= type.maxRange + type.attackRange
+        return spawnCoords.chebyshevDistance(target.coords) <=
+            visType.maxRange + visType.attackRange
     }
 
     private fun Npc.shouldCancelChase(): Boolean {

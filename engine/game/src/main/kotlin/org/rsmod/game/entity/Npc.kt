@@ -208,18 +208,18 @@ public class Npc(
         get() = type.id
 
     public val name: String
-        get() = type.name
+        get() = visType.name
 
     public var moveRestrict: MoveRestrict = type.moveRestrict
 
     public val blockWalk: BlockWalk
-        get() = type.blockWalk
+        get() = visType.blockWalk
 
     public val wanderRange: Int
-        get() = type.wanderRange
+        get() = visType.wanderRange
 
     public val defaultMode: NpcMode
-        get() = type.defaultMode
+        get() = visType.defaultMode
 
     public val visType: NpcServerType
         get() = transmog ?: type
@@ -336,8 +336,8 @@ public class Npc(
         huntLoc = null
         huntNpc = NpcUid.NULL
         huntPlayer = PlayerUid.NULL
-        huntRange = type.huntRange
-        huntMode = type.huntMode
+        huntRange = visType.huntRange
+        huntMode = visType.huntMode
     }
 
     @InternalApi
@@ -345,7 +345,7 @@ public class Npc(
         clearInteraction()
         resetFaceEntity()
         resetHunt()
-        aiTimer = type.timer
+        aiTimer = visType.timer
     }
 
     @InternalApi
@@ -656,27 +656,26 @@ public class Npc(
         visType.param(headbar)
 
     /**
-     * Returns the param value associated with [param] from the **base** npc [type], or `null` if
-     * the type does not have a value associated with [param] and [param] does not have a non-null
-     * `default` value.
+     * Returns the param value associated with [param] from the **current** npc [visType], or
+     * `null` if the type does not have a value associated with [param] and [param] does not have a
+     * non-null `default` value.
      *
-     * If you wish to retrieve the param value for the current (transmog) type, use [visType] to
-     * retrieve it.
+     * If you wish to retrieve the param value for the base type, use [type] to retrieve it.
      */
-    public fun <T : Any> paramOrNull(param: TypedParamType<T>): T? = type.paramOrNull(param)
+    public fun <T : Any> paramOrNull(param: TypedParamType<T>): T? = visType.paramOrNull(param)
 
     /**
-     * Returns the param value associated with [param] from the **base** npc [type].
+     * Returns the param value associated with [param] from the **current** npc [visType].
      *
-     * If you wish to retrieve the param value for the current (transmog) type, use [visType] to
-     * retrieve it.
+     * If you wish to retrieve the param value for the base type, use [type] to retrieve it.
      *
      * @throws IllegalStateException if the type does not have a value associated with [param] and
      *   [param] does not have a non-null `default` value.
      */
-    public fun <T : Any> param(param: TypedParamType<T>): T = type.param(param)
+    public fun <T : Any> param(param: TypedParamType<T>): T = visType.param(param)
 
-    public fun isContentType(content: String): Boolean = type.contentGroup == content.asRSCM(RSCMType.CONTENT)
+    public fun isContentType(content: String): Boolean =
+        visType.contentGroup == content.asRSCM(RSCMType.CONTENT)
 
     override fun toString(): String = "Npc(uid=$uid, slot=$slotId, coords=$coords, type=$type)"
 }
