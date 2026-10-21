@@ -21,13 +21,6 @@ import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.VOLLEY_ST
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.ScriptContext
 
-/**
- * Phase 1: walks counter-clockwise between the corners firing a volley at everyone every 5 ticks,
- * charges 7 tendrils at each corner, and after a corner (or the centre) that left the shield below
- * 66% or 25% teleports to the centre for four rounds of paired tendrils. Timings come from the
- * live captures (`docs/ocellus-plan.md`). Unblocked tendrils fill a charge meter that the centre
- * sequence releases as a barrage ([OcellusMeter], [OcellusBarrage]).
- */
 class OcellusBoss
 @Inject
 constructor(
@@ -53,7 +46,7 @@ constructor(
         boss("npc.tfa_ocellus_intro", "npc.tfa_ocellus_p1") {
             phase(WALKING, scriptedMovement = true) { every(VOLLEY_GAP, run(VOLLEY_SLOT)) }
             phase(CORNER_CYCLE, scriptedMovement = true) {}
-            phase(CENTRE, scriptedMovement = true) {}
+            phase(CENTRE, scriptedMovement = true, lockMovement = true) {}
             phase(BROKEN, scriptedMovement = true, lockMovement = true) {}
 
             ability(START, start())
@@ -69,6 +62,13 @@ constructor(
             triggers {
                 on(Condition.Always) runs run(START)
                 on(Condition.HpExact(1)) runs run(BREAK)
+                THRESHOLDS.forEachIndexed { stage, fraction ->
+                    val crossedWhileWalking =
+                        varnIs(THRESHOLD, stage) and
+                            Condition.HpBelow(fraction, inclusive = true) and
+                            Condition.InPhase(WALKING)
+                    on(crossedWhileWalking) runs sequence(interrupt(), enterCentre(stage + 1))
+                }
             }
         }
 
@@ -214,15 +214,17 @@ constructor(
         val (first, second) = THRESHOLDS
         return whenever(
             varnIs(THRESHOLD, 0) and Condition.HpBelow(first, inclusive = true),
-            sequence(setVarn(THRESHOLD, 1), run(CENTRE)),
+            enterCentre(1),
             otherwise =
                 whenever(
                     varnIs(THRESHOLD, 1) and Condition.HpBelow(second, inclusive = true),
-                    sequence(setVarn(THRESHOLD, 2), run(CENTRE)),
+                    enterCentre(2),
                     otherwise = run(WALK),
                 ),
         )
     }
+
+    private fun enterCentre(stage: Int): Effect = sequence(setVarn(THRESHOLD, stage), run(CENTRE))
 
     private fun shieldBreak(): Effect {
         val atCentre = Condition.Custom { npc, _ -> npc.coords == OcellusArena.centre(npc) }
@@ -354,7 +356,7 @@ constructor(
         const val CAST_CLOSED = 1
         const val CAST_OPEN = 2
 
-        val THRESHOLDS = 0.66 to 0.25
+        val THRESHOLDS = listOf(0.66, 0.25)
 
         const val TELEPORT_SPOT_SLOT = 2
         const val TELEPORT_TICKS = 4
