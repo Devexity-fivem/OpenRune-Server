@@ -86,6 +86,7 @@ constructor(
         return sequence(
             setVarn(ARRIVED_AT, NOT_ARRIVED),
             transitionTo(WALKING),
+            protectMelee(),
             run(VOLLEY_START),
             switch(CORNER, routes),
         )
@@ -101,6 +102,7 @@ constructor(
             sequence(
                 whenever(varnAtLeast(ARRIVED_AT, CAST_OPEN), anim(VOLLEY_END_SEQ)),
                 transitionTo(CORNER_CYCLE),
+                dropProtection(),
                 wait(1),
                 run(CORNER_CYCLE),
             )
@@ -190,6 +192,7 @@ constructor(
             )
         return sequence(
             transitionTo(CENTRE),
+            dropProtection(),
             teleportToCentre(),
             oneOf(OcellusTendril.SIDES.indices.map { setVarn(CENTRE_SIDE, it) }),
             faceSide(instant = true),
@@ -231,11 +234,21 @@ constructor(
         return sequence(
             interrupt(),
             transitionTo(BROKEN),
+            dropProtection(),
             whenever(atCentre, Effect.NoOp, otherwise = teleportToCentre()),
             anim("seq.npc_ocellus_phase1_transformation"),
             external(SHIELD_BROKEN),
         )
     }
+
+    private fun protectMelee(): Effect =
+        sequence(
+            headIcon(HEADICON_SLOT, HEADICON_GRAPHIC, HEADICON_MELEE),
+            setVarn(IMMUNE_MELEE, 1),
+        )
+
+    private fun dropProtection(): Effect =
+        sequence(clearHeadIcon(HEADICON_SLOT), setVarn(IMMUNE_MELEE, 0))
 
     private fun teleportToCentre(): Effect =
         sequence(
@@ -351,6 +364,11 @@ constructor(
         const val EXPEND_SEQ = "seq.npc_ocellus_phase1_expend"
         const val VOLLEY_START_SEQ = "seq.npc_ocellus_phase1_basic_projectile_start"
         const val VOLLEY_END_SEQ = "seq.npc_ocellus_phase1_basic_projectile_end"
+
+        const val IMMUNE_MELEE = "varn.immune_melee"
+        const val HEADICON_SLOT = 0
+        const val HEADICON_GRAPHIC = 440
+        const val HEADICON_MELEE = 0
 
         const val NOT_ARRIVED = 0
         const val CAST_CLOSED = 1
