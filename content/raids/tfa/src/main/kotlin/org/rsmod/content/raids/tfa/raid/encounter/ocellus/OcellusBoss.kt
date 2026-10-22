@@ -36,6 +36,7 @@ constructor(
             this,
             spec,
             deps,
+            onCombatTick = { encounter.debug.noteCombatTick() },
             onHit = {
                 for (player in OcellusArena.players(npc, deps.playerList)) hpBar.onUpdate(player, npc)
             },
@@ -63,6 +64,7 @@ constructor(
             ability(PHASE_TWO, phaseTwo())
             ability(PHASE_THREE, phaseThree())
             ability(DESTROY, destroyQuadrant())
+            ability(SKIP_TO_THREE, skipToPhaseThree())
 
             triggers {
                 on(Condition.Always) runs run(START)
@@ -70,6 +72,8 @@ constructor(
                     Condition.Not(Condition.InPhase(PHASE_TWO)) and
                         Condition.Not(Condition.InPhase(PHASE_THREE))
                 on(Condition.HpExact(1) and shielded) runs run(BREAK)
+                on(varnIs(THRESHOLD, OcellusVarns.SKIP_PHASE_TWO) and Condition.InPhase(PHASE_TWO)) runs
+                    sequence(interrupt(), run(SKIP_TO_THREE))
                 QUADRANT_THRESHOLDS.forEachIndexed { stage, fraction ->
                     val crossed =
                         varnIs(THRESHOLD, QUADRANT_STAGE + stage) and
@@ -326,6 +330,23 @@ constructor(
             run(PHASE_THREE),
         )
 
+    /** Testing shortcut: everything phase 2's ending leaves behind, without waiting for it. */
+    private fun skipToPhaseThree(): Effect =
+        sequence(
+            external(OcellusPhaseTwo.WALLS_CLEAR),
+            external(OcellusPhaseTwo.CLOSE),
+            external(OcellusPhaseTwo.FINISH),
+            external(OcellusPhaseTwo.ARENA_CRACK),
+            transmog("npc.tfa_ocellus_p3", Int.MAX_VALUE),
+            external(OcellusPhaseTwo.PHASE_THREE),
+            wait(1),
+            external(OcellusPhaseTwo.ARENA_COLLAPSE),
+            wait(1),
+            external(OcellusPhaseTwo.GAP_WALLS),
+            transitionTo(PHASE_THREE),
+            run(PHASE_THREE),
+        )
+
     /** The boss fades out as the arena settles, then reappears in the quadrant the party is in. */
     private fun phaseThree(): Effect =
         sequence(
@@ -344,6 +365,7 @@ constructor(
     private fun destroyQuadrant(): Effect =
         sequence(
             anim("seq.npc_ocellus_quadrant_destroy_in"),
+            idleAnim("seq.npc_ocellus_quadrant_destroy_loop"),
             spotanim("spotanim.vfx_ocellus_phase3_arena_collapse_in", slot = TELEPORT_SPOT_SLOT),
             oneOf(say("Run... It matters not..."), say("Obliteration...")),
             external(OcellusPhaseTwo.QUADRANT_BARRIER_DESPAWN),
@@ -353,6 +375,7 @@ constructor(
             anim("seq.npc_ocellus_quadrant_destroy_loop"),
             spotanim("spotanim.vfx_ocellus_phase3_arena_collapse_loop", slot = TELEPORT_SPOT_SLOT),
             wait(DESTROY_OUT_AT - 2),
+            clearIdleAnim(),
             anim("seq.npc_ocellus_phase3_unleash_out_90f"),
             spotanim("spotanim.vfx_ocellus_phase3_arena_collapse_out_01", slot = TELEPORT_SPOT_SLOT),
             spotanim("spotanim.vfx_ocellus_phase3_arena_collapse_out_02", slot = COLLAPSE_OUT_SLOT),
@@ -589,6 +612,7 @@ constructor(
         val ROTATIONS = listOf(39, 81)
         const val PHASE_THREE = "phase_three"
         const val DESTROY = "destroy_quadrant"
+        const val SKIP_TO_THREE = "skip_to_three"
         const val QUADRANT_STAGE = 10
         val QUADRANT_THRESHOLDS = listOf(0.74, 0.51, 0.26)
         const val QUADRANT_ENTER_AT = 2

@@ -12,6 +12,7 @@ import org.rsmod.api.player.ui.setColour
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
+import org.rsmod.map.CoordGrid
 
 /**
  * The `external` side of phase 2: what the boss spec can't express itself. The spec owns the
@@ -42,6 +43,10 @@ internal class OcellusPhaseTwo(
         deps.extensionRegistry.register(SET_LEVEL) { it.npc.setCombatLevel(PHASE_TWO_LEVEL) }
     }
 
+    fun isOutsideQuadrant(npc: Npc, tile: CoordGrid): Boolean = quadrants.isOutside(npc, tile)
+
+    fun describeQuadrants(): String = quadrants.describe()
+
     fun absorb(damage: Int) {
         storedDamage += damage
     }
@@ -68,6 +73,7 @@ internal class OcellusPhaseTwo(
     private fun phaseThree(npc: Npc) {
         val type = ServerCacheManager.getNpc("npc.tfa_ocellus_p3".asRSCM(RSCMType.NPC))!!
         npc.moveRestrict = type.moveRestrict
+        npc.apRequiresLineOfSight = false
         npc.setCombatLevel(PHASE_TWO_LEVEL)
         npc.hideAllOps()
     }
@@ -80,6 +86,7 @@ internal class OcellusPhaseTwo(
         npc.baseHitpointsLvl = POOL_HP_BASE + POOL_HP_PER_PLAYER * partySize()
         npc.hitpoints = npc.baseHitpointsLvl
         npc.moveRestrict = type.moveRestrict
+        npc.apRequiresLineOfSight = false
         npc.setCombatLevel(PHASE_TWO_TRANSFORM_LEVEL)
         for (fighter in OcellusArena.players(npc, deps.playerList)) {
             hpBar.onUpdate(fighter, npc)
@@ -153,6 +160,7 @@ internal class OcellusPhaseTwo(
         const val QUADRANT_COLLAPSE = OcellusQuadrants.COLLAPSE
         const val QUADRANT_STONES_FALL = OcellusQuadrants.STONES_FALL
         const val QUADRANT_STONES_BLOCK = OcellusQuadrants.STONES_BLOCK
+
 
         const val FINISH = "ocellus.p2_finish"
         const val PHASE_THREE = "ocellus.p3_enter"

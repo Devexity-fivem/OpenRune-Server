@@ -50,6 +50,14 @@ internal class OcellusQuadrants(
 
     private fun centre(npc: Npc): CoordGrid = npc.spawnCoords.translate(CENTRE_DX, CENTRE_DZ)
 
+    fun describe(): String = "${current ?: "-"} (destroyed: ${destroyed.joinToString().ifEmpty { "none" }})"
+
+    /** Players outside the boss's quadrant can't hurt it, so no spot across the gap is safe. */
+    fun isOutside(npc: Npc, tile: CoordGrid): Boolean {
+        val quadrant = current ?: return false
+        return !quadrant.contains(centre(npc), tile)
+    }
+
     private fun add(
         at: CoordGrid,
         loc: String,

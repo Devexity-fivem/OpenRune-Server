@@ -51,6 +51,9 @@ internal object OcellusVarns {
     const val CORNER = "varn.ocellus_corner"
     const val CENTRE_SIDE = "varn.ocellus_centre_side"
     const val THRESHOLD = "varn.ocellus_threshold"
+
+    /** Written to [THRESHOLD] during phase 2 by `::ocellus p3` to jump straight to phase 3. */
+    const val SKIP_PHASE_TWO = 99
     const val ACTIVE_TENDRILS = "varn.ocellus_active_tendrils"
     const val METER = "varn.ocellus_meter"
     const val BARRAGE_WAVES = "varn.ocellus_barrage_waves"

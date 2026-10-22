@@ -11,7 +11,10 @@ import org.rsmod.game.hit.HitType
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
+import org.rsmod.game.map.collision.add
+import org.rsmod.game.map.collision.remove
 import org.rsmod.map.CoordGrid
+import org.rsmod.routefinder.flag.CollisionFlag
 
 /**
  * The end of phase 2 and the arena the boss leaves behind: the sword on the centre tile, the
@@ -39,7 +42,18 @@ internal class OcellusCollapse(
         for (loc in spawned) deps.locRepo.del(loc, Int.MAX_VALUE)
         spawned.clear()
         ends.clear()
+        for (tile in stoneLocs.keys) deps.collision.remove(tile, CollisionFlag.BLOCK_WALK)
         stoneLocs.clear()
+    }
+
+    /**
+     * A ray cast fails outright when it starts on a tile with the `LOC` flag, which would stop a
+     * player on a stone clicking the next one. The arm-end locs cover every stone with it, so this
+     * runs after they are swapped for their empty variants. The stone stays unwalkable.
+     */
+    private fun makeStandable(tile: CoordGrid) {
+        deps.collision.remove(tile, CollisionFlag.LOC or CollisionFlag.LOC_ROUTE_BLOCKER)
+        deps.collision.add(tile, CollisionFlag.BLOCK_WALK)
     }
 
     fun record(info: LocInfo) {
@@ -79,7 +93,6 @@ internal class OcellusCollapse(
         for ((tile, stone) in stones) stoneLocs[tile] = add(tile, stone.loc, LocShape.GroundDecor)
         add(centre.translate(-2, -2), CENTRE_BLOCKER_5)
         add(centre.translate(-1, -1), CENTRE_BLOCKER_3)
-        for (tile in lineTiles(centre)) if (tile !in stones && !inCentre(centre, tile)) add(tile, LINE_BLOCKER)
         for (player in OcellusArena.players(npc, deps.playerList)) {
             val tile = player.coords
             val onVoid = (onLine(centre, tile) || inCentre(centre, tile)) && tile !in stones
@@ -112,12 +125,8 @@ internal class OcellusCollapse(
             add(centre.translate(dx, dz), NONBLOCKING_WALL, LocShape.WallStraight, 0)
         }
         for (end in ARM_ENDS) add(centre.translate(end.dx, end.dz), end.emptyLoc)
+        for (tile in stoneLocs.keys) makeStandable(tile)
     }
-
-    private fun lineTiles(centre: CoordGrid): List<CoordGrid> =
-        (-ARM_LENGTH..ARM_LENGTH).flatMap { offset ->
-            listOf(centre.translate(0, offset), centre.translate(offset, 0))
-        }.distinct()
 
     private fun onLine(centre: CoordGrid, tile: CoordGrid): Boolean =
         tile.level == centre.level &&
@@ -159,7 +168,6 @@ internal class OcellusCollapse(
         private const val SWORD_GONE = "loc.invisible_type8_nonblocking"
 
         private const val BLOCKER = "loc.invisible_type8_blocking"
-        private const val LINE_BLOCKER = "loc.invisible_type8_blocking"
         private const val CENTRE_BLOCKER_5 = "loc.invisible_type8_blocking_size5"
         private const val CENTRE_BLOCKER_3 = "loc.invisible_type8_blocking_size3"
         private const val NONBLOCKING_TYPE0 = "loc.invisible_type0_nonblocking"

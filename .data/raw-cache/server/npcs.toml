@@ -16500,6 +16500,22 @@ maxRange = 40
 "param.boss_hp_bar_colour_remaining"=53416
 
 [[npc]]
+id = "npc.tfa_ocellus_p2"
+inherit = "npc.tfa_ocellus_p2"
+attackRange = 20
+maxRange = 40
+huntMode = 2
+huntRange = 40
+
+[[npc]]
+id = "npc.tfa_ocellus_p3"
+inherit = "npc.tfa_ocellus_p3"
+attackRange = 20
+maxRange = 40
+huntMode = 2
+huntRange = 40
+
+[[npc]]
 id = "npc.dom_boss_burrowed"
 inherit = "npc.dom_boss_burrowed"
 huntMode = 8
@@ -17106,6 +17122,9 @@ id = "npc.tfa_ocellus_p1"
 inherit = "npc.tfa_ocellus_p1"
 moveRestrict = "PassThru"
 attackRange = 20
+maxRange = 40
+huntMode = 2
+huntRange = 40
 [npc.params]
 "param.headbar"="headbar.shield_100"
 "param.hitmark_lit"="hitmark.shield_damage_lit"

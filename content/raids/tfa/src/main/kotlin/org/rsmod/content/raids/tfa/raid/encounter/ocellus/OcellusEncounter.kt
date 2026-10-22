@@ -27,6 +27,7 @@ constructor(
 ) {
     internal val meter = OcellusMeter(deps, hpBar)
     internal val phaseTwo = OcellusPhaseTwo(deps, hpBar, meter) { partySize }
+    internal val debug = OcellusDebug(deps, { boss }) { phaseTwo.describeQuadrants() }
 
     private var boss: Npc? = null
     private var started = false
@@ -34,6 +35,7 @@ constructor(
 
     fun reset() {
         started = false
+        debug.reset()
         phaseTwo.clear()
         boss?.let { if (it.isSlotAssigned) deps.npcRepo.del(it, Int.MAX_VALUE) }
         val npc = Npc("npc.tfa_ocellus_intro", INTRO_SPAWN)
@@ -48,6 +50,13 @@ constructor(
         val npc = boss?.takeIf { it.isSlotAssigned } ?: return
         start(npc, player, partySize = 1)
         player.mes("Challenge started: Ocellus.")
+    }
+
+    fun skipToPhaseThree(): Boolean {
+        val npc = boss?.takeIf { it.isSlotAssigned && started } ?: return false
+        if (npc.visType.id != "npc.tfa_ocellus_p2".asRSCM(RSCMType.NPC)) return false
+        npc.vars[OcellusVarns.THRESHOLD] = OcellusVarns.SKIP_PHASE_TWO
+        return true
     }
 
     fun setHealthPercent(percent: Int): Boolean {
@@ -71,6 +80,8 @@ constructor(
         for (fighter in OcellusArena.players(npc, deps.playerList)) hpBar.onOpen(fighter, npc)
         meter.show(npc)
         npc.apPlayer2(player, interactions)
+        npc.setHuntMode(checkNotNull(ServerCacheManager.getHunt(HUNT_CONSTANT_RANGED)))
+        npc.setHunt(shield.huntRange)
         logger.info {
             "[ocellus] started: slot=${npc.slotId} hp=${npc.hitpoints} attackRange=${npc.attackRange} " +
                 "moveRestrict=${npc.moveRestrict} engaging ${player.displayName} at ${player.coords}"
@@ -86,6 +97,7 @@ constructor(
         /** The middle tile of the room, where the walls cross. */
         val CENTRE: CoordGrid = INTRO_SPAWN.translate(1, 4)
 
+        private const val HUNT_CONSTANT_RANGED = 2
         private const val SHIELD_HP_BASE = 480
         private const val SHIELD_HP_PER_PLAYER = 1050
     }
