@@ -30,6 +30,7 @@ constructor(
     private var boss: Npc? = null
     private var challenger: Player? = null
     private var started = false
+    private var partySize = 1
 
     fun reset() {
         started = false
@@ -52,6 +53,7 @@ constructor(
     /** Hands the fight to the boss spec, which starts on its first combat tick. */
     private fun start(npc: Npc, player: Player, partySize: Int) {
         started = true
+        this.partySize = partySize
         val shield = ServerCacheManager.getNpc("npc.tfa_ocellus_p1".asRSCM(RSCMType.NPC))!!
         npc.transmog(shield, Int.MAX_VALUE)
         npc.copyStats(shield)
@@ -70,7 +72,21 @@ constructor(
 
     fun onShieldBroken() {
         logger.info { "[ocellus] shield broken" }
-        boss?.let(meter::hide)
+        boss?.let {
+            meter.hide(it)
+            val phaseTwo = ServerCacheManager.getNpc("npc.tfa_ocellus_p2".asRSCM(RSCMType.NPC))!!
+            it.transmog(phaseTwo, Int.MAX_VALUE)
+            it.copyStats(phaseTwo)
+            it.baseHitpointsLvl = POOL_HP_BASE + POOL_HP_PER_PLAYER * partySize
+            it.hitpoints = it.baseHitpointsLvl
+            it.moveRestrict = phaseTwo.moveRestrict
+            it.setCombatLevel(PHASE_TWO_TRANSFORM_LEVEL)
+            deps.worldQueues.add(1) { if (it.isSlotAssigned) it.setCombatLevel(PHASE_TWO_LEVEL) }
+            for (fighter in OcellusArena.players(it, deps.playerList)) {
+                hpBar.onUpdate(fighter, it)
+                hpBar.onRefresh(fighter, it)
+            }
+        }
         challenger?.mes("Ocellus's shield breaks. Phase 2 is not implemented yet.")
     }
 
@@ -82,5 +98,9 @@ constructor(
 
         private const val SHIELD_HP_BASE = 480
         private const val SHIELD_HP_PER_PLAYER = 1050
+        private const val PHASE_TWO_TRANSFORM_LEVEL = 1424
+        private const val PHASE_TWO_LEVEL = 1601
+        private const val POOL_HP_BASE = 1020
+        private const val POOL_HP_PER_PLAYER = 2200
     }
 }

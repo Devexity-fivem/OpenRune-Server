@@ -89,6 +89,10 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setHeadIconChange(slot, graphic, index)
     }
 
+    override fun setCombatLevel(level: Int) {
+        rspAvatar.extendedInfo.setCombatLevelChange(level)
+    }
+
     override fun setTransparency(
         startTime: Int,
         endTime: Int,

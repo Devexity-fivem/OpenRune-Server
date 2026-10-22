@@ -440,6 +440,10 @@ public class Npc(
         infoProtocol.setHeadIcon(slot, graphic, index)
     }
 
+    public fun setCombatLevel(level: Int) {
+        infoProtocol.setCombatLevel(level)
+    }
+
     public fun clearHeadIcon(slot: Int) {
         infoProtocol.setHeadIcon(slot, -1, -1)
     }

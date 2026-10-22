@@ -36,6 +36,8 @@ public interface NpcInfoProtocol {
 
     public fun setHeadIcon(slot: Int, graphic: Int, index: Int)
 
+    public fun setCombatLevel(level: Int)
+
     public fun setTransparency(
         startTime: Int,
         endTime: Int,
@@ -101,6 +103,8 @@ public data object NoopNpcInfo : NpcInfoProtocol {
     override fun toggleOps(ops: OpVisibility) {}
 
     override fun setHeadIcon(slot: Int, graphic: Int, index: Int) {}
+
+    override fun setCombatLevel(level: Int) {}
 
     override fun setTransparency(
         startTime: Int,

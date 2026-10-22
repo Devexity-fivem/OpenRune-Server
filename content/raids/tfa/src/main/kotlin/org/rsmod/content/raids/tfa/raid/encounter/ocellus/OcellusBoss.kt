@@ -237,6 +237,9 @@ constructor(
             dropProtection(),
             whenever(atCentre, Effect.NoOp, otherwise = teleportToCentre()),
             anim("seq.npc_ocellus_phase1_transformation"),
+            wait(TRANSFORM_TO_P2),
+            spotanim("spotanim.vfx_ocellus_p1_to_p2_transformation", slot = TELEPORT_SPOT_SLOT),
+            anim("seq.npc_ocellus_phase2_transformation"),
             external(SHIELD_BROKEN),
         )
     }
@@ -378,6 +381,7 @@ constructor(
 
         const val TELEPORT_SPOT_SLOT = 2
         const val TELEPORT_TICKS = 4
+        const val TRANSFORM_TO_P2 = 7
         const val OPAQUE = 0
         const val INVISIBLE = 255
         const val FADE_OUT_START = 30
