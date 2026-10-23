@@ -12,6 +12,7 @@ import org.rsmod.api.bosses.spec.Effect
 import org.rsmod.api.bosses.spec.HitType
 import org.rsmod.api.bosses.spec.ProjectileConfig
 import org.rsmod.api.bosses.spec.VarExpr
+import org.rsmod.api.player.output.spotanimSpecific
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.ARRIVED_AT
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.CENTRE_SIDE
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.CORNER
@@ -37,6 +38,12 @@ constructor(
         OcellusTendrils(deps, encounter.meter).register()
         OcellusBarrage(deps, encounter.meter).register()
         OcellusSlash.register(deps)
+        deps.extensionRegistry.register(UNTETHER_PERSONAL) {
+            it.target.spotanimSpecific(UNTETHER_PERSONAL_SPOT, slot = UNTETHER_PERSONAL_SLOT)
+        }
+        deps.extensionRegistry.register(UNTETHER_IMPACT) {
+            it.target.spotanim(SPREAD_IMPACT, delay = UNTETHER_IMPACT_DELAY)
+        }
         encounter.phaseTwo.register()
         BossCombat.register(
             this,
@@ -420,16 +427,15 @@ constructor(
     /**
      * Every third attack is a special. Which one is the quadrant's script, which runs in order and
      * loops for as long as the quadrant lasts. The script position is
-     * `quadrant * QUADRANT_STEPS + step`. A slot with no attack behind it (the untether, for now)
-     * hands the turn straight back, or the ability's delay would idle the boss.
+     * `quadrant * QUADRANT_STEPS + step`.
      */
     private fun special(): Effect {
-        val untether = nextAttackIn(0)
+        val untether = untether()
         val scripts =
             listOf(
                 listOf(debris(0), untether),
                 listOf(debris(1), insolence(), debris(1), untether),
-                listOf(debris(2), insolence(), debris(2), untether),
+                listOf(debris(2), insolence(), debris(2)),
             )
         val cases =
             scripts.flatMapIndexed { quadrant, steps ->
@@ -523,6 +529,139 @@ constructor(
             wait(marks - before.maxOf { it.first }),
             withTiles(DEBRIS_TILES, tiles, timeline(events.filter { it.first >= marks }, from = marks)),
         )
+    }
+
+    /**
+     * The boss glides home and hangs in the air while the void builds on the quadrant's floor in
+     * four waves, each going off as the next opens like phase 2's pools. Then the whole quadrant erupts except the boss's footprint, and a tick later it
+     * slams down on the footprint: stepping out on that tick takes neither.
+     */
+    private fun untether(): Effect {
+        val dots =
+            customTiles(OcellusArena.FLOOR) { npc, _, random ->
+                val free = quadrantFloor(npc)
+                List(minOf(random.of(UNTETHER_DOTS), free.size)) { free.removeAt(random.of(free.size)) }
+            }
+        val pool =
+            hit {
+                damage(UNTETHER_POOL_DAMAGE).roll()
+                type(HitType.Typeless)
+                hazard()
+            }
+        val bolt =
+            hit {
+                damage(UNTETHER_MAGIC_DAMAGE).roll()
+                type(HitType.Magic)
+            }
+        val eruption =
+            hit {
+                damage(UNTETHER_ERUPTION_DAMAGE).roll()
+                type(HitType.Typeless)
+                hazard()
+            }
+        val slam =
+            hit {
+                damage(UNTETHER_SLAM_DAMAGE).roll()
+                type(HitType.Typeless)
+                hazard()
+            }
+        fun underBoss(npc: Npc, player: Player) =
+            player.coords.x - npc.coords.x in 0 until BOSS_SIZE &&
+                player.coords.z - npc.coords.z in 0 until BOSS_SIZE
+        val erupting =
+            Condition.Custom { npc, player ->
+                player != null &&
+                    OcellusArena.sameQuadrantFloor(npc, player.coords) &&
+                    !underBoss(npc, player)
+            }
+        val slamming = Condition.Custom { npc, player -> player != null && underBoss(npc, player) }
+        val inQuadrant =
+            Condition.Custom { npc, player ->
+                player != null && OcellusArena.sameQuadrantFloor(npc, player.coords)
+            }
+        fun pools(index: Int): Effect {
+            val name = "untether_$index"
+            return sequence(
+                wait(UNTETHER_FIRST_WAVE + UNTETHER_WAVE_GAP * index),
+                withTiles(
+                    name,
+                    dots,
+                    sequence(
+                        onTiles(bound(name), mapSpotanim(UNTETHER_DOT_SPOT, CurrentTile)),
+                        wait(UNTETHER_WAVE_GAP),
+                        onTiles(bound(name), onEach(playersOn(CurrentTile), pool)),
+                    ),
+                ),
+            )
+        }
+        fun spell(index: Int): Effect {
+            val targets = playersIn(OcellusArena.FLOOR)
+            return sequence(
+                wait(UNTETHER_FIRST_WAVE + UNTETHER_WAVE_GAP * index - UNTETHER_PERSONAL_LEAD),
+                onEach(targets, whenever(inQuadrant, external(UNTETHER_PERSONAL))),
+                wait(UNTETHER_PERSONAL_LEAD),
+                onEach(targets, whenever(inQuadrant, external(UNTETHER_IMPACT))),
+                wait(UNTETHER_WAVE_GAP - 1),
+                onEach(targets, whenever(inQuadrant, bolt)),
+            )
+        }
+        val events =
+            listOf(
+                0 to
+                    sequence(
+                        lockMovement(),
+                        external(OcellusPhaseTwo.UNTETHER_GLIDE),
+                        say("Untether..."),
+                        anim(UNTETHER_IN_SEQ),
+                        idleAnim(UNTETHER_LOOP_SEQ),
+                    ),
+                UNTETHER_LOOP_AT to anim(UNTETHER_LOOP_SEQ),
+                UNTETHER_GLOW_AT to spotanim(UNTETHER_GLOW_SPOT, delay = UNTETHER_GLOW_DELAY),
+                UNTETHER_BORDER_AT to slamBurst(),
+                UNTETHER_ERUPT_AT to onEach(playersIn(OcellusArena.FLOOR), whenever(erupting, eruption)),
+                UNTETHER_SLAM_AT to onEach(playersIn(OcellusArena.FLOOR), whenever(slamming, slam)),
+                UNTETHER_OUT_AT to
+                    sequence(
+                        clearIdleAnim(),
+                        anim(UNTETHER_OUT_SEQ),
+                        nextAttackIn(UNTETHER_RECOVERY),
+                        unlockMovement(),
+                    ),
+            )
+        val waves = (0 until UNTETHER_WAVES).flatMap { listOf(pools(it), spell(it)) }
+        return parallel(timeline(events, from = 0), *waves.toTypedArray())
+    }
+
+    /** The slam's floor burst, turned to match the corner of the room the boss is in. */
+    private fun slamBurst(): Effect {
+        fun inCorner(east: Boolean, north: Boolean) =
+            Condition.Custom { npc, _ ->
+                val middle = OcellusArena.middle(npc)
+                (npc.coords.x > middle.x) == east && (npc.coords.z > middle.z) == north
+            }
+        val (southWest, southEast, northEast, northWest) = UNTETHER_ARENA_SPOTS.map { mapSpotanim(it, Centre) }
+        return whenever(
+            inCorner(east = false, north = false),
+            southWest,
+            otherwise =
+                whenever(
+                    inCorner(east = true, north = false),
+                    southEast,
+                    otherwise = whenever(inCorner(east = true, north = true), northEast, otherwise = northWest),
+                ),
+        )
+    }
+
+    private fun quadrantFloor(npc: Npc): MutableList<CoordGrid> {
+        val centre = npc.coords.translate(BOSS_SIZE / 2, BOSS_SIZE / 2)
+        val tiles = ArrayList<CoordGrid>()
+        for (dx in -UNTETHER_REACH..UNTETHER_REACH) {
+            for (dz in -UNTETHER_REACH..UNTETHER_REACH) {
+                val tile = centre.translate(dx, dz)
+                if (OcellusArena.sameQuadrantFloor(npc, tile)) tiles.add(tile)
+            }
+        }
+        return tiles
     }
 
     /** [events] in tick order, waiting out the gaps between them. */
@@ -945,6 +1084,42 @@ constructor(
         const val PRAYER_LOOP_SPOT = "spotanim.vfx_ocellus_phase3_melee_prayer"
         const val PRAYER_OUT_SPOT = "spotanim.vfx_ocellus_phase3_melee_prayer_out"
         const val DEBRIS_SPOT = "spotanim.vfx_ocellus_falling_debris"
+        const val UNTETHER_IN_SEQ = "seq.npc_ocellus_phase3_unleash_in"
+        const val UNTETHER_LOOP_SEQ = "seq.npc_ocellus_phase3_unleash_loop"
+        const val UNTETHER_OUT_SEQ = "seq.npc_ocellus_phase3_unleash_out"
+        const val UNTETHER_DOT_SPOT = "spotanim.vfx_ocellus_p2_aoe_dodge"
+        const val UNTETHER_GLOW_SPOT = "spotanim.vfx_ocellus_p3_unleash_spotanim"
+        const val UNTETHER_GLOW_DELAY = 360
+        val UNTETHER_ARENA_SPOTS =
+            listOf(
+                "spotanim.vfx_ocellus_unleash_arena",
+                "spotanim.vfx_ocellus_unleash_arena_270",
+                "spotanim.vfx_ocellus_unleash_arena_180",
+                "spotanim.vfx_ocellus_unleash_arena_90",
+            )
+        const val UNTETHER_LOOP_AT = 2
+        const val UNTETHER_FIRST_WAVE = 6
+        const val UNTETHER_WAVE_GAP = 4
+        const val UNTETHER_WAVES = 4
+        const val UNTETHER_GLOW_AT = 18
+        const val UNTETHER_BORDER_AT = 25
+        const val UNTETHER_ERUPT_AT = 29
+        const val UNTETHER_OUT_AT = 29
+        const val UNTETHER_SLAM_AT = 30
+        const val UNTETHER_PERSONAL = "ocellus.untether_personal"
+        const val UNTETHER_PERSONAL_SPOT = "spotanim.vfx_ocellus_magic_projanim02"
+        const val UNTETHER_PERSONAL_SLOT = 2
+        const val UNTETHER_PERSONAL_LEAD = 1
+        const val UNTETHER_IMPACT = "ocellus.untether_impact"
+        const val UNTETHER_IMPACT_DELAY = 120
+        const val UNTETHER_RECOVERY = 8
+        const val UNTETHER_REACH = 12
+        val UNTETHER_DOTS = 12..15
+        // PLACEHOLDER: every capture shows the magic hit fully prayed against (0); this is the spread's figure.
+        val UNTETHER_MAGIC_DAMAGE = 20..22
+        val UNTETHER_POOL_DAMAGE = 5..25
+        val UNTETHER_ERUPTION_DAMAGE = 35..45
+        val UNTETHER_SLAM_DAMAGE = 18..45
         const val INSOLENCE_SEQ = "seq.npc_ocellus_phase3_melee_superior_slash"
         const val INSOLENCE_SPOT = "spotanim.vfx_ocellus_p3_shadow_slash_superior_spotanim01"
         const val INSOLENCE_ANIM_DELAY = 30

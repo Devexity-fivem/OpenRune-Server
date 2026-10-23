@@ -1,5 +1,6 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
+import org.rsmod.api.bosses.runtime.Angles
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.interact.AiPlayerInteractions
@@ -35,6 +36,7 @@ internal class OcellusQuadrants(
         deps.extensionRegistry.register(ENTER) { enter(it.npc, centre(it.npc)) }
         deps.extensionRegistry.register(FREEZE) { hold(it.npc) }
         deps.extensionRegistry.register(THAW) { it.npc.scriptedMovement = false }
+        deps.extensionRegistry.register(UNTETHER_GLIDE) { glideHome(it.npc, centre(it.npc)) }
         deps.extensionRegistry.register(BARRIER_SPAWN) { barriers(centre(it.npc), "_spawn") }
         deps.extensionRegistry.register(BARRIER) { barriers(centre(it.npc), "") }
         deps.extensionRegistry.register(BARRIER_DESPAWN) { barriers(centre(it.npc), "_despawn") }
@@ -92,6 +94,22 @@ internal class OcellusQuadrants(
         retarget(npc, quadrant, centre, players)
         hold(npc)
         npc.faceSquare(centre, instant = true)
+    }
+
+    private fun glideHome(npc: Npc, centre: CoordGrid) {
+        val quadrant = current ?: return
+        val home = centre.translate(quadrant.bossDx, quadrant.bossDz)
+        val start = npc.coords
+        if (start == home) return
+        PathingEntityCommon.exactMove(
+            npc,
+            start,
+            home,
+            delay1 = 0,
+            delay2 = UNTETHER_GLIDE_DELAY,
+            dir = Angles.bearing(start, home),
+            collision = deps.collision,
+        )
     }
 
     private fun retarget(npc: Npc, quadrant: Quadrant, centre: CoordGrid, players: List<Player>) {
@@ -245,6 +263,7 @@ internal class OcellusQuadrants(
         const val ENTER = "ocellus.quadrant_enter"
         const val FREEZE = "ocellus.quadrant_freeze"
         const val THAW = "ocellus.quadrant_thaw"
+        const val UNTETHER_GLIDE = "ocellus.untether_glide"
         const val BARRIER_SPAWN = "ocellus.quadrant_barrier_spawn"
         const val BARRIER = "ocellus.quadrant_barrier"
         const val BARRIER_DESPAWN = "ocellus.quadrant_barrier_despawn"
@@ -255,6 +274,7 @@ internal class OcellusQuadrants(
 
         private const val CENTRE_DX = 1
         private const val CENTRE_DZ = 4
+        private const val UNTETHER_GLIDE_DELAY = 90
         private const val ARM_LENGTH = 12
         private const val FLOOR_MIN = 2
         private const val FLOOR_MAX = 12

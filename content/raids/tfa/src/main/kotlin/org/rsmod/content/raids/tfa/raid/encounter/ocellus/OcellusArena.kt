@@ -46,6 +46,8 @@ internal object OcellusArena {
 
     fun centre(npc: Npc): CoordGrid = npc.spawnCoords.translate(CENTRE_DX, CENTRE_DZ)
 
+    fun middle(npc: Npc): CoordGrid = npc.spawnCoords.translate(MIDDLE_DX, MIDDLE_DZ)
+
     /** Players standing on phase 3 floor on the same side of the gap as the boss. */
     fun quadrantPlayers(npc: Npc, playerList: PlayerList): List<Player> =
         players(npc, playerList).filter { sameQuadrantFloor(npc, it.coords) }

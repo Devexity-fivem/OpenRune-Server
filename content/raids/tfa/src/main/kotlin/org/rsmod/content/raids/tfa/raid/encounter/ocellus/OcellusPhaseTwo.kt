@@ -164,6 +164,7 @@ internal class OcellusPhaseTwo(
         const val QUADRANT_ENTER = OcellusQuadrants.ENTER
         const val QUADRANT_FREEZE = OcellusQuadrants.FREEZE
         const val QUADRANT_THAW = OcellusQuadrants.THAW
+        const val UNTETHER_GLIDE = OcellusQuadrants.UNTETHER_GLIDE
         const val QUADRANT_BARRIER_SPAWN = OcellusQuadrants.BARRIER_SPAWN
         const val QUADRANT_BARRIER = OcellusQuadrants.BARRIER
         const val QUADRANT_BARRIER_DESPAWN = OcellusQuadrants.BARRIER_DESPAWN
