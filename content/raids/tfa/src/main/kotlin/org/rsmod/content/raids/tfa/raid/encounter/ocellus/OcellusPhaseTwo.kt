@@ -30,6 +30,7 @@ internal class OcellusPhaseTwo(
     private val collapse = OcellusCollapse(deps, walls::clear)
     private val quadrants = OcellusQuadrants(deps, interactions, collapse.stoneLocs)
     private val void = OcellusVoid(deps)
+    private val vine = OcellusVine(deps)
     private var swordHitbox: Npc? = null
     private var storedDamage = 0
 
@@ -38,6 +39,7 @@ internal class OcellusPhaseTwo(
         collapse.register()
         quadrants.register()
         void.register()
+        vine.register()
         deps.extensionRegistry.register(ENTER) { enter(it.npc) }
         deps.extensionRegistry.register(FINISH) { finish(it.npc) }
         deps.extensionRegistry.register(PHASE_THREE) { phaseThree(it.npc) }
@@ -60,6 +62,7 @@ internal class OcellusPhaseTwo(
         collapse.clear()
         quadrants.clear()
         void.clear()
+        vine.clear()
         removeHitbox()
         storedDamage = 0
     }

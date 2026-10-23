@@ -493,6 +493,7 @@ constructor(
         }
         events += marks to onTiles(bound(DEBRIS_TILES), mapSpotanim(DEBRIS_SPOT, CurrentTile))
         events += impact to onTiles(bound(DEBRIS_TILES), external(OcellusVoid.DEBRIS, at = CurrentTile))
+        events += impact to after(DEBRIS_VINE_DELAY, external(OcellusVine.SPAWN))
         events +=
             out + DEBRIS_RECOVERY to
                 sequence(
@@ -924,6 +925,7 @@ constructor(
         const val DEBRIS_LOOP_SPOT = 3
         const val DEBRIS_RECOVERY = 4
         const val SPIN_HIT_DELAY = 1
+        const val DEBRIS_VINE_DELAY = 4
         const val PRAYER_IN_SLOT = 4
         const val PRAYER_SLOT = 2
         const val PRAYER_IN_SEQ = "seq.npc_ocellus_phase3_prayer_in"
