@@ -357,12 +357,17 @@ constructor(
     private fun phaseThree(): Effect =
         sequence(
             lockMovement(),
+            nextAttackIn(ATTACK_HOLD),
             setVarn(THRESHOLD, QUADRANT_STAGE),
             transparency(FADE_IN_START, QUADRANT_FADE_END, from = OPAQUE, to = INVISIBLE),
-            wait(QUADRANT_ENTER_AT),
+            wait(QUADRANT_ENTER_AT - 1),
+            external(OcellusPhaseTwo.QUADRANT_FREEZE),
+            wait(1),
             external(OcellusPhaseTwo.QUADRANT_ENTER),
+            nextAttackIn(ENTER_TO_FIRST_ATTACK),
             transparency(FADE_IN_START, QUADRANT_FADE_END, from = INVISIBLE, to = OPAQUE),
             wait(1),
+            external(OcellusPhaseTwo.QUADRANT_THAW),
             external(OcellusPhaseTwo.QUADRANT_BARRIER_SPAWN),
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_BARRIER),
@@ -458,6 +463,7 @@ constructor(
     private fun destroyQuadrant(): Effect =
         sequence(
             lockMovement(),
+            nextAttackIn(ATTACK_HOLD),
             external(OcellusSlash.RELEASE),
             anim("seq.npc_ocellus_quadrant_destroy_in"),
             idleAnim("seq.npc_ocellus_quadrant_destroy_loop"),
@@ -479,10 +485,14 @@ constructor(
             transparency(FADE_IN_START, DESTROY_FADE_END, from = OPAQUE, to = INVISIBLE),
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_COLLAPSE),
-            wait(DESTROY_MOVE_AT - DESTROY_COLLAPSE_AT),
+            wait(DESTROY_MOVE_AT - DESTROY_COLLAPSE_AT - 1),
+            external(OcellusPhaseTwo.QUADRANT_FREEZE),
+            wait(1),
             external(OcellusPhaseTwo.QUADRANT_ENTER),
+            nextAttackIn(ENTER_TO_FIRST_ATTACK),
             transparency(FADE_IN_START, QUADRANT_FADE_END, from = INVISIBLE, to = OPAQUE),
             wait(1),
+            external(OcellusPhaseTwo.QUADRANT_THAW),
             external(OcellusPhaseTwo.QUADRANT_STONES_FALL),
             external(OcellusPhaseTwo.QUADRANT_BARRIER_SPAWN),
             whenever(varnIs(THRESHOLD, QUADRANT_STAGE + QUADRANT_THRESHOLDS.size), say("End...")),
@@ -734,6 +744,8 @@ constructor(
         const val QUADRANT_STAGE = 10
         val QUADRANT_THRESHOLDS = listOf(0.74, 0.51, 0.26)
         const val QUADRANT_ENTER_AT = 2
+        const val ATTACK_HOLD = 30
+        const val ENTER_TO_FIRST_ATTACK = 4
         const val QUADRANT_FADE_END = 28
         const val DESTROY_OUT_AT = 11
         const val DESTROY_COLLAPSE_AT = 13

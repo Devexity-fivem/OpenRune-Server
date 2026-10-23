@@ -26,7 +26,7 @@ constructor(
     private val hpBar: BossHpBarScript,
 ) {
     internal val meter = OcellusMeter(deps, hpBar)
-    internal val phaseTwo = OcellusPhaseTwo(deps, hpBar, meter) { partySize }
+    internal val phaseTwo = OcellusPhaseTwo(deps, hpBar, meter, interactions) { partySize }
     internal val debug = OcellusDebug(deps, { boss }) { phaseTwo.describeQuadrants() }
 
     private var boss: Npc? = null

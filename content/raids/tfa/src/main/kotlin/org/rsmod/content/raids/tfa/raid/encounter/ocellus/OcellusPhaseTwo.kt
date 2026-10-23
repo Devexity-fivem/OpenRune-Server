@@ -7,6 +7,7 @@ import dev.openrune.types.MoveRestrict
 import java.awt.Color
 import org.rsmod.api.bossbar.plugin.BossHpBarScript
 import org.rsmod.api.bosses.runtime.BossDeps
+import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.midiSong
 import org.rsmod.api.player.ui.setColour
 import org.rsmod.game.entity.Npc
@@ -22,11 +23,12 @@ internal class OcellusPhaseTwo(
     private val deps: BossDeps,
     private val hpBar: BossHpBarScript,
     private val meter: OcellusMeter,
+    interactions: AiPlayerInteractions,
     private val partySize: () -> Int,
 ) {
     private val walls = OcellusWalls(deps)
     private val collapse = OcellusCollapse(deps, walls::clear)
-    private val quadrants = OcellusQuadrants(deps, collapse.stoneLocs)
+    private val quadrants = OcellusQuadrants(deps, interactions, collapse.stoneLocs)
     private var swordHitbox: Npc? = null
     private var storedDamage = 0
 
@@ -154,6 +156,8 @@ internal class OcellusPhaseTwo(
         const val WALLS_DESPAWN = OcellusWalls.DESPAWN
 
         const val QUADRANT_ENTER = OcellusQuadrants.ENTER
+        const val QUADRANT_FREEZE = OcellusQuadrants.FREEZE
+        const val QUADRANT_THAW = OcellusQuadrants.THAW
         const val QUADRANT_BARRIER_SPAWN = OcellusQuadrants.BARRIER_SPAWN
         const val QUADRANT_BARRIER = OcellusQuadrants.BARRIER
         const val QUADRANT_BARRIER_DESPAWN = OcellusQuadrants.BARRIER_DESPAWN

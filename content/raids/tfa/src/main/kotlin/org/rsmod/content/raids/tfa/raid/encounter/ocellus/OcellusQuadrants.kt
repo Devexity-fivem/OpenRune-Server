@@ -1,9 +1,12 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
 import org.rsmod.api.bosses.runtime.BossDeps
+import org.rsmod.api.npc.apPlayer2
+import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.loc.LocAngle
@@ -19,6 +22,7 @@ import org.rsmod.routefinder.flag.CollisionFlag
  */
 internal class OcellusQuadrants(
     private val deps: BossDeps,
+    private val interactions: AiPlayerInteractions,
     private val stoneLocs: Map<CoordGrid, LocInfo>,
 ) {
     private val spawned = ArrayList<LocInfo>()
@@ -29,6 +33,8 @@ internal class OcellusQuadrants(
 
     fun register() {
         deps.extensionRegistry.register(ENTER) { enter(it.npc, centre(it.npc)) }
+        deps.extensionRegistry.register(FREEZE) { hold(it.npc) }
+        deps.extensionRegistry.register(THAW) { it.npc.scriptedMovement = false }
         deps.extensionRegistry.register(BARRIER_SPAWN) { barriers(centre(it.npc), "_spawn") }
         deps.extensionRegistry.register(BARRIER) { barriers(centre(it.npc), "") }
         deps.extensionRegistry.register(BARRIER_DESPAWN) { barriers(centre(it.npc), "_despawn") }
@@ -83,6 +89,24 @@ internal class OcellusQuadrants(
             centre.translate(quadrant.bossDx, quadrant.bossDz),
         )
         npc.showAllOps()
+        retarget(npc, quadrant, centre, players)
+        hold(npc)
+        npc.faceSquare(centre, instant = true)
+    }
+
+    private fun retarget(npc: Npc, quadrant: Quadrant, centre: CoordGrid, players: List<Player>) {
+        val target =
+            players
+                .filter { quadrant.contains(centre, it.coords) }
+                .minByOrNull { it.coords.chebyshevDistance(npc.coords) } ?: return
+        npc.apPlayer2(target, interactions)
+    }
+
+    /** Nothing to face and nowhere to route until [THAW]; the engine would otherwise re-face the target. */
+    private fun hold(npc: Npc) {
+        npc.scriptedMovement = true
+        npc.clearFacingLock()
+        npc.resetFaceEntity()
     }
 
     private fun barriers(centre: CoordGrid, variant: String) {
@@ -219,6 +243,8 @@ internal class OcellusQuadrants(
 
     companion object {
         const val ENTER = "ocellus.quadrant_enter"
+        const val FREEZE = "ocellus.quadrant_freeze"
+        const val THAW = "ocellus.quadrant_thaw"
         const val BARRIER_SPAWN = "ocellus.quadrant_barrier_spawn"
         const val BARRIER = "ocellus.quadrant_barrier"
         const val BARRIER_DESPAWN = "ocellus.quadrant_barrier_despawn"
