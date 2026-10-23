@@ -36,3 +36,5 @@ ocellus_threshold=64424
 ocellus_active_tendrils=64425
 ocellus_meter=64426
 ocellus_barrage_waves=64427
+ocellus_special_cycles=64428
+ocellus_special_step=64429

@@ -30,7 +30,10 @@ constructor(
     private val encounter: OcellusEncounter,
     private val hpBar: BossHpBarScript,
 ) : BossPluginScript(deps) {
+    private val spin = OcellusSpin(deps)
+
     override fun ScriptContext.startup() {
+        spin.register()
         OcellusTendrils(deps, encounter.meter).register()
         OcellusBarrage(deps, encounter.meter).register()
         OcellusSlash.register(deps)
@@ -54,10 +57,8 @@ constructor(
             phase(BROKEN, scriptedMovement = true, lockMovement = true) {}
             phase(PHASE_TWO, scriptedMovement = true, lockMovement = true) {}
             phase(PHASE_THREE) {
-                weightedSelectorRandom {
-                    +random(ATTACK_CYCLE, weight = CYCLE_WEIGHT)
-                    +random(INSOLENCE, weight = INSOLENCE_WEIGHT, cooldown = INSOLENCE_COOLDOWN)
-                }
+                weightedSelectorRandom { +random(ATTACK_CYCLE, weight = 1) }
+                forceWhen(varnAtLeast(OcellusVarns.SPECIAL_CYCLES, CYCLES_PER_SPECIAL), SPECIAL)
             }
 
             ability(START, start())
@@ -72,7 +73,7 @@ constructor(
             ability(PHASE_TWO, phaseTwo())
             ability(PHASE_THREE, phaseThree())
             ability(ATTACK_CYCLE, attackCycle(), attackDelay = ATTACK_CYCLE_CAP)
-            ability(INSOLENCE, insolence(), attackDelay = ATTACK_CYCLE_CAP)
+            ability(SPECIAL, special(), attackDelay = ATTACK_CYCLE_CAP)
             ability(DESTROY, destroyQuadrant())
             ability(SKIP_TO_THREE, skipToPhaseThree())
 
@@ -369,6 +370,7 @@ constructor(
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_ENTER),
             nextAttackIn(ENTER_TO_FIRST_ATTACK),
+            resetSpecials(),
             transparency(FADE_IN_START, QUADRANT_FADE_END, from = INVISIBLE, to = OPAQUE),
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_THAW),
@@ -398,7 +400,132 @@ constructor(
                 sequence(swing, wait(MELEE_SWING_GAP - aimLead)),
                 otherwise = sequence(magicSpread(), wait(SPREAD_GAP - aimLead)),
             )
-        return sequence(slot(0), slot(1), shadowSlash(), nextAttackIn(SLASH_RECOVERY))
+        return sequence(
+            slot(0),
+            slot(1),
+            shadowSlash(),
+            nextAttackIn(SLASH_RECOVERY),
+            addVarn(OcellusVarns.SPECIAL_CYCLES, 1),
+        )
+    }
+
+    /**
+     * Every third attack is a special. Which one is the quadrant's script: it runs in order and
+     * stops when it runs out. The script position is `quadrant * QUADRANT_STEPS + step`. A slot
+     * with no attack behind it hands the turn straight back, or the ability's delay would idle the
+     * boss.
+     */
+    private fun special(): Effect {
+        val scripts =
+            listOf(
+                listOf(debris(0)),
+                listOf(debris(1), insolence(), debris(1)),
+                listOf(debris(2), insolence(), debris(2)),
+            )
+        val cases =
+            scripts.flatMapIndexed { quadrant, steps ->
+                steps.mapIndexed { step, effect -> quadrant * QUADRANT_STEPS + step to effect }
+            }
+        return sequence(
+            setVarn(OcellusVarns.SPECIAL_CYCLES, 0),
+            switch(OcellusVarns.SPECIAL_STEP, *cases.toTypedArray(), otherwise = nextAttackIn(0)),
+            addVarn(OcellusVarns.SPECIAL_STEP, 1),
+        )
+    }
+
+    /** A new quadrant starts its script over, and its first special two attacks in. */
+    private fun resetSpecials(): Effect {
+        val starts =
+            (0..QUADRANT_THRESHOLDS.size).map { quadrant ->
+                QUADRANT_STAGE + quadrant to
+                    setVarn(OcellusVarns.SPECIAL_STEP, quadrant * QUADRANT_STEPS)
+            }
+        return sequence(
+            setVarn(OcellusVarns.SPECIAL_CYCLES, 0),
+            switch(OcellusVarns.THRESHOLD, *starts.toTypedArray()),
+        )
+    }
+
+    /**
+     * The spin attack. The boss opens a purple portal and shows the melee prayer, then spins once
+     * plus once more for each quadrant already taken ([loops]). Each spin is a fade (protection
+     * prayers must be down), the spin animation (Protect from Melee must be back up) and, a tick
+     * later, a hit to everyone; a player who missed either step takes it unprotected
+     * ([OcellusSpin]). Blades also mark every player's tile and 5 ticks later void takes the
+     * marked tiles, whatever the spin count.
+     */
+    private fun debris(loops: Int): Effect {
+        val marks = if (loops == 0) DEBRIS_MARKS_SHORT else DEBRIS_MARKS_LOOPED
+        val impact = marks + DEBRIS_FALL
+        val out = DEBRIS_OUT + DEBRIS_LOOP * loops
+        val prayed =
+            hit {
+                damage(DEBRIS_DAMAGE).roll()
+                type(Melee)
+            }
+        val unprayed =
+            hit {
+                damage(DEBRIS_DAMAGE).roll()
+                type(HitType.Typeless)
+            }
+        val blades =
+            onEach(
+                playersIn(OcellusArena.FLOOR),
+                whenever(
+                    Condition.Custom { _, player -> player != null && spin.isProtected(player) },
+                    prayed,
+                    otherwise = unprayed,
+                ),
+            )
+        val events = mutableListOf<Pair<Int, Effect>>()
+        events += 0 to anim(PRAYER_IN_SEQ)
+        events += 0 to spotanim(PRAYER_IN_SPOT, slot = PRAYER_IN_SLOT)
+        events += 0 to headIcon(HEADICON_SLOT, HEADICON_GRAPHIC, HEADICON_MELEE)
+        for (spinIndex in 0..loops) {
+            val last = spinIndex == loops
+            val fade = DEBRIS_LOOP_SPOT + DEBRIS_LOOP * spinIndex
+            val seq = DEBRIS_OUT + DEBRIS_LOOP * spinIndex
+            events += fade to spotanim(if (last) PRAYER_OUT_SPOT else PRAYER_LOOP_SPOT, slot = PRAYER_SLOT)
+            events += fade to external(OcellusSpin.CHECK_OFF)
+            events += seq to anim(if (last) PRAYER_OUT_SEQ else PRAYER_LOOP_SEQ)
+            events += seq to external(OcellusSpin.CHECK_ON)
+            events += seq + SPIN_HIT_DELAY to blades
+        }
+        events += marks to onTiles(bound(DEBRIS_TILES), mapSpotanim(DEBRIS_SPOT, CurrentTile))
+        events += impact to onTiles(bound(DEBRIS_TILES), external(OcellusVoid.DEBRIS, at = CurrentTile))
+        events +=
+            out + DEBRIS_RECOVERY to
+                sequence(
+                    clearHeadIcon(HEADICON_SLOT),
+                    say("Your panic... is futile..."),
+                    nextAttackIn(0),
+                    unlockMovement(),
+                )
+        val before = events.filter { it.first < marks }
+        val tiles =
+            customTiles(OcellusArena.FLOOR) { npc, _, _ ->
+                OcellusArena.quadrantPlayers(npc, deps.playerList).map { it.coords }
+            }
+        return sequence(
+            lockMovement(),
+            timeline(before, from = 0),
+            wait(marks - before.maxOf { it.first }),
+            withTiles(DEBRIS_TILES, tiles, timeline(events.filter { it.first >= marks }, from = marks)),
+        )
+    }
+
+    /** [events] in tick order, waiting out the gaps between them. */
+    private fun timeline(events: List<Pair<Int, Effect>>, from: Int): Effect {
+        val steps = mutableListOf<Effect>()
+        var now = from
+        for ((tick, effect) in events.sortedBy { it.first }) {
+            if (tick > now) {
+                steps += wait(tick - now)
+                now = tick
+            }
+            steps += effect
+        }
+        return sequence(*steps.toTypedArray())
     }
 
     private fun magicSpread(): Effect =
@@ -482,7 +609,7 @@ constructor(
                     bound("insolence_$step"),
                     sequence(
                         sweep,
-                        external(OcellusInsolence.LINGER, params = step, at = CurrentTile),
+                        external(OcellusVoid.INSOLENCE, params = step, at = CurrentTile),
                         onEach(playersOn(CurrentTile), strike),
                     ),
                 )
@@ -553,6 +680,7 @@ constructor(
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_ENTER),
             nextAttackIn(ENTER_TO_FIRST_ATTACK),
+            resetSpecials(),
             transparency(FADE_IN_START, QUADRANT_FADE_END, from = INVISIBLE, to = OPAQUE),
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_THAW),
@@ -782,10 +910,29 @@ constructor(
         const val PHASE_THREE = "phase_three"
         const val ATTACK_CYCLE = "attack_cycle"
         const val ATTACK_CYCLE_CAP = 20
-        const val CYCLE_WEIGHT = 18
-        const val INSOLENCE = "insolence"
-        const val INSOLENCE_WEIGHT = 1
-        const val INSOLENCE_COOLDOWN = 40
+        const val SPECIAL = "special"
+        const val CYCLES_PER_SPECIAL = 2
+        const val QUADRANT_STEPS = 10
+        const val DEBRIS_TILES = "debris"
+        // PLACEHOLDER: an estimate; no source for the real figure.
+        val DEBRIS_DAMAGE = 35..55
+        const val DEBRIS_MARKS_SHORT = 3
+        const val DEBRIS_MARKS_LOOPED = 6
+        const val DEBRIS_FALL = 5
+        const val DEBRIS_OUT = 5
+        const val DEBRIS_LOOP = 3
+        const val DEBRIS_LOOP_SPOT = 3
+        const val DEBRIS_RECOVERY = 4
+        const val SPIN_HIT_DELAY = 1
+        const val PRAYER_IN_SLOT = 4
+        const val PRAYER_SLOT = 2
+        const val PRAYER_IN_SEQ = "seq.npc_ocellus_phase3_prayer_in"
+        const val PRAYER_LOOP_SEQ = "seq.npc_ocellus_phase3_prayer_loop"
+        const val PRAYER_OUT_SEQ = "seq.npc_ocellus_phase3_prayer_out"
+        const val PRAYER_IN_SPOT = "spotanim.vfx_ocellus_phase3_melee_prayer_in"
+        const val PRAYER_LOOP_SPOT = "spotanim.vfx_ocellus_phase3_melee_prayer"
+        const val PRAYER_OUT_SPOT = "spotanim.vfx_ocellus_phase3_melee_prayer_out"
+        const val DEBRIS_SPOT = "spotanim.vfx_ocellus_falling_debris"
         const val INSOLENCE_SEQ = "seq.npc_ocellus_phase3_melee_superior_slash"
         const val INSOLENCE_SPOT = "spotanim.vfx_ocellus_p3_shadow_slash_superior_spotanim01"
         const val INSOLENCE_ANIM_DELAY = 30
@@ -795,7 +942,7 @@ constructor(
         const val INSOLENCE_DAMAGE = 43
         const val MELEE_BASIC_SEQ = "seq.npc_ocellus_phase3_melee_basic"
         const val MELEE_SWING_GAP = 3
-        const val SLASH_RECOVERY = 3
+        const val SLASH_RECOVERY = 2
         const val SPREAD_GAP = 6
         const val SPREAD_SEQ = "seq.npc_ocellus_phase3_basic_projectile_all"
         const val SPREAD_CAST_SPOT = "spotanim.vfx_ocellus_magic_spotanim01"

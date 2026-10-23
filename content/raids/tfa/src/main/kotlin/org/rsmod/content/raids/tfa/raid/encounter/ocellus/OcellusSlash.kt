@@ -37,10 +37,7 @@ internal object OcellusSlash {
 
     /** A random player standing in the boss's quadrant, as a tile; [CoordGrid.NULL] if there is none. */
     fun pickAim(npc: Npc, deps: BossDeps): CoordGrid {
-        val inside =
-            OcellusArena.players(npc, deps.playerList).filter {
-                OcellusArena.sameQuadrantFloor(npc, it.coords)
-            }
+        val inside = OcellusArena.quadrantPlayers(npc, deps.playerList)
         return if (inside.isEmpty()) CoordGrid.NULL else deps.random.pick(inside).coords
     }
 

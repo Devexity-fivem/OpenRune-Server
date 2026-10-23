@@ -243,3 +243,9 @@ id = "varn.ocellus_meter"
 
 [[varn]]
 id = "varn.ocellus_barrage_waves"
+
+[[varn]]
+id = "varn.ocellus_special_cycles"
+
+[[varn]]
+id = "varn.ocellus_special_step"

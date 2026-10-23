@@ -20,10 +20,11 @@ internal object OcellusArena {
     private const val CENTRE_DZ = 3
     private const val MIDDLE_DX = 1
     private const val MIDDLE_DZ = 4
-    private const val SW_DX = -10
-    private const val SW_DZ = -7
-    private const val NE_DX = 12
-    private const val NE_DZ = 15
+    private const val ARENA_RADIUS = 13
+    private const val SW_DX = MIDDLE_DX - ARENA_RADIUS
+    private const val SW_DZ = MIDDLE_DZ - ARENA_RADIUS
+    private const val NE_DX = MIDDLE_DX + ARENA_RADIUS
+    private const val NE_DZ = MIDDLE_DZ + ARENA_RADIUS
     private const val FLOOR_MIN = 2
     private const val FLOOR_MAX = 12
     private const val FLOOR_REACH = 16
@@ -44,6 +45,10 @@ internal object OcellusArena {
         )
 
     fun centre(npc: Npc): CoordGrid = npc.spawnCoords.translate(CENTRE_DX, CENTRE_DZ)
+
+    /** Players standing on phase 3 floor on the same side of the gap as the boss. */
+    fun quadrantPlayers(npc: Npc, playerList: PlayerList): List<Player> =
+        players(npc, playerList).filter { sameQuadrantFloor(npc, it.coords) }
 
     /** Whether [tile] is phase 3 floor on the same side of the gap as the boss. */
     fun sameQuadrantFloor(npc: Npc, tile: CoordGrid): Boolean {
@@ -82,4 +87,6 @@ internal object OcellusVarns {
     const val SKIP_PHASE_TWO = 99
     const val ACTIVE_TENDRILS = "varn.ocellus_active_tendrils"
     const val METER = "varn.ocellus_meter"
-    const val BARRAGE_WAVES = "varn.ocellus_barrage_waves"}
+    const val BARRAGE_WAVES = "varn.ocellus_barrage_waves"
+    const val SPECIAL_CYCLES = "varn.ocellus_special_cycles"
+    const val SPECIAL_STEP = "varn.ocellus_special_step"}
