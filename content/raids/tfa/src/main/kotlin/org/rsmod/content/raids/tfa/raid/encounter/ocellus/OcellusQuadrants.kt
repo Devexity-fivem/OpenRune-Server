@@ -25,6 +25,7 @@ internal class OcellusQuadrants(
     private val deps: BossDeps,
     private val interactions: AiPlayerInteractions,
     private val stoneLocs: Map<CoordGrid, LocInfo>,
+    private val onCollapse: (Set<CoordGrid>) -> Unit,
 ) {
     private val spawned = ArrayList<LocInfo>()
     private val destroyed = LinkedHashSet<Quadrant>()
@@ -57,6 +58,14 @@ internal class OcellusQuadrants(
     }
 
     private fun centre(npc: Npc): CoordGrid = npc.spawnCoords.translate(CENTRE_DX, CENTRE_DZ)
+
+    /** Quarter turns from the boss's quadrant to every quadrant still standing, its own included. */
+    fun standingTurns(): List<Int> {
+        val here = current ?: return emptyList()
+        return Quadrant.entries
+            .filter { it !in destroyed }
+            .map { Math.floorMod(it.ordinal - here.ordinal, Quadrant.entries.size) }
+    }
 
     fun describe(): String = "${current ?: "-"} (destroyed: ${destroyed.joinToString().ifEmpty { "none" }})"
 
@@ -148,6 +157,7 @@ internal class OcellusQuadrants(
     private fun collapse(npc: Npc, centre: CoordGrid) {
         val quadrant = current ?: return
         destroyed.add(quadrant)
+        onCollapse(quadrant.floor(centre).toSet())
         for ((dx, dz) in quadrant.hidden) {
             add(centre.translate(dx, dz), NONBLOCKING_LOC)
             add(centre.translate(dx, dz), NONBLOCKING_TYPE0_LOC, LocShape.GroundDecor)

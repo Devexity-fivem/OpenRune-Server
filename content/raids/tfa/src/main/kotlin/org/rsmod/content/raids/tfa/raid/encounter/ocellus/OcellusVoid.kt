@@ -11,9 +11,9 @@ import org.rsmod.game.loc.LocShape
 import org.rsmod.map.CoordGrid
 
 /**
- * The void left on the floor by Ocellus's attacks: insolence slashes and falling debris. Each tile
- * gets a loc that degenerates anyone standing on it every tick, then plays its despawn animation; what
- * lays them down, and when, is the spec's.
+ * The void left on the floor by Ocellus's attacks: insolence slashes, falling debris and the
+ * quadrant bombs. Each tile gets a loc that degenerates anyone standing on it every tick, then
+ * (bombs aside) plays its despawn animation; what lays them down, and when, is the spec's.
  */
 internal class OcellusVoid(private val deps: BossDeps) {
     private val lingering = HashSet<LocInfo>()
@@ -28,11 +28,22 @@ internal class OcellusVoid(private val deps: BossDeps) {
             val tile = checkNotNull(it.tile) { "$DEBRIS needs a tile." }
             linger(it.npc, tile, Void(DEBRIS_LOC, DEBRIS_TICKS, DEBRIS_DESPAWN))
         }
+        deps.extensionRegistry.register(BOMB) {
+            val tile = checkNotNull(it.tile) { "$BOMB needs a tile." }
+            lingerForever(it.npc, tile, BOMB_LOC)
+        }
     }
 
     fun clear() {
         for (loc in lingering) deps.locRepo.del(loc, Int.MAX_VALUE)
         lingering.clear()
+    }
+
+    /** Drops whatever void is left on [tiles], for floor that is about to fall away. */
+    fun clearOn(tiles: Set<CoordGrid>) {
+        val gone = lingering.filter { it.coords in tiles }
+        for (loc in gone) deps.locRepo.del(loc, Int.MAX_VALUE)
+        lingering.removeAll(gone.toSet())
     }
 
     private class Void(val loc: String, val lifetime: Int, val despawn: String)
@@ -50,6 +61,13 @@ internal class OcellusVoid(private val deps: BossDeps) {
                 }
             }
         }
+    }
+
+    private fun lingerForever(npc: Npc, tile: CoordGrid, loc: String) {
+        val angle = LocAngle[deps.random.of(ROTATIONS)]
+        val info = deps.locRepo.add(tile, loc, Int.MAX_VALUE, angle, LocShape.GroundDecor)
+        lingering.add(info)
+        degen(npc, info, tile, Int.MAX_VALUE)
     }
 
     private fun degen(npc: Npc, loc: LocInfo, tile: CoordGrid, ticksLeft: Int) {
@@ -74,6 +92,7 @@ internal class OcellusVoid(private val deps: BossDeps) {
     companion object {
         const val INSOLENCE = "ocellus.void_insolence"
         const val DEBRIS = "ocellus.void_debris"
+        const val BOMB = "ocellus.void_bomb"
 
         private const val ROTATIONS = 4
         private const val DESPAWN_TICKS = 1
@@ -84,6 +103,7 @@ internal class OcellusVoid(private val deps: BossDeps) {
         private const val INSOLENCE_FAR_STEP = 6
         private const val INSOLENCE_DESPAWN = "seq.fx_ocellus_shadow_slash_degen_despawn"
 
+        private const val BOMB_LOC = "loc.tfa_ocellus_void_degen_bomb"
         private const val DEBRIS_TICKS = 50
         private const val DEBRIS_LOC = "loc.tfa_ocellus_void_degen_aoe"
         private const val DEBRIS_DESPAWN = "seq.vfx_ocellus_debris_despawn"

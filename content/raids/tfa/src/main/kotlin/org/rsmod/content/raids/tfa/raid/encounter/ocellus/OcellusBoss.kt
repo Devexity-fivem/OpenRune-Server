@@ -384,6 +384,7 @@ constructor(
             external(OcellusPhaseTwo.QUADRANT_FREEZE),
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_ENTER),
+            voidBombs(),
             nextAttackIn(ENTER_TO_FIRST_ATTACK),
             resetSpecials(),
             transparency(FADE_IN_START, QUADRANT_FADE_END, from = INVISIBLE, to = OPAQUE),
@@ -448,6 +449,46 @@ constructor(
         return sequence(
             setVarn(OcellusVarns.SPECIAL_CYCLES, 0),
             switch(OcellusVarns.SPECIAL_STEP, *cases.toTypedArray(), otherwise = nextAttackIn(0)),
+        )
+    }
+
+    /**
+     * Forked off the boss's arrival in a quadrant, so it runs beside its first attacks: the marks
+     * go up a tick in, hold for two, and a tick later the bombs show where they will fall and
+     * land two ticks after that.
+     */
+    private fun voidBombs(): Effect {
+        val tiles = customTiles(OcellusArena.FLOOR) { npc, _, _ -> encounter.phaseTwo.bombTiles(npc) }
+        val idle =
+            sequence(
+                mapSpotanim(BOMB_IDLE_SPOT, CurrentTile, height = BOMB_HEIGHT),
+                mapSpotanim(BOMB_IDLE_SPOT, CurrentTile, height = BOMB_HEIGHT, delay = BOMB_IDLE_LOOP_DELAY),
+            )
+        val land =
+            sequence(
+                mapSpotanim(BOMB_DROP_SPOT, CurrentTile, height = BOMB_HEIGHT),
+                mapSpotanim(BOMB_IMPACT_SPOT, CurrentTile),
+                external(OcellusVoid.BOMB, at = CurrentTile),
+            )
+        return after(
+            BOMB_MARK_AT,
+            sequence(
+                external(OcellusPhaseTwo.BOMBS_MARK),
+                wait(1),
+                external(OcellusPhaseTwo.BOMBS_IDLE),
+                wait(1),
+                external(OcellusPhaseTwo.BOMBS_IDLE),
+                wait(1),
+                withTiles(
+                    BOMB_TILES,
+                    tiles,
+                    sequence(
+                        onTiles(bound(BOMB_TILES), idle),
+                        wait(BOMB_IDLE_TO_DROP),
+                        onTiles(bound(BOMB_TILES), land),
+                    ),
+                ),
+            ),
         )
     }
 
@@ -829,6 +870,7 @@ constructor(
             external(OcellusPhaseTwo.QUADRANT_FREEZE),
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_ENTER),
+            voidBombs(),
             nextAttackIn(ENTER_TO_FIRST_ATTACK),
             resetSpecials(),
             transparency(FADE_IN_START, QUADRANT_FADE_END, from = INVISIBLE, to = OPAQUE),
@@ -1064,6 +1106,14 @@ constructor(
         const val CYCLES_PER_SPECIAL = 2
         const val QUADRANT_STEPS = 10
         const val DEBRIS_TILES = "debris"
+        const val BOMB_TILES = "bombs"
+        const val BOMB_MARK_AT = 1
+        const val BOMB_IDLE_TO_DROP = 2
+        const val BOMB_IDLE_LOOP_DELAY = 30
+        const val BOMB_HEIGHT = 255
+        const val BOMB_IDLE_SPOT = "spotanim.vfx_ocellus_quadrant_bomb_idle_01"
+        const val BOMB_DROP_SPOT = "spotanim.vfx_ocellus_quadrant_bomb_drop_01"
+        const val BOMB_IMPACT_SPOT = "spotanim.vfx_ocellus_quadrant_bomb_impact_01"
         // PLACEHOLDER: an estimate; no source for the real figure.
         val DEBRIS_DAMAGE = 35..55
         const val DEBRIS_MARKS_SHORT = 3
