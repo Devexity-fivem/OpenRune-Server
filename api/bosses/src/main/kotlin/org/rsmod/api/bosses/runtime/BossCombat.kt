@@ -136,6 +136,7 @@ object BossCombat {
         deps.encounterRegistry.remove(npc)?.let(deps::disposeOwned)
         npc.movementLocked = false
         npc.scriptedMovement = false
+        npc.chasesWhileInApRange = false
         npc.apRangeOverride = null
         npc.apRequiresLineOfSight = true
         npc.moveRestrict = npc.type.moveRestrict

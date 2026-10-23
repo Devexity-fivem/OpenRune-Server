@@ -74,7 +74,7 @@ internal class OcellusPhaseTwo(
         val type = ServerCacheManager.getNpc("npc.tfa_ocellus_p3".asRSCM(RSCMType.NPC))!!
         npc.moveRestrict = type.moveRestrict
         npc.apRequiresLineOfSight = false
-        npc.apRangeOverride = MELEE_AP_RANGE
+        npc.chasesWhileInApRange = true
         npc.setCombatLevel(PHASE_TWO_LEVEL)
         npc.hideAllOps()
     }
@@ -175,7 +175,6 @@ internal class OcellusPhaseTwo(
         private const val PHASE_TWO_SONG = 893
         private const val PHASE_THREE_SONG = 894
         private const val SONG_FADE_SPEED = 60
-        private const val MELEE_AP_RANGE = 1
 
         private const val PHASE_TWO_TRANSFORM_LEVEL = 1424
         private const val PHASE_TWO_LEVEL = 1601

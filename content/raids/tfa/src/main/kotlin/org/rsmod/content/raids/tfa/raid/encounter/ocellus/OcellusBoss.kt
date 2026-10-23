@@ -53,7 +53,7 @@ constructor(
             phase(PHASE_TWO, scriptedMovement = true, lockMovement = true) {}
             phase(PHASE_THREE) {
                 weightedSelectorRandom {
-                    +random(MELEE_COMBO, weight = 1, requires = WithinMeleeRange)
+                    +random(ATTACK_CYCLE, weight = 1)
                 }
             }
 
@@ -68,7 +68,7 @@ constructor(
             ability(BREAK, shieldBreak())
             ability(PHASE_TWO, phaseTwo())
             ability(PHASE_THREE, phaseThree())
-            ability(MELEE_COMBO, meleeCombo(), attackDelay = MELEE_ATTACK_DELAY)
+            ability(ATTACK_CYCLE, attackCycle(), attackDelay = ATTACK_CYCLE_CAP)
             ability(DESTROY, destroyQuadrant())
             ability(SKIP_TO_THREE, skipToPhaseThree())
 
@@ -369,8 +369,12 @@ constructor(
             unlockMovement(),
         )
 
-    /** Two swings then the shadow slash, 3 ticks apart; the second swing needs the target in reach. */
-    private fun meleeCombo(): Effect {
+    /**
+     * Two slots, each a melee swing when the target is in reach and the magic spread when not,
+     * then the shadow slash. A swing leaves 3 ticks before the next slot and a spread 6; the
+     * slash is aimed a tick before it starts, so the last slot's wait is a tick short.
+     */
+    private fun attackCycle(): Effect {
         val swing =
             sequence(
                 anim(MELEE_BASIC_SEQ),
@@ -379,14 +383,42 @@ constructor(
                     type(Melee)
                 },
             )
-        return sequence(
-            swing,
-            wait(MELEE_SWING_GAP),
-            whenever(WithinMeleeRange, swing),
-            wait(MELEE_SWING_GAP - 1),
-            shadowSlash(),
-        )
+        fun slot(aimLead: Int) =
+            whenever(
+                WithinMeleeRange,
+                sequence(swing, wait(MELEE_SWING_GAP - aimLead)),
+                otherwise = sequence(magicSpread(), wait(SPREAD_GAP - aimLead)),
+            )
+        return sequence(slot(0), slot(1), shadowSlash(), nextAttackIn(SLASH_RECOVERY))
     }
+
+    private fun magicSpread(): Effect =
+        sequence(
+            anim(SPREAD_SEQ),
+            spotanim(SPREAD_CAST_SPOT, delay = SPREAD_CAST_DELAY, slot = SPREAD_CAST_SLOT),
+            sound("synth.ocellus_magic_spread_cast", delay = SPREAD_SOUND_DELAY),
+            onEach(
+                playersIn(OcellusArena.FLOOR),
+                projectile(
+                    spotanim = SPREAD_PROJECTILE,
+                    config =
+                        ProjectileConfig.fixed(
+                            startHeight = SPREAD_START_HEIGHT,
+                            endHeight = SPREAD_END_HEIGHT,
+                            delay = SPREAD_DELAY,
+                            travel = SPREAD_TRAVEL,
+                            angle = SPREAD_ANGLE,
+                        ),
+                    hit =
+                        hit {
+                            damage(SPREAD_DAMAGE).roll()
+                            type(HitType.Magic)
+                            spotanim(SPREAD_IMPACT)
+                        },
+                    resolveOnImpact = true,
+                ),
+            ),
+        )
 
     private fun shadowSlash(): Effect {
         val strike =
@@ -410,6 +442,7 @@ constructor(
                 anim(SLASH_SEQ),
                 wait(1),
                 *sweeps.toTypedArray(),
+                wait(1),
                 external(OcellusSlash.RELEASE),
                 unlockMovement(),
             )
@@ -674,10 +707,25 @@ constructor(
         val WALL_WINDOWS = listOf(11, 53, 95)
         val ROTATIONS = listOf(39, 81)
         const val PHASE_THREE = "phase_three"
-        const val MELEE_COMBO = "melee_combo"
+        const val ATTACK_CYCLE = "attack_cycle"
+        const val ATTACK_CYCLE_CAP = 20
         const val MELEE_BASIC_SEQ = "seq.npc_ocellus_phase3_melee_basic"
-        const val MELEE_ATTACK_DELAY = 10
         const val MELEE_SWING_GAP = 3
+        const val SLASH_RECOVERY = 3
+        const val SPREAD_GAP = 6
+        const val SPREAD_SEQ = "seq.npc_ocellus_phase3_basic_projectile_all"
+        const val SPREAD_CAST_SPOT = "spotanim.vfx_ocellus_magic_spotanim01"
+        const val SPREAD_CAST_SLOT = 4
+        const val SPREAD_CAST_DELAY = 30
+        const val SPREAD_SOUND_DELAY = 25
+        const val SPREAD_PROJECTILE = "spotanim.vfx_ocellus_magic_projanim01"
+        const val SPREAD_IMPACT = "spotanim.vfx_ocellus_magic_projanim_impact01"
+        const val SPREAD_START_HEIGHT = 435
+        const val SPREAD_END_HEIGHT = 124
+        const val SPREAD_DELAY = 45
+        const val SPREAD_TRAVEL = 15
+        const val SPREAD_ANGLE = 100
+        val SPREAD_DAMAGE = 20..22
         const val SLASH_SEQ = "seq.npc_ocellus_phase3_melee_slash"
         const val SLASH_SPOT = "spotanim.vfx_ocellus_p3_shadow_slash_spotanim01"
         const val SLASH_DAMAGE = 27
