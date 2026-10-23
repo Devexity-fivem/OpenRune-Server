@@ -18,6 +18,8 @@ import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.CORNER
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.METER
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.THRESHOLD
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.VOLLEY_STYLE
+import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -53,7 +55,8 @@ constructor(
             phase(PHASE_TWO, scriptedMovement = true, lockMovement = true) {}
             phase(PHASE_THREE) {
                 weightedSelectorRandom {
-                    +random(ATTACK_CYCLE, weight = 1)
+                    +random(ATTACK_CYCLE, weight = CYCLE_WEIGHT)
+                    +random(INSOLENCE, weight = INSOLENCE_WEIGHT, cooldown = INSOLENCE_COOLDOWN)
                 }
             }
 
@@ -69,6 +72,7 @@ constructor(
             ability(PHASE_TWO, phaseTwo())
             ability(PHASE_THREE, phaseThree())
             ability(ATTACK_CYCLE, attackCycle(), attackDelay = ATTACK_CYCLE_CAP)
+            ability(INSOLENCE, insolence(), attackDelay = ATTACK_CYCLE_CAP)
             ability(DESTROY, destroyQuadrant())
             ability(SKIP_TO_THREE, skipToPhaseThree())
 
@@ -451,13 +455,72 @@ constructor(
                 external(OcellusSlash.RELEASE),
                 unlockMovement(),
             )
-        return steps.reversed().fold(slash) { inner, step ->
-            val band = customTiles(OcellusArena.FLOOR) { npc, target, _ ->
-                OcellusSlash.band(npc, target, step)
-            }
-            withTiles("slash_$step", band, inner)
-        }
+        return withBands("slash", OcellusSlash::band, slash)
     }
+
+    /**
+     * Three superior slashes, each at a random player in the quadrant: aimed a tick before it
+     * swings, landing three ticks after, and leaving void on the floor behind. The boss stays put
+     * and pinned on the aim throughout.
+     */
+    private fun insolence(): Effect {
+        val strike =
+            hit {
+                damage(Fixed(INSOLENCE_DAMAGE))
+                type(HitType.Typeless)
+                hazard()
+            }
+        val sweeps =
+            (1..OcellusSlash.STEPS).map { step ->
+                val sweep =
+                    mapSpotanim(
+                        INSOLENCE_SPOT,
+                        CurrentTile,
+                        delay = INSOLENCE_SWEEP_DELAY + step * OcellusSlash.STEP_DELAY,
+                    )
+                onTiles(
+                    bound("insolence_$step"),
+                    sequence(
+                        sweep,
+                        external(OcellusInsolence.LINGER, params = step, at = CurrentTile),
+                        onEach(playersOn(CurrentTile), strike),
+                    ),
+                )
+            }
+        val swing =
+            sequence(
+                external(OcellusSlash.AIM_AT),
+                wait(1),
+                anim(INSOLENCE_SEQ, delay = INSOLENCE_ANIM_DELAY),
+                wait(INSOLENCE_CAST_TO_SWEEP),
+                *sweeps.toTypedArray(),
+                wait(1),
+                external(OcellusSlash.RELEASE),
+            )
+        val aim = customTile { npc, _ -> OcellusSlash.pickAim(npc, deps) }
+        val cast = onEach(playersOn(aim), withBands("insolence", OcellusSlash::superiorBand, swing))
+        return sequence(
+            lockMovement(),
+            say("Insolence..."),
+            wait(1),
+            cast,
+            cast,
+            cast,
+            nextAttackIn(INSOLENCE_RECOVERY),
+            unlockMovement(),
+        )
+    }
+
+    /** Binds each step's band of tiles up front, so what later hits is what was aimed at. */
+    private fun withBands(
+        prefix: String,
+        band: (Npc, Player, Int) -> List<CoordGrid>,
+        inner: Effect,
+    ): Effect =
+        (1..OcellusSlash.STEPS).reversed().fold(inner) { acc, step ->
+            val tiles = customTiles(OcellusArena.FLOOR) { npc, target, _ -> band(npc, target, step) }
+            withTiles("${prefix}_$step", tiles, acc)
+        }
 
     /** Timed from the tick health crosses a threshold; the quadrant goes and the boss moves on. */
     private fun destroyQuadrant(): Effect =
@@ -719,6 +782,17 @@ constructor(
         const val PHASE_THREE = "phase_three"
         const val ATTACK_CYCLE = "attack_cycle"
         const val ATTACK_CYCLE_CAP = 20
+        const val CYCLE_WEIGHT = 18
+        const val INSOLENCE = "insolence"
+        const val INSOLENCE_WEIGHT = 1
+        const val INSOLENCE_COOLDOWN = 40
+        const val INSOLENCE_SEQ = "seq.npc_ocellus_phase3_melee_superior_slash"
+        const val INSOLENCE_SPOT = "spotanim.vfx_ocellus_p3_shadow_slash_superior_spotanim01"
+        const val INSOLENCE_ANIM_DELAY = 30
+        const val INSOLENCE_CAST_TO_SWEEP = 3
+        const val INSOLENCE_SWEEP_DELAY = 2
+        const val INSOLENCE_RECOVERY = 4
+        const val INSOLENCE_DAMAGE = 43
         const val MELEE_BASIC_SEQ = "seq.npc_ocellus_phase3_melee_basic"
         const val MELEE_SWING_GAP = 3
         const val SLASH_RECOVERY = 3
