@@ -31,6 +31,7 @@ constructor(
     override fun ScriptContext.startup() {
         OcellusTendrils(deps, encounter.meter).register()
         OcellusBarrage(deps, encounter.meter).register()
+        OcellusSlash.register(deps)
         encounter.phaseTwo.register()
         BossCombat.register(
             this,
@@ -52,7 +53,7 @@ constructor(
             phase(PHASE_TWO, scriptedMovement = true, lockMovement = true) {}
             phase(PHASE_THREE) {
                 weightedSelectorRandom {
-                    +random(MELEE_BASIC, weight = 1, requires = WithinMeleeRange)
+                    +random(MELEE_COMBO, weight = 1, requires = WithinMeleeRange)
                 }
             }
 
@@ -67,7 +68,7 @@ constructor(
             ability(BREAK, shieldBreak())
             ability(PHASE_TWO, phaseTwo())
             ability(PHASE_THREE, phaseThree())
-            ability(MELEE_BASIC, meleeBasic(), attackDelay = MELEE_ATTACK_DELAY)
+            ability(MELEE_COMBO, meleeCombo(), attackDelay = MELEE_ATTACK_DELAY)
             ability(DESTROY, destroyQuadrant())
             ability(SKIP_TO_THREE, skipToPhaseThree())
 
@@ -368,8 +369,8 @@ constructor(
             unlockMovement(),
         )
 
-    /** Two swings 3 ticks apart per attack; the second only lands if the target is still in reach. */
-    private fun meleeBasic(): Effect {
+    /** Two swings then the shadow slash, 3 ticks apart; the second swing needs the target in reach. */
+    private fun meleeCombo(): Effect {
         val swing =
             sequence(
                 anim(MELEE_BASIC_SEQ),
@@ -378,13 +379,53 @@ constructor(
                     type(Melee)
                 },
             )
-        return sequence(swing, wait(MELEE_SWING_GAP), whenever(WithinMeleeRange, swing))
+        return sequence(
+            swing,
+            wait(MELEE_SWING_GAP),
+            whenever(WithinMeleeRange, swing),
+            wait(MELEE_SWING_GAP - 1),
+            shadowSlash(),
+        )
+    }
+
+    private fun shadowSlash(): Effect {
+        val strike =
+            hit {
+                damage(Fixed(SLASH_DAMAGE))
+                type(HitType.Typeless)
+                hazard()
+            }
+        val steps = 1..OcellusSlash.STEPS
+        val sweeps =
+            steps.map { step ->
+                val sweep =
+                    mapSpotanim(SLASH_SPOT, CurrentTile, delay = step * OcellusSlash.STEP_DELAY)
+                onTiles(bound("slash_$step"), sequence(sweep, onEach(playersOn(CurrentTile), strike)))
+            }
+        val slash =
+            sequence(
+                lockMovement(),
+                external(OcellusSlash.AIM),
+                wait(1),
+                anim(SLASH_SEQ),
+                wait(1),
+                *sweeps.toTypedArray(),
+                external(OcellusSlash.RELEASE),
+                unlockMovement(),
+            )
+        return steps.reversed().fold(slash) { inner, step ->
+            val band = customTiles(OcellusArena.FLOOR) { npc, target, _ ->
+                OcellusSlash.band(npc, target, step)
+            }
+            withTiles("slash_$step", band, inner)
+        }
     }
 
     /** Timed from the tick health crosses a threshold; the quadrant goes and the boss moves on. */
     private fun destroyQuadrant(): Effect =
         sequence(
             lockMovement(),
+            external(OcellusSlash.RELEASE),
             anim("seq.npc_ocellus_quadrant_destroy_in"),
             idleAnim("seq.npc_ocellus_quadrant_destroy_loop"),
             spotanim("spotanim.vfx_ocellus_phase3_arena_collapse_in", slot = TELEPORT_SPOT_SLOT),
@@ -633,10 +674,13 @@ constructor(
         val WALL_WINDOWS = listOf(11, 53, 95)
         val ROTATIONS = listOf(39, 81)
         const val PHASE_THREE = "phase_three"
-        const val MELEE_BASIC = "melee_basic"
+        const val MELEE_COMBO = "melee_combo"
         const val MELEE_BASIC_SEQ = "seq.npc_ocellus_phase3_melee_basic"
         const val MELEE_ATTACK_DELAY = 10
         const val MELEE_SWING_GAP = 3
+        const val SLASH_SEQ = "seq.npc_ocellus_phase3_melee_slash"
+        const val SLASH_SPOT = "spotanim.vfx_ocellus_p3_shadow_slash_spotanim01"
+        const val SLASH_DAMAGE = 27
         const val DESTROY = "destroy_quadrant"
         const val SKIP_TO_THREE = "skip_to_three"
         const val QUADRANT_STAGE = 10

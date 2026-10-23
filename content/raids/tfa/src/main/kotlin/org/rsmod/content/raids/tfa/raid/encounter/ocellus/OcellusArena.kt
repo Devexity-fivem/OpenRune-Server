@@ -1,5 +1,7 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
+import kotlin.math.abs
+import kotlin.math.sign
 import org.rsmod.api.bosses.dsl.area
 import org.rsmod.api.bosses.dsl.spawnTile
 import org.rsmod.api.bosses.spec.Area
@@ -22,6 +24,9 @@ internal object OcellusArena {
     private const val SW_DZ = -7
     private const val NE_DX = 12
     private const val NE_DZ = 15
+    private const val FLOOR_MIN = 2
+    private const val FLOOR_MAX = 12
+    private const val FLOOR_REACH = 16
 
     /** Where the boss stands in the middle of the room (its south-west tile). */
     val CENTRE: TargetExpr.Single = spawnTile(CENTRE_DX, CENTRE_DZ)
@@ -31,7 +36,28 @@ internal object OcellusArena {
 
     val AREA: Area = area(spawnTile(SW_DX, SW_DZ), spawnTile(NE_DX, NE_DZ))
 
+    /** Every tile of phase 3 floor, out to the arena's edge. */
+    val FLOOR: Area =
+        area(
+            spawnTile(MIDDLE_DX - FLOOR_MAX, MIDDLE_DZ - FLOOR_MAX),
+            spawnTile(MIDDLE_DX + FLOOR_MAX, MIDDLE_DZ + FLOOR_MAX),
+        )
+
     fun centre(npc: Npc): CoordGrid = npc.spawnCoords.translate(CENTRE_DX, CENTRE_DZ)
+
+    /** Whether [tile] is phase 3 floor on the same side of the gap as the boss. */
+    fun sameQuadrantFloor(npc: Npc, tile: CoordGrid): Boolean {
+        val middle = npc.spawnCoords.translate(MIDDLE_DX, MIDDLE_DZ)
+        val boss = npc.coords.translate(npc.size / 2, npc.size / 2)
+        val dx = tile.x - middle.x
+        val dz = tile.z - middle.z
+        return abs(dx) in FLOOR_MIN..FLOOR_MAX &&
+            abs(dz) in FLOOR_MIN..FLOOR_MAX &&
+            abs(dx) + abs(dz) <= FLOOR_REACH &&
+            !(abs(dx) == FLOOR_MIN && abs(dz) == FLOOR_MIN) &&
+            dx.sign == (boss.x - middle.x).sign &&
+            dz.sign == (boss.z - middle.z).sign
+    }
 
     fun players(npc: Npc, playerList: PlayerList): List<Player> {
         val sw = npc.spawnCoords.translate(SW_DX, SW_DZ)
@@ -56,5 +82,4 @@ internal object OcellusVarns {
     const val SKIP_PHASE_TWO = 99
     const val ACTIVE_TENDRILS = "varn.ocellus_active_tendrils"
     const val METER = "varn.ocellus_meter"
-    const val BARRAGE_WAVES = "varn.ocellus_barrage_waves"
-}
+    const val BARRAGE_WAVES = "varn.ocellus_barrage_waves"}
