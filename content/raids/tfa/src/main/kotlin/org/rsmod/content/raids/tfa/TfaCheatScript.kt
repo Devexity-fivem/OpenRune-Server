@@ -30,7 +30,9 @@ constructor(
         }
         onCommand("ocellus") {
             requiredRights = Rights.ADMINISTRATOR
-            desc = "Ocellus testing: start | shield | p3 | hp <percent> | debug [on|off] | los | flags"
+            desc =
+                "Ocellus testing: start | shield | p3 (reset, teleport in and start at phase 3) | " +
+                    "hp <percent> | debug [on|off] | los | flags"
             cheat { ocellusCommand() }
         }
     }
@@ -55,11 +57,7 @@ constructor(
                 }
             "los" -> stoneSight()
             "flags" -> flagDump()
-            "p3" ->
-                player.mes(
-                    if (ocellus.skipToPhaseThree()) "Skipping to phase 3."
-                    else "Ocellus isn't in phase 2. Use ::ocellus start, then ::ocellus shield."
-                )
+            "p3" -> toPhaseThree()
             "hp" -> {
                 val percent = args.getOrNull(1)?.toIntOrNull()?.coerceIn(0, 100)
                 if (percent == null) {
@@ -129,6 +127,18 @@ constructor(
                 "PROJ_S" to CollisionFlag.WALL_SOUTH_PROJ_BLOCKER,
                 "PROJ_W" to CollisionFlag.WALL_WEST_PROJ_BLOCKER,
             )
+    }
+
+    private fun Cheat.toPhaseThree() {
+        ocellus.reset()
+        launcher.launch(player, busyText = "Close your dialog first.") {
+            telejump(OcellusEncounter.PHASE_THREE_SPOT, TeleportType.Exempt)
+            if (ocellus.startAtPhaseThree(player)) {
+                player.mes("Starting Ocellus at phase 3.")
+            } else {
+                player.mes("Couldn't start Ocellus.")
+            }
+        }
     }
 
     private fun Cheat.toOcellus() {

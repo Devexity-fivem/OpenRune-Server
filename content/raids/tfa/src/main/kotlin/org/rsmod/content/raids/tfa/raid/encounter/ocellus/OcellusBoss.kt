@@ -78,13 +78,21 @@ constructor(
             ability(SKIP_TO_THREE, skipToPhaseThree())
 
             triggers {
-                on(Condition.Always) runs run(START)
+                val skipping = varnIs(THRESHOLD, OcellusVarns.SKIP_TO_PHASE_THREE)
                 val shielded =
                     Condition.Not(Condition.InPhase(PHASE_TWO)) and
                         Condition.Not(Condition.InPhase(PHASE_THREE))
-                on(Condition.HpExact(1) and shielded) runs run(BREAK)
-                on(varnIs(THRESHOLD, OcellusVarns.SKIP_PHASE_TWO) and Condition.InPhase(PHASE_TWO)) runs
+                on(skipping and shielded) runs
+                    sequence(
+                        interrupt(),
+                        dropProtection(),
+                        external(OcellusPhaseTwo.ENTER),
+                        run(SKIP_TO_THREE),
+                    )
+                on(skipping and Condition.InPhase(PHASE_TWO)) runs
                     sequence(interrupt(), run(SKIP_TO_THREE))
+                on(Condition.InPhase(WALKING) and Condition.Not(skipping)) runs run(START)
+                on(Condition.HpExact(1) and shielded) runs run(BREAK)
                 QUADRANT_THRESHOLDS.forEachIndexed { stage, fraction ->
                     val crossed =
                         varnIs(THRESHOLD, QUADRANT_STAGE + stage) and
@@ -410,26 +418,30 @@ constructor(
     }
 
     /**
-     * Every third attack is a special. Which one is the quadrant's script: it runs in order and
-     * stops when it runs out. The script position is `quadrant * QUADRANT_STEPS + step`. A slot
-     * with no attack behind it hands the turn straight back, or the ability's delay would idle the
-     * boss.
+     * Every third attack is a special. Which one is the quadrant's script, which runs in order and
+     * loops for as long as the quadrant lasts. The script position is
+     * `quadrant * QUADRANT_STEPS + step`. A slot with no attack behind it (the untether, for now)
+     * hands the turn straight back, or the ability's delay would idle the boss.
      */
     private fun special(): Effect {
+        val untether = nextAttackIn(0)
         val scripts =
             listOf(
-                listOf(debris(0)),
-                listOf(debris(1), insolence(), debris(1)),
-                listOf(debris(2), insolence(), debris(2)),
+                listOf(debris(0), untether),
+                listOf(debris(1), insolence(), debris(1), untether),
+                listOf(debris(2), insolence(), debris(2), untether),
             )
         val cases =
             scripts.flatMapIndexed { quadrant, steps ->
-                steps.mapIndexed { step, effect -> quadrant * QUADRANT_STEPS + step to effect }
+                steps.mapIndexed { step, effect ->
+                    val next = quadrant * QUADRANT_STEPS + (step + 1) % steps.size
+                    quadrant * QUADRANT_STEPS + step to
+                        sequence(effect, setVarn(OcellusVarns.SPECIAL_STEP, next))
+                }
             }
         return sequence(
             setVarn(OcellusVarns.SPECIAL_CYCLES, 0),
             switch(OcellusVarns.SPECIAL_STEP, *cases.toTypedArray(), otherwise = nextAttackIn(0)),
-            addVarn(OcellusVarns.SPECIAL_STEP, 1),
         )
     }
 
@@ -447,7 +459,7 @@ constructor(
     }
 
     /**
-     * The spin attack. The boss opens a purple portal and shows the melee prayer, then spins once
+     * The spin attack. The boss opens a purple portal (no overhead prayer; it takes everything), then spins once
      * plus once more for each quadrant already taken ([loops]). Each spin is a fade (protection
      * prayers must be down), the spin animation (Protect from Melee must be back up) and, a tick
      * later, a hit to everyone; a player who missed either step takes it unprotected
@@ -480,7 +492,6 @@ constructor(
         val events = mutableListOf<Pair<Int, Effect>>()
         events += 0 to anim(PRAYER_IN_SEQ)
         events += 0 to spotanim(PRAYER_IN_SPOT, slot = PRAYER_IN_SLOT)
-        events += 0 to headIcon(HEADICON_SLOT, HEADICON_GRAPHIC, HEADICON_MELEE)
         for (spinIndex in 0..loops) {
             val last = spinIndex == loops
             val fade = DEBRIS_LOOP_SPOT + DEBRIS_LOOP * spinIndex
@@ -497,7 +508,6 @@ constructor(
         events +=
             out + DEBRIS_RECOVERY to
                 sequence(
-                    clearHeadIcon(HEADICON_SLOT),
                     say("Your panic... is futile..."),
                     nextAttackIn(0),
                     unlockMovement(),

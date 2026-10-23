@@ -52,10 +52,11 @@ constructor(
         player.mes("Challenge started: Ocellus.")
     }
 
-    fun skipToPhaseThree(): Boolean {
+    /** Testing shortcut: resets the room, starts the fight and sends it straight to phase 3. */
+    fun startAtPhaseThree(player: Player): Boolean {
+        ready(player)
         val npc = boss?.takeIf { it.isSlotAssigned && started } ?: return false
-        if (npc.visType.id != "npc.tfa_ocellus_p2".asRSCM(RSCMType.NPC)) return false
-        npc.vars[OcellusVarns.THRESHOLD] = OcellusVarns.SKIP_PHASE_TWO
+        npc.vars[OcellusVarns.THRESHOLD] = OcellusVarns.SKIP_TO_PHASE_THREE
         return true
     }
 
@@ -96,6 +97,9 @@ constructor(
 
         /** The middle tile of the room, where the walls cross. */
         val CENTRE: CoordGrid = INTRO_SPAWN.translate(1, 4)
+
+        /** A safe floor tile in the south-west quadrant, clear of the cross and the boss's spot. */
+        val PHASE_THREE_SPOT: CoordGrid = CENTRE.translate(-4, -4)
 
         private const val HUNT_CONSTANT_RANGED = 2
         private const val SHIELD_HP_BASE = 480

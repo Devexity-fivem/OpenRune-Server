@@ -1,7 +1,10 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
 import dev.openrune.types.MoveRestrict
 import dev.openrune.types.NpcMode
+import dev.openrune.types.aconverted.SpotanimType
 import java.util.IdentityHashMap
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.player.hit.queueHit
@@ -66,7 +69,12 @@ internal class OcellusVine(private val deps: BossDeps) {
     private fun release(vine: Npc, victim: Player) {
         roots.remove(vine)
         victim.frozen = false
-        if (vine.isSlotAssigned) vine.spotanim(END_SPOT)
+        if (vine.isSlotAssigned) {
+            vine.spotanim(END_SPOT)
+        } else {
+            val end = SpotanimType(END_SPOT.asRSCM(RSCMType.SPOTANIM))
+            deps.worldRepo.spotanimMap(end, vine.coords, delay = 0)
+        }
     }
 
     private fun expire(boss: Npc, vine: Npc, victim: Player) {
