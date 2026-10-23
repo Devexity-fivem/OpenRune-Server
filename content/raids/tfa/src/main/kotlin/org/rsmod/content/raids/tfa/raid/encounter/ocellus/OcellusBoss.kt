@@ -574,8 +574,10 @@ constructor(
 
     /**
      * The boss glides home and hangs in the air while the void builds on the quadrant's floor in
-     * four waves, each going off as the next opens like phase 2's pools. Then the whole quadrant erupts except the boss's footprint, and a tick later it
-     * slams down on the footprint: stepping out on that tick takes neither.
+     * four waves, each going off as the next opens like phase 2's pools. Then the whole quadrant
+     * erupts except the boss's footprint, and a tick later the boss slams down on the footprint.
+     * The footprint is only safe from the eruption: stand under it for the eruption, be out for the
+     * slam. Hits land a tick after they are queued, so these are queued a tick ahead of the splats.
      */
     private fun untether(): Effect {
         val dots =
@@ -1153,9 +1155,9 @@ constructor(
         const val UNTETHER_WAVES = 4
         const val UNTETHER_GLOW_AT = 18
         const val UNTETHER_BORDER_AT = 25
-        const val UNTETHER_ERUPT_AT = 29
+        const val UNTETHER_ERUPT_AT = 28
         const val UNTETHER_OUT_AT = 29
-        const val UNTETHER_SLAM_AT = 30
+        const val UNTETHER_SLAM_AT = 29
         const val UNTETHER_PERSONAL = "ocellus.untether_personal"
         const val UNTETHER_PERSONAL_SPOT = "spotanim.vfx_ocellus_magic_projanim02"
         const val UNTETHER_PERSONAL_SLOT = 2
