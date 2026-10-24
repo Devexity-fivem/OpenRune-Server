@@ -8,9 +8,12 @@ import org.rsmod.api.player.cinematic.MinimapState
 import org.rsmod.api.player.hook.SpadeDigHook
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.vars.intVarBit
+import org.rsmod.api.player.output.spam
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onOpLoc1
+import org.rsmod.api.script.onOpLoc2
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.PlayerList
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.plugin.scripts.PluginScript
@@ -69,10 +72,21 @@ class GiantMoleDigHook @Inject constructor(private val locRepo: LocRepository) :
     }
 }
 
-class GiantMoleLair @Inject constructor() : PluginScript() {
+class GiantMoleLair @Inject constructor(private val playerList: PlayerList) : PluginScript() {
     override fun ScriptContext.startup() {
         onOpLoc1("loc.mole_rope_01") { exit() }
         onOpLoc1("loc.mole_rope_02") { exit() }
+        onOpLoc2("loc.mole_hill") { lookInside() }
+        onOpLoc2("loc.mole_hill_spade") { lookInside() }
+    }
+
+    private fun ProtectedAccess.lookInside() {
+        val inside =
+            playerList.count {
+                it != null && it.coords.level == 0 &&
+                    it.coords.x in 1728..1791 && it.coords.z in 5120..5239
+            }
+        spam("Inside the mole hill there are $inside players.")
     }
 
     private suspend fun ProtectedAccess.exit() {

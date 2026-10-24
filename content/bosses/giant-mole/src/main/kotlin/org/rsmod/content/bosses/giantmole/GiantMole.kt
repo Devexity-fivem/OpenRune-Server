@@ -1,12 +1,17 @@
 package org.rsmod.content.bosses.giantmole
 
 import jakarta.inject.Inject
+import kotlin.math.abs
+import kotlin.random.Random
 import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Condition
+import org.rsmod.api.player.output.spam
+import org.rsmod.api.table.LightSourcesRow
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.inv.InvObj
 import org.rsmod.map.CoordGrid
 
 class GiantMole @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
@@ -18,11 +23,44 @@ class GiantMole @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 
     private fun burrow(npc: Npc) {
-        val dest = RESURFACE_SPOTS.filter { it != npc.coords }.random()
+        val burrowTile = npc.coords
+        if (Random.nextInt(DIRT_CHANCE) == 0) {
+            extinguishLights(burrowTile)
+        }
+        val dest = RESURFACE_SPOTS.filter { it != burrowTile }.random()
         npc.telejump(deps.collision, dest)
     }
 
+    private fun extinguishLights(burrowTile: CoordGrid) {
+        val openSources =
+            LightSourcesRow.all().filter { it.lit.internalName in OPEN_LIGHT_SOURCES }
+        for (player in deps.playerList) {
+            if (player == null) continue
+            if (abs(player.coords.x - burrowTile.x) > 2 || abs(player.coords.z - burrowTile.z) > 2) {
+                continue
+            }
+            var snuffed = false
+            for (inv in listOf(player.inv, player.worn)) {
+                for ((slot, obj) in inv.objs.withIndex()) {
+                    val row = openSources.firstOrNull { it.lit.id == obj?.id } ?: continue
+                    inv[slot] = InvObj(row.unlit, obj!!.count, obj!!.vars)
+                    snuffed = true
+                }
+            }
+            if (snuffed) {
+                player.spam("The mole's dirt has extinguished your light source!")
+            }
+        }
+    }
+
     companion object {
+        // Wiki notes an additional, undocumented chance of dirt extinguishing
+        // open light sources (candles/torches/oil lamps) in melee range.
+        const val DIRT_CHANCE = 3
+
+        val OPEN_LIGHT_SOURCES =
+            setOf("lit_candle", "lit_black_candle", "torch_lit", "oil_lamp_lit")
+
         val RESURFACE_SPOTS =
             listOf(
                 CoordGrid(1739, 5177, 0),
