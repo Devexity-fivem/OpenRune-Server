@@ -104,3 +104,16 @@ gamevals.toml only if custom symbols needed; commit + push after each.
 - Next: finish gnome course obstacle loc-name mapping (fallback: boot server and
   read "Missing mapping" errors), write content/skills/agility module, then
   fletching (knife+log item-on-item), hunter (bird snare).
+
+## Gnome course loc ids CONFIRMED (from live LocDump + gamevals.dat decode)
+
+gamevals.dat format: `name=id\0` sequential text — reverse-lookup works.
+Course locs at the stronghold (dumped ids in region x2460-2500,z3400-3440):
+- loc.gnome_log_balance1=23145 (also alias log_balance1), log_balance2=23142,
+  log_balance3=23143 — the log walk pieces
+- loc.obstical_net2=23134, loc.obstical_net3=23135 — the two climbing nets
+- loc.obstical_pipe3_1=23138, loc.obstical_pipe3_2=23139 — pipe squeeze ends
+- STILL NEEDED: tree branch climb loc + balancing rope loc names — check
+  resolved.txt/dump for remaining ids at course positions (wiki coords).
+- Examine text ids are NOT the same ids (3551-3558 etc); dump ids are definitive.
+- LocDump.kt is a TEMP diagnostic in giant-mole module — delete after use.
