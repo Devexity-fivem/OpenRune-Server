@@ -9,6 +9,7 @@ import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.rsmod.api.bossbar.plugin.BossHpBarScript
 import org.rsmod.api.bosses.runtime.BossDeps
+import org.rsmod.api.instances.timer.formatInstanceKillTime
 import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.output.mes
@@ -31,6 +32,7 @@ constructor(
 
     private var boss: Npc? = null
     private var started = false
+    private var startedAt = 0
     private var partySize = 1
 
     fun reset() {
@@ -67,9 +69,26 @@ constructor(
         return true
     }
 
+    fun complete(npc: Npc) {
+        val ticks = deps.mapClock.cycle - startedAt
+        phaseTwo.stopHazards()
+        phaseTwo.playVictorySong(npc)
+        val fighters = OcellusArena.players(npc, deps.playerList)
+        for (fighter in fighters) {
+            val precise = fighter.vars["varbit.option_precise_timing"] != 0
+            val duration = formatInstanceKillTime(ticks, precise)
+            fighter.mes("Challenge complete: Ocellus. Duration: <col=ef1020>$duration</col>")
+        }
+        deps.worldQueues.add(HUD_FADE_DELAY) {
+            for (fighter in fighters) hpBar.fadeOut(fighter)
+            deps.worldQueues.add(HUD_HIDE_DELAY) { fighters.forEach(hpBar::onDeathClose) }
+        }
+    }
+
     /** Hands the fight to the boss spec, which starts on its first combat tick. */
     private fun start(npc: Npc, player: Player, partySize: Int) {
         started = true
+        startedAt = deps.mapClock.cycle
         this.partySize = partySize
         val shield = ServerCacheManager.getNpc("npc.tfa_ocellus_p1".asRSCM(RSCMType.NPC))!!
         npc.transmog(shield, Int.MAX_VALUE)
@@ -101,6 +120,8 @@ constructor(
         /** A safe floor tile in the south-west quadrant, clear of the cross and the boss's spot. */
         val PHASE_THREE_SPOT: CoordGrid = CENTRE.translate(-4, -4)
 
+        private const val HUD_FADE_DELAY = 10
+        private const val HUD_HIDE_DELAY = 4
         private const val HUNT_CONSTANT_RANGED = 2
         private const val SHIELD_HP_BASE = 480
         private const val SHIELD_HP_PER_PLAYER = 1050

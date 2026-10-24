@@ -72,17 +72,23 @@ internal class OcellusPhaseTwo(
     }
 
     fun clear() {
+        stopHazards()
         walls.clear()
         collapse.clear()
         quadrants.clear()
+        removeHitbox()
+        storedDamage = 0
+    }
+
+    fun stopHazards() {
         void.clear()
         bombs.clear()
         rifts.clear()
         deflect.clear()
         vine.clear()
-        removeHitbox()
-        storedDamage = 0
     }
+
+    fun playVictorySong(npc: Npc) = playSong(npc, VICTORY_SONG)
 
     private fun playSong(npc: Npc, song: Int) {
         for (fighter in OcellusArena.players(npc, deps.playerList)) {
@@ -211,6 +217,7 @@ internal class OcellusPhaseTwo(
 
         private const val PHASE_TWO_SONG = 893
         private const val PHASE_THREE_SONG = 894
+        private const val VICTORY_SONG = 147
         private const val SONG_FADE_SPEED = 60
 
         private const val PHASE_TWO_TRANSFORM_LEVEL = 1424

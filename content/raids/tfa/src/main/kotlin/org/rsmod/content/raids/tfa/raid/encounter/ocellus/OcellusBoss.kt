@@ -1,5 +1,8 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
+import dev.openrune.ServerCacheManager
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
 import jakarta.inject.Inject
 import org.rsmod.api.bossbar.plugin.BossHpBarScript
 import org.rsmod.api.bosses.dsl.*
@@ -12,7 +15,9 @@ import org.rsmod.api.bosses.spec.Effect
 import org.rsmod.api.bosses.spec.HitType
 import org.rsmod.api.bosses.spec.ProjectileConfig
 import org.rsmod.api.bosses.spec.VarExpr
+import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.player.output.spotanimSpecific
+import org.rsmod.api.script.onNpcQueue
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.ARRIVED_AT
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.CENTRE_SIDE
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.CORNER
@@ -45,6 +50,8 @@ constructor(
             it.target.spotanim(SPREAD_IMPACT, delay = UNTETHER_IMPACT_DELAY)
         }
         encounter.phaseTwo.register()
+        val finalForm = ServerCacheManager.getNpc("npc.tfa_ocellus_p3".asRSCM(RSCMType.NPC))!!
+        onNpcQueue(finalForm, "queue.death") { death() }
         BossCombat.register(
             this,
             spec,
@@ -58,6 +65,17 @@ constructor(
     }
 
     private var dying: Npc? = null
+
+    private suspend fun StandardNpcAccess.death() {
+        deps.encounterRegistry.of(npc).interrupt(deps.mapClock.cycle)
+        encounter.complete(npc)
+        noneMode()
+        hideAllOps()
+        anim(DEATH_SEQ)
+        delay(DEATH_REMOVE_DELAY)
+        encounter.phaseTwo.clear()
+        deps.npcRepo.del(npc, Int.MAX_VALUE)
+    }
 
     private fun deathFx(npc: Npc) {
         if (dying === npc) return
@@ -1368,6 +1386,8 @@ constructor(
         const val CURSES_SECOND_SOUL_SPLIT_AT = 53
         const val HYBRID_HIT_DELAY = 4
         const val BOSS_SPOT_SLOT = 2
+        const val DEATH_SEQ = "seq.npc_ocellus_phase3_death"
+        const val DEATH_REMOVE_DELAY = 16
         const val DEATH_FX_DELAY = 1
         const val DEATH_SPOT_SLOT = 5
         const val DEATH_CRACK_SLOT = 3
