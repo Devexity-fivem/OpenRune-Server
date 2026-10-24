@@ -16,7 +16,7 @@ import org.rsmod.api.bosses.spec.TargetExpr
 // 18+. Attack rate 3t, respawn 50t, aggressive.
 class DerangedArchaeologist @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
-    override val spec: BossSpec = boss("npc.deranged_archaeologist") {
+    override val spec: BossSpec = boss("npc.fossil_crazy_archaeologist") {
         stats(attackRate = 3)
 
         val melee =
