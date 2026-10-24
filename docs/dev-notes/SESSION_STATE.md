@@ -71,3 +71,36 @@ PLAN for base setup (all new modules under content/skills/<skill>/):
 3. Hunter: bird snare -> catch bird -> xp (or defer to next pass).
 Each: new dir + build.gradle.kts (same dep set as firemaking), PluginScript,
 gamevals.toml only if custom symbols needed; commit + push after each.
+
+## Dev-tools MCP setup (client-side)
+
+- OpenRune-Developer-Tools cloned to C:\Users\pablo\OneDrive\Desktop\OpenRune-Developer-Tools,
+  jar built via `gradlew jar`. Deployed to .runelite/plugins/ (the real scan dir for the
+  RSProx-patched RuneLite 1.13.3 client — sideloaded-plugins dir is NOT scanned by it),
+  plus .runelite/sideloaded-plugins/ and .rsprox/sideloaded-plugins/ for safety.
+- Enable key written: runelite.openrunedevtoolsplugin=true in
+  ~/.runelite/profiles2/default-669783123302300.properties
+- MCP registered in %APPDATA%\devin\mcp_config.json as `osrs-dev-tools` ->
+  http://127.0.0.1:7780/mcp. Endpoint dead until client restarts with plugin loaded.
+- Client runs with --developer-mode already (RSProx launcher does it).
+- If plugin still absent after restart, check ~/.runelite/logs/client.log for
+  "Loading external plugin"/OpenRuneDevTools lines; patched client may need
+  -PclientJar=<patched client jar> at build time.
+
+## Agility progress
+
+- XP call: player.statAdvance("stat.agility", xp); level gate: player.agilityLvl.
+- Obstacle pattern (LumbridgeSteppingStone.kt): onApLoc1("loc.x") { apCross(it.loc) }
+  -> exactMove(coords, dest, delay1, delay2, dir) + anim("seq.x", delay=n) +
+  soundSynth("synth.x", delay=n) + delay(ticks) + statAdvance.
+- Verified-existing names in gamevals.dat: log_balance (+01..04,left/mid/right_sc,
+  north,south), balancing_rope(+_mid), obstacle_01..05 (+_active,_stumps,_pass_active),
+  tree_branch(+_vine), agility_obstaclejump01/02, agility_obstical_net_barbarian,
+  agility_obstical_pipe_barbarian, human_pipesqueeze/pipeunsqueeze/doublepipesqueeze (anims).
+  NO literal `obstacle_net`/`obstacle_pipe` exists.
+- gnome course area = "area.skill_feature_agility_gnomestrongholdagilitycourse"
+- Was probing tools/osrs-mcp (runMcp stdio, gameval_search/cache_search) to resolve
+  exact loc names; background shell b61228 may still hold its output.
+- Next: finish gnome course obstacle loc-name mapping (fallback: boot server and
+  read "Missing mapping" errors), write content/skills/agility module, then
+  fletching (knife+log item-on-item), hunter (bird snare).
