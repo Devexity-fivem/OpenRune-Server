@@ -20,13 +20,22 @@ private var Player.darkness by intVarBit("varbit.darkness_level")
 
 class GiantMoleDigHook @Inject constructor(private val locRepo: LocRepository) : SpadeDigHook {
 
-    override fun claims(player: Player): Boolean =
-        player.coords.level == 0 &&
-            locRepo.findAll(ZoneKey.from(player.coords)).any {
-                it.id == MOLE_HILL &&
-                    abs(player.coords.x - it.coords.x) <= 1 &&
-                    abs(player.coords.z - it.coords.z) <= 1
+    override fun claims(player: Player): Boolean {
+        if (player.coords.level != 0) return false
+        val p = player.coords
+        for (dx in -8..8 step 8) {
+            for (dz in -8..8 step 8) {
+                val near =
+                    locRepo.findAll(ZoneKey.from(CoordGrid(p.x + dx, p.z + dz, 0))).any {
+                        it.id in MOLE_HILLS &&
+                            abs(p.x - it.coords.x) <= 3 &&
+                            abs(p.z - it.coords.z) <= 3
+                    }
+                if (near) return true
             }
+        }
+        return false
+    }
 
     override suspend fun ProtectedAccess.dig() {
         telejump(LAIR_ENTRY)
@@ -41,7 +50,8 @@ class GiantMoleDigHook @Inject constructor(private val locRepo: LocRepository) :
         LIGHT_SOURCES.any { inv.count(it) > 0 || player.worn.count(it) > 0 }
 
     private companion object {
-        val MOLE_HILL = "loc.mole_hill".asRSCM().toInt()
+        val MOLE_HILLS =
+            setOf("loc.mole_hill".asRSCM().toInt(), "loc.mole_hill_spade".asRSCM().toInt())
         val LAIR_ENTRY = CoordGrid(1759, 5233, 0)
 
         val LIGHT_SOURCES =
@@ -61,7 +71,8 @@ class GiantMoleDigHook @Inject constructor(private val locRepo: LocRepository) :
 
 class GiantMoleLair @Inject constructor() : PluginScript() {
     override fun ScriptContext.startup() {
-        onOpLoc1("loc.mole_mud_hole_up") { exit() }
+        onOpLoc1("loc.mole_rope_01") { exit() }
+        onOpLoc1("loc.mole_rope_02") { exit() }
     }
 
     private suspend fun ProtectedAccess.exit() {
