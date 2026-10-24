@@ -37,6 +37,6 @@ Autonomous content build, branch `feat/giant-mole` on fork
 ## Next up (user asleep, autonomous)
 
 - Scorpia (drop table exists; melee + healing offspring minions)
-- Then more bosses with existing drop tables (PROGRESS.md candidates list:
+- Scorpia committed (content/bosses/scorpia) — melee stab 0-16 4t, poison(20), guardian summon on first hit below 50% via AbilityUsed once-guard. GAP: guardian heal not implemented; seq.scorpion_attack symbol guessed (verify boot).
   deranged archaeologist, skotizo, dad, venenatis, callisto...)
 - Test suite + spotlessCheck before pushing each module.
