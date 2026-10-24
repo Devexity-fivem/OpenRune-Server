@@ -431,7 +431,7 @@ constructor(
      * `quadrant * QUADRANT_STEPS + step`.
      */
     private fun special(): Effect {
-        val untether = untether()
+        val untether = sequence(untether(), wait(UNTETHER_RIFT_DELAY))
         val scripts =
             listOf(
                 listOf(debris(0), untether),
@@ -443,7 +443,12 @@ constructor(
                 steps.mapIndexed { step, effect ->
                     val next = quadrant * QUADRANT_STEPS + (step + 1) % steps.size
                     quadrant * QUADRANT_STEPS + step to
-                        sequence(effect, setVarn(OcellusVarns.SPECIAL_STEP, next))
+                        sequence(
+                            external(OcellusPhaseTwo.RIFTS_BUSY, params = true),
+                            effect,
+                            external(OcellusPhaseTwo.RIFTS_BUSY, params = false),
+                            setVarn(OcellusVarns.SPECIAL_STEP, next),
+                        )
                 }
             }
         return sequence(
@@ -497,7 +502,10 @@ constructor(
         val starts =
             (0..QUADRANT_THRESHOLDS.size).map { quadrant ->
                 QUADRANT_STAGE + quadrant to
-                    setVarn(OcellusVarns.SPECIAL_STEP, quadrant * QUADRANT_STEPS)
+                    sequence(
+                        setVarn(OcellusVarns.SPECIAL_STEP, quadrant * QUADRANT_STEPS),
+                        external(OcellusPhaseTwo.RIFTS_RESET, params = RIFT_KINDS[quadrant]),
+                    )
             }
         return sequence(
             setVarn(OcellusVarns.SPECIAL_CYCLES, 0),
@@ -846,6 +854,7 @@ constructor(
     private fun destroyQuadrant(): Effect =
         sequence(
             lockMovement(),
+            external(OcellusPhaseTwo.RIFTS_STOP),
             nextAttackIn(ATTACK_HOLD),
             external(OcellusSlash.RELEASE),
             anim("seq.npc_ocellus_quadrant_destroy_in"),
@@ -1165,6 +1174,8 @@ constructor(
         const val UNTETHER_IMPACT = "ocellus.untether_impact"
         const val UNTETHER_IMPACT_DELAY = 120
         const val UNTETHER_RECOVERY = 8
+        const val UNTETHER_RIFT_DELAY = 3
+        val RIFT_KINDS = listOf(-1, 0, 1, 2)
         const val UNTETHER_REACH = 12
         val UNTETHER_DOTS = 12..15
         // PLACEHOLDER: every capture shows the magic hit fully prayed against (0); this is the spread's figure.

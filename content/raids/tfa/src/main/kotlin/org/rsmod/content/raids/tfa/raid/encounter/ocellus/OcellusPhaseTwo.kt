@@ -31,6 +31,7 @@ internal class OcellusPhaseTwo(
     private val void = OcellusVoid(deps)
     private val quadrants = OcellusQuadrants(deps, interactions, collapse.stoneLocs, void::clearOn)
     private val bombs = OcellusBombs(deps, quadrants::standingTurns)
+    private val rifts = OcellusRifts(deps)
     private val vine = OcellusVine(deps)
     private var swordHitbox: Npc? = null
     private var storedDamage = 0
@@ -41,6 +42,7 @@ internal class OcellusPhaseTwo(
         quadrants.register()
         void.register()
         bombs.register()
+        rifts.register()
         vine.register()
         deps.extensionRegistry.register(ENTER) { enter(it.npc) }
         deps.extensionRegistry.register(FINISH) { finish(it.npc) }
@@ -67,6 +69,7 @@ internal class OcellusPhaseTwo(
         quadrants.clear()
         void.clear()
         bombs.clear()
+        rifts.clear()
         vine.clear()
         removeHitbox()
         storedDamage = 0
@@ -172,6 +175,9 @@ internal class OcellusPhaseTwo(
         const val UNTETHER_GLIDE = OcellusQuadrants.UNTETHER_GLIDE
         const val BOMBS_MARK = OcellusBombs.MARK
         const val BOMBS_IDLE = OcellusBombs.IDLE
+        const val RIFTS_RESET = OcellusRifts.RESET
+        const val RIFTS_BUSY = OcellusRifts.BUSY
+        const val RIFTS_STOP = OcellusRifts.STOP
         const val QUADRANT_BARRIER_SPAWN = OcellusQuadrants.BARRIER_SPAWN
         const val QUADRANT_BARRIER = OcellusQuadrants.BARRIER
         const val QUADRANT_BARRIER_DESPAWN = OcellusQuadrants.BARRIER_DESPAWN

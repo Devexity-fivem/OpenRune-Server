@@ -249,3 +249,6 @@ id = "varn.ocellus_special_cycles"
 
 [[varn]]
 id = "varn.ocellus_special_step"
+
+[[varn]]
+id = "varn.forced_max_hit_styles"
