@@ -34,19 +34,20 @@ public object PrivateLocs {
         player.writeZoneProt(coords, LocDel(inZone.x, inZone.z, shape, angle))
     }
 
-    private fun Player.writeZoneProt(coords: CoordGrid, prot: ZoneProt) {
-        val zone = ZoneKey.from(coords).toCoords()
-        val deltaX = zone.x - buildArea.x
-        val deltaZ = zone.z - buildArea.z
-        if (deltaX !in 0 until BuildAreaSize || deltaZ !in 0 until BuildAreaSize) {
-            return
-        }
-        client.write(UpdateZonePartialFollows(deltaX, deltaZ, zone.level))
-        client.write(prot)
-    }
-
-    private const val BuildAreaSize = 104
 }
+
+internal fun Player.writeZoneProt(coords: CoordGrid, prot: ZoneProt) {
+    val zone = ZoneKey.from(coords).toCoords()
+    val deltaX = zone.x - buildArea.x
+    val deltaZ = zone.z - buildArea.z
+    if (deltaX !in 0 until BuildAreaSize || deltaZ !in 0 until BuildAreaSize) {
+        return
+    }
+    client.write(UpdateZonePartialFollows(deltaX, deltaZ, zone.level))
+    client.write(prot)
+}
+
+private const val BuildAreaSize = 104
 
 /** @see [PrivateLocs.addChange] */
 public fun Player.locAddChangePrivate(coords: CoordGrid, loc: String, shape: Int, angle: Int) {

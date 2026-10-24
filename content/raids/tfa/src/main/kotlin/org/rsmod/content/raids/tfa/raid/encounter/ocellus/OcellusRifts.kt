@@ -43,36 +43,42 @@ internal class OcellusRifts(private val deps: BossDeps) {
         waves.clear()
     }
 
+    /** Drops whatever rifts stand on [tiles], for floor that is about to fall away. */
+    fun clearOn(tiles: Set<CoordGrid>) {
+        for (rift in alive.filter { it.npc.coords in tiles }) remove(rift)
+    }
+
     private enum class Kind(
         val npc: String,
         val spawnSeq: String,
-        val despawnSeq: String,
+        val detonateSeq: String,
+        val detonateSpot: String,
         val forcedMaxHitStyle: Int,
         val maxCount: Int = COUNT,
         val waveGap: Int = WAVE_GAP,
-        val detonateSeq: String? = null,
     ) {
         Siphon(
             "npc.tfa_ocellus_p3_bombportal_heal",
             "seq.vfx_ocellus_voidflare_heal_spawn",
-            "seq.vfx_ocellus_voidflare_heal_despawn",
+            "seq.vfx_ocellus_voidflare_heal_detonate",
+            "spotanim.vfx_human_ocellus_voidflare_heal",
             FORCED_RANGED,
         ),
         Augmenter(
             "npc.tfa_ocellus_p3_bombportal_buff",
             "seq.vfx_ocellus_voidflare_buff_spawn",
-            "seq.vfx_ocellus_voidflare_buff_despawn",
+            "seq.vfx_ocellus_voidflare_buff_detonate",
+            "spotanim.vfx_human_ocellus_voidflare_buff",
             FORCED_MAGIC,
-            detonateSeq = "seq.vfx_ocellus_voidflare_buff_detonate",
         ),
         Rift(
             "npc.tfa_ocellus_p3_bombportal_basic",
             "seq.vfx_ocellus_voidflare_default_spawn",
-            "seq.vfx_ocellus_voidflare_default_despawn",
+            "seq.vfx_ocellus_voidflare_default_detonate",
+            "spotanim.vfx_human_ocellus_voidflare_default",
             FORCED_MELEE,
             maxCount = RIFT_MAX_COUNT,
             waveGap = RIFT_WAVE_GAP,
-            detonateSeq = "seq.vfx_ocellus_voidflare_default_detonate",
         ),
     }
 
@@ -94,8 +100,8 @@ internal class OcellusRifts(private val deps: BossDeps) {
     }
 
     private fun stop(boss: Npc) {
-        val wave = waves.remove(boss) ?: return
-        for (rift in alive.filter { it.wave === wave }) remove(rift)
+        waves.remove(boss) ?: return
+        for (rift in alive.toList()) remove(rift)
     }
 
     private fun tick(boss: Npc, wave: Wave) {
@@ -127,9 +133,7 @@ internal class OcellusRifts(private val deps: BossDeps) {
             deps.npcRepo.add(npc, Int.MAX_VALUE)
             npc.hideAllOps()
             npc.anim(wave.kind.spawnSeq)
-            if (wave.kind.detonateSeq != null) {
-                npc.showHeadbar(Headbar.fromNoSource(CHARGE_BAR, CHARGE_BAR, 0, CHARGE_SEGMENTS, 0, CHARGE_CYCLES))
-            }
+            npc.showHeadbar(Headbar.fromNoSource(CHARGE_BAR, CHARGE_BAR, 0, CHARGE_SEGMENTS, 0, CHARGE_CYCLES))
             val rift = Rift(npc, wave.kind, wave)
             alive.add(rift)
             deps.worldQueues.add(1) { if (rift in alive) npc.showAllOps() }
@@ -169,9 +173,8 @@ internal class OcellusRifts(private val deps: BossDeps) {
             }
             rift.age++
             if (rift.kind == Kind.Siphon && rift.age % SIPHON_GAP == 0) siphon(boss, npc)
-            val detonates = rift.kind.detonateSeq != null
-            if (detonates && rift.age == DETONATE_AT - 1) overload(boss)
-            if (detonates && rift.age == DETONATE_AT) {
+            if (rift.age == DETONATE_AT - 1) overload(boss)
+            if (rift.age == DETONATE_AT) {
                 detonate(boss, rift)
                 return@add
             }
@@ -210,18 +213,15 @@ internal class OcellusRifts(private val deps: BossDeps) {
     private fun detonate(boss: Npc, rift: Rift) {
         val npc = rift.npc
         npc.hideAllOps()
-        npc.anim(rift.kind.detonateSeq ?: return)
-        if (rift.kind == Kind.Augmenter) {
-            for (player in OcellusArena.quadrantPlayers(boss, deps.playerList)) {
-                player.spotanim(DETONATE_PLAYER_SPOT, delay = DETONATE_SPOT_DELAY)
-            }
+        npc.anim(rift.kind.detonateSeq)
+        for (player in OcellusArena.quadrantPlayers(boss, deps.playerList)) {
+            player.spotanim(rift.kind.detonateSpot, delay = DETONATE_SPOT_DELAY)
         }
         deps.worldQueues.add(DETONATE_REMOVAL) { remove(rift) }
     }
 
     private fun killed(rift: Rift) {
         val killer = rift.npc.findHero(deps.playerList)
-        rift.npc.anim(rift.kind.despawnSeq)
         alive.remove(rift)
         if (killer == null || !killer.isValidTarget()) return
         when (rift.kind) {
@@ -265,7 +265,6 @@ internal class OcellusRifts(private val deps: BossDeps) {
         private const val CHARGE_CYCLES = 840
         private const val DETONATE_AT = 30
         private const val DETONATE_REMOVAL = 2
-        private const val DETONATE_PLAYER_SPOT = "spotanim.vfx_human_ocellus_voidflare_buff"
         private const val DETONATE_SPOT_DELAY = 30
         private val DETONATE_DAMAGE = 35..55
 

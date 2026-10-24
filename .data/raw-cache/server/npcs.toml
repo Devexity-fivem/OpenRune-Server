@@ -16514,6 +16514,29 @@ attackRange = 20
 maxRange = 40
 huntMode = 2
 huntRange = 40
+[npc.params]
+"param.death_anim"="seq.npc_ocellus_phase3_death"
+
+[[npc]]
+id = "npc.tfa_ocellus_p3_bombportal_basic"
+inherit = "npc.tfa_ocellus_p3_bombportal_basic"
+[npc.params]
+"param.death_anim"="seq.vfx_ocellus_voidflare_default_despawn"
+"param.dropped_remains"=-1
+
+[[npc]]
+id = "npc.tfa_ocellus_p3_bombportal_buff"
+inherit = "npc.tfa_ocellus_p3_bombportal_buff"
+[npc.params]
+"param.death_anim"="seq.vfx_ocellus_voidflare_buff_despawn"
+"param.dropped_remains"=-1
+
+[[npc]]
+id = "npc.tfa_ocellus_p3_bombportal_heal"
+inherit = "npc.tfa_ocellus_p3_bombportal_heal"
+[npc.params]
+"param.death_anim"="seq.vfx_ocellus_voidflare_heal_despawn"
+"param.dropped_remains"=-1
 
 [[npc]]
 id = "npc.dom_boss_burrowed"

@@ -29,9 +29,15 @@ internal class OcellusPhaseTwo(
     private val walls = OcellusWalls(deps)
     private val collapse = OcellusCollapse(deps, walls::clear)
     private val void = OcellusVoid(deps)
-    private val quadrants = OcellusQuadrants(deps, interactions, collapse.stoneLocs, void::clearOn)
-    private val bombs = OcellusBombs(deps, quadrants::standingTurns)
     private val rifts = OcellusRifts(deps)
+    private val quadrants =
+        OcellusQuadrants(deps, interactions, collapse.stoneLocs) { tiles ->
+            void.clearOn(tiles)
+            rifts.clearOn(tiles)
+        }
+    private val bombs = OcellusBombs(deps, quadrants::standingTurns)
+    private val souls = OcellusSouls(deps, void::tiles)
+    private val deflect = OcellusDeflect(deps)
     private val vine = OcellusVine(deps)
     private var swordHitbox: Npc? = null
     private var storedDamage = 0
@@ -43,6 +49,8 @@ internal class OcellusPhaseTwo(
         void.register()
         bombs.register()
         rifts.register()
+        souls.register()
+        deflect.register()
         vine.register()
         deps.extensionRegistry.register(ENTER) { enter(it.npc) }
         deps.extensionRegistry.register(FINISH) { finish(it.npc) }
@@ -70,6 +78,7 @@ internal class OcellusPhaseTwo(
         void.clear()
         bombs.clear()
         rifts.clear()
+        deflect.clear()
         vine.clear()
         removeHitbox()
         storedDamage = 0
@@ -178,6 +187,10 @@ internal class OcellusPhaseTwo(
         const val RIFTS_RESET = OcellusRifts.RESET
         const val RIFTS_BUSY = OcellusRifts.BUSY
         const val RIFTS_STOP = OcellusRifts.STOP
+        const val SOULS_TAKE = OcellusSouls.TAKE
+        const val SOULS_RELEASE = OcellusSouls.RELEASE
+        const val DEFLECT_START = OcellusDeflect.START
+        const val DEFLECT_END = OcellusDeflect.END
         const val QUADRANT_BARRIER_SPAWN = OcellusQuadrants.BARRIER_SPAWN
         const val QUADRANT_BARRIER = OcellusQuadrants.BARRIER
         const val QUADRANT_BARRIER_DESPAWN = OcellusQuadrants.BARRIER_DESPAWN

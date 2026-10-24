@@ -52,8 +52,20 @@ constructor(
             onCombatTick = { encounter.debug.noteCombatTick() },
             onHit = {
                 for (player in OcellusArena.players(npc, deps.playerList)) hpBar.onUpdate(player, npc)
+                if (npc.hitpoints <= 0) deathFx(npc)
             },
         )
+    }
+
+    private var dying: Npc? = null
+
+    private fun deathFx(npc: Npc) {
+        if (dying === npc) return
+        dying = npc
+        npc.infoProtocol.setSpotanim(-1, 0, 0, BOSS_SPOT_SLOT)
+        npc.spotanim(DEATH_SKIRT_SPOT, delay = DEATH_FX_DELAY)
+        npc.spotanim(DEATH_SPOT, delay = DEATH_FX_DELAY, slot = DEATH_SPOT_SLOT)
+        npc.spotanim(DEATH_CRACK_SPOT, delay = DEATH_FX_DELAY, slot = DEATH_CRACK_SLOT)
     }
 
     override val spec: BossSpec =
@@ -79,7 +91,16 @@ constructor(
             ability(BREAK, shieldBreak())
             ability(PHASE_TWO, phaseTwo())
             ability(PHASE_THREE, phaseThree())
-            ability(ATTACK_CYCLE, attackCycle(), attackDelay = ATTACK_CYCLE_CAP)
+            ability(
+                ATTACK_CYCLE,
+                whenever(
+                    varnIs(THRESHOLD, QUADRANT_STAGE + QUADRANT_THRESHOLDS.size),
+                    run(CURSES),
+                    otherwise = attackCycle(),
+                ),
+                attackDelay = ATTACK_CYCLE_CAP,
+            )
+            ability(CURSES, curses(), attackDelay = ATTACK_CYCLE_CAP)
             ability(SPECIAL, special(), attackDelay = ATTACK_CYCLE_CAP)
             ability(DESTROY, destroyQuadrant())
             ability(SKIP_TO_THREE, skipToPhaseThree())
@@ -510,6 +531,76 @@ constructor(
         return sequence(
             setVarn(OcellusVarns.SPECIAL_CYCLES, 0),
             switch(OcellusVarns.THRESHOLD, *starts.toTypedArray()),
+        )
+    }
+
+    /**
+     * The last quadrant's 60-tick loop, with no other attacks. The boss deflects missiles, pulls
+     * half the party's hitpoints into a soul fragment, then swings a hybrid attack under soul split
+     * and deflects melee, and does it all again before the rifts open and the loop restarts.
+     */
+    private fun curses(): Effect {
+        fun hybrid(at: Int): Effect {
+            fun swing(spot: String, hitType: HitType): Effect {
+                val strike =
+                    hit {
+                        damage(CURSES_HYBRID_DAMAGE).roll()
+                        type(hitType)
+                    }
+                return sequence(
+                    anim(HYBRID_SEQ),
+                    spotanim(spot, slot = BOSS_SPOT_SLOT),
+                    wait(HYBRID_HIT_DELAY),
+                    onEach(playersIn(OcellusArena.FLOOR), strike),
+                )
+            }
+            return sequence(
+                wait(at),
+                oneOf(swing(HYBRID_MAGIC_SPOT, HitType.Magic), swing(HYBRID_RANGED_SPOT, HitType.Ranged)),
+            )
+        }
+        fun fragment(levitating: Boolean) =
+            sequence(
+                anim(SOUL_START_SEQ),
+                spotanim(if (levitating) SOUL_LEVITATING_SPOT else SOUL_IDLE_SPOT, slot = BOSS_SPOT_SLOT),
+                external(OcellusPhaseTwo.SOULS_TAKE),
+            )
+        fun icon(index: Int) = headIcon(HEADICON_SLOT, HEADICON_GRAPHIC, index)
+        val events =
+            listOf(
+                0 to
+                    sequence(
+                        anim(DEFLECT_IN_SEQ),
+                        idleAnim(DEFLECT_LOOP_SEQ),
+                        icon(HEADICON_DEFLECT_MISSILES),
+                        external(OcellusPhaseTwo.DEFLECT_START, params = OcellusDeflect.Style.Ranged),
+                    ),
+                CURSES_FRAGMENT_AT to fragment(levitating = true),
+                CURSES_DEFLECT_OUT_AT to
+                    sequence(
+                        anim(DEFLECT_OUT_SEQ),
+                        clearIdleAnim(),
+                        external(OcellusPhaseTwo.SOULS_RELEASE),
+                        external(OcellusPhaseTwo.DEFLECT_END),
+                    ),
+                CURSES_SOUL_SPLIT_AT to icon(HEADICON_SOUL_SPLIT),
+                CURSES_MELEE_ARENA_AT to
+                    external(OcellusPhaseTwo.DEFLECT_START, params = OcellusDeflect.Style.Melee),
+                CURSES_DEFLECT_MELEE_AT to icon(HEADICON_DEFLECT_MELEE),
+                CURSES_SECOND_FRAGMENT_AT to fragment(levitating = false),
+                CURSES_FRAGMENT_END_AT to
+                    sequence(
+                        anim(SOUL_END_SEQ),
+                        external(OcellusPhaseTwo.SOULS_RELEASE),
+                        external(OcellusPhaseTwo.DEFLECT_END),
+                    ),
+                CURSES_SECOND_SOUL_SPLIT_AT to icon(HEADICON_SOUL_SPLIT),
+                CURSES_LENGTH - 1 to nextAttackIn(1),
+            )
+        return parallel(
+            timeline(events, from = 0),
+            hybrid(CURSES_HYBRID_AT),
+            hybrid(CURSES_SECOND_HYBRID_AT),
         )
     }
 
@@ -1259,6 +1350,42 @@ constructor(
         const val HEADICON_SLOT = 0
         const val HEADICON_GRAPHIC = 440
         const val HEADICON_MELEE = 0
+        const val HEADICON_SOUL_SPLIT = 11
+        const val HEADICON_DEFLECT_MISSILES = 15
+        const val HEADICON_DEFLECT_MELEE = 16
+
+        const val CURSES = "curses"
+        const val CURSES_LENGTH = 60
+        const val CURSES_FRAGMENT_AT = 3
+        const val CURSES_DEFLECT_OUT_AT = 21
+        const val CURSES_HYBRID_AT = 24
+        const val CURSES_SOUL_SPLIT_AT = 25
+        const val CURSES_MELEE_ARENA_AT = 30
+        const val CURSES_DEFLECT_MELEE_AT = 31
+        const val CURSES_SECOND_FRAGMENT_AT = 34
+        const val CURSES_FRAGMENT_END_AT = 50
+        const val CURSES_SECOND_HYBRID_AT = 52
+        const val CURSES_SECOND_SOUL_SPLIT_AT = 53
+        const val HYBRID_HIT_DELAY = 4
+        const val BOSS_SPOT_SLOT = 2
+        const val DEATH_FX_DELAY = 1
+        const val DEATH_SPOT_SLOT = 5
+        const val DEATH_CRACK_SLOT = 3
+        const val DEATH_SKIRT_SPOT = "spotanim.vfx_ocellus_death_skirt_spotanim01"
+        const val DEATH_SPOT = "spotanim.vfx_ocellus_death"
+        const val DEATH_CRACK_SPOT = "spotanim.vfx_ocellus_death_crack_spotanim01"
+        // PLACEHOLDER: both captured hybrid hits landed for 7 and 8 on a party whose prayers can't be seen.
+        val CURSES_HYBRID_DAMAGE = 7..8
+        const val DEFLECT_IN_SEQ = "seq.npc_ocellus_phase3_deflect_in"
+        const val DEFLECT_LOOP_SEQ = "seq.npc_ocellus_phase3_deflect_loop"
+        const val DEFLECT_OUT_SEQ = "seq.npc_ocellus_phase3_deflect_out"
+        const val SOUL_START_SEQ = "seq.npc_ocellus_phase3_soul_fragment_start"
+        const val SOUL_END_SEQ = "seq.npc_ocellus_phase3_soul_fragment_end"
+        const val SOUL_IDLE_SPOT = "spotanim.vfx_ocellus_soul_fragment_ocellus_idle"
+        const val SOUL_LEVITATING_SPOT = "spotanim.vfx_ocellus_soul_fragment_ocellus_levitating_idle"
+        const val HYBRID_SEQ = "seq.npc_ocellus_phase3_melee_hybrid"
+        const val HYBRID_MAGIC_SPOT = "spotanim.vfx_ocellus_phase3_melee_hybrid_magic"
+        const val HYBRID_RANGED_SPOT = "spotanim.vfx_ocellus_phase3_melee_hybrid_ranged"
 
         const val NOT_ARRIVED = 0
         const val CAST_CLOSED = 1

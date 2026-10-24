@@ -39,6 +39,8 @@ internal class OcellusVoid(private val deps: BossDeps) {
         lingering.clear()
     }
 
+    fun tiles(): Set<CoordGrid> = lingering.mapTo(HashSet()) { it.coords }
+
     /** Drops whatever void is left on [tiles], for floor that is about to fall away. */
     fun clearOn(tiles: Set<CoordGrid>) {
         val gone = lingering.filter { it.coords in tiles }
