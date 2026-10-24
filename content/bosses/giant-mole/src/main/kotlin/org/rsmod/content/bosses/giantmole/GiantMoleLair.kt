@@ -52,7 +52,7 @@ class GiantMoleDigHook @Inject constructor(private val locRepo: LocRepository) :
     private companion object {
         val MOLE_HILLS =
             setOf("loc.mole_hill".asRSCM().toInt(), "loc.mole_hill_spade".asRSCM().toInt())
-        val LAIR_ENTRY = CoordGrid(1759, 5233, 0)
+        val LAIR_ENTRY = CoordGrid(1759, 5190, 0)
 
         val LIGHT_SOURCES =
             listOf(
@@ -85,6 +85,6 @@ class GiantMoleLair @Inject constructor() : PluginScript() {
     }
 
     private companion object {
-        val SURFACE_EXIT = CoordGrid(2956, 3363, 0)
+        val SURFACE_EXIT = CoordGrid(2999, 3377, 0)
     }
 }

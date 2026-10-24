@@ -55,8 +55,11 @@ fun giantMoleSpec(): BossSpec = boss("npc.mole_giant") {
                 4,
                 sequence(
                     anim("seq.mole_burrow_down"),
+                    spotanim("spotanim.mole_mud_splat_spotanim"),
+                    wait(2),
                     external("giant_mole.burrow"),
                     anim("seq.mole_burrow_up"),
+                    spotanim("spotanim.mole_mud_hole_up_spotanim"),
                     interrupt(),
                 ),
             ),

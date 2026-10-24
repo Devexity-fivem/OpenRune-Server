@@ -29,15 +29,19 @@ by `settings.gradle.kts`).
   well south of White Knights' Castle, darkness/light-source behaviour.
 - `npcs.toml` already carries the 50% earth-spell weakness.
 
-## Known gaps / verify in game
+## Verified in game
+
+- Dig on a park molehill → drops into the lair at `LAIR_ENTRY` (1759, 5190,
+  the mole's centre spawn; user-verified).
+- Burrow: plays `seq.mole_burrow_down` + mud-splat spotanim, waits 2 ticks,
+  teleports, resurfaces with `seq.mole_burrow_up` + hole-up spotanim.
+- Exit rope (`loc.mole_rope_01`/`02`, op1) → surface well at `SURFACE_EXIT`
+  (2999, 3377; user-verified).
+
+## Known gaps / still to verify
 
 - **Resurface spots** are a hand-picked list of walkable tiles (baby-mole
-  spawn area spread). Real resurface target selection is undocumented —
-  check she lands on sensible tiles and never inside walls.
-- **Entry/exit tiles** (`LAIR_ENTRY` 1759,5233; `SURFACE_EXIT` 2956,3363) are
-  approximations — verify with `::mypos` and adjust.
-- **Exit loc op index** assumed `op1` ("Climb-up"); if nothing happens, the
-  op may be a different index — report and I'll move the handler.
+  spawn area spread). Real resurface target selection is undocumented.
 - **Dirt-throw light extinguish** is NOT implemented (needs player-side
   inventory edits from a hit-reaction context; documented in spec).
 - **Insect "skittering" warning** not wired (reusing `timer.swamp_cave_insects`
