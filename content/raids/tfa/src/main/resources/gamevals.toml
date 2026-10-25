@@ -13,6 +13,7 @@ ocellus_curse = 64430
 
 [gamevals.varp]
 ocellus_spin = 64150
+ocellus_censer = 64151
 
 [gamevals.headbar]
 ocellus_quadrant_destroy = 72

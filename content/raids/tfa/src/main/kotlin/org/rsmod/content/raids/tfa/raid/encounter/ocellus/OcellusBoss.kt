@@ -60,7 +60,7 @@ constructor(
             this,
             spec,
             deps,
-            onModifyHit = { encounter.phaseTwo.halveDamage(this) },
+            onModifyHit = { encounter.phaseTwo.modifyHit(this) },
             onCombatTick = { encounter.debug.noteCombatTick() },
             onHit = {
                 curses.reflect(this)

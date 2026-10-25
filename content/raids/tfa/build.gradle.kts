@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.api.invtx)
     implementation(projects.api.player)
     implementation(projects.api.playerOutput)
+    implementation(projects.api.specials)
     implementation(projects.content.drops)
     implementation(projects.content.interfaces.collectionLog)
     implementation(libs.kotlin.inline.logger)

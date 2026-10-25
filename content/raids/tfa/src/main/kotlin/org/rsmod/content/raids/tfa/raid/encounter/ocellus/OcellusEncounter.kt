@@ -13,9 +13,11 @@ import org.rsmod.api.instances.timer.formatInstanceKillTime
 import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.content.raids.tfa.raid.reward.TfaVault
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 
@@ -27,9 +29,10 @@ constructor(
     private val interactions: AiPlayerInteractions,
     private val hpBar: BossHpBarScript,
     private val vault: TfaVault,
+    energy: SpecialAttackEnergy,
 ) {
     internal val meter = OcellusMeter(deps, hpBar)
-    internal val phaseTwo = OcellusPhaseTwo(deps, hpBar, meter, interactions) { partySize }
+    internal val phaseTwo = OcellusPhaseTwo(deps, hpBar, meter, interactions, energy) { partySize }
     internal val debug = OcellusDebug(deps, { boss }) { phaseTwo.describeQuadrants() }
 
     private var boss: Npc? = null
@@ -47,6 +50,13 @@ constructor(
         npc.moveRestrict = MoveRestrict.NoMove
         deps.npcRepo.add(npc, Int.MAX_VALUE)
         boss = npc
+        phaseTwo.placeCensers(CENTRE)
+    }
+
+    /** Lights a censer for [player], returning why it can't be if it can't. */
+    fun lightCenser(at: BoundLocInfo): String? {
+        val npc = boss?.takeIf { it.isSlotAssigned && started } ?: return OcellusCensers.NOTHING
+        return phaseTwo.lightCenser(npc, at)
     }
 
     fun ready(player: Player) {

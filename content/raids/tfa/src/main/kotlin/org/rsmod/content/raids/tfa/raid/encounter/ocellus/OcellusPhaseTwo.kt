@@ -11,9 +11,11 @@ import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.midiSong
 import org.rsmod.api.player.ui.setColour
+import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
+import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
 
 /**
@@ -25,8 +27,10 @@ internal class OcellusPhaseTwo(
     private val hpBar: BossHpBarScript,
     private val meter: OcellusMeter,
     interactions: AiPlayerInteractions,
+    energy: SpecialAttackEnergy,
     private val partySize: () -> Int,
 ) {
+    private val censers = OcellusCensers(deps, energy)
     private val walls = OcellusWalls(deps)
     private val collapse = OcellusCollapse(deps, walls::clear)
     private val void = OcellusVoid(deps)
@@ -70,7 +74,14 @@ internal class OcellusPhaseTwo(
 
     fun bombTiles(npc: Npc): List<CoordGrid> = bombs.tiles(npc)
 
-    fun halveDamage(event: NpcHitEvents.Modify) = voidChain.halve(event)
+    fun modifyHit(event: NpcHitEvents.Modify) {
+        censers.modify(event)
+        voidChain.halve(event)
+    }
+
+    fun placeCensers(middle: CoordGrid) = censers.place(middle)
+
+    fun lightCenser(boss: Npc, at: BoundLocInfo): String? = censers.light(boss, at)
 
     fun absorb(damage: Int) {
         storedDamage += damage
@@ -81,6 +92,7 @@ internal class OcellusPhaseTwo(
         walls.clear()
         collapse.clear()
         quadrants.clear()
+        censers.clear()
         removeHitbox()
         storedDamage = 0
     }
