@@ -1,6 +1,8 @@
 [gamevals.dbtable]
 hunter_bird_snares = 63001
 hunter_box_traps = 63007
+hunter_deadfall = 63013
+hunter_deadfall_logs = 63014
 
 [gamevals.dbrow]
 hunter_bird_crimson_swift = 63002
@@ -13,3 +15,21 @@ hunter_box_jerboa = 63009
 hunter_box_chinchompa = 63010
 hunter_box_chinchompa_big = 63011
 hunter_box_chinchompa_black = 63012
+hunter_deadfall_wild = 63015
+hunter_deadfall_barbed = 63016
+hunter_deadfall_spike = 63017
+hunter_deadfall_sabre = 63018
+hunter_deadfall_fennec = 63019
+hunter_deadfall_log_logs = 63020
+hunter_deadfall_log_oak_logs = 63021
+hunter_deadfall_log_achey_tree_logs = 63022
+hunter_deadfall_log_willow_logs = 63023
+hunter_deadfall_log_teak_logs = 63024
+hunter_deadfall_log_juniper_logs = 63025
+hunter_deadfall_log_maple_logs = 63026
+hunter_deadfall_log_mahogany_logs = 63027
+hunter_deadfall_log_camphor_logs = 63028
+hunter_deadfall_log_ironwood_logs = 63029
+hunter_deadfall_log_yew_logs = 63030
+hunter_deadfall_log_magic_logs = 63031
+hunter_deadfall_log_rosewood_logs = 63032

@@ -84,3 +84,92 @@ private fun DBTableBuilder.boxTrapRow(
         columnRSCM(Hunter.BOX_COL_CAUGHT, caught)
     }
 }
+
+// xp values are in tenths (102.4 xp = 1024). Every catch also drops bones; `meat`
+// is omitted for prey that does not drop a raw carcass. `trapping_m` is the
+// mirrored loc used when the prey enters from the boulder's back side.
+internal fun DBTableBuilder.deadfallRows() {
+    deadfallRow(
+        "wild",
+        "npc.huntingbeast_claws",
+        23,
+        1024,
+        "claw",
+        "obj.huntingbeast_claws",
+        "obj.huntingbeast_wild_meat",
+    )
+    deadfallRow(
+        "barbed",
+        "npc.huntingbeast_barbedtail",
+        33,
+        1344,
+        "barbed",
+        "obj.hunting_barbed_harpoon",
+        "obj.huntingbeast_barbed_meat",
+    )
+    deadfallRow("spike", "npc.huntingbeast_spiky", 37, 1472, "spike", "obj.huntingbeast_spike", null)
+    deadfallRow(
+        "sabre",
+        "npc.huntingbeast_sabreteeth",
+        51,
+        1600,
+        "sabre",
+        "obj.huntingbeast_sabreteeth",
+        null,
+    )
+    deadfallRow(
+        "fennec",
+        "npc.varlamore_hunterfox01",
+        57,
+        1776,
+        "fennec",
+        "obj.hunting_fennecfox_fur",
+        "obj.hunting_fennecfox_meat",
+    )
+}
+
+private fun DBTableBuilder.deadfallRow(
+    name: String,
+    prey: String,
+    level: Int,
+    xp: Int,
+    locStem: String,
+    part: String,
+    meat: String?,
+) {
+    row("dbrow.hunter_deadfall_$name") {
+        columnRSCM(Hunter.DEAD_COL_PREY, prey)
+        column(Hunter.DEAD_COL_LEVEL, level)
+        column(Hunter.DEAD_COL_XP, xp)
+        columnRSCM(Hunter.DEAD_COL_FULL_LOC, "loc.hunting_deadfall_full_$locStem")
+        columnRSCM(Hunter.DEAD_COL_TRAPPING, "loc.hunting_deadfall_trapping_$locStem")
+        columnRSCM(Hunter.DEAD_COL_TRAPPING_M, "loc.hunting_deadfall_trapping_${locStem}_m")
+        columnRSCM(Hunter.DEAD_COL_PART, part)
+        meat?.let { columnRSCM(Hunter.DEAD_COL_MEAT, it) }
+    }
+}
+
+// Ordered lowest-tier first: the cheapest valid log in the inventory is used.
+// Redwood and arctic pine logs are not valid deadfall props.
+internal fun DBTableBuilder.deadfallLogRows() {
+    for (log in DEADFALL_LOGS) {
+        row("dbrow.hunter_deadfall_log_$log") { columnRSCM(Hunter.DEAD_LOG_COL, "obj.$log") }
+    }
+}
+
+private val DEADFALL_LOGS =
+    listOf(
+        "logs",
+        "oak_logs",
+        "achey_tree_logs",
+        "willow_logs",
+        "teak_logs",
+        "juniper_logs",
+        "maple_logs",
+        "mahogany_logs",
+        "camphor_logs",
+        "ironwood_logs",
+        "yew_logs",
+        "magic_logs",
+        "rosewood_logs",
+    )

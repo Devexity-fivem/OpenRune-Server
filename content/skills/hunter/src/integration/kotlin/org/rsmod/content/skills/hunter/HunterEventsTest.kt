@@ -8,11 +8,16 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.rsmod.api.player.vars.boolVarBit
+import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.content.skills.hunter.HunterTrapManager.State
 import org.rsmod.content.skills.hunter.HunterTrapManager.TrapKind
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.InvObj
+import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.game.loc.LocAngle
+import org.rsmod.game.loc.LocShape
+import org.rsmod.map.CoordGrid
 
 /* Obj transactions and npc/loc registry updates are not thread-safe. */
 @Execution(ExecutionMode.SAME_THREAD)
@@ -296,6 +301,159 @@ class HunterEventsTest {
             assertEquals(State.ARMED, probe.traps.trapAt(trapCoords)?.state)
         }
 
+    @Test
+    fun GameTestState.`a deadfall needs a knife and a log in the inventory`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 33)
+            val boulder = deadfallBoulder(probe, player.coords)
+
+            player.inv[0] = InvObj(LOGS)
+            player.withProtectedAccess { with(probe.events) { setDeadfallTrap(boulder) } }
+            assertNull(probe.traps.trapAt(player.coords))
+
+            player.inv[0] = InvObj(KNIFE)
+            player.withProtectedAccess { with(probe.events) { setDeadfallTrap(boulder) } }
+            assertNull(probe.traps.trapAt(player.coords))
+
+            player.inv[1] = InvObj(LOGS)
+            player.withProtectedAccess { with(probe.events) { setDeadfallTrap(boulder) } }
+            val trap = probe.traps.trapAt(player.coords)
+            assertNotNull(trap)
+            assertEquals(TrapKind.DEADFALL, trap.kind)
+            assertEquals(locId("loc.hunting_deadfall_trap"), trap.loc.id)
+        }
+
+    @Test
+    fun GameTestState.`setting a deadfall preserves the log most of the time`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 33)
+            player.inv[0] = InvObj(KNIFE)
+            player.inv[1] = InvObj(LOGS)
+            player.inv[2] = InvObj(LOGS)
+
+            probe.events.logPreserveChance = 1.0
+            player.withProtectedAccess { with(probe.events) { setDeadfallTrap(deadfallBoulder(probe, player.coords)) } }
+            assertEquals(2, player.inv.count(LOGS))
+
+            probe.events.logPreserveChance = 0.0
+            val boulder = deadfallBoulder(probe, player.coords.translateX(2))
+            player.withProtectedAccess { with(probe.events) { setDeadfallTrap(boulder) } }
+            assertEquals(1, player.inv.count(LOGS))
+        }
+
+    @Test
+    fun GameTestState.`at most two deadfalls can be set at once`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 80)
+            player.inv[0] = InvObj(KNIFE)
+            player.inv[1] = InvObj(LOGS, 5)
+
+            val base = player.coords
+            probe.events.logPreserveChance = 1.0
+            repeat(3) { i ->
+                val boulder = deadfallBoulder(probe, base.translateX(i * 2))
+                player.withProtectedAccess { with(probe.events) { setDeadfallTrap(boulder) } }
+            }
+
+            assertEquals(2, probe.traps.activeTraps(player, TrapKind.DEADFALL))
+            assertEquals(2, probe.traps.activeTraps(player))
+        }
+
+    @Test
+    fun GameTestState.`a deadfall catch drops bones the part and the meat`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.setCurrentLevel("stat.hunter", 33)
+            player.inv[0] = InvObj(KNIFE)
+            player.inv[1] = InvObj(LOGS)
+            spawnNpc(player.coords.translateZ(3), npcType("npc.huntingbeast_barbedtail"))
+
+            val trapCoords = player.coords
+            player.withProtectedAccess { with(probe.events) { setDeadfallTrap(deadfallBoulder(probe, trapCoords)) } }
+            tickTraps(probe, 60)
+
+            assertEquals(State.CAUGHT, probe.traps.trapAt(trapCoords)?.state)
+
+            player.withProtectedAccess { with(probe.events) { checkTrap(trapCoords) } }
+
+            assertEquals(1, player.inv.count("obj.bones"))
+            assertEquals(1, player.inv.count("obj.hunting_barbed_harpoon"))
+            assertEquals(1, player.inv.count("obj.huntingbeast_barbed_meat"))
+            assertEquals(1344, player.statMap.getFineXP("stat.hunter"))
+            assertNull(probe.traps.trapAt(trapCoords))
+        }
+
+    @Test
+    fun GameTestState.`a sprung deadfall disappears without a resettable state`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            probe.traps.catchChance = { _, _ -> 0.0 }
+            player.setCurrentLevel("stat.hunter", 33)
+            player.inv[0] = InvObj(KNIFE)
+            player.inv[1] = InvObj(LOGS)
+            spawnNpc(player.coords.translateZ(3), npcType("npc.huntingbeast_barbedtail"))
+
+            val trapCoords = player.coords
+            player.withProtectedAccess { with(probe.events) { setDeadfallTrap(deadfallBoulder(probe, trapCoords)) } }
+            tickTraps(probe, 60)
+
+            assertNull(probe.traps.trapAt(trapCoords))
+        }
+
+    @Test
+    fun GameTestState.`prey entering a deadfall from the back uses the mirrored loc`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.setCurrentLevel("stat.hunter", 33)
+            player.inv[0] = InvObj(KNIFE)
+            player.inv[1] = InvObj(LOGS)
+            // The boulder faces south, so a kebbit arriving from the north enters
+            // from its back side and triggers the mirrored trapping loc.
+            spawnNpc(player.coords.translateZ(3), npcType("npc.huntingbeast_barbedtail"))
+
+            val trapCoords = player.coords
+            player.withProtectedAccess { with(probe.events) { setDeadfallTrap(deadfallBoulder(probe, trapCoords)) } }
+
+            var trappingLocId: Int? = null
+            repeat(60) {
+                probe.traps.tick()
+                val trap = probe.traps.trapAt(trapCoords)
+                if (trap?.state == State.TRAPPING && trappingLocId == null) {
+                    trappingLocId = trap.loc.id
+                }
+            }
+
+            assertEquals(locId("loc.hunting_deadfall_trapping_barbed_m"), trappingLocId)
+            assertEquals(State.CAUGHT, probe.traps.trapAt(trapCoords)?.state)
+        }
+
+    @Test
+    fun GameTestState.`deadfall prey above the hunter level never trigger the trap`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.inv[0] = InvObj(KNIFE)
+            player.inv[1] = InvObj(LOGS)
+            // Sabre-toothed kebbits require level 51; the test player is level 1.
+            spawnNpc(player.coords.translateZ(3), npcType("npc.huntingbeast_sabreteeth"))
+
+            val trapCoords = player.coords
+            player.withProtectedAccess { with(probe.events) { setDeadfallTrap(deadfallBoulder(probe, trapCoords)) } }
+            tickTraps(probe, 60)
+
+            assertEquals(State.ARMED, probe.traps.trapAt(trapCoords)?.state)
+        }
+
+    private fun deadfallBoulder(probe: Probe, coords: CoordGrid): BoundLocInfo {
+        val loc =
+            probe.locRepo.add(
+                coords,
+                "loc.hunting_deadfall_boulder",
+                Int.MAX_VALUE,
+                LocAngle.West,
+                LocShape.CentrepieceStraight,
+            )
+        return BoundLocInfo(loc, checkNotNull(ServerCacheManager.getObject(loc.id)))
+    }
+
     private fun npcType(symbol: String) =
         checkNotNull(ServerCacheManager.getNpc(symbol.asRSCM(RSCMType.NPC)))
 
@@ -307,6 +465,8 @@ class HunterEventsTest {
     private companion object {
         const val SNARE = "obj.hunting_ojibway_bird_snare"
         const val BOX_TRAP = "obj.hunting_box_trap"
+        const val KNIFE = "obj.knife"
+        const val LOGS = "obj.logs"
     }
 
     class Probe
@@ -314,5 +474,6 @@ class HunterEventsTest {
     constructor(
         val events: HunterEvents,
         val traps: HunterTrapManager,
+        val locRepo: LocRepository,
     )
 }

@@ -31,6 +31,9 @@ constructor(
 
     fun activeTraps(player: Player): Int = traps.count { it.owner == player }
 
+    fun activeTraps(player: Player, kind: TrapKind): Int =
+        traps.count { it.owner == player && it.kind == kind }
+
     fun trapLimit(player: Player, kind: TrapKind): Int {
         val base =
             when {
@@ -43,15 +46,38 @@ constructor(
         return if (kind == TrapKind.BOX && player.insideWilderness) base + 1 else base
     }
 
+    fun canSet(player: Player, kind: TrapKind): Boolean =
+        activeTraps(player) < trapLimit(player, kind) &&
+            activeTraps(player, kind) < (kind.kindLimit ?: Int.MAX_VALUE)
+
     fun trapAt(coords: CoordGrid): HunterTrap? = traps.firstOrNull { it.coords == coords }
 
     fun layTrap(player: Player, coords: CoordGrid, kind: TrapKind): HunterTrap? {
-        if (activeTraps(player) >= trapLimit(player, kind)) {
+        if (!canSet(player, kind)) {
             return null
         }
         val loc =
             locRepo.add(coords, kind.armedLoc, Int.MAX_VALUE, LocAngle.West, LocShape.CentrepieceStraight)
         val trap = HunterTrap(player, loc, coords, kind)
+        traps += trap
+        return trap
+    }
+
+    /**
+     * Sets a deadfall on a static boulder: the armed loc is spawned over it, so deleting
+     * the trap later reveals the original boulder automatically.
+     */
+    fun setDeadfall(
+        player: Player,
+        coords: CoordGrid,
+        angle: LocAngle,
+        shape: LocShape,
+    ): HunterTrap? {
+        if (!canSet(player, TrapKind.DEADFALL) || trapAt(coords) != null) {
+            return null
+        }
+        val loc = locRepo.add(coords, TrapKind.DEADFALL.armedLoc, Int.MAX_VALUE, angle, shape)
+        val trap = HunterTrap(player, loc, coords, TrapKind.DEADFALL)
         traps += trap
         return trap
     }
@@ -93,7 +119,7 @@ constructor(
     }
 
     private fun tickArmed(trap: HunterTrap) {
-        if (trap.owner.coords == trap.coords) return
+        if (trap.kind.suppressesOwner && trap.owner.coords == trap.coords) return
         trap.scanCycle++
         if (trap.scanCycle < SCAN_TICKS) return
         trap.scanCycle = 0
@@ -111,18 +137,43 @@ constructor(
             trap.preyNpc = null
             return
         }
-        if (npc.coords == trap.coords) {
+        if (inFootprint(trap, npc.coords)) {
             resolveLanding(trap, npc)
             return
         }
-        val dx = (trap.coords.x - npc.coords.x).coerceIn(-1, 1)
-        val dz = (trap.coords.z - npc.coords.z).coerceIn(-1, 1)
-        if (dx != 0) {
-            trap.fromDir = if (dx > 0) Dir.WEST else Dir.EAST
-        } else if (dz != 0) {
-            trap.fromDir = if (dz > 0) Dir.SOUTH else Dir.NORTH
-        }
+        trap.fromDir = entryDir(trap, npc.coords)
+        val (w, d) = footprintSize(trap)
+        val tx = npc.coords.x.coerceIn(trap.coords.x, trap.coords.x + w - 1)
+        val tz = npc.coords.z.coerceIn(trap.coords.z, trap.coords.z + d - 1)
+        val dx = (tx - npc.coords.x).coerceIn(-1, 1)
+        val dz = (tz - npc.coords.z).coerceIn(-1, 1)
         npc.teleport(collision, npc.coords.translate(dx, dz))
+    }
+
+    private fun footprintSize(trap: HunterTrap): Pair<Int, Int> =
+        if (!trap.kind.wide) {
+            1 to 1
+        } else if (trap.loc.angle == LocAngle.West || trap.loc.angle == LocAngle.East) {
+            2 to 1
+        } else {
+            1 to 2
+        }
+
+    private fun inFootprint(trap: HunterTrap, coords: CoordGrid): Boolean {
+        if (coords.level != trap.coords.level) return false
+        val (w, d) = footprintSize(trap)
+        return coords.x in trap.coords.x until trap.coords.x + w &&
+            coords.z in trap.coords.z until trap.coords.z + d
+    }
+
+    private fun entryDir(trap: HunterTrap, coords: CoordGrid): Dir {
+        val (w, _) = footprintSize(trap)
+        return when {
+            coords.x < trap.coords.x -> Dir.WEST
+            coords.x >= trap.coords.x + w -> Dir.EAST
+            coords.z < trap.coords.z -> Dir.SOUTH
+            else -> Dir.NORTH
+        }
     }
 
     private fun resolveLanding(trap: HunterTrap, npc: Npc) {
@@ -134,7 +185,7 @@ constructor(
         npcRepo.del(npc, PREY_RESPAWN_TICKS)
         trap.preyNpc = null
         if (catchRoll(trap.owner.hunterLvl, prey.level)) {
-            transition(trap, prey.trappingLoc(trap.fromDir))
+            transition(trap, prey.trappingLoc(trap.fromDir, trap.mirroredEntry()))
             trap.state = State.TRAPPING
             trap.stateCycle = 0
         } else {
@@ -157,8 +208,15 @@ constructor(
 
     private fun tickFailing(trap: HunterTrap) {
         if (++trap.stateCycle < FAILING_TICKS) return
-        transition(trap, trap.kind.brokenLoc)
-        trap.state = State.FAILED
+        val broken = trap.kind.brokenLoc
+        if (broken != null) {
+            transition(trap, broken)
+            trap.state = State.FAILED
+        } else {
+            // Deadfalls have no broken state: the sprung trap is removed and the
+            // static boulder underneath is revealed again.
+            removeTrap(trap)
+        }
     }
 
     /**
@@ -234,11 +292,14 @@ constructor(
     }
 
     enum class TrapKind(
-        val item: String,
+        val item: String?,
         val armedLoc: String,
         val failingLoc: String,
-        val brokenLoc: String,
+        val brokenLoc: String?,
         val display: String,
+        val suppressesOwner: Boolean,
+        val kindLimit: Int?,
+        val wide: Boolean,
     ) {
         SNARE(
             item = "obj.hunting_ojibway_bird_snare",
@@ -246,6 +307,9 @@ constructor(
             failingLoc = "loc.hunting_ojibway_trap_failing",
             brokenLoc = "loc.hunting_ojibway_trap_broken",
             display = "bird snare",
+            suppressesOwner = true,
+            kindLimit = null,
+            wide = false,
         ),
         BOX(
             item = "obj.hunting_box_trap",
@@ -253,6 +317,19 @@ constructor(
             failingLoc = "loc.hunting_boxtrap_failing",
             brokenLoc = "loc.hunting_boxtrap_failed",
             display = "box trap",
+            suppressesOwner = true,
+            kindLimit = null,
+            wide = false,
+        ),
+        DEADFALL(
+            item = null,
+            armedLoc = "loc.hunting_deadfall_trap",
+            failingLoc = "loc.hunting_deadfall_failing",
+            brokenLoc = null,
+            display = "deadfall trap",
+            suppressesOwner = false,
+            kindLimit = 2,
+            wide = true,
         ),
     }
 
@@ -267,7 +344,18 @@ constructor(
         var fromDir: Dir? = null,
         var scanCycle: Int = 0,
         var stateCycle: Int = 0,
-    )
+    ) {
+        // A prey entering a deadfall from the boulder's back side uses the mirrored loc.
+        fun mirroredEntry(): Boolean = fromDir != null && fromDir == backDir(loc.angle)
+
+        private fun backDir(angle: LocAngle): Dir =
+            when (angle) {
+                LocAngle.West -> Dir.NORTH
+                LocAngle.North -> Dir.EAST
+                LocAngle.East -> Dir.SOUTH
+                LocAngle.South -> Dir.WEST
+            }
+    }
 
     class TrapPrey(
         val name: String,
@@ -277,13 +365,17 @@ constructor(
         val xpTenths: Int,
         val fullLoc: String,
         val trappingLocs: Map<Dir, String>,
+        val mirroredTrappingLocs: Map<Dir, String>? = null,
         val feather: String? = null,
         val featherMin: Int = 0,
         val featherMax: Int = 0,
         val caughtItem: String? = null,
+        val fixedDrops: List<String> = emptyList(),
     ) {
-        fun trappingLoc(fromDir: Dir?): String =
-            trappingLocs[fromDir] ?: trappingLocs[Dir.SOUTH] ?: trappingLocs.values.first()
+        fun trappingLoc(fromDir: Dir?, mirrored: Boolean): String {
+            val locs = if (mirrored) mirroredTrappingLocs ?: trappingLocs else trappingLocs
+            return locs[fromDir] ?: locs[Dir.SOUTH] ?: locs.values.first()
+        }
     }
 
     companion object {

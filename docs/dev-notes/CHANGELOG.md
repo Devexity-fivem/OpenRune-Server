@@ -1,5 +1,27 @@
 # Dev-notes changelog
 
+## 2026-10-26 — Hunter: deadfall traps (`dev`)
+
+- Deadfall trapping (kebbits + pyre fox) on the generalized trap manager:
+  `TrapKind.DEADFALL` has no carried item — traps are set via "Set-trap" on
+  static `hunting_deadfall_boulder` locs (2x1, mirrored by angle) and the tile
+  reverts to the boulder on catch/fail/dismantle instead of a broken state.
+- Requires a knife + any log from `dbtable.hunter_deadfall_logs`; the log is
+  consumed 25% of the time (75% preserved). Deadfall has its own cap of 2
+  traps, independent of the shared snare/box level limit.
+- `dbtable.hunter_deadfall` rows (post-Aug-2025 rebalance XP): wild kebbit
+  23/102.4, barb-tailed 33/134.4, prickly 37/147.2, sabre-toothed 51/160,
+  pyre fox 57/177.6. Loot = bones + part (claws/harpoon/spike/teeth/fur) +
+  optional meat column.
+- Live-verified on `devin ai` in Feldip Hills: Set-trap arms the boulder,
+  barb-tailed kebbits trigger it, caught -> `Boulder` full loc (Check),
+  Check pays bones + Barb-tail harpoon + Raw barb-tailed kebbit + exact XP
+  (+134 at xpRate 1.0), boulder restored.
+- Fixed stale data: `devin ai` had `character_progress.xp_rate_in_hundreds`
+  =150 persisted from the 150x era; reset to 100 (Devexity was already 1.0).
+- 7 new integration tests (22 total): knife/log gates, 75% preserve roll,
+  2-trap cap, catch/loot/XP, fail->boulder, dismantle->boulder.
+
 ## 2026-10-26 — Hunter: box trapping (`dev`)
 
 - Generalized `HunterTrapManager` from bird-only to trap-kind-agnostic:

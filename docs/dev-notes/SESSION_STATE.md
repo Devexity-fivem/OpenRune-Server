@@ -54,6 +54,17 @@ treating main as "finished".
   73/315. Directional trapping locs (n/s/e/w) pick the entry side. Snares
   and box traps share one limit; +1 box trap inside the wilderness.
   Letvek locs exist but no map spawn — skipped. 15 integration tests.
+- Hunter deadfall (TrapKind.DEADFALL, no trap item) — VERIFIED live on the
+  static hunting_deadfall_boulder locs in Feldip Hills (2579,2885): Set-trap
+  needs knife + valid log (75% preserved), arms a 2x1 deadfall loc, kebbit
+  triggers it, Check on the full Boulder pays bones + part + meat + exact XP
+  (barb-tailed +134 at 1.0), and the tile reverts to the boulder. Own cap of
+  2 traps. Rows: wild 23/102.4, barb-tailed 33/134.4, prickly 37/147.2,
+  sabre 51/160, pyre fox 57/177.6. 22 integration tests.
+- Accounts cleaned up (2026-10-26): all ad-hoc test accounts deleted from
+  main.accounts; kept Devexity + devin ai (login: devin ai / devinai).
+  devin ai had stale xp_rate_in_hundreds=150 in character_progress — reset
+  to 100. Use `devin ai` for all future live verification.
 - Fletching (content/skills/fletching) — VERIFIED live: full make-x surface
   via pack dbtable; carve-all via subcomponent-0 fix in SkillingMenu,
   stringing, attach batches (28 client clamp), exact XP.

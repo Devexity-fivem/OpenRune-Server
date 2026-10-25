@@ -7,7 +7,8 @@ import dev.openrune.definition.util.VarType
 import dev.openrune.pack.PluginPack
 
 class HunterPluginPack : PluginPack() {
-    override fun dbTables(): List<DBTable> = listOf(birdSnareTable(), boxTrapTable())
+    override fun dbTables(): List<DBTable> =
+        listOf(birdSnareTable(), boxTrapTable(), deadfallTable(), deadfallLogsTable())
 }
 
 object Hunter {
@@ -29,6 +30,17 @@ object Hunter {
     const val BOX_COL_TRAPPING_E = 6
     const val BOX_COL_TRAPPING_W = 7
     const val BOX_COL_CAUGHT = 8
+
+    const val DEAD_COL_PREY = 0
+    const val DEAD_COL_LEVEL = 1
+    const val DEAD_COL_XP = 2
+    const val DEAD_COL_FULL_LOC = 3
+    const val DEAD_COL_TRAPPING = 4
+    const val DEAD_COL_TRAPPING_M = 5
+    const val DEAD_COL_PART = 6
+    const val DEAD_COL_MEAT = 7
+
+    const val DEAD_LOG_COL = 0
 }
 
 private fun DBTableBuilder.birdSnareColumns() {
@@ -64,4 +76,27 @@ private fun boxTrapTable(): DBTable =
     dbTable("dbtable.hunter_box_traps", serverOnly = true) {
         boxTrapColumns()
         boxTrapRows()
+    }
+
+private fun DBTableBuilder.deadfallColumns() {
+    column("prey", Hunter.DEAD_COL_PREY, VarType.NPC)
+    column("level", Hunter.DEAD_COL_LEVEL, VarType.INT)
+    column("xp", Hunter.DEAD_COL_XP, VarType.INT)
+    column("full_loc", Hunter.DEAD_COL_FULL_LOC, VarType.LOC)
+    column("trapping", Hunter.DEAD_COL_TRAPPING, VarType.LOC)
+    column("trapping_m", Hunter.DEAD_COL_TRAPPING_M, VarType.LOC)
+    column("part", Hunter.DEAD_COL_PART, VarType.OBJ)
+    column("meat", Hunter.DEAD_COL_MEAT, VarType.OBJ)
+}
+
+private fun deadfallTable(): DBTable =
+    dbTable("dbtable.hunter_deadfall", serverOnly = true) {
+        deadfallColumns()
+        deadfallRows()
+    }
+
+private fun deadfallLogsTable(): DBTable =
+    dbTable("dbtable.hunter_deadfall_logs", serverOnly = true) {
+        column("log", Hunter.DEAD_LOG_COL, VarType.OBJ)
+        deadfallLogRows()
     }

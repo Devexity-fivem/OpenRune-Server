@@ -21,6 +21,8 @@ import org.rsmod.api.script.onPlayerLogout
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.table.hunter.HunterBirdSnaresRow
 import org.rsmod.api.table.hunter.HunterBoxTrapsRow
+import org.rsmod.api.table.hunter.HunterDeadfallLogsRow
+import org.rsmod.api.table.hunter.HunterDeadfallRow
 import org.rsmod.content.skills.hunter.HunterTrapManager.Dir
 import org.rsmod.content.skills.hunter.HunterTrapManager.TrapKind
 import org.rsmod.game.loc.BoundLocInfo
@@ -74,23 +76,52 @@ constructor(
             )
         }
 
+    private val deadfallPrey =
+        HunterDeadfallRow.all().map { row ->
+            HunterTrapManager.TrapPrey(
+                name = ServerCacheManager.getNpc(row.prey.internalName.asRSCM(RSCMType.NPC))?.name
+                    ?: row.prey.internalName,
+                npcSymbol = row.prey.internalName,
+                npcId = row.prey.id,
+                level = row.level,
+                xpTenths = row.xp,
+                fullLoc = row.fullLoc.internalName,
+                trappingLocs = Dir.entries.associateWith { row.trapping.internalName },
+                mirroredTrappingLocs = Dir.entries.associateWith { row.trappingM.internalName },
+                fixedDrops =
+                    listOfNotNull("obj.bones", row.part.internalName, row.meat?.internalName),
+            )
+        }
+
+    // Ordered lowest-tier first so the cheapest valid log is consumed.
+    private val deadfallLogs = HunterDeadfallLogsRow.all().map { it.log.internalName }
+
+    var logPreserveChance: Double = 0.75
+
     init {
         traps.registerPrey(TrapKind.SNARE, birds)
         traps.registerPrey(TrapKind.BOX, boxPrey)
+        traps.registerPrey(TrapKind.DEADFALL, deadfallPrey)
     }
 
     override fun ScriptContext.startup() {
-        onOpHeld1(TrapKind.SNARE.item) { layTrap(TrapKind.SNARE) }
-        onOpHeld1(TrapKind.BOX.item) { layTrap(TrapKind.BOX) }
+        for (kind in TrapKind.entries) {
+            val item = kind.item ?: continue
+            onOpHeld1(item) { layTrap(kind) }
+        }
 
         for (kind in TrapKind.entries) {
             onLocOp(kind.armedLoc, "Dismantle") { dismantleTrap(it.coords) }
-            onLocOp(kind.brokenLoc, "Dismantle") { dismantleTrap(it.coords) }
-            onLocOp(kind.brokenLoc, "Reset") { loc ->
+            val broken = kind.brokenLoc ?: continue
+            onLocOp(broken, "Dismantle") { dismantleTrap(it.coords) }
+            onLocOp(broken, "Reset") { loc ->
                 traps.trapAt(loc.coords)?.let(traps::reset)
             }
         }
-        for (prey in birds + boxPrey) {
+
+        onLocOp(DEADFALL_BOULDER, "Set-trap") { setDeadfallTrap(it) }
+
+        for (prey in birds + boxPrey + deadfallPrey) {
             onLocOp(prey.fullLoc, "Check") { loc -> checkTrap(loc.coords) }
             onLocOp(prey.fullLoc, "Dismantle") { loc -> dismantleTrap(loc.coords) }
             onLocOp(prey.fullLoc, "Reset") { loc ->
@@ -103,11 +134,11 @@ constructor(
     }
 
     fun ProtectedAccess.layTrap(kind: TrapKind) {
-        if (traps.activeTraps(player) >= traps.trapLimit(player, kind)) {
+        if (!traps.canSet(player, kind)) {
             mes("You cannot set up more traps at your Hunter level.")
             return
         }
-        if (traps.trapAt(player.coords) != null || !inv.contains(kind.item)) {
+        if (traps.trapAt(player.coords) != null || !inv.contains(kind.item ?: return)) {
             return
         }
         anim(LAY_SEQ)
@@ -115,10 +146,34 @@ constructor(
         traps.layTrap(player, player.coords, kind)
     }
 
+    fun ProtectedAccess.setDeadfallTrap(bound: BoundLocInfo) {
+        if (!traps.canSet(player, TrapKind.DEADFALL)) {
+            mes("You cannot set up more traps at your Hunter level.")
+            return
+        }
+        if (traps.trapAt(bound.coords) != null) {
+            return
+        }
+        if (!inv.contains(KNIFE) && !inv.contains(FLETCHING_KNIFE)) {
+            mes("You need a knife to set up a deadfall trap.")
+            return
+        }
+        val log = deadfallLogs.firstOrNull { inv.contains(it) }
+        if (log == null) {
+            mes("You need a log to prop up the boulder.")
+            return
+        }
+        anim(LAY_SEQ)
+        if (Random.nextDouble() >= logPreserveChance) {
+            invDel(inv, log, 1)
+        }
+        traps.setDeadfall(player, bound.coords, bound.angle, bound.shape)
+    }
+
     fun ProtectedAccess.dismantleTrap(coords: CoordGrid) {
         val trap = traps.trapAt(coords) ?: return
         if (traps.dismantle(trap)) {
-            player.invAddOrDrop(objRepo, trap.kind.item)
+            trap.kind.item?.let { player.invAddOrDrop(objRepo, it) }
             mes("You dismantle the ${trap.kind.display}.")
         }
     }
@@ -126,8 +181,9 @@ constructor(
     fun ProtectedAccess.checkTrap(coords: CoordGrid) {
         val trap = traps.trapAt(coords) ?: return
         val prey = traps.check(trap) ?: return
-        player.invAddOrDrop(objRepo, trap.kind.item)
+        trap.kind.item?.let { player.invAddOrDrop(objRepo, it) }
         prey.caughtItem?.let { player.invAddOrDrop(objRepo, it) }
+        prey.fixedDrops.forEach { player.invAddOrDrop(objRepo, it) }
         if (prey.feather != null) {
             player.invAddOrDrop(objRepo, "obj.bones")
             player.invAddOrDrop(objRepo, RAW_BIRD_MEAT)
@@ -158,6 +214,9 @@ constructor(
     }
 
     private companion object {
+        const val DEADFALL_BOULDER = "loc.hunting_deadfall_boulder"
+        const val KNIFE = "obj.knife"
+        const val FLETCHING_KNIFE = "obj.fletching_knife"
         const val RAW_BIRD_MEAT = "obj.spit_raw_bird_meat"
         const val STAT_HUNTER = "stat.hunter"
         const val LAY_SEQ = "seq.hunting_baiting_small_traps"
