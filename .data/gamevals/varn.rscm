@@ -40,3 +40,5 @@ ocellus_barrage_waves=64427
 ocellus_special_cycles=64428
 ocellus_special_step=64429
 ocellus_curse=64430
+ocellus_rift_next=64431
+ocellus_rift_busy=64432

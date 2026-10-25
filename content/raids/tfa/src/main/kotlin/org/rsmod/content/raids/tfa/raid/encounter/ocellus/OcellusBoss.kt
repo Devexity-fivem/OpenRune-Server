@@ -53,38 +53,36 @@ constructor(
         deps.extensionRegistry.register(UNTETHER_IMPACT) {
             it.target.spotanim(SPREAD_IMPACT, delay = UNTETHER_IMPACT_DELAY)
         }
-        encounter.phaseTwo.register()
         val finalForm = ServerCacheManager.getNpc("npc.tfa_ocellus_p3".asRSCM(RSCMType.NPC))!!
         onNpcQueue(finalForm, "queue.death") { death() }
         BossCombat.register(
             this,
             spec,
             deps,
-            onModifyHit = { encounter.phaseTwo.modifyHit(this) },
+            onModifyHit = { encounter.of(npc)?.phaseTwo?.modifyHit(this) },
             onHit = {
                 curses.reflect(this)
                 for (player in OcellusArena.players(npc, deps.playerList)) hpBar.onUpdate(player, npc)
-                if (npc.hitpoints <= 0) deathFx(npc)
+                if (npc.hitpoints <= 0) encounter.of(npc)?.let { deathFx(npc, it) }
             },
         )
     }
 
-    private var dying: Npc? = null
-
     private suspend fun StandardNpcAccess.death() {
+        val fight = encounter.of(npc)
         deps.encounterRegistry.of(npc).interrupt(deps.mapClock.cycle)
-        encounter.complete(npc)
+        fight?.complete(npc)
         noneMode()
         hideAllOps()
         anim(DEATH_SEQ)
         delay(DEATH_REMOVE_DELAY)
-        encounter.phaseTwo.clear()
+        fight?.phaseTwo?.clear()
         deps.npcRepo.del(npc, Int.MAX_VALUE)
     }
 
-    private fun deathFx(npc: Npc) {
-        if (dying === npc) return
-        dying = npc
+    private fun deathFx(npc: Npc, fight: OcellusFight) {
+        if (fight.dying) return
+        fight.dying = true
         npc.infoProtocol.setSpotanim(-1, 0, 0, BOSS_SPOT_SLOT)
         npc.spotanim(DEATH_SKIRT_SPOT, delay = DEATH_FX_DELAY)
         npc.spotanim(DEATH_SPOT, delay = DEATH_FX_DELAY, slot = DEATH_SPOT_SLOT)
@@ -101,6 +99,7 @@ constructor(
             phase(PHASE_THREE, lockMovement = true) {
                 weightedSelectorRandom { +random(ATTACK_CYCLE, weight = 1) }
                 forceWhen(varnAtLeast(OcellusVarns.SPECIAL_CYCLES, CYCLES_PER_SPECIAL), SPECIAL)
+                every(1, riftWave())
             }
 
             ability(START, start())
@@ -488,9 +487,9 @@ constructor(
                     val next = quadrant * QUADRANT_STEPS + (step + 1) % steps.size
                     quadrant * QUADRANT_STEPS + step to
                         sequence(
-                            external(OcellusPhaseTwo.RIFTS_BUSY, params = true),
+                            setVarn(OcellusVarns.RIFT_BUSY, 1),
                             effect,
-                            external(OcellusPhaseTwo.RIFTS_BUSY, params = false),
+                            setVarn(OcellusVarns.RIFT_BUSY, 0),
                             setVarn(OcellusVarns.SPECIAL_STEP, next),
                         )
                 }
@@ -507,7 +506,10 @@ constructor(
      * land two ticks after that.
      */
     private fun voidBombs(): Effect {
-        val tiles = customTiles(OcellusArena.FLOOR) { npc, _, _ -> encounter.phaseTwo.bombTiles(npc) }
+        val tiles =
+            customTiles(OcellusArena.FLOOR) { npc, _, _ ->
+                encounter.of(npc)?.phaseTwo?.bombTiles(npc).orEmpty()
+            }
         val idle =
             sequence(
                 mapSpotanim(BOMB_IDLE_SPOT, CurrentTile, height = BOMB_HEIGHT),
@@ -549,11 +551,30 @@ constructor(
                     sequence(
                         setVarn(OcellusVarns.SPECIAL_STEP, quadrant * QUADRANT_STEPS),
                         external(OcellusPhaseTwo.RIFTS_RESET, params = RIFT_KINDS[quadrant]),
+                        if (RIFT_KINDS[quadrant] < 0) setVarn(OcellusVarns.RIFT_NEXT, 0)
+                        else setVarn(OcellusVarns.RIFT_NEXT, VarExpr.Now + RIFT_FIRST_AT),
                     )
             }
         return sequence(
             setVarn(OcellusVarns.SPECIAL_CYCLES, 0),
+            setVarn(OcellusVarns.RIFT_BUSY, 0),
             switch(OcellusVarns.THRESHOLD, *starts.toTypedArray()),
+        )
+    }
+
+    /** Opens the next pair of rifts once its time has come, but never while a special is running. */
+    private fun riftWave(): Effect {
+        val due = varnExpired(OcellusVarns.RIFT_NEXT) and varnIs(OcellusVarns.RIFT_BUSY, 0)
+        return whenever(
+            due,
+            sequence(
+                external(OcellusPhaseTwo.RIFTS_OPEN),
+                whenever(
+                    varnIs(THRESHOLD, QUADRANT_STAGE + QUADRANT_THRESHOLDS.size),
+                    setVarn(OcellusVarns.RIFT_NEXT, VarExpr.Now + RIFT_LAST_GAP),
+                    otherwise = setVarn(OcellusVarns.RIFT_NEXT, VarExpr.Now + RIFT_PAIR_GAP),
+                ),
+            ),
         )
     }
 
@@ -999,6 +1020,7 @@ constructor(
         sequence(
             lockMovement(),
             external(OcellusPhaseTwo.RIFTS_STOP),
+            setVarn(OcellusVarns.RIFT_NEXT, 0),
             external(OcellusPhaseTwo.VINES_CLEAR),
             nextAttackIn(ATTACK_HOLD),
             external(OcellusSlash.RELEASE),
@@ -1325,6 +1347,9 @@ constructor(
         const val UNTETHER_RECOVERY = 8
         const val UNTETHER_RIFT_DELAY = 3
         val RIFT_KINDS = listOf(-1, 0, 1, 2)
+        const val RIFT_FIRST_AT = 3
+        const val RIFT_PAIR_GAP = 48
+        const val RIFT_LAST_GAP = 60
         const val UNTETHER_REACH = 12
         val UNTETHER_DOTS = 12..15
         // PLACEHOLDER: every capture shows the magic hit fully prayed against (0); this is the spread's figure.

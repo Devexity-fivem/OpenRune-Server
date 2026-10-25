@@ -15,7 +15,8 @@ internal class OcellusAttackHook @Inject constructor(private val encounter: Ocel
 
     override fun validate(player: Player, npc: Npc): NpcAttackValidateResult {
         if (npc.visType.id != phaseThree) return NpcAttackValidateResult.Pass
-        if (!encounter.phaseTwo.isOutsideQuadrant(npc, player.coords)) {
+        val phaseTwo = encounter.of(npc)?.phaseTwo ?: return NpcAttackValidateResult.Pass
+        if (!phaseTwo.isOutsideQuadrant(npc, player.coords)) {
             return NpcAttackValidateResult.Pass
         }
         return NpcAttackValidateResult.Deny("You can't reach Ocellus from across the gap.")

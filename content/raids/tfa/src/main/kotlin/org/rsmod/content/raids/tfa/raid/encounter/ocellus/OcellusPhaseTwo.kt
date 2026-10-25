@@ -13,6 +13,7 @@ import org.rsmod.api.player.midiSong
 import org.rsmod.api.player.ui.setColour
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 import org.rsmod.game.headbar.Headbar
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.loc.BoundLocInfo
@@ -79,6 +80,8 @@ internal class OcellusPhaseTwo(
 
     fun placeCensers(middle: CoordGrid) = censers.place(middle)
 
+    fun resetCharges(players: List<Player>) = censers.resetCharges(players)
+
     fun lightCenser(boss: Npc, at: BoundLocInfo): String? = censers.light(boss, at)
 
     fun absorb(damage: Int) {
@@ -106,7 +109,7 @@ internal class OcellusPhaseTwo(
 
     fun playVictorySong(npc: Npc) = playSong(npc, VICTORY_SONG)
 
-    private fun playSong(npc: Npc, song: Int) {
+    private fun playSong(npc: Npc, song: String) {
         for (fighter in OcellusArena.players(npc, deps.playerList)) {
             fighter.midiSong(song, fadeOutSpeed = SONG_FADE_SPEED, fadeInDelay = SONG_FADE_SPEED)
         }
@@ -207,7 +210,7 @@ internal class OcellusPhaseTwo(
         const val BOMBS_MARK = OcellusBombs.MARK
         const val BOMBS_IDLE = OcellusBombs.IDLE
         const val RIFTS_RESET = OcellusRifts.RESET
-        const val RIFTS_BUSY = OcellusRifts.BUSY
+        const val RIFTS_OPEN = OcellusRifts.OPEN
         const val RIFTS_STOP = OcellusRifts.STOP
         const val VINES_CLEAR = OcellusVine.CLEAR
         const val SOULS_TAKE = OcellusSouls.TAKE
@@ -233,22 +236,22 @@ internal class OcellusPhaseTwo(
         const val ARENA_COLLAPSE = OcellusCollapse.COLLAPSE
         const val GAP_WALLS = OcellusCollapse.GAP_WALLS
 
-        private const val PHASE_TWO_SONG = 893
-        private const val PHASE_THREE_SONG = 894
-        private const val VICTORY_SONG = 147
+        private const val PHASE_TWO_SONG = "midi.tfa_ocellus_combat_part_01"
+        private const val PHASE_THREE_SONG = "midi.tfa_ocellus_combat_part_02"
+        private const val VICTORY_SONG = "midi.stop_music"
         private const val SONG_FADE_SPEED = 60
 
         private const val PHASE_TWO_TRANSFORM_LEVEL = 1424
         private const val PHASE_TWO_LEVEL = 1601
         private const val POOL_HP_BASE = 1020
         private const val POOL_HP_PER_PLAYER = 2200
-        private const val HITMARK_SHIELD_MAX = 44
-        private const val HITMARK_REGULAR_TINT = 17
+        private val HITMARK_SHIELD_MAX = "hitmark.shield_damage_max".asRSCM(RSCMType.HITMARK)
+        private val HITMARK_REGULAR_TINT = "hitmark.regular_damage_tint".asRSCM(RSCMType.HITMARK)
         const val HITBOX_HEADBAR = 0
         private val BAR_BACK = Color(200, 0, 0)
         private val BAR_SLIDING = Color(0, 144, 0)
         private val BAR_REMAINING = Color(0, 200, 0)
-        private const val HEADBAR_HEALTH_100 = 19
+        private val HEADBAR_HEALTH_100 = "headbar.health_100".asRSCM(RSCMType.HEADBAR)
         private const val BAR_SEGMENTS = 100
         private const val HITBOX_HP = 30000
         private const val DISCHARGE_SHARE = 0.5

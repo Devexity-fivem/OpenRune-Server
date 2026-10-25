@@ -66,6 +66,12 @@ internal object OcellusArena {
             dz.sign == (boss.z - middle.z).sign
     }
 
+    fun contains(origin: CoordGrid, tile: CoordGrid): Boolean {
+        val sw = origin.translate(SW_DX, SW_DZ)
+        val ne = origin.translate(NE_DX, NE_DZ)
+        return tile.level == sw.level && tile.x in sw.x..ne.x && tile.z in sw.z..ne.z
+    }
+
     fun players(npc: Npc, playerList: PlayerList): List<Player> {
         val sw = npc.spawnCoords.translate(SW_DX, SW_DZ)
         val ne = npc.spawnCoords.translate(NE_DX, NE_DZ)
@@ -91,4 +97,7 @@ internal object OcellusVarns {
     const val METER = "varn.ocellus_meter"
     const val BARRAGE_WAVES = "varn.ocellus_barrage_waves"
     const val SPECIAL_CYCLES = "varn.ocellus_special_cycles"
-    const val SPECIAL_STEP = "varn.ocellus_special_step"}
+    const val SPECIAL_STEP = "varn.ocellus_special_step"
+    const val RIFT_NEXT = "varn.ocellus_rift_next"
+    const val RIFT_BUSY = "varn.ocellus_rift_busy"
+}

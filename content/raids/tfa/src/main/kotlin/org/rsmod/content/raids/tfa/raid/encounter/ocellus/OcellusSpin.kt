@@ -1,8 +1,8 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
 import org.rsmod.api.bosses.runtime.BossDeps
-import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter
+import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 
 /**
@@ -14,10 +14,10 @@ import org.rsmod.game.entity.Player
 internal class OcellusSpin(private val deps: BossDeps) {
     fun register() {
         deps.extensionRegistry.register(CHECK_OFF) {
-            forEachPlayer { player -> set(player, if (isProtecting(player)) MISSED else OFF) }
+            forEachPlayer(it.npc) { player -> set(player, if (isProtecting(player)) MISSED else OFF) }
         }
         deps.extensionRegistry.register(CHECK_ON) {
-            forEachPlayer { player ->
+            forEachPlayer(it.npc) { player ->
                 val wasOff = player.vars[SPIN] == OFF
                 set(player, if (wasOff && isProtecting(player)) PROTECTED else MISSED)
             }
@@ -26,8 +26,8 @@ internal class OcellusSpin(private val deps: BossDeps) {
 
     fun isProtected(player: Player): Boolean = player.vars[SPIN] == PROTECTED
 
-    private fun forEachPlayer(action: (Player) -> Unit) {
-        for (player in deps.playerList) if (player.isValidTarget()) action(player)
+    private fun forEachPlayer(boss: Npc, action: (Player) -> Unit) {
+        OcellusArena.players(boss, deps.playerList).forEach(action)
     }
 
     private fun set(player: Player, state: Int) {

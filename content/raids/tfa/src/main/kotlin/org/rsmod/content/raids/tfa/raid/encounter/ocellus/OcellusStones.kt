@@ -1,5 +1,6 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
+import jakarta.inject.Inject
 import kotlin.math.abs
 import kotlin.math.sign
 import org.rsmod.api.config.Constants
@@ -16,7 +17,7 @@ import org.rsmod.plugin.scripts.ScriptContext
  * then outwards along the stones. Reaching the outermost stone carries on, a tick later, with a
  * jump off onto the other side.
  */
-class OcellusStones : PluginScript() {
+class OcellusStones @Inject constructor(private val encounter: OcellusEncounter) : PluginScript() {
     override fun ScriptContext.startup() {
         for (stone in STONES) onApLoc1(stone) { apJump(it.loc) }
     }
@@ -27,7 +28,7 @@ class OcellusStones : PluginScript() {
 
     /** One hop per click: onto the inner stone, outwards a stone at a time, then off the outer one. */
     private suspend fun ProtectedAccess.jump(stone: CoordGrid) {
-        val centre = OcellusEncounter.CENTRE
+        val centre = encounter.at(coords)?.centre ?: return
         val alongZ = stone.x == centre.x
         val offset = { tile: CoordGrid -> if (alongZ) tile.z - centre.z else tile.x - centre.x }
         val onArm = if (alongZ) coords.x == centre.x else coords.z == centre.z

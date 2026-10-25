@@ -10,7 +10,10 @@ class OcellusCenserScript @Inject constructor(private val encounter: OcellusEnco
     PluginScript() {
     override fun ScriptContext.startup() {
         for (censer in CENSERS) {
-            onOpLoc1(censer) { encounter.lightCenser(it.loc)?.let(::mes) }
+            onOpLoc1(censer) {
+                val why = encounter.at(coords)?.lightCenser(it.loc) ?: OcellusCensers.NOTHING
+                mes(why)
+            }
         }
     }
 

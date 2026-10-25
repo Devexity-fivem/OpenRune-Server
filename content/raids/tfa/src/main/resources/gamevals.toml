@@ -10,6 +10,8 @@ ocellus_barrage_waves = 64427
 ocellus_special_cycles = 64428
 ocellus_special_step = 64429
 ocellus_curse = 64430
+ocellus_rift_next = 64431
+ocellus_rift_busy = 64432
 
 [gamevals.varp]
 ocellus_spin = 64150
@@ -17,6 +19,11 @@ ocellus_censer = 64151
 
 [gamevals.headbar]
 ocellus_quadrant_destroy = 72
+ocellus_rift_charge = 75
+
+[gamevals.midi]
+tfa_ocellus_combat_part_01 = 893
+tfa_ocellus_combat_part_02 = 894
 
 [gamevals.clientscript]
 ocellus_proj_curve_height = 10024

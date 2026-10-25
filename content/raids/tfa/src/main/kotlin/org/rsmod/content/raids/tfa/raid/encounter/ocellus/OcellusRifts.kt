@@ -5,7 +5,6 @@ import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import dev.openrune.types.MoveRestrict
 import dev.openrune.types.NpcMode
-import java.util.IdentityHashMap
 import kotlin.math.abs
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.npc.heal
@@ -23,25 +22,24 @@ import org.rsmod.routefinder.flag.CollisionFlag
 
 /**
  * The void siphons and augmenters of the second and third quadrants, and the void rifts of the
- * last. A pair opens on the floor three ticks into the quadrant and again whenever [WAVE_GAP]
- * ticks have passed since the last pair, as soon as the boss isn't in the middle of a special.
+ * last. The spec says when a pair opens on the floor ([OPEN]); this class places it and runs it.
  * Each is a 44 hp rift the party can kill: a siphon feeds the boss until it does and heals whoever
  * kills it, an augmenter or rift charges and, if left to finish, goes off for the whole quadrant,
  * but empowers whoever kills it first.
  */
 internal class OcellusRifts(private val deps: BossDeps) {
-    private val waves = IdentityHashMap<Npc, Wave>()
+    private var kind: Kind? = null
+    private var opened = 0
     private val alive = ArrayList<Rift>()
 
     fun register() {
-        deps.extensionRegistry.register(RESET) { reset(it.npc, it.params as Int) }
-        deps.extensionRegistry.register(BUSY) { waves[it.npc]?.busy = it.params as Boolean }
-        deps.extensionRegistry.register(STOP) { stop(it.npc) }
+        deps.extensionRegistry.register(RESET) { reset(it.params as Int) }
+        deps.extensionRegistry.register(OPEN) { open(it.npc) }
+        deps.extensionRegistry.register(STOP) { stop() }
     }
 
     fun clear() {
-        for (rift in alive.toList()) remove(rift)
-        waves.clear()
+        stop()
     }
 
     /** Drops whatever rifts stand on [tiles], for floor that is about to fall away. */
@@ -56,7 +54,6 @@ internal class OcellusRifts(private val deps: BossDeps) {
         val detonateSpot: String,
         val forcedMaxHitStyle: Int,
         val maxCount: Int = COUNT,
-        val waveGap: Int = WAVE_GAP,
     ) {
         Siphon(
             "npc.tfa_ocellus_p3_bombportal_heal",
@@ -79,66 +76,41 @@ internal class OcellusRifts(private val deps: BossDeps) {
             "spotanim.vfx_human_ocellus_voidflare_default",
             FORCED_MELEE,
             maxCount = RIFT_MAX_COUNT,
-            waveGap = RIFT_WAVE_GAP,
         ),
     }
 
-    private class Wave(
-        val kind: Kind,
-        var nextAt: Int,
-        var busy: Boolean = false,
-        var opened: Int = 0,
-    )
+    private class Rift(val npc: Npc, val kind: Kind, var age: Int = 0)
 
-    private class Rift(val npc: Npc, val kind: Kind, val wave: Wave, var age: Int = 0)
-
-    private fun reset(boss: Npc, kindIndex: Int) {
-        stop(boss)
-        val kind = Kind.entries.getOrNull(kindIndex) ?: return
-        val wave = Wave(kind, deps.mapClock.cycle + FIRST_AT)
-        waves[boss] = wave
-        tick(boss, wave)
+    private fun reset(kindIndex: Int) {
+        stop()
+        kind = Kind.entries.getOrNull(kindIndex)
+        opened = 0
     }
 
-    private fun stop(boss: Npc) {
-        waves.remove(boss) ?: return
+    private fun stop() {
+        kind = null
         for (rift in alive.toList()) remove(rift)
     }
 
-    private fun tick(boss: Npc, wave: Wave) {
-        deps.worldQueues.add(1) {
-            if (waves[boss] !== wave) return@add
-            if (!boss.isSlotAssigned) {
-                waves.remove(boss)
-                return@add
-            }
-            val now = deps.mapClock.cycle
-            if (!wave.busy && now >= wave.nextAt) {
-                wave.nextAt = now + wave.kind.waveGap
-                open(boss, wave)
-            }
-            tick(boss, wave)
+    private fun open(boss: Npc) {
+        val kind = kind ?: return
+        if (kind == Kind.Rift) {
+            for (old in alive.toList()) remove(old)
         }
-    }
-
-    private fun open(boss: Npc, wave: Wave) {
-        if (wave.kind == Kind.Rift) {
-            for (old in alive.filter { it.wave === wave }) remove(old)
-        }
-        val count = minOf(COUNT + wave.opened++, wave.kind.maxCount)
+        val count = minOf(COUNT + opened++, kind.maxCount)
         for (tile in pickTiles(boss, count)) {
-            val npc = Npc(wave.kind.npc, tile)
+            val npc = Npc(kind.npc, tile)
             npc.moveRestrict = MoveRestrict.NoMove
             npc.mode = NpcMode.None
             npc.ignoreCombatInteractions = true
-            npc.vars[FORCED_MAX_HIT_STYLES] = wave.kind.forcedMaxHitStyle
+            npc.vars[FORCED_MAX_HIT_STYLES] = kind.forcedMaxHitStyle
             deps.npcRepo.add(npc, Int.MAX_VALUE)
             npc.respawns = false
             npc.hideAllOps()
-            npc.anim(wave.kind.spawnSeq)
+            npc.anim(kind.spawnSeq)
             npc.showHeadbar(Headbar.fromNoSource(CHARGE_BAR, CHARGE_BAR, 0, CHARGE_SEGMENTS, 0, CHARGE_CYCLES))
             showHealth(npc)
-            val rift = Rift(npc, wave.kind, wave)
+            val rift = Rift(npc, kind)
             alive.add(rift)
             deps.worldQueues.add(1) { if (rift in alive) npc.showAllOps() }
             watch(boss, rift)
@@ -257,7 +229,7 @@ internal class OcellusRifts(private val deps: BossDeps) {
 
     companion object {
         const val RESET = "ocellus.rifts_reset"
-        const val BUSY = "ocellus.rifts_busy"
+        const val OPEN = "ocellus.rifts_open"
         const val STOP = "ocellus.rifts_stop"
 
         private const val FORCED_MAX_HIT_STYLES = "varn.forced_max_hit_styles"
@@ -265,17 +237,14 @@ internal class OcellusRifts(private val deps: BossDeps) {
         private const val FORCED_RANGED = 2
         private const val FORCED_MAGIC = 4
 
-        private const val FIRST_AT = 3
-        private const val WAVE_GAP = 48
         private const val COUNT = 2
         private const val RIFT_MAX_COUNT = 4
-        private const val RIFT_WAVE_GAP = 60
         private const val MIN_DISTANCE = 3
         private const val REACH = 12
         private const val BLOCKED = CollisionFlag.BLOCK_WALK or CollisionFlag.LOC
 
         private const val HEALTH_BAR = "headbar.health_40"
-        private const val CHARGE_BAR = 75
+        private val CHARGE_BAR = "headbar.ocellus_rift_charge".asRSCM(RSCMType.HEADBAR)
         private const val CHARGE_SEGMENTS = 30
         private const val CHARGE_CYCLES = 840
         private const val DETONATE_AT = 30

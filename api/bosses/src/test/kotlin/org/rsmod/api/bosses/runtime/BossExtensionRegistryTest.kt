@@ -42,6 +42,27 @@ class BossExtensionRegistryTest {
     }
 
     @Test
+    fun `a bound npc resolves its own scope before the shared handler`() {
+        val registry = BossExtensionRegistry()
+        val other =
+            Npc(NpcServerType(id = 1, name = "Boss", size = 1, hitpoints = 100), CoordGrid(3200, 3200))
+        val calls = mutableListOf<String>()
+        registry.register("shared") { calls += "global" }
+        registry.register("only_global") { calls += "only_global" }
+        val scope = BossExtensionRegistry()
+        scope.register("shared") { calls += "scoped" }
+        registry.bind(npc, scope)
+
+        registry.invoke("shared", null, npc, player, null)
+        registry.invoke("shared", null, other, player, null)
+        registry.invoke("only_global", null, npc, player, null)
+        registry.unbind(npc)
+        registry.invoke("shared", null, npc, player, null)
+
+        assertEquals(listOf("scoped", "global", "only_global", "global"), calls)
+    }
+
+    @Test
     fun `unknown handlers fail loudly`() {
         assertThrows<IllegalStateException> {
             BossExtensionRegistry().invoke("missing", null, npc, player, null)

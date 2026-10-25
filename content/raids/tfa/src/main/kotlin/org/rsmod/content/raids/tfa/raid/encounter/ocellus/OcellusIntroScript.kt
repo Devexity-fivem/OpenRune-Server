@@ -17,7 +17,7 @@ class OcellusIntroScript @Inject constructor(private val encounter: OcellusEncou
     PluginScript() {
     override fun ScriptContext.startup() {
         onOpNpc1("npc.tfa_ocellus_intro") { talkTo(it.npc) }
-        onOpNpc3("npc.tfa_ocellus_intro") { encounter.ready(player) }
+        onOpNpc3("npc.tfa_ocellus_intro") { encounter.of(it.npc)?.ready(player) }
     }
 
     private suspend fun ProtectedAccess.talkTo(npc: Npc) {
@@ -26,7 +26,7 @@ class OcellusIntroScript @Inject constructor(private val encounter: OcellusEncou
                 introduction()
                 player.ocellusMet = 1
             }
-            readyPrompt()
+            readyPrompt(npc)
         }
     }
 
@@ -62,11 +62,11 @@ class OcellusIntroScript @Inject constructor(private val encounter: OcellusEncou
         chatNpc(neutral, "The time has come... for ascension.")
     }
 
-    private suspend fun Dialogue.readyPrompt() {
+    private suspend fun Dialogue.readyPrompt(npc: Npc) {
         val ready =
             choice2("Yes.", true, "No.", false, title = "Are you ready for the final challenge?")
         if (ready) {
-            encounter.ready(player)
+            encounter.of(npc)?.ready(player)
         }
     }
 }

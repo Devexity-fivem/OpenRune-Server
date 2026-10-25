@@ -255,3 +255,9 @@ id = "varn.forced_max_hit_styles"
 
 [[varn]]
 id = "varn.ocellus_curse"
+
+[[varn]]
+id = "varn.ocellus_rift_next"
+
+[[varn]]
+id = "varn.ocellus_rift_busy"

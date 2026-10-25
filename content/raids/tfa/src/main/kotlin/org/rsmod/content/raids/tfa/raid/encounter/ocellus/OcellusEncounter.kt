@@ -1,135 +1,97 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
-import dev.openrune.ServerCacheManager
-import dev.openrune.rscm.RSCM.asRSCM
-import dev.openrune.rscm.RSCMType
-import dev.openrune.types.MoveRestrict
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.rsmod.api.bossbar.plugin.BossHpBarScript
 import org.rsmod.api.bosses.runtime.BossDeps
-import org.rsmod.api.instances.timer.formatInstanceKillTime
-import org.rsmod.api.npc.apPlayer2
+import org.rsmod.api.instances.InstanceAccess
+import org.rsmod.api.instances.InstanceArea
+import org.rsmod.api.instances.InstanceId
+import org.rsmod.api.instances.InstanceManager
+import org.rsmod.api.instances.InstanceSpec
+import org.rsmod.api.instances.RegionLocal
 import org.rsmod.api.npc.interact.AiPlayerInteractions
-import org.rsmod.api.player.output.mes
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
 import org.rsmod.content.raids.tfa.raid.reward.TfaVault
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
-import org.rsmod.game.loc.BoundLocInfo
-import org.rsmod.game.map.Direction
 import org.rsmod.map.CoordGrid
 
+/** The Ocellus rooms currently open, one [OcellusFight] per instance. */
 @Singleton
 class OcellusEncounter
 @Inject
 constructor(
     private val deps: BossDeps,
+    private val manager: InstanceManager,
     private val interactions: AiPlayerInteractions,
     private val hpBar: BossHpBarScript,
     private val vault: TfaVault,
-    energy: SpecialAttackEnergy,
+    private val energy: SpecialAttackEnergy,
 ) {
     internal val meter = OcellusMeter(deps, hpBar)
-    internal val phaseTwo = OcellusPhaseTwo(deps, hpBar, meter, interactions, energy) { partySize }
 
-    private var boss: Npc? = null
-    private var started = false
-    private var startedAt = 0
-    private var partySize = 1
+    private val fights = HashMap<InstanceId, OcellusFight>()
 
-    fun reset() {
-        started = false
-        phaseTwo.clear()
-        boss?.let { if (it.isSlotAssigned) deps.npcRepo.del(it, Int.MAX_VALUE) }
-        val npc = Npc("npc.tfa_ocellus_intro", INTRO_SPAWN)
-        npc.respawnDir = Direction.North
-        npc.moveRestrict = MoveRestrict.NoMove
-        deps.npcRepo.add(npc, Int.MAX_VALUE)
-        boss = npc
-        phaseTwo.placeCensers(CENTRE)
+    sealed interface Opened {
+        class Room internal constructor(internal val fight: OcellusFight, val enter: CoordGrid) :
+            Opened
+
+        data class Failed(val reason: String) : Opened
     }
 
-    /** Lights a censer for [player], returning why it can't be if it can't. */
-    fun lightCenser(at: BoundLocInfo): String? {
-        val npc = boss?.takeIf { it.isSlotAssigned && started } ?: return OcellusCensers.NOTHING
-        return phaseTwo.lightCenser(npc, at)
-    }
+    internal fun of(npc: Npc): OcellusFight? = fights.values.firstOrNull { it.boss === npc }
 
-    fun ready(player: Player) {
-        if (started) return
-        val npc = boss?.takeIf { it.isSlotAssigned } ?: return
-        start(npc, player, partySize = 1)
-        player.mes("Challenge started: Ocellus.")
-    }
+    internal fun at(tile: CoordGrid): OcellusFight? = fights.values.firstOrNull { it.contains(tile) }
 
-    /** Testing shortcut: resets the room, starts the fight and sends it straight to phase 3. */
-    fun startAtPhaseThree(player: Player): Boolean {
-        ready(player)
-        val npc = boss?.takeIf { it.isSlotAssigned && started } ?: return false
-        npc.vars[OcellusVarns.THRESHOLD] = OcellusVarns.SKIP_TO_PHASE_THREE
-        return true
-    }
-
-    fun setHealthPercent(percent: Int): Boolean {
-        val npc = boss?.takeIf { it.isSlotAssigned && started } ?: return false
-        npc.hitpoints = maxOf(1, (npc.baseHitpointsLvl.toLong() * percent / 100).toInt())
-        for (fighter in OcellusArena.players(npc, deps.playerList)) hpBar.onUpdate(fighter, npc)
-        return true
-    }
-
-    fun complete(npc: Npc) {
-        val ticks = deps.mapClock.cycle - startedAt
-        phaseTwo.stopHazards()
-        phaseTwo.playVictorySong(npc)
-        val fighters = OcellusArena.players(npc, deps.playerList)
-        vault.begin(fighters, npc.spawnCoords.translate(BLADE_DX, BLADE_DZ))
-        for (fighter in fighters) {
-            val precise = fighter.vars["varbit.option_precise_timing"] != 0
-            val duration = formatInstanceKillTime(ticks, precise)
-            fighter.mes("Challenge complete: Ocellus. Duration: <col=ef1020>$duration</col>")
+    internal fun open(owner: Player): Opened =
+        when (val result = manager.create(owner, KEY, SPEC, InstanceAccess.Private, deps.mapClock.cycle)) {
+            is InstanceManager.Result.Failed -> Opened.Failed(result.reason)
+            is InstanceManager.Result.Joined -> Opened.Failed("Ocellus rooms can't be joined yet.")
+            is InstanceManager.Result.Created -> {
+                val origin = checkNotNull(manager.resolveCoord(result.session, INTRO_SPAWN))
+                val fight =
+                    OcellusFight(result.session, origin, deps, meter, hpBar, interactions, energy, vault)
+                manager.attachNpc(result.session.id, fight.open())
+                fights[result.session.id] = fight
+                Opened.Room(fight, result.enter)
+            }
         }
-        deps.worldQueues.add(HUD_FADE_DELAY) {
-            for (fighter in fighters) hpBar.fadeOut(fighter)
-            deps.worldQueues.add(HUD_HIDE_DELAY) { fighters.forEach(hpBar::onDeathClose) }
-        }
-    }
 
-    /** Hands the fight to the boss spec, which starts on its first combat tick. */
-    private fun start(npc: Npc, player: Player, partySize: Int) {
-        started = true
-        startedAt = deps.mapClock.cycle
-        this.partySize = partySize
-        val shield = ServerCacheManager.getNpc("npc.tfa_ocellus_p1".asRSCM(RSCMType.NPC))!!
-        npc.transmog(shield, Int.MAX_VALUE)
-        npc.copyStats(shield)
-        npc.baseHitpointsLvl = SHIELD_HP_BASE + SHIELD_HP_PER_PLAYER * partySize
-        npc.hitpoints = npc.baseHitpointsLvl
-        npc.moveRestrict = shield.moveRestrict
-        npc.say("Now... ascension...")
-        for (fighter in OcellusArena.players(npc, deps.playerList)) hpBar.onOpen(fighter, npc)
-        meter.show(npc)
-        npc.apPlayer2(player, interactions)
-        npc.setHuntMode(checkNotNull(ServerCacheManager.getHunt(HUNT_CONSTANT_RANGED)))
-        npc.setHunt(shield.huntRange)
+    internal fun close(id: InstanceId) {
+        fights.remove(id)?.dispose()
     }
 
     companion object {
-        val ENTRANCE: CoordGrid = CoordGrid(4128, 5658, 1)
+        const val KEY = "tfa_ocellus"
+
+        private val ENTRANCE = CoordGrid(4128, 5658, 1)
         private val INTRO_SPAWN = CoordGrid(4126, 5669, 1)
+        private const val MAP_SQUARE_SHIFT = 6
+        private const val REGION_X_SHIFT = 8
+        private const val MAX_PARTY = 8
 
-        /** The middle tile of the room, where the walls cross. */
-        val CENTRE: CoordGrid = INTRO_SPAWN.translate(1, 4)
+        private val SPEC =
+            InstanceSpec(
+                fee = 0,
+                maxPlayers = MAX_PARTY,
+                reclaimTicks = 0,
+                graceTicks = 0,
+                destroyWhenEmpty = true,
+                area =
+                    InstanceArea.copyRegions(
+                        regionIds = listOf(regionId(INTRO_SPAWN)),
+                        level = INTRO_SPAWN.level,
+                        enterCoord = local(ENTRANCE),
+                        exitCoord = TfaVault.LOBBY,
+                    ),
+                settingsRowId = 0,
+            )
 
-        /** A safe floor tile in the south-west quadrant, clear of the cross and the boss's spot. */
-        val PHASE_THREE_SPOT: CoordGrid = CENTRE.translate(-4, -4)
+        private fun regionId(tile: CoordGrid): Int =
+            ((tile.x shr MAP_SQUARE_SHIFT) shl REGION_X_SHIFT) or (tile.z shr MAP_SQUARE_SHIFT)
 
-        private const val BLADE_DX = -6
-        private const val BLADE_DZ = 9
-        private const val HUD_FADE_DELAY = 10
-        private const val HUD_HIDE_DELAY = 4
-        private const val HUNT_CONSTANT_RANGED = 2
-        private const val SHIELD_HP_BASE = 480
-        private const val SHIELD_HP_PER_PLAYER = 1050
+        private fun local(tile: CoordGrid) =
+            RegionLocal(tile.level, tile.mx, tile.mz, tile.lx, tile.lz)
     }
 }

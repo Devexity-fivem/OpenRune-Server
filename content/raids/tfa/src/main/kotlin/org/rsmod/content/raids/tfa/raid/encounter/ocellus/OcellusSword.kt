@@ -12,7 +12,9 @@ import org.rsmod.plugin.scripts.ScriptContext
 class OcellusSword @Inject constructor(private val encounter: OcellusEncounter) : PluginScript() {
     override fun ScriptContext.startup() {
         val hitbox = ServerCacheManager.getNpc("npc.tfa_ocellus_p2_sword_hitbox".asRSCM(RSCMType.NPC))!!
-        onModifyNpcHit(hitbox) { if (hit.isFromPlayer) encounter.phaseTwo.absorb(hit.damage) }
+        onModifyNpcHit(hitbox) {
+            if (hit.isFromPlayer) encounter.at(npc.coords)?.phaseTwo?.absorb(hit.damage)
+        }
         onNpcHit(hitbox) {
             npc.hitpoints = npc.baseHitpointsLvl
             npc.removeHeadbar(OcellusPhaseTwo.HITBOX_HEADBAR)

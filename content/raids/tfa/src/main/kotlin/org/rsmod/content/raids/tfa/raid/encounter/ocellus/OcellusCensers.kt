@@ -61,7 +61,6 @@ internal class OcellusCensers(
     /** Puts the four censers in the room's corners, [middle] being the tile the walls cross on. */
     fun place(middle: CoordGrid) {
         clear()
-        for (player in deps.playerList) player.charges = 0
         val corners =
             listOf(
                 middle.translate(-CORNER, -CORNER),
@@ -78,6 +77,10 @@ internal class OcellusCensers(
     fun clear() {
         for (censer in censers) deps.locRepo.del(censer.loc, Int.MAX_VALUE)
         censers.clear()
+    }
+
+    fun resetCharges(players: List<Player>) {
+        for (player in players) player.charges = 0
     }
 
     /** Lights the censer at [at], returning why it can't be if it can't. */
