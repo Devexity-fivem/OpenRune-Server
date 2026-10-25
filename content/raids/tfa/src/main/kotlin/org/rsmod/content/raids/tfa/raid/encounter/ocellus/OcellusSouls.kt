@@ -17,8 +17,8 @@ import org.rsmod.routefinder.flag.CollisionFlag
 /**
  * The soul fragment of the final phase. The tick after a player's idle spotanim the boss drains
  * half their hitpoints and puts a fragment, which only they see, on a random safe tile of the
- * quadrant. Once it has settled, stepping onto it gives back what was drained. It is a long spawn
- * unless the void has left only the boss and the ring of tiles around it safe, then a short one.
+ * quadrant. Once it has settled, stepping onto it gives back what was drained. It settles in 12
+ * ticks under the ranged deflect and 6 under the melee one.
  */
 internal class OcellusSouls(
     private val deps: BossDeps,
@@ -27,20 +27,20 @@ internal class OcellusSouls(
     private val current = IdentityHashMap<Player, Fragment>()
 
     fun register() {
-        deps.extensionRegistry.register(TAKE) { take(it.npc) }
+        deps.extensionRegistry.register(TAKE) { take(it.npc, short = it.params as Boolean) }
         deps.extensionRegistry.register(RELEASE) { it.npc.infoProtocol.setSpotanim(-1, 0, 0, BOSS_SLOT) }
     }
 
     private class Fragment(val tile: CoordGrid, val owed: Int, val settledAt: Int, var age: Int = 0)
 
-    private fun take(boss: Npc) {
+    private fun take(boss: Npc, short: Boolean) {
         for (player in OcellusArena.quadrantPlayers(boss, deps.playerList)) {
             player.spotanimSpecific(PLAYER_IDLE_SPOT, slot = PLAYER_SLOT)
-            deps.worldQueues.add(TAKE_DELAY) { drain(boss, player) }
+            deps.worldQueues.add(TAKE_DELAY) { drain(boss, player, short) }
         }
     }
 
-    private fun drain(boss: Npc, player: Player) {
+    private fun drain(boss: Npc, player: Player, short: Boolean) {
         if (!player.isValidTarget()) return
         val taken = player.hitpoints / 2
         if (taken <= 0) return
@@ -48,7 +48,6 @@ internal class OcellusSouls(
         val safe = safeTiles(boss)
         if (safe.isEmpty()) return
         val tile = safe[deps.random.of(safe.size)]
-        val short = safe.none { !nearBoss(boss, it) }
         val settled = if (short) SHORT_SPAWN_TICKS else LONG_SPAWN_TICKS
         player.spotanimMapPrivate(tile, if (short) SHORT_SPAWN_SPOT else LONG_SPAWN_SPOT)
         val fragment = Fragment(tile, taken, settled)
@@ -93,12 +92,6 @@ internal class OcellusSouls(
         return safe
     }
 
-    private fun nearBoss(boss: Npc, tile: CoordGrid): Boolean {
-        val dx = tile.x - boss.coords.x
-        val dz = tile.z - boss.coords.z
-        return dx in -RING until boss.size + RING && dz in -RING until boss.size + RING
-    }
-
     companion object {
         const val TAKE = "ocellus.souls_take"
         const val RELEASE = "ocellus.souls_release"
@@ -115,7 +108,6 @@ internal class OcellusSouls(
         private const val DESPAWN_SPOT = "spotanim.vfx_ocellus_soul_fragment_despawn"
         private const val LONG_SPAWN_TICKS = 12
         private const val SHORT_SPAWN_TICKS = 6
-        private const val RING = 1
         private const val REACH = 12
         private const val BLOCKED = CollisionFlag.BLOCK_WALK or CollisionFlag.LOC
         private const val HITPOINTS = "stat.hitpoints"

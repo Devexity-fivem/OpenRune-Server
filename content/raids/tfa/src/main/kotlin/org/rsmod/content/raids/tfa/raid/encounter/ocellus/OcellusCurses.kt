@@ -11,24 +11,27 @@ import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.script.onEvent
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.NpcList
+import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitType
+import org.rsmod.game.proj.ProjAnim
 import org.rsmod.plugin.scripts.ScriptContext
 
 /**
  * What the final phase's overhead icons do. Under a deflect the hit still lands on Ocellus but
  * [REFLECT_PERCENT] of it comes back at whoever threw it, for the deflected style only. Under soul
- * split every hit Ocellus lands on a player in the style it is swinging heals him by the damage
- * dealt. The spec writes [VARN] beside each icon it raises.
+ * split every hit Ocellus lands on a player in the style it is swinging sends a bolt to him that
+ * heals him by the damage dealt two ticks later. The spec writes [VARN] beside each icon it raises.
  */
 internal class OcellusCurses(private val deps: BossDeps, private val npcList: NpcList) {
     private val finalForm = "npc.tfa_ocellus_p3".asRSCM(RSCMType.NPC)
+    private var soundAt = -1
 
     fun register(ctx: ScriptContext) {
         with(ctx) {
             onEvent<PlayerHitEvents.Impact> {
                 if (!hit.isFromNpc) return@onEvent
                 val boss = hit.resolveNpcSource(npcList) ?: return@onEvent
-                soulSplit(boss, hit.type, hit.damage)
+                soulSplit(boss, player, hit.type, hit.damage)
             }
         }
     }
@@ -50,10 +53,35 @@ internal class OcellusCurses(private val deps: BossDeps, private val npcList: Np
         attacker.queueHit(boss, 1, HitType.Typeless, damage, deps.playerHitModifier)
     }
 
-    private fun soulSplit(boss: Npc, type: HitType, damage: Int) {
+    private fun soulSplit(boss: Npc, player: Player, type: HitType, damage: Int) {
         if (boss.visType.id != finalForm || boss.vars[VARN] != SOUL_SPLIT) return
         if (type != HitType.Melee && type != HitType.Ranged && type != HitType.Magic) return
-        if (damage > 0 && boss.hitpoints > 0) boss.heal(damage, showHitsplat = true)
+        if (damage <= 0 || boss.hitpoints <= 0) return
+        val centre = boss.coords.translate(boss.size / 2, boss.size / 2)
+        deps.worldRepo.projAnim(
+            ProjAnim(
+                spotanim = SOUL_SPLIT_PROJECTILE.asRSCM(RSCMType.SPOTANIM),
+                startHeight = SOUL_SPLIT_START_HEIGHT,
+                endHeight = SOUL_SPLIT_END_HEIGHT,
+                startTime = 0,
+                endTime = SOUL_SPLIT_CYCLES,
+                angle = SOUL_SPLIT_ANGLE,
+                progress = 0,
+                sourceIndex = 0,
+                targetIndex = 0,
+                startCoord = player.coords,
+                endCoord = centre,
+            )
+        )
+        deps.worldQueues.add(SOUL_SPLIT_DELAY) {
+            if (!boss.isSlotAssigned || boss.hitpoints <= 0) return@add
+            boss.heal(damage, showHitsplat = true)
+            val now = deps.mapClock.cycle
+            if (soundAt != now) {
+                soundAt = now
+                deps.worldRepo.soundArea(centre, SOUL_SPLIT_SOUND, radius = SOUL_SPLIT_SOUND_RADIUS)
+            }
+        }
     }
 
     companion object {
@@ -66,5 +94,14 @@ internal class OcellusCurses(private val deps: BossDeps, private val npcList: Np
         // PLACEHOLDER: no fighter-side capture of the final phase shows what a deflect returns.
         private const val REFLECT_PERCENT = 20
         private const val PERCENT = 100
+
+        private const val SOUL_SPLIT_DELAY = 2
+        private const val SOUL_SPLIT_PROJECTILE = "spotanim.nex_soulsplit_projanim"
+        private const val SOUL_SPLIT_START_HEIGHT = 120
+        private const val SOUL_SPLIT_END_HEIGHT = 190
+        private const val SOUL_SPLIT_CYCLES = 60
+        private const val SOUL_SPLIT_ANGLE = 5
+        private const val SOUL_SPLIT_SOUND = "synth.ocellus_soul_split_heal"
+        private const val SOUL_SPLIT_SOUND_RADIUS = 9
     }
 }

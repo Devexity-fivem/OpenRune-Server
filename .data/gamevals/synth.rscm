@@ -241,3 +241,6 @@ ocellus_p2_portal_spawn=12528
 ocellus_sword_discharge_vfx=4428
 ocellus_sword_discharge_hit=444
 ocellus_magic_spread_cast=12633
+ocellus_debris_fall=12619
+ocellus_siphon_heal=12543
+ocellus_soul_split_heal=5281

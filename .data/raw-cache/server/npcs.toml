@@ -16516,6 +16516,7 @@ huntMode = 2
 huntRange = 40
 [npc.params]
 "param.death_anim"="seq.npc_ocellus_phase3_death"
+"param.headbar"="headbar.health_100"
 
 [[npc]]
 id = "npc.tfa_ocellus_p3_bombportal_basic"

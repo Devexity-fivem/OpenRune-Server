@@ -1,10 +1,7 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
-import dev.openrune.rscm.RSCM.asRSCM
-import dev.openrune.rscm.RSCMType
 import dev.openrune.types.MoveRestrict
 import dev.openrune.types.NpcMode
-import dev.openrune.types.aconverted.SpotanimType
 import java.util.IdentityHashMap
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.player.hit.queueHit
@@ -18,8 +15,9 @@ import org.rsmod.game.hit.HitType
  * vine that only another player can bring down. If it is still standing when its time is up it
  * lets go, and the rooted player takes the hit.
  *
- * The vine is an invisible npc: it is the thing to click, and the entangle spotanims on it are
- * what the party sees. It stands on the rooted player's own tile, so they can't target it.
+ * The vine is the thing to click, and the entangle spotanims, which sit on the rooted player and
+ * are resent every tick, are what the party sees. It stands on the rooted player's own tile, so
+ * they can't target it.
  */
 internal class OcellusVine(private val deps: BossDeps) {
     private val roots = IdentityHashMap<Npc, Player>()
@@ -31,8 +29,7 @@ internal class OcellusVine(private val deps: BossDeps) {
 
     fun clear() {
         for ((vine, victim) in roots.entries.toList()) {
-            roots.remove(vine)
-            victim.frozen = false
+            release(vine, victim)
             if (vine.isSlotAssigned) deps.npcRepo.del(vine, Int.MAX_VALUE)
         }
     }
@@ -47,13 +44,11 @@ internal class OcellusVine(private val deps: BossDeps) {
         vine.mode = NpcMode.None
         deps.npcRepo.add(vine, Int.MAX_VALUE)
         vine.respawns = false
-        if (HIDE_VINE) vine.infoProtocol.setTransparency(0, 1, INVISIBLE, INVISIBLE, true)
         roots[vine] = victim
 
         victim.frozen = true
         victim.abortRoute()
-        vine.spotanim(START_SPOT)
-        deps.worldQueues.add(IDLE_AT) { if (roots[vine] === victim) vine.spotanim(IDLE_SPOT) }
+        victim.spotanim(START_SPOT, slot = SPOT_SLOT)
         watch(boss, vine, victim, LIFETIME)
     }
 
@@ -63,7 +58,10 @@ internal class OcellusVine(private val deps: BossDeps) {
             when {
                 vine.hitpoints <= 0 || !vine.isSlotAssigned -> release(vine, victim)
                 ticksLeft <= 1 -> expire(boss, vine, victim)
-                else -> watch(boss, vine, victim, ticksLeft - 1)
+                else -> {
+                    if (victim.isSlotAssigned) victim.spotanim(IDLE_SPOT, slot = SPOT_SLOT)
+                    watch(boss, vine, victim, ticksLeft - 1)
+                }
             }
         }
     }
@@ -71,12 +69,7 @@ internal class OcellusVine(private val deps: BossDeps) {
     private fun release(vine: Npc, victim: Player) {
         roots.remove(vine)
         victim.frozen = false
-        if (vine.isSlotAssigned) {
-            vine.spotanim(END_SPOT)
-        } else {
-            val end = SpotanimType(END_SPOT.asRSCM(RSCMType.SPOTANIM))
-            deps.worldRepo.spotanimMap(end, vine.coords, delay = 0)
-        }
+        if (victim.isSlotAssigned) victim.spotanim(END_SPOT, slot = SPOT_SLOT)
     }
 
     private fun expire(boss: Npc, vine: Npc, victim: Player) {
@@ -99,10 +92,8 @@ internal class OcellusVine(private val deps: BossDeps) {
 
         private const val VINE = "npc.tfa_ocellus_p3_void_vine"
         private const val LIFETIME = 32
-        private const val IDLE_AT = 2
         private const val END_TICKS = 2
-        private const val INVISIBLE = 255
-        private const val HIDE_VINE = true
+        private const val SPOT_SLOT = 5
 
         private const val START_SPOT = "spotanim.vfx_ocellus_spell_entangle01_start"
         private const val IDLE_SPOT = "spotanim.vfx_ocellus_spell_entangle01_idle"

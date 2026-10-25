@@ -1,5 +1,6 @@
 package org.rsmod.api.game.process.npc
 
+import dev.openrune.ServerCacheManager
 import jakarta.inject.Inject
 import org.rsmod.api.registry.npc.NpcRegistry
 import org.rsmod.api.utils.logging.GameExceptionHandler
@@ -51,22 +52,32 @@ constructor(
     }
 
     /**
-     * Drives the persistent idle animation set via [Npc.setIdleAnim], re-issuing it while the npc is
-     * idle. It is skipped on ticks where another animation already played (e.g. an attack) or where
-     * the npc moved, since both drive their own client-side animation.
+     * Drives the persistent idle animation set via [Npc.setIdleAnim]. It is skipped on ticks where
+     * another animation already played (e.g. an attack) or where the npc moved, since both drive
+     * their own client-side animation, and sent again once they are over. A sequence that loops on
+     * the client is only re-sent every [IDLE_REFRESH_TICKS] to keep its loop count from running out;
+     * any other is re-sent every idle tick.
      */
     private fun Npc.updateIdleSequence() {
         val idle = idleSequence
         if (idle == EntitySeq.NULL) {
             return
         }
-        if (pendingSequence != EntitySeq.NULL) {
+        if (pendingSequence != EntitySeq.NULL || hasMovedThisCycle) {
+            idleSequenceSentAt = -1
             return
         }
-        if (hasMovedThisCycle) {
+        val sentAt = idleSequenceSentAt
+        if (sentAt != -1 && currentMapClock - sentAt < IDLE_REFRESH_TICKS && idle.loopsOnClient()) {
             return
         }
         infoProtocol.setSequence(idle.id, idle.delay)
+        idleSequenceSentAt = currentMapClock
+    }
+
+    private fun EntitySeq.loopsOnClient(): Boolean {
+        val loops = ServerCacheManager.getAnim(id)?.maxLoops ?: return false
+        return loops >= CLIENT_LOOPS
     }
 
     private fun Npc.updateMovement() {
@@ -181,4 +192,9 @@ constructor(
             registry.del(this)
             exceptionHandler.handle(e) { "Error processing post-tick for npc: $this." }
         }
+
+    private companion object {
+        const val IDLE_REFRESH_TICKS = 50
+        const val CLIENT_LOOPS = 99
+    }
 }

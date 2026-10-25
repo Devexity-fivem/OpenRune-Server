@@ -195,6 +195,9 @@ public class Npc(
     public var idleSequence: EntitySeq = EntitySeq.NULL
         private set
 
+    /** Map clock of the last tick [idleSequence] was sent to the client, or `-1` if it isn't playing. */
+    public var idleSequenceSentAt: Int = -1
+
     public var transmog: NpcServerType? = null
         private set
 
@@ -408,12 +411,14 @@ public class Npc(
      */
     public fun setIdleAnim(seq: String) {
         idleSequence = EntitySeq(seq.asRSCM(RSCMType.SEQ), delay = 0, priority = 0)
+        idleSequenceSentAt = -1
     }
 
     /** Clears the persistent idle animation, reverting the npc to its cache `standAnim`. */
     public fun clearIdleAnim() {
         val wasSet = idleSequence != EntitySeq.NULL
         idleSequence = EntitySeq.NULL
+        idleSequenceSentAt = -1
         if (wasSet) {
             resetAnim()
         }

@@ -98,7 +98,7 @@ constructor(
             phase(CENTRE, scriptedMovement = true, lockMovement = true) {}
             phase(BROKEN, scriptedMovement = true, lockMovement = true) {}
             phase(PHASE_TWO, scriptedMovement = true, lockMovement = true) {}
-            phase(PHASE_THREE) {
+            phase(PHASE_THREE, lockMovement = true) {
                 weightedSelectorRandom { +random(ATTACK_CYCLE, weight = 1) }
                 forceWhen(varnAtLeast(OcellusVarns.SPECIAL_CYCLES, CYCLES_PER_SPECIAL), SPECIAL)
             }
@@ -586,7 +586,7 @@ constructor(
             sequence(
                 anim(SOUL_START_SEQ),
                 spotanim(if (levitating) SOUL_LEVITATING_SPOT else SOUL_IDLE_SPOT, slot = BOSS_SPOT_SLOT),
-                external(OcellusPhaseTwo.SOULS_TAKE),
+                external(OcellusPhaseTwo.SOULS_TAKE, params = !levitating),
                 external(OcellusPhaseTwo.VOID_CHAIN),
             )
         fun icon(index: Int, curse: Int) =
@@ -678,7 +678,15 @@ constructor(
             events += seq to external(OcellusSpin.CHECK_ON)
             events += seq + SPIN_HIT_DELAY to blades
         }
-        events += marks to onTiles(bound(DEBRIS_TILES), mapSpotanim(DEBRIS_SPOT, CurrentTile))
+        events +=
+            marks to
+                onTiles(
+                    bound(DEBRIS_TILES),
+                    sequence(
+                        mapSpotanim(DEBRIS_SPOT, CurrentTile),
+                        sound(DEBRIS_SOUND, radius = DEBRIS_SOUND_RADIUS, at = CurrentTile),
+                    ),
+                )
         events += impact to onTiles(bound(DEBRIS_TILES), external(OcellusVoid.DEBRIS, at = CurrentTile))
         events += impact to after(DEBRIS_VINE_DELAY, external(OcellusVine.SPAWN))
         events +=
@@ -1021,11 +1029,7 @@ constructor(
             external(OcellusPhaseTwo.QUADRANT_BARRIER),
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_STONES_BLOCK),
-            whenever(
-                varnIs(THRESHOLD, QUADRANT_STAGE + QUADRANT_THRESHOLDS.size),
-                lockMovement(),
-                otherwise = unlockMovement(),
-            ),
+            unlockMovement(),
         )
 
     /** Pools, then a closed volley with no gap, while a portal in each occupied quadrant rotates players on. */
@@ -1276,6 +1280,8 @@ constructor(
         const val PRAYER_LOOP_SPOT = "spotanim.vfx_ocellus_phase3_melee_prayer"
         const val PRAYER_OUT_SPOT = "spotanim.vfx_ocellus_phase3_melee_prayer_out"
         const val DEBRIS_SPOT = "spotanim.vfx_ocellus_falling_debris"
+        const val DEBRIS_SOUND = "synth.ocellus_debris_fall"
+        const val DEBRIS_SOUND_RADIUS = 1
         const val UNTETHER_IN_SEQ = "seq.npc_ocellus_phase3_unleash_in"
         const val UNTETHER_LOOP_SEQ = "seq.npc_ocellus_phase3_unleash_loop"
         const val UNTETHER_OUT_SEQ = "seq.npc_ocellus_phase3_unleash_out"
