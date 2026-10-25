@@ -1,5 +1,31 @@
 # Dev-notes changelog
 
+## 2026-10-25 — Chaos Fanatic + Crazy Archaeologist verified; bare-external DSL fix (`dev`)
+
+- Found a systemic DSL pitfall: a bare `external(...)` statement inside an
+  `ability {}` block evaluates to an `Effect` and is silently discarded —
+  the extension never runs. Correct idiom: `include(external("name"))`.
+  Affected sites fixed: chaos-fanatic disarm, scorpia prayer drain,
+  crazy-archaeologist keep-range. Argument-position uses
+  (`ability("x", external(...))`) are unaffected.
+- Chaos Fanatic — replaced fabricated `spotanim.chaos_fanatic_rift` (does
+  not exist in the rev-241 cache; crashed `PathingEntity.launch`) with
+  verified symbols: normal magic projectile =
+  `chaoselemental_spotanim_confusion_travel` (554), explosion telegraph =
+  `chaoselemental_spotanim_madness_travel` (551 = RuneLite
+  `CHAOS_FANATIC_AOE`). Verified live: 2-tick magic cadence, disarm moved
+  equipped Tumeken's Shadow (27275) into a free inventory slot with the
+  "knocked your weapon out of your hands" message and correctly no-ops once
+  disarmed, explosion debris fires (real typeless damage confirmed — killed
+  the test account with god mode off).
+- Crazy Archaeologist — verified live: ranged book projectile (1259) on
+  3-tick cadence at range, "Rain of knowledge!" + debris specials selected
+  and executed, keep-range extension now dispatches.
+- Scorpia prayer drain re-verified after the external() fix — earlier pass
+  was a false positive (natural drain). Fresh evidence: 99 -> 62 prayer over
+  ~12 swings with Protect from Melee up (god mode forced splashes, so drain
+  applies through protection per wiki), then flat for 33 ticks with PFM off.
+
 ## 2026-10-25 — Scorpia verified + XP rates to 1x (`dev`)
 
 - Realm XP rates reset to true 1x (`baseXpRate=1.0`, `globalXpRate=1.0`) at

@@ -16,17 +16,25 @@ treating main as "finished".
   Plus: dirt extinguish of open light sources (candle/torch/oil lamp) in melee
   range; Look-inside op2 on molehills. Spec: docs/dev-notes/giant_mole_spec.md,
   note: giant_mole.md.
-- Crazy Archaeologist (content/bosses/crazy-archaeologist) — compiled only,
-  NOT verified in game. Melee 0-14 requires WithinMeleeRange, ranged book
-  projectile 0-14 (spotanim.crazy_archaeologist_book), Rain of knowledge! =
-  debris x3 then debris x2 (0-24 Typeless). attackRate=3. Spawn npc at
-  2977,3702.
-- Chaos Fanatic (content/bosses/chaos-fanatic) — compiled only. Magic
-  projectile 0-21, attackRate=2; specials: disarm (moves worn slot 3 weapon
-  to inv if space, message) + explosion debris x3 (0-31 Typeless,
-  center=CurrentTarget). Spawn npc.chaos_fanatic at 2979,3846.
-  RISK: "spotanim.chaos_fanatic_rift" table guess may fail at boot —
-  check for Missing mapping in run log.
+- Crazy Archaeologist (content/bosses/crazy-archaeologist) — VERIFIED live
+  (2977,3702): ranged book projectile (spotanim.crazy_archaeologist_book,
+  1259) every 3t at range, "Rain of knowledge!" overhead + debris specials
+  fire, keep-range extension now actually runs via include(external(...)).
+- Chaos Fanatic (content/bosses/chaos-fanatic) — VERIFIED live (2979,3846):
+  magic projectile spotanim.chaoselemental_spotanim_confusion_travel (554)
+  every 2t, max 21; disarm moves worn weapon to a free inv slot + "knocked
+  your weapon" SPAM message (weapon=27275 -> inv slot 6 seen live), later
+  disarms correctly no-op; explosion debris x3 Typeless (telegraph
+  spotanim.chaoselemental_spotanim_madness_travel = 551 = RuneLite
+  CHAOS_FANATIC_AOE). Killed me with god mode off — real damage.
+  RISK RESOLVED: fabricated spotanim.chaos_fanatic_rift replaced; no
+  fanatic-named spotanims exist in the rev-241 cache.
+- SYSTEMIC DSL BUG found+fixed: a bare `external(...)` line inside an
+  ability {} block compiles but is DISCARDED (external returns an Effect,
+  not a statement). Correct idiom is `include(external("name"))`. Fixed at
+  chaos-fanatic (disarm), scorpia (prayer drain), crazy-archaeologist
+  (keep_range). Remaining `external(` call sites are all argument-position
+  uses (ability("x", external(...))) which are fine.
 
 ## Gotchas
 
@@ -41,9 +49,11 @@ treating main as "finished".
 
 ## Next up
 
-- Crazy Archaeologist + Chaos Fanatic live verification (compiled only so far).
 - Giant Mole gaps: insect timer, private instance, Wyson exchange.
 - Other wilderness bosses (deranged archaeologist, venenatis, callisto...).
+- Powered-staff gap: only Tumeken's Shadow registered in WeaponRegistry —
+  tridents/sceptres spam "fails to respond". Worn-slot gap: Rada's blessing,
+  Ring of shadows unequippable.
 - Test suite + spotlessCheck before pushing each module.
 
 ## Scorpia (2026-10-25) — VERIFIED LIVE
@@ -52,10 +62,13 @@ content/bosses/scorpia. Spawn ~3233,10341 (zone 0_50_161_33_37).
 - FIXED crash: seq.scorpion_attack doesn't exist in rev-241 — real attack
   anim is seq.scorpion_update_attack_tail (6254). Seen live every 4t.
 - Melee stab 0-16, attackRate 4.
-- Prayer drain: external(PRAYER_DRAIN) on the stab ability drains 2 prayer
-  points per attack while target has varbit.prayer_protectfrommelee (4118) —
-  hit OR splash, per wiki. Verified live (99 -> 85 through Protect from
-  Melee while HP stayed 99).
+- Prayer drain: include(external(PRAYER_DRAIN)) on the stab ability drains
+  2 prayer points per attack while target has varbit.prayer_protectfrommelee
+  (4118) — hit OR splash, per wiki. RE-VERIFIED live after discovering the
+  original bare external() was silently discarded (earlier "verification"
+  was natural drain — false positive): 99 -> 62 over ~12 swings with PFM on
+  (god mode kept HP 99, so drains happened on splashes), then FLAT at 56
+  for 33t with PFM off — correctly gated by the varbit.
 - Guardians: forceWhen(HpBelow(0.5), summon, once=true) on the combat phase —
   fires on her next attack selection below half. VERIFIED live: exactly 2
   guardians (npcId 6617), curse projectiles (109) every 3t healing her,

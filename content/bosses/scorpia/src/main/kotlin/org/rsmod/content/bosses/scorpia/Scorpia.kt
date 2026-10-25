@@ -41,7 +41,7 @@ class Scorpia @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         val stab =
             ability("stab") {
                 anim("seq.scorpion_update_attack_tail")
-                external(PRAYER_DRAIN)
+                include(external(PRAYER_DRAIN))
                 hit {
                     damage(0..16).roll()
                     type(Melee)

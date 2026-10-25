@@ -75,17 +75,23 @@ Target revision: **241** (game.yml; AGENTS.md still says 240.2 — stale).
 
 - Path: `content/bosses/crazy-archaeologist/`. Melee 0-14 gated on
   WithinMeleeRange, ranged book projectile, Rain of knowledge debris x3+x2.
-- Status: **Implemented, unverified** (compiles; never tested in game).
-- Next: live spawn at 2977,3702, verify melee/range distance behavior +
-  debris specials.
+  Fixed a silently-discarded `external("crazy_arch.keep_range")` (bare
+  expression in the ability block) — now `include(external(...))`.
+- Status: **Verified live** (2026-10-25): book projectile (1259) every 3t
+  at range, "Rain of knowledge!" + debris specials fire, keep-range
+  extension dispatches. No exceptions in run log.
 
 ### Chaos Fanatic
 
 - Path: `content/bosses/chaos-fanatic/`. Magic proj 0-21 2t, disarm special,
-  explosion debris x3 0-31.
-- Status: **Implemented, unverified**. RISK noted in session state:
-  `spotanim.chaos_fanatic_rift` may be a guessed symbol — check boot log.
-- Next: verify symbol resolves on boot; live-test at 2979,3846.
+  explosion debris x3 0-31. `spotanim.chaos_fanatic_rift` was fabricated —
+  replaced with `chaoselemental_spotanim_confusion_travel` (554, normal
+  attack) and `chaoselemental_spotanim_madness_travel` (551 = RuneLite
+  `CHAOS_FANATIC_AOE`, explosion telegraph). Disarm extension fixed via
+  `include(external(...))`.
+- Status: **Verified live** (2026-10-25): 2-tick magic cadence, disarm
+  moved the worn weapon to a free slot + message (no-ops when bare-handed),
+  explosion debris fires typeless damage (lethal with god mode off).
 
 ### Scorpia
 

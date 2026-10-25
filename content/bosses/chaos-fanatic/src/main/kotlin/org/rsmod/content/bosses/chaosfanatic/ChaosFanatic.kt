@@ -23,7 +23,7 @@ class ChaosFanatic @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
         val magic =
             ability("magic") {
                 projectile(
-                    spotanim = "spotanim.chaos_fanatic_rift",
+                    spotanim = "spotanim.chaoselemental_spotanim_confusion_travel",
                     hit = Effect.Hit(damage = DamageExpr.Roll(0..21), type = Magic),
                 )
             }
@@ -31,14 +31,14 @@ class ChaosFanatic @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
         val disarm =
             ability("disarm") {
                 say("I have a special for you!")
-                external("chaos_fanatic.disarm")
+                include(external("chaos_fanatic.disarm"))
             }
 
         val explosion =
             ability("explosion") {
                 say("Explosive!")
                 debris(
-                    telegraph = "spotanim.chaos_fanatic_rift",
+                    telegraph = "spotanim.chaoselemental_spotanim_madness_travel",
                     damage = DamageExpr.Roll(0..31),
                     type = Typeless,
                     windup = 4,

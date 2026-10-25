@@ -35,7 +35,7 @@ class CrazyArchaeologist @Inject constructor(private val bossDeps: BossDeps) :
 
         val ranged =
             ability("ranged") {
-                external("crazy_arch.keep_range")
+                include(external("crazy_arch.keep_range"))
                 anim("seq.book_chuck")
                 projectile(
                     spotanim = "spotanim.crazy_archaeologist_book",
