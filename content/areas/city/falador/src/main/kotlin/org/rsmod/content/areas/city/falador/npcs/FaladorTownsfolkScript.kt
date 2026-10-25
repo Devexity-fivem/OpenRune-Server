@@ -1,13 +1,17 @@
 package org.rsmod.content.areas.city.falador.npcs
 
+import dev.openrune.rscm.RSCM.asRSCM
 import jakarta.inject.Inject
 import org.rsmod.api.config.Constants
 import org.rsmod.api.invtx.invAddOrDrop
+import org.rsmod.api.invtx.invDel
 import org.rsmod.api.invtx.invTakeFee
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onOpNpc1
+import org.rsmod.api.script.onOpNpcU
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -20,6 +24,11 @@ class FaladorTownsfolkScript @Inject constructor(private val objRepo: ObjReposit
         onOpNpc1("npc.sir_vyvin") { startDialogue(it.npc) { sirVyvin() } }
         onOpNpc1("npc.white_knight_diary") { startDialogue(it.npc) { sirRebral() } }
         onOpNpc1("npc.wyson") { startDialogue(it.npc) { wyson() } }
+        onOpNpcU("npc.wyson") {
+            if (it.objType.id in MOLE_PART_IDS) {
+                startDialogue(it.npc) { exchangeMoleParts() }
+            }
+        }
         onOpNpc1("npc.pmod_town_crier_falador") { startDialogue(it.npc) { townCrier() } }
         onOpNpc1("npc.aluft_gnome_diplomat_falador") { startDialogue(it.npc) { spanfipple() } }
         onOpNpc1("npc.falador_man4") { startDialogue(it.npc) { norman() } }
@@ -322,6 +331,16 @@ class FaladorTownsfolkScript @Inject constructor(private val objRepo: ObjReposit
     }
 
     private suspend fun Dialogue.wyson() {
+        if (player.molePartCount() > 0) {
+            exchangeMoleParts()
+            return
+        }
+        val hasSandals = player.inv.count("obj.holy_sandals") > 0
+        val hasSlippers = player.inv.count("obj.mole_slippers") > 0
+        if (hasSandals || hasSlippers) {
+            holyMoleys(hasSandals, hasSlippers)
+            return
+        }
         chatNpc(
             neutral,
             "I'm the head gardener around here. If you're looking for woad leaves, or if you need " +
@@ -432,6 +451,79 @@ class FaladorTownsfolkScript @Inject constructor(private val objRepo: ObjReposit
                 "ye brings 'em here to me.",
         )
         chatPlayer(neutral, "Right, I'll bear it in mind.")
+    }
+
+    private fun Player.molePartCount(): Int = MOLE_PARTS.sumOf { inv.count(it) }
+
+    private suspend fun Dialogue.exchangeMoleParts() {
+        chatNpc(quiz, "Would you like me to exchange those for bird nests, then?")
+        if (!choice2("Yes, please.", true, "No, thanks.", false)) {
+            chatPlayer(neutral, "No, thanks.")
+            chatNpc(neutral, "Suit yerself.")
+            return
+        }
+        chatPlayer(happy, "Yes, please.")
+        val claws = player.inv.count("obj.mole_claw") + player.inv.count("obj.cert_mole_claw")
+        val skins = player.inv.count("obj.mole_skin") + player.inv.count("obj.cert_mole_skin")
+        val immaculates = player.inv.count("obj.immaculate_mole_skin")
+        val nests = claws + skins + immaculates * NESTS_PER_IMMACULATE_SKIN
+        if (nests == 0) {
+            chatNpc(neutral, "Hmm, it seems you don't have any for me to exchange.")
+            return
+        }
+        chatNpc(
+            neutral,
+            "Certainly. I'll give you a nest for each claw and skin. I'll need to see them, " +
+                "of course.",
+        )
+        if (immaculates > 0) {
+            chatNpc(
+                happy,
+                "Cor, now that's a pristine skin! Worth a good few nests, that is.",
+            )
+        }
+        player.invDel(player.inv, "obj.mole_claw", player.inv.count("obj.mole_claw"))
+        player.invDel(player.inv, "obj.cert_mole_claw", player.inv.count("obj.cert_mole_claw"))
+        player.invDel(player.inv, "obj.mole_skin", player.inv.count("obj.mole_skin"))
+        player.invDel(player.inv, "obj.cert_mole_skin", player.inv.count("obj.cert_mole_skin"))
+        player.invDel(player.inv, "obj.immaculate_mole_skin", immaculates)
+        repeat(nests) { player.invAddOrDrop(objRepo, "obj.bird_nest_cheapseeds") }
+        chatNpc(happy, "There ye are, $nests bird ${if (nests == 1) "nest" else "nests"}.")
+    }
+
+    private suspend fun Dialogue.holyMoleys(hasSandals: Boolean, hasSlippers: Boolean) {
+        if (hasSandals && hasSlippers) {
+            chatNpc(quiz, "Do you know much about those shoes you have there?")
+            chatPlayer(quiz, "Can't say that I do.")
+            chatNpc(
+                neutral,
+                "Them sandals of yers be blessed, and those slippers be made o' mole skin. " +
+                    "I could combine 'em into a pair of holy moleys, if yer like.",
+            )
+            if (choice2("Yes, combine them.", true, "No, thanks.", false)) {
+                player.invDel(player.inv, "obj.holy_sandals", 1)
+                player.invDel(player.inv, "obj.mole_slippers", 1)
+                player.invAddOrDrop(objRepo, "obj.holy_moleys")
+                chatNpc(happy, "There yer go, one pair of holy moleys!")
+            } else {
+                chatPlayer(neutral, "No, thanks.")
+                chatNpc(neutral, "Suit yerself.")
+            }
+            return
+        }
+        if (hasSandals) {
+            chatNpc(
+                neutral,
+                "Those 'oly sandals of yers could do with some mole slippers to make a pair " +
+                    "of holy moleys. Bring me some an' I'll combine 'em for ye.",
+            )
+        } else {
+            chatNpc(
+                neutral,
+                "Those mole slippers of yers could do with some holy sandals to make a pair " +
+                    "of holy moleys. Bring me some an' I'll combine 'em for ye.",
+            )
+        }
     }
 
     private suspend fun Dialogue.townCrier() {
@@ -579,8 +671,20 @@ class FaladorTownsfolkScript @Inject constructor(private val objRepo: ObjReposit
         const val SEQ_BOW = "seq.emote_bow"
         const val DANCE_CYCLES = 5
         const val CHEER_CYCLES = 3
+        const val NESTS_PER_IMMACULATE_SKIN = 5
 
         val MAHOGANY_HOMES_CLIENTS =
             listOf("npc.con_contract_client_4", "npc.con_contract_client_5")
+
+        val MOLE_PARTS =
+            listOf(
+                "obj.mole_claw",
+                "obj.cert_mole_claw",
+                "obj.mole_skin",
+                "obj.cert_mole_skin",
+                "obj.immaculate_mole_skin",
+            )
+
+        val MOLE_PART_IDS = MOLE_PARTS.map { it.asRSCM().toInt() }.toSet()
     }
 }

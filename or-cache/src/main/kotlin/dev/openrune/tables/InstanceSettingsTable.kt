@@ -296,6 +296,24 @@ object InstanceSettingsTable {
             )
         }
 
+        row("dbrow.instance_giant_mole") {
+            column(KEY, "giant_mole")
+            columnCoord(EXIT_COORD, CoordGrid(2999, 3377, 0))
+            columnCoord(ENTER_COORD, CoordGrid(1759, 5190, 0))
+            column(FEE, 25000)
+            column(MAX_PLAYERS, 1)
+            column(TIME_LIMIT_MINUTES, 0)
+            column(GRACE_MINUTES, 10)
+            columnRSCM(BOSS_NPC, "npc.mole_giant")
+            column(BOSS_NAME, "Giant Mole")
+            column(RECOMMENDED_COMBAT, 60, 90)
+            column(TEAM_SIZE, 1)
+            column(LOOT_MULTIPLIER, "x1.0")
+            column(DESCRIPTION, "A gigantic mole burrowed beneath Falador Park.")
+            columnRSCM(ENTER_OBJECT, "loc.mole_hill_spade")
+            columnRSCM(EXIT_OBJECT, "loc.mole_rope_01", "loc.mole_rope_02")
+        }
+
         row("dbrow.instance_amoxliatl") {
             column(KEY, "amoxliatl")
             columnCoord(EXIT_COORD, CoordGrid(1602, 9631, 0))

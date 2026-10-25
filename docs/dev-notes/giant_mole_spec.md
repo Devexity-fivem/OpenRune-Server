@@ -67,14 +67,19 @@ Sources: [Giant Mole](https://oldschool.runescape.wiki/w/Giant_Mole) and
   `mole_mud_splat_spotanim`, `mole_mud_cloud_spotanim`, `mole_mude_hole_spotanim`
   (exact ids to confirm at implementation).
 
-### Explicitly out of scope for v1
+### Later pass (all now implemented + verified live)
 
-- Private instance for 25,000 gp via the NW spade hill (`mole_hill_spade`;
-  12,500 after Hard CA; halved on ironman) — needs `api/instances` + payment.
-- `Look-inside` op on mole hills (player count in lair) — easy follow-up.
-- Fire of Eternal Light (permanent light; needs Making Friends With My Arm).
-- Wyson the gardener mole-skin/claw → bird's nest exchange — separate small
-  feature, worth its own commit if quick.
+- Private instance for 25,000 gp via the NW spade hill (`loc.mole_hill_spade`)
+  — `GiantMoleInstance` + `dbrow.instance_giant_mole`. Fee discounts
+  (12,500 after Hard CA; halved on ironman) are **not** wired — flat 25k.
+- `Look-inside` on `loc.mole_hill` — **op slot 5**, not 1/2; reports lair
+  population.
+- Insect darkness damage — 15-tick warning then 1 typeless dmg/tick from 30t;
+  stops on light source or any lair exit path.
+- Wyson exchange — `bird_nest_cheapseeds` 1:1 per claw/skin, 5 per immaculate
+  skin; holy moleys combine (sandals + slippers).
+- Still out: Fire of Eternal Light (needs Making Friends With My Arm), CA/iron
+  fee discounts, resurface-spot fidelity, dirt-throw light extinguish.
 
 ## What already exists in the project
 
@@ -86,10 +91,10 @@ Sources: [Giant Mole](https://oldschool.runescape.wiki/w/Giant_Mole) and
 | Spade digging | ✅ `SpadeScript` + `SpadeDigHook` extension point (`claims()`/`beforeDig()`/`dig()`), used by Barrows (`BarrowsDigHook`) |
 | Darkness/light-source plumbing | ✅ `varbit.darkness_level`, `interface.darkness_dark`, insect timer, `LIGHT_SOURCES` check, `dbtable.light_sources` + `LightSourceEvents` (firemaking) |
 | Boss DSL support for burrow | ✅ `onIncomingHit(ability, requires=...)`, `chance(n,...)`, `teleport(to)`, `randomFreeTiles`/`randomOf` tile sets, `external()` handlers |
-| `loc.mole_hill` op handler | ❌ not registered anywhere — spade-dig hook needed |
-| Burrow/resurface behaviour | ❌ to write |
-| Light-extinguish on burrow | ❌ `external()` handler |
-| Exit rope op | ❌ `onOpLoc` on `loc.mole_mud_hole_up` |
+| `loc.mole_hill` Look-inside | ✅ `onOpLoc5` (op5, not op1/2 — found via default-event probe) |
+| Burrow/resurface behaviour | ✅ implemented + verified |
+| Light-extinguish on burrow | ❌ still open |
+| Exit rope op | ✅ framework `onOpLoc1` on `loc.mole_rope_01/02` → `onExitObject` hook |
 
 ## Implementation plan
 

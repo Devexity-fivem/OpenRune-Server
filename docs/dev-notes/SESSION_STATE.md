@@ -14,8 +14,16 @@ treating main as "finished".
   loc.mole_rope_01/02 op1 -> 2999,3377; burrow 1/4 on player hits while HP
   5-50% excl magic splashes; anims + 2t wait + spotanims; darkness on entry).
   Plus: dirt extinguish of open light sources (candle/torch/oil lamp) in melee
-  range; Look-inside op2 on molehills. Spec: docs/dev-notes/giant_mole_spec.md,
+  range; Look-inside op5 on molehills (op5 is the real slot — verified via
+  default-event probe). Spec: docs/dev-notes/giant_mole_spec.md,
   note: giant_mole.md.
+- Giant Mole follow-ups (2026-10-26) ALL VERIFIED LIVE: private instance via
+  dbrow.instance_giant_mole (25k fee charged, rejoin flow, copied regions
+  6992/6993, boss+baby spawns); insect darkness timer (15t warn, 30t swarm,
+  1 typeless dmg/tick, cleared by light or any exit — no leak after teleport
+  or death); static + instance rope exits both land at the well (2999,3377);
+  Wyson exchange (1 bird_nest_cheapseeds per claw/skin, 5/immaculate — nests
+  verified as item 7413; holy moleys combine verified).
 - Crazy Archaeologist (content/bosses/crazy-archaeologist) — VERIFIED live
   (2977,3702): ranged book projectile (spotanim.crazy_archaeologist_book,
   1259) every 3t at range, "Rain of knowledge!" overhead + debris specials
@@ -49,7 +57,6 @@ treating main as "finished".
 
 ## Next up
 
-- Giant Mole gaps: insect timer, private instance, Wyson exchange.
 - Other wilderness bosses (deranged archaeologist, venenatis, callisto...).
 - Powered-staff gap: only Tumeken's Shadow registered in WeaponRegistry —
   tridents/sceptres spam "fails to respond". Worn-slot gap: Rada's blessing,

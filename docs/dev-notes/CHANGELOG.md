@@ -1,5 +1,31 @@
 # Dev-notes changelog
 
+## 2026-10-26 — Giant Mole complete: instance, insects, Look-inside, Wyson (`dev`)
+
+- Private instance: `GiantMoleInstance` (InstanceScript) +
+  `dbrow.instance_giant_mole` (25,000 gp fee, 1-player, copies lair regions
+  6992/6993, Giant Mole + all baby-mole spawns). Fight-privately on
+  `loc.mole_hill_spade` → menu → fee → mapped space; rejoin shows
+  "Rejoining your instance...". Framework binds op1 on the row's
+  enter/exit locs — rope exits route through `onExitObject` which clears
+  darkness then `defaultLeaveFlow()` (in-session) or telejumps to the well
+  (static-lair climbers). No duplicate op1 bindings.
+- Darkness/insects (`GiantMoleInsects`, `WorldQueueList` 1-tick): entering the
+  lair unlit sets `varbit.darkness_level=3` + hidden minimap + dark overlay;
+  15 dark ticks → skitter warning, 30 → "Tiny biting insects swarm all over
+  you!" + 1 typeless dmg/tick. Light source or leaving the lair clears it —
+  verified no leak after teleport-out and after death.
+- Look-inside fix: `loc.mole_hill` (12202) stores the option at **op slot 5**
+  — `onOpLoc1`/`onOpLoc2` never dispatch; found via temporary
+  `LocDefaultEvents.Op*` catch-alls that printed the real op index.
+  `onOpLoc5("loc.mole_hill")` now reports the lair population.
+- Wyson (`FaladorTownsfolkScript`): Talk-to / using a mole part on him offers
+  the exchange when any mole part is carried — 1 `bird_nest_cheapseeds` per
+  claw/skin (incl. certed), 5 per immaculate skin; dialogue + item movement
+  verified live. Also combines holy sandals + mole slippers → holy moleys.
+- Exits verified live: static rope 12230 (1752,5136) → (2999,3377) well;
+  instance-copied rope → same well.
+
 ## 2026-10-25 — Chaos Fanatic + Crazy Archaeologist verified; bare-external DSL fix (`dev`)
 
 - Found a systemic DSL pitfall: a bare `external(...)` statement inside an

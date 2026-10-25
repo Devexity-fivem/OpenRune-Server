@@ -66,10 +66,11 @@ Target revision: **241** (game.yml; AGENTS.md still says 240.2 — stale).
 - Wiki: https://oldschool.runescape.wiki/w/Giant_Mole
 - Path: `content/bosses/giant-mole/` (spec `docs/dev-notes/giant_mole_spec.md`,
   notes `giant_mole.md`).
-- Status: **Verified with known gaps** (live-verified dig entry 1759,5190,
-  rope exit, burrow cycle, anims, darkness). Implemented since: dirt
-  extinguish of open light sources in melee range, Look-inside op2.
-- Gaps: insect warning timer, private instance, Wyson nest exchange.
+- Status: **Verified live** (dig entry, burrow cycle, private instance 25k
+  fee + rejoin, insect darkness timer with leak-safe cleanup, both rope
+  exits -> 2999,3377, Look-inside op5, Wyson exchange + holy moleys).
+- Gaps: CA/ironman fee discounts, Fire of Eternal Light, resurface-spot
+  fidelity, dirt-throw light extinguish.
 
 ### Crazy Archaeologist
 
