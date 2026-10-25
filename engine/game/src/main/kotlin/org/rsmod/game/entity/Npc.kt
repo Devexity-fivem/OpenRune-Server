@@ -107,14 +107,6 @@ public class Npc(
     public var scriptedMovement: Boolean = false
 
     /**
-     * Whether an ap-range interaction (e.g. combat) keeps routing the Npc toward its target after
-     * the ap script triggers, instead of stopping where it fired. Lets an Npc cast from range
-     * while still closing to melee. Unlike [scriptedMovement], the engine still owns routing and
-     * facing.
-     */
-    public var chasesWhileInApRange: Boolean = false
-
-    /**
      * Used for temporarily overwriting a Npc's ap-range, i.e. the distance at which it can
      * perform a ranged attack.
      */

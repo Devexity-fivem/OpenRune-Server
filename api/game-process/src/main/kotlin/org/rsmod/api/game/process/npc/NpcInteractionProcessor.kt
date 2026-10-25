@@ -112,7 +112,7 @@ constructor(
             if (interaction != null && !npc.isBusy) {
                 npc.postMovementInteraction(interaction)
             }
-        } else if (npc.scriptedMovement || npc.chasesWhileInApRange) {
+        } else if (npc.scriptedMovement) {
             movement.process(npc)
         }
     }
@@ -140,7 +140,7 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
-                    if (!scriptedMovement && !chasesWhileInApRange) abortRoute()
+                    if (!scriptedMovement) abortRoute()
                     triggerAp(interaction)
                     interacted = true
                 }

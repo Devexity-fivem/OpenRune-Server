@@ -124,7 +124,6 @@ internal class OcellusPhaseTwo(
         val type = ServerCacheManager.getNpc("npc.tfa_ocellus_p3".asRSCM(RSCMType.NPC))!!
         npc.moveRestrict = type.moveRestrict
         npc.apRequiresLineOfSight = false
-        npc.chasesWhileInApRange = true
         npc.setCombatLevel(PHASE_TWO_LEVEL)
         npc.hideAllOps()
     }
