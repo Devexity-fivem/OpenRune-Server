@@ -4,8 +4,7 @@ import jakarta.inject.Inject
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.agilityLvl
 import org.rsmod.api.player.stat.statAdvance
-import org.rsmod.api.script.onApLoc1
-import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.api.script.onOpLoc1
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -16,11 +15,13 @@ import org.rsmod.plugin.scripts.ScriptContext
 class GnomeAgilityCourse @Inject constructor() : PluginScript() {
 
     override fun ScriptContext.startup() {
-        onApLoc1("loc.gnome_log_balance1") { crossLog() }
-        onApLoc1("loc.log_balance2") { crossLog() }
-        onApLoc1("loc.log_balance3") { crossLog() }
-        onApLoc1("loc.obstical_pipe3_1") { squeezePipe(southEnd = true) }
-        onApLoc1("loc.obstical_pipe3_2") { squeezePipe(southEnd = false) }
+        onOpLoc1("loc.gnome_log_balance1") { crossLog() }
+        onOpLoc1("loc.log_balance2") { crossLog() }
+        onOpLoc1("loc.log_balance3") { crossLog() }
+        onOpLoc1("loc.obstical_net2") { climbNet() }
+        onOpLoc1("loc.obstical_net3") { climbNet() }
+        onOpLoc1("loc.obstical_pipe3_1") { squeezePipe(southEnd = true) }
+        onOpLoc1("loc.obstical_pipe3_2") { squeezePipe(southEnd = false) }
     }
 
     private suspend fun ProtectedAccess.crossLog() {
@@ -34,6 +35,18 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         anim("seq.human_spot_jump")
         delay(4)
         statAdvance("stat.agility", LOG_XP)
+    }
+
+    private suspend fun ProtectedAccess.climbNet() {
+        if (player.agilityLvl < REQUIRED_LVL) {
+            mes("You need an Agility level of $REQUIRED_LVL to attempt this.")
+            return
+        }
+        anim("seq.human_climb")
+        delay(2)
+        val dest = if (coords.level == 0) CoordGrid(coords.x, coords.z - 1, 1) else CoordGrid(coords.x, coords.z + 1, 0)
+        telejump(dest)
+        statAdvance("stat.agility", NET_XP)
     }
 
     private suspend fun ProtectedAccess.squeezePipe(southEnd: Boolean) {
@@ -54,6 +67,7 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         const val REQUIRED_LVL = 1
         const val LOG_XP = 7.5
         const val PIPE_XP = 7.5
+        const val NET_XP = 7.5
         const val LOG_SOUTH_Z = 3430
         val PIPE_SOUTH = CoordGrid(2478, 3430, 0)
         val PIPE_NORTH = CoordGrid(2478, 3440, 0)
