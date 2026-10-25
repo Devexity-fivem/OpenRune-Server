@@ -12,7 +12,15 @@ import org.rsmod.api.bosses.spec.TargetExpr
 // OSRS wiki: ranged book attack (max 14), melee crush when adjacent,
 // "Rain of knowledge!" throws 3 exploding books in 3x3, one splitting into
 // two more. Aggressive, attack rate 3t, respawn 15t, 225 hp.
-class CrazyArchaeologist @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+class CrazyArchaeologist @Inject constructor(private val bossDeps: BossDeps) :
+    BossPluginScript(bossDeps) {
+
+    init {
+        bossDeps.extensionRegistry.register("crazy_arch.keep_range") { _, npc, _, _ ->
+            npc.apRangeOverride = 10
+        }
+    }
+
     override val spec: BossSpec = boss("npc.crazy_archaeologist") {
         stats(attackRate = 3)
 
@@ -27,6 +35,7 @@ class CrazyArchaeologist @Inject constructor(deps: BossDeps) : BossPluginScript(
 
         val ranged =
             ability("ranged") {
+                external("crazy_arch.keep_range")
                 anim("seq.book_chuck")
                 projectile(
                     spotanim = "spotanim.crazy_archaeologist_book",
