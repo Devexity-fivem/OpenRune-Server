@@ -90,30 +90,56 @@ gamevals.toml only if custom symbols needed; commit + push after each.
 ## Agility progress
 
 - XP call: player.statAdvance("stat.agility", xp); level gate: player.agilityLvl.
-- Obstacle pattern (LumbridgeSteppingStone.kt): onApLoc1("loc.x") { apCross(it.loc) }
-  -> exactMove(coords, dest, delay1, delay2, dir) + anim("seq.x", delay=n) +
-  soundSynth("synth.x", delay=n) + delay(ticks) + statAdvance.
-- Verified-existing names in gamevals.dat: log_balance (+01..04,left/mid/right_sc,
-  north,south), balancing_rope(+_mid), obstacle_01..05 (+_active,_stumps,_pass_active),
-  tree_branch(+_vine), agility_obstaclejump01/02, agility_obstical_net_barbarian,
-  agility_obstical_pipe_barbarian, human_pipesqueeze/pipeunsqueeze/doublepipesqueeze (anims).
-  NO literal `obstacle_net`/`obstacle_pipe` exists.
-- gnome course area = "area.skill_feature_agility_gnomestrongholdagilitycourse"
-- Was probing tools/osrs-mcp (runMcp stdio, gameval_search/cache_search) to resolve
-  exact loc names; background shell b61228 may still hold its output.
-- Next: finish gnome course obstacle loc-name mapping (fallback: boot server and
-  read "Missing mapping" errors), write content/skills/agility module, then
-  fletching (knife+log item-on-item), hunter (bird snare).
+- Obstacle pattern (ChampionsGuildSteppingStone.kt): onApLoc1("loc.x")
+  { apX(it.loc) } -> `if (isWithinApRange(loc, N)) action()` — NEVER call
+  apRange() unconditionally: it sets apRangeCalled synchronously and instant
+  returns (level fail, wrong side) refire the handler every tick.
+- Realm baseXpRate=150.0 on dev world — per-obstacle XP deltas are 150x.
+- GNOME STRONGHOLD COURSE: fully implemented + VERIFIED LIVE end-to-end
+  (2 full laps) in GnomeAgilityCourse.kt. 110.5 XP/lap (10+10+6.5+10+6.5+10+7.5
+  +50 bonus on pipe). All seven obstacles with correct coords/levels/anims/msgs.
+- Regression test: GnomeAgilityCourseTest (cache-backed; symbol resolution +
+  loc positions in map square 9781). `game-cache-test-conventions` plugin +
+  testImplementation(libs.fastutil) on the module.
 
-## Gnome course loc ids CONFIRMED (from live LocDump + gamevals.dat decode)
+## Gnome course reference (VERIFIED via live MCP play)
 
-gamevals.dat format: `name=id\0` sequential text — reverse-lookup works.
-Course locs at the stronghold (dumped ids in region x2460-2500,z3400-3440):
-- loc.gnome_log_balance1=23145 (also alias log_balance1), log_balance2=23142,
-  log_balance3=23143 — the log walk pieces
-- loc.obstical_net2=23134, loc.obstical_net3=23135 — the two climbing nets
-- loc.obstical_pipe3_1=23138, loc.obstical_pipe3_2=23139 — pipe squeeze ends
-- STILL NEEDED: tree branch climb loc + balancing rope loc names — check
-  resolved.txt/dump for remaining ids at course positions (wiki coords).
-- Examine text ids are NOT the same ids (3551-3558 etc); dump ids are definitive.
-- LocDump.kt is a TEMP diagnostic in giant-mole module — delete after use.
+Course loop (all coords confirmed in game):
+1. log_balance (23145/23142/23143, x2474 z3433-35, plane0): N->S lands
+   (2474,3429,0), S->N lands (2474,3436,0). seq.human_walk_logbalance, ~9t.
+   Msgs "You walk carefully across the slippery log..." / "... and make it
+   safely to the other side."
+2. obstical_net2 (23134, z3425 facing S): climb-over from ground north side ->
+   (player.x, 3424, level1). seq.human_climbing. "You climb the netting."
+3. climbing_branch (23559, 2473,3422,level1): -> (2473,3420,level2).
+   "You climb the tree..." / "... to the platform above."
+4. balancing_rope/(_mid) (23557-58, x2478-82 z3420 level2): walk east ->
+   (2483,3420,2); west back -> (2477,3420,2). seq.myq3_human_tightrope.
+   "You carefully cross the tightrope."
+5. climbing_tree(+2) (23560/23561, ~2486,3419,level2): Climb-down ->
+   (2486,3419,level0). seq.human_climbing_down. "You land on the ground."
+6. obstical_net3 (23135, x2483-87 z3426 facing N): ground vault S->N ->
+   (player.x,3427,0); also works N->S -> (x,3425,0). "You climb the netting."
+7. obstical_pipe3_1/3_2 (23138/23139): ONLY the z=3431 row is enterable
+   (z=3435 row is inert scenery — guard on loc.z). Enter from south mouth
+   (loc.x,3430); two-hops exactMove +3 -> z3433, +4 -> z3437 exit.
+   seq.human_pipesqueeze x2. +7.5 XP + 50 lap bonus.
+   "You pull yourself through the pipes."
+
+Deviations/gaps still open:
+- Lap bonus is awarded unconditionally on pipe completion; Jagex tracks
+  per-obstacle lap progress (enum gnome_stronghold_course_obstacles=3999,
+  int->loc ordering exists for it). No progress gating yet — pipe pen is
+  enclosed so practical abuse is minimal, but a proper lap-state machine
+  (varp/bitmask) is the follow-up.
+- Marks of Grace spawn system does not exist anywhere — separate feature.
+- Gnome trainer bark/encouragement NPCs not implemented.
+- Timing constants (cycles/ticks per obstacle) are eyeballed, not
+  tick-exact vs real OSRS.
+- myq3_human_tightrope is a quest-named seq id 4772 — resolves fine and
+  looks right for a tightrope walk, but it may not be the exact gnome seq.
+
+## Course map-data quirk
+
+MapLocListDecoder reports locs' packed level one higher than the client
+plane (log stored level1, renders plane0). The test asserts (x,z) only.

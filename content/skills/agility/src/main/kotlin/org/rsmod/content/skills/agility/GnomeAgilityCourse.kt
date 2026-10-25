@@ -1,75 +1,195 @@
 package org.rsmod.content.skills.agility
 
 import jakarta.inject.Inject
+import org.rsmod.api.config.Constants.em_face_east
+import org.rsmod.api.config.Constants.em_face_north
+import org.rsmod.api.config.Constants.em_face_south
+import org.rsmod.api.config.Constants.em_face_west
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.agilityLvl
 import org.rsmod.api.player.stat.statAdvance
-import org.rsmod.api.script.onOpLoc1
+import org.rsmod.api.script.onApLoc1
+import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-// Gnome Stronghold course. Working: log balance, obstacle pipe.
-// TODO(next pass): obstical_net2/3 climbs and tree branch + balancing rope
-// need the level-1 loc dump (course platform is elevated).
 class GnomeAgilityCourse @Inject constructor() : PluginScript() {
 
     override fun ScriptContext.startup() {
-        onOpLoc1("loc.gnome_log_balance1") { crossLog() }
-        onOpLoc1("loc.log_balance2") { crossLog() }
-        onOpLoc1("loc.log_balance3") { crossLog() }
-        onOpLoc1("loc.obstical_net2") { climbNet() }
-        onOpLoc1("loc.obstical_net3") { climbNet() }
-        onOpLoc1("loc.obstical_pipe3_1") { squeezePipe(southEnd = true) }
-        onOpLoc1("loc.obstical_pipe3_2") { squeezePipe(southEnd = false) }
+        onApLoc1("loc.gnome_log_balance1") { apCrossLog(it.loc) }
+        onApLoc1("loc.log_balance2") { apCrossLog(it.loc) }
+        onApLoc1("loc.log_balance3") { apCrossLog(it.loc) }
+        onApLoc1("loc.obstical_net2") { apClimbNetUp(it.loc) }
+        onApLoc1("loc.climbing_branch") { apClimbBranchUp(it.loc) }
+        onApLoc1("loc.balancing_rope") { apCrossRope(it.loc) }
+        onApLoc1("loc.balancing_rope_mid") { apCrossRope(it.loc) }
+        onApLoc1("loc.climbing_tree") { apClimbBranchDown(it.loc) }
+        onApLoc1("loc.climbing_tree2") { apClimbBranchDown(it.loc) }
+        onApLoc1("loc.obstical_net3") { apClimbNetOver(it.loc) }
+        onApLoc1("loc.obstical_pipe3_1") { apSqueezePipe(it.loc) }
+        onApLoc1("loc.obstical_pipe3_2") { apSqueezePipe(it.loc) }
+    }
+
+    private suspend fun ProtectedAccess.apCrossLog(log: BoundLocInfo) {
+        if (isWithinApRange(log, AP_RANGE)) crossLog()
     }
 
     private suspend fun ProtectedAccess.crossLog() {
-        if (player.agilityLvl < REQUIRED_LVL) {
-            mes("You need an Agility level of $REQUIRED_LVL to attempt this.")
-            return
-        }
-        val north = coords.z < LOG_SOUTH_Z
-        val dest = if (north) CoordGrid(2474, 3436, 0) else CoordGrid(2474, 3430, 0)
-        exactMove(coords, dest, delay1 = 40, delay2 = 80, dir = if (north) 0 else 1024)
-        anim("seq.human_spot_jump")
-        delay(4)
-        statAdvance("stat.agility", LOG_XP)
+        if (!checkLevel()) return
+        val southbound = coords.z > LOG.z
+        val dest = if (southbound) LOG_SOUTH_END else LOG_NORTH_END
+        val facing = if (southbound) em_face_south else em_face_north
+
+        spam("You walk carefully across the slippery log...")
+        exactMove(coords, dest, delay1 = LOG_START_CYCLES, delay2 = LOG_END_CYCLES, dir = facing)
+        anim("seq.human_walk_logbalance")
+        delay(LOG_TICKS)
+        statAdvance(AGILITY, LOG_XP)
+        spam("... and make it safely to the other side.")
     }
 
-    private suspend fun ProtectedAccess.climbNet() {
-        if (player.agilityLvl < REQUIRED_LVL) {
-            mes("You need an Agility level of $REQUIRED_LVL to attempt this.")
-            return
-        }
-        anim("seq.human_climb")
-        delay(2)
-        val dest = if (coords.level == 0) CoordGrid(coords.x, coords.z - 1, 1) else CoordGrid(coords.x, coords.z + 1, 0)
-        telejump(dest)
-        statAdvance("stat.agility", NET_XP)
+    private suspend fun ProtectedAccess.apClimbNetUp(net: BoundLocInfo) {
+        if (isWithinApRange(net, AP_RANGE)) climbNetUp()
     }
 
-    private suspend fun ProtectedAccess.squeezePipe(southEnd: Boolean) {
-        if (player.agilityLvl < REQUIRED_LVL) {
-            mes("You need an Agility level of $REQUIRED_LVL to attempt this.")
-            return
+    private suspend fun ProtectedAccess.climbNetUp() {
+        if (!checkLevel()) return
+        spam("You climb the netting.")
+        anim("seq.human_climbing")
+        delay(CLIMB_TICKS)
+        telejump(CoordGrid(coords.x, NET_UP_LANDING_Z, 1))
+        statAdvance(AGILITY, NET_XP)
+    }
+
+    private suspend fun ProtectedAccess.apClimbBranchUp(branch: BoundLocInfo) {
+        if (isWithinApRange(branch, AP_RANGE)) climbBranchUp()
+    }
+
+    private suspend fun ProtectedAccess.climbBranchUp() {
+        if (!checkLevel()) return
+        spam("You climb the tree...")
+        anim("seq.human_climbing")
+        delay(CLIMB_TICKS)
+        telejump(BRANCH_TOP)
+        statAdvance(AGILITY, BRANCH_XP)
+        spam("... to the platform above.")
+    }
+
+    private suspend fun ProtectedAccess.apCrossRope(rope: BoundLocInfo) {
+        if (isWithinApRange(rope, AP_RANGE)) crossRope()
+    }
+
+    private suspend fun ProtectedAccess.crossRope() {
+        if (!checkLevel()) return
+        val eastbound = coords.x < ROPE_EAST_END.x
+        val dest = if (eastbound) ROPE_EAST_END else ROPE_WEST_END
+        val facing = if (eastbound) em_face_east else em_face_west
+
+        spam("You carefully cross the tightrope.")
+        exactMove(coords, dest, delay1 = ROPE_START_CYCLES, delay2 = ROPE_END_CYCLES, dir = facing)
+        anim("seq.myq3_human_tightrope")
+        delay(ROPE_TICKS)
+        statAdvance(AGILITY, ROPE_XP)
+    }
+
+    private suspend fun ProtectedAccess.apClimbBranchDown(branch: BoundLocInfo) {
+        if (isWithinApRange(branch, AP_RANGE)) climbBranchDown()
+    }
+
+    private suspend fun ProtectedAccess.climbBranchDown() {
+        if (!checkLevel()) return
+        anim("seq.human_climbing_down")
+        delay(CLIMB_TICKS)
+        telejump(BRANCH_GROUND)
+        statAdvance(AGILITY, BRANCH_XP)
+        spam("You land on the ground.")
+    }
+
+    private suspend fun ProtectedAccess.apClimbNetOver(net: BoundLocInfo) {
+        if (isWithinApRange(net, AP_RANGE)) climbNetOver()
+    }
+
+    private suspend fun ProtectedAccess.climbNetOver() {
+        if (!checkLevel()) return
+        val northbound = coords.z <= NET_OVER_Z
+        val landingZ = if (northbound) NET_OVER_NORTH_Z else NET_OVER_SOUTH_Z
+
+        spam("You climb the netting.")
+        anim("seq.human_climbing")
+        delay(CLIMB_TICKS)
+        telejump(CoordGrid(coords.x, landingZ, 0))
+        statAdvance(AGILITY, NET_XP)
+    }
+
+    private suspend fun ProtectedAccess.apSqueezePipe(pipe: BoundLocInfo) {
+        // Only the southern pipe row is enterable; the northern row is inert scenery.
+        if (pipe.z == PIPE_ENTRY_Z && isWithinApRange(pipe, PIPE_AP_RANGE)) {
+            squeezePipe(pipe.x)
         }
-        val dest = if (southEnd) PIPE_NORTH else PIPE_SOUTH
+    }
+
+    private suspend fun ProtectedAccess.squeezePipe(pipeX: Int) {
+        if (!checkLevel()) return
         anim("seq.human_pipesqueeze")
-        delay(3)
-        exactMove(coords, dest, delay1 = 30, delay2 = 60, dir = if (southEnd) 0 else 1024)
-        anim("seq.human_pipeunsqueeze")
-        delay(2)
-        statAdvance("stat.agility", PIPE_XP)
+        exactMove(coords, CoordGrid(pipeX, PIPE_MIDDLE_Z, 0), delay1 = 0, delay2 = PIPE_HOP1_CYCLES, dir = em_face_north)
+        delay(PIPE_HOP_TICKS)
+
+        anim("seq.human_pipesqueeze")
+        exactMove(coords, CoordGrid(pipeX, PIPE_EXIT_Z, 0), delay1 = 0, delay2 = PIPE_HOP2_CYCLES, dir = em_face_north)
+        delay(PIPE_HOP_TICKS)
+
+        statAdvance(AGILITY, PIPE_XP)
+        statAdvance(AGILITY, LAP_BONUS_XP)
+        spam("You pull yourself through the pipes.")
+    }
+
+    private suspend fun ProtectedAccess.checkLevel(): Boolean {
+        if (player.agilityLvl >= REQUIRED_LVL) return true
+        mes("You need an Agility level of $REQUIRED_LVL to attempt this.")
+        return false
     }
 
     private companion object {
+        const val AGILITY = "stat.agility"
+
         const val REQUIRED_LVL = 1
-        const val LOG_XP = 7.5
+        const val AP_RANGE = 2
+        const val PIPE_AP_RANGE = 1
+
+        const val LOG_XP = 10.0
+        const val NET_XP = 10.0
+        const val BRANCH_XP = 6.5
+        const val ROPE_XP = 10.0
         const val PIPE_XP = 7.5
-        const val NET_XP = 7.5
-        const val LOG_SOUTH_Z = 3430
-        val PIPE_SOUTH = CoordGrid(2478, 3430, 0)
-        val PIPE_NORTH = CoordGrid(2478, 3440, 0)
+        const val LAP_BONUS_XP = 50.0
+
+        const val LOG_TICKS = 9
+        const val CLIMB_TICKS = 2
+        const val ROPE_TICKS = 8
+        const val PIPE_HOP_TICKS = 2
+
+        const val LOG_START_CYCLES = 15
+        const val LOG_END_CYCLES = 270
+        const val ROPE_START_CYCLES = 15
+        const val ROPE_END_CYCLES = 240
+        const val PIPE_HOP1_CYCLES = 90
+        const val PIPE_HOP2_CYCLES = 120
+
+        const val NET_UP_LANDING_Z = 3424
+        const val NET_OVER_Z = 3426
+        const val NET_OVER_NORTH_Z = 3427
+        const val NET_OVER_SOUTH_Z = 3425
+        const val PIPE_ENTRY_Z = 3431
+        const val PIPE_MIDDLE_Z = 3433
+        const val PIPE_EXIT_Z = 3437
+
+        val LOG = CoordGrid(2474, 3434, 0)
+        val LOG_NORTH_END = CoordGrid(2474, 3436, 0)
+        val LOG_SOUTH_END = CoordGrid(2474, 3429, 0)
+        val BRANCH_TOP = CoordGrid(2473, 3420, 2)
+        val ROPE_EAST_END = CoordGrid(2483, 3420, 2)
+        val ROPE_WEST_END = CoordGrid(2477, 3420, 2)
+        val BRANCH_GROUND = CoordGrid(2486, 3419, 0)
     }
 }
