@@ -489,8 +489,6 @@ constructor(
         inventory: Inventory,
         slot: Int,
         count: Int = Int.MAX_VALUE,
-        duration: Int = this.lootDropDuration ?: constants.lootdrop_duration,
-        reveal: Int = ObjRepository.DEFAULT_REVEAL_DELAY,
         coords: CoordGrid = this.coords,
     ): Boolean {
         val invObj = inventory[slot] ?: return false
@@ -505,6 +503,7 @@ constructor(
         }
 
         val type = getInvObj(invObj)
+        val timers = PlayerDropTimers.resolve(type)
         val dropParams =
             groundItemDrops.resolve(
                 GroundItemDropContext(
@@ -513,8 +512,8 @@ constructor(
                     coords = coords,
                     source = GroundItemDropSource.Manual,
                 ),
-                duration = duration,
-                reveal = reveal,
+                duration = lootDropDuration ?: timers.duration,
+                reveal = timers.reveal,
             )
 
         val observer = observerUUID ?: error("`observerUUID` not set for player: $this")
