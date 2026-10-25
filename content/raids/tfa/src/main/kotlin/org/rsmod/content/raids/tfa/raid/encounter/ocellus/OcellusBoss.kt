@@ -587,6 +587,7 @@ constructor(
                 anim(SOUL_START_SEQ),
                 spotanim(if (levitating) SOUL_LEVITATING_SPOT else SOUL_IDLE_SPOT, slot = BOSS_SPOT_SLOT),
                 external(OcellusPhaseTwo.SOULS_TAKE),
+                external(OcellusPhaseTwo.VOID_CHAIN),
             )
         fun icon(index: Int, curse: Int) =
             sequence(headIcon(HEADICON_SLOT, HEADICON_GRAPHIC, index), setVarn(OcellusCurses.VARN, curse))

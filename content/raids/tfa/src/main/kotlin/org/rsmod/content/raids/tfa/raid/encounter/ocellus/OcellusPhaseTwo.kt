@@ -37,6 +37,7 @@ internal class OcellusPhaseTwo(
         }
     private val bombs = OcellusBombs(deps, quadrants::standingTurns)
     private val souls = OcellusSouls(deps, void::tiles)
+    private val voidChain = OcellusVoidChain(deps)
     private val deflect = OcellusDeflect(deps)
     private val vine = OcellusVine(deps)
     private var swordHitbox: Npc? = null
@@ -50,6 +51,7 @@ internal class OcellusPhaseTwo(
         bombs.register()
         rifts.register()
         souls.register()
+        voidChain.register()
         deflect.register()
         vine.register()
         deps.extensionRegistry.register(ENTER) { enter(it.npc) }
@@ -84,6 +86,7 @@ internal class OcellusPhaseTwo(
         void.clear()
         bombs.clear()
         rifts.clear()
+        voidChain.clear()
         deflect.clear()
         vine.clear()
     }
@@ -196,6 +199,7 @@ internal class OcellusPhaseTwo(
         const val VINES_CLEAR = OcellusVine.CLEAR
         const val SOULS_TAKE = OcellusSouls.TAKE
         const val SOULS_RELEASE = OcellusSouls.RELEASE
+        const val VOID_CHAIN = OcellusVoidChain.START
         const val DEFLECT_START = OcellusDeflect.START
         const val DEFLECT_END = OcellusDeflect.END
         const val QUADRANT_BARRIER_SPAWN = OcellusQuadrants.BARRIER_SPAWN
