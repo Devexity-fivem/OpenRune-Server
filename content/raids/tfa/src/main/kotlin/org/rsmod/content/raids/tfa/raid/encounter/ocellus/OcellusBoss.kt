@@ -25,6 +25,7 @@ import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.METER
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.THRESHOLD
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.VOLLEY_STYLE
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.ScriptContext
@@ -35,11 +36,14 @@ constructor(
     deps: BossDeps,
     private val encounter: OcellusEncounter,
     private val hpBar: BossHpBarScript,
+    npcList: NpcList,
 ) : BossPluginScript(deps) {
     private val spin = OcellusSpin(deps)
+    private val curses = OcellusCurses(deps, npcList)
 
     override fun ScriptContext.startup() {
         spin.register()
+        curses.register(this)
         OcellusTendrils(deps, encounter.meter).register()
         OcellusBarrage(deps, encounter.meter).register()
         OcellusSlash.register(deps)
@@ -58,6 +62,7 @@ constructor(
             deps,
             onCombatTick = { encounter.debug.noteCombatTick() },
             onHit = {
+                curses.reflect(this)
                 for (player in OcellusArena.players(npc, deps.playerList)) hpBar.onUpdate(player, npc)
                 if (npc.hitpoints <= 0) deathFx(npc)
             },
@@ -583,14 +588,17 @@ constructor(
                 spotanim(if (levitating) SOUL_LEVITATING_SPOT else SOUL_IDLE_SPOT, slot = BOSS_SPOT_SLOT),
                 external(OcellusPhaseTwo.SOULS_TAKE),
             )
-        fun icon(index: Int) = headIcon(HEADICON_SLOT, HEADICON_GRAPHIC, index)
+        fun icon(index: Int, curse: Int) =
+            sequence(headIcon(HEADICON_SLOT, HEADICON_GRAPHIC, index), setVarn(OcellusCurses.VARN, curse))
+        val clearIcon =
+            sequence(clearHeadIcon(HEADICON_SLOT), setVarn(OcellusCurses.VARN, OcellusCurses.NONE))
         val events =
             listOf(
                 0 to
                     sequence(
                         anim(DEFLECT_IN_SEQ),
                         idleAnim(DEFLECT_LOOP_SEQ),
-                        icon(HEADICON_DEFLECT_MISSILES),
+                        icon(HEADICON_DEFLECT_MISSILES, OcellusCurses.DEFLECT_MISSILES),
                         external(OcellusPhaseTwo.DEFLECT_START, params = OcellusDeflect.Style.Ranged),
                     ),
                 CURSES_FRAGMENT_AT to fragment(levitating = true),
@@ -601,10 +609,13 @@ constructor(
                         external(OcellusPhaseTwo.SOULS_RELEASE),
                         external(OcellusPhaseTwo.DEFLECT_END),
                     ),
-                CURSES_SOUL_SPLIT_AT to icon(HEADICON_SOUL_SPLIT),
+                CURSES_SOUL_SPLIT_AT to icon(HEADICON_SOUL_SPLIT, OcellusCurses.SOUL_SPLIT),
                 CURSES_MELEE_ARENA_AT to
-                    external(OcellusPhaseTwo.DEFLECT_START, params = OcellusDeflect.Style.Melee),
-                CURSES_DEFLECT_MELEE_AT to icon(HEADICON_DEFLECT_MELEE),
+                    sequence(
+                        clearIcon,
+                        external(OcellusPhaseTwo.DEFLECT_START, params = OcellusDeflect.Style.Melee),
+                    ),
+                CURSES_DEFLECT_MELEE_AT to icon(HEADICON_DEFLECT_MELEE, OcellusCurses.DEFLECT_MELEE),
                 CURSES_SECOND_FRAGMENT_AT to fragment(levitating = false),
                 CURSES_FRAGMENT_END_AT to
                     sequence(
@@ -612,8 +623,8 @@ constructor(
                         external(OcellusPhaseTwo.SOULS_RELEASE),
                         external(OcellusPhaseTwo.DEFLECT_END),
                     ),
-                CURSES_SECOND_SOUL_SPLIT_AT to icon(HEADICON_SOUL_SPLIT),
-                CURSES_LENGTH - 1 to nextAttackIn(1),
+                CURSES_SECOND_SOUL_SPLIT_AT to icon(HEADICON_SOUL_SPLIT, OcellusCurses.SOUL_SPLIT),
+                CURSES_LENGTH - 1 to sequence(clearIcon, nextAttackIn(1)),
             )
         return parallel(
             timeline(events, from = 0),
