@@ -9,13 +9,13 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **21/23** · Bosses **30/169** · Raids **0/4** · Minigames **1/52**
+Skills **22/23** · Bosses **30/169** · Raids **0/4** · Minigames **1/52**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
 the module table at the bottom before reading a 0 as "nothing exists".
 
-### Skills <sup>21/23</sup>
+### Skills <sup>22/23</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
@@ -38,7 +38,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Agility_icon.png?389e0" height="20" alt=""> [Agility](content/skills/agility) | 349 loc | [wiki](https://oldschool.runescape.wiki/w/Agility) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Thieving_icon.png?973fe" height="20" alt=""> [Thieving](content/skills/thieving) | 419 loc | [wiki](https://oldschool.runescape.wiki/w/Thieving) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Crafting_icon.png?a1f71" height="20" alt=""> [Crafting](content/skills/crafting) | 6,383 loc | [wiki](https://oldschool.runescape.wiki/w/Crafting) |
-| 🔴 | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> Fletching | nothing yet | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> [Fletching](content/skills/fletching) | 678 loc | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Construction_icon.png?f9bf7" height="20" alt=""> Construction | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Construction) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
 | 🔴 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> Hunter | nothing yet | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
@@ -120,21 +120,6 @@ the module table at the bottom before reading a 0 as "nothing exists".
 Pulled from wiki section headings. A lot of this has no cache symbol to match against
 (run energy, failure rates, formulas), so the entity scan cannot see it at all. Listed
 here so it at least shows up. Nothing is ticked until someone claims it.
-
-<details>
-<summary>🔴 <b>Fletching</b> — 9 sub-features</summary>
-
-- [ ] Materials used
-- [ ] General
-- [ ] Making weapons
-- [ ] Making projectiles
-- [ ] Making the items
-- [ ] Weapons
-- [ ] Shields
-- [ ] Projectiles
-- [ ] Training
-
-</details>
 
 <details>
 <summary>🔴 <b>Hunter</b> — 31 sub-features</summary>
@@ -263,12 +248,12 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `generic/generic-npcs` | 10 | 1,672 | 3 | 3 | 2026-10-22 |
 | `generic/generic-npcs/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `generic/killcount` | 1 | 36 | 0 | 0 | 2026-10-19 |
-| `interfaces/bank` | 15 | 2,320 | 3 | 1 | 2026-10-18 |
+| `interfaces/bank` | 15 | 2,320 | 3 | 1 | 2026-10-25 |
 | `interfaces/collection-log` | 4 | 543 | 0 | 0 | 2026-10-18 |
 | `interfaces/combat-tab` | 1 | 613 | 1 | 0 | 2026-10-18 |
 | `interfaces/deposit-box` | 6 | 459 | 0 | 1 | 2026-10-18 |
 | `interfaces/emotes` | 2 | 637 | 2 | 0 | 2026-10-22 |
-| `interfaces/equipment` | 3 | 682 | 0 | 0 | 2026-10-18 |
+| `interfaces/equipment` | 3 | 682 | 0 | 0 | 2026-10-25 |
 | `interfaces/fade-overlay` | 1 | 20 | 0 | 0 | 2026-10-18 |
 | `interfaces/gameframe` | 7 | 550 | 0 | 0 | 2026-10-22 |
 | `interfaces/gameframe/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
@@ -313,6 +298,8 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `skills/firemaking` | 6 | 589 | 0 | 0 | 2026-10-18 |
 | `skills/fishing` | 14 | 1,458 | 1 | 0 | 2026-10-22 |
 | `skills/fishing/pack` | 3 | 206 | 0 | 0 | 2026-10-18 |
+| `skills/fletching` | 1 | 265 | 1 | 0 | — |
+| `skills/fletching/pack` | 2 | 413 | 0 | 0 | — |
 | `skills/herblore` | 11 | 1,246 | 0 | 0 | 2026-10-18 |
 | `skills/magic/alchemy` | 1 | 253 | 0 | 0 | 2026-10-18 |
 | `skills/magic/arceuus-spells` | 14 | 1,387 | 1 | 1 | 2026-10-18 |
@@ -327,7 +314,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `skills/slayer/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
 | `skills/smithing` | 15 | 2,118 | 1 | 1 | 2026-10-21 |
 | `skills/thieving` | 2 | 419 | 0 | 0 | 2026-10-18 |
-| `skills/utils` | 2 | 316 | 0 | 0 | 2026-10-18 |
+| `skills/utils` | 2 | 319 | 0 | 0 | 2026-10-18 |
 | `skills/woodcutting` | 5 | 429 | 2 | 2 | 2026-10-18 |
 | `travel/canoe` | 6 | 1,122 | 1 | 2 | 2026-10-18 |
 
