@@ -89,10 +89,17 @@ Target revision: **241** (game.yml; AGENTS.md still says 240.2 — stale).
 
 ### Scorpia
 
-- Path: `content/bosses/scorpia/`. Melee stab 0-16 4t, poison(20), guardian
-  summon on first hit below 50%.
-- Status: **Implemented, unverified**. Gap: guardian heal not implemented;
-  `seq.scorpion_attack` symbol guessed (verify boot).
+- Path: `content/bosses/scorpia/`. Melee stab 0-16 4t with the real
+  `seq.scorpion_update_attack_tail` (6254), 2-pt prayer drain through
+  Protect from Melee per attack, NPC poison (20, ~1/4 approximation) that
+  applies on misses/through prayers, and the guardian phase: two guardians
+  summoned once below 50% HP, each healing 8 HP per 3 ticks within 3 tiles,
+  despawning after ~15s without healing or on her death.
+- Status: **Verified live** (2026-10-25): animations, prayer drain, poison
+  procs through protection, one-time double summon, heal projectiles every
+  3t, out-of-range despawn, no re-summon. Deterministic test:
+  `api/bosses/.../BossEncounterForcedAbilityTest`. Approximation noted:
+  1/4 poison proc rate (no published figure).
 
 ## Skills (breadth audit pending)
 

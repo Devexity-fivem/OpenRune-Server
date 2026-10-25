@@ -1,5 +1,33 @@
 # Dev-notes changelog
 
+## 2026-10-25 — Scorpia verified + XP rates to 1x (`dev`)
+
+- Realm XP rates reset to true 1x (`baseXpRate=1.0`, `globalXpRate=1.0`) at
+  the user's request so server progression stays 1:1 with OSRS.
+- Scorpia (`content/bosses/scorpia`) — fixed and verified live:
+  - Attack anim: `seq.scorpion_update_attack_tail` (6254) replaces the
+    nonexistent `seq.scorpion_attack`, which would have crashed on attack.
+  - New: melee attacks drain 2 prayer points per swing whenever the target
+    has Protect from Melee on — including splashes/protected hits (wiki).
+  - New: guardians (npc.scorpia_guardian) summon once at <=99 HP — exactly
+    two, via `forceWhen(HpBelow(0.5), …, once = true)` so the next attack
+    below half summons them. Each guardian heals her 8 HP every 3 ticks
+    within 3 tiles (spotanim.curse_travel projectile), and despawns after
+    25 ticks without a heal or when she dies. Verified live: summon fired
+    once, two guardians, heal projectiles on cadence, no re-summon on
+    re-engage, out-of-range despawn observed.
+  - Fixed poison rate: `poison(20)` defaulted to 1/1 (every attack). Now
+    `poison(20, chance = 1, outOf = 4)` at ability level — NPCs poison on
+    misses and through protection prayers (wiki), unlike player poison.
+    1/4 is an approximation; no published Scorpia proc rate exists.
+  - Added `BossEncounterForcedAbilityTest` covering forceWhen + once +
+    HpBelow selection semantics deterministically.
+- Tooling notes: `::god` toggles invincibility (already existed); powered
+  staves need WeaponRegistry entries (only Tumeken's Shadow works, charge
+  with soul+chaos runes); Rada's blessing/Ring of shadows can't be worn
+  yet ("Nothing interesting happens" on equip — gap); `::varbit` needs
+  symbol names.
+
 ## 2026-10-25 — Gnome course lap progress + Marks of Grace (`dev`)
 
 - Lap completion now tracked per-obstacle in temp varp

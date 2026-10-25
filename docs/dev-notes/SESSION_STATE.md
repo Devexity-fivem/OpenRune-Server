@@ -1,4 +1,4 @@
-# Session state (updated 2026-10-24)
+# Session state (updated 2026-10-25)
 
 Autonomous content build on fork `github.com/Devexity-fivem/OpenRune-Server`
 (origin=fork, upstream=OpenRune). Branch model (consolidated 2026-10-25):
@@ -39,12 +39,45 @@ treating main as "finished".
 - devMode=true -> all logins get ADMINISTRATOR; cmds ::tele ::item ::npc
   ::master ::mypos. RSProx modulus = .data/client.key content.
 
-## Next up (user asleep, autonomous)
+## Next up
 
-- Scorpia (drop table exists; melee + healing offspring minions)
-- Scorpia committed (content/bosses/scorpia) — melee stab 0-16 4t, poison(20), guardian summon on first hit below 50% via AbilityUsed once-guard. GAP: guardian heal not implemented; seq.scorpion_attack symbol guessed (verify boot).
-  deranged archaeologist, skotizo, dad, venenatis, callisto...)
+- Crazy Archaeologist + Chaos Fanatic live verification (compiled only so far).
+- Giant Mole gaps: insect timer, private instance, Wyson exchange.
+- Other wilderness bosses (deranged archaeologist, venenatis, callisto...).
 - Test suite + spotlessCheck before pushing each module.
+
+## Scorpia (2026-10-25) — VERIFIED LIVE
+
+content/bosses/scorpia. Spawn ~3233,10341 (zone 0_50_161_33_37).
+- FIXED crash: seq.scorpion_attack doesn't exist in rev-241 — real attack
+  anim is seq.scorpion_update_attack_tail (6254). Seen live every 4t.
+- Melee stab 0-16, attackRate 4.
+- Prayer drain: external(PRAYER_DRAIN) on the stab ability drains 2 prayer
+  points per attack while target has varbit.prayer_protectfrommelee (4118) —
+  hit OR splash, per wiki. Verified live (99 -> 85 through Protect from
+  Melee while HP stayed 99).
+- Guardians: forceWhen(HpBelow(0.5), summon, once=true) on the combat phase —
+  fires on her next attack selection below half. VERIFIED live: exactly 2
+  guardians (npcId 6617), curse projectiles (109) every 3t healing her,
+  despawn when she dies, despawn ~25t after losing heal contact (>3 tiles),
+  no re-summon on re-engage. Wiki says "next attack against her" — ours
+  fires on her next attack tick; equivalent while she's engaged.
+- Poison: poison(20, chance=1, outOf=4) at ABILITY level (not nested onHit —
+  wiki: NPCs poison through protection prayers and on zero-damage hits;
+  player poison needs a landed hit). 1/4 is an APPROXIMATION — no published
+  Scorpia proc rate; matches the documented melee weapon-poison convention.
+  Procs observed through god mode + Protect from Melee.
+- Deterministic test: api/bosses .../BossEncounterForcedAbilityTest covers
+  forceWhen+once+HpBelow selection (fires once below threshold, refires
+  without once).
+- Testing gotchas learned: `::god` exists (adminGodMode, wired into hit
+  modifiers). Do NOT use ::maxhit — it skews threshold observation. Powered
+  staves need WeaponRegistry entries — ONLY Tumeken's Shadow is registered
+  (charge via `Charge` op with soul+chaos runes); Accursed sceptre/tridents
+  just spam "Your staff fails to respond." Rada's blessing/Ring of shadows
+  Equip clicks hit "Nothing interesting happens" — equip path gap, not
+  wired to a worn slot. ::varbit takes SYMBOL names, not ids — numeric arg
+  throws "Uncaught exception".
 
 ## Skills deep-dive (in progress)
 
@@ -99,7 +132,8 @@ gamevals.toml only if custom symbols needed; commit + push after each.
   { apX(it.loc) } -> `if (isWithinApRange(loc, N)) action()` — NEVER call
   apRange() unconditionally: it sets apRangeCalled synchronously and instant
   returns (level fail, wrong side) refire the handler every tick.
-- Realm baseXpRate=150.0 on dev world — per-obstacle XP deltas are 150x.
+- Realm XP rates reset to 1:1 (2026-10-25, user request): baseXpRate=1.0,
+  globalXpRate=1.0 — verified in the boot log's RealmConfig line.
 - GNOME STRONGHOLD COURSE: fully implemented + VERIFIED LIVE end-to-end
   (3+ laps) in GnomeAgilityCourse.kt. 110.5 XP/lap (10+10+6.5+10+6.5+10+7.5
   +50 bonus on pipe). All seven obstacles with correct coords/levels/anims/msgs.

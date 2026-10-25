@@ -69,7 +69,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kraken.png/48px-Kraken.png?a4955" height="20" alt=""> Kraken | no module, code in content/other/pets | [wiki](https://oldschool.runescape.wiki/w/Kraken) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/48px-Kree%27arra.png?ba75c" height="20" alt=""> [Kree'arra](content/bosses/kreearra) | 229 loc | [wiki](https://oldschool.runescape.wiki/w/Kree'arra) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Phantom_Muspah_%28ranged%29.png/48px-Phantom_Muspah_%28ranged%29.png?9cf6a" height="20" alt=""> [Phantom Muspah](content/bosses/muspah) | 1,295 loc | [wiki](https://oldschool.runescape.wiki/w/Phantom_Muspah) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Scorpia.png/48px-Scorpia.png?517c9" height="20" alt=""> [Scorpia](content/bosses/scorpia) | 43 loc | [wiki](https://oldschool.runescape.wiki/w/Scorpia) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Scorpia.png/48px-Scorpia.png?517c9" height="20" alt=""> [Scorpia](content/bosses/scorpia) | 133 loc | [wiki](https://oldschool.runescape.wiki/w/Scorpia) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Scurrius.png/48px-Scurrius.png?e66a5" height="20" alt=""> [Scurrius](content/bosses/scurrius) | 384 loc | [wiki](https://oldschool.runescape.wiki/w/Scurrius) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Spindel.png/48px-Spindel.png?2c818" height="20" alt=""> [Spindel](content/bosses/spindel) | 522 loc | [wiki](https://oldschool.runescape.wiki/w/Spindel) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Leviathan.png/48px-The_Leviathan.png?d588a" height="20" alt=""> [The Leviathan](content/bosses/leviathan) | 1,397 loc | [wiki](https://oldschool.runescape.wiki/w/The_Leviathan) |
@@ -245,7 +245,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/kril` | 2 | 191 | 0 | 0 | 2026-10-18 |
 | `bosses/leviathan` | 8 | 1,397 | 0 | 0 | 2026-10-18 |
 | `bosses/muspah` | 4 | 1,295 | 0 | 0 | 2026-10-18 |
-| `bosses/scorpia` | 1 | 43 | 0 | 0 | 2026-10-24 |
+| `bosses/scorpia` | 1 | 133 | 0 | 0 | 2026-10-24 |
 | `bosses/scurrius` | 2 | 384 | 0 | 0 | 2026-10-18 |
 | `bosses/spindel` | 2 | 522 | 0 | 0 | 2026-10-18 |
 | `bosses/tormented-demon` | 2 | 531 | 0 | 0 | 2026-10-18 |
@@ -306,7 +306,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `quest` | 84 | 17,685 | 16 | 4 | 2026-10-22 |
 | `quest/pack` | 5 | 309 | 0 | 0 | 2026-10-22 |
 | `skills/agility` | 2 | 343 | 2 | 0 | 2026-10-25 |
-| `skills/agility/pack` | 1 | 6 | 0 | 0 | — |
+| `skills/agility/pack` | 1 | 6 | 0 | 0 | 2026-10-25 |
 | `skills/cooking` | 13 | 1,405 | 0 | 0 | 2026-10-19 |
 | `skills/crafting` | 30 | 3,684 | 0 | 0 | 2026-10-18 |
 | `skills/crafting/pack` | 2 | 2,699 | 0 | 0 | 2026-10-18 |
