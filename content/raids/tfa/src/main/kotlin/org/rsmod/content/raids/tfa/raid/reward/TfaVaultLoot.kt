@@ -58,14 +58,17 @@ constructor(private val registry: DropTableRegistry, private val random: GameRan
 
     /** Moves as much as fits, leaving the rest in the chest. Banked notes are un-noted. */
     fun moveAll(player: Player, into: Inventory, banking: Boolean) {
+        for (slot in rewards(player).objs.indices) move(player, slot, Int.MAX_VALUE, into, banking)
+    }
+
+    /** Moves up to [amount] of what is in [slot], leaving whatever doesn't fit in the chest. */
+    fun move(player: Player, slot: Int, amount: Int, into: Inventory, banking: Boolean) {
         val pile = rewards(player)
-        for (slot in pile.objs.indices) {
-            val obj = pile[slot] ?: continue
-            val before = obj.count
-            player.invTransfer(pile, slot, before, into, strict = false, uncert = banking)
-            val moved = before - (pile[slot]?.count ?: 0)
-            if (moved > 0) log(player, obj.id, moved)
-        }
+        val obj = pile.objs.getOrNull(slot) ?: return
+        val before = obj.count
+        player.invTransfer(pile, slot, minOf(amount, before), into, strict = false, uncert = banking)
+        val moved = before - (pile.objs.getOrNull(slot)?.count ?: 0)
+        if (moved > 0) log(player, obj.id, moved)
     }
 
     fun discardAll(player: Player) {

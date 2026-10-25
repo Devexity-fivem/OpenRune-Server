@@ -3,10 +3,12 @@ package org.rsmod.content.raids.tfa.raid.reward
 import dev.openrune.definition.type.widget.IfEvent
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.types.aconverted.interf.IfButtonOp
 import jakarta.inject.Inject
 import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stopInvTransmit
+import org.rsmod.api.player.ui.IfModalButton
 import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onOpLoc1
@@ -37,6 +39,7 @@ constructor(private val vault: TfaVault, private val loot: TfaVaultLoot) : Plugi
         onOpLoc1(EXIT_LOC) { leave() }
         onOpLoc1(WHEELBARROW) { wheelbarrow() }
 
+        onIfModalButton(ITEMS) { takeItem(it) }
         onIfModalButton("component.tfa_chests:inventory") { takeAll() }
         onIfModalButton("component.tfa_chests:bank") { bankAll() }
         onIfModalButton("component.tfa_chests:discard") { discardAll() }
@@ -99,16 +102,40 @@ constructor(private val vault: TfaVault, private val loot: TfaVaultLoot) : Plugi
             ROWS,
             0,
             NO_COMPONENT,
-            "",
-            "",
-            "",
-            "",
+            "Take",
+            "Take-5",
+            "Take-10",
+            "Take-All",
             "",
         )
-        ifSetEvents("component.tfa_chests:inventory", 0..1, IfEvent.Op1)
-        ifSetEvents("component.tfa_chests:bank", 0..1, IfEvent.Op6)
-        ifSetEvents("component.tfa_chests:discard", 0..1, IfEvent.Op6)
-        ifSetEvents(ITEMS, 0 until rewards.size, IfEvent.Op10)
+        ifSetEvents("component.tfa_chests:inventory", -1..-1, IfEvent.Op1)
+        ifSetEvents("component.tfa_chests:bank", -1..-1, IfEvent.Op6)
+        ifSetEvents("component.tfa_chests:discard", -1..-1, IfEvent.Op6)
+        ifSetEvents(
+            ITEMS,
+            0 until rewards.size,
+            IfEvent.Op1,
+            IfEvent.Op2,
+            IfEvent.Op3,
+            IfEvent.Op4,
+            IfEvent.Op10,
+        )
+    }
+
+    private fun ProtectedAccess.takeItem(button: IfModalButton) {
+        when (button.op) {
+            IfButtonOp.Op1 -> take(button.comsub, 1)
+            IfButtonOp.Op2 -> take(button.comsub, TAKE_FIVE)
+            IfButtonOp.Op3 -> take(button.comsub, TAKE_TEN)
+            IfButtonOp.Op4 -> take(button.comsub, Int.MAX_VALUE)
+            IfButtonOp.Op10 -> button.obj?.let { mes(it.examine) }
+            else -> Unit
+        }
+    }
+
+    private fun ProtectedAccess.take(slot: Int, amount: Int) {
+        loot.move(player, slot, amount, inv, banking = false)
+        finishClaim()
     }
 
     private fun ProtectedAccess.wheelbarrow() {
@@ -129,7 +156,10 @@ constructor(private val vault: TfaVault, private val loot: TfaVaultLoot) : Plugi
         finishClaim()
     }
 
-    private fun ProtectedAccess.discardAll() {
+    private suspend fun ProtectedAccess.discardAll() {
+        val discard =
+            choice2("Yes.", true, "No.", false, title = "Are you sure you want to discard everything?")
+        if (!discard) return
         loot.discardAll(player)
         finishClaim()
     }
@@ -150,6 +180,8 @@ constructor(private val vault: TfaVault, private val loot: TfaVaultLoot) : Plugi
         const val COLUMNS = 2
         const val ROWS = 3
         const val NO_COMPONENT = -1
+        const val TAKE_FIVE = 5
+        const val TAKE_TEN = 10
         const val CHEST_CLOSED_MINE = "npc.tfa_rewards_chest_vault_closed_mine"
         const val CHEST_CLOSED_OTHER = "npc.tfa_rewards_chest_vault_closed_notmine"
         const val CHEST_OPEN_MINE = "npc.tfa_rewards_chest_vault_open_mine"
