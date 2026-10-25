@@ -1,5 +1,44 @@
 # Dev-notes changelog
 
+## 2026-10-26 — Fletching skill (`dev`)
+
+- New `content/skills/fletching` module: `FletchingEvents` plugin plus a
+  `-pack` dbtable (`dbtable.fletching_recipes`, ~115 authored rows sourced
+  from OSRS wiki level/XP tables since the upstream `arrow_fletching`
+  dbtable ships empty). Covers the full make-x surface: log carving (arrow
+  shafts with tier-scaled yield 15→105, javelin shafts, unstrung bows,
+  crossbow stocks), stringing (bows, crossbows, ballistae), assembly
+  (crossbow stock+limbs, ballista frame→incomplete→unstrung→complete,
+  composite ogre bow), attach batches (headless arrows, arrows, bolts,
+  javelins, darts, ogre/brutal arrows) and chisel rows.
+- Recipe kinds drive batch semantics: `ATTACH` consumes/produces in sets
+  (15 arrows per action tick), all other kinds craft one unit per tick;
+  XP is stored in tenths and awarded per product for attach/chisel rows.
+  `firstTicks` models the arrow-shaft "2 then 3 ticks" cadence.
+- `SkillingMenu.openSkillMulti` fix: the OSRS client sends subcomponent 0
+  for action types whose quantity row is hidden (`enum_5178=false`,
+  incl. CARVE) — subcomponent 0 now means "make all" (`maxAmount`) instead
+  of coercing to 1. Verified live: one click carved all 3 logs.
+- Recipe lookup keyed by `SkillMultiEntry` identity, not output symbol —
+  the earlier `associateBy { output }` collapsed every tier of arrow shaft
+  into the redwood row and silently dropped menu entries.
+- Menu `available` filtering drops recipes whose materials are missing
+  (comp ogre bow hidden without wolf bones); client-side `enum_1810`
+  clamping caps quantity-enabled selections at 28, matching OSRS.
+- Feather-variant equivalence: all six hunting feathers + griffin feather
+  count toward, and are consumed from, the `obj.feather` recipe input.
+- Tool checks accept equivalents (fletching knife for knife, imcando
+  hammers for hammer). `onOpHeldU` pair registration order documented:
+  pair bindings must win before single-arg catch-alls.
+- Tests: `FletchingEventsTest` — 8 integration tests covering carve-all
+  output, knife/level refusals (messages captured during coroutine
+  resume, before `advance()` clears captures), attach batching, feather
+  variants, arrowhead attach, stringing, and menu filtering via the
+  captured `RunClientScript` labels.
+- Live-verified: 5-entry carve menu for logs, carve-all 3 logs → 45
+  shafts, stringing 1→1, feather attach exactly 28 (client-clamped
+  quantity), and exactly 48.0 Fletching XP (1:1 rate) across the session.
+
 ## 2026-10-26 — Equip verbs on any op: rings, blessings, iop4 items (`dev`)
 
 - `ItemServerType.isEquipable` previously required `interfaceOptions[1]` to be

@@ -173,7 +173,10 @@ suspend fun ProtectedAccess.openSkillMulti(
     }
 
     val (entry, maxAmount) = available[buttonIndex]
-    val selectedAmount = input.subcomponent.coerceIn(1, maxAmount)
+    // Action types without a quantity row (enum_5178=false, e.g. CARVE) resume
+    // with subcomponent 0, which means "make all".
+    val selectedAmount =
+        if (input.subcomponent <= 0) maxAmount else input.subcomponent.coerceAtMost(maxAmount)
 
     onComplete(
         SkillMultiSelection(
