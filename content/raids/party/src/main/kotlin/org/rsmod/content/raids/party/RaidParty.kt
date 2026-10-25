@@ -64,6 +64,12 @@ class RaidParty<S>(
 
     fun unblock(player: Player): Boolean = blockedList.removeAll { it === player }
 
+    fun unblockAll(): Int {
+        val count = blockedList.size
+        blockedList.clear()
+        return count
+    }
+
     /** Removes a member; the next member in line becomes leader if the leader was the one removed. */
     fun remove(player: Player): Boolean = memberList.removeAll { it === player }
 

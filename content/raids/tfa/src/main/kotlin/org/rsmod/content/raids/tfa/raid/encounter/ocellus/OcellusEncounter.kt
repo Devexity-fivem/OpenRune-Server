@@ -41,6 +41,8 @@ constructor(
 
     internal fun of(npc: Npc): OcellusFight? = fights.values.firstOrNull { it.boss === npc }
 
+    internal fun of(id: InstanceId): OcellusFight? = fights[id]
+
     internal fun at(tile: CoordGrid): OcellusFight? = fights.values.firstOrNull { it.contains(tile) }
 
     internal fun open(owner: Player): Opened =

@@ -71,6 +71,8 @@ open class RaidPartyRegistry<S>(private val maxListed: Int, private val capacity
 
     fun unblock(party: RaidParty<S>, player: Player): Boolean = party.unblock(player)
 
+    fun unblockAll(party: RaidParty<S>): Int = party.unblockAll()
+
     /** Takes [player] out of their party; the party disbands, releasing applicants, once empty. */
     fun leave(player: Player): Left<S>? {
         val party = membership.remove(player) ?: return null

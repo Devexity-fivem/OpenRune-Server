@@ -78,7 +78,7 @@ internal class OcellusFight(
 
     fun ready(player: Player) {
         if (started || !boss.isSlotAssigned) return
-        start(boss, player, partySize = 1)
+        start(boss, player, partySize = session.occupants.size.coerceAtLeast(1))
         player.mes("Challenge started: Ocellus.")
     }
 

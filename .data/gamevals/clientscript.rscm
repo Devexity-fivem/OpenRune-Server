@@ -7921,3 +7921,6 @@ quest_policy_complete_set=45553
 ocellus_proj_curve_height=10024
 ocellus_proj_curve_angle=10018
 ocellus_proj_curve_time=10017
+tfa_partydetails_addmember=10053
+tfa_partydetails_master=10060
+tfa_partylist_addline=10094

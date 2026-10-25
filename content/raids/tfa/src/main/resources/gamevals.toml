@@ -28,6 +28,9 @@ tfa_ocellus_combat_part_02 = 894
 ocellus_proj_curve_height = 10024
 ocellus_proj_curve_angle = 10018
 ocellus_proj_curve_time = 10017
+tfa_partydetails_addmember = 10053
+tfa_partydetails_master = 10060
+tfa_partylist_addline = 10094
 
 [gamevals.synth]
 leather_hit = 24
@@ -53,3 +56,6 @@ ocellus_magic_spread_cast = 12633
 ocellus_debris_fall = 12619
 ocellus_siphon_heal = 12543
 ocellus_soul_split_heal = 5281
+
+[gamevals.area]
+tfa_lobby = 30020
