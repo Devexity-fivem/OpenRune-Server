@@ -4,7 +4,6 @@ import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import dev.openrune.types.aconverted.SpotanimType
 import kotlin.math.abs
-import kotlin.math.sqrt
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.game.entity.Npc
@@ -32,7 +31,7 @@ internal class OcellusWalls(private val deps: BossDeps) {
 
     private val walls = HashMap<Pair<Arm, Int>, LocInfo>()
     private var pending: Telegraph? = null
-    private var lastGap: Pair<Int, Int>? = null
+    private var volleys = 0
     private val pools = HashMap<Quadrant, List<CoordGrid>>()
     private val portals = HashMap<Quadrant, CoordGrid>()
 
@@ -56,7 +55,7 @@ internal class OcellusWalls(private val deps: BossDeps) {
 
     fun clear() {
         pending = null
-        lastGap = null
+        volleys = 0
         pools.clear()
         portals.clear()
         for (loc in walls.values) deps.locRepo.del(loc, Int.MAX_VALUE)
@@ -86,16 +85,17 @@ internal class OcellusWalls(private val deps: BossDeps) {
         return Quadrant.entries.filter { q -> players.any { q.contains(centre, it.coords) } }
     }
 
-    /** Opposite arms share their gap's distance from the centre; the two axes roll separately. */
+    /** Opposite arms share their gap's distance from the centre; the two axes each have their own. */
     private fun telegraph(npc: Npc, centre: CoordGrid, closed: Boolean = false) {
+        val roll = if (closed) null else nextGap()
         val occupied = occupiedQuadrants(npc, centre)
         if (occupied.isEmpty()) return
         val arms = occupied.flatMap { it.arms }.toSet()
         val gaps =
-            if (closed) {
+            if (roll == null) {
                 emptyMap()
             } else {
-                val (horizontal, vertical) = rollGap(centre, occupied)
+                val (horizontal, vertical) = roll
                 arms.associateWith {
                     val distance = if (it.horizontal) horizontal else vertical
                     if (it.sign > 0) distance else SEGMENTS - 1 - distance
@@ -111,35 +111,14 @@ internal class OcellusWalls(private val deps: BossDeps) {
     }
 
     /**
-     * Rolls the gap's distance from the centre on each axis. The safe zone of every occupied
-     * quadrant must be standable, since the room is round and the far corners of the cross are
-     * not, and it may move only so far from the previous one so players can always reach it.
+     * The gap's distance from the centre on each axis, as (horizontal, vertical). Every capture
+     * has the same [GAP_PATTERNS], one per group of volleys and in order, whoever stands where.
      */
-    private fun rollGap(centre: CoordGrid, occupied: List<Quadrant>): Pair<Int, Int> {
-        val all = (0 until SEGMENTS).flatMap { h -> (0 until SEGMENTS).map { v -> h to v } }
-        val reachable = all.filter { (h, v) -> occupied.all { safeZoneWalkable(centre, it, h, v) } }
-        val previous = lastGap
-        val near = previous?.let { (ph, pv) -> reachable.filter { stepTiles(it, ph to pv) <= MAX_GAP_STEP } }
-        val pick = deps.random.pick(near?.takeIf { it.isNotEmpty() } ?: reachable.ifEmpty { all })
-        lastGap = pick
-        return pick
-    }
-
-    private fun stepTiles(a: Pair<Int, Int>, b: Pair<Int, Int>): Double {
-        val dx = 2.0 * (a.first - b.first)
-        val dz = 2.0 * (a.second - b.second)
-        return sqrt(dx * dx + dz * dz)
-    }
-
-    private fun safeZoneWalkable(centre: CoordGrid, quadrant: Quadrant, h: Int, v: Int): Boolean {
-        val x = if (quadrant.dx > 0) centre.x + 1 + 2 * h else centre.x - 2 - 2 * h
-        val z = if (quadrant.dz > 0) centre.z + 1 + 2 * v else centre.z - 2 - 2 * v
-        for (dx in 0..1) {
-            for (dz in 0..1) {
-                if (!walkable(x + dx, z + dz, centre.level)) return false
-            }
-        }
-        return true
+    private fun nextGap(): Pair<Int, Int> {
+        val group = GAP_PATTERNS[volleys / GAP_PATTERN_LENGTH % GAP_PATTERNS.size]
+        val (vertical, horizontal) = group[volleys % GAP_PATTERN_LENGTH]
+        volleys++
+        return horizontal to vertical
     }
 
     private fun walkable(x: Int, z: Int, level: Int): Boolean =
@@ -328,7 +307,13 @@ internal class OcellusWalls(private val deps: BossDeps) {
         private const val SEGMENTS = 6
         private const val ARM_LENGTH = SEGMENTS * 2
 
-        private const val MAX_GAP_STEP = 6.0
+        private const val GAP_PATTERN_LENGTH = 6
+        private val GAP_PATTERNS =
+            listOf(
+                listOf(1 to 1, 3 to 1, 1 to 3, 1 to 1, 2 to 2, 4 to 1),
+                listOf(2 to 2, 2 to 3, 1 to 4, 2 to 2, 2 to 4, 3 to 3),
+                listOf(1 to 0, 1 to 3, 1 to 5, 3 to 3, 2 to 2, 3 to 0),
+            )
         private const val POOLS_PER_QUADRANT = 13
         private const val POOL = "spotanim.vfx_ocellus_p2_aoe_dodge"
         private const val PORTAL_SPAWN = "spotanim.vfx_ocellus_p2_safe_portal_spawn"

@@ -7,6 +7,7 @@ import dev.openrune.types.MoveRestrict
 import java.awt.Color
 import org.rsmod.api.bossbar.plugin.BossHpBarScript
 import org.rsmod.api.bosses.runtime.BossDeps
+import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.midiSong
 import org.rsmod.api.player.ui.setColour
@@ -68,6 +69,8 @@ internal class OcellusPhaseTwo(
     fun describeQuadrants(): String = quadrants.describe()
 
     fun bombTiles(npc: Npc): List<CoordGrid> = bombs.tiles(npc)
+
+    fun halveDamage(event: NpcHitEvents.Modify) = voidChain.halve(event)
 
     fun absorb(damage: Int) {
         storedDamage += damage

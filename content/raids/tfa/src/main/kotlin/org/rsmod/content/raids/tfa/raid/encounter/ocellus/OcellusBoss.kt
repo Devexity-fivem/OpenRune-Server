@@ -60,6 +60,7 @@ constructor(
             this,
             spec,
             deps,
+            onModifyHit = { encounter.phaseTwo.halveDamage(this) },
             onCombatTick = { encounter.debug.noteCombatTick() },
             onHit = {
                 curses.reflect(this)
@@ -558,18 +559,25 @@ constructor(
     }
 
     /**
-     * The last quadrant's 60-tick loop, with no other attacks. The boss deflects missiles, pulls
-     * half the party's hitpoints into a soul fragment, then swings a hybrid attack under soul split
-     * and deflects melee, and does it all again before the rifts open and the loop restarts.
+     * The last quadrant's 60-tick loop, with no other attacks. The boss deflects melee, pulls
+     * half the party's hitpoints into a soul fragment, then swings a charged attack in a random
+     * style under soul split and deflects missiles, and does it all again before the rifts open and
+     * the loop restarts. Protecting from the style still costs a chip of damage.
      */
     private fun curses(): Effect {
         fun hybrid(at: Int): Effect {
             fun swing(spot: String, hitType: HitType): Effect {
-                val strike =
+                val blocked =
+                    hit {
+                        damage(CURSES_HYBRID_BLOCKED_DAMAGE).roll()
+                        type(HitType.Typeless)
+                    }
+                val landed =
                     hit {
                         damage(CURSES_HYBRID_DAMAGE).roll()
                         type(hitType)
                     }
+                val strike = whenever(Condition.TargetPraying(hitType), blocked, otherwise = landed)
                 return sequence(
                     anim(HYBRID_SEQ),
                     spotanim(spot, slot = BOSS_SPOT_SLOT),
@@ -579,7 +587,11 @@ constructor(
             }
             return sequence(
                 wait(at),
-                oneOf(swing(HYBRID_MAGIC_SPOT, HitType.Magic), swing(HYBRID_RANGED_SPOT, HitType.Ranged)),
+                oneOf(
+                    swing(HYBRID_MELEE_SPOT, HitType.Melee),
+                    swing(HYBRID_MAGIC_SPOT, HitType.Magic),
+                    swing(HYBRID_RANGED_SPOT, HitType.Ranged),
+                ),
             )
         }
         fun fragment(levitating: Boolean) =
@@ -599,7 +611,7 @@ constructor(
                     sequence(
                         anim(DEFLECT_IN_SEQ),
                         idleAnim(DEFLECT_LOOP_SEQ),
-                        icon(HEADICON_DEFLECT_MISSILES, OcellusCurses.DEFLECT_MISSILES),
+                        icon(HEADICON_DEFLECT_MELEE, OcellusCurses.DEFLECT_MELEE),
                         external(OcellusPhaseTwo.DEFLECT_START, params = OcellusDeflect.Style.Ranged),
                     ),
                 CURSES_FRAGMENT_AT to fragment(levitating = true),
@@ -616,7 +628,8 @@ constructor(
                         clearIcon,
                         external(OcellusPhaseTwo.DEFLECT_START, params = OcellusDeflect.Style.Melee),
                     ),
-                CURSES_DEFLECT_MELEE_AT to icon(HEADICON_DEFLECT_MELEE, OcellusCurses.DEFLECT_MELEE),
+                CURSES_DEFLECT_MISSILES_AT to
+                    icon(HEADICON_DEFLECT_MISSILES, OcellusCurses.DEFLECT_MISSILES),
                 CURSES_SECOND_FRAGMENT_AT to fragment(levitating = false),
                 CURSES_FRAGMENT_END_AT to
                     sequence(
@@ -1399,8 +1412,8 @@ constructor(
         const val HEADICON_GRAPHIC = 440
         const val HEADICON_MELEE = 0
         const val HEADICON_SOUL_SPLIT = 11
-        const val HEADICON_DEFLECT_MISSILES = 15
-        const val HEADICON_DEFLECT_MELEE = 16
+        const val HEADICON_DEFLECT_MELEE = 15
+        const val HEADICON_DEFLECT_MISSILES = 16
 
         const val CURSES = "curses"
         const val CURSES_LENGTH = 60
@@ -1409,7 +1422,7 @@ constructor(
         const val CURSES_HYBRID_AT = 24
         const val CURSES_SOUL_SPLIT_AT = 25
         const val CURSES_MELEE_ARENA_AT = 30
-        const val CURSES_DEFLECT_MELEE_AT = 31
+        const val CURSES_DEFLECT_MISSILES_AT = 31
         const val CURSES_SECOND_FRAGMENT_AT = 34
         const val CURSES_FRAGMENT_END_AT = 50
         const val CURSES_SECOND_HYBRID_AT = 52
@@ -1424,8 +1437,9 @@ constructor(
         const val DEATH_SKIRT_SPOT = "spotanim.vfx_ocellus_death_skirt_spotanim01"
         const val DEATH_SPOT = "spotanim.vfx_ocellus_death"
         const val DEATH_CRACK_SPOT = "spotanim.vfx_ocellus_death_crack_spotanim01"
-        // PLACEHOLDER: both captured hybrid hits landed for 7 and 8 on a party whose prayers can't be seen.
-        val CURSES_HYBRID_DAMAGE = 7..8
+        // Spectator captures: 7 or 8 on every player but one, and 38-51 on those whose hit healed him.
+        val CURSES_HYBRID_BLOCKED_DAMAGE = 7..8
+        val CURSES_HYBRID_DAMAGE = 38..51
         const val DEFLECT_IN_SEQ = "seq.npc_ocellus_phase3_deflect_in"
         const val DEFLECT_LOOP_SEQ = "seq.npc_ocellus_phase3_deflect_loop"
         const val DEFLECT_OUT_SEQ = "seq.npc_ocellus_phase3_deflect_out"
@@ -1434,7 +1448,8 @@ constructor(
         const val SOUL_IDLE_SPOT = "spotanim.vfx_ocellus_soul_fragment_ocellus_idle"
         const val SOUL_LEVITATING_SPOT = "spotanim.vfx_ocellus_soul_fragment_ocellus_levitating_idle"
         const val HYBRID_SEQ = "seq.npc_ocellus_phase3_melee_hybrid"
-        const val HYBRID_MAGIC_SPOT = "spotanim.vfx_ocellus_phase3_melee_hybrid_magic"
+        const val HYBRID_MELEE_SPOT = "spotanim.vfx_ocellus_phase3_melee_hybrid"
+        const val HYBRID_MAGIC_SPOT ="spotanim.vfx_ocellus_phase3_melee_hybrid_magic"
         const val HYBRID_RANGED_SPOT = "spotanim.vfx_ocellus_phase3_melee_hybrid_ranged"
 
         const val NOT_ARRIVED = 0

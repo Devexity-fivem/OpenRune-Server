@@ -1,6 +1,8 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
+import java.util.IdentityHashMap
 import org.rsmod.api.bosses.runtime.BossDeps
+import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.player.output.spotanimMapPrivate
@@ -13,10 +15,12 @@ import org.rsmod.map.CoordGrid
  * The void chain that follows each soul fragment. Three ticks after the drain an orb opens on
  * every player in the quadrant; two ticks later, and every [GAP] ticks after that, the tile each
  * stands on is marked and goes off [GAP] ticks later, [EXPLOSIONS] times in all. A player still on
- * the tile takes the blast, one who has stepped off gets their attack cooldown back.
+ * the tile takes the blast, one who has stepped off gets their attack cooldown back. While the
+ * bursts run the boss takes half damage.
  */
 internal class OcellusVoidChain(private val deps: BossDeps) {
     private var generation = 0
+    private val windows = IdentityHashMap<Npc, IntRange>()
 
     fun register() {
         deps.extensionRegistry.register(START) { start(it.npc) }
@@ -24,11 +28,20 @@ internal class OcellusVoidChain(private val deps: BossDeps) {
 
     fun clear() {
         generation++
+        windows.clear()
+    }
+
+    fun halve(event: NpcHitEvents.Modify) {
+        val window = windows[event.npc] ?: return
+        if (!event.hit.isFromPlayer || deps.mapClock.cycle !in window) return
+        event.hit.damage /= 2
     }
 
     private fun start(boss: Npc) {
         val run = generation
         val targets = OcellusArena.quadrantPlayers(boss, deps.playerList)
+        val first = deps.mapClock.cycle + FIRST_MARK_AT
+        windows[boss] = first..first + GAP * EXPLOSIONS
         deps.worldQueues.add(TELEGRAPH_AT) {
             if (run != generation) return@add
             for (player in targets) {
