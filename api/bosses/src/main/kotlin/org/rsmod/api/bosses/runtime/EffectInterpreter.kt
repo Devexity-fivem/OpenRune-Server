@@ -157,9 +157,9 @@ class EffectInterpreter internal constructor(
             is Effect.WalkTo -> {
                 if (npc.isValidTarget()) {
                     val dest = resolveTile(effect.to)
-                    bossLogger.info { "${npc.bossTag} walking to $dest from ${npc.coords}" }
+                    bossLogger.debug { "${npc.bossTag} walking to $dest from ${npc.coords}" }
                     npc.walk(dest) {
-                        bossLogger.info { "${npc.bossTag} arrived at ${npc.coords} (interrupted=$interrupted)" }
+                        bossLogger.debug { "${npc.bossTag} arrived at ${npc.coords} (interrupted=$interrupted)" }
                         if (npc.isValidTarget() && !interrupted) run(access, effect.onArrival)
                     }
                 }
@@ -186,7 +186,7 @@ class EffectInterpreter internal constructor(
                 )
 
             is Effect.Run -> {
-                bossLogger.info { "${npc.bossTag} run: ${effect.ability}" }
+                bossLogger.debug { "${npc.bossTag} run: ${effect.ability}" }
                 val ability = spec.abilities[effect.ability]
                 if (ability != null) run(access, ability, onComplete) else onComplete()
                 return
@@ -195,7 +195,7 @@ class EffectInterpreter internal constructor(
                 encounter.transitionTo(effect.phase, deps.mapClock.cycle)
             }
             is Effect.External -> {
-                bossLogger.info { "${npc.bossTag} external: ${effect.handler}" }
+                bossLogger.debug { "${npc.bossTag} external: ${effect.handler}" }
                 val tile = effect.at?.let(::resolveTile)
                 deps.extensionRegistry.invoke(effect.handler, access, npc, target, effect.params, tile)
             }

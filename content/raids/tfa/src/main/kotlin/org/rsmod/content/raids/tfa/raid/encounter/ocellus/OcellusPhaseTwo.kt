@@ -70,8 +70,6 @@ internal class OcellusPhaseTwo(
 
     fun isOutsideQuadrant(npc: Npc, tile: CoordGrid): Boolean = quadrants.isOutside(npc, tile)
 
-    fun describeQuadrants(): String = quadrants.describe()
-
     fun bombTiles(npc: Npc): List<CoordGrid> = bombs.tiles(npc)
 
     fun modifyHit(event: NpcHitEvents.Modify) {

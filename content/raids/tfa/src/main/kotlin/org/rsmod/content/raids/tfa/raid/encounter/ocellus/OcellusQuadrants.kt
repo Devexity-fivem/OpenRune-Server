@@ -67,8 +67,6 @@ internal class OcellusQuadrants(
             .map { Math.floorMod(it.ordinal - here.ordinal, Quadrant.entries.size) }
     }
 
-    fun describe(): String = "${current ?: "-"} (destroyed: ${destroyed.joinToString().ifEmpty { "none" }})"
-
     /** Players outside the boss's quadrant can't hurt it, so no spot across the gap is safe. */
     fun isOutside(npc: Npc, tile: CoordGrid): Boolean {
         val quadrant = current ?: return false

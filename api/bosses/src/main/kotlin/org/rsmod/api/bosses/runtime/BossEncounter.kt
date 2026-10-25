@@ -123,7 +123,7 @@ class BossEncounter(
 
     init {
         applyMovementMode(currentPhase)
-        bossLogger.info { "${npc.bossTag} encounter created in phase '$currentPhaseName'" }
+        bossLogger.debug { "${npc.bossTag} encounter created in phase '$currentPhaseName'" }
     }
 
     val currentPhase: PhaseSpec?
@@ -132,7 +132,7 @@ class BossEncounter(
     /** Switches phase state only; does not run the phase's [PhaseSpec.entry]. */
     fun transitionTo(phaseName: String, tick: Int) {
         val from = currentPhaseName
-        bossLogger.info { "${npc.bossTag} phase '$from' -> '$phaseName' (tick $tick)" }
+        bossLogger.debug { "${npc.bossTag} phase '$from' -> '$phaseName' (tick $tick)" }
         currentPhaseName = phaseName
         queuedAbility = null
         phaseEnteredTick = tick

@@ -172,7 +172,7 @@ object BossCombat {
         val priority = encounter.selectPriorityAbility(tick, target)
         if (priority != null) {
             val effect = spec.abilities[priority] ?: return
-            bossLogger.info { "${npc.bossTag} attack (priority): $priority" }
+            bossLogger.debug { "${npc.bossTag} attack (priority): $priority" }
             encounter.startAttack(priority, tick)
             EffectInterpreter(npc, target, spec, encounter, deps).run(this, effect)
             return
@@ -182,7 +182,7 @@ object BossCombat {
         val abilityName = encounter.selectAbility(phase.selector, tick, target) ?: return
         val effect = spec.abilities[abilityName] ?: return
 
-        bossLogger.info { "${npc.bossTag} attack: $abilityName" }
+        bossLogger.debug { "${npc.bossTag} attack: $abilityName" }
         encounter.startAttack(abilityName, tick)
 
         val interpreter = EffectInterpreter(npc, target, spec, encounter, deps)
@@ -200,7 +200,7 @@ object BossCombat {
         for ((index, trigger) in spec.triggers.withIndex()) {
             if (index in encounter.firedTriggers) continue
             if (encounter.evaluate(trigger.condition, target)) {
-                bossLogger.info { "${encounter.npc.bossTag} trigger #$index fired: ${trigger.condition}" }
+                bossLogger.debug { "${encounter.npc.bossTag} trigger #$index fired: ${trigger.condition}" }
                 encounter.firedTriggers += index
                 val interpreter = EffectInterpreter(encounter.npc, target, spec, encounter, deps)
                 interpreter.run(access, trigger.effect)
@@ -250,7 +250,7 @@ object BossCombat {
         deps: BossDeps,
     ) {
         val effect = spec.abilities[abilityName] ?: return
-        bossLogger.info { "${access.npc.bossTag} phase entry: $abilityName" }
+        bossLogger.debug { "${access.npc.bossTag} phase entry: $abilityName" }
         EffectInterpreter(access.npc, target, spec, encounter, deps).run(access, effect)
     }
 }

@@ -61,7 +61,6 @@ constructor(
             spec,
             deps,
             onModifyHit = { encounter.phaseTwo.modifyHit(this) },
-            onCombatTick = { encounter.debug.noteCombatTick() },
             onHit = {
                 curses.reflect(this)
                 for (player in OcellusArena.players(npc, deps.playerList)) hpBar.onUpdate(player, npc)

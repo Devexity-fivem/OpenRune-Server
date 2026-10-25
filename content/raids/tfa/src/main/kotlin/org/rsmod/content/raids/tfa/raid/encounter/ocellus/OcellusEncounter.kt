@@ -1,6 +1,5 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
-import com.github.michaelbull.logging.InlineLogger
 import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
@@ -33,7 +32,6 @@ constructor(
 ) {
     internal val meter = OcellusMeter(deps, hpBar)
     internal val phaseTwo = OcellusPhaseTwo(deps, hpBar, meter, interactions, energy) { partySize }
-    internal val debug = OcellusDebug(deps, { boss }) { phaseTwo.describeQuadrants() }
 
     private var boss: Npc? = null
     private var started = false
@@ -42,7 +40,6 @@ constructor(
 
     fun reset() {
         started = false
-        debug.reset()
         phaseTwo.clear()
         boss?.let { if (it.isSlotAssigned) deps.npcRepo.del(it, Int.MAX_VALUE) }
         val npc = Npc("npc.tfa_ocellus_intro", INTRO_SPAWN)
@@ -115,15 +112,9 @@ constructor(
         npc.apPlayer2(player, interactions)
         npc.setHuntMode(checkNotNull(ServerCacheManager.getHunt(HUNT_CONSTANT_RANGED)))
         npc.setHunt(shield.huntRange)
-        logger.info {
-            "[ocellus] started: slot=${npc.slotId} hp=${npc.hitpoints} attackRange=${npc.attackRange} " +
-                "moveRestrict=${npc.moveRestrict} engaging ${player.displayName} at ${player.coords}"
-        }
     }
 
     companion object {
-        private val logger = InlineLogger()
-
         val ENTRANCE: CoordGrid = CoordGrid(4128, 5658, 1)
         private val INTRO_SPAWN = CoordGrid(4126, 5669, 1)
 
