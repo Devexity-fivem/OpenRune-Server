@@ -8,13 +8,24 @@ import org.rsmod.api.config.Constants.em_face_west
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.agilityLvl
 import org.rsmod.api.player.stat.statAdvance
+import org.rsmod.api.player.vars.intVarp
+import org.rsmod.api.random.GameRandom
+import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onApLoc1
+import org.rsmod.api.script.onOpNpc1
+import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.zone.ZoneKey
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-class GnomeAgilityCourse @Inject constructor() : PluginScript() {
+class GnomeAgilityCourse @Inject constructor(
+    private val marks: MarkOfGrace,
+    private val npcRepo: NpcRepository,
+    private val random: GameRandom,
+) : PluginScript() {
 
     override fun ScriptContext.startup() {
         onApLoc1("loc.gnome_log_balance1") { apCrossLog(it.loc) }
@@ -29,7 +40,17 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         onApLoc1("loc.obstical_net3") { apClimbNetOver(it.loc) }
         onApLoc1("loc.obstical_pipe3_1") { apSqueezePipe(it.loc) }
         onApLoc1("loc.obstical_pipe3_2") { apSqueezePipe(it.loc) }
+        onOpNpc1(TRAINER_NPC) { talkToTrainer(it.npc) }
     }
+
+    private suspend fun ProtectedAccess.talkToTrainer(npc: Npc) =
+        startDialogue(npc) {
+            chatNpc(
+                verymad,
+                "I'm amazed by how much humans chat. The sign over there says " +
+                    "training area, not pointless conversation area.",
+            )
+        }
 
     private suspend fun ProtectedAccess.apCrossLog(log: BoundLocInfo) {
         if (isWithinApRange(log, AP_RANGE)) crossLog()
@@ -46,6 +67,7 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         anim("seq.human_walk_logbalance")
         delay(LOG_TICKS)
         statAdvance(AGILITY, LOG_XP)
+        completeObstacle(OBSTACLE_LOG)
         spam("... and make it safely to the other side.")
     }
 
@@ -60,6 +82,7 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         delay(CLIMB_TICKS)
         telejump(CoordGrid(coords.x, NET_UP_LANDING_Z, 1))
         statAdvance(AGILITY, NET_XP)
+        completeObstacle(OBSTACLE_NET_UP)
     }
 
     private suspend fun ProtectedAccess.apClimbBranchUp(branch: BoundLocInfo) {
@@ -73,6 +96,7 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         delay(CLIMB_TICKS)
         telejump(BRANCH_TOP)
         statAdvance(AGILITY, BRANCH_XP)
+        completeObstacle(OBSTACLE_BRANCH_UP)
         spam("... to the platform above.")
     }
 
@@ -91,6 +115,7 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         anim("seq.myq3_human_tightrope")
         delay(ROPE_TICKS)
         statAdvance(AGILITY, ROPE_XP)
+        completeObstacle(OBSTACLE_ROPE)
     }
 
     private suspend fun ProtectedAccess.apClimbBranchDown(branch: BoundLocInfo) {
@@ -103,6 +128,7 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         delay(CLIMB_TICKS)
         telejump(BRANCH_GROUND)
         statAdvance(AGILITY, BRANCH_XP)
+        completeObstacle(OBSTACLE_BRANCH_DOWN)
         spam("You land on the ground.")
     }
 
@@ -120,6 +146,7 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         delay(CLIMB_TICKS)
         telejump(CoordGrid(coords.x, landingZ, 0))
         statAdvance(AGILITY, NET_XP)
+        completeObstacle(OBSTACLE_NET_OVER)
     }
 
     private suspend fun ProtectedAccess.apSqueezePipe(pipe: BoundLocInfo) {
@@ -140,8 +167,37 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         delay(PIPE_HOP_TICKS)
 
         statAdvance(AGILITY, PIPE_XP)
-        statAdvance(AGILITY, LAP_BONUS_XP)
         spam("You pull yourself through the pipes.")
+
+        completeObstacle(OBSTACLE_PIPE)
+        if (player.courseProgress == OBSTACLE_PIPE) {
+            statAdvance(AGILITY, LAP_BONUS_XP)
+            player.courseProgress = 0
+            marks.onLapCompleted(player, MARK_SPAWN, REQUIRED_LVL)
+        }
+    }
+
+    // Progress counts only consecutive in-order obstacles; anything else restarts the lap.
+    // The log restart keeps progress=1 so a fresh lap always begins cleanly.
+    private fun ProtectedAccess.completeObstacle(index: Int) {
+        player.courseProgress =
+            when {
+                index == OBSTACLE_LOG -> OBSTACLE_LOG
+                player.courseProgress == index - 1 -> index
+                else -> 0
+            }
+        trainerBark()
+    }
+
+    private fun ProtectedAccess.trainerBark() {
+        val zone = ZoneKey.from(coords)
+        val trainer =
+            npcRepo
+                .findAll(zone, 1)
+                .filter { it.isType(TRAINER_NPC) }
+                .filter { it.coords.chebyshevDistance(coords) <= BARK_RANGE }
+                .minByOrNull { it.coords.chebyshevDistance(coords) } ?: return
+        trainer.say(BARKS[random.of(BARKS.size)])
     }
 
     private suspend fun ProtectedAccess.checkLevel(): Boolean {
@@ -152,10 +208,12 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
 
     private companion object {
         const val AGILITY = "stat.agility"
+        const val TRAINER_NPC = "npc.gnometrainer"
 
         const val REQUIRED_LVL = 1
         const val AP_RANGE = 2
         const val PIPE_AP_RANGE = 1
+        const val BARK_RANGE = 15
 
         const val LOG_XP = 10.0
         const val NET_XP = 10.0
@@ -163,6 +221,14 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         const val ROPE_XP = 10.0
         const val PIPE_XP = 7.5
         const val LAP_BONUS_XP = 50.0
+
+        const val OBSTACLE_LOG = 1
+        const val OBSTACLE_NET_UP = 2
+        const val OBSTACLE_BRANCH_UP = 3
+        const val OBSTACLE_ROPE = 4
+        const val OBSTACLE_BRANCH_DOWN = 5
+        const val OBSTACLE_NET_OVER = 6
+        const val OBSTACLE_PIPE = 7
 
         const val LOG_TICKS = 9
         const val CLIMB_TICKS = 2
@@ -191,5 +257,16 @@ class GnomeAgilityCourse @Inject constructor() : PluginScript() {
         val ROPE_EAST_END = CoordGrid(2483, 3420, 2)
         val ROPE_WEST_END = CoordGrid(2477, 3420, 2)
         val BRANCH_GROUND = CoordGrid(2486, 3419, 0)
+        val MARK_SPAWN = CoordGrid(2484, 3418, 2)
+
+        val BARKS =
+            listOf(
+                "That's it, straight up",
+                "Come on scaredy cat get across that rope",
+                "My granny can move faster than you",
+                "move it, move it, move it!",
+            )
     }
 }
+
+private var Player.courseProgress by intVarp("varp.agility_course_progress")

@@ -19,27 +19,38 @@ Target revision: **241** (game.yml; AGENTS.md still says 240.2 — stale).
 ### Gnome Stronghold Agility Course
 
 - Wiki: https://oldschool.runescape.wiki/w/Gnome_Stronghold_Agility_Course
-- Path: `content/skills/agility/.../GnomeAgilityCourse.kt`,
-  `content/skills/agility-pack` (agility_enums.toml ordering enum),
-  test `GnomeAgilityCourseTest.kt` (cache-backed symbol + geometry).
+- Path: `content/skills/agility/.../GnomeAgilityCourse.kt` +
+  `MarkOfGrace.kt`, pack `content/skills/agility/pack` (`AgilityPluginPack`,
+  `agility_vars.toml`, `gamevals.toml`), tests `GnomeAgilityCourseTest.kt`
+  (cache-backed symbols) + `GnomeAgilityCourseGameTest.kt` (9 integration
+  tests via GameTestExtension).
 - Requirements: 7 obstacles lvl 1; log 10, net 10, branch 6.5, rope 10,
   branch 6.5, net 10, pipe 7.5 + 50 lap bonus = 110.5 XP/lap; Marks of Grace.
-- Status: **Verified with known gaps** (live-verified 2 full laps via MCP:
-  coords/levels/anims/messages/XP deltas all correct; 33150 XP = 2x110.5x150).
-- Verified commit: `79c73b318`.
+- Status: **Verified with known gaps** (live-verified via MCP: 1 isolated
+  pipe +1125 no bonus, 2 full in-order laps +16575 each = single bonus/lap;
+  trainer Talk-to fires verbatim wiki dialogue; mark not observed in 2 live
+  laps — probabilistic, covered by deterministic tests).
+- Implemented this batch:
+  - In-order lap progress tracked in temp varp `agility_course_progress`
+    (63739); bonus only when progress reaches pipe, out-of-order resets.
+  - `MarkOfGrace` service: per-lap roll 2/6 (gnome exact rate unpublished —
+    approximation documented), 3-min game-time cooldown in permanent varp
+    `agility_mark_last_minute` (63740, persists through logout), 20+ levels
+    over req → denominator x5, private `obj.grace` spawn at (2484,3418,2),
+    10-min despawn/reveal.
+  - Gnome trainer (`npc.gnometrainer` 6080): nearest trainer within 15 tiles
+    barks wiki-verbatim lines on each obstacle; Talk-to opens the wiki's
+    training-area dialogue.
 - Known gaps:
-  - Lap bonus unconditional on pipe — no per-obstacle lap progress tracking
-    (enum `gnome_stronghold_course_obstacles`=3990-series exists for ordering;
-    implement varp bitmask).
-  - No Marks of Grace spawn system (does not exist anywhere — separate
-    feature: global spawn scheduler + despawn/player-visibility rules).
-  - No gnome trainer encouragement barks/dialogue.
   - Cycle timings eyeballed, not tick-exact vs OSRS.
   - `seq.myq3_human_tightrope` (4772) may not be the exact rev-241 gnome
     tightrope seq; looks correct live.
   - Pipe step-through walls and transmog-to-crawl-NPC cosmetics: pipe works
     via two-hop exactMove; no mid-pipe NPC transmog (visual only in OSRS).
-- Next action: lap-progress varp + mark-of-grace system.
+  - Live "Total Laps" HUD increments per pipe completion (existing engine
+    behavior, not course code).
+- Next action: same lap-progress + MarkOfGrace pattern for remaining courses;
+  mark spawn could not be observed live (2/6 roll failed twice).
 
 ### Other Agility courses / content
 

@@ -1,5 +1,33 @@
 # Dev-notes changelog
 
+## 2026-10-25 — Gnome course lap progress + Marks of Grace (`dev`)
+
+- Lap completion now tracked per-obstacle in temp varp
+  `varp.agility_course_progress` (63739): the 50 XP lap bonus fires only when
+  obstacles 1-7 complete in order; out-of-order use resets progress, and
+  repeat pipe squeezes award no bonus (verified live: isolated pipe +1125,
+  full lap +16575 at 150x).
+- New shared `MarkOfGrace` service (`MarkOfGrace.kt`): per-lap 2/6 roll
+  (gnome's exact rate is unpublished — chosen value documented in source),
+  3-minute game-time cooldown via permanent varp `agility_mark_last_minute`
+  (63740, survives logout), 80% rate reduction when unboosted Agility is 20+
+  over the course requirement, private `obj.grace` spawn on the level-2
+  platform (2484,3418,2) with 10-minute despawn/reveal.
+- New `agility-pack` module (`AgilityPluginPack` + `agility_vars.toml`)
+  registers both varps; ids moved to 63739/63740 after discovering the
+  65400-65535 block is fully occupied (`crafting_state` collision).
+- Gnome trainer (`npc.gnometrainer`): obstacle completions trigger the
+  nearest trainer within 15 tiles to `npc.say` wiki-verbatim barks; Talk-to
+  now opens the actual dialogue ("training area, not pointless conversation
+  area") — verified live.
+- 9 integration tests in `GnomeAgilityCourseGameTest` (GameTestExtension)
+  cover ordered progression, per-obstacle XP, single bonus, repeat-pipe
+  anti-farming, out-of-order reset, mark spawn/cooldown/level-penalty.
+  Gotcha: private objects need `player.observerUUID` — test players must set
+  it manually (login applier is not run in tests).
+- Live: trainer dialogue verified; mark not observed across 2 laps (roll
+  failure, ~56% likely) — deterministic test coverage stands in.
+
 ## 2026-10-25 — Gnome Stronghold Agility Course (`feat/giant-mole`)
 
 - Rewrote `GnomeAgilityCourse.kt` into the full 7-obstacle course: log balance

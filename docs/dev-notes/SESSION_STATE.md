@@ -101,11 +101,22 @@ gamevals.toml only if custom symbols needed; commit + push after each.
   returns (level fail, wrong side) refire the handler every tick.
 - Realm baseXpRate=150.0 on dev world — per-obstacle XP deltas are 150x.
 - GNOME STRONGHOLD COURSE: fully implemented + VERIFIED LIVE end-to-end
-  (2 full laps) in GnomeAgilityCourse.kt. 110.5 XP/lap (10+10+6.5+10+6.5+10+7.5
+  (3+ laps) in GnomeAgilityCourse.kt. 110.5 XP/lap (10+10+6.5+10+6.5+10+7.5
   +50 bonus on pipe). All seven obstacles with correct coords/levels/anims/msgs.
-- Regression test: GnomeAgilityCourseTest (cache-backed; symbol resolution +
-  loc positions in map square 9781). `game-cache-test-conventions` plugin +
-  testImplementation(libs.fastutil) on the module.
+- Lap-progress gating DONE (2026-10-25): temp varp 63739 tracks in-order
+  obstacle progress; bonus only on genuine ordered lap; repeats/out-of-order
+  can't farm it. Verified live (isolated pipe +1125 no bonus; lap +16575).
+- Marks of Grace DONE: shared MarkOfGrace service — 2/6 per-lap roll
+  (approximation, gnome rate unpublished), 3-min game-time cooldown in
+  permanent varp 63740 (persists logout), lvl+20 penalty (denominator x5),
+  private obj.grace at (2484,3418,2), 10-min despawn. Not observed live
+  (roll failed both laps); 9 integration tests cover it deterministically.
+- Trainer barks + Talk-to dialogue DONE + verified live (wiki-verbatim lines).
+- Tests: GnomeAgilityCourseTest (cache-backed symbols/geometry) +
+  GnomeAgilityCourseGameTest (9 GameTestExtension integration tests).
+  Test players need `observerUUID` set manually for private-obj tests.
+- Test account for live work: user `devin ai`, password `devinai`
+  (auto-registered; requireRegistration=false).
 
 ## Gnome course reference (VERIFIED via live MCP play)
 
@@ -132,17 +143,13 @@ Course loop (all coords confirmed in game):
    "You pull yourself through the pipes."
 
 Deviations/gaps still open:
-- Lap bonus is awarded unconditionally on pipe completion; Jagex tracks
-  per-obstacle lap progress (enum gnome_stronghold_course_obstacles=3999,
-  int->loc ordering exists for it). No progress gating yet — pipe pen is
-  enclosed so practical abuse is minimal, but a proper lap-state machine
-  (varp/bitmask) is the follow-up.
-- Marks of Grace spawn system does not exist anywhere — separate feature.
-- Gnome trainer bark/encouragement NPCs not implemented.
 - Timing constants (cycles/ticks per obstacle) are eyeballed, not
   tick-exact vs real OSRS.
 - myq3_human_tightrope is a quest-named seq id 4772 — resolves fine and
   looks right for a tightrope walk, but it may not be the exact gnome seq.
+- Mark-of-Grace live observation pending (probabilistic; tested in harness).
+- "Total Laps" HUD increments per pipe completion — existing engine/counter
+  behavior, not gated on ordered progress; cosmetic.
 
 ## Course map-data quirk
 

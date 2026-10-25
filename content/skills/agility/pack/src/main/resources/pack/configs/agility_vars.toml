@@ -1,0 +1,11 @@
+[[varp]]
+isServerOnly = true
+id = "varp.agility_course_progress"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.agility_mark_last_minute"
+scope = "Perm"
+transmit = "Never"
