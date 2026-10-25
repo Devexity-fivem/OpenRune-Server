@@ -37,6 +37,17 @@ treating main as "finished".
   CHAOS_FANATIC_AOE). Killed me with god mode off — real damage.
   RISK RESOLVED: fabricated spotanim.chaos_fanatic_rift replaced; no
   fanatic-named spotanims exist in the rev-241 cache.
+- Hunter bird snaring (content/skills/hunter) — VERIFIED live in Feldip
+  Hills (2585,2884): lay consumes snare + spawns armed loc, real
+  hunting_bird_* NPCs path onto the trap 1 tile/cycle, state locs
+  armed -> trapping_<biome> -> full_<biome> / failing -> broken, Check
+  gives bones+meat+feathers+snare back + exact XP (Crimson swift +34),
+  Dismantle returns snare, Reset re-arms broken and caught traps, owner
+  standing on the trap suppresses triggering, logout clears armed traps.
+  7 integration tests.
+- Fletching (content/skills/fletching) — VERIFIED live: full make-x surface
+  via pack dbtable; carve-all via subcomponent-0 fix in SkillingMenu,
+  stringing, attach batches (28 client clamp), exact XP.
 - SYSTEMIC DSL BUG found+fixed: a bare `external(...)` line inside an
   ability {} block compiles but is DISCARDED (external returns an Effect,
   not a statement). Correct idiom is `include(external("name"))`. Fixed at
@@ -54,6 +65,11 @@ treating main as "finished".
 - Spotanim/seq/loc symbol tables are strict — wrong prefix crashes startup.
 - devMode=true -> all logins get ADMINISTRATOR; cmds ::tele ::item ::npc
   ::master ::mypos. RSProx modulus = .data/client.key content.
+- LocRepository.del(loc) matches the EXACT entity (id+shape+angle). After
+  locRepo.change(...) you must keep the NEW LocInfo (locRepo.add returns it)
+  or deletes silently no-op and orphan the loc.
+- Live test accounts: `fletchtest12` / `password` auto-registers fine;
+  `type_chat send=false` fills login fields, ENTER submits.
 
 ## Next up
 

@@ -1,5 +1,35 @@
 # Dev-notes changelog
 
+## 2026-10-26 — Hunter: bird snaring core (`dev`)
+
+- New `content/skills/hunter` module: `HunterEvents` plugin +
+  `HunterTrapManager` (per-cycle `GameLifecycle.LateCycle` tick) plus a
+  `-pack` dbtable (`dbtable.hunter_bird_snares`, 5 rows: Crimson swift 1/34xp,
+  Golden warbler 5/47, Copper longtail 9/61.3, Cerulean twitch 11/64.6,
+  Tropical wagtail 19/95, with feather loot ranges).
+- Trap lifecycle is real loc state transitions on dynamic locs: armed
+  `hunting_ojibway_trap` → `…_trapping_<biome>` → `…_full_<biome>` on
+  success, `…_failing` → `…_broken` on a failed roll. Birds are the real
+  spawned hunter NPCs — the manager scans the zone, paths one onto the trap
+  tile one square per cycle, and despawns it on landing.
+- OSRS rules: trap limit by level (2/3/4/5 at 1/40/60/80), birds above the
+  player's Hunter level never trigger, and a trap cannot trigger while the
+  owner stands on it. Check gives bones + raw bird meat + feathers + the
+  snare back; Dismantle returns the snare; Reset on broken and caught traps
+  re-arms them (caught forfeits the loot). Logout clears armed traps.
+- Engine pitfall found live: `LocRepository.del` matches the *exact* entity,
+  so after `locRepo.change` the stale `LocInfo` silently failed to delete —
+  full-trap locs were orphaned. Manager now re-`add`s on every transition and
+  tracks the returned `LocInfo` (`transition()`).
+- Tests: `HunterEventsTest` — 7 integration tests covering lay+consume,
+  level trap limit, catch→loot→XP (exact 340 fine-XP), owner-on-tile
+  suppression, reset-from-caught, broken-trap reset, dismantle return, and
+  level gating.
+- Live-verified in Feldip Hills on real Crimson swift spawns: lay → armed
+  loc, bird approached and triggered, full jungle loc, Check → loot + snare
+  returned + exactly +34 Hunter XP (twice), Dismantle returned the snare and
+  removed the loc, logout cleanup confirmed.
+
 ## 2026-10-26 — Fletching skill (`dev`)
 
 - New `content/skills/fletching` module: `FletchingEvents` plugin plus a

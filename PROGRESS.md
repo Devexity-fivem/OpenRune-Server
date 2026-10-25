@@ -9,13 +9,13 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **22/23** · Bosses **30/169** · Raids **0/4** · Minigames **1/52**
+Skills **23/23** · Bosses **30/169** · Raids **0/4** · Minigames **1/52**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
 the module table at the bottom before reading a 0 as "nothing exists".
 
-### Skills <sup>22/23</sup>
+### Skills <sup>23/23</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
@@ -41,7 +41,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> [Fletching](content/skills/fletching) | 678 loc | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Construction_icon.png?f9bf7" height="20" alt=""> Construction | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Construction) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
-| 🔴 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> Hunter | nothing yet | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 470 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
 ### Bosses <sup>30/169</sup>
 
@@ -115,48 +115,6 @@ the module table at the bottom before reading a 0 as "nothing exists".
 
 </details>
 
-### Sub-features and mechanics
-
-Pulled from wiki section headings. A lot of this has no cache symbol to match against
-(run energy, failure rates, formulas), so the entity scan cannot see it at all. Listed
-here so it at least shows up. Nothing is ticked until someone claims it.
-
-<details>
-<summary>🔴 <b>Hunter</b> — 31 sub-features</summary>
-
-- [ ] Hunting techniques
-- [ ] Aerial fishing
-- [ ] Bird house trapping
-- [ ] Bird snaring
-- [ ] Box trapping
-- [ ] Butterfly netting
-- [ ] Crab trapping
-- [ ] Deadfall trapping
-- [ ] Drift net fishing
-- [ ] Falconry
-- [ ] Goat hunting
-- [ ] Net trapping
-- [ ] Magic box trapping
-- [ ] Pitfall trapping
-- [ ] Rabbit snaring
-- [ ] Tracking
-- [ ] Hunter areas
-- [ ] Miscellaneous
-- [ ] Bait and smoking traps
-- [ ] Multiple traps
-- [ ] Hunter shops
-- [ ] Hunter Guild &amp; Hunters' Rumours
-- [ ] Hunter spell
-- [ ] Hunter crossbow
-- [ ] Hunter and camouflage clothing
-- [ ] Storage items
-- [ ] Hunter pets
-- [ ] Baby chinchompa
-- [ ] Herbi
-- [ ] Quetzin
-- [ ] Mr McGroot
-
-</details>
 
 ### All content modules
 
@@ -298,9 +256,11 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `skills/firemaking` | 6 | 589 | 0 | 0 | 2026-10-18 |
 | `skills/fishing` | 14 | 1,458 | 1 | 0 | 2026-10-22 |
 | `skills/fishing/pack` | 3 | 206 | 0 | 0 | 2026-10-18 |
-| `skills/fletching` | 1 | 265 | 1 | 0 | — |
-| `skills/fletching/pack` | 2 | 413 | 0 | 0 | — |
+| `skills/fletching` | 1 | 265 | 1 | 0 | 2026-10-25 |
+| `skills/fletching/pack` | 2 | 413 | 0 | 0 | 2026-10-25 |
 | `skills/herblore` | 11 | 1,246 | 0 | 0 | 2026-10-18 |
+| `skills/hunter` | 2 | 395 | 1 | 0 | — |
+| `skills/hunter/pack` | 2 | 75 | 0 | 0 | — |
 | `skills/magic/alchemy` | 1 | 253 | 0 | 0 | 2026-10-18 |
 | `skills/magic/arceuus-spells` | 14 | 1,387 | 1 | 1 | 2026-10-18 |
 | `skills/magic/rune-pouch` | 2 | 299 | 1 | 0 | 2026-10-21 |
@@ -314,7 +274,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `skills/slayer/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
 | `skills/smithing` | 15 | 2,118 | 1 | 1 | 2026-10-21 |
 | `skills/thieving` | 2 | 419 | 0 | 0 | 2026-10-18 |
-| `skills/utils` | 2 | 319 | 0 | 0 | 2026-10-18 |
+| `skills/utils` | 2 | 319 | 0 | 0 | 2026-10-25 |
 | `skills/woodcutting` | 5 | 429 | 2 | 2 | 2026-10-18 |
 | `travel/canoe` | 6 | 1,122 | 1 | 2 | 2026-10-18 |
 
