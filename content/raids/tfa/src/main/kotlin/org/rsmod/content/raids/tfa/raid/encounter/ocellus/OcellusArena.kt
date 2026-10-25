@@ -97,7 +97,6 @@ internal object OcellusVarns {
     const val METER = "varn.ocellus_meter"
     const val BARRAGE_WAVES = "varn.ocellus_barrage_waves"
     const val SPECIAL_CYCLES = "varn.ocellus_special_cycles"
-    const val SPECIAL_STEP = "varn.ocellus_special_step"
     const val RIFT_NEXT = "varn.ocellus_rift_next"
     const val RIFT_BUSY = "varn.ocellus_rift_busy"
 }
