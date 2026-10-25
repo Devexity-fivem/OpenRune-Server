@@ -130,6 +130,7 @@ internal class OcellusRifts(private val deps: BossDeps) {
             val npc = Npc(wave.kind.npc, tile)
             npc.moveRestrict = MoveRestrict.NoMove
             npc.mode = NpcMode.None
+            npc.ignoreCombatInteractions = true
             npc.vars[FORCED_MAX_HIT_STYLES] = wave.kind.forcedMaxHitStyle
             deps.npcRepo.add(npc, Int.MAX_VALUE)
             npc.respawns = false
