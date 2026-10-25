@@ -1,5 +1,25 @@
 # Dev-notes changelog
 
+## 2026-10-26 — Equip verbs on any op: rings, blessings, iop4 items (`dev`)
+
+- `ItemServerType.isEquipable` previously required `interfaceOptions[1]` to be
+  exactly `Wield`/`Wear`, and only `opHeld2` had an equip fallback — so every
+  item that wears on another op or verb printed "Nothing interesting happens":
+  `iop1=Wear`/`Wield` (~411 items, e.g. Ring of shadows), `iop2=Equip` (~154,
+  e.g. Rada's blessings), `iop4=Wear`/`Wield` (~53, e.g. Shayzien supply sets).
+- `isEquipable` now checks `interfaceOptions.any { it in WEARABLE_OPS }`; new
+  `hasWearableOp(op)` tests the *clicked* op. All held ops route through a
+  shared `equipOrDefault` fallback — a non-wear op on an equipable item (e.g.
+  the ring's `Teleport`) still falls to `dm_default` rather than equipping.
+- Synthetic "equip this" call sites (equipment-stats side panel, bank-side
+  Wear buttons in `BankInvScript`) now call `invEquip` directly instead of
+  dispatching `opHeld2`, and print `HeldEquipResult.Fail` messages.
+- Live-verified: Ring of shadows wears to the ring slot via iop1, Rada's
+  blessing 1 to the quiver via `Equip`, ring Teleport prints the engine
+  fallback, and a regular op2 `Wield` still works.
+- Test: `ItemServerTypeTest` covers the verb set, per-op checks, and the
+  wearpos requirement.
+
 ## 2026-10-26 — Powered staves: combat, charging, swaps (`dev`)
 
 - `PoweredStaves.kt` registers every powered staff in the `WeaponMap` with the

@@ -24,6 +24,7 @@ import org.rsmod.api.player.output.ClientScripts.mesLayerClose
 import org.rsmod.api.player.output.UpdateInventory.resendSlot
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.ui.IfModalDrag
+import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.player.worn.WornUnequipOp
 import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.api.script.onIfModalButton
@@ -99,7 +100,7 @@ constructor(
         onIfModalDrag("component.bankside:wornops") { dragSideInv(it) }
         onIfModalDrag("component.bankmain:items", "component.bankmain:tabs") { dragIntoTab(it) }
 
-        val wornComponents = bank_equipment_tab_to_slots_map.filterValuesNotNull().map { it.key to RSCM.getReverseMapping(RSCMType.COMPONENT,it.value.packed) }
+        val wornComponents = bank_equipment_tab_to_slots_map.filterValuesNotNull().map { it.key to RSCM.getReverseMapping(RSCMType.COMPONENT, it.value.packed) }
         for ((slot, component) in wornComponents) {
             onIfModalButton(component) { wornOp(slot, it.op) }
         }
@@ -319,7 +320,10 @@ constructor(
             val type = getInvObj(obj)
             if (type.wearpos1 != -1) {
                 val previous = worn[type.wearpos1]
-                opHeld2(slot)
+                val result = invEquip(slot)
+                if (result is HeldEquipResult.Fail) {
+                    result.messages.forEach(::mes)
+                }
                 val replacedPrevious = worn[type.wearpos1] !== previous
                 if (replacedPrevious) {
                     setBanksideExtraOps()
@@ -1109,7 +1113,10 @@ constructor(
             val hasWearOp = type.hasInvOp(wearOpIndex)
             if (hasWearOp) {
                 val previous = worn[type.wearpos1]
-                opHeld2(slot)
+                val result = invEquip(slot)
+                if (result is HeldEquipResult.Fail) {
+                    result.messages.forEach(::mes)
+                }
                 val replacedPrevious = worn[type.wearpos1] !== previous
                 if (replacedPrevious) {
                     setBanksideExtraOps()

@@ -156,8 +156,7 @@ private constructor(
             groupScript(HeldContentEvents.Op1(invSlot, obj, type, inventory))
             return
         }
-        mes(constants.dm_default, ChatType.Engine)
-        logger.debug { "OpHeld1 for `${type.name}` is not implemented: type=$type" }
+        equipOrDefault(type, inventory, invSlot, HeldOp.Op1)
     }
 
     private suspend fun ProtectedAccess.opHeld2(
@@ -176,15 +175,7 @@ private constructor(
             groupScript(HeldContentEvents.Op2(invSlot, obj, type, inventory))
             return
         }
-        if (!type.isEquipable) {
-            mes(constants.dm_default, ChatType.Engine)
-            logger.debug { "OpHeld2 for `${type.name}` is not implemented: type=$type" }
-            return
-        }
-        val result = equipOp.equip(player, invSlot, inventory)
-        if (result is HeldEquipResult.Fail) {
-            result.messages.forEach(::mes)
-        }
+        equipOrDefault(type, inventory, invSlot, HeldOp.Op2)
     }
 
     private suspend fun ProtectedAccess.opHeld3(
@@ -203,8 +194,7 @@ private constructor(
             groupScript(HeldContentEvents.Op3(invSlot, obj, type, inventory))
             return
         }
-        mes(constants.dm_default, ChatType.Engine)
-        logger.debug { "OpHeld3 for `${type.name}` is not implemented: type=$type" }
+        equipOrDefault(type, inventory, invSlot, HeldOp.Op3)
     }
 
     private suspend fun ProtectedAccess.opHeld4(
@@ -223,8 +213,29 @@ private constructor(
             groupScript(HeldContentEvents.Op4(invSlot, obj, type, inventory))
             return
         }
+        equipOrDefault(type, inventory, invSlot, HeldOp.Op4)
+    }
+
+    /**
+     * Equips the obj when the clicked inventory op is a wear verb (`Wield`, `Wear`, `Equip`) on an
+     * equipable type. Wear verbs are not exclusive to op2: e.g. `iop1=Wear` on rings and
+     * `iop2=Equip` on blessings.
+     */
+    private fun ProtectedAccess.equipOrDefault(
+        type: ItemServerType,
+        inventory: Inventory,
+        invSlot: Int,
+        op: HeldOp,
+    ) {
+        if (type.isEquipable && type.hasWearableOp(op.slot)) {
+            val result = equipOp.equip(player, invSlot, inventory)
+            if (result is HeldEquipResult.Fail) {
+                result.messages.forEach(::mes)
+            }
+            return
+        }
         mes(constants.dm_default, ChatType.Engine)
-        logger.debug { "OpHeld4 for `${type.name}` is not implemented: type=$type" }
+        logger.debug { "OpHeld${op.slot} for `${type.name}` is not implemented: type=$type" }
     }
 
     private suspend fun ProtectedAccess.opHeld5(
@@ -382,7 +393,7 @@ constructor(
             val event = HeldDropEvents.Release(player, dropSlot, obj, internal)
             eventBus.publish(event)
 
-            val type = ServerCacheManager.getItem(internal.asRSCM(RSCMType.OBJ))?: return
+            val type = ServerCacheManager.getItem(internal.asRSCM(RSCMType.OBJ)) ?: return
 
             val message = type.paramOrNull(params.release_note_message)
             message?.let(player::mes)

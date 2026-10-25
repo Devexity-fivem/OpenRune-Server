@@ -1,7 +1,6 @@
 package dev.openrune.types
 
 import dev.openrune.ParamMap
-import dev.openrune.ServerCacheManager
 import dev.openrune.TypedParamType
 import dev.openrune.definition.Definition
 import dev.openrune.definition.EntityOpsBuilder
@@ -40,7 +39,7 @@ data class ItemServerType(
     var wearpos2: Int = -1,
     var wearpos3: Int = -1,
     var examine: String = "",
-    @param:TomlField(["params"],serializer = ParamSerializer::class)
+    @param:TomlField(["params"], serializer = ParamSerializer::class)
     var paramsRaw: MutableMap<Int, Any>? = null,
     var objvar: List<Int> = emptyList(),
     var playerCost: Int = 0,
@@ -61,6 +60,8 @@ data class ItemServerType(
 
     companion object {
         private val DEFAULT_OPTIONS: EntityOpsDefinition = EntityOpsBuilder().op(2, "Take").build()
+
+        private val WEARABLE_OPS = setOf("Wield", "Wear", "Equip")
     }
 
     val internalName
@@ -116,7 +117,15 @@ data class ItemServerType(
         get() = cost * 40 / 100
 
     public val isEquipable: Boolean
-        get() = wearpos1 != -1 && (interfaceOptions[1] == "Wield" || interfaceOptions[1] == "Wear")
+        get() = wearpos1 != -1 && interfaceOptions.any { it in WEARABLE_OPS }
+
+    /**
+     * Whether the given 1-based inventory op is a wear verb (`Wield`, `Wear`, `Equip`). Jagex
+     * places wear verbs on ops other than iop2: e.g. `iop1=Wear` on the Ring of shadows and
+     * `iop2=Equip` on Rada's blessings.
+     */
+    public fun hasWearableOp(interactionOp: Int): Boolean =
+        interfaceOptions.getOrNull(interactionOp - 1) in WEARABLE_OPS
 
     public fun hasOp(interactionOp: Int): Boolean {
         val text = options.getOpOrNull(interactionOp - 1) ?: return false
@@ -177,5 +186,4 @@ data class ItemServerType(
     public fun isType(other: String): Boolean {
         return this.id == other.asRSCM(RSCMType.OBJ)
     }
-
 }

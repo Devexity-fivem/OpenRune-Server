@@ -17,6 +17,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.ui.IfModalDrag
 import org.rsmod.api.player.ui.ifClose
+import org.rsmod.api.player.worn.HeldEquipResult
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onIfModalDrag
 import org.rsmod.api.script.onIfOverlayButton
@@ -39,7 +40,7 @@ constructor(
     override fun ScriptContext.startup() {
         onIfOverlayButton("component.wornitems:equipment") { player.selectStats() }
 
-        val componentWornSlots = equipment_stats_to_slots_map.filterValuesNotNull().map { it.key to RSCM.getReverseMapping(RSCMType.COMPONENT,it.value.packed) }
+        val componentWornSlots = equipment_stats_to_slots_map.filterValuesNotNull().map { it.key to RSCM.getReverseMapping(RSCMType.COMPONENT, it.value.packed) }
         for ((slot, component) in componentWornSlots) {
             onIfModalButton(component) { opWornMain(slot, it.op) }
         }
@@ -151,11 +152,10 @@ constructor(
                 return
             }
 
-            opHeld2(invSlot)
-
-            // Cheap way of checking if obj was equipped.
-            val equipped = obj != inv[invSlot]
-            if (equipped) {
+            val result = invEquip(invSlot)
+            if (result is HeldEquipResult.Fail) {
+                result.messages.forEach(::mes)
+            } else {
                 updateBonuses()
             }
             return
