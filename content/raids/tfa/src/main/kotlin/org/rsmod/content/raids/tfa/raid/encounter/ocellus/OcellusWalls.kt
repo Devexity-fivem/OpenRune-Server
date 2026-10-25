@@ -147,16 +147,20 @@ internal class OcellusWalls(private val deps: BossDeps) {
 
     private fun pools(npc: Npc, centre: CoordGrid) {
         pools.clear()
+        val players = OcellusArena.players(npc, deps.playerList)
         for (quadrant in occupiedQuadrants(npc, centre)) {
+            val underfoot =
+                players.filter { quadrant.contains(centre, it.coords) }.map { it.coords }.distinct()
             val bounds = quadrant.bounds(centre)
             val free = ArrayList<CoordGrid>()
             for (x in bounds.minX..bounds.maxX) {
                 for (z in bounds.minZ..bounds.maxZ) {
-                    if (walkable(x, z, centre.level)) free.add(CoordGrid(x, z, centre.level))
+                    val tile = CoordGrid(x, z, centre.level)
+                    if (walkable(x, z, centre.level) && tile !in underfoot) free.add(tile)
                 }
             }
-            val chosen =
-                List(minOf(POOLS_PER_QUADRANT, free.size)) { free.removeAt(deps.random.of(free.size)) }
+            val extra = minOf(POOLS_PER_QUADRANT - underfoot.size, free.size).coerceAtLeast(0)
+            val chosen = underfoot + List(extra) { free.removeAt(deps.random.of(free.size)) }
             for (tile in chosen) deps.worldRepo.spotanimMap(SpotanimType(POOL.asRSCM(RSCMType.SPOTANIM)), tile)
             pools[quadrant] = chosen
         }

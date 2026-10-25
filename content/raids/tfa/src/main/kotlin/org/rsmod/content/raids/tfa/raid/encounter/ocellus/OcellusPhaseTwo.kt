@@ -193,6 +193,7 @@ internal class OcellusPhaseTwo(
         const val RIFTS_RESET = OcellusRifts.RESET
         const val RIFTS_BUSY = OcellusRifts.BUSY
         const val RIFTS_STOP = OcellusRifts.STOP
+        const val VINES_CLEAR = OcellusVine.CLEAR
         const val SOULS_TAKE = OcellusSouls.TAKE
         const val SOULS_RELEASE = OcellusSouls.RELEASE
         const val DEFLECT_START = OcellusDeflect.START

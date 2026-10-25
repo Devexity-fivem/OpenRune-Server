@@ -135,16 +135,15 @@ constructor(
         current.locs +=
             locRepo.add(SCOREBOARD, SCOREBOARD_LOC, Int.MAX_VALUE, LocAngle.North, LocShape.CentrepieceStraight)
         current.locs += locRepo.add(EXIT, EXIT_LOC, Int.MAX_VALUE, LocAngle.West, LocShape.CentrepieceStraight)
-        for ((tile, angle) in BRAZIERS) {
-            if (locRepo.findLoc(tile, BRAZIER_STANDARD)) continue
-            current.locs += locRepo.add(tile, BRAZIER_STANDARD, Int.MAX_VALUE, angle, LocShape.GroundDecor)
-        }
-        if (current.uniqueObj == null) return
+        val hasUnique = current.uniqueObj != null
         worldQueues.add(BRAZIER_DELAY) {
             if (session !== current) return@add
+            val brazier = if (hasUnique) BRAZIER_UNIQUE else BRAZIER_STANDARD
             for ((tile, angle) in BRAZIERS) {
-                current.locs += locRepo.add(tile, BRAZIER_UNIQUE, Int.MAX_VALUE, angle, LocShape.GroundDecor)
+                if (!hasUnique && locRepo.findLoc(tile, brazier)) continue
+                current.locs += locRepo.add(tile, brazier, Int.MAX_VALUE, angle, LocShape.GroundDecor)
             }
+            if (!hasUnique) return@add
             BRAZIER_SOUND?.let { sound ->
                 for (player in playerList) {
                     if (player.uuid in current.slots && player.coords.level == ARRIVAL.level) {

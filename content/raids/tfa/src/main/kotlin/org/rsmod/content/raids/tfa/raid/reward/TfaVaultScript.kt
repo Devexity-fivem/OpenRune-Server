@@ -1,7 +1,10 @@
 package org.rsmod.content.raids.tfa.raid.reward
 
 import dev.openrune.definition.type.widget.IfEvent
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
 import jakarta.inject.Inject
+import org.rsmod.api.player.output.runClientScript
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stopInvTransmit
 import org.rsmod.api.script.onIfClose
@@ -88,10 +91,24 @@ constructor(private val vault: TfaVault, private val loot: TfaVaultLoot) : Plugi
         val rewards = loot.rewards(player)
         invTransmit(rewards)
         ifOpenMainModal(REWARD_INTERFACE)
+        player.runClientScript(
+            INV_INIT.asRSCM(RSCMType.CLIENTSCRIPT),
+            ITEMS.asRSCM(RSCMType.COMPONENT),
+            REWARD_INV.asRSCM(RSCMType.INV),
+            COLUMNS,
+            ROWS,
+            0,
+            NO_COMPONENT,
+            "",
+            "",
+            "",
+            "",
+            "",
+        )
         ifSetEvents("component.tfa_chests:inventory", 0..1, IfEvent.Op1)
         ifSetEvents("component.tfa_chests:bank", 0..1, IfEvent.Op6)
         ifSetEvents("component.tfa_chests:discard", 0..1, IfEvent.Op6)
-        ifSetEvents("component.tfa_chests:items", 0 until rewards.size, IfEvent.Op10)
+        ifSetEvents(ITEMS, 0 until rewards.size, IfEvent.Op10)
     }
 
     private fun ProtectedAccess.wheelbarrow() {
@@ -127,6 +144,12 @@ constructor(private val vault: TfaVault, private val loot: TfaVaultLoot) : Plugi
 
     private companion object {
         const val REWARD_INTERFACE = "interface.tfa_chests"
+        const val REWARD_INV = "inv.tfa_chests"
+        const val ITEMS = "component.tfa_chests:items"
+        const val INV_INIT = "clientscript.[clientscript,interface_inv_init]"
+        const val COLUMNS = 2
+        const val ROWS = 3
+        const val NO_COMPONENT = -1
         const val CHEST_CLOSED_MINE = "npc.tfa_rewards_chest_vault_closed_mine"
         const val CHEST_CLOSED_OTHER = "npc.tfa_rewards_chest_vault_closed_notmine"
         const val CHEST_OPEN_MINE = "npc.tfa_rewards_chest_vault_open_mine"

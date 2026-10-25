@@ -699,8 +699,11 @@ constructor(
     private fun untether(): Effect {
         val dots =
             customTiles(OcellusArena.FLOOR) { npc, _, random ->
-                val free = quadrantFloor(npc)
-                List(minOf(random.of(UNTETHER_DOTS), free.size)) { free.removeAt(random.of(free.size)) }
+                val underfoot =
+                    OcellusArena.quadrantPlayers(npc, deps.playerList).map { it.coords }.distinct()
+                val free = quadrantFloor(npc).apply { removeAll(underfoot) }
+                val extra = minOf(random.of(UNTETHER_DOTS) - underfoot.size, free.size).coerceAtLeast(0)
+                underfoot + List(extra) { free.removeAt(random.of(free.size)) }
             }
         val pool =
             hit {
@@ -964,11 +967,13 @@ constructor(
         sequence(
             lockMovement(),
             external(OcellusPhaseTwo.RIFTS_STOP),
+            external(OcellusPhaseTwo.VINES_CLEAR),
             nextAttackIn(ATTACK_HOLD),
             external(OcellusSlash.RELEASE),
             anim("seq.npc_ocellus_quadrant_destroy_in"),
             idleAnim("seq.npc_ocellus_quadrant_destroy_loop"),
             spotanim("spotanim.vfx_ocellus_phase3_arena_collapse_in", slot = TELEPORT_SPOT_SLOT),
+            headbar(DESTROY_BAR, fromPercent = 100, toPercent = 0, cycles = DESTROY_BAR_CYCLES),
             oneOf(say("Run... It matters not..."), say("Obliteration...")),
             external(OcellusPhaseTwo.QUADRANT_BARRIER_DESPAWN),
             wait(1),
@@ -977,6 +982,7 @@ constructor(
             anim("seq.npc_ocellus_quadrant_destroy_loop"),
             spotanim("spotanim.vfx_ocellus_phase3_arena_collapse_loop", slot = TELEPORT_SPOT_SLOT),
             wait(DESTROY_OUT_AT - 2),
+            clearHeadbar(DESTROY_BAR),
             clearIdleAnim(),
             anim("seq.npc_ocellus_phase3_unleash_out_90f"),
             spotanim("spotanim.vfx_ocellus_phase3_arena_collapse_out_01", slot = TELEPORT_SPOT_SLOT),
@@ -1003,7 +1009,11 @@ constructor(
             external(OcellusPhaseTwo.QUADRANT_BARRIER),
             wait(1),
             external(OcellusPhaseTwo.QUADRANT_STONES_BLOCK),
-            unlockMovement(),
+            whenever(
+                varnIs(THRESHOLD, QUADRANT_STAGE + QUADRANT_THRESHOLDS.size),
+                lockMovement(),
+                otherwise = unlockMovement(),
+            ),
         )
 
     /** Pools, then a closed volley with no gap, while a portal in each occupied quadrant rotates players on. */
@@ -1327,6 +1337,8 @@ constructor(
         const val ATTACK_HOLD = 30
         const val ENTER_TO_FIRST_ATTACK = 4
         const val QUADRANT_FADE_END = 28
+        const val DESTROY_BAR = "headbar.ocellus_quadrant_destroy"
+        const val DESTROY_BAR_CYCLES = 330
         const val DESTROY_OUT_AT = 11
         const val DESTROY_COLLAPSE_AT = 13
         const val DESTROY_MOVE_AT = 17

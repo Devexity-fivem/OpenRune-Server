@@ -1,5 +1,6 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
+import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import dev.openrune.types.MoveRestrict
@@ -131,9 +132,11 @@ internal class OcellusRifts(private val deps: BossDeps) {
             npc.mode = NpcMode.None
             npc.vars[FORCED_MAX_HIT_STYLES] = wave.kind.forcedMaxHitStyle
             deps.npcRepo.add(npc, Int.MAX_VALUE)
+            npc.respawns = false
             npc.hideAllOps()
             npc.anim(wave.kind.spawnSeq)
             npc.showHeadbar(Headbar.fromNoSource(CHARGE_BAR, CHARGE_BAR, 0, CHARGE_SEGMENTS, 0, CHARGE_CYCLES))
+            showHealth(npc)
             val rift = Rift(npc, wave.kind, wave)
             alive.add(rift)
             deps.worldQueues.add(1) { if (rift in alive) npc.showAllOps() }
@@ -162,15 +165,17 @@ internal class OcellusRifts(private val deps: BossDeps) {
             if (rift !in alive) return@add
             val npc = rift.npc
             when {
-                npc.hitpoints <= 0 -> {
-                    killed(rift)
-                    return@add
-                }
                 !npc.isSlotAssigned || !boss.isSlotAssigned -> {
                     remove(rift)
                     return@add
                 }
+                npc.hitpoints <= 0 -> {
+                    showHealth(npc)
+                    killed(rift)
+                    return@add
+                }
             }
+            showHealth(npc)
             rift.age++
             if (rift.kind == Kind.Siphon && rift.age % SIPHON_GAP == 0) siphon(boss, npc)
             if (rift.age == DETONATE_AT - 1) overload(boss)
@@ -180,6 +185,13 @@ internal class OcellusRifts(private val deps: BossDeps) {
             }
             watch(boss, rift)
         }
+    }
+
+    private fun showHealth(npc: Npc) {
+        val bar = checkNotNull(ServerCacheManager.getHealthBar(HEALTH_BAR.asRSCM(RSCMType.HEADBAR)))
+        val max = npc.baseHitpointsLvl
+        val fill = (npc.hitpoints * bar.segments + max - 1) / max
+        npc.showHeadbar(Headbar.fromNoSource(bar.id, bar.id, fill, fill, 0, 0))
     }
 
     private fun siphon(boss: Npc, from: Npc) {
@@ -260,6 +272,7 @@ internal class OcellusRifts(private val deps: BossDeps) {
         private const val REACH = 12
         private const val BLOCKED = CollisionFlag.BLOCK_WALK or CollisionFlag.LOC
 
+        private const val HEALTH_BAR = "headbar.health_40"
         private const val CHARGE_BAR = 75
         private const val CHARGE_SEGMENTS = 30
         private const val CHARGE_CYCLES = 840

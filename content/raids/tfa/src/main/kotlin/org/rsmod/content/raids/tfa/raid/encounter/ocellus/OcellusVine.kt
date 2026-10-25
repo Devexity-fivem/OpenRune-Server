@@ -26,6 +26,7 @@ internal class OcellusVine(private val deps: BossDeps) {
 
     fun register() {
         deps.extensionRegistry.register(SPAWN) { spawn(it.npc) }
+        deps.extensionRegistry.register(CLEAR) { clear() }
     }
 
     fun clear() {
@@ -45,6 +46,7 @@ internal class OcellusVine(private val deps: BossDeps) {
         vine.moveRestrict = MoveRestrict.NoMove
         vine.mode = NpcMode.None
         deps.npcRepo.add(vine, Int.MAX_VALUE)
+        vine.respawns = false
         if (HIDE_VINE) vine.infoProtocol.setTransparency(0, 1, INVISIBLE, INVISIBLE, true)
         roots[vine] = victim
 
@@ -90,6 +92,7 @@ internal class OcellusVine(private val deps: BossDeps) {
 
     companion object {
         const val SPAWN = "ocellus.vine_spawn"
+        const val CLEAR = "ocellus.vine_clear"
 
         // PLACEHOLDER: the wiki only says 50+; no captured figure.
         private val EXPIRE_DAMAGE = 50..70
