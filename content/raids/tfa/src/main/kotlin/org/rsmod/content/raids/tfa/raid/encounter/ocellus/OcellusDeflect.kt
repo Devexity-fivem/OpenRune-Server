@@ -8,13 +8,6 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.hit.HitType
 import org.rsmod.map.CoordGrid
 
-/**
- * The floor of the final phase's deflects. A [CARRIER] on the boss's centre tile plays the
- * quadrant-sized arena spotanim (turned to the corner the boss is in): a start, a loop every
- * [LOOP_GAP] ticks, then an end. The spotanim marks the void, which burns anyone on it every tick
- * from the tick after it starts until it ends: under the ranged style the boss's footprint and the
- * ring of tiles round it, under the melee style the rest of the quadrant.
- */
 internal class OcellusDeflect(private val deps: BossDeps) {
     private val carriers = HashMap<Npc, Carrier>()
 

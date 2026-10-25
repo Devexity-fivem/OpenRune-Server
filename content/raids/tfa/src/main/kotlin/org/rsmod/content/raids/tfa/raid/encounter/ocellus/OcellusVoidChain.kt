@@ -11,13 +11,6 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitType
 import org.rsmod.map.CoordGrid
 
-/**
- * The void chain that follows each soul fragment. Three ticks after the drain an orb opens on
- * every player in the quadrant; two ticks later, and every [GAP] ticks after that, the tile each
- * stands on is marked and goes off [GAP] ticks later, [EXPLOSIONS] times in all. A player still on
- * the tile takes the blast, one who has stepped off gets their attack cooldown back. While the
- * bursts run the boss takes half damage.
- */
 internal class OcellusVoidChain(private val deps: BossDeps) {
     private var generation = 0
     private val windows = IdentityHashMap<Npc, IntRange>()

@@ -9,13 +9,6 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 
-/**
- * The shadow slash: a band as wide as the boss sweeping out from it in one of eight directions,
- * clipped to the floor of the quadrant it stands in. Diagonals sweep a corner "L" of three tiles
- * per step. The spec binds every step's band at [AIM], a tick before the slash starts, while the
- * boss is pinned facing that way until [RELEASE], so players can see where it will land and move
- * out of the way.
- */
 internal object OcellusSlash {
     const val AIM = "ocellus.slash_aim"
     const val AIM_AT = "ocellus.slash_aim_at"
@@ -35,7 +28,6 @@ internal object OcellusSlash {
         deps.extensionRegistry.register(RELEASE) { it.npc.clearFacingLock() }
     }
 
-    /** A random player standing in the boss's quadrant, as a tile; [CoordGrid.NULL] if there is none. */
     fun pickAim(npc: Npc, deps: BossDeps): CoordGrid {
         val inside = OcellusArena.quadrantPlayers(npc, deps.playerList)
         return if (inside.isEmpty()) CoordGrid.NULL else deps.random.pick(inside).coords

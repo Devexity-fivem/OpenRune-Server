@@ -14,7 +14,6 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 
-/** Phase 3's attacks: the basic cycle and the specials that follow it. */
 internal class OcellusAttacks(private val deps: BossDeps, private val spin: OcellusSpin) {
     /**
      * Two slots, each a melee swing when the target is in reach and the magic spread when not,
@@ -45,11 +44,6 @@ internal class OcellusAttacks(private val deps: BossDeps, private val spin: Ocel
         )
     }
 
-    /**
-     * Every third attack is a special. Which one comes next is the quadrant's script, a rotation
-     * that loops for as long as the quadrant lasts and starts over with the next quadrant's phase.
-     * Debris spins once more for each quadrant already taken.
-     */
     fun special(quadrant: Int): Effect {
         val steps =
             mapOf(
@@ -269,7 +263,6 @@ internal class OcellusAttacks(private val deps: BossDeps, private val spin: Ocel
         )
     }
 
-    /** The slam's floor burst, turned to match the corner of the room the boss is in. */
     private fun slamBurst(): Effect {
         fun inCorner(east: Boolean, north: Boolean) =
             Condition.Custom { npc, _ ->
@@ -358,11 +351,6 @@ internal class OcellusAttacks(private val deps: BossDeps, private val spin: Ocel
         return withBands("slash", OcellusSlash::band, slash)
     }
 
-    /**
-     * Three superior slashes, each at a random player in the quadrant: aimed a tick before it
-     * swings, landing three ticks after, and leaving void on the floor behind. The boss stays put
-     * and pinned on the aim throughout.
-     */
     private fun insolence(): Effect {
         val strike =
             hit {

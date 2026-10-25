@@ -8,7 +8,6 @@ import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusRefs.BOSS_SPOT_
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusRefs.HEADICON_GRAPHIC
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusRefs.HEADICON_SLOT
 
-/** The final phase's 60-tick curses loop. */
 internal class OcellusFinalAbilities {
     /**
      * The last quadrant's 60-tick loop, with no other attacks. The boss deflects melee, pulls

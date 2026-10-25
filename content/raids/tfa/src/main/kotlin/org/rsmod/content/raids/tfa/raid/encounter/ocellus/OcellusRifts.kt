@@ -20,13 +20,6 @@ import org.rsmod.game.proj.ProjAnim
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.flag.CollisionFlag
 
-/**
- * The void siphons and augmenters of the second and third quadrants, and the void rifts of the
- * last. The spec says when a pair opens on the floor ([OPEN]); this class places it and runs it.
- * Each is a 44 hp rift the party can kill: a siphon feeds the boss until it does and heals whoever
- * kills it, an augmenter or rift charges and, if left to finish, goes off for the whole quadrant,
- * but empowers whoever kills it first.
- */
 internal class OcellusRifts(private val deps: BossDeps) {
     private var kind: Kind? = null
     private var opened = 0
@@ -42,7 +35,6 @@ internal class OcellusRifts(private val deps: BossDeps) {
         stop()
     }
 
-    /** Drops whatever rifts stand on [tiles], for floor that is about to fall away. */
     fun clearOn(tiles: Set<CoordGrid>) {
         for (rift in alive.filter { it.npc.coords in tiles }) remove(rift)
     }

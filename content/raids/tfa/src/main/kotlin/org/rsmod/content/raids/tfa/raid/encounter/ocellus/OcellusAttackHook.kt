@@ -8,7 +8,6 @@ import org.rsmod.api.death.NpcAttackValidateResult
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 
-/** Stops anyone attacking Ocellus from a different quadrant, so the gap is never a safespot. */
 internal class OcellusAttackHook @Inject constructor(private val encounter: OcellusEncounter) :
     NpcAttackValidateHook {
     private val phaseThree = "npc.tfa_ocellus_p3".asRSCM(RSCMType.NPC)

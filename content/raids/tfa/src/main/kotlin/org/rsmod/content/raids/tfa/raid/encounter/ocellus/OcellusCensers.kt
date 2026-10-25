@@ -17,12 +17,6 @@ import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
 import org.rsmod.map.CoordGrid
 
-/**
- * The four censers in the corners of the room, shuffled every attempt. Each can be lit once, in
- * the third phase, and helps the whole party: Saradomin's restores hitpoints and prayer, Zaros'
- * half a special attack bar, and Armadyl's and Bandos' make each member's next ranged or melee hit
- * on Ocellus land at their maximum.
- */
 internal class OcellusCensers(
     private val deps: BossDeps,
     private val energy: SpecialAttackEnergy,
@@ -58,7 +52,6 @@ internal class OcellusCensers(
         ),
     }
 
-    /** Puts the four censers in the room's corners, [middle] being the tile the walls cross on. */
     fun place(middle: CoordGrid) {
         clear()
         val corners =
@@ -113,7 +106,6 @@ internal class OcellusCensers(
         }
     }
 
-    /** A charged member's next hit of the censer's style on Ocellus is as hard as they can hit. */
     fun modify(event: NpcHitEvents.Modify) {
         val hit = event.hit
         if (!hit.isFromPlayer) return

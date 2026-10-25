@@ -14,12 +14,6 @@ import org.rsmod.game.hit.HitType
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.flag.CollisionFlag
 
-/**
- * The soul fragment of the final phase. The tick after a player's idle spotanim the boss drains
- * half their hitpoints and puts a fragment, which only they see, on a random safe tile of the
- * quadrant. Once it has settled, stepping onto it gives back what was drained. It settles in 12
- * ticks under the ranged deflect and 6 under the melee one.
- */
 internal class OcellusSouls(
     private val deps: BossDeps,
     private val voidTiles: () -> Set<CoordGrid>,

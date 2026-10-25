@@ -16,11 +16,6 @@ import org.rsmod.game.loc.LocShape
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.flag.CollisionFlag
 
-/**
- * Phase 3's four quadrants, taken one at a time: the boss stands in the one the party is in,
- * and when its health crosses a threshold the quadrant is destroyed (with anyone still inside),
- * the stones into it fall away and the boss moves on to the quadrant the party fled to.
- */
 internal class OcellusQuadrants(
     private val deps: BossDeps,
     private val interactions: AiPlayerInteractions,
@@ -59,7 +54,6 @@ internal class OcellusQuadrants(
 
     private fun centre(npc: Npc): CoordGrid = npc.spawnCoords.translate(CENTRE_DX, CENTRE_DZ)
 
-    /** Quarter turns from the boss's quadrant to every quadrant still standing, its own included. */
     fun standingTurns(): List<Int> {
         val here = current ?: return emptyList()
         return Quadrant.entries
@@ -260,7 +254,6 @@ internal class OcellusQuadrants(
             return x * sx in 1..ARM_LENGTH && z * sz in 1..ARM_LENGTH
         }
 
-        /** The 11x11 block of floor the collapse takes, leaving the strip beside the gap. */
         fun floor(centre: CoordGrid): List<CoordGrid> =
             (FLOOR_MIN..FLOOR_MAX).flatMap { a ->
                 (FLOOR_MIN..FLOOR_MAX).map { b -> centre.translate(sx * a, sz * b) }

@@ -11,12 +11,6 @@ import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-/**
- * The stepping stones over the gap left by phase 3's collapse. Crossing takes a click per hop,
- * and only goes one way round: onto the stone nearest the middle from a fixed side of the arm,
- * then outwards along the stones. Reaching the outermost stone carries on, a tick later, with a
- * jump off onto the other side.
- */
 class OcellusStones @Inject constructor(private val encounter: OcellusEncounter) : PluginScript() {
     override fun ScriptContext.startup() {
         for (stone in STONES) onApLoc1(stone) { apJump(it.loc) }
@@ -26,7 +20,6 @@ class OcellusStones @Inject constructor(private val encounter: OcellusEncounter)
         if (isWithinApRange(stone, distance = STONE_AP_RANGE)) jump(stone.coords)
     }
 
-    /** One hop per click: onto the inner stone, outwards a stone at a time, then off the outer one. */
     private suspend fun ProtectedAccess.jump(stone: CoordGrid) {
         val centre = encounter.at(coords)?.centre ?: return
         val alongZ = stone.x == centre.x
@@ -65,7 +58,6 @@ class OcellusStones @Inject constructor(private val encounter: OcellusEncounter)
         hop(stone)
     }
 
-    /** Hopping onto the outermost stone carries straight on, a tick later, to the next quadrant. */
     private suspend fun ProtectedAccess.advance(
         stone: CoordGrid,
         centre: CoordGrid,
@@ -94,7 +86,6 @@ class OcellusStones @Inject constructor(private val encounter: OcellusEncounter)
         soundSynth(JUMP_SOUND)
     }
 
-    /** Faces along the axis the hop mostly travels, west and east winning a tie. */
     private fun facing(from: CoordGrid, to: CoordGrid): Int {
         val dx = to.x - from.x
         val dz = to.z - from.z

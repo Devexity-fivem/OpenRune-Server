@@ -32,7 +32,6 @@ import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.THRESHOLD
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.VOLLEY_STYLE
 import org.rsmod.map.CoordGrid
 
-/** Phase 1's abilities: the corner walk, the volleys, the centre sequence and the shield break. */
 internal class OcellusP1Abilities {
     fun start(): Effect =
         sequence(

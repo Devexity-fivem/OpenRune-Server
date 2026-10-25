@@ -6,7 +6,6 @@ import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusRefs.PHASE_THRE
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusRefs.QUADRANTS
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusRefs.TELEPORT_SPOT_SLOT
 
-/** Phase 2's timeline of walls, pools and sword discharges, up to the arena collapse. */
 internal class OcellusP2Abilities {
     /** Everything is timed from the transform tick; the walls run in three windows around the pools. */
     fun phaseTwo(): Effect =
@@ -30,7 +29,6 @@ internal class OcellusP2Abilities {
             ending(),
         )
 
-    /** The sword drops, the walls give way and the arena collapses around the transform to phase 3. */
     private fun ending(): Effect =
         sequence(
             wait(ENDING_AT),
@@ -84,7 +82,6 @@ internal class OcellusP2Abilities {
             run(PHASE_THREE),
         )
 
-    /** Pools, then a closed volley with no gap, while a portal in each occupied quadrant rotates players on. */
     private fun rotation(start: Int): Effect =
         parallel(
             sequence(

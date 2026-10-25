@@ -12,7 +12,6 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.map.CoordGrid
 
-/** The Ocellus room, relative to the boss's spawn (the intro tile). */
 internal object OcellusArena {
     val CORNERS: List<Pair<Int, Int>> = listOf(6 to 9, -6 to 9, -6 to -3, 6 to -3)
 
@@ -29,15 +28,12 @@ internal object OcellusArena {
     private const val FLOOR_MAX = 12
     private const val FLOOR_REACH = 16
 
-    /** Where the boss stands in the middle of the room (its south-west tile). */
     val CENTRE: TargetExpr.Single = spawnTile(CENTRE_DX, CENTRE_DZ)
 
-    /** The room's middle tile, which the boss faces from the corners. */
     val MIDDLE: TargetExpr.Single = spawnTile(MIDDLE_DX, MIDDLE_DZ)
 
     val AREA: Area = area(spawnTile(SW_DX, SW_DZ), spawnTile(NE_DX, NE_DZ))
 
-    /** Every tile of phase 3 floor, out to the arena's edge. */
     val FLOOR: Area =
         area(
             spawnTile(MIDDLE_DX - FLOOR_MAX, MIDDLE_DZ - FLOOR_MAX),
@@ -48,11 +44,9 @@ internal object OcellusArena {
 
     fun middle(npc: Npc): CoordGrid = npc.spawnCoords.translate(MIDDLE_DX, MIDDLE_DZ)
 
-    /** Players standing on phase 3 floor on the same side of the gap as the boss. */
     fun quadrantPlayers(npc: Npc, playerList: PlayerList): List<Player> =
         players(npc, playerList).filter { sameQuadrantFloor(npc, it.coords) }
 
-    /** Whether [tile] is phase 3 floor on the same side of the gap as the boss. */
     fun sameQuadrantFloor(npc: Npc, tile: CoordGrid): Boolean {
         val middle = npc.spawnCoords.translate(MIDDLE_DX, MIDDLE_DZ)
         val boss = npc.coords.translate(npc.size / 2, npc.size / 2)

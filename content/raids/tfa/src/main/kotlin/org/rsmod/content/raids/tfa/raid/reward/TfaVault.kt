@@ -83,7 +83,6 @@ constructor(
         }
     }
 
-    /** Fighters of the current run who are standing near [near]. */
     fun party(near: CoordGrid): List<Player> {
         val current = session ?: return emptyList()
         return playerList.filter {
@@ -93,7 +92,6 @@ constructor(
         }
     }
 
-    /** Sends [players] to the reward room, building it for the first arrival. */
     fun enter(players: List<Player>) {
         buildRoom()
         val current = session ?: return
@@ -174,7 +172,6 @@ constructor(
         npc.transmog(type, Int.MAX_VALUE)
     }
 
-    /** Claims the unique for the opening animation; null if there is none or it was taken. */
     fun beginReveal(): String? = session?.claim?.beginReveal()
 
     fun finishReveal(player: Player) {
@@ -187,7 +184,6 @@ constructor(
         loot.add(player, obj, 1)
     }
 
-    /** Hands an unopened unique to the wheelbarrow when its owner leaves the room. */
     fun settle(player: Player) {
         val obj = session?.claim?.settle(player.uuid) ?: return
         loot.add(player, obj, 1)
@@ -204,11 +200,9 @@ constructor(
     }
 
     companion object {
-        /** Arrival tile of the reward room, and the lobby tile the exit sends fighters back to. */
         val ARRIVAL = CoordGrid(4127, 5776, 2)
         val LOBBY = CoordGrid(4129, 5559, 0)
 
-        /** The unique chest rises at the north end of the platform; adjust here if it needs moving. */
         val UNIQUE_CHEST = CoordGrid(4126, 5807, 2)
 
         private val CHEST_TILES =

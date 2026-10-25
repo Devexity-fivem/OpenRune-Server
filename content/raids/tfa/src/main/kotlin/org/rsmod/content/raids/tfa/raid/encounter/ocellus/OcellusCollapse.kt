@@ -16,11 +16,6 @@ import org.rsmod.game.map.collision.remove
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.flag.CollisionFlag
 
-/**
- * The end of phase 2 and the arena the boss leaves behind: the sword on the centre tile, the
- * four arm ends cracking, and the cross of walls collapsing into a one-tile void gap that only
- * the stepping stones cross. Anyone left on the gap or under the centre when it goes dies.
- */
 internal class OcellusCollapse(
     private val deps: BossDeps,
     private val clearWalls: () -> Unit,

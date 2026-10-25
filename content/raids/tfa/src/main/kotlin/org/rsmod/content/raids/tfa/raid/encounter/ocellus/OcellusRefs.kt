@@ -1,6 +1,5 @@
 package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 
-/** Ability and phase names and values the boss spec and the per-phase ability classes both use. */
 internal object OcellusRefs {
     const val WALKING = "walking"
     const val CORNER_CYCLE = "corner_cycle"

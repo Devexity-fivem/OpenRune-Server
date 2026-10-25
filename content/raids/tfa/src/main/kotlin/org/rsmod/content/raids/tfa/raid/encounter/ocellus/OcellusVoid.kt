@@ -10,11 +10,6 @@ import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
 import org.rsmod.map.CoordGrid
 
-/**
- * The void left on the floor by Ocellus's attacks: insolence slashes, falling debris and the
- * quadrant bombs. Each tile gets a loc that degenerates anyone standing on it every tick, then
- * (bombs aside) plays its despawn animation; what lays them down, and when, is the spec's.
- */
 internal class OcellusVoid(private val deps: BossDeps) {
     private val lingering = HashSet<LocInfo>()
 
@@ -41,7 +36,6 @@ internal class OcellusVoid(private val deps: BossDeps) {
 
     fun tiles(): Set<CoordGrid> = lingering.mapTo(HashSet()) { it.coords }
 
-    /** Drops whatever void is left on [tiles], for floor that is about to fall away. */
     fun clearOn(tiles: Set<CoordGrid>) {
         val gone = lingering.filter { it.coords in tiles }
         for (loc in gone) deps.locRepo.del(loc, Int.MAX_VALUE)

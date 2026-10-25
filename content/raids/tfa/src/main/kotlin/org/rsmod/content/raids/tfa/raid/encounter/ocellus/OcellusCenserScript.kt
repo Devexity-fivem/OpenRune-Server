@@ -5,7 +5,6 @@ import org.rsmod.api.script.onOpLoc1
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
-/** Lighting one of the censers round Ocellus's room; see [OcellusCensers]. */
 class OcellusCenserScript @Inject constructor(private val encounter: OcellusEncounter) :
     PluginScript() {
     override fun ScriptContext.startup() {

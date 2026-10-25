@@ -17,7 +17,6 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 
-/** The Ocellus rooms currently open, one [OcellusFight] per instance. */
 @Singleton
 class OcellusEncounter
 @Inject

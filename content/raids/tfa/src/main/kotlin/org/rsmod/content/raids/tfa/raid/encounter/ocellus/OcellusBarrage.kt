@@ -11,11 +11,6 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.proj.ScriptedProjAnim
 
-/**
- * The `external` side of the meter release: [BARRAGE_WAVES] waves of scripted projectiles at every
- * player, each wave [WAVE_GAP] client cycles after the last, which the boss DSL's projectiles can't
- * express (client-side curve scripts, per-wave impact slots).
- */
 internal class OcellusBarrage(private val deps: BossDeps, private val meter: OcellusMeter) {
     fun register() {
         deps.extensionRegistry.register(RELEASE) { meter.release(it.npc) }

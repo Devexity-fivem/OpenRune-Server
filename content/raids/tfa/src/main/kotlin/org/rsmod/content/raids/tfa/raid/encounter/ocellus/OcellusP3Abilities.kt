@@ -9,9 +9,7 @@ import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusRefs.OPAQUE
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusRefs.QUADRANTS
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusRefs.TELEPORT_SPOT_SLOT
 
-/** Phase 3's quadrant flow: entering, the rift and bomb schedule, and destroying a quadrant. */
 internal class OcellusP3Abilities(private val encounter: OcellusEncounter) {
-    /** The boss fades out as the arena settles, then reappears in the quadrant the party is in. */
     fun phaseThree(): Effect =
         sequence(
             lockMovement(),
@@ -76,7 +74,6 @@ internal class OcellusP3Abilities(private val encounter: OcellusEncounter) {
         )
     }
 
-    /** The quadrant's first special is two attacks in, and its rifts, if it has any, open soon after. */
     private fun enterQuadrant(quadrant: Int): Effect =
         sequence(
             setVarn(OcellusVarns.SPECIAL_CYCLES, 0),
@@ -99,7 +96,6 @@ internal class OcellusP3Abilities(private val encounter: OcellusEncounter) {
         )
     }
 
-    /** Timed from the tick health crosses a threshold; the quadrant goes and the boss moves on. */
     fun destroyQuadrant(next: Int): Effect =
         sequence(
             lockMovement(),

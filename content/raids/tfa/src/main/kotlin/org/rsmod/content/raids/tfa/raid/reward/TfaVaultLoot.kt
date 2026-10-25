@@ -36,7 +36,6 @@ constructor(private val registry: DropTableRegistry, private val random: GameRan
         }
     }
 
-    /** The unique this player earned, if the party's roll for them hit. */
     fun rollUnique(player: Player): String? {
         val table = registry.forNpc(TfaChestKeys.UNIQUE) ?: return null
         return drops(table.roll(player, ArgMap()).flatten())
@@ -61,7 +60,6 @@ constructor(private val registry: DropTableRegistry, private val random: GameRan
         for (slot in rewards(player).objs.indices) move(player, slot, Int.MAX_VALUE, into, banking)
     }
 
-    /** Moves up to [amount] of what is in [slot], leaving whatever doesn't fit in the chest. */
     fun move(player: Player, slot: Int, amount: Int, into: Inventory, banking: Boolean) {
         val pile = rewards(player)
         val obj = pile.objs.getOrNull(slot) ?: return

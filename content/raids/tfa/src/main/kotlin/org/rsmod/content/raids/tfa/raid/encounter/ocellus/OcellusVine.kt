@@ -10,15 +10,6 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.HitType
 
-/**
- * The void vine. A random player in the boss's quadrant is rooted on the spot by an attackable
- * vine that only another player can bring down. If it is still standing when its time is up it
- * lets go, and the rooted player takes the hit.
- *
- * The vine is the thing to click, and the entangle spotanims, which sit on the rooted player and
- * are resent every tick, are what the party sees. It stands on the rooted player's own tile, so
- * they can't target it.
- */
 internal class OcellusVine(private val deps: BossDeps) {
     private val roots = IdentityHashMap<Npc, Player>()
 

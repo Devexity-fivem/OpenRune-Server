@@ -6,12 +6,6 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 
-/**
- * The void bombs at the start of a quadrant. Two players in the boss's quadrant are marked; where
- * they stand when the marks run out is where the bombs fall, and every other quadrant still
- * standing gets the same two turned a quarter-turn at a time around the middle of the room. The
- * spec times it all and the void loc left behind is [OcellusVoid]'s.
- */
 internal class OcellusBombs(private val deps: BossDeps, private val standingTurns: () -> List<Int>) {
     private val marked = ArrayList<Player>()
 

@@ -19,10 +19,6 @@ import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
 
-/**
- * The `external` side of phase 2: what the boss spec can't express itself. The spec owns the
- * timeline and calls these at the right tick.
- */
 internal class OcellusPhaseTwo(
     private val deps: BossDeps,
     private val hpBar: BossHpBarScript,

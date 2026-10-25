@@ -11,11 +11,6 @@ import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusVarns.METER
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 
-/**
- * Ocellus's phase 1 charge meter, shown as the boss HUD's extra bar. Every tendril that resolves
- * charges it by an even share of [TENDRIL_CHARGE] per player who didn't block it by standing on the
- * line; the centre sequence then releases it as a barrage of one wave per [CHARGE_PER_WAVE].
- */
 internal class OcellusMeter(private val deps: BossDeps, private val hpBar: BossHpBarScript) {
     fun show(npc: Npc) {
         for (player in OcellusArena.players(npc, deps.playerList)) {
@@ -42,7 +37,6 @@ internal class OcellusMeter(private val deps: BossDeps, private val hpBar: BossH
         set(npc, (npc.vars[METER] + gain).coerceAtMost(MAX))
     }
 
-    /** Empties the meter into [BARRAGE_WAVES] for the barrage that follows. */
     fun release(npc: Npc) {
         npc.vars[BARRAGE_WAVES] = waves(npc.vars[METER])
         set(npc, 0)
@@ -68,7 +62,6 @@ internal class OcellusMeter(private val deps: BossDeps, private val hpBar: BossH
         const val TENDRIL_CHARGE = 8
         const val CHARGE_PER_WAVE = 16
 
-        /** Above this the release is "Embrace... annihilation..." rather than one weak wave. */
         const val SINGLE_WAVE_MAX = CHARGE_PER_WAVE
 
         fun waves(meter: Int): Int = maxOf(1, (meter + CHARGE_PER_WAVE - 1) / CHARGE_PER_WAVE)

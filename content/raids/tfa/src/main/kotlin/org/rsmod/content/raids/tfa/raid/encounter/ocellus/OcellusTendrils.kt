@@ -7,11 +7,6 @@ import org.rsmod.api.player.output.soundSynth
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.hit.HitType
 
-/**
- * The `external` side of Ocellus's tendrils: picking a line, drawing its crack tile by tile and
- * resolving it, which the boss DSL has no primitives for. When and how often they fire is the
- * spec's call.
- */
 internal class OcellusTendrils(private val deps: BossDeps, private val meter: OcellusMeter) {
     fun register() {
         deps.extensionRegistry.register(CORNER) { corner(it.npc) }

@@ -16,12 +16,6 @@ import org.rsmod.game.hit.HitType
 import org.rsmod.game.proj.ProjAnim
 import org.rsmod.plugin.scripts.ScriptContext
 
-/**
- * What the final phase's overhead icons do. Under a deflect the hit still lands on Ocellus but
- * [REFLECT_PERCENT] of it comes back at whoever threw it, for the deflected style only. Under soul
- * split every hit Ocellus lands on a player in the style it is swinging sends a bolt to him that
- * heals him by the damage dealt two ticks later. The spec writes [VARN] beside each icon it raises.
- */
 internal class OcellusCurses(private val deps: BossDeps, private val npcList: NpcList) {
     private val finalForm = "npc.tfa_ocellus_p3".asRSCM(RSCMType.NPC)
     private var soundAt = -1

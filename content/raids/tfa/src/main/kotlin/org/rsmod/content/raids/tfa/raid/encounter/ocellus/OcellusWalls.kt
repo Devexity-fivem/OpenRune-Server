@@ -17,11 +17,6 @@ import org.rsmod.game.proj.ProjAnim
 import org.rsmod.map.CoordGrid
 import org.rsmod.routefinder.flag.CollisionFlag
 
-/**
- * Phase 2's wall cycle. Every 5 ticks the arms bordering a quadrant a player stands in light up,
- * all but one segment per arm, and four ticks later each lit segment fires a lane into the
- * occupied quadrants it borders. The unlit segments of the two arms cross on the 2x2 safe zone.
- */
 internal class OcellusWalls(private val deps: BossDeps) {
     private class Telegraph(
         val occupied: List<Quadrant>,
@@ -85,7 +80,6 @@ internal class OcellusWalls(private val deps: BossDeps) {
         return Quadrant.entries.filter { q -> players.any { q.contains(centre, it.coords) } }
     }
 
-    /** Opposite arms share their gap's distance from the centre; the two axes each have their own. */
     private fun telegraph(npc: Npc, centre: CoordGrid, closed: Boolean = false) {
         val roll = if (closed) null else nextGap()
         val occupied = occupiedQuadrants(npc, centre)
