@@ -3,12 +3,17 @@ package org.rsmod.content.raids.tfa.raid.encounter.ocellus
 import dev.openrune.types.MoveRestrict
 import dev.openrune.types.NpcMode
 import org.rsmod.api.bosses.runtime.BossDeps
+import org.rsmod.api.player.hit.queueHit
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.hit.HitType
+import org.rsmod.map.CoordGrid
 
 /**
  * The floor of the final phase's deflects. A [CARRIER] on the boss's centre tile plays the
  * quadrant-sized arena spotanim (turned to the corner the boss is in): a start, a loop every
- * [LOOP_GAP] ticks, then an end, in the style being deflected.
+ * [LOOP_GAP] ticks, then an end. The spotanim marks the void, which burns anyone on it every tick
+ * from the tick after it starts until it ends: under the ranged style the boss's footprint and the
+ * ring of tiles round it, under the melee style the rest of the quadrant.
  */
 internal class OcellusDeflect(private val deps: BossDeps) {
     private val carriers = HashMap<Npc, Carrier>()
@@ -41,6 +46,30 @@ internal class OcellusDeflect(private val deps: BossDeps) {
         carriers[boss] = carrier
         npc.spotanim(spot(carrier, "start"))
         loop(boss, carrier)
+        burn(boss, carrier)
+    }
+
+    private fun burn(boss: Npc, carrier: Carrier) {
+        deps.worldQueues.add(1) {
+            if (carriers[boss] !== carrier || !boss.isSlotAssigned) return@add
+            for (player in OcellusArena.quadrantPlayers(boss, deps.playerList)) {
+                if (inVoid(boss, carrier.style, player.coords)) {
+                    val damage = deps.random.of(VOID_DAMAGE)
+                    player.queueHit(boss, 1, HitType.Typeless, damage, deps.playerHitModifier)
+                }
+            }
+            burn(boss, carrier)
+        }
+    }
+
+    private fun inVoid(boss: Npc, style: Style, tile: CoordGrid): Boolean {
+        val near =
+            tile.x in boss.coords.x - RING..boss.coords.x + boss.size - 1 + RING &&
+                tile.z in boss.coords.z - RING..boss.coords.z + boss.size - 1 + RING
+        return when (style) {
+            Style.Ranged -> near
+            Style.Melee -> !near
+        }
     }
 
     private fun loop(boss: Npc, carrier: Carrier) {
@@ -89,5 +118,9 @@ internal class OcellusDeflect(private val deps: BossDeps) {
         private const val CARRIER = "npc.tfa_invisible_npc"
         private const val LOOP_GAP = 3
         private const val END_TICKS = 3
+        private const val RING = 1
+
+        // Guides: void on the floor hits for 6-7 a tick.
+        private val VOID_DAMAGE = 6..7
     }
 }
