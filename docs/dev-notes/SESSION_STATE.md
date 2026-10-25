@@ -1,7 +1,12 @@
 # Session state (updated 2026-10-24)
 
-Autonomous content build, branch `feat/giant-mole` on fork
-`github.com/Devexity-fivem/OpenRune-Server` (origin=fork, upstream=OpenRune).
+Autonomous content build on fork `github.com/Devexity-fivem/OpenRune-Server`
+(origin=fork, upstream=OpenRune). Branch model (consolidated 2026-10-25):
+**`dev` = active development/testing** (work here), **`main` = finished code**
+(merge dev -> main when a batch is verified). All other branches deleted.
+NOTE: `main` currently contains unverified compiled-only boss code
+(archaeologists, chaos fanatic, scorpia) merged as baseline — verify before
+treating main as "finished".
 
 ## Done + pushed
 
