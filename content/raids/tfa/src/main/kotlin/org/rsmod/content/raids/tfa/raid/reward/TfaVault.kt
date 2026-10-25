@@ -1,0 +1,263 @@
+package org.rsmod.content.raids.tfa.raid.reward
+
+import dev.openrune.ServerCacheManager
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
+import dev.openrune.types.MoveRestrict
+import jakarta.inject.Inject
+import jakarta.inject.Singleton
+import org.rsmod.api.player.output.clearSpotanimSpecific
+import org.rsmod.api.player.output.soundSynth
+import org.rsmod.api.player.output.spotanimSpecific
+import org.rsmod.api.player.vars.intVarBit
+import org.rsmod.api.repo.loc.LocRepository
+import org.rsmod.api.repo.npc.NpcRepository
+import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.loc.LocAngle
+import org.rsmod.game.loc.LocInfo
+import org.rsmod.game.loc.LocShape
+import org.rsmod.game.queue.WorldQueueList
+import org.rsmod.map.CoordGrid
+import org.rsmod.routefinder.collision.CollisionFlagMap
+
+private var Player.vaultOwnChest by intVarBit("varbit.tfa_vault_own_chest")
+
+private val Player.vaultKey: Long
+    get() = checkNotNull(uuid) { "Player has no uuid." }
+
+/**
+ * The reward room: one chest per fighter, plus a unique chest for whoever's roll hit. Loot is
+ * rolled when the boss dies and sits in each fighter's reward inventory, so a fighter who walks
+ * out without opening anything finds it again at the lobby wheelbarrow.
+ */
+@Singleton
+class TfaVault
+@Inject
+constructor(
+    private val loot: TfaVaultLoot,
+    private val playerList: PlayerList,
+    private val npcRepo: NpcRepository,
+    private val locRepo: LocRepository,
+    private val worldQueues: WorldQueueList,
+    private val collision: CollisionFlagMap,
+) {
+    private class Session(val slots: Map<Long, Int>, val winner: Long?, val uniqueObj: String?) {
+        var built = false
+        var uniqueRevealed = false
+        var uniqueOpening = false
+        var unique: Npc? = null
+        var blade: Npc? = null
+        val chests = HashMap<Int, Npc>()
+        val opened = HashSet<Int>()
+        val locs = ArrayList<LocInfo>()
+    }
+
+    private var session: Session? = null
+
+    fun begin(fighters: List<Player>, bladeAt: CoordGrid) {
+        reset()
+        val party = fighters.take(CHEST_TILES.size)
+        val slots = LinkedHashMap<Long, Int>()
+        party.forEachIndexed { index, player ->
+            slots[player.vaultKey] = index + 1
+            player.vaultOwnChest = index + 1
+            loot.stock(player, loot.rollStandard(player))
+        }
+        var winner: Long? = null
+        var uniqueObj: String? = null
+        for (player in party.shuffled()) {
+            val earned = loot.rollUnique(player) ?: continue
+            winner = player.vaultKey
+            uniqueObj = earned
+            break
+        }
+        val next = Session(slots, winner, uniqueObj)
+        session = next
+        worldQueues.add(BLADE_DELAY) {
+            if (session !== next) return@add
+            val blade = Npc(BLADE, bladeAt)
+            blade.moveRestrict = MoveRestrict.NoMove
+            npcRepo.add(blade, Int.MAX_VALUE)
+            next.blade = blade
+        }
+    }
+
+    /** Fighters of the current run who are standing near [near]. */
+    fun party(near: CoordGrid): List<Player> {
+        val current = session ?: return emptyList()
+        return playerList.filter {
+            it.uuid in current.slots &&
+                it.coords.level == near.level &&
+                it.coords.chebyshevDistance(near) <= GATHER_RADIUS
+        }
+    }
+
+    /** Sends [players] to the reward room, building it for the first arrival. */
+    fun enter(players: List<Player>) {
+        buildRoom()
+        val current = session ?: return
+        for (player in players) {
+            PathingEntityCommon.telejump(player, collision, ARRIVAL)
+            worldQueues.add(SPARKLE_DELAY) { sparkle(current, player) }
+        }
+    }
+
+    /** The spotanim plays once per [SPARKLE_LOOP] ticks, so it is replayed until the chest opens. */
+    private fun sparkle(current: Session, player: Player) {
+        if (session !== current || !player.isSlotAssigned) return
+        val slot = current.slots[player.uuid] ?: return
+        val chest = current.chests[slot] ?: return
+        if (!chest.isSlotAssigned || slot in current.opened || loot.isEmpty(player)) return
+        if (player.coords.level != ARRIVAL.level) return
+        player.spotanimSpecific(chest, SPARKLES_SPOT, slot = SPARKLES_SLOT)
+        worldQueues.add(SPARKLE_LOOP) { sparkle(current, player) }
+    }
+
+    fun leave(player: Player) {
+        settle(player)
+        PathingEntityCommon.telejump(player, collision, LOBBY)
+    }
+
+    private fun buildRoom() {
+        val current = session ?: return
+        if (current.built) return
+        current.built = true
+        CHEST_TILES.forEachIndexed { index, tile ->
+            val slot = index + 1
+            val npc = Npc("npc.tfa_rewards_chest_vault_${slot}_closed", tile)
+            npc.moveRestrict = MoveRestrict.NoMove
+            npcRepo.add(npc, Int.MAX_VALUE)
+            current.chests[slot] = npc
+        }
+        current.locs +=
+            locRepo.add(SCOREBOARD, SCOREBOARD_LOC, Int.MAX_VALUE, LocAngle.North, LocShape.CentrepieceStraight)
+        current.locs += locRepo.add(EXIT, EXIT_LOC, Int.MAX_VALUE, LocAngle.West, LocShape.CentrepieceStraight)
+        for ((tile, angle) in BRAZIERS) {
+            if (locRepo.findLoc(tile, BRAZIER_STANDARD)) continue
+            current.locs += locRepo.add(tile, BRAZIER_STANDARD, Int.MAX_VALUE, angle, LocShape.GroundDecor)
+        }
+        if (current.uniqueObj == null) return
+        worldQueues.add(BRAZIER_DELAY) {
+            if (session !== current) return@add
+            for ((tile, angle) in BRAZIERS) {
+                current.locs += locRepo.add(tile, BRAZIER_UNIQUE, Int.MAX_VALUE, angle, LocShape.GroundDecor)
+            }
+            BRAZIER_SOUND?.let { sound ->
+                for (player in playerList) {
+                    if (player.uuid in current.slots && player.coords.level == ARRIVAL.level) {
+                        player.soundSynth(sound)
+                    }
+                }
+            }
+            worldQueues.add(UNIQUE_CHEST_DELAY) {
+                if (session !== current) return@add
+                val chest = Npc(UNIQUE_CLOSED, UNIQUE_CHEST)
+                chest.moveRestrict = MoveRestrict.NoMove
+                npcRepo.add(chest, Int.MAX_VALUE)
+                chest.anim(UNIQUE_FLOAT_SEQ)
+                current.unique = chest
+            }
+        }
+    }
+
+    fun slotOf(player: Player): Int? = session?.slots?.get(player.uuid)
+
+    fun chestOf(slot: Int): Npc? = session?.chests?.get(slot)
+
+    fun isWinner(player: Player): Boolean = session?.winner != null && session?.winner == player.uuid
+
+    fun openChest(player: Player, slot: Int) {
+        val npc = chestOf(slot) ?: return
+        session?.opened?.add(slot)
+        player.clearSpotanimSpecific(npc, SPARKLES_SLOT)
+        val type = ServerCacheManager.getNpc("npc.tfa_rewards_chest_vault_${slot}_open".asRSCM(RSCMType.NPC))!!
+        npc.transmog(type, Int.MAX_VALUE)
+    }
+
+    /** Claims the unique for the opening animation; null if there is none or it was taken. */
+    fun beginReveal(): String? {
+        val current = session ?: return null
+        val obj = current.uniqueObj ?: return null
+        if (current.uniqueRevealed || current.uniqueOpening) return null
+        current.uniqueOpening = true
+        return obj
+    }
+
+    fun finishReveal(player: Player, obj: String) {
+        val current = session ?: return
+        current.uniqueOpening = false
+        current.uniqueRevealed = true
+        current.unique?.let {
+            val type = ServerCacheManager.getNpc(UNIQUE_OPEN.asRSCM(RSCMType.NPC))!!
+            it.transmog(type, Int.MAX_VALUE)
+        }
+        loot.add(player, obj, 1)
+    }
+
+    /** Hands an unopened unique to the wheelbarrow when its owner leaves the room. */
+    fun settle(player: Player) {
+        val current = session ?: return
+        val obj = current.uniqueObj ?: return
+        if (current.winner != player.uuid || current.uniqueRevealed || current.uniqueOpening) return
+        current.uniqueRevealed = true
+        loot.add(player, obj, 1)
+    }
+
+    private fun reset() {
+        val previous = session ?: return
+        for (npc in previous.chests.values) if (npc.isSlotAssigned) npcRepo.del(npc, Int.MAX_VALUE)
+        for (npc in listOfNotNull(previous.unique, previous.blade)) {
+            if (npc.isSlotAssigned) npcRepo.del(npc, Int.MAX_VALUE)
+        }
+        for (loc in previous.locs) locRepo.del(loc, Int.MAX_VALUE)
+        session = null
+    }
+
+    companion object {
+        /** Arrival tile of the reward room, and the lobby tile the exit sends fighters back to. */
+        val ARRIVAL = CoordGrid(4127, 5776, 2)
+        val LOBBY = CoordGrid(4129, 5559, 0)
+
+        /** The unique chest rises at the north end of the platform; adjust here if it needs moving. */
+        val UNIQUE_CHEST = CoordGrid(4126, 5807, 2)
+
+        private val CHEST_TILES =
+            listOf(
+                CoordGrid(4124, 5793, 2),
+                CoordGrid(4130, 5793, 2),
+                CoordGrid(4121, 5796, 2),
+                CoordGrid(4133, 5796, 2),
+                CoordGrid(4120, 5800, 2),
+                CoordGrid(4134, 5800, 2),
+                CoordGrid(4121, 5803, 2),
+                CoordGrid(4133, 5803, 2),
+            )
+        private val BRAZIERS =
+            listOf(CoordGrid(4123, 5805, 2) to LocAngle.East, CoordGrid(4131, 5805, 2) to LocAngle.West)
+        private val SCOREBOARD = CoordGrid(4129, 5778, 2)
+        private val EXIT = CoordGrid(4127, 5773, 2)
+
+        const val BLADE = "npc.tfa_blade_npc_vault_entry"
+        const val UNIQUE_CLOSED = TfaChestKeys.UNIQUE
+        const val UNIQUE_OPEN = "npc.tfa_unique_chest_vault_open"
+        const val UNIQUE_FLOAT_SEQ = "seq.chest_guthixian01_float_down"
+        private const val BRAZIER_STANDARD = "loc.tfa_brazier_guthixloot01_fire01"
+        private const val BRAZIER_UNIQUE = "loc.tfa_brazier_guthixloot01_fire02"
+        private const val SCOREBOARD_LOC = "loc.tfa_vault_scoreboard"
+        private const val EXIT_LOC = "loc.tfa_vault_exit"
+        private const val SPARKLES_SPOT = "spotanim.vfx_tfa_small_chest_sparkles"
+        private const val SPARKLES_SLOT = 1
+        private const val SPARKLE_DELAY = 3
+        private const val SPARKLE_LOOP = 3
+        private const val BLADE_DELAY = 14
+        private const val BRAZIER_DELAY = 12
+
+        /** The synth the fires light with; not in any capture, so unset until its symbol is known. */
+        private val BRAZIER_SOUND: String? = null
+        private const val UNIQUE_CHEST_DELAY = 2
+        private const val GATHER_RADIUS = 30
+    }
+}

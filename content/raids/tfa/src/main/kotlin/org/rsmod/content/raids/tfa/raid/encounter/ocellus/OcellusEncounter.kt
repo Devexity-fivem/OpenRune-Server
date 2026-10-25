@@ -13,6 +13,7 @@ import org.rsmod.api.instances.timer.formatInstanceKillTime
 import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.output.mes
+import org.rsmod.content.raids.tfa.raid.reward.TfaVault
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.map.Direction
@@ -25,6 +26,7 @@ constructor(
     private val deps: BossDeps,
     private val interactions: AiPlayerInteractions,
     private val hpBar: BossHpBarScript,
+    private val vault: TfaVault,
 ) {
     internal val meter = OcellusMeter(deps, hpBar)
     internal val phaseTwo = OcellusPhaseTwo(deps, hpBar, meter, interactions) { partySize }
@@ -74,6 +76,7 @@ constructor(
         phaseTwo.stopHazards()
         phaseTwo.playVictorySong(npc)
         val fighters = OcellusArena.players(npc, deps.playerList)
+        vault.begin(fighters, npc.spawnCoords.translate(BLADE_DX, BLADE_DZ))
         for (fighter in fighters) {
             val precise = fighter.vars["varbit.option_precise_timing"] != 0
             val duration = formatInstanceKillTime(ticks, precise)
@@ -120,6 +123,8 @@ constructor(
         /** A safe floor tile in the south-west quadrant, clear of the cross and the boss's spot. */
         val PHASE_THREE_SPOT: CoordGrid = CENTRE.translate(-4, -4)
 
+        private const val BLADE_DX = -6
+        private const val BLADE_DZ = 9
         private const val HUD_FADE_DELAY = 10
         private const val HUD_HIDE_DELAY = 4
         private const val HUNT_CONSTANT_RANGED = 2
