@@ -1,5 +1,46 @@
 # Dev-notes changelog
 
+## 2026-10-26 — Powered staves: combat, charging, swaps (`dev`)
+
+- `PoweredStaves.kt` registers every powered staff in the `WeaponMap` with the
+  real formulas and visuals: seas trident `⌊M/3⌋-5`, swamp `+3`, Sanguinesti
+  `+4`, warped sceptre `⌊(8M+96)/37⌋`, Thammaron's `⌊M/3⌋-8`, accursed
+  `⌊M/3⌋-6`, bone staff `⌊M/3⌋+5` with a flat `+10` vs rats and 35 Magic xp
+  on hit, Eye of Ayak = accursed formula at 3-tick speed, starter staff fixed
+  8. Wilderness sceptres refuse to fire outside the Wilderness and burn 1000
+  revenant ether as an activation deposit before usable charges count.
+- `PoweredStavesCharging.kt`: Check/Charge/Uncharge ops on every charged and
+  uncharged form, plus use-on charging from any recipe material. Seas trident
+  treats `obj.tots` as an implicit full pool (firing converts it to
+  `tots_charged` at 2499; charging `tots_charged` to max converts back to the
+  tradeable `tots`). Uncharge confirms, converts to the uncharged variant and
+  refunds exact remaining materials. Wilderness sceptres Swap between powered
+  and autocast "(a)" forms preserving charges. Eye of Ayak keeps two mutually
+  exclusive pools (`varobj.eye_of_ayak_tear_charges` /
+  `varobj.eye_of_ayak_rune_charges`); each recipe is rejected while the other
+  holds charges.
+- HeldU dispatch pitfall found and documented by debug: `onOpHeldU(staff, mat)`
+  loses when the player selects the material first, because the dispatch checks
+  the *selected* item's single-arg default binding before trying the reversed
+  pair — Zulrah's scales have a Herblore `onOpHeldU(item)` catch-all that
+  swallowed scales→trident entirely. All powered-staff material bindings are
+  now registered `(material, staff)` so the pair `Type` event wins the first
+  combination. Verified live both directions on the toxic trident.
+- `items.toml`: every charged-form powered staff now carries
+  `charged_variant`/`uncharged_variant` params (`ObjChargeManager.addCharges`
+  throws without `charged_variant` when converting a 0-charge obj — caused a
+  live disconnect mid-charge). Eye of Ayak items and the deadman starter staff
+  gained missing entries incl. `attack_range`.
+- Live-verified: trident charge dialog + exact deductions (40 charges =
+  40 scales/40 death/40 chaos/200 fire), Check counts, 2500→2499 conversion on
+  cast, uncharge refunds, Sanguinesti (3 blood/charge, proj 1539), warped
+  (2 chaos + 5 earth/charge, proj 2569), wilderness sceptre 1500-ether deposit
+  semantics + (a) swap, dry-fire message.
+- Tests: `PoweredStavesFormulaTest` (9 formula anchors vs wiki) and
+  `PoweredStavesChargingTest` (10 integration tests driving
+  `chargeStaff`/`uncharge`/`swap`/`chargeAyakPool` through
+  `withProtectedAccess` + `resumeActiveCoroutine` dialog inputs).
+
 ## 2026-10-26 — Giant Mole complete: instance, insects, Look-inside, Wyson (`dev`)
 
 - Private instance: `GiantMoleInstance` (InstanceScript) +

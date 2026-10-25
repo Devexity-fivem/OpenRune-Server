@@ -190,7 +190,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/draynor/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
 | `areas/city/edgeville` | 5 | 438 | 0 | 0 | 2026-10-18 |
 | `areas/city/edgeville/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `areas/city/falador` | 9 | 1,729 | 0 | 1 | 2026-10-22 |
+| `areas/city/falador` | 9 | 1,729 | 0 | 1 | 2026-10-25 |
 | `areas/city/falador/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/karamja` | 1 | 36 | 0 | 0 | 2026-10-22 |
 | `areas/city/karamja/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
@@ -300,7 +300,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/spawn` | 1 | 333 | 0 | 0 | 2026-10-18 |
 | `other/spawn/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
 | `other/special-attacks` | 5 | 629 | 0 | 0 | 2026-10-18 |
-| `other/special-weapons` | 11 | 1,111 | 0 | 1 | 2026-10-18 |
+| `other/special-weapons` | 13 | 2,080 | 2 | 1 | 2026-10-18 |
 | `other/windmill` | 2 | 133 | 0 | 0 | 2026-10-18 |
 | `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
 | `quest` | 84 | 17,685 | 16 | 4 | 2026-10-22 |

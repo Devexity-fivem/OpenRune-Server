@@ -37,3 +37,38 @@ endBit = 15
 id = "varobj.bottomless_milk_type"
 startBit = 14
 endBit = 15
+
+[[varobj]]
+id = "varobj.trident_charges"
+startBit = 0
+endBit = 14
+
+[[varobj]]
+id = "varobj.sanguinesti_charges"
+startBit = 0
+endBit = 14
+
+[[varobj]]
+id = "varobj.warped_sceptre_charges"
+startBit = 0
+endBit = 14
+
+[[varobj]]
+id = "varobj.wilderness_ether_charges"
+startBit = 0
+endBit = 14
+
+[[varobj]]
+id = "varobj.rat_bone_charges"
+startBit = 0
+endBit = 14
+
+[[varobj]]
+id = "varobj.eye_of_ayak_tear_charges"
+startBit = 0
+endBit = 15
+
+[[varobj]]
+id = "varobj.eye_of_ayak_rune_charges"
+startBit = 16
+endBit = 31
