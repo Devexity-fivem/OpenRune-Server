@@ -41,7 +41,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> [Fletching](content/skills/fletching) | 678 loc | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Construction_icon.png?f9bf7" height="20" alt=""> Construction | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Construction) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 470 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 618 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
 ### Bosses <sup>30/169</sup>
 
@@ -259,8 +259,8 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `skills/fletching` | 1 | 265 | 1 | 0 | 2026-10-25 |
 | `skills/fletching/pack` | 2 | 413 | 0 | 0 | 2026-10-25 |
 | `skills/herblore` | 11 | 1,246 | 0 | 0 | 2026-10-18 |
-| `skills/hunter` | 2 | 395 | 1 | 0 | — |
-| `skills/hunter/pack` | 2 | 75 | 0 | 0 | — |
+| `skills/hunter` | 2 | 463 | 1 | 0 | 2026-10-25 |
+| `skills/hunter/pack` | 2 | 155 | 0 | 0 | 2026-10-25 |
 | `skills/magic/alchemy` | 1 | 253 | 0 | 0 | 2026-10-18 |
 | `skills/magic/arceuus-spells` | 14 | 1,387 | 1 | 1 | 2026-10-18 |
 | `skills/magic/rune-pouch` | 2 | 299 | 1 | 0 | 2026-10-21 |

@@ -44,7 +44,16 @@ treating main as "finished".
   gives bones+meat+feathers+snare back + exact XP (Crimson swift +34),
   Dismantle returns snare, Reset re-arms broken and caught traps, owner
   standing on the trap suppresses triggering, logout clears armed traps.
-  7 integration tests.
+- Hunter box trapping (same module, generalized to TrapKind SNARE/BOX) —
+  VERIFIED live in Feldip Hills (2507,2885) on Carnivorous chinchompas:
+  armed hunting_boxtrap_empty, chin escape -> hunting_boxtrap_failed,
+  Reset re-arms free, catch -> "Shaking box" full loc, Check returns the
+  box trap + captured-animal item + exact XP (+265 carnivorous).
+  dbtable.hunter_box_traps rows: ferret 27/115, jerboa 39/137 (tail-only
+  loot — animal escapes), grey chin 53/198.4, red chin 63/265, black chin
+  73/315. Directional trapping locs (n/s/e/w) pick the entry side. Snares
+  and box traps share one limit; +1 box trap inside the wilderness.
+  Letvek locs exist but no map spawn — skipped. 15 integration tests.
 - Fletching (content/skills/fletching) — VERIFIED live: full make-x surface
   via pack dbtable; carve-all via subcomponent-0 fix in SkillingMenu,
   stringing, attach batches (28 client clamp), exact XP.

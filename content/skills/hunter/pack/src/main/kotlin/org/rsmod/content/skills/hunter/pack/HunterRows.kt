@@ -32,3 +32,55 @@ private fun DBTableBuilder.birdSnareRow(
         column(Hunter.COL_FEATHER_MAX, featherMax)
     }
 }
+
+// xp values are in tenths (115 xp = 1150). Trapping locs are directional: the
+// suffix picks the side the prey entered the box from.
+internal fun DBTableBuilder.boxTrapRows() {
+    boxTrapRow("ferret", "npc.hunting_ferret", 27, 1150, "ferret", "obj.hunting_ferret")
+    boxTrapRow(
+        "jerboa",
+        "npc.varlamore_hunterjerboa01",
+        39,
+        1370,
+        "jerboa",
+        "obj.hunting_jerboa_tail",
+    )
+    boxTrapRow("chinchompa", "npc.hunting_chinchompa", 53, 1984, "chinchompa", "obj.chinchompa_captured")
+    boxTrapRow(
+        "chinchompa_big",
+        "npc.hunting_chinchompa_big",
+        63,
+        2650,
+        "chinchompa_big",
+        "obj.chinchompa_big_captured",
+    )
+    boxTrapRow(
+        "chinchompa_black",
+        "npc.hunting_chinchompa_black",
+        73,
+        3150,
+        "chinchompa_black",
+        "obj.chinchompa_black",
+    )
+}
+
+private fun DBTableBuilder.boxTrapRow(
+    name: String,
+    prey: String,
+    level: Int,
+    xp: Int,
+    locStem: String,
+    caught: String,
+) {
+    row("dbrow.hunter_box_$name") {
+        columnRSCM(Hunter.BOX_COL_PREY, prey)
+        column(Hunter.BOX_COL_LEVEL, level)
+        column(Hunter.BOX_COL_XP, xp)
+        columnRSCM(Hunter.BOX_COL_FULL_LOC, "loc.hunting_boxtrap_full_$locStem")
+        columnRSCM(Hunter.BOX_COL_TRAPPING_N, "loc.hunting_boxtrap_trapping_${locStem}_n")
+        columnRSCM(Hunter.BOX_COL_TRAPPING_S, "loc.hunting_boxtrap_trapping_${locStem}_s")
+        columnRSCM(Hunter.BOX_COL_TRAPPING_E, "loc.hunting_boxtrap_trapping_${locStem}_e")
+        columnRSCM(Hunter.BOX_COL_TRAPPING_W, "loc.hunting_boxtrap_trapping_${locStem}_w")
+        columnRSCM(Hunter.BOX_COL_CAUGHT, caught)
+    }
+}

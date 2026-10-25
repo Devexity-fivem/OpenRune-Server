@@ -7,7 +7,7 @@ import dev.openrune.definition.util.VarType
 import dev.openrune.pack.PluginPack
 
 class HunterPluginPack : PluginPack() {
-    override fun dbTables(): List<DBTable> = listOf(birdSnareTable())
+    override fun dbTables(): List<DBTable> = listOf(birdSnareTable(), boxTrapTable())
 }
 
 object Hunter {
@@ -19,6 +19,16 @@ object Hunter {
     const val COL_FEATHER = 5
     const val COL_FEATHER_MIN = 6
     const val COL_FEATHER_MAX = 7
+
+    const val BOX_COL_PREY = 0
+    const val BOX_COL_LEVEL = 1
+    const val BOX_COL_XP = 2
+    const val BOX_COL_FULL_LOC = 3
+    const val BOX_COL_TRAPPING_N = 4
+    const val BOX_COL_TRAPPING_S = 5
+    const val BOX_COL_TRAPPING_E = 6
+    const val BOX_COL_TRAPPING_W = 7
+    const val BOX_COL_CAUGHT = 8
 }
 
 private fun DBTableBuilder.birdSnareColumns() {
@@ -36,4 +46,22 @@ private fun birdSnareTable(): DBTable =
     dbTable("dbtable.hunter_bird_snares", serverOnly = true) {
         birdSnareColumns()
         birdSnareRows()
+    }
+
+private fun DBTableBuilder.boxTrapColumns() {
+    column("prey", Hunter.BOX_COL_PREY, VarType.NPC)
+    column("level", Hunter.BOX_COL_LEVEL, VarType.INT)
+    column("xp", Hunter.BOX_COL_XP, VarType.INT)
+    column("full_loc", Hunter.BOX_COL_FULL_LOC, VarType.LOC)
+    column("trapping_n", Hunter.BOX_COL_TRAPPING_N, VarType.LOC)
+    column("trapping_s", Hunter.BOX_COL_TRAPPING_S, VarType.LOC)
+    column("trapping_e", Hunter.BOX_COL_TRAPPING_E, VarType.LOC)
+    column("trapping_w", Hunter.BOX_COL_TRAPPING_W, VarType.LOC)
+    column("caught", Hunter.BOX_COL_CAUGHT, VarType.OBJ)
+}
+
+private fun boxTrapTable(): DBTable =
+    dbTable("dbtable.hunter_box_traps", serverOnly = true) {
+        boxTrapColumns()
+        boxTrapRows()
     }

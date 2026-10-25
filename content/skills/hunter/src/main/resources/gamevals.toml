@@ -1,5 +1,6 @@
 [gamevals.dbtable]
 hunter_bird_snares = 63001
+hunter_box_traps = 63007
 
 [gamevals.dbrow]
 hunter_bird_crimson_swift = 63002
@@ -7,3 +8,8 @@ hunter_bird_golden_warbler = 63003
 hunter_bird_copper_longtail = 63004
 hunter_bird_cerulean_twitch = 63005
 hunter_bird_tropical_wagtail = 63006
+hunter_box_ferret = 63008
+hunter_box_jerboa = 63009
+hunter_box_chinchompa = 63010
+hunter_box_chinchompa_big = 63011
+hunter_box_chinchompa_black = 63012

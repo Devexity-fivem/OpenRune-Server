@@ -1,5 +1,39 @@
 # Dev-notes changelog
 
+## 2026-10-26 — Hunter: box trapping (`dev`)
+
+- Generalized `HunterTrapManager` from bird-only to trap-kind-agnostic:
+  `TrapKind` (SNARE/BOX) carries item + armed/failing/broken loc symbols,
+  `TrapPrey` carries per-prey level/XP/full-loc/directional trapping locs and
+  either bird loot (feathers) or a caught item. Snare and box traps share one
+  trap pool and one per-level limit — a bird snare counts against box-trap
+  capacity exactly as in OSRS.
+- New `dbtable.hunter_box_traps` (server-only, 5 rows): Ferret 27/115xp →
+  `obj.hunting_ferret`, Embertailed jerboa 39/137 → `obj.hunting_jerboa_tail`
+  (the animal escapes leaving its tail), Chinchompa 53/198.4 →
+  `obj.chinchompa_captured`, Carnivorous chinchompa 63/265 →
+  `obj.chinchompa_big_captured`, Black chinchompa 73/315 →
+  `obj.chinchompa_black`. Letvek (lvl 76) has full/trapping locs in the cache
+  but no map spawn found — not registered.
+- Box-trap trapping locs are directional (`…_trapping_<prey>_{n,s,e,w}`) —
+  the manager tracks which side the prey approached from on its final step and
+  picks the matching loc. Verified live: armed `hunting_boxtrap_empty` (9380,
+  Dismantle/Investigate), failed `hunting_boxtrap_failed` (9385,
+  Dismantle/Reset), full `hunting_boxtrap_full_*` "Shaking box" (9383,
+  Check/Reset).
+- Wilderness bonus: `varbit.inside_wilderness` grants +1 box trap on top of
+  the level limit, per OSRS.
+- Tests: `HunterEventsTest` grew 7 → 15: box lay+consume, shared trap limit
+  across kinds, wilderness +1, chinchompa catch → captured item + exact 1984
+  fine-XP, jerboa tail-only loot, directional trapping-loc selection
+  (east-side entry → `…_chinchompa_e`), box level gating, box dismantle
+  return, box fail→reset loc ids.
+- Live-verified in Feldip Hills on real Carnivorous chinchompa spawns
+  (2507,2885): lay → armed, chin sprung and escaped → failed loc, Reset →
+  re-armed with no item spent, second chin entered → "Shaking box", Check →
+  box trap returned + captured chinchompa + exactly +265 Hunter XP, loc
+  removed cleanly.
+
 ## 2026-10-26 — Hunter: bird snaring core (`dev`)
 
 - New `content/skills/hunter` module: `HunterEvents` plugin +
