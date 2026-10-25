@@ -82,7 +82,7 @@ constructor(private val vault: TfaVault, private val loot: TfaVaultLoot) : Plugi
             delay(1)
             chest.spotanim(reveal.second, slot = UNIQUE_SPOT_SLOT)
         }
-        vault.finishReveal(player, obj)
+        vault.finishReveal(player)
         openRewards()
     }
 

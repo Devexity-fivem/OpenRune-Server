@@ -44,10 +44,8 @@ constructor(
     private val worldQueues: WorldQueueList,
     private val collision: CollisionFlagMap,
 ) {
-    private class Session(val slots: Map<Long, Int>, val winner: Long?, val uniqueObj: String?) {
+    private class Session(val slots: Map<Long, Int>, val claim: TfaUniqueClaim) {
         var built = false
-        var uniqueRevealed = false
-        var uniqueOpening = false
         var unique: Npc? = null
         var blade: Npc? = null
         val chests = HashMap<Int, Npc>()
@@ -74,7 +72,7 @@ constructor(
             uniqueObj = earned
             break
         }
-        val next = Session(slots, winner, uniqueObj)
+        val next = Session(slots, TfaUniqueClaim(winner, uniqueObj))
         session = next
         worldQueues.add(BLADE_DELAY) {
             if (session !== next) return@add
@@ -135,7 +133,7 @@ constructor(
         current.locs +=
             locRepo.add(SCOREBOARD, SCOREBOARD_LOC, Int.MAX_VALUE, LocAngle.North, LocShape.CentrepieceStraight)
         current.locs += locRepo.add(EXIT, EXIT_LOC, Int.MAX_VALUE, LocAngle.West, LocShape.CentrepieceStraight)
-        val hasUnique = current.uniqueObj != null
+        val hasUnique = current.claim.hasUnique
         worldQueues.add(BRAZIER_DELAY) {
             if (session !== current) return@add
             val brazier = if (hasUnique) BRAZIER_UNIQUE else BRAZIER_STANDARD
@@ -166,7 +164,7 @@ constructor(
 
     fun chestOf(slot: Int): Npc? = session?.chests?.get(slot)
 
-    fun isWinner(player: Player): Boolean = session?.winner != null && session?.winner == player.uuid
+    fun isWinner(player: Player): Boolean = session?.claim?.isWinner(player.uuid) == true
 
     fun openChest(player: Player, slot: Int) {
         val npc = chestOf(slot) ?: return
@@ -177,18 +175,11 @@ constructor(
     }
 
     /** Claims the unique for the opening animation; null if there is none or it was taken. */
-    fun beginReveal(): String? {
-        val current = session ?: return null
-        val obj = current.uniqueObj ?: return null
-        if (current.uniqueRevealed || current.uniqueOpening) return null
-        current.uniqueOpening = true
-        return obj
-    }
+    fun beginReveal(): String? = session?.claim?.beginReveal()
 
-    fun finishReveal(player: Player, obj: String) {
+    fun finishReveal(player: Player) {
         val current = session ?: return
-        current.uniqueOpening = false
-        current.uniqueRevealed = true
+        val obj = current.claim.finishReveal() ?: return
         current.unique?.let {
             val type = ServerCacheManager.getNpc(UNIQUE_OPEN.asRSCM(RSCMType.NPC))!!
             it.transmog(type, Int.MAX_VALUE)
@@ -198,10 +189,7 @@ constructor(
 
     /** Hands an unopened unique to the wheelbarrow when its owner leaves the room. */
     fun settle(player: Player) {
-        val current = session ?: return
-        val obj = current.uniqueObj ?: return
-        if (current.winner != player.uuid || current.uniqueRevealed || current.uniqueOpening) return
-        current.uniqueRevealed = true
+        val obj = session?.claim?.settle(player.uuid) ?: return
         loot.add(player, obj, 1)
     }
 
