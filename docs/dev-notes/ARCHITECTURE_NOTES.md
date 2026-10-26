@@ -32,6 +32,44 @@ Read against `main` @ `5c4c9c106`, rev 241. Sources: `AGENTS.md`, `README.md`,
 - `osrs-dumps/` — reference dumps (CS2 `.cs2`, interface `.if3`) for looking up
   how Jagex built a script/interface.
 
+## Reference repositories
+
+- **OpenRune upstream** — `https://github.com/OpenRune/OpenRune-Server`
+  (`upstream` remote). Merge into `dev` regularly; keep pace with engine and
+  content fixes.
+- **Joshua-F/osrs-dumps** — decompiled CS2 + `.if3` interface dumps; the
+  authority for how Jagex built a script/interface at this revision.
+- **OSRS Wiki** — `oldschool.runescape.wiki`. Authority for intended
+  mechanics, XP, drop rates, stats. `tools/wiki-dumping` generates drop
+  tables from it.
+- **Kronos-184-Fixed** — `https://github.com/Devexity-fivem/Kronos-184-Fixed`
+  @ `66ee03d`, cloned OUTSIDE this repo at
+  `C:\Users\pablo\OneDrive\Desktop\Kronos-184-Fixed\Kronos-master` (never
+  commit it). Ruin-based semi-custom server targeting rev 184, originally
+  released on Rune-Server by Patrity as a community resource. NO LICENSE file
+  ships with it — treat as read-only reference: re-implement ideas, never
+  copy code or assets (incl. its bundled Cache/ and runelite/ dirs).
+  Implementation-pattern reference only — NOT a gameplay authority: ids,
+  packets, and some mechanics are rev-184/custom; always re-derive mechanics
+  from the wiki and resolve symbols against our own rev-241 gamevals/cache.
+  Per its README: "contains most content up to TOB ... interfaces and party
+  systems are done, combat is left" — ToB combat was never finished there,
+  so use its party/interface flows but not its missing encounter logic.
+  Useful paths found so far:
+  - `kronos-server/data/npcs/combat/*.json` — per-NPC combat defs
+    (attack_style, range, ticks, anims, aggression); 781 files. Used as the
+    reference for the npcs.toml combat-param batches (dark wizards etc).
+  - `kronos-server/data/items/` — item data/attributes.
+  - `kronos-api/.../AttributesHolder.java` — entity attribute pattern.
+  - `kronos-server/.../activities/raids/tob/party/` + ToB room/encounter
+    classes — party state machine, room transitions, rewards, cleanup. To be
+    mined when raids work starts.
+  - Wildy boss java (e.g. ChaosElemental under npcs combat) — informed our
+    Chaos Elemental weighting (60/20/20 discord, ~1/10 disarm, ~1/12
+    teleport, 8-tile range, 1-4 tile knockback).
+  Licensing: no explicit license found granting reuse — treat as
+  read-only reference; re-implement, do not copy code or assets.
+
 ## Plugin/content loading
 
 No manual registration. At boot, `server/shared` scans the classpath:

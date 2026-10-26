@@ -160,6 +160,33 @@ treating main as "finished".
   chaos-fanatic (disarm), scorpia (prayer drain), crazy-archaeologist
   (keep_range). Remaining `external(` call sites are all argument-position
   uses (ability("x", external(...))) which are fine.
+- Attack-option dropdowns + worn-write audit (2026-10-26, commit 04ecedebf):
+  NPC/Player attack-option dropdowns in Controls Settings stored the wrong
+  value — button comsubs are 1-based, enum keys 0-based; added the -1
+  conversion (verified live: "Always right-click" stores correctly for both).
+  Same commit: ChaosFanatic disarm now uses WornUnequipOp (was raw worn
+  write, stale visual); ObjChargeManager worn swaps + BraceletOfSlaughter /
+  ExpeditiousBracelet / NecklaceOfFaith invDel-on-worn now rebuildAppearance.
+- Generic NPC combat data (.data/raw-cache/server/npcs.toml, commit
+  9e5010c18): NPCs without combat params fell back to seq.human_unarmedpunch
+  at melee range — every caster/archer literally punched. Dark wizards,
+  infernal mages, chaos druids, archers etc now carry attack_anim /
+  npc_attack_type / projanim / attackRange params. VERIFIED live: wildy dark
+  wizard casts seq.human_caststrike (anim 711 observed via list_npcs) and
+  holds range while dealing damage. Only ~272/2259 npc types have params —
+  more batches needed (wiki combat-style + Kronos data/npcs/combat/*.json as
+  reference for per-NPC style/range/ticks).
+- Chaos Elemental (content/bosses/chaos-elemental, commit 9e5010c18) —
+  PARTIALLY VERIFIED live: spawned ~3261,3927 (zone 0_50_61_61_23), fight
+  works, 4t Discord bolts fire (weighted 60% magic/20% ranged/20% crush,
+  0..28), died and dropped 20,556 coins + bones, respawned through the
+  normal lifecycle. Confusion (teleport player 1-4 tiles directly away,
+  collision-checked) and Madness (unequip up to 4 items via WornUnequipOp,
+  requires free inv slot) are implemented + spec-tested but procs not yet
+  visually confirmed — keep observing in future fights.
+- Kronos-184-Fixed added as permanent reference repo (see
+  ARCHITECTURE_NOTES.md). Used for Chaos Elemental structure (disarm/teleport
+  weighting, 8-tile range) and to be consulted for raids/hard bosses.
 
 ## Gotchas
 
