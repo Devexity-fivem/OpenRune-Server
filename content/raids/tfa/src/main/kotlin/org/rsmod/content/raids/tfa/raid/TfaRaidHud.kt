@@ -15,6 +15,7 @@ import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.content.raids.party.RaidParty
 import org.rsmod.content.raids.tfa.party.TfaLobby
 import org.rsmod.content.raids.tfa.party.TfaPartySettings
+import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusEncounter
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
@@ -27,7 +28,8 @@ class TfaRaidHud
 constructor(
     private val lobby: TfaLobby,
     private val manager: InstanceManager,
-    private val encounter: OcellusEncounter,
+    private val encounter: GuardianEncounter,
+    private val ocellus: OcellusEncounter,
     private val worldQueues: WorldQueueList,
     private val eventBus: EventBus,
 ) {
@@ -52,7 +54,7 @@ constructor(
             visible.remove(left)
             closeFor(left)
         }
-        val fight = encounter.of(id)
+        val fight: TfaFight? = encounter.of(id) ?: ocellus.of(id)
         for (member in inside) {
             if (visible.add(member)) open(member, party)
             sendStates(member, party, inside)

@@ -7,6 +7,14 @@ sealed interface VarExpr {
     /** The current game tick, e.g. `Now + 13` to store a deadline for [Condition.VarnExpired]. */
     data object Now : VarExpr
 
+    /** The caster's current hitpoints. */
+    data object Hp : VarExpr
+
+    /** The caster's base hitpoints (its max). */
+    data object BaseHp : VarExpr
+
+    data class Minus(val a: VarExpr, val b: VarExpr) : VarExpr
+
     data class Varn(val varn: String) : VarExpr
     data class Plus(val a: VarExpr, val b: VarExpr) : VarExpr
     data class Min(val a: VarExpr, val b: VarExpr) : VarExpr

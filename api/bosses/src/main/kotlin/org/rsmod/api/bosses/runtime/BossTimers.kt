@@ -9,7 +9,11 @@ internal class TimerSchedule(
     startTick: Int,
     private val roll: (IntRange) -> Int,
 ) {
-    private val specDue = IntArray(encounter.spec.timers.size) { startTick + roll(encounter.spec.timers[it].ticks) }
+    private val specDue =
+        IntArray(encounter.spec.timers.size) {
+            val timer = encounter.spec.timers[it]
+            startTick + (timer.firstAfter ?: roll(timer.ticks))
+        }
     private var phaseEpoch = -1
     private var phaseTimers = emptyList<TimerSpec>()
     private var phaseDue = IntArray(0)
@@ -19,7 +23,11 @@ internal class TimerSchedule(
         if (phaseEpoch != encounter.phaseEpoch) {
             phaseEpoch = encounter.phaseEpoch
             phaseTimers = encounter.currentPhase?.timers.orEmpty()
-            phaseDue = IntArray(phaseTimers.size) { encounter.phaseEnteredTick + roll(phaseTimers[it].ticks) }
+            phaseDue =
+                IntArray(phaseTimers.size) {
+                    val timer = phaseTimers[it]
+                    encounter.phaseEnteredTick + (timer.firstAfter ?: roll(timer.ticks))
+                }
         }
         return fire(encounter.spec.timers, specDue, tick) + fire(phaseTimers, phaseDue, tick)
     }

@@ -10,8 +10,8 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.content.raids.party.RaidParty
 import org.rsmod.content.raids.tfa.raid.TfaRaidHud
-import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusEncounter
-import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusFight
+import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianEncounter
+import org.rsmod.content.raids.tfa.raid.TfaFight
 import org.rsmod.game.MapClock
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -23,7 +23,7 @@ constructor(
     private val lobby: TfaLobby,
     private val partyScript: TfaPartyScript,
     private val hud: TfaRaidHud,
-    private val ocellus: OcellusEncounter,
+    private val guardian: GuardianEncounter,
     private val manager: InstanceManager,
     private val clock: MapClock,
 ) : PluginScript() {
@@ -59,12 +59,12 @@ constructor(
 
     private suspend fun ProtectedAccess.start(party: RaidParty<TfaPartySettings>) {
         val room =
-            when (val opened = ocellus.open(player)) {
-                is OcellusEncounter.Opened.Failed -> {
+            when (val opened = guardian.open(player)) {
+                is GuardianEncounter.Opened.Failed -> {
                     mes(opened.reason)
                     return
                 }
-                is OcellusEncounter.Opened.Room -> opened
+                is GuardianEncounter.Opened.Room -> opened
             }
         if (!party.locked) {
             for (applicant in parties.lock(party)) {
@@ -86,7 +86,7 @@ constructor(
         }
     }
 
-    private suspend fun ProtectedAccess.join(room: OcellusFight) {
+    private suspend fun ProtectedAccess.join(room: TfaFight) {
         val joined = manager.join(player, room.session, clock.cycle, forceAccess = true)
         if (joined !is InstanceManager.Result.Joined) {
             mes((joined as? InstanceManager.Result.Failed)?.reason ?: "You can't enter right now.")
@@ -99,11 +99,11 @@ constructor(
         }
     }
 
-    private fun liveRoom(party: RaidParty<TfaPartySettings>): OcellusFight? {
+    private fun liveRoom(party: RaidParty<TfaPartySettings>): TfaFight? {
         if (!party.locked) return null
         for (member in party.members) {
             val session = manager.sessionForPlayer(member) ?: continue
-            ocellus.of(session.id)?.let { return it }
+            guardian.of(session.id)?.let { return it }
         }
         return null
     }

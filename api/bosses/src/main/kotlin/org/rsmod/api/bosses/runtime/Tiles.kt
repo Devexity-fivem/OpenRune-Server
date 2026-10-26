@@ -45,10 +45,13 @@ internal fun Npc.resolveTile(
     bindings: TileBindings = TileBindings.NONE,
     random: GameRandom? = null,
     randomWalkable: ((center: CoordGrid, radius: Int) -> CoordGrid?)? = null,
+    playerOf: ((TargetExpr.Single) -> Player?)? = null,
 ): CoordGrid {
     fun resolve(inner: TargetExpr.Single) =
-        resolveTile(inner, target, bindings, random, randomWalkable)
+        resolveTile(inner, target, bindings, random, randomWalkable, playerOf)
     return when (expr) {
+        is TargetExpr.Focus,
+        is TargetExpr.RandomPlayer -> (playerOf?.invoke(expr) ?: target).coords
         is TargetExpr.CurrentTarget,
         is TargetExpr.CurrentTargetTile,
         is TargetExpr.HighestDamageDealer,

@@ -32,6 +32,15 @@ sealed interface TargetExpr {
 
     data class Bound(val name: String) : Single
 
+    /** A random valid player inside [area]; null (no target) when there is none. */
+    data class RandomPlayer(val area: Area) : Single
+
+    /**
+     * The encounter's stored focus player ([Effect.SetFocus]). Re-rolled from the area given at
+     * [Effect.SetFocus] when the stored player is gone or invalid.
+     */
+    data object Focus : Single
+
     /** Re-rolled on every resolve; throws on an empty set, so check [Condition.TilesEmpty] first. */
     data class RandomOfBound(val name: String) : Single
 

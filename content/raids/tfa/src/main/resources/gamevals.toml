@@ -11,6 +11,25 @@ ocellus_special_cycles = 64428
 ocellus_curse = 64430
 ocellus_rift_next = 64431
 ocellus_rift_busy = 64432
+guardian_shield_max = 64433
+guardian_ground_max = 64434
+guardian_health = 64435
+guardian_landings = 64436
+guardian_battery_hp = 64437
+guardian_battery_hit = 64438
+guardian_enraged = 64439
+
+[gamevals.dbtable]
+tfa_guardian_scaling = 62000
+
+[gamevals.dbrow]
+tfa_guardian_scaling_2 = 50000
+tfa_guardian_scaling_3 = 50001
+tfa_guardian_scaling_4 = 50002
+tfa_guardian_scaling_5 = 50003
+tfa_guardian_scaling_6 = 50004
+tfa_guardian_scaling_7 = 50005
+tfa_guardian_scaling_8 = 50006
 
 [gamevals.varp]
 ocellus_spin = 64150

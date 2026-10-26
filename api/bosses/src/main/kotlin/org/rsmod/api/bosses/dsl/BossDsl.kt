@@ -75,12 +75,12 @@ class BossSpecBuilder(private val npcTypes: List<String>) {
         return PhaseRef(name)
     }
 
-    fun every(ticks: Int, effect: Effect, skipWhileBusy: Boolean = false) {
-        timers += TimerSpec(ticks..ticks, effect, skipWhileBusy)
+    fun every(ticks: Int, effect: Effect, skipWhileBusy: Boolean = false, firstAfter: Int? = null) {
+        timers += TimerSpec(ticks..ticks, effect, skipWhileBusy, firstAfter)
     }
 
-    fun every(ticks: IntRange, effect: Effect, skipWhileBusy: Boolean = false) {
-        timers += TimerSpec(ticks, effect, skipWhileBusy)
+    fun every(ticks: IntRange, effect: Effect, skipWhileBusy: Boolean = false, firstAfter: Int? = null) {
+        timers += TimerSpec(ticks, effect, skipWhileBusy, firstAfter)
     }
 
     fun triggers(block: TriggerBuilder.() -> Unit) {
@@ -137,6 +137,7 @@ class HitBuilder internal constructor() {
     private var spotanimSpot: String? = null
     private var spotanimHeight: Int = 0
     private var spotanimDelay: Int? = null
+    private var spotanimSlot: Int = 0
     private var spotanimUnlessPraying: Boolean = false
     private var penetrationPercent: Int = 0
     private var penetrationWhen: Condition? = null
@@ -162,10 +163,17 @@ class HitBuilder internal constructor() {
      * default only on a non-zero hit; with [unlessPraying], whenever the target isn't praying
      * against this hit's type.
      */
-    fun spotanim(spot: String, height: Int = 0, delay: Int? = null, unlessPraying: Boolean = false) {
+    fun spotanim(
+        spot: String,
+        height: Int = 0,
+        delay: Int? = null,
+        unlessPraying: Boolean = false,
+        slot: Int = 0,
+    ) {
         spotanimSpot = spot
         spotanimHeight = height
         spotanimDelay = delay
+        spotanimSlot = slot
         spotanimUnlessPraying = unlessPraying
     }
 
@@ -209,6 +217,7 @@ class HitBuilder internal constructor() {
             spotanim = spotanimSpot,
             spotanimHeight = spotanimHeight,
             spotanimDelay = spotanimDelay,
+            spotanimSlot = spotanimSlot,
             penetration = penetrationPercent,
             missSpotanim = missSpot,
             onHit = onHitEffect,
@@ -598,12 +607,12 @@ class PhaseBuilder(private val name: String) {
     internal val forceAbilities = mutableListOf<ForcedAbility>()
     internal val timers = mutableListOf<TimerSpec>()
 
-    fun every(ticks: Int, effect: Effect, skipWhileBusy: Boolean = false) {
-        timers += TimerSpec(ticks..ticks, effect, skipWhileBusy)
+    fun every(ticks: Int, effect: Effect, skipWhileBusy: Boolean = false, firstAfter: Int? = null) {
+        timers += TimerSpec(ticks..ticks, effect, skipWhileBusy, firstAfter)
     }
 
-    fun every(ticks: IntRange, effect: Effect, skipWhileBusy: Boolean = false) {
-        timers += TimerSpec(ticks, effect, skipWhileBusy)
+    fun every(ticks: IntRange, effect: Effect, skipWhileBusy: Boolean = false, firstAfter: Int? = null) {
+        timers += TimerSpec(ticks, effect, skipWhileBusy, firstAfter)
     }
 
     fun forceEvery(period: Int, ability: String) {

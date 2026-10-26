@@ -2621,3 +2621,30 @@ What happens at runtime:
   drops the encounter (and anything it still owns) and resets the npc's scripted overrides; the
   next fight starts clean in `combat`.
 
+
+## Focus, hp, locs and acting as another npc
+
+Additions made for the Archive Guardian. All are additive; bosses that don't use them are unchanged.
+
+- **`every(ticks, effect, firstAfter = n)`** (spec and phase timers): the first fire is `n` ticks after
+  the timer starts (phase entry for a phase timer), then every `ticks`.
+- **Hit spotanim slot**: `hit { spotanim(spot, slot = 2) }` plays the graphic in that spotanim slot.
+- **Hitpoints**: `setHp(current, base = null)` resets the caster's stats to its visible type's, then sets
+  the (optionally new max) hitpoints, clamped to `1..base`. `damageSelf(amount)` takes hitpoints off
+  with a hitsplat, never below 1. `Hp`, `BaseHp` and `a - b` are `VarExpr`s.
+- **Focus player**: `setFocus(randomPlayer(area))` stores one player on the encounter; `Focus` is a
+  `TargetExpr.Single` that resolves to it and re-rolls from the same area when the player is gone.
+  `clearFocus()` drops it. `messageParty(area, self, others)` messages everyone in the area, `self` for
+  the focus player, `others` (with `{name}`) for the rest. `song(id, area)` plays a midi song.
+- **`exactMove(to, baseCycles, perTile)`**: slides the caster to a tile with the exact-move update; takes
+  `baseCycles + perTile * distance` client cycles.
+- **Owned locs and tags**: `replaceLoc(at, loc)` swaps an owned loc (tags survive), `removeLoc(at)` frees
+  the tile. `tagTile` / `untagTile` mark tiles with a string tag; `taggedTiles(tag)` and
+  `ownedLocs(loc)` are tile sets (not filtered by freeness, so `taggedTiles(a) - taggedTiles(b)` works).
+- **Acting as another npc**: `asNpc(ownedNpcs(type) | nearestOwned(type, of, radius), effect)` runs
+  `effect` with the owned npc as caster (anim, spotanim, hit source, `Self`, `Centre`, `setHp`), while
+  varns, phase and the encounter stay the boss's. It has its own ability run, so the boss's `interrupt()`
+  does not cancel it; `interrupt()` and `transitionTo` are not allowed inside. `summon(behaviour = e)`
+  runs `e` as each spawned npc. `despawnSelf()` removes the caster. Kotlin-spawned npcs join an
+  encounter with `BossDeps.adoptOwnedNpc(owner, npc)`, and `BossDeps.runAbilityAs(owner, caster, target,
+  ability)` runs an ability as one of them.

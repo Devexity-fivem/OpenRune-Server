@@ -39,6 +39,7 @@ object SpecValidator {
         val setNames: Set<String> = emptySet(),
         val deferred: Boolean = false,
         val hitAware: Boolean = false,
+        val asNpc: Boolean = false,
     ) {
         val prefix: String
             get() = if (label.isNotEmpty()) "$label: " else ""
@@ -129,6 +130,9 @@ object SpecValidator {
         private fun timer(timer: TimerSpec, scope: Scope) {
             if (timer.ticks.isEmpty() || timer.ticks.first <= 0) {
                 error("${scope.prefix}ticks '${timer.ticks}' must be a non-empty range of positive ticks.")
+            }
+            if (timer.firstAfter != null && timer.firstAfter < 1) {
+                error("${scope.prefix}firstAfter '${timer.firstAfter}' must be at least 1.")
             }
             effect(timer.effect, scope)
         }
@@ -236,6 +240,12 @@ object SpecValidator {
                     varExpr(expr.a, scope)
                     varExpr(expr.b, scope)
                 }
+                is VarExpr.Minus -> {
+                    varExpr(expr.a, scope)
+                    varExpr(expr.b, scope)
+                }
+                is VarExpr.Hp,
+                is VarExpr.BaseHp -> {}
                 is VarExpr.BearingTo -> {
                     target(expr.to, scope, "bearingTo")
                     target(expr.from, scope, "bearingTo")
@@ -291,6 +301,7 @@ object SpecValidator {
                 is TargetExpr.RandomWalkableTile -> listOf(expr) + tilesIn(expr.of)
                 is TargetExpr.Offset -> listOf(expr) + tilesIn(expr.of)
                 is TargetExpr.Toward -> listOf(expr) + tilesIn(expr.from) + tilesIn(expr.to)
+                is TargetExpr.RandomPlayer -> tilesIn(expr.area.sw) + tilesIn(expr.area.ne)
                 is TargetExpr.Single -> listOf(expr)
                 is TargetExpr.FacingQuadrant -> emptyList()
             }
@@ -319,6 +330,8 @@ object SpecValidator {
                     tileSet(tiles.b, scope)
                 }
                 is TileSet.Bound -> boundSet(tiles.name, scope, what)
+                is TileSet.OwnedLocs,
+                is TileSet.Tagged -> {}
             }
         }
 
@@ -327,10 +340,12 @@ object SpecValidator {
             when (effect) {
                 is Effect.Run -> requireAbility(effect.ability, scope, "Run")
                 is Effect.ForceNext -> requireAbility(effect.ability, scope, "ForceNext")
-                is Effect.TransitionTo ->
+                is Effect.TransitionTo -> {
                     if (effect.phase !in phaseNames) {
                         error("${scope.prefix}TransitionTo references phase '${effect.phase}' which does not exist.")
                     }
+                    if (scope.asNpc) error("${scope.prefix}TransitionTo is not allowed when acting as another npc.")
+                }
                 is Effect.Wait ->
                     if (effect.ticks <= 0) error("${scope.prefix}Wait ticks '${effect.ticks}' must be greater than 0.")
                 is Effect.NextAttackIn ->
@@ -345,13 +360,15 @@ object SpecValidator {
                 is Effect.ClearHeadbar -> headbarRef(effect.headbar, scope)
                 is Effect.HeadIcon -> headIconSlot(effect.slot, scope)
                 is Effect.ClearHeadIcon -> headIconSlot(effect.slot, scope)
-                is Effect.Interrupt ->
+                is Effect.Interrupt -> {
                     if (scope.deferred) {
                         error(
                             "${scope.prefix}Interrupt inside After/onImpact/onHit fires on a later tick and " +
                                 "would cancel whichever ability happens to be running then."
                         )
                     }
+                    if (scope.asNpc) error("${scope.prefix}Interrupt is not allowed when acting as another npc.")
+                }
                 is Effect.Sequence -> effect.effects.forEach { effect(it, scope) }
                 is Effect.Parallel ->
                     for (child in effect.effects) {
@@ -421,7 +438,35 @@ object SpecValidator {
                 is Effect.CamShake -> effect.target?.let { target(it, scope, name) }
                 is Effect.CamReset -> target(effect.target, scope, name)
                 is Effect.Debris -> target(effect.center, scope, name)
-                is Effect.Summon -> target(effect.centeredOn, scope, name)
+                is Effect.Summon -> {
+                    target(effect.centeredOn, scope, name)
+                    effect.behaviour?.let { effect(it, scope.copy(asNpc = true)) }
+                }
+                is Effect.SetHp -> {
+                    varExpr(effect.current, scope)
+                    effect.base?.let { varExpr(it, scope) }
+                }
+                is Effect.DamageSelf -> varExpr(effect.amount, scope)
+                is Effect.SetFocus -> target(effect.who, scope, name)
+                is Effect.MessageParty -> area(effect.area, scope, name)
+                is Effect.Song -> area(effect.area, scope, name)
+                is Effect.ExactMove -> {
+                    target(effect.to, scope, name)
+                    if (effect.baseCycles < 1) {
+                        error("${scope.prefix}ExactMove baseCycles '${effect.baseCycles}' must be at least 1.")
+                    }
+                    if (effect.perTile < 0) {
+                        error("${scope.prefix}ExactMove perTile '${effect.perTile}' must not be negative.")
+                    }
+                }
+                is Effect.ReplaceLoc -> target(effect.at, scope, name)
+                is Effect.RemoveLoc -> target(effect.at, scope, name)
+                is Effect.TagTile -> target(effect.at, scope, name)
+                is Effect.UntagTile -> target(effect.at, scope, name)
+                is Effect.AsNpc -> {
+                    (effect.who as? NpcExpr.NearestOwned)?.let { target(it.of, scope, name) }
+                    effect(effect.effect, scope.copy(asNpc = true))
+                }
                 is Effect.Teleport -> target(effect.to, scope, name)
                 is Effect.WalkTo -> {
                     target(effect.to, scope, name)

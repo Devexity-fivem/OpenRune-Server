@@ -13,6 +13,7 @@ import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.specials.energy.SpecialAttackEnergy
+import org.rsmod.content.raids.tfa.raid.TfaFight
 import org.rsmod.content.raids.tfa.raid.reward.TfaVault
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -26,7 +27,7 @@ import org.rsmod.map.CoordGrid
  * other's.
  */
 internal class OcellusFight(
-    val session: InstanceSession,
+    override val session: InstanceSession,
     val origin: CoordGrid,
     private val sharedDeps: BossDeps,
     private val meter: OcellusMeter,
@@ -34,7 +35,7 @@ internal class OcellusFight(
     private val interactions: AiPlayerInteractions,
     energy: SpecialAttackEnergy,
     private val vault: TfaVault,
-) {
+) : TfaFight {
     private val scope = BossExtensionRegistry()
     private val deps = sharedDeps.withExtensions(scope)
 
@@ -97,10 +98,10 @@ internal class OcellusFight(
         return true
     }
 
-    val elapsedTicks: Int?
+    override val elapsedTicks: Int?
         get() = if (started) (endedAt ?: deps.mapClock.cycle) - startedAt else null
 
-    val finished: Boolean
+    override val finished: Boolean
         get() = endedAt != null
 
     fun complete(npc: Npc) {

@@ -88,6 +88,40 @@ class BossTimersTest {
     }
 
     @Test
+    fun `firstAfter sets the first fire of spec and phase timers, then the interval repeats`() {
+        val specFirst = say("specFirst")
+        val phaseFirst = say("phaseFirst")
+        val spec =
+            boss("npc.boss") {
+                ability("a", say("a"))
+                every(10, specFirst, firstAfter = 2)
+                phase("fight") { every(3, phaseFirst, firstAfter = 5) }
+            }
+        val encounter = BossEncounter(Npc(type, CoordGrid(0, 1, 1, 0, 0)), spec, MapClock()) { null }
+        encounter.phaseEnteredTick = 10
+        val schedule = TimerSchedule(encounter, startTick = 10) { it.first }
+        val fired = (11..30).associateWith { schedule.due(it) }
+        assertEquals(listOf(12, 22), fired.filterValues { specFirst in it }.keys.toList())
+        assertEquals(listOf(15, 18, 21, 24, 27, 30), fired.filterValues { phaseFirst in it }.keys.toList())
+    }
+
+    @Test
+    fun `tile tags are per tile and survive an owned loc swap but not its removal`() {
+        val (encounter, _) = encounter()
+        val tile = CoordGrid(0, 1, 1, 2, 2)
+        encounter.tag(tile, "ripe")
+        encounter.tag(tile, "armed")
+        assertEquals(listOf(tile), encounter.taggedTiles("ripe"))
+        encounter.untag(tile, "ripe")
+        assertTrue(encounter.taggedTiles("ripe").isEmpty())
+        assertEquals(listOf(tile), encounter.taggedTiles("armed"))
+        encounter.removeOwnedLoc(tile, keepTags = true)
+        assertEquals(listOf(tile), encounter.taggedTiles("armed"))
+        encounter.removeOwnedLoc(tile)
+        assertTrue(encounter.taggedTiles("armed").isEmpty())
+    }
+
+    @Test
     fun `phaseTicksAtLeast counts from the phase entry`() {
         val (encounter, clock) = encounter()
         assertFalse(encounter.evaluate(phaseTicksAtLeast(0)))

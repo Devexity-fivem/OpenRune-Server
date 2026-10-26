@@ -58,7 +58,13 @@ data class PhaseSpec(
  * falls while [org.rsmod.api.bosses.runtime.BossEncounter.busyUntil] holds (an effect is mid-wait)
  * is skipped, and the timer waits its next interval.
  */
-data class TimerSpec(val ticks: IntRange, val effect: Effect, val skipWhileBusy: Boolean = false)
+data class TimerSpec(
+    val ticks: IntRange,
+    val effect: Effect,
+    val skipWhileBusy: Boolean = false,
+    /** Ticks to the first fire, when it differs from the regular [ticks] interval. */
+    val firstAfter: Int? = null,
+)
 
 data class ForcedAbility(
     val period: Int,

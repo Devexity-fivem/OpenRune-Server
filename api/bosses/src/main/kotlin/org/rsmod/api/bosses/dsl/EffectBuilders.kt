@@ -155,7 +155,9 @@ fun summon(
     onSummon: String? = null,
     onSummonParams: Any? = null,
     owned: Boolean = false,
-): Effect = Effect.Summon(npc, count, radius, centeredOn, mode, duration, onSummon, onSummonParams, owned)
+    behaviour: Effect? = null,
+): Effect =
+    Effect.Summon(npc, count, radius, centeredOn, mode, duration, onSummon, onSummonParams, owned, behaviour)
 
 fun varn(name: String): VarExpr = VarExpr.Varn(name)
 
@@ -436,3 +438,50 @@ val Dragonfire: HitType = HitType.Dragonfire
 val DragonfireMetal: HitType = HitType.DragonfireMetal
 val WyvernIce: HitType = HitType.WyvernIce
 val Typeless: HitType = HitType.Typeless
+
+fun setHp(current: VarExpr, base: VarExpr? = null): Effect = Effect.SetHp(current, base)
+
+fun damageSelf(amount: VarExpr): Effect = Effect.DamageSelf(amount)
+
+val Hp: VarExpr = VarExpr.Hp
+
+val BaseHp: VarExpr = VarExpr.BaseHp
+
+operator fun VarExpr.minus(other: VarExpr): VarExpr = VarExpr.Minus(this, other)
+
+fun randomPlayer(area: Area): TargetExpr.Single = TargetExpr.RandomPlayer(area)
+
+val Focus: TargetExpr.Single = TargetExpr.Focus
+
+fun setFocus(who: TargetExpr.Single): Effect = Effect.SetFocus(who)
+
+fun clearFocus(): Effect = Effect.ClearFocus
+
+fun messageParty(area: Area, self: String, others: String): Effect =
+    Effect.MessageParty(area, self, others)
+
+fun song(id: Int, area: Area): Effect = Effect.Song(id, area)
+
+fun exactMove(to: TargetExpr.Single, baseCycles: Int, perTile: Int = 0): Effect =
+    Effect.ExactMove(to, baseCycles, perTile)
+
+fun replaceLoc(at: TargetExpr.Single, loc: String): Effect = Effect.ReplaceLoc(at, loc)
+
+fun removeLoc(at: TargetExpr.Single): Effect = Effect.RemoveLoc(at)
+
+fun tagTile(at: TargetExpr.Single, tag: String): Effect = Effect.TagTile(at, tag)
+
+fun untagTile(at: TargetExpr.Single, tag: String): Effect = Effect.UntagTile(at, tag)
+
+fun ownedLocs(loc: String): TileSet = TileSet.OwnedLocs(loc)
+
+fun taggedTiles(tag: String): TileSet = TileSet.Tagged(tag)
+
+fun asNpc(who: NpcExpr, effect: Effect): Effect = Effect.AsNpc(who, effect)
+
+fun ownedNpcs(npcType: String? = null): NpcExpr = NpcExpr.Owned(npcType)
+
+fun nearestOwned(npcType: String, of: TargetExpr.Single, radius: Int): NpcExpr =
+    NpcExpr.NearestOwned(npcType, of, radius)
+
+fun despawnSelf(): Effect = Effect.DespawnSelf

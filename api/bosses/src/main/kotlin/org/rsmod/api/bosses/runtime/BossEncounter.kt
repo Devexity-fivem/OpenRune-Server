@@ -40,19 +40,52 @@ class BossEncounter(
 
     internal var timersStarted: Boolean = false
 
+    /** The player [Effect.SetFocus] stored, resolved by [TargetExpr.Focus]. */
+    var focus: Player? = null
+
+    /** Where [TargetExpr.Focus] re-rolls from when the stored [focus] is no longer valid. */
+    internal var focusArea: Area? = null
+
     private val ownedLocs = mutableMapOf<CoordGrid, OwnedLoc>()
 
+    private val tileTags = mutableMapOf<CoordGrid, MutableSet<String>>()
+
     fun ownsLocAt(tile: CoordGrid): Boolean = tile in ownedLocs
+
+    internal fun ownedLocAt(tile: CoordGrid): OwnedLoc? = ownedLocs[tile]
+
+    internal fun ownedLocTiles(loc: String): List<CoordGrid> =
+        ownedLocs.filterValues { it.loc == loc }.keys.toList()
 
     internal fun addOwnedLoc(tile: CoordGrid, loc: OwnedLoc) {
         ownedLocs[tile] = loc
     }
+
+    internal fun removeOwnedLoc(tile: CoordGrid, keepTags: Boolean = false): OwnedLoc? {
+        if (!keepTags) tileTags.remove(tile)
+        return ownedLocs.remove(tile)
+    }
+
+    internal fun tag(tile: CoordGrid, tag: String) {
+        tileTags.getOrPut(tile) { mutableSetOf() } += tag
+    }
+
+    internal fun untag(tile: CoordGrid, tag: String) {
+        val tags = tileTags[tile] ?: return
+        tags -= tag
+        if (tags.isEmpty()) tileTags.remove(tile)
+    }
+
+    internal fun taggedTiles(tag: String): List<CoordGrid> =
+        tileTags.filterValues { tag in it }.keys.toList()
 
     private val ownedNpcs = mutableListOf<Npc>()
 
     internal fun addOwnedNpc(npc: Npc) {
         ownedNpcs += npc
     }
+
+    fun ownedNpcList(): List<Npc> = ownedNpcs.filter { it.isSlotAssigned }
 
     fun releaseOwnedNpcs(): List<Npc> {
         val released = ownedNpcs.toList()

@@ -38,4 +38,10 @@ sealed interface TileSet {
     data class Minus(val a: TileSet, val b: TileSet) : TileSet
 
     data class Bound(val name: String) : TileSet
+
+    /** Tiles holding a loc the encounter spawned with id [loc]; not filtered by freeness. */
+    data class OwnedLocs(val loc: String) : TileSet
+
+    /** Tiles carrying [tag] ([Effect.TagTile]); not filtered by freeness. */
+    data class Tagged(val tag: String) : TileSet
 }
