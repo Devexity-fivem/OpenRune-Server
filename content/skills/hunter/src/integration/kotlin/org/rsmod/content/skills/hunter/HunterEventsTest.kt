@@ -4,14 +4,17 @@ import com.google.inject.AbstractModule
 import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.util.Wearpos
 import jakarta.inject.Inject
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.rsmod.api.droptable.toml.DropTableTomlResolver
+import org.rsmod.api.player.events.PlayerMovementEvent
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.repo.loc.LocRepository
+import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.testing.GameTestState
 import org.rsmod.content.drops.toml.ContentDropTableTomlResolver
 import org.rsmod.content.skills.hunter.HunterTrapManager.State
@@ -19,6 +22,7 @@ import org.rsmod.content.skills.hunter.HunterTrapManager.TrapKind
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.InvObj
+import org.rsmod.game.inv.isType
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocShape
@@ -848,6 +852,176 @@ class HunterEventsTest {
             assertEquals(1, player.inv.count(prey.jarred))
         }
 
+    @Test
+    fun GameTestState.`a caught kebbit swaps the glove and lands a retrievable falcon`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+            val kebbit = spawnNpc(player.coords.translateZ(2), npcType("npc.huntingbeast_speedy"))
+            val prey = probe.events.falconryPrey.first { it.npcSymbol == "npc.huntingbeast_speedy" }
+
+            player.withProtectedAccess { with(probe.events) { sendFalcon(kebbit, prey) } }
+
+            assertTrue(player.worn[Wearpos.RightHand.slot].isType(FALCON_GLOVES_EMPTY))
+            val falcon =
+                probe.npcRepo.findAll(kebbit.coords).firstOrNull {
+                    it.type.internalName == "npc.hunting_falcon_onspeedy"
+                }
+            assertNotNull(falcon)
+            assertEquals(player, probe.falconry.ownerOf(falcon))
+        }
+
+    @Test
+    fun GameTestState.`retrieving the falcon pays drops and xp and returns the bird`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+            val kebbit = spawnNpc(player.coords.translateZ(2), npcType("npc.huntingbeast_speedy"))
+            val prey = probe.events.falconryPrey.first { it.npcSymbol == "npc.huntingbeast_speedy" }
+
+            player.withProtectedAccess { with(probe.events) { sendFalcon(kebbit, prey) } }
+            val falcon =
+                probe.npcRepo.findAll(kebbit.coords).firstOrNull {
+                    it.type.internalName == "npc.hunting_falcon_onspeedy"
+                }
+            assertNotNull(falcon)
+
+            player.withProtectedAccess { with(probe.events) { retrieveFalcon(falcon, prey) } }
+
+            assertTrue(player.worn[Wearpos.RightHand.slot].isType(FALCON_GLOVES_WITH))
+            assertEquals(1, player.inv.count("obj.bones"))
+            assertEquals(1, player.inv.count("obj.huntingbeast_speedy_fur"))
+            assertEquals(1040, player.statMap.getFineXP("stat.hunter"))
+            assertNull(probe.falconry.ownerOf(falcon))
+        }
+
+    @Test
+    fun GameTestState.`a missed falcon strike returns the bird to the glove`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.traps.catchChance = { _, _ -> 0.0 }
+            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+            val kebbit = spawnNpc(player.coords.translateZ(2), npcType("npc.huntingbeast_speedy"))
+            val prey = probe.events.falconryPrey.first { it.npcSymbol == "npc.huntingbeast_speedy" }
+
+            player.withProtectedAccess { with(probe.events) { sendFalcon(kebbit, prey) } }
+
+            assertTrue(player.worn[Wearpos.RightHand.slot].isType(FALCON_GLOVES_WITH))
+            assertTrue(
+                probe.npcRepo.findAll(kebbit.coords).none {
+                    it.type.internalName == "npc.hunting_falcon_onspeedy"
+                }
+            )
+        }
+
+    @Test
+    fun GameTestState.`falcon strikes require the hunter level`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 20)
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+            val kebbit = spawnNpc(player.coords.translateZ(2), npcType("npc.huntingbeast_speedy"))
+            val prey = probe.events.falconryPrey.first { it.npcSymbol == "npc.huntingbeast_speedy" }
+
+            player.withProtectedAccess { with(probe.events) { sendFalcon(kebbit, prey) } }
+
+            assertTrue(player.worn[Wearpos.RightHand.slot].isType(FALCON_GLOVES_WITH))
+            assertNull(probe.falconry.ownerOf(kebbit))
+        }
+
+    @Test
+    fun GameTestState.`an empty glove cannot send a falcon`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_EMPTY)
+            val kebbit = spawnNpc(player.coords.translateZ(2), npcType("npc.huntingbeast_speedy"))
+            val prey = probe.events.falconryPrey.first { it.npcSymbol == "npc.huntingbeast_speedy" }
+
+            player.withProtectedAccess { with(probe.events) { sendFalcon(kebbit, prey) } }
+
+            assertTrue(player.worn[Wearpos.RightHand.slot].isType(FALCON_GLOVES_EMPTY))
+        }
+
+    @Test
+    fun GameTestState.`renting a falcon costs 500 coins and equips the glove`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.inv[0] = InvObj("obj.coins", 1000)
+
+            player.withProtectedAccess { with(probe.events) { rentFalcon() } }
+
+            assertEquals(500, player.inv.count("obj.coins"))
+            assertTrue(player.worn[Wearpos.RightHand.slot].isType(FALCON_GLOVES_WITH))
+        }
+
+    @Test
+    fun GameTestState.`renting auto-unequips weapon and shield into the inventory`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.inv[0] = InvObj("obj.coins", 1000)
+            player.worn[Wearpos.RightHand.slot] = InvObj("obj.bronze_scimitar")
+            player.worn[Wearpos.LeftHand.slot] = InvObj("obj.wooden_shield")
+            player.worn[Wearpos.Hands.slot] = InvObj("obj.leather_gloves")
+
+            player.withProtectedAccess { with(probe.events) { rentFalcon() } }
+
+            assertTrue(player.worn[Wearpos.RightHand.slot].isType(FALCON_GLOVES_WITH))
+            assertEquals(1, player.inv.count("obj.bronze_scimitar"))
+            assertEquals(1, player.inv.count("obj.wooden_shield"))
+            assertEquals(1, player.inv.count("obj.leather_gloves"))
+        }
+
+    @Test
+    fun GameTestState.`renting is refused when the inventory cannot hold unequipped gear`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            for (slot in 0 until 28) {
+                player.inv[slot] = InvObj("obj.logs")
+            }
+            player.worn[Wearpos.RightHand.slot] = InvObj("obj.bronze_scimitar")
+
+            player.withProtectedAccess { with(probe.events) { rentFalcon() } }
+
+            assertTrue(player.worn[Wearpos.RightHand.slot].isType("obj.bronze_scimitar"))
+        }
+
+    @Test
+    fun GameTestState.`leaving the falconry sends the falcon home`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+            player.teleport(CoordGrid(2380, 3600))
+
+            player.teleport(CoordGrid(3200, 3200))
+            eventBus.publish(
+                PlayerMovementEvent.CoordsMovedEvent(player, CoordGrid(2380, 3600))
+            )
+
+            assertTrue(player.worn[Wearpos.RightHand.slot].isType(FALCON_GLOVES_EMPTY))
+        }
+
+    @Test
+    fun GameTestState.`a landed falcon leaves its prey after the timeout`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+            val kebbit = spawnNpc(player.coords.translateZ(2), npcType("npc.huntingbeast_speedy"))
+            val prey = probe.events.falconryPrey.first { it.npcSymbol == "npc.huntingbeast_speedy" }
+
+            player.withProtectedAccess { with(probe.events) { sendFalcon(kebbit, prey) } }
+            val falcon =
+                probe.npcRepo.findAll(kebbit.coords).firstOrNull {
+                    it.type.internalName == "npc.hunting_falcon_onspeedy"
+                }
+            assertNotNull(falcon)
+
+            probe.mapClock.cycle += FalconryManager.STAY_TICKS
+            probe.falconry.tick()
+
+            assertNull(probe.falconry.ownerOf(falcon))
+            assertTrue(probe.npcRepo.findAll(kebbit.coords).none { it === falcon })
+        }
+
     private fun HunterEvents.swampPrey() =
         checkNotNull(netPrey.firstOrNull { it.npcSymbol == "npc.salamander_green" })
 
@@ -894,6 +1068,8 @@ class HunterEventsTest {
         const val BUTTERFLY_NET = "obj.hunting_butterfly_net"
         const val BUTTERFLY_JAR = "obj.butterfly_jar"
         const val IMPLING_JAR = "obj.ii_impling_jar"
+        const val FALCON_GLOVES_WITH = "obj.falcon_on_gloves"
+        const val FALCON_GLOVES_EMPTY = "obj.falcon_gloves"
     }
 
     private class HunterTestModule : AbstractModule() {
@@ -908,7 +1084,9 @@ class HunterEventsTest {
         val events: HunterEvents,
         val traps: HunterTrapManager,
         val locRepo: LocRepository,
+        val npcRepo: NpcRepository,
         val implingSpawns: ImplingSpawnManager,
+        val falconry: FalconryManager,
         val mapClock: MapClock,
     )
 }

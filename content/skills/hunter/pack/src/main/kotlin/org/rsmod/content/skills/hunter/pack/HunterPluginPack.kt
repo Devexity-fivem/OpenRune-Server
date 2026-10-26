@@ -16,6 +16,7 @@ class HunterPluginPack : PluginPack() {
             netTrapTable(),
             butterflyTable(),
             implingTable(),
+            falconryTable(),
         )
 }
 
@@ -75,6 +76,14 @@ object Hunter {
     const val IMP_COL_XP_PURO = 4
     const val IMP_COL_XP_GIELINOR = 5
     const val IMP_COL_RESPAWN = 6
+
+    const val FAL_COL_PREY = 0
+    const val FAL_COL_LEVEL = 1
+    const val FAL_COL_XP = 2
+    const val FAL_COL_FALCON = 3
+    const val FAL_COL_FUR = 4
+    const val FAL_COL_MEAT = 5
+    const val FAL_COL_RESPAWN = 6
 }
 
 private fun DBTableBuilder.birdSnareColumns() {
@@ -183,4 +192,20 @@ private fun implingTable(): DBTable =
     dbTable("dbtable.hunter_implings", serverOnly = true) {
         implingColumns()
         implingRows()
+    }
+
+private fun DBTableBuilder.falconryColumns() {
+    column("npc", Hunter.FAL_COL_PREY, VarType.NPC)
+    column("level", Hunter.FAL_COL_LEVEL, VarType.INT)
+    column("xp", Hunter.FAL_COL_XP, VarType.INT)
+    column("falcon", Hunter.FAL_COL_FALCON, VarType.NPC)
+    column("fur", Hunter.FAL_COL_FUR, VarType.OBJ)
+    column("meat", Hunter.FAL_COL_MEAT, VarType.OBJ)
+    column("respawn", Hunter.FAL_COL_RESPAWN, VarType.INT)
+}
+
+private fun falconryTable(): DBTable =
+    dbTable("dbtable.hunter_falconry", serverOnly = true) {
+        falconryColumns()
+        falconryRows()
     }

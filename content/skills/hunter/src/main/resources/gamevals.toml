@@ -6,6 +6,7 @@ hunter_deadfall_logs = 63014
 hunter_net_traps = 63033
 hunter_butterflies = 63039
 hunter_implings = 63056
+hunter_falconry = 63059
 
 [gamevals.enum]
 hunter_crystal_implings = 60000
@@ -60,3 +61,12 @@ hunter_impling_ninja = 63052
 hunter_impling_dragon = 63053
 hunter_impling_lucky = 63054
 hunter_impling_crystal = 63055
+hunter_falconry_speedy = 63060
+hunter_falconry_silent = 63061
+hunter_falconry_speedy2 = 63062
+
+[gamevals.varp]
+hunter_falconry_invested = 63057
+
+[gamevals.varbit]
+hunter_falconry_invested = 63057

@@ -4,6 +4,8 @@ import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.types.NpcServerType
+import dev.openrune.util.Wearpos
 import dtx.core.ArgMap
 import dtx.core.RollResult
 import dtx.core.flatten
@@ -17,7 +19,9 @@ import org.rsmod.api.droptable.rollCount
 import org.rsmod.api.enums.NamedEnums
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.invtx.invAddOrDrop
+import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.events.interact.HeldObjEvents
+import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.hunterLvl
 import org.rsmod.api.player.stat.statAdvance
@@ -35,6 +39,8 @@ import org.rsmod.api.script.onOpLoc4
 import org.rsmod.api.script.onOpLoc5
 import org.rsmod.api.script.onOpLocU
 import org.rsmod.api.script.onOpNpc1
+import org.rsmod.api.script.onOpNpc3
+import org.rsmod.api.script.onPlayerCoordsChanged
 import org.rsmod.api.script.onPlayerLogout
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.table.hunter.HunterBirdSnaresRow
@@ -42,6 +48,7 @@ import org.rsmod.api.table.hunter.HunterBoxTrapsRow
 import org.rsmod.api.table.hunter.HunterButterfliesRow
 import org.rsmod.api.table.hunter.HunterDeadfallLogsRow
 import org.rsmod.api.table.hunter.HunterDeadfallRow
+import org.rsmod.api.table.hunter.HunterFalconryRow
 import org.rsmod.api.table.hunter.HunterImplingsRow
 import org.rsmod.api.table.hunter.HunterNetTrapsRow
 import org.rsmod.content.skills.hunter.HunterTrapManager.Dir
@@ -49,6 +56,7 @@ import org.rsmod.content.skills.hunter.HunterTrapManager.TrapKind
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcStateEvents
+import org.rsmod.game.inv.InvObj
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
@@ -65,6 +73,7 @@ constructor(
     private val collision: CollisionFlagMap,
     private val dropRegistry: DropTableRegistry,
     private val implingSpawns: ImplingSpawnManager,
+    private val falconry: FalconryManager,
 ) : PluginScript() {
 
     private val birds =
@@ -186,6 +195,25 @@ constructor(
         }
     }
 
+    val falconryPrey =
+        HunterFalconryRow.all().map { row ->
+            FalconryPrey(
+                npcSymbol = row.npc.internalName,
+                falconSymbol = row.falcon.internalName,
+                falconType =
+                    checkNotNull(
+                        ServerCacheManager.getNpc(row.falcon.internalName.asRSCM(RSCMType.NPC))
+                    ) { "Missing npc type: ${row.falcon.internalName}" },
+                name = ServerCacheManager.getNpc(row.npc.internalName.asRSCM(RSCMType.NPC))?.name
+                    ?: row.npc.internalName,
+                level = row.level,
+                xpTenths = row.xp,
+                fur = row.fur.internalName,
+                meat = row.meat?.internalName,
+                respawn = row.respawn,
+            )
+        }
+
     var logPreserveChance: Double = 0.75
 
     /**
@@ -267,9 +295,34 @@ constructor(
             }
         }
 
+        for (prey in falconryPrey) {
+            onOpNpc1(prey.npcSymbol) { sendFalcon(it.npc, prey) }
+            onOpNpc1(prey.falconSymbol) { retrieveFalcon(it.npc, prey) }
+        }
+        for (falconer in FALCONER_NPCS) {
+            onOpNpc1(falconer) { startDialogue(it.npc) { matthiasDialogue() } }
+            onOpNpc3(falconer) { rentFalcon() }
+        }
+        onPlayerCoordsChanged {
+            if (!FalconryManager.insideArea(player.coords)) {
+                if (FALCON_GLOVES_WITH in player.worn) {
+                    player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_EMPTY)
+                    player.mes(
+                        "As you leave the falconry area, your gyr falcon flies back to Matthias."
+                    )
+                }
+                if (falconry.recallOwned(player)) {
+                    player.mes(
+                        "Your falcon has left its prey. You see it heading back toward the falconer."
+                    )
+                }
+            }
+        }
+
         onEvent<GameLifecycle.LateCycle> {
             traps.tick()
             implingSpawns.tick()
+            falconry.tick()
         }
         onPlayerLogout { traps.clear(player) }
     }
@@ -388,6 +441,149 @@ constructor(
         if (drop.isNothing || !drop.condition(player)) return
         val obj = drop.transformObj(player) ?: drop.obj
         player.invAddOrDrop(objRepo, obj, drop.rollCount(random))
+    }
+
+    fun ProtectedAccess.sendFalcon(npc: Npc, prey: FalconryPrey) {
+        if (player.hunterLvl < prey.level) {
+            mes("You need a Hunter level of at least ${prey.level} to catch a ${prey.name}.")
+            return
+        }
+        if (FALCON_GLOVES_WITH !in player.worn) {
+            if (FALCON_GLOVES_EMPTY in player.worn) {
+                mes("Your falcon is no longer on your glove. Speak to Matthias to get it back.")
+            } else {
+                mes("You need a gyr falcon to catch kebbits here.")
+            }
+            return
+        }
+        anim(FALCON_LAUNCH_SEQ)
+        player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_EMPTY)
+        if (Random.nextDouble() < traps.catchChance(player.hunterLvl, prey.level)) {
+            npcRepo.del(npc, prey.respawn)
+            falconry.land(Npc(prey.falconType, npc.coords), player)
+        } else {
+            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+        }
+    }
+
+    fun ProtectedAccess.retrieveFalcon(npc: Npc, prey: FalconryPrey) {
+        val owner = falconry.ownerOf(npc)
+        if (owner != null && owner != player) {
+            mes("That is not your falcon.")
+            return
+        }
+        falconry.remove(npc)
+        if (FALCON_GLOVES_EMPTY in player.worn) {
+            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+        }
+        player.invAddOrDrop(objRepo, "obj.bones")
+        player.invAddOrDrop(objRepo, prey.fur)
+        prey.meat?.let { player.invAddOrDrop(objRepo, it) }
+        statAdvance(STAT_HUNTER, prey.xpTenths / 10.0 * xpMods.get(player, STAT_HUNTER))
+        mes("You retrieve your falcon along with its catch.")
+    }
+
+    /** The falcon hops back onto the empty glove; free while inside the falconry. */
+    fun ProtectedAccess.reattachFalcon() {
+        falconry.recallOwned(player)
+        player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+        mes("The gyr falcon hops back onto your glove.")
+    }
+
+    fun ProtectedAccess.rentFalcon() {
+        if (FALCON_GLOVES_WITH in player.worn) {
+            mes("You already have a gyr falcon.")
+            return
+        }
+        if (FALCON_GLOVES_EMPTY in player.worn) {
+            reattachFalcon()
+            return
+        }
+        val slots = listOf(Wearpos.RightHand.slot, Wearpos.LeftHand.slot, Wearpos.Hands.slot)
+        val occupied = slots.filter { player.worn[it] != null }
+        if (player.inv.freeSpace() < occupied.size) {
+            mes(
+                "You need to free your hands, weapon and shield slots before Matthias " +
+                    "will lend you a falcon."
+            )
+            return
+        }
+        if (vars[VAR_FALCONRY_INVESTED] != 1) {
+            if (inv.count(COINS) < FALCON_COST) {
+                mes("You need $FALCON_COST coins to rent a falcon from Matthias.")
+                return
+            }
+            invDel(inv, COINS, FALCON_COST)
+        }
+        for (slot in occupied) {
+            val obj = player.worn[slot] ?: continue
+            player.worn[slot] = null
+            invAdd(inv, obj)
+        }
+        falconry.recallOwned(player)
+        player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+        mes("Matthias hands you a falconer's glove with a gyr falcon sitting on it.")
+    }
+
+    fun ProtectedAccess.investFalconry() {
+        if (vars[VAR_FALCONRY_INVESTED] == 1) {
+            return
+        }
+        if (inv.count(COINS) < FALCONRY_INVEST_COST) {
+            mes("You need $FALCONRY_INVEST_COST coins to invest in Matthias' operation.")
+            return
+        }
+        invDel(inv, COINS, FALCONRY_INVEST_COST)
+        vars[VAR_FALCONRY_INVESTED] = 1
+        mes("You invest in Matthias' falconry operation. His falcons are now free to borrow.")
+    }
+
+    private suspend fun Dialogue.matthiasDialogue() {
+        when {
+            FALCON_GLOVES_WITH in player.worn ->
+                chatNpc(neutral, "You already have one of my falcons. Look after it!")
+            FALCON_GLOVES_EMPTY in player.worn -> {
+                chatPlayer(quiz, "My falcon seems to have flown back to you.")
+                chatNpc(happy, "Ah, so she did. Here, take her again.")
+                access.reattachFalcon()
+            }
+            access.vars[VAR_FALCONRY_INVESTED] == 1 -> {
+                chatNpc(happy, "Hello again! Want to take one of my falcons out?")
+                if (choice2("Yes please.", true, "No thanks.", false)) {
+                    access.rentFalcon()
+                }
+            }
+            else -> {
+                chatNpc(
+                    happy,
+                    "Hello! Would you like to rent one of my gyr falcons? " +
+                        "It's 500 coins a hunt.",
+                )
+                when (
+                    choice3(
+                        "Yes, that sounds fine.",
+                        1,
+                        "Can I pay in advance?",
+                        2,
+                        "No thanks.",
+                        3,
+                    )
+                ) {
+                    1 -> access.rentFalcon()
+                    2 -> {
+                        chatPlayer(quiz, "Can I pay in advance?")
+                        chatNpc(
+                            neutral,
+                            "A one-off investment of 500,000 coins and you'll " +
+                                "never have to pay me again.",
+                        )
+                        if (choice2("Invest 500,000 coins.", true, "No thanks.", false)) {
+                            access.investFalconry()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun ProtectedAccess.layTrap(kind: TrapKind) {
@@ -522,6 +718,18 @@ constructor(
         val respawn: Int,
     )
 
+    class FalconryPrey(
+        val npcSymbol: String,
+        val falconSymbol: String,
+        val falconType: NpcServerType,
+        val name: String,
+        val level: Int,
+        val xpTenths: Int,
+        val fur: String,
+        val meat: String?,
+        val respawn: Int,
+    )
+
     private companion object {
         const val DEADFALL_BOULDER = "loc.hunting_deadfall_boulder"
         const val KNIFE = "obj.knife"
@@ -550,5 +758,13 @@ constructor(
         const val RAW_BIRD_MEAT = "obj.spit_raw_bird_meat"
         const val STAT_HUNTER = "stat.hunter"
         const val LAY_SEQ = "seq.hunting_baiting_small_traps"
+        const val FALCON_GLOVES_WITH = "obj.falcon_on_gloves"
+        const val FALCON_GLOVES_EMPTY = "obj.falcon_gloves"
+        const val FALCON_LAUNCH_SEQ = "seq.human_falconer_attack"
+        const val COINS = "obj.coins"
+        const val FALCON_COST = 500
+        const val FALCONRY_INVEST_COST = 500_000
+        const val VAR_FALCONRY_INVESTED = "varbit.hunter_falconry_invested"
+        val FALCONER_NPCS = setOf("npc.hunting_npc_falconer", "npc.hunting_npc_falconer_nobird")
     }
 }

@@ -106,6 +106,26 @@ treating main as "finished".
   restarts. NOTE for live verify: implings manifest ~1-3 min after spawn —
   tele to 2571,4305 (Puro maze) or stand near an overworld precursor and
   WAIT; they're invisible at first by design.
+- Hunter falconry (content/skills/hunter + FalconryManager.kt) —
+  INTEGRATION-TESTED (53 tests), live verify pending. Matthias
+  (npc.hunting_npc_falconer at 2376,3606 in Piscatoris): Talk-to dialogue or
+  Quick-falcon (op3) rents a gyr falcon for 500gp — weapon/shield/glove
+  slots auto-unequip to inv, refused if inv too full. 500k one-off
+  investment via varp.hunter_falconry_invested (Perm, varbit bit0) makes
+  falcons free forever. Kebbit Catch (op1 on huntingbeast_speedy/silent/
+  speedy2): needs falcon_on_gloves worn; plays seq.human_falconer_attack,
+  glove swaps to empty falcon_gloves, trap catchChance roll; success ->
+  kebbit del'd (25t respawn) and the matching hunting_falcon_on* npc lands
+  on the tile with Retrieve (op1). Retrieve pays bones + fur (+ raw dashing
+  kebbit for speedy2) + exact XP ON RETRIEVAL (wiki: lost prey = no xp) and
+  returns the bird to the glove. Landed falcons time out after 100t
+  ("Your falcon has left its prey...") — owner-tracked, other players get
+  "That is not your falcon." Leaving the pen box (x2355-2400 z3570-3650)
+  via onPlayerCoordsChanged: falcon_on_gloves -> falcon_gloves + lands
+  recalled. Empty glove -> Matthias re-rents free. Rows: spotted 43/104,
+  dark 57/132, dashing 69/156. Approximations: catchChance reuse (no
+  published falconry formula); pen bounds are a CoordGrid box (no area def
+  in cache); no visible falcon flight npc (projanim set doesn't cover it).
 - Accounts cleaned up (2026-10-26): all ad-hoc test accounts deleted from
   main.accounts; kept Devexity + devin ai (login: devin ai / devinai).
   devin ai had stale xp_rate_in_hundreds=150 in character_progress — reset

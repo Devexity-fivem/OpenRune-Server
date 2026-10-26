@@ -320,3 +320,38 @@ private fun DBTableBuilder.implingRow(
         column(Hunter.IMP_COL_RESPAWN, respawn)
     }
 }
+
+// xp values are in tenths (104 xp = 1040), granted when the falcon is
+// retrieved from a caught kebbit, not at catch. `falcon` is the
+// "Gyr Falcon" npc spawned standing on the kill. `meat` is dropped for the
+// dashing kebbit only. `respawn` is the kebbit's respawn delay in ticks.
+internal fun DBTableBuilder.falconryRows() {
+    falconryRow("speedy", "npc.huntingbeast_speedy", "npc.hunting_falcon_onspeedy", 43, 1040)
+    falconryRow("silent", "npc.huntingbeast_silent", "npc.hunting_falcon_onsilent", 57, 1320)
+    row("dbrow.hunter_falconry_speedy2") {
+        columnRSCM(Hunter.FAL_COL_PREY, "npc.huntingbeast_speedy2")
+        column(Hunter.FAL_COL_LEVEL, 69)
+        column(Hunter.FAL_COL_XP, 1560)
+        columnRSCM(Hunter.FAL_COL_FALCON, "npc.hunting_falcon_onspeedy2")
+        columnRSCM(Hunter.FAL_COL_FUR, "obj.huntingbeast_speedy2_fur")
+        columnRSCM(Hunter.FAL_COL_MEAT, "obj.huntingbeast_speedy2_meat")
+        column(Hunter.FAL_COL_RESPAWN, 25)
+    }
+}
+
+private fun DBTableBuilder.falconryRow(
+    name: String,
+    prey: String,
+    falcon: String,
+    level: Int,
+    xp: Int,
+) {
+    row("dbrow.hunter_falconry_$name") {
+        columnRSCM(Hunter.FAL_COL_PREY, prey)
+        column(Hunter.FAL_COL_LEVEL, level)
+        column(Hunter.FAL_COL_XP, xp)
+        columnRSCM(Hunter.FAL_COL_FALCON, falcon)
+        columnRSCM(Hunter.FAL_COL_FUR, "obj.huntingbeast_${name}_fur")
+        column(Hunter.FAL_COL_RESPAWN, 25)
+    }
+}
