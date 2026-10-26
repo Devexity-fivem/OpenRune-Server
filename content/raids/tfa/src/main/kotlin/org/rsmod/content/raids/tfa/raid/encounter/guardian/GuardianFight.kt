@@ -1,8 +1,5 @@
 package org.rsmod.content.raids.tfa.raid.encounter.guardian
 
-import dev.openrune.ServerCacheManager
-import dev.openrune.rscm.RSCM.asRSCM
-import dev.openrune.rscm.RSCMType
 import dev.openrune.types.MoveRestrict
 import dev.openrune.types.NpcMode
 import org.rsmod.api.bossbar.plugin.BossHpBarScript
@@ -48,7 +45,6 @@ internal class GuardianFight(
     private val scope = BossExtensionRegistry()
     private val deps = sharedDeps.withExtensions(scope)
     private val registry = sharedDeps.extensionRegistry
-    private val flyingId = FLYING.asRSCM(RSCMType.NPC)
 
     lateinit var boss: Npc
         private set
@@ -126,12 +122,9 @@ internal class GuardianFight(
         boss.vars[LANDINGS] = 0
         boss.vars[ENRAGED] = 0
 
-        val flying = ServerCacheManager.getNpc(flyingId)!!
         boss.apRangeOverride = GuardianArena.REACH
         boss.apRequiresLineOfSight = false
         boss.apPlayer2(player, interactions)
-        boss.setHuntMode(checkNotNull(ServerCacheManager.getHunt(HUNT_CONSTANT_RANGED)))
-        boss.setHunt(flying.huntRange)
         deps.runAbility(boss, player, "wake")
         player.mes("Challenge started: Archive Guardian.")
     }
@@ -191,13 +184,11 @@ internal class GuardianFight(
 
     private companion object {
         const val START = "npc.tfa_guardian_start"
-        const val FLYING = "npc.tfa_guardian"
         const val BATTERY_INACTIVE = "npc.tfa_guardian_battery_inactive"
         const val MIN_SCALING = 2
         const val MAX_SCALING = 8
         const val BATTERY_SHIELD_PERCENT = 40
         const val IDLE_SPOT_INTERVAL = 3
-        const val HUNT_CONSTANT_RANGED = 2
         const val VICTORY_SONG = 147
         val ALLIANCE =
             listOf(

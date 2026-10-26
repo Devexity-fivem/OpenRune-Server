@@ -17170,8 +17170,12 @@ maxRange = 30
 id = "npc.tfa_guardian"
 inherit = "npc.tfa_guardian"
 maxRange = 30
+huntMode = 2
+huntRange = 40
 
 [[npc]]
 id = "npc.tfa_guardian_unshielded"
 inherit = "npc.tfa_guardian_unshielded"
 maxRange = 30
+huntMode = 2
+huntRange = 40
