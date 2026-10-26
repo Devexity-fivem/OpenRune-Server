@@ -100,6 +100,10 @@ Known deviations from live OSRS:
   Slayer level check are not enforced.
 - Exact choke damage/drain cadence is approximated; the unmasked outcome
   (rapid extra damage + stat drain) matches the documented mechanic.
+- A second stat drain (~1-3 per smoke devil hit, across stats outside this
+  plugin's drained set, e.g. Agility) was observed live on `devin ai` and is
+  **not** produced by `SmokeDevilProtection`; its source is unattributed and
+  needs investigation.
 
 ## Level-up popups
 

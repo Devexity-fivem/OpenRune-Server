@@ -201,7 +201,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/scorpia` | 1 | 133 | 0 | 0 | 2026-10-25 |
 | `bosses/scurrius` | 2 | 384 | 0 | 0 | 2026-10-18 |
 | `bosses/spindel` | 2 | 522 | 0 | 0 | 2026-10-18 |
-| `bosses/thermy` | 1 | 69 | 1 | 0 | 2026-10-26 |
+| `bosses/thermy` | 2 | 125 | 1 | 0 | 2026-10-26 |
 | `bosses/tormented-demon` | 2 | 531 | 0 | 0 | 2026-10-18 |
 | `bosses/vardorvis` | 7 | 1,287 | 0 | 0 | 2026-10-18 |
 | `bosses/whisperer` | 5 | 1,853 | 0 | 0 | 2026-10-18 |
