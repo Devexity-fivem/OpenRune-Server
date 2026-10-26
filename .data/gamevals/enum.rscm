@@ -181,3 +181,5 @@ slayer_leafy_ammo=65341
 slayer_leafy_spells=65342
 slayer_task_tips=65535
 essence_mine_teleporter_exits=63890
+gravestone_resources=64420
+hunter_crystal_implings=60000

@@ -219,3 +219,6 @@ id = "varn.slayer_engaged_clock"
 
 [[varn]]
 id = "varn.slayer_finishing_until"
+
+[[varn]]
+id = "varn.bryophyta_summon_cd"

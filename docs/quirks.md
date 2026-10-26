@@ -105,6 +105,23 @@ Known deviations from live OSRS:
   **not** produced by `SmokeDevilProtection`; its source is unattributed and
   needs investigation.
 
+## Obor and Bryophyta
+
+- Obor's ranged attack uses `projanim.godwars_bandos_ranged` (a thrown
+  boulder) as the closest cache-verified projectile; his knockback uses a
+  player-flinch anim (`seq.agilityarena_player_spikedback`) since no
+  dedicated knockback sequence resolves in this revision.
+- Bryophyta's immunity while growthlings live is implemented as an
+  incoming-damage cap of 0 via `incoming { rule ... cap(0) }`, so hits show
+  a 0 hit-splat rather than refusing the swing outright.
+- Growthling damage is gated on the attacker wielding an axe or
+  `obj.fairy_enchanted_secateurs` (magic secateurs), matching OSRS; the
+  bronze-axe-only edge cases and poison-weapon interaction are not
+  modelled.
+- Bryophyta's summon cooldown uses a dedicated `varn.bryophyta_summon_cd`
+  (20 ticks between re-summons once growthlings die), an approximation of
+  the ~20-tick OSRS cooldown.
+
 ## Level-up popups
 
 `LevelUpScript` sets `varbit.busy` while `levelup_display` is open and clears
