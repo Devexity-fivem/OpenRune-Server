@@ -6,7 +6,7 @@ import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.ironman.PlayerGamemode
 import org.rsmod.api.player.ironman.isAnyIronman
-import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.ironman.setGamemode
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.script.onOpNpc4
@@ -17,7 +17,7 @@ public class IronmanTutorScript @Inject constructor() : PluginScript() {
     override fun ScriptContext.startup() {
         onOpNpc1(NPC) { startDialogue(it.npc) { talk() } }
         onOpNpc3(NPC) { startDialogue(it.npc) { giveArmour() } }
-        onOpNpc4(NPC) { ifOpenMainModal(SETUP) }
+        onOpNpc4(NPC) { startDialogue(it.npc) { changeMode(warnTutorial = false) } }
     }
 
     private suspend fun Dialogue.talk() {
@@ -198,7 +198,6 @@ public class IronmanTutorScript @Inject constructor() : PluginScript() {
 
     private suspend fun Dialogue.changeMode(warnTutorial: Boolean) {
         chatPlayer(quiz, "I'd like to change my Iron$iw mode.")
-        access.ifOpenMainModal(SETUP)
         if (warnTutorial) {
             chatNpc(
                 happy,
@@ -206,12 +205,65 @@ public class IronmanTutorScript @Inject constructor() : PluginScript() {
                     "Some things can't be changed later.",
             )
         }
+        if (!player.isAnyIronman) {
+            chatNpc(
+                neutral,
+                "I'm afraid you can only choose to be an ${std("Iron$iw")} on Tutorial Island. " +
+                    "You can't become one now.",
+            )
+            return
+        }
+        val targets = downgradesFor(player.gamemode)
+        val pick =
+            choice4(
+                "Change to ${modeName(targets[0])}.",
+                targets[0],
+                "Change to ${modeName(targets[1])}.",
+                targets[1],
+                "Become a normal account.",
+                PlayerGamemode.NORMAL,
+                "Never mind.",
+                -1,
+            )
+        if (pick == -1 || pick == player.gamemode) {
+            return
+        }
+        chatNpc(
+            sad,
+            "Are you sure? This change is ${hc("permanent")} and cannot be undone.",
+        )
+        if (choice2("Yes, change my mode.", true, "Never mind.", false)) {
+            player.setGamemode(pick)
+            chatNpc(happy, "Very well. You are now ${modeName(pick)}.")
+        }
     }
 
     private suspend fun Dialogue.reviewMode() {
         chatPlayer(quiz, "I'd like to review my Iron$iw mode.")
-        access.ifOpenMainModal(SETUP)
+        if (!player.isAnyIronman) {
+            chatNpc(happy, "You're a normal account - not an ${std("Iron$iw")}.")
+            return
+        }
+        chatNpc(happy, "You're ${modeName(player.gamemode)}. You can change your mode if you like.")
+        changeMode(warnTutorial = false)
     }
+
+    private fun downgradesFor(mode: Int): List<Int> =
+        when (mode) {
+            PlayerGamemode.HARDCORE_IRONMAN ->
+                listOf(PlayerGamemode.IRONMAN, PlayerGamemode.ULTIMATE_IRONMAN)
+            PlayerGamemode.ULTIMATE_IRONMAN ->
+                listOf(PlayerGamemode.IRONMAN, PlayerGamemode.HARDCORE_IRONMAN)
+            else -> listOf(PlayerGamemode.ULTIMATE_IRONMAN, PlayerGamemode.HARDCORE_IRONMAN)
+        }
+
+    private fun Dialogue.modeName(mode: Int): String =
+        when (mode) {
+            PlayerGamemode.IRONMAN -> std("an Iron$iw")
+            PlayerGamemode.HARDCORE_IRONMAN -> hc("a Hardcore Iron$iw")
+            PlayerGamemode.ULTIMATE_IRONMAN -> uim("an Ultimate Iron$iw")
+            else -> "a normal account"
+        }
 
     private suspend fun Dialogue.giveArmour() {
         chatPlayer(quiz, "Have you any armour for me, please?")
@@ -268,7 +320,6 @@ public class IronmanTutorScript @Inject constructor() : PluginScript() {
 
     private companion object {
         private const val NPC = "npc.ironman_tutor_1"
-        private const val SETUP = "interface.ironman_setup"
         private val MET = AttributeKey<Boolean>(persistenceKey = "ironman_tutor_adam_met")
     }
 }

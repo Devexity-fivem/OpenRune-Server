@@ -66,6 +66,29 @@ example, if `zone(0, 1, 0)` receives a `soundarea` update first and
 to fixed iteration order; whereas the official game would send `zone(0, 1, 0)`
 first since it was the earliest update.
 
+## Tutorial Island
+
+Known deviations from live OSRS:
+
+- Script-granted skill XP (fishing, woodcutting, firemaking, cooking, mining,
+  smelting) is capped at base level 3 via `tutorialXp`, matching the official
+  level-3 cap. **Combat XP is not capped**: rats/chickens award normal XP past
+  level 3 because the engine has no cancellable XP event to gate it.
+- Tutorial doors and gates have no open variants or `next_loc_stage` params in
+  the rev-241 cache (all read `content.shooting_star` with placeholder data).
+  `TutorialIslandScript` swings the same loc type to a translated+rotated tile
+  for 12 ticks instead of morphing to an open loc type. Double gates pair their
+  halves by symbol (`DOOR_PAIRS`) since the cache carries no pairing metadata.
+- Clicking a door mid-swing re-translates the temporary loc; it self-corrects
+  when the timed locs despawn and the original respawns.
+- The Ironman tutor offers standard/hardcore/ultimate and free re-selection
+  while on the island, matching OSRS. Group Ironman is not offered; the mode is
+  not supported.
+- Stage progression is monotonic in `varp.tutorial`; item grants are idempotent
+  (`TutorialInventory.supply` tops up missing counts across inventory+worn,
+  `exchange` rolls back atomically) so interrupted dialogues cannot duplicate
+  items and failed recipes cannot eat ingredients.
+
 ## Level-up popups
 
 `LevelUpScript` sets `varbit.busy` while `levelup_display` is open and clears

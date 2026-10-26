@@ -22005,6 +22005,12 @@ inherit = "npc.newbiegiantrat3"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
+id = "npc.0_48_48_newbiefishing"
+inherit = "npc.0_48_48_newbiefishing"
+moveRestrict = "NoMove"
+wanderRange = 0
+
+[[npc]]
 id = "npc.tut2_giantrat"
 inherit = "npc.tut2_giantrat"
 [npc.params]
