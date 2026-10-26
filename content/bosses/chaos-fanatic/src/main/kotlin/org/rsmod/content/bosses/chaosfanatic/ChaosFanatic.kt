@@ -10,12 +10,17 @@ import org.rsmod.api.bosses.spec.DamageExpr
 import org.rsmod.api.bosses.spec.Effect
 import org.rsmod.api.bosses.spec.TargetExpr
 import org.rsmod.api.player.output.spam
+import org.rsmod.api.player.worn.WornUnequipOp
+import org.rsmod.api.player.worn.WornUnequipResult
 import org.rsmod.game.entity.Player
 
 // OSRS wiki: ranged-magic attack (max 21) at 2 ticks. Specials: an
 // unavoidable green disarm bolt (negated only by a full inventory) and three
 // green explosions on the floor, one always on the player's tile.
-class ChaosFanatic @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+class ChaosFanatic @Inject constructor(
+    deps: BossDeps,
+    private val unequipOp: WornUnequipOp,
+) : BossPluginScript(deps) {
 
     override val spec: BossSpec = boss("npc.chaos_fanatic") {
         stats(attackRate = 2)
@@ -63,11 +68,10 @@ class ChaosFanatic @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     }
 
     private fun disarm(player: Player) {
-        val weapon = player.worn.objs[Wearpos.RightHand.slot] ?: return
-        val free = player.inv.objs.indexOfFirst { it == null }
-        if (free == -1) return
-        player.worn[Wearpos.RightHand.slot] = null
-        player.inv[free] = weapon
-        player.spam("The Chaos Fanatic has knocked your weapon out of your hands!")
+        player.worn.objs[Wearpos.RightHand.slot] ?: return
+        val result = unequipOp.unequip(player, Wearpos.RightHand.slot, player.worn, player.inv)
+        if (result is WornUnequipResult.Success) {
+            player.spam("The Chaos Fanatic has knocked your weapon out of your hands!")
+        }
     }
 }

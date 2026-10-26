@@ -45,12 +45,12 @@ constructor(private val protectedAccess: ProtectedAccessLauncher) : PluginScript
 
     private fun Player.selectPlayerPriority(comsub: Int) {
         val setting = Settings.getSetting(55)
-        SettingUtils.setDropdown(this, comsub, setting)
+        SettingUtils.setDropdown(this, comsub - 1, setting)
     }
 
     private fun Player.selectNpcPriority(comsub: Int) {
         val setting = Settings.getSetting(56)
-        SettingUtils.setDropdown(this, comsub, setting)
+        SettingUtils.setDropdown(this, comsub - 1, setting)
     }
 
     private fun Player.toggleAcceptAid() {

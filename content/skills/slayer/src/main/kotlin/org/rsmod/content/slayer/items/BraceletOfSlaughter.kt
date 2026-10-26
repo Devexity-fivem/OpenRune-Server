@@ -88,5 +88,6 @@ object BraceletOfSlaughter {
             return
         }
         player.invDel(player.worn, ITEM, count = 1, slot = handsSlot)
+        player.rebuildAppearance()
     }
 }

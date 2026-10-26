@@ -35,6 +35,7 @@ public class NecklaceOfFaithScript : PluginScript() {
             }
 
             player.invDel(player.worn, "obj.necklace_of_faith", count = 1, slot = necklaceSlot)
+            player.rebuildAppearance()
             player.mes("Your necklace of faith shatters and restores your prayer points.")
         }
     }

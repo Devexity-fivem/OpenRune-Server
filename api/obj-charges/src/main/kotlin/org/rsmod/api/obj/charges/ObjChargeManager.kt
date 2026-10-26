@@ -115,6 +115,7 @@ public class ObjChargeManager {
         if (currentCharges < decrement) {
             if (currentCharges == 0) {
                 player.worn[wearpos.slot] = InvObj(uncharged, vars = obj.vars)
+                player.rebuildAppearance()
             }
             return Uncharge.Failure.NotEnoughCharges
         }
@@ -124,6 +125,7 @@ public class ObjChargeManager {
 
         if (decrementedCharges == 0) {
             player.worn[wearpos.slot] = InvObj(uncharged, vars = decrementedPackedVars)
+            player.rebuildAppearance()
         } else {
             player.worn[wearpos.slot] = obj.copy(vars = decrementedPackedVars)
         }
