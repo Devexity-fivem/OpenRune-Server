@@ -90,3 +90,51 @@ coords = "0_39_58_43_27"
 npc = "npc.viking_dagganoth_cave_waterbirth_island"
 coords = "0_39_58_48_49"
 
+
+[[spawn]]
+npc = "npc.dagcave_ranged_boss"
+coords = "0_45_69_24_32"
+
+[[spawn]]
+npc = "npc.dagcave_magic_boss"
+coords = "0_45_69_31_37"
+
+[[spawn]]
+npc = "npc.dagcave_melee_boss"
+coords = "0_45_69_35_29"
+
+[[spawn]]
+npc = "npc.dagannoth_water_creature_1x1"
+coords = "0_45_69_26_48"
+
+[[spawn]]
+npc = "npc.dagannoth_water_creature_1x1"
+coords = "0_45_69_34_48"
+
+[[spawn]]
+npc = "npc.dagannoth_water_creature_1x1"
+coords = "0_45_69_44_45"
+
+[[spawn]]
+npc = "npc.dagannoth_water_creature_1x1"
+coords = "0_45_69_49_38"
+
+[[spawn]]
+npc = "npc.dagannoth_water_creature_1x1"
+coords = "0_45_69_51_26"
+
+[[spawn]]
+npc = "npc.dagannoth_water_creature_1x1"
+coords = "0_45_69_45_20"
+
+[[spawn]]
+npc = "npc.dagannoth_water_creature_1x1"
+coords = "0_45_69_35_17"
+
+[[spawn]]
+npc = "npc.dagannoth_water_creature_1x1"
+coords = "0_45_69_26_18"
+
+[[spawn]]
+npc = "npc.dagannoth_water_creature_1x1"
+coords = "0_45_69_19_23"

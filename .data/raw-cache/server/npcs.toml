@@ -9925,6 +9925,7 @@ inherit = "npc.jb_baby_dagganoth"
 [[npc]]
 id = "npc.dagcave_ranged_boss"
 inherit = "npc.dagcave_ranged_boss"
+attackRange = 10
 [npc.params]
 "param.attack_anim"="seq.horror_dagannoth_attack"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -9934,6 +9935,7 @@ inherit = "npc.dagcave_ranged_boss"
 [[npc]]
 id = "npc.dagcave_magic_boss"
 inherit = "npc.dagcave_magic_boss"
+attackRange = 10
 [npc.params]
 "param.attack_anim"="seq.horror_dagannoth_attack"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -9943,6 +9945,7 @@ inherit = "npc.dagcave_magic_boss"
 [[npc]]
 id = "npc.dagcave_melee_boss"
 inherit = "npc.dagcave_melee_boss"
+attackRange = 1
 [npc.params]
 "param.attack_anim"="seq.horror_dagannoth_attack"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -26634,6 +26637,7 @@ inherit = "npc.pest_spinner_5"
 [[npc]]
 id = "npc.dagannoth_water_creature_1x1"
 inherit = "npc.dagannoth_water_creature_1x1"
+attackRange = 8
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 

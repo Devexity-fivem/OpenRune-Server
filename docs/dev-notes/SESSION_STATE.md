@@ -197,6 +197,32 @@ treating main as "finished".
   ARCHITECTURE_NOTES.md). Used for Chaos Elemental structure (disarm/teleport
   weighting, 8-tile range) and to be consulted for raids/hard bosses.
 
+## Dagannoth Kings (2026-10-25) — VERIFIED LIVE
+
+`content/bosses/dagannoth-kings` — new module, four BossPluginScript classes
+(DagannothPrime/Supreme/Rex/Spinolyp). Verified live on `devin ai`:
+- Lair spawns added to `.data/raw-cache/map/npcs/waterbirth_island.toml` —
+  the DK lair (2896-2931, 4428-4466) had NO king/spinolyp spawns at all.
+  Coord format `level_zoneX_zoneY_localX_localZ` (zone*64+local).
+- Prime: `spotanim.waterwave_travel` (162) projectile at 4t cadence, splash
+  `Hit` targeting `AllInRadius(1, of=CurrentTarget)` — magic AoE killed the
+  tester (real damage). `resolveOnImpact=true` so the splash resolves at
+  land-time tile.
+- Supreme: `onEach(AllInRadius(6, Self), Projectile)` — spine proj 475
+  fired every 4t at the player, ranged anim 2855 seen live.
+- Rex: melee anim 2853 (`dagannoth_meganoth_attack_melee`), killed, dropped
+  dagannoth bones + hide + coins (drop tables already existed).
+- Boss HP bar shows "Dagannoth Kings (Echo)" — auto-integration.
+- Spinolyps: 9 spawned in the lair ring, spec has ranged spine w/ poison
+  chance + magic bolt w/ prayer-1 drain + periodic dive-reposition via
+  `dks.spinolyp_dive` extension (±2 tile telejump, water tiles aren't
+  walkable so no collision check — approximation).
+- attackRange set on the three kings (10/10/1) and spinolyp (8) via
+  camelCase `attackRange = N` field in npcs.toml — needed or they walk to
+  melee before engaging.
+- NOT yet verified: Prime splash on adjacent players (needs 2nd player),
+  spinolyp dive visuals, prayer drain proc.
+
 ## Gotchas
 
 - ALWAYS run `gradlew run`/`jar` with `--no-configuration-cache` after adding
