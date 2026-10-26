@@ -1,6 +1,7 @@
 package org.rsmod.content.skills.hunter
 
 import dev.openrune.ServerCacheManager
+import dev.openrune.rscm.RSCM
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import jakarta.inject.Inject
@@ -10,28 +11,34 @@ import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.hunterLvl
 import org.rsmod.api.player.stat.statAdvance
+import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onEvent
 import org.rsmod.api.script.onOpHeld1
+import org.rsmod.api.script.onOpHeld4
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpLoc3
 import org.rsmod.api.script.onOpLoc4
 import org.rsmod.api.script.onOpLoc5
 import org.rsmod.api.script.onOpLocU
+import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onPlayerLogout
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.table.hunter.HunterBirdSnaresRow
 import org.rsmod.api.table.hunter.HunterBoxTrapsRow
+import org.rsmod.api.table.hunter.HunterButterfliesRow
 import org.rsmod.api.table.hunter.HunterDeadfallLogsRow
 import org.rsmod.api.table.hunter.HunterDeadfallRow
 import org.rsmod.api.table.hunter.HunterNetTrapsRow
 import org.rsmod.content.skills.hunter.HunterTrapManager.Dir
 import org.rsmod.content.skills.hunter.HunterTrapManager.TrapKind
+import org.rsmod.game.entity.Npc
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 class HunterEvents
 @Inject
@@ -39,6 +46,8 @@ constructor(
     private val xpMods: XpModifiers,
     private val traps: HunterTrapManager,
     private val objRepo: ObjRepository,
+    private val npcRepo: NpcRepository,
+    private val collision: CollisionFlagMap,
 ) : PluginScript() {
 
     private val birds =
@@ -119,6 +128,19 @@ constructor(
     // Ordered lowest-tier first so the cheapest valid log is consumed.
     private val deadfallLogs = HunterDeadfallLogsRow.all().map { it.log.internalName }
 
+    val butterflies =
+        HunterButterfliesRow.all().map { row ->
+            ButterflyPrey(
+                npcSymbol = row.prey.internalName,
+                name = ServerCacheManager.getNpc(row.prey.internalName.asRSCM(RSCMType.NPC))?.name
+                    ?: row.prey.internalName,
+                level = row.level,
+                xpTenths = row.xp,
+                jarred = row.jarred.internalName,
+                releaseAnim = RSCM.getReverseMapping(RSCMType.SPOTANIM, row.releaseAnim),
+            )
+        }
+
     var logPreserveChance: Double = 0.75
 
     init {
@@ -167,8 +189,53 @@ constructor(
             }
         }
 
+        for (butterfly in butterflies) {
+            onOpNpc1(butterfly.npcSymbol) { catchButterfly(it.npc, butterfly) }
+            onOpHeld4(butterfly.jarred) { releaseButterfly(butterfly) }
+        }
+
         onEvent<GameLifecycle.LateCycle> { traps.tick() }
         onPlayerLogout { traps.clear(player) }
+    }
+
+    fun ProtectedAccess.catchButterfly(npc: Npc, butterfly: ButterflyPrey) {
+        if (player.hunterLvl < butterfly.level) {
+            mes("You need a Hunter level of at least ${butterfly.level} to catch a ${butterfly.name}.")
+            return
+        }
+        if (BUTTERFLY_NET !in player.worn && MAGIC_NET !in player.worn) {
+            mes("You need a butterfly net equipped to catch butterflies.")
+            return
+        }
+        if (!inv.contains(BUTTERFLY_JAR)) {
+            mes("You need an empty butterfly jar to catch butterflies.")
+            return
+        }
+        anim(SMALL_NET_SEQ)
+        if (Random.nextDouble() < traps.catchChance(player.hunterLvl, butterfly.level)) {
+            npcRepo.del(npc, BUTTERFLY_RESPAWN_TICKS)
+            invDel(inv, BUTTERFLY_JAR, 1)
+            player.invAddOrDrop(objRepo, butterfly.jarred)
+            statAdvance(
+                STAT_HUNTER,
+                butterfly.xpTenths / 10.0 * xpMods.get(player, STAT_HUNTER),
+            )
+            mes("You catch a ${butterfly.name}.")
+        } else {
+            val dx = Random.nextInt(-FLEE_RANGE, FLEE_RANGE + 1)
+            val dz = Random.nextInt(-FLEE_RANGE, FLEE_RANGE + 1)
+            if (dx != 0 || dz != 0) {
+                npc.teleport(collision, npc.coords.translate(dx, dz))
+            }
+            mes("The ${butterfly.name} slips through your net.")
+        }
+    }
+
+    fun ProtectedAccess.releaseButterfly(butterfly: ButterflyPrey) {
+        invDel(inv, butterfly.jarred, 1)
+        player.invAddOrDrop(objRepo, BUTTERFLY_JAR)
+        spotanim(butterfly.releaseAnim)
+        mes("You release the ${butterfly.name}.")
     }
 
     fun ProtectedAccess.layTrap(kind: TrapKind) {
@@ -283,12 +350,27 @@ constructor(
         }
     }
 
+    class ButterflyPrey(
+        val npcSymbol: String,
+        val name: String,
+        val level: Int,
+        val xpTenths: Int,
+        val jarred: String,
+        val releaseAnim: String,
+    )
+
     private companion object {
         const val DEADFALL_BOULDER = "loc.hunting_deadfall_boulder"
         const val KNIFE = "obj.knife"
         const val FLETCHING_KNIFE = "obj.fletching_knife"
         const val ROPE = "obj.rope"
         const val SMALL_NET = "obj.net"
+        const val BUTTERFLY_NET = "obj.hunting_butterfly_net"
+        const val MAGIC_NET = "obj.ii_magic_butterfly_net"
+        const val BUTTERFLY_JAR = "obj.butterfly_jar"
+        const val SMALL_NET_SEQ = "seq.human_smallnet"
+        const val BUTTERFLY_RESPAWN_TICKS = 100
+        const val FLEE_RANGE = 4
         const val RAW_BIRD_MEAT = "obj.spit_raw_bird_meat"
         const val STAT_HUNTER = "stat.hunter"
         const val LAY_SEQ = "seq.hunting_baiting_small_traps"

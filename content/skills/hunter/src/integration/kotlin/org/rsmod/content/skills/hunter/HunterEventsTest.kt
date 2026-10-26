@@ -557,6 +557,76 @@ class HunterEventsTest {
             assertEquals(true, probe.traps.trapAt(trapCoords)?.baited)
         }
 
+    @Test
+    fun GameTestState.`catching a butterfly needs the level a net and a jar`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 14)
+            val ruby = probe.events.butterflies.first { it.npcSymbol == "npc.butterfly_ruby" }
+            val npc = spawnNpc(player.coords.translateZ(2), npcType(ruby.npcSymbol))
+            player.worn[0] = InvObj(BUTTERFLY_NET)
+            player.inv[0] = InvObj(BUTTERFLY_JAR)
+
+            player.withProtectedAccess { with(probe.events) { catchButterfly(npc, ruby) } }
+            assertEquals(1, player.inv.count(BUTTERFLY_JAR))
+
+            player.setCurrentLevel("stat.hunter", 15)
+            player.worn[0] = null
+            player.withProtectedAccess { with(probe.events) { catchButterfly(npc, ruby) } }
+            assertEquals(1, player.inv.count(BUTTERFLY_JAR))
+
+            player.worn[0] = InvObj(BUTTERFLY_NET)
+            player.inv[0] = null
+            player.withProtectedAccess { with(probe.events) { catchButterfly(npc, ruby) } }
+            assertTrue(npc.isVisible)
+        }
+
+    @Test
+    fun GameTestState.`a caught butterfly fills a jar and grants xp`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.setCurrentLevel("stat.hunter", 45)
+            player.worn[0] = InvObj(BUTTERFLY_NET)
+            player.inv[0] = InvObj(BUTTERFLY_JAR)
+            val warlock = probe.events.butterflies.first { it.npcSymbol == "npc.butterfly_warlock" }
+            val npc = spawnNpc(player.coords.translateZ(2), npcType(warlock.npcSymbol))
+
+            player.withProtectedAccess { with(probe.events) { catchButterfly(npc, warlock) } }
+
+            assertEquals(0, player.inv.count(BUTTERFLY_JAR))
+            assertEquals(1, player.inv.count("obj.butterfly_jar_warlock"))
+            assertEquals(540, player.statMap.getFineXP("stat.hunter"))
+        }
+
+    @Test
+    fun GameTestState.`a missed catch keeps the jar and the butterfly flees`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            probe.traps.catchChance = { _, _ -> 0.0 }
+            player.setCurrentLevel("stat.hunter", 45)
+            player.worn[0] = InvObj(BUTTERFLY_NET)
+            player.inv[0] = InvObj(BUTTERFLY_JAR)
+            val warlock = probe.events.butterflies.first { it.npcSymbol == "npc.butterfly_warlock" }
+            val spawn = player.coords.translateZ(2)
+            val npc = spawnNpc(spawn, npcType(warlock.npcSymbol))
+
+            player.withProtectedAccess { with(probe.events) { catchButterfly(npc, warlock) } }
+
+            assertEquals(1, player.inv.count(BUTTERFLY_JAR))
+            assertEquals(0, player.inv.count("obj.butterfly_jar_warlock"))
+            assertEquals(0, player.statMap.getFineXP("stat.hunter"))
+            assertNotEquals(spawn, npc.coords)
+        }
+
+    @Test
+    fun GameTestState.`releasing a jarred butterfly returns the empty jar`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            player.inv[0] = InvObj("obj.butterfly_jar_warlock")
+
+            player.withProtectedAccess { opHeld4(0) }
+
+            assertEquals(0, player.inv.count("obj.butterfly_jar_warlock"))
+            assertEquals(1, player.inv.count(BUTTERFLY_JAR))
+        }
+
     private fun HunterEvents.swampPrey() =
         checkNotNull(netPrey.firstOrNull { it.npcSymbol == "npc.salamander_green" })
 
@@ -600,6 +670,8 @@ class HunterEventsTest {
         const val ROPE = "obj.rope"
         const val SMALL_NET = "obj.net"
         const val GUAM_TAR = "obj.salamander_tar_green"
+        const val BUTTERFLY_NET = "obj.hunting_butterfly_net"
+        const val BUTTERFLY_JAR = "obj.butterfly_jar"
     }
 
     class Probe

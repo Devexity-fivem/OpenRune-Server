@@ -14,6 +14,7 @@ class HunterPluginPack : PluginPack() {
             deadfallTable(),
             deadfallLogsTable(),
             netTrapTable(),
+            butterflyTable(),
         )
 }
 
@@ -59,6 +60,12 @@ object Hunter {
     const val NET_COL_FAILED = 8
     const val NET_COL_BAIT = 9
     const val NET_COL_CAUGHT = 10
+
+    const val FLY_COL_PREY = 0
+    const val FLY_COL_LEVEL = 1
+    const val FLY_COL_XP = 2
+    const val FLY_COL_JARRED = 3
+    const val FLY_COL_RELEASE_ANIM = 4
 }
 
 private fun DBTableBuilder.birdSnareColumns() {
@@ -137,4 +144,18 @@ private fun netTrapTable(): DBTable =
     dbTable("dbtable.hunter_net_traps", serverOnly = true) {
         netTrapColumns()
         netTrapRows()
+    }
+
+private fun DBTableBuilder.butterflyColumns() {
+    column("prey", Hunter.FLY_COL_PREY, VarType.NPC)
+    column("level", Hunter.FLY_COL_LEVEL, VarType.INT)
+    column("xp", Hunter.FLY_COL_XP, VarType.INT)
+    column("jarred", Hunter.FLY_COL_JARRED, VarType.OBJ)
+    column("release_anim", Hunter.FLY_COL_RELEASE_ANIM, VarType.GRAPHIC)
+}
+
+private fun butterflyTable(): DBTable =
+    dbTable("dbtable.hunter_butterflies", serverOnly = true) {
+        butterflyColumns()
+        butterflyRows()
     }

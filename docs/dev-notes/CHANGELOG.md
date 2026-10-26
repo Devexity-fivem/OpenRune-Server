@@ -1,5 +1,29 @@
 # Dev-notes changelog
 
+## 2026-10-26 — Hunter: butterfly catching (`dev`)
+
+- Butterfly netting via `Catch` on the four butterfly NPCs
+  (`npc.butterfly_snowy`/`_glacialis`/`_ruby`/`_warlock`): requires the
+  butterfly net (or magic net) wielded and an empty `obj.butterfly_jar` in
+  inventory. Success deletes the npc (100-tick respawn), converts a jar into
+  the species' jarred obj (`butterfly_jar_*`) and pays XP from
+  `dbtable.hunter_butterflies` (ruby 15/24, glacialis 25/34, snowy 35/44,
+  warlock 45/54 — live OSRS values). A failed roll plays the net swing and
+  teleports the butterfly a few tiles away instead of despawning.
+- Jarred butterflies release through `iop4=Release` (`onOpHeld4` — the same
+  op index coal bag/rune pouch "empty" use): returns the empty jar, plays the
+  cache `hunting_butterfly_*_out_spot_anim` (raw int column resolved through
+  `RSCM.getReverseMapping(RSCMType.SEQ, ...)`), no XP.
+- Caught live on `devin ai` at the Feldip warlocks: unwielded net correctly
+  refused ("You need a butterfly net equipped to catch butterflies."),
+  wielded catch paid the jarred warlock + exact +54 Hunter XP at xpRate 1.0,
+  Release returned the jar. Bug found and fixed live: the release binding was
+  initially `onOpHeld1` and never fired — the jarred obj puts Release on
+  `iop4`; the integration test now drives the real `opHeld4` path instead of
+  calling the handler directly.
+- 4 new integration tests (31 total): level/net/jar gates, catch converts
+  jar + XP, miss keeps jar and flees, release returns jar.
+
 ## 2026-10-26 — Hunter: net traps (`dev`)
 
 - Net traps on young trees (`hunting_sapling_up_*` static locs) via

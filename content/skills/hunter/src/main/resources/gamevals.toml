@@ -4,6 +4,7 @@ hunter_box_traps = 63007
 hunter_deadfall = 63013
 hunter_deadfall_logs = 63014
 hunter_net_traps = 63033
+hunter_butterflies = 63039
 
 [gamevals.dbrow]
 hunter_bird_crimson_swift = 63002
@@ -39,3 +40,7 @@ hunter_net_orange_salamander = 63035
 hunter_net_red_salamander = 63036
 hunter_net_black_salamander = 63037
 hunter_net_tecu_salamander = 63038
+hunter_butterfly_ruby = 63040
+hunter_butterfly_glacialis = 63041
+hunter_butterfly_snowy = 63042
+hunter_butterfly_warlock = 63043

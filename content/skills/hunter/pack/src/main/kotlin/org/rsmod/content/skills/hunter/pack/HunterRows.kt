@@ -239,6 +239,25 @@ private fun DBTableBuilder.netTrapRow(
     }
 }
 
+// xp values are in tenths (24 xp = 240). Catching consumes an empty
+// butterfly_jar and yields the jarred creature; releasing returns the jar.
+internal fun DBTableBuilder.butterflyRows() {
+    butterflyRow("ruby", "npc.butterfly_ruby", 15, 240)
+    butterflyRow("glacialis", "npc.butterfly_glacialis", 25, 340)
+    butterflyRow("snowy", "npc.butterfly_snowy", 35, 440)
+    butterflyRow("warlock", "npc.butterfly_warlock", 45, 540)
+}
+
+private fun DBTableBuilder.butterflyRow(name: String, prey: String, level: Int, xp: Int) {
+    row("dbrow.hunter_butterfly_$name") {
+        columnRSCM(Hunter.FLY_COL_PREY, prey)
+        column(Hunter.FLY_COL_LEVEL, level)
+        column(Hunter.FLY_COL_XP, xp)
+        columnRSCM(Hunter.FLY_COL_JARRED, "obj.butterfly_jar_$name")
+        columnRSCM(Hunter.FLY_COL_RELEASE_ANIM, "spotanim.hunting_butterfly_${name}_out_spot_anim")
+    }
+}
+
 private val DEADFALL_LOGS =
     listOf(
         "logs",

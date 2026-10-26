@@ -70,6 +70,13 @@ treating main as "finished".
   (salamander_tar_*) usable on armed traps for +10% catch. Rows: swamp
   29/152, orange 47/224, red 59/272, black 67/319.2, tecu 79/344.
   27 integration tests.
+- Hunter butterflies (Catch op on the 4 butterfly npcs) — VERIFIED live on
+  Black warlocks in Feldip Hills (2534,2902): wielded butterfly net + empty
+  jar -> jarred `butterfly_jar_warlock` + exact +54 XP at 1.0; Release is
+  iop4 (onOpHeld4 — NOT onOpHeld1, that bug was caught live) and returns the
+  empty jar + plays the spot anim; miss keeps the jar and teleports the npc
+  a few tiles. Rows: ruby 15/24, glacialis 25/34, snowy 35/44, warlock
+  45/54. 31 integration tests.
 - Accounts cleaned up (2026-10-26): all ad-hoc test accounts deleted from
   main.accounts; kept Devexity + devin ai (login: devin ai / devinai).
   devin ai had stale xp_rate_in_hundreds=150 in character_progress — reset
