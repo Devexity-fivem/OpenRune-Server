@@ -29,14 +29,14 @@ constructor(private val npcs: NpcList, private val random: GameRandom) : PluginS
     }
 
     private fun PlayerHitEvents.Impact.chokeUnprotected() {
-        if (!hit.isFromNpc) return
+        if (!hit.isFromNpc || hit.type == HitType.Typeless) return
         val npc = hit.resolveNpcSource(npcs) ?: return
         val key = RSCM.getReverseMapping(RSCMType.NPC, npc.type.id) ?: return
         if (key !in SMOKE_DEVILS || hasFaceProtection(player)) return
 
         player.queueHit(
             source = npc,
-            delay = 0,
+            delay = 1,
             type = HitType.Typeless,
             damage = random.of(1, CHOKE_MAX_DAMAGE),
             modifier = NoopPlayerHitModifier,
