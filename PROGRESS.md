@@ -170,6 +170,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/misc/multiways` | 2 | 36 | 0 | 0 | 2026-10-18 |
 | `areas/misc/stronghold_of_security` | 7 | 1,437 | 2 | 0 | 2026-10-18 |
 | `areas/misc/stronghold_of_security/pack` | 2 | 134 | 0 | 0 | 2026-10-18 |
+| `areas/misc/tutorial-island` | 5 | 1,203 | 1 | 0 | 2026-10-26 |
 | `areas/misc/ver_sinhaza` | 1 | 139 | 0 | 0 | 2026-10-18 |
 | `areas/misc/wizards_tower` | 4 | 1,123 | 0 | 0 | 2026-10-18 |
 | `areas/misc/wizards_tower/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
@@ -243,7 +244,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/discord` | 2 | 80 | 0 | 0 | 2026-10-18 |
 | `other/gravestones` | 8 | 934 | 2 | 2 | 2026-10-25 |
 | `other/gravestones/pack` | 1 | 6 | 0 | 0 | 2026-10-25 |
-| `other/ironman` | 5 | 352 | 0 | 0 | 2026-10-18 |
+| `other/ironman` | 5 | 403 | 0 | 0 | 2026-10-26 |
 | `other/login` | 1 | 184 | 0 | 0 | 2026-10-25 |
 | `other/mapclock` | 1 | 63 | 0 | 0 | 2026-10-22 |
 | `other/pets` | 100 | 7,853 | 0 | 0 | 2026-10-19 |
