@@ -2,6 +2,7 @@ package org.rsmod.content.raids.tfa.party
 
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
+import org.rsmod.api.instances.InstanceId
 import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.ui.ifSetText
@@ -16,11 +17,26 @@ private var Player.partyController by intVarp("varp.tfa_mycontroller")
 /** What the lobby client shows about a player's party, kept in step with [TfaParties]. */
 @Singleton
 class TfaLobby @Inject constructor(private val parties: TfaParties) {
+    private val raidParties = HashMap<InstanceId, RaidParty<TfaPartySettings>>()
+
     fun create(leader: Player, now: Int): RaidParty<TfaPartySettings>? {
         val party = parties.create(leader, TfaPartySettings(), now) ?: return null
         markInParty(leader)
         refreshLobbyHud(party)
         return party
+    }
+
+    fun bindRaid(id: InstanceId, party: RaidParty<TfaPartySettings>) {
+        raidParties[id] = party
+    }
+
+    fun raidEnded(id: InstanceId) {
+        val party = raidParties.remove(id) ?: return
+        for (member in parties.disband(party)) {
+            markNotInParty(member)
+            sendLobbyHud(member)
+            refreshDetails(member)
+        }
     }
 
     fun markInParty(player: Player) {

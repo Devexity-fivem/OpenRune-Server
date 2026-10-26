@@ -11,6 +11,7 @@ import org.rsmod.api.script.onCommand
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusEncounter
 import org.rsmod.game.MapClock
 import org.rsmod.game.cheat.Cheat
+import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -27,6 +28,11 @@ constructor(
             requiredRights = Rights.ADMINISTRATOR
             desc = "Open a fresh Ocellus instance and teleport in front of the arena entrance"
             cheat { toOcellus(phaseThree = false) }
+        }
+        onCommand("tfalobby") {
+            requiredRights = Rights.ADMINISTRATOR
+            desc = "Teleport to The Fractured Archive lobby"
+            cheat { toLobby() }
         }
         onCommand("ocellus") {
             requiredRights = Rights.ADMINISTRATOR
@@ -73,6 +79,13 @@ constructor(
         }
     }
 
+    private fun Cheat.toLobby() {
+        manager.sessionForPlayer(player)?.let { manager.leave(player, it, clock.cycle) }
+        launcher.launch(player, busyText = "Close your dialog first.") {
+            telejump(LOBBY_SPAWN, TeleportType.Exempt)
+        }
+    }
+
     private fun Cheat.toOcellus(phaseThree: Boolean) {
         manager.sessionForPlayer(player)?.let { manager.leave(player, it, clock.cycle) }
         launcher.launch(player, busyText = "Close your dialog first.") {
@@ -89,5 +102,9 @@ constructor(
         manager.finalizeEntry(player, fight.session, clock.cycle)
         if (!phaseThree) return
         mes(if (fight.startAtPhaseThree(player)) "Starting Ocellus at phase 3." else "Couldn't start Ocellus.")
+    }
+
+    private companion object {
+        val LOBBY_SPAWN = CoordGrid(4130, 5555, 0)
     }
 }

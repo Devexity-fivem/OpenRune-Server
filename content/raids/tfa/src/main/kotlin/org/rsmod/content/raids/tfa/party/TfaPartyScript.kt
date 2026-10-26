@@ -48,6 +48,8 @@ constructor(private val parties: TfaParties, private val lobby: TfaLobby) : Plug
         if (own == null) listLoop() else detailsLoop(own, tab = TAB_MEMBERS)
     }
 
+    internal suspend fun ProtectedAccess.openList() = listLoop()
+
     private suspend fun ProtectedAccess.listLoop() {
         while (true) {
             lobby.markViewing(player)
@@ -138,6 +140,10 @@ constructor(private val parties: TfaParties, private val lobby: TfaLobby) : Plug
             val text = party.members.getOrNull(slot)?.let { stats(it) }.orEmpty()
             player.runClientScript(addMember, view.ordinal, text)
         }
+        val addApplicant = ADD_APPLICANT.asRSCM(RSCMType.CLIENTSCRIPT)
+        for (applicant in party.applicants) {
+            player.runClientScript(addApplicant, stats(applicant))
+        }
         val settings = party.settings
         player.runClientScript(
             MASTER_UPDATE.asRSCM(RSCMType.CLIENTSCRIPT),
@@ -145,7 +151,7 @@ constructor(private val parties: TfaParties, private val lobby: TfaLobby) : Plug
             settings.preferredCompletions,
             settings.mode,
             settings.preferredSize,
-            settings.spectatingDisabled,
+            if (settings.spectatingDisabled) 1 else 0,
             tab,
         )
         ifSetEvents(TfaLobby.DETAILS_BUTTONS, 0 until DETAILS_BUTTON_COUNT, IfEvent.PauseButton)
@@ -322,6 +328,7 @@ constructor(private val parties: TfaParties, private val lobby: TfaLobby) : Plug
 
         const val ADD_ROW = "clientscript.tfa_partylist_addline"
         const val ADD_MEMBER = "clientscript.tfa_partydetails_addmember"
+        const val ADD_APPLICANT = "clientscript.tfa_partydetails_addapplicant"
         const val MASTER_UPDATE = "clientscript.tfa_partydetails_master"
         const val COMPLETIONS_VARP = "varp.total_completed_thefracturedarchive"
         const val MODAL_TRANSPARENCY = -2

@@ -20,6 +20,7 @@ class TfaRaidEntryScript
 constructor(
     private val parties: TfaParties,
     private val lobby: TfaLobby,
+    private val partyScript: TfaPartyScript,
     private val ocellus: OcellusEncounter,
     private val manager: InstanceManager,
     private val clock: MapClock,
@@ -29,16 +30,28 @@ constructor(
     }
 
     private suspend fun ProtectedAccess.enter() {
-        val party = parties.partyOf(player) ?: lobby.create(player, mapClock)
+        arriveDelay()
+        val party = parties.partyOf(player)
         if (party == null) {
-            mes("The list of lobby parties is currently full. Please come back later.")
+            val form =
+                choice2(
+                    "Form or join a party.",
+                    true,
+                    "Cancel.",
+                    false,
+                    title = "You are currently not in a raiding party.",
+                )
+            if (form) with(partyScript) { openList() }
             return
         }
         val room = liveRoom(party)
         when {
             room != null -> join(room)
             party.isLeader(player) -> start(party)
-            else -> mes("Wait for your party leader to enter the Archive.")
+            else -> {
+                val leader = party.leader?.displayName ?: "party leader"
+                mesbox("Your leader, $leader, must enter first.")
+            }
         }
     }
 
@@ -57,6 +70,7 @@ constructor(
                 lobby.refreshDetails(applicant)
             }
         }
+        lobby.bindRaid(room.fight.session.id, party)
         mes("You enter the Archive...")
         withInstanceEnterTransition(InstanceEnterTransition()) {
             telejump(room.enter, TeleportType.Exempt)
