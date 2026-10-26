@@ -167,15 +167,24 @@ treating main as "finished".
   Same commit: ChaosFanatic disarm now uses WornUnequipOp (was raw worn
   write, stale visual); ObjChargeManager worn swaps + BraceletOfSlaughter /
   ExpeditiousBracelet / NecklaceOfFaith invDel-on-worn now rebuildAppearance.
-- Generic NPC combat data (.data/raw-cache/server/npcs.toml, commit
-  9e5010c18): NPCs without combat params fell back to seq.human_unarmedpunch
-  at melee range — every caster/archer literally punched. Dark wizards,
-  infernal mages, chaos druids, archers etc now carry attack_anim /
-  npc_attack_type / projanim / attackRange params. VERIFIED live: wildy dark
-  wizard casts seq.human_caststrike (anim 711 observed via list_npcs) and
-  holds range while dealing damage. Only ~272/2259 npc types have params —
-  more batches needed (wiki combat-style + Kronos data/npcs/combat/*.json as
-  reference for per-NPC style/range/ticks).
+- Generic NPC combat data (.data/raw-cache/server/npcs.toml, commits
+  9e5010c18 + dfe670877): NPCs without combat params fell back to
+  seq.human_unarmedpunch at melee range — every caster/archer literally
+  punched. Batch 1: dark wizards, infernal mages, chaos druids, archers.
+  Batch 2 (mass): generated params for ~2400 npc types by matching Kronos
+  data/npcs/combat/*.json to our defs by display name — attacktype_*
+  (stab/slash/crush/magic/standard) for accuracy+protection math,
+  attackRange 10 (magic)/8 (ranged), projectile params
+  (earthstrike_travel+magic_spell / iron_arrow_travel+arrow), attackrate
+  where Kronos ticks != 4, and anims via verified seq.<sym>_attack or a
+  family map (dragon/skeleton/giant/demon/dog/goblin/scorpion/kalphite/
+  wyrm/human_sword_slash...). VERIFIED live: wildy dark wizard casts
+  human_caststrike (anim 711) at range; hill giants retaliate + deal
+  damage. Cache packs 100% clean. REMAINING GAPS: melee npcs with no
+  family anim still punch (fine mechanically); projectiles are
+  style-generic (earthstrike/arrow) not per-monster; ~45 Kronos names
+  unmatched (customs/quest dummies); npc-side aggression/hunt ranges are
+  untouched by this batch.
 - Chaos Elemental (content/bosses/chaos-elemental, commit 9e5010c18) —
   PARTIALLY VERIFIED live: spawned ~3261,3927 (zone 0_50_61_61_23), fight
   works, 4t Discord bolts fire (weighted 60% magic/20% ranged/20% crush,
