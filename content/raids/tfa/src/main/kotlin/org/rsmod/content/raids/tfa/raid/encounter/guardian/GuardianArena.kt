@@ -13,6 +13,7 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
 import org.rsmod.map.CoordGrid
+import org.rsmod.routefinder.LineValidator
 
 internal object GuardianVarns {
     const val SHIELD_MAX = "varn.guardian_shield_max"
@@ -55,14 +56,24 @@ internal object GuardianArena {
 
     fun centre(npc: Npc): CoordGrid = npc.coords.translate(HALF, HALF)
 
-    fun ringTile(centre: CoordGrid, distance: Int, random: GameRandom): CoordGrid {
+    fun ringTile(
+        centre: CoordGrid,
+        distance: Int,
+        random: GameRandom,
+        lines: LineValidator,
+    ): CoordGrid? {
         val ring = buildList {
             for (dx in -distance..distance) {
                 for (dz in -distance..distance) {
-                    if (maxOf(abs(dx), abs(dz)) == distance) add(dx to dz)
+                    if (maxOf(abs(dx), abs(dz)) != distance) continue
+                    val tile = centre.translate(dx, dz)
+                    if (lines.hasLineOfWalk(centre.level, centre.x, centre.z, tile.x, tile.z)) {
+                        add(dx to dz)
+                    }
                 }
             }
         }
+        if (ring.isEmpty()) return null
         val (dx, dz) = ring[random.of(ring.size)]
         return centre.translate(dx, dz)
     }

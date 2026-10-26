@@ -4,6 +4,7 @@ import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import dev.openrune.types.MoveRestrict
+import dev.openrune.types.NpcMode
 import org.rsmod.api.bossbar.plugin.BossHpBarScript
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossExtensionRegistry
@@ -74,6 +75,10 @@ internal class GuardianFight(
         scope.register("guardian.bar") { refreshBar() }
         scope.register("guardian.runlock") { it.target.runEnergy = 0 }
         scope.register("guardian.complete") { complete() }
+        scope.register("guardian.dead") {
+            boss.mode = NpcMode.None
+            boss.clearInteraction()
+        }
 
         val npc = Npc(START, origin)
         npc.respawnDir = Direction.South

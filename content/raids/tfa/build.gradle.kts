@@ -13,6 +13,7 @@ dependencies {
     implementation(projects.api.player)
     implementation(projects.api.playerOutput)
     implementation(projects.api.specials)
+    implementation(projects.engine.routefinder)
     implementation(projects.content.drops)
     implementation(projects.content.raids.party)
     implementation(projects.content.interfaces.collectionLog)

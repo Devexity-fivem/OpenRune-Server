@@ -1,6 +1,5 @@
 package org.rsmod.content.raids.tfa.raid.encounter.guardian
 
-import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.types.NpcMode
 import dev.openrune.rscm.RSCMType
@@ -23,19 +22,17 @@ import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianVarns.HEALTH
 import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianVarns.LANDINGS
 import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianVarns.SHIELD_MAX
 import org.rsmod.plugin.scripts.ScriptContext
+import org.rsmod.routefinder.LineValidator
 
 class GuardianBoss
 @Inject
 constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginScript(deps) {
 
+    private val lines by lazy { LineValidator(deps.collision) }
+
     private val batteryActive by lazy { BATTERY_ACTIVE.asRSCM(RSCMType.NPC) }
 
     override fun ScriptContext.startup() {
-        // The engine drops an npc's interaction once its target is further than the form's cache
-        // maxRange from the spawn tile, which would silence the Guardian anywhere in the room.
-        for (form in listOf(START, FLYING, GROUNDED)) {
-            ServerCacheManager.getNpc(form.asRSCM(RSCMType.NPC))?.maxRange = GuardianArena.REACH
-        }
         GuardianBatteryHits(deps, fights).register(this)
         BossCombat.register(this, spec, deps, onHit = { fights.of(npc)?.updateBar() })
     }
@@ -149,9 +146,9 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                             playersIn(arena),
                             onTiles(
                                 customTiles(arena) { _, target, random ->
-                                    listOf(
-                                        GuardianArena.ringTile(target.coords, 1, random),
-                                        GuardianArena.ringTile(target.coords, 3, random),
+                                    listOfNotNull(
+                                        GuardianArena.ringTile(target.coords, 1, random, lines),
+                                        GuardianArena.ringTile(target.coords, 3, random, lines),
                                     )
                                 },
                                 grow,
@@ -421,6 +418,8 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                 sequence(
                     interrupt(),
                     transitionTo(DEAD),
+                    external("guardian.dead"),
+                    faceTile(offset(Centre, 0, -DEATH_FACE_DISTANCE), instant = true),
                     anim("seq.npc_archive_guardian_death01"),
                     spotanim("spotanim.vfx_ocellus_null", height = DEATH_SPOT_HEIGHT, slot = 2),
                     after(
@@ -480,7 +479,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                 every(ENRAGE_INTERVAL, run("enrage_cycle"), firstAfter = ENRAGE_FIRST)
                 every(1, whenever(Condition.HpExact(1), run("die")))
             }
-            phase(DEAD) {}
+            phase(DEAD, lockMovement = true, scriptedMovement = true) {}
 
             every(1, mushroomTick)
 
@@ -561,6 +560,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
 
         const val DEATH_SPOT_HEIGHT = 200
         const val DEATH_CORPSE_DELAY = 7
+        const val DEATH_FACE_DISTANCE = 10
 
         fun flyingPhase(landing: Int) = "flying_$landing"
 
