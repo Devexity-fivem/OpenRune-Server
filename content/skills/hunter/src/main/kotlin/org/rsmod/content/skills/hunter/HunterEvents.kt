@@ -372,9 +372,13 @@ constructor(
         val normalNet = BUTTERFLY_NET in player.worn
         val magicNet = MAGIC_NET in player.worn
         val netted = normalNet || magicNet
-        val required = if (netted) prey.level else prey.level + IMPLING_BAREHANDED_BONUS
+        if (inPuro && !netted && !inv.contains(BUTTERFLY_NET) && !inv.contains(MAGIC_NET)) {
+            mes("You need a butterfly net to catch implings here.")
+            return
+        }
+        val required = if (netted || inPuro) prey.level else prey.level + IMPLING_BAREHANDED_BONUS
         if (player.hunterLvl < required) {
-            val how = if (netted) "" else " barehanded"
+            val how = if (netted || inPuro) "" else " barehanded"
             mes("You need a Hunter level of at least $required to catch an impling$how.")
             return
         }
@@ -383,9 +387,9 @@ constructor(
             mes("You need an empty impling jar to catch an impling.")
             return
         }
-        val jarred = requiresJar || inv.contains(IMPLING_JAR)
+        val jarred = requiresJar
         anim(IMPLING_CATCH_SEQ)
-        val boosted = magicNet || !netted
+        val boosted = magicNet || (!netted && !inPuro)
         if (Random.nextDouble() < implingCatchChance(player.hunterLvl, boosted)) {
             npc.anim(IMPLING_CAUGHT_SEQ)
             npcRepo.del(npc, prey.respawn)

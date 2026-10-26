@@ -704,18 +704,55 @@ class HunterEventsTest {
         }
 
     @Test
-    fun GameTestState.`barehanded maze catch still needs an impling jar`() =
+    fun GameTestState.`maze implings refuse barehanded catching`() =
         runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.setCurrentLevel("stat.hunter", 99)
             probe.events.implingCatchChance = { _, _ -> 1.0 }
+            player.inv[0] = InvObj(IMPLING_JAR)
             val npc = spawnNpc(player.coords.translateZ(2), npcType("npc.ii_impling_type_1_maze"))
 
             player.withProtectedAccess {
                 with(probe.events) { catchImpling(npc, probe.events.implings.first()) }
             }
 
+            assertEquals(1, player.inv.count(IMPLING_JAR))
             assertEquals(0, player.inv.count("obj.ii_captured_impling_1"))
             assertEquals(0, player.statMap.getFineXP("stat.hunter"))
+        }
+
+    @Test
+    fun GameTestState.`maze catch works with the net in inventory`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.events.implingCatchChance = { _, _ -> 1.0 }
+            player.inv[0] = InvObj(IMPLING_JAR)
+            player.inv[1] = InvObj(BUTTERFLY_NET)
+            val npc = spawnNpc(player.coords.translateZ(2), npcType("npc.ii_impling_type_1_maze"))
+
+            player.withProtectedAccess {
+                with(probe.events) { catchImpling(npc, probe.events.implings.first()) }
+            }
+
+            assertEquals(0, player.inv.count(IMPLING_JAR))
+            assertEquals(1, player.inv.count("obj.ii_captured_impling_1"))
+            assertEquals(180, player.statMap.getFineXP("stat.hunter"))
+        }
+
+    @Test
+    fun GameTestState.`barehanded catch pays loot directly even with a jar on hand`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.events.implingCatchChance = { _, _ -> 1.0 }
+            player.inv[0] = InvObj(IMPLING_JAR)
+            val npc = spawnNpc(player.coords.translateZ(2), npcType("npc.ii_impling_type_1"))
+
+            player.withProtectedAccess {
+                with(probe.events) { catchImpling(npc, probe.events.implings.first()) }
+            }
+
+            assertTrue(player.inv.count(IMPLING_JAR) >= 1)
+            assertEquals(0, player.inv.count("obj.ii_captured_impling_1"))
+            assertEquals(200, player.statMap.getFineXP("stat.hunter"))
         }
 
     @Test
