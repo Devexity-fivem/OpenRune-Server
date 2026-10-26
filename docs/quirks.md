@@ -122,6 +122,21 @@ Known deviations from live OSRS:
   (20 ticks between re-summons once growthlings die), an approximation of
   the ~20-tick OSRS cooldown.
 
+## Sarachnis
+
+- `forceWhen(HpBelow(...))` did not fire her spawn summons mid-fight in
+  live testing (no exceptions logged); the encounter instead uses
+  `triggers { on(HpBelow) runs ... }`, which evaluates every combat tick.
+  Whether `forceWhen` is broken for mid-fight conditions needs checking —
+  Scorpia's guardian summon uses the same pattern and may have the same
+  latent issue.
+- Spawn-of-Sarachnis hits on the player should heal Sarachnis; that
+  lifesteal link is not modelled.
+- The ranged/web attacks reuse `spotanim.ice_burst_impact` as the closest
+  cache-verified projectile graphic; the true web projectile has no named
+  symbol in this revision.
+- Web bind is a flat 10-tick freeze approximation.
+
 ## Level-up popups
 
 `LevelUpScript` sets `varbit.busy` while `levelup_display` is open and clears
