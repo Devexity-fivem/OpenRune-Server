@@ -3344,37 +3344,62 @@ inherit = "npc.slayer_harpiebugswarm"
 [[npc]]
 id = "npc.slayer_infernal_mage_1"
 inherit = "npc.slayer_infernal_mage_1"
+attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_infernal_mage"
 "param.killcount_notify"=false
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.firestrike_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.slayer_infernal_mage_2"
 inherit = "npc.slayer_infernal_mage_2"
+attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_infernal_mage"
 "param.killcount_notify"=false
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.firestrike_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.slayer_infernal_mage_3"
 inherit = "npc.slayer_infernal_mage_3"
+attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_infernal_mage"
 "param.killcount_notify"=false
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.firestrike_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.slayer_infernal_mage_4"
 inherit = "npc.slayer_infernal_mage_4"
+attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_infernal_mage"
 "param.killcount_notify"=false
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.firestrike_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.slayer_infernal_mage_5"
 inherit = "npc.slayer_infernal_mage_5"
+attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_infernal_mage"
 "param.killcount_notify"=false
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.firestrike_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.slayer_jelly_1"
@@ -17106,3 +17131,100 @@ wanderRange = 0
 id = "npc.poh_sawmill_opp"
 inherit = "npc.poh_sawmill_opp"
 wanderRange = 0
+
+[[npc]]
+id = "npc.bearded_dark_wizard"
+inherit = "npc.bearded_dark_wizard"
+attackRange = 10
+[npc.params]
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.earthstrike_travel"
+"param.proj_type"="projanim.magic_spell"
+
+[[npc]]
+id = "npc.young_dark_wizard"
+inherit = "npc.young_dark_wizard"
+attackRange = 10
+[npc.params]
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.earthstrike_travel"
+"param.proj_type"="projanim.magic_spell"
+
+[[npc]]
+id = "npc.fai_dark_wizard_old_1"
+inherit = "npc.fai_dark_wizard_old_1"
+attackRange = 10
+[npc.params]
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.earthstrike_travel"
+"param.proj_type"="projanim.magic_spell"
+
+[[npc]]
+id = "npc.fai_dark_wizard_old_2"
+inherit = "npc.fai_dark_wizard_old_2"
+attackRange = 10
+[npc.params]
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.earthstrike_travel"
+"param.proj_type"="projanim.magic_spell"
+
+[[npc]]
+id = "npc.fai_dark_wizard_young_1"
+inherit = "npc.fai_dark_wizard_young_1"
+attackRange = 10
+[npc.params]
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.earthstrike_travel"
+"param.proj_type"="projanim.magic_spell"
+
+[[npc]]
+id = "npc.fai_dark_wizard_young_2"
+inherit = "npc.fai_dark_wizard_young_2"
+attackRange = 10
+[npc.params]
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.earthstrike_travel"
+"param.proj_type"="projanim.magic_spell"
+
+[[npc]]
+id = "npc.wizardadventuterpg"
+inherit = "npc.wizardadventuterpg"
+attackRange = 10
+[npc.params]
+"param.attack_anim"="seq.human_caststrike"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.proj_travel"="spotanim.waterstrike_travel"
+"param.proj_type"="projanim.magic_spell"
+
+[[npc]]
+id = "npc.archeradventurerpg"
+inherit = "npc.archeradventurerpg"
+attackRange = 8
+[npc.params]
+"param.attack_anim"="seq.human_bow"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.proj_travel"="spotanim.iron_arrow_travel"
+"param.proj_type"="projanim.arrow"
+
+[[npc]]
+id = "npc.ramble_med_ranger"
+inherit = "npc.ramble_med_ranger"
+attackRange = 8
+[npc.params]
+"param.attack_anim"="seq.human_bow"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.proj_travel"="spotanim.iron_arrow_travel"
+"param.proj_type"="projanim.arrow"
+
+[[npc]]
+id = "npc.chaos_druid"
+inherit = "npc.chaos_druid"
+[npc.params]
+"param.attack_anim"="seq.human_sword_stab"
+"param.npc_attack_type"="category.attacktype_stab"
