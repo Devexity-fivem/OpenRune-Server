@@ -274,3 +274,49 @@ private val DEADFALL_LOGS =
         "magic_logs",
         "rosewood_logs",
     )
+
+// xp values are in tenths (18 xp = 180). `xp_puro` applies inside Puro-Puro,
+// `xp_gielinor` everywhere else. `npc_maze` is the Puro-Puro variant and is
+// omitted for the crystal impling, which only appears in Prifddinas.
+// `respawn` is the npc's respawn delay in ticks after a successful catch.
+// Levels are the net requirement; barehanded catching needs level + 10.
+internal fun DBTableBuilder.implingRows() {
+    implingRow("baby", 1, 17, 180, 200, 7)
+    implingRow("young", 2, 22, 200, 220, 7)
+    implingRow("gourmet", 3, 28, 220, 240, 7)
+    implingRow("earth", 4, 36, 250, 270, 50)
+    implingRow("essence", 5, 42, 270, 290, 50)
+    implingRow("eclectic", 6, 50, 300, 320, 200)
+    implingRow("nature", 7, 58, 340, 360, 200)
+    implingRow("magpie", 8, 65, 440, 2160, 200)
+    implingRow("ninja", 9, 74, 500, 2400, 200)
+    implingRow("dragon", 10, 83, 650, 3000, 200)
+    implingRow("lucky", 11, 89, 800, 3800, 200)
+    row("dbrow.hunter_impling_crystal") {
+        columnRSCM(Hunter.IMP_COL_NPC, "npc.ii_impling_type_12_johnny")
+        columnRSCM(Hunter.IMP_COL_JARRED, "obj.ii_captured_impling_12")
+        column(Hunter.IMP_COL_LEVEL, 80)
+        column(Hunter.IMP_COL_XP_PURO, 2800)
+        column(Hunter.IMP_COL_XP_GIELINOR, 2800)
+        column(Hunter.IMP_COL_RESPAWN, 200)
+    }
+}
+
+private fun DBTableBuilder.implingRow(
+    name: String,
+    type: Int,
+    level: Int,
+    xpPuro: Int,
+    xpGielinor: Int,
+    respawn: Int,
+) {
+    row("dbrow.hunter_impling_$name") {
+        columnRSCM(Hunter.IMP_COL_NPC, "npc.ii_impling_type_$type")
+        columnRSCM(Hunter.IMP_COL_NPC_MAZE, "npc.ii_impling_type_${type}_maze")
+        columnRSCM(Hunter.IMP_COL_JARRED, "obj.ii_captured_impling_$type")
+        column(Hunter.IMP_COL_LEVEL, level)
+        column(Hunter.IMP_COL_XP_PURO, xpPuro)
+        column(Hunter.IMP_COL_XP_GIELINOR, xpGielinor)
+        column(Hunter.IMP_COL_RESPAWN, respawn)
+    }
+}

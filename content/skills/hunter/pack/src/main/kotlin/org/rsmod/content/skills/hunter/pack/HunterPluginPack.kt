@@ -15,6 +15,7 @@ class HunterPluginPack : PluginPack() {
             deadfallLogsTable(),
             netTrapTable(),
             butterflyTable(),
+            implingTable(),
         )
 }
 
@@ -66,6 +67,14 @@ object Hunter {
     const val FLY_COL_XP = 2
     const val FLY_COL_JARRED = 3
     const val FLY_COL_RELEASE_ANIM = 4
+
+    const val IMP_COL_NPC = 0
+    const val IMP_COL_NPC_MAZE = 1
+    const val IMP_COL_JARRED = 2
+    const val IMP_COL_LEVEL = 3
+    const val IMP_COL_XP_PURO = 4
+    const val IMP_COL_XP_GIELINOR = 5
+    const val IMP_COL_RESPAWN = 6
 }
 
 private fun DBTableBuilder.birdSnareColumns() {
@@ -158,4 +167,20 @@ private fun butterflyTable(): DBTable =
     dbTable("dbtable.hunter_butterflies", serverOnly = true) {
         butterflyColumns()
         butterflyRows()
+    }
+
+private fun DBTableBuilder.implingColumns() {
+    column("npc", Hunter.IMP_COL_NPC, VarType.NPC)
+    column("npc_maze", Hunter.IMP_COL_NPC_MAZE, VarType.NPC)
+    column("jarred", Hunter.IMP_COL_JARRED, VarType.OBJ)
+    column("level", Hunter.IMP_COL_LEVEL, VarType.INT)
+    column("xp_puro", Hunter.IMP_COL_XP_PURO, VarType.INT)
+    column("xp_gielinor", Hunter.IMP_COL_XP_GIELINOR, VarType.INT)
+    column("respawn", Hunter.IMP_COL_RESPAWN, VarType.INT)
+}
+
+private fun implingTable(): DBTable =
+    dbTable("dbtable.hunter_implings", serverOnly = true) {
+        implingColumns()
+        implingRows()
     }

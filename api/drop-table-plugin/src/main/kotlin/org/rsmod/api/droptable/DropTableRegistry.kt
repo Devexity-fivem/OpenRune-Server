@@ -26,6 +26,7 @@ public class DropTableRegistry
 constructor(tomlResolver: DropTableTomlResolver) {
     private val tablesByNpc: MutableMap<String, MutableList<RSDropTable<Player, DropRollItem>>> = hashMapOf()
     private val tablesByLoc: MutableMap<String, RSDropTable<Player, DropRollItem>> = hashMapOf()
+    private val tablesByObj: MutableMap<String, RSDropTable<Player, DropRollItem>> = hashMapOf()
     private val tomlTablesByNpc: MutableMap<String, MutableSet<String>> = hashMapOf()
 
     private val logger = InlineLogger()
@@ -75,6 +76,8 @@ constructor(tomlResolver: DropTableTomlResolver) {
         tablesByNpc[internalName]?.firstOrNull()
 
     public fun forLoc(loc: String): RSDropTable<Player, DropRollItem>? = tablesByLoc[loc]
+
+    public fun forObj(obj: String): RSDropTable<Player, DropRollItem>? = tablesByObj[obj]
 
     /**
      * Parsing (file I/O + Jackson decode) runs in parallel since each resource is independent;
@@ -139,8 +142,8 @@ constructor(tomlResolver: DropTableTomlResolver) {
     }
 
     private fun register(table: RSDropTable<Player, DropRollItem>, source: DropTableSource) {
-        check(table.npcs.isNotEmpty() || table.locs.isNotEmpty()) {
-            "Drop table '${table.tableIdentifier}' must define at least one npc or loc."
+        check(table.npcs.isNotEmpty() || table.locs.isNotEmpty() || table.objs.isNotEmpty()) {
+            "Drop table '${table.tableIdentifier}' must define at least one npc, loc or obj."
         }
 
         table.npcs.forEach { npc ->
@@ -157,6 +160,13 @@ constructor(tomlResolver: DropTableTomlResolver) {
                 "Duplicate drop table for loc '$loc': '${tablesByLoc[loc]?.tableIdentifier}' and '${table.tableIdentifier}'."
             }
             tablesByLoc[loc] = table
+        }
+
+        table.objs.forEach { obj ->
+            check(!tablesByObj.containsKey(obj)) {
+                "Duplicate drop table for obj '$obj': '${tablesByObj[obj]?.tableIdentifier}' and '${table.tableIdentifier}'."
+            }
+            tablesByObj[obj] = table
         }
     }
 

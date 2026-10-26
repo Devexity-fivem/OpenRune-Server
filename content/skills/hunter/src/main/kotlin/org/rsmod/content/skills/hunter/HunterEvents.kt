@@ -4,10 +4,20 @@ import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dtx.core.ArgMap
+import dtx.core.RollResult
+import dtx.core.flatten
+import dtx.rs.RSDropTable
 import jakarta.inject.Inject
 import kotlin.random.Random
+import org.rsmod.api.config.refs.params
+import org.rsmod.api.droptable.DropRollItem
+import org.rsmod.api.droptable.DropTableRegistry
+import org.rsmod.api.droptable.rollCount
+import org.rsmod.api.enums.NamedEnums
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.invtx.invAddOrDrop
+import org.rsmod.api.player.events.interact.HeldObjEvents
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.hunterLvl
 import org.rsmod.api.player.stat.statAdvance
@@ -15,7 +25,9 @@ import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onEvent
 import org.rsmod.api.script.onOpHeld1
+import org.rsmod.api.script.onOpHeld3
 import org.rsmod.api.script.onOpHeld4
+import org.rsmod.api.script.onOpHeld5
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpLoc3
@@ -30,10 +42,13 @@ import org.rsmod.api.table.hunter.HunterBoxTrapsRow
 import org.rsmod.api.table.hunter.HunterButterfliesRow
 import org.rsmod.api.table.hunter.HunterDeadfallLogsRow
 import org.rsmod.api.table.hunter.HunterDeadfallRow
+import org.rsmod.api.table.hunter.HunterImplingsRow
 import org.rsmod.api.table.hunter.HunterNetTrapsRow
 import org.rsmod.content.skills.hunter.HunterTrapManager.Dir
 import org.rsmod.content.skills.hunter.HunterTrapManager.TrapKind
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
@@ -48,6 +63,8 @@ constructor(
     private val objRepo: ObjRepository,
     private val npcRepo: NpcRepository,
     private val collision: CollisionFlagMap,
+    private val dropRegistry: DropTableRegistry,
+    private val implingSpawns: ImplingSpawnManager,
 ) : PluginScript() {
 
     private val birds =
@@ -141,7 +158,45 @@ constructor(
             )
         }
 
+    val implings =
+        HunterImplingsRow.all().map { row ->
+            ImplingPrey(
+                npcSymbol = row.npc.internalName,
+                npcMazeSymbol = row.npcMaze?.internalName,
+                name = ServerCacheManager.getNpc(row.npc.internalName.asRSCM(RSCMType.NPC))?.name
+                    ?: row.npc.internalName,
+                level = row.level,
+                xpPuroTenths = row.xpPuro,
+                xpGielinorTenths = row.xpGielinor,
+                jarred = row.jarred.internalName,
+                respawn = row.respawn,
+            )
+        }
+
+    private val implingByNpcSymbol: Map<String, ImplingPrey> = buildMap {
+        for (prey in implings) {
+            put(prey.npcSymbol, prey)
+            prey.npcMazeSymbol?.let { put(it, prey) }
+        }
+        val crystal = implings.firstOrNull { it.jarred == "obj.ii_captured_impling_12" }
+        if (crystal != null) {
+            for (npc in NamedEnums.hunter_crystal_implings.values.filterNotNull()) {
+                put(npc.internalName, crystal)
+            }
+        }
+    }
+
     var logPreserveChance: Double = 0.75
+
+    /**
+     * Catch success chance per attempt: 12% at level 1 scaling linearly to 98% at
+     * 99, plus 8 percentage points when catching barehanded or with a magic
+     * butterfly net (Mod Ash, 8 July 2021).
+     */
+    var implingCatchChance: (Int, Boolean) -> Double = { level, boosted ->
+        val base = 12.0 + (98.0 - 12.0) * (level - 1) / 98.0
+        (base + if (boosted) 8.0 else 0.0).coerceAtMost(100.0) / 100.0
+    }
 
     init {
         traps.registerPrey(TrapKind.SNARE, birds)
@@ -194,7 +249,28 @@ constructor(
             onOpHeld4(butterfly.jarred) { releaseButterfly(butterfly) }
         }
 
-        onEvent<GameLifecycle.LateCycle> { traps.tick() }
+        for ((npcSymbol, prey) in implingByNpcSymbol) {
+            onOpNpc1(npcSymbol) { catchImpling(it.npc, prey) }
+        }
+        for (prey in implings) {
+            onOpHeld3(prey.jarred) { lootImpling(prey) }
+            onOpHeld5(prey.jarred) { destroyImpling(it, prey) }
+        }
+        for (symbol in IMPLING_PRECURSORS) {
+            onEvent<NpcStateEvents.Spawn>(symbol.asRSCM(RSCMType.NPC).toLong()) {
+                implingSpawns.schedule(npc)
+            }
+        }
+        onEvent<NpcStateEvents.Respawn> {
+            if (implingSpawns.isPrecursor(npc)) {
+                implingSpawns.schedule(npc)
+            }
+        }
+
+        onEvent<GameLifecycle.LateCycle> {
+            traps.tick()
+            implingSpawns.tick()
+        }
         onPlayerLogout { traps.clear(player) }
     }
 
@@ -236,6 +312,82 @@ constructor(
         player.invAddOrDrop(objRepo, BUTTERFLY_JAR)
         spotanim(butterfly.releaseAnim)
         mes("You release the ${butterfly.name}.")
+    }
+
+    fun ProtectedAccess.catchImpling(npc: Npc, prey: ImplingPrey) {
+        val inPuro = npc.type.internalName.endsWith("_maze")
+        val normalNet = BUTTERFLY_NET in player.worn
+        val magicNet = MAGIC_NET in player.worn
+        val netted = normalNet || magicNet
+        val required = if (netted) prey.level else prey.level + IMPLING_BAREHANDED_BONUS
+        if (player.hunterLvl < required) {
+            val how = if (netted) "" else " barehanded"
+            mes("You need a Hunter level of at least $required to catch an impling$how.")
+            return
+        }
+        val requiresJar = netted || inPuro
+        if (requiresJar && !inv.contains(IMPLING_JAR)) {
+            mes("You need an empty impling jar to catch an impling.")
+            return
+        }
+        val jarred = requiresJar || inv.contains(IMPLING_JAR)
+        anim(IMPLING_CATCH_SEQ)
+        val boosted = magicNet || !netted
+        if (Random.nextDouble() < implingCatchChance(player.hunterLvl, boosted)) {
+            npc.anim(IMPLING_CAUGHT_SEQ)
+            npcRepo.del(npc, prey.respawn)
+            if (jarred) {
+                invDel(inv, IMPLING_JAR, 1)
+                player.invAddOrDrop(objRepo, prey.jarred)
+                mes("You manage to catch the impling.")
+            } else {
+                giveImplingLoot(prey)
+                mes("You manage to catch the impling and acquire some loot.")
+            }
+            val xpTenths = if (inPuro) prey.xpPuroTenths else prey.xpGielinorTenths
+            statAdvance(STAT_HUNTER, xpTenths / 10.0 * xpMods.get(player, STAT_HUNTER))
+        } else {
+            npc.anim(IMPLING_DODGE_SEQ)
+            mes("The impling evades your attempt.")
+        }
+    }
+
+    fun ProtectedAccess.lootImpling(prey: ImplingPrey) {
+        val table = dropRegistry.forObj(prey.jarred) ?: return
+        invDel(inv, prey.jarred, 1)
+        giveImplingLoot(prey, table)
+        mes("You rummage through the impling jar.")
+    }
+
+    suspend fun ProtectedAccess.destroyImpling(event: HeldObjEvents.Op5, prey: ImplingPrey) {
+        val header =
+            event.type.paramOrNull(params.destroy_note_title)
+                ?: "Are you sure you want to destroy this jar?"
+        val text =
+            event.type.paramOrNull(params.destroy_note_desc)
+                ?: "If you destroy the jar, the impling inside will escape."
+        if (!confirmDestroy(prey.jarred, 1, header, text)) {
+            return
+        }
+        invDel(inv, prey.jarred, 1)
+    }
+
+    private fun ProtectedAccess.giveImplingLoot(
+        prey: ImplingPrey,
+        table: RSDropTable<Player, DropRollItem>? = dropRegistry.forObj(prey.jarred),
+    ) {
+        if (table == null) return
+        when (val result = table.roll(player, ArgMap()).flatten()) {
+            is RollResult.Nothing -> Unit
+            is RollResult.Single -> giveImplingDrop(result.result)
+            is RollResult.ListOf -> result.results.forEach { giveImplingDrop(it) }
+        }
+    }
+
+    private fun ProtectedAccess.giveImplingDrop(drop: DropRollItem) {
+        if (drop.isNothing || !drop.condition(player)) return
+        val obj = drop.transformObj(player) ?: drop.obj
+        player.invAddOrDrop(objRepo, obj, drop.rollCount(random))
     }
 
     fun ProtectedAccess.layTrap(kind: TrapKind) {
@@ -359,6 +511,17 @@ constructor(
         val releaseAnim: String,
     )
 
+    class ImplingPrey(
+        val npcSymbol: String,
+        val npcMazeSymbol: String?,
+        val name: String,
+        val level: Int,
+        val xpPuroTenths: Int,
+        val xpGielinorTenths: Int,
+        val jarred: String,
+        val respawn: Int,
+    )
+
     private companion object {
         const val DEADFALL_BOULDER = "loc.hunting_deadfall_boulder"
         const val KNIFE = "obj.knife"
@@ -368,6 +531,19 @@ constructor(
         const val BUTTERFLY_NET = "obj.hunting_butterfly_net"
         const val MAGIC_NET = "obj.ii_magic_butterfly_net"
         const val BUTTERFLY_JAR = "obj.butterfly_jar"
+        const val IMPLING_JAR = "obj.ii_impling_jar"
+        const val IMPLING_BAREHANDED_BONUS = 10
+        const val IMPLING_CATCH_SEQ = "seq.hunting_impling_catch"
+        const val IMPLING_DODGE_SEQ = "seq.ii_impling_dodge"
+        const val IMPLING_CAUGHT_SEQ = "seq.ii_impling_caught"
+        val IMPLING_PRECURSORS =
+            setOf(
+                "npc.ii_common_impling_precursor",
+                "npc.ii_uncommon_impling_precursor",
+                "npc.ii_rare_impling_precursor",
+                "npc.ii_rare_impling_precursor_maze",
+                "npc.ii_impling_type_12_precursor",
+            )
         const val SMALL_NET_SEQ = "seq.human_smallnet"
         const val BUTTERFLY_RESPAWN_TICKS = 100
         const val FLEE_RANGE = 4

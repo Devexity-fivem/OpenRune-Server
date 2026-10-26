@@ -5,6 +5,10 @@ hunter_deadfall = 63013
 hunter_deadfall_logs = 63014
 hunter_net_traps = 63033
 hunter_butterflies = 63039
+hunter_implings = 63056
+
+[gamevals.enum]
+hunter_crystal_implings = 60000
 
 [gamevals.dbrow]
 hunter_bird_crimson_swift = 63002
@@ -44,3 +48,15 @@ hunter_butterfly_ruby = 63040
 hunter_butterfly_glacialis = 63041
 hunter_butterfly_snowy = 63042
 hunter_butterfly_warlock = 63043
+hunter_impling_baby = 63044
+hunter_impling_young = 63045
+hunter_impling_gourmet = 63046
+hunter_impling_earth = 63047
+hunter_impling_essence = 63048
+hunter_impling_eclectic = 63049
+hunter_impling_nature = 63050
+hunter_impling_magpie = 63051
+hunter_impling_ninja = 63052
+hunter_impling_dragon = 63053
+hunter_impling_lucky = 63054
+hunter_impling_crystal = 63055

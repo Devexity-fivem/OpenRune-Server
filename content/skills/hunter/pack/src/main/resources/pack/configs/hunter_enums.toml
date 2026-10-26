@@ -1,0 +1,24 @@
+[[enum]]
+isServerOnly = true
+id = "enum.hunter_crystal_implings"
+keyType = "INT"
+valueType = "NPC"
+
+[enum.values]
+1 = "npc.ii_impling_type_12_johnny"
+2 = "npc.ii_impling_type_12_junior"
+3 = "npc.ii_impling_type_12_andy"
+4 = "npc.ii_impling_type_12_joey"
+5 = "npc.ii_impling_type_12_trouble"
+6 = "npc.ii_impling_type_12_hingy"
+7 = "npc.ii_impling_type_12_zolty"
+8 = "npc.ii_impling_type_12_neil"
+9 = "npc.ii_impling_type_12_yanny"
+10 = "npc.ii_impling_type_12_matty"
+11 = "npc.ii_impling_type_12_stace"
+12 = "npc.ii_impling_type_12_ian"
+13 = "npc.ii_impling_type_12_jamie"
+14 = "npc.ii_impling_type_12_damo"
+15 = "npc.ii_impling_type_12_xander"
+16 = "npc.ii_impling_type_12_steveo"
+17 = "npc.ii_impling_type_12_stewie"

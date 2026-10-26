@@ -6,12 +6,15 @@ public fun npcs(vararg ids: String): List<String> = ids.toList()
 
 public fun locs(vararg ids: String): List<String> = ids.toList()
 
+public fun objs(vararg ids: String): List<String> = ids.toList()
+
 public fun areas(vararg ids: String): List<String> = ids.toList()
 
 public class RSDropTableBuilder<T, R> {
     public var tableIdentifier: String = "Unnamed Drop Table"
     public var npcs: List<String> = emptyList()
     public var locs: List<String> = emptyList()
+    public var objs: List<String> = emptyList()
     public var areas: List<String> = emptyList()
     public var guaranteed: RSTable<T, R> = RSGuaranteedTable.Empty()
     public var preRoll: RSTable<T, R> = RSPreRollTable.Empty()
@@ -29,6 +32,10 @@ public class RSDropTableBuilder<T, R> {
         locs = ids.toList()
     }
 
+    public fun objs(vararg ids: String) {
+        objs = ids.toList()
+    }
+
     public fun areas(vararg ids: String) {
         areas = ids.toList()
     }
@@ -38,6 +45,7 @@ public class RSDropTableBuilder<T, R> {
             tableIdentifier = tableIdentifier,
             npcs = npcs,
             locs = locs,
+            objs = objs,
             areas = areas,
             guaranteed = guaranteed,
             preRoll = preRoll,

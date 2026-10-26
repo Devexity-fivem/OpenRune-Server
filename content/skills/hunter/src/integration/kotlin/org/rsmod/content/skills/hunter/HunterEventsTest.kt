@@ -1,5 +1,6 @@
 package org.rsmod.content.skills.hunter
 
+import com.google.inject.AbstractModule
 import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
@@ -7,11 +8,15 @@ import jakarta.inject.Inject
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
+import org.rsmod.api.droptable.toml.DropTableTomlResolver
+import org.rsmod.api.player.input.ResumePauseButtonInput
 import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.testing.GameTestState
+import org.rsmod.content.drops.toml.ContentDropTableTomlResolver
 import org.rsmod.content.skills.hunter.HunterTrapManager.State
 import org.rsmod.content.skills.hunter.HunterTrapManager.TrapKind
+import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.InvObj
 import org.rsmod.game.loc.BoundLocInfo
@@ -26,7 +31,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`laying a snare consumes the item and spawns an armed trap`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.inv[0] = InvObj(SNARE)
 
             player.withProtectedAccess { with(probe.events) { layTrap(TrapKind.SNARE) } }
@@ -38,7 +43,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`laying a box trap consumes the item and spawns an armed trap`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.inv[0] = InvObj(BOX_TRAP)
 
             player.withProtectedAccess { with(probe.events) { layTrap(TrapKind.BOX) } }
@@ -51,7 +56,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`trap limit is enforced by hunter level`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.inv[0] = InvObj(SNARE, 5)
 
             player.withProtectedAccess { with(probe.events) { layTrap(TrapKind.SNARE) } }
@@ -68,7 +73,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`snares and box traps share the same trap limit`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.inv[0] = InvObj(SNARE)
             player.inv[1] = InvObj(BOX_TRAP, 3)
 
@@ -84,7 +89,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`the wilderness allows one extra box trap`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.insideWilderness = true
             player.inv[0] = InvObj(BOX_TRAP, 5)
 
@@ -101,7 +106,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a nearby bird is caught and the trap yields loot`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.inv[0] = InvObj(SNARE)
             spawnNpc(player.coords.translateX(2), npcType("npc.hunting_bird_jungle"))
@@ -128,7 +133,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a nearby chinchompa is caught and yields the captured animal`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.setCurrentLevel("stat.hunter", 63)
             player.inv[0] = InvObj(BOX_TRAP)
@@ -151,7 +156,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a caught embertailed jerboa leaves only its tail`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.setCurrentLevel("stat.hunter", 39)
             player.inv[0] = InvObj(BOX_TRAP)
@@ -173,7 +178,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`the trapping loc shows the side the prey entered from`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.setCurrentLevel("stat.hunter", 63)
             player.inv[0] = InvObj(BOX_TRAP)
@@ -199,7 +204,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a trap cannot trigger while the owner stands on it`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.inv[0] = InvObj(SNARE)
             spawnNpc(player.coords.translateX(2), npcType("npc.hunting_bird_jungle"))
@@ -223,7 +228,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a failed catch leaves a broken trap that can be reset`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 0.0 }
             player.inv[0] = InvObj(BOX_TRAP)
             player.setCurrentLevel("stat.hunter", 63)
@@ -247,7 +252,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`dismantling an armed trap returns the snare`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.inv[0] = InvObj(SNARE)
 
             player.withProtectedAccess { with(probe.events) { layTrap(TrapKind.SNARE) } }
@@ -259,7 +264,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`dismantling an armed box trap returns the box trap`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.inv[0] = InvObj(BOX_TRAP)
 
             player.withProtectedAccess { with(probe.events) { layTrap(TrapKind.BOX) } }
@@ -271,7 +276,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`birds above the hunter level never trigger the trap`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.inv[0] = InvObj(SNARE)
             // Tropical wagtail requires level 19; the test player is level 1.
@@ -287,7 +292,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`box prey above the hunter level never trigger the trap`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.inv[0] = InvObj(BOX_TRAP)
             // Grey chinchompas require level 53; the test player is level 1.
@@ -303,7 +308,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a deadfall needs a knife and a log in the inventory`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.setCurrentLevel("stat.hunter", 33)
             val boulder = deadfallBoulder(probe, player.coords)
 
@@ -325,7 +330,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`setting a deadfall preserves the log most of the time`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.setCurrentLevel("stat.hunter", 33)
             player.inv[0] = InvObj(KNIFE)
             player.inv[1] = InvObj(LOGS)
@@ -343,7 +348,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`at most two deadfalls can be set at once`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.setCurrentLevel("stat.hunter", 80)
             player.inv[0] = InvObj(KNIFE)
             player.inv[1] = InvObj(LOGS, 5)
@@ -361,7 +366,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a deadfall catch drops bones the part and the meat`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.setCurrentLevel("stat.hunter", 33)
             player.inv[0] = InvObj(KNIFE)
@@ -385,7 +390,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a sprung deadfall disappears without a resettable state`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 0.0 }
             player.setCurrentLevel("stat.hunter", 33)
             player.inv[0] = InvObj(KNIFE)
@@ -401,7 +406,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`prey entering a deadfall from the back uses the mirrored loc`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.setCurrentLevel("stat.hunter", 33)
             player.inv[0] = InvObj(KNIFE)
@@ -428,7 +433,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`deadfall prey above the hunter level never trigger the trap`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.inv[0] = InvObj(KNIFE)
             player.inv[1] = InvObj(LOGS)
@@ -444,7 +449,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a net trap needs a rope a net and the hunter level`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.setCurrentLevel("stat.hunter", 29)
             val tree = netTree(probe, player.coords)
 
@@ -465,7 +470,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a net trap catches only the salamander of its tree`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.setCurrentLevel("stat.hunter", 80)
             player.inv[0] = InvObj(ROPE)
@@ -483,7 +488,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`checking a caught net trap returns the salamander and materials`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.setCurrentLevel("stat.hunter", 29)
             player.inv[0] = InvObj(ROPE)
@@ -511,7 +516,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a failed net trap can be reset or dismantled for materials`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 0.0 }
             player.setCurrentLevel("stat.hunter", 29)
             player.inv[0] = InvObj(ROPE, 2)
@@ -540,7 +545,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`baiting an armed net trap consumes the tar`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.setCurrentLevel("stat.hunter", 29)
             player.inv[0] = InvObj(ROPE)
             player.inv[1] = InvObj(SMALL_NET)
@@ -559,7 +564,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`catching a butterfly needs the level a net and a jar`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.setCurrentLevel("stat.hunter", 14)
             val ruby = probe.events.butterflies.first { it.npcSymbol == "npc.butterfly_ruby" }
             val npc = spawnNpc(player.coords.translateZ(2), npcType(ruby.npcSymbol))
@@ -582,7 +587,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a caught butterfly fills a jar and grants xp`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 1.0 }
             player.setCurrentLevel("stat.hunter", 45)
             player.worn[0] = InvObj(BUTTERFLY_NET)
@@ -599,7 +604,7 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`a missed catch keeps the jar and the butterfly flees`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             probe.traps.catchChance = { _, _ -> 0.0 }
             player.setCurrentLevel("stat.hunter", 45)
             player.worn[0] = InvObj(BUTTERFLY_NET)
@@ -618,13 +623,229 @@ class HunterEventsTest {
 
     @Test
     fun GameTestState.`releasing a jarred butterfly returns the empty jar`() =
-        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
             player.inv[0] = InvObj("obj.butterfly_jar_warlock")
 
             player.withProtectedAccess { opHeld4(0) }
 
             assertEquals(0, player.inv.count("obj.butterfly_jar_warlock"))
             assertEquals(1, player.inv.count(BUTTERFLY_JAR))
+        }
+
+    @Test
+    fun GameTestState.`catching an impling with a net fills a jar and grants gielinor xp`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.events.implingCatchChance = { _, _ -> 1.0 }
+            player.worn[0] = InvObj(BUTTERFLY_NET)
+            player.inv[0] = InvObj(IMPLING_JAR)
+            val npc = spawnNpc(player.coords.translateZ(2), npcType("npc.ii_impling_type_1"))
+
+            player.withProtectedAccess {
+                with(probe.events) { catchImpling(npc, probe.events.implings.first()) }
+            }
+
+            assertEquals(0, player.inv.count(IMPLING_JAR))
+            assertEquals(1, player.inv.count("obj.ii_captured_impling_1"))
+            assertEquals(200, player.statMap.getFineXP("stat.hunter"))
+        }
+
+    @Test
+    fun GameTestState.`catching a maze impling grants puro-puro xp`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.events.implingCatchChance = { _, _ -> 1.0 }
+            player.worn[0] = InvObj(BUTTERFLY_NET)
+            player.inv[0] = InvObj(IMPLING_JAR)
+            val npc = spawnNpc(player.coords.translateZ(2), npcType("npc.ii_impling_type_1_maze"))
+
+            player.withProtectedAccess {
+                with(probe.events) { catchImpling(npc, probe.events.implings.first()) }
+            }
+
+            assertEquals(1, player.inv.count("obj.ii_captured_impling_1"))
+            assertEquals(180, player.statMap.getFineXP("stat.hunter"))
+        }
+
+    @Test
+    fun GameTestState.`barehanded catching needs ten extra levels`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 20)
+            probe.events.implingCatchChance = { _, _ -> 1.0 }
+            player.inv[0] = InvObj(IMPLING_JAR)
+            val npc = spawnNpc(player.coords.translateZ(2), npcType("npc.ii_impling_type_1"))
+
+            player.withProtectedAccess {
+                with(probe.events) { catchImpling(npc, probe.events.implings.first()) }
+            }
+
+            assertEquals(1, player.inv.count(IMPLING_JAR))
+            assertEquals(0, player.inv.count("obj.ii_captured_impling_1"))
+            assertEquals(0, player.statMap.getFineXP("stat.hunter"))
+        }
+
+    @Test
+    fun GameTestState.`barehanded catch outside puro-puro needs no jar and pays loot directly`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.events.implingCatchChance = { _, _ -> 1.0 }
+            val npc = spawnNpc(player.coords.translateZ(2), npcType("npc.ii_impling_type_2"))
+
+            player.withProtectedAccess {
+                with(probe.events) { catchImpling(npc, probe.events.implings[1]) }
+            }
+
+            assertEquals(0, player.inv.count("obj.ii_captured_impling_2"))
+            assertEquals(220, player.statMap.getFineXP("stat.hunter"))
+        }
+
+    @Test
+    fun GameTestState.`barehanded maze catch still needs an impling jar`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.events.implingCatchChance = { _, _ -> 1.0 }
+            val npc = spawnNpc(player.coords.translateZ(2), npcType("npc.ii_impling_type_1_maze"))
+
+            player.withProtectedAccess {
+                with(probe.events) { catchImpling(npc, probe.events.implings.first()) }
+            }
+
+            assertEquals(0, player.inv.count("obj.ii_captured_impling_1"))
+            assertEquals(0, player.statMap.getFineXP("stat.hunter"))
+        }
+
+    @Test
+    fun GameTestState.`looting an impling jar removes the jarred item and rolls loot`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            var jarReturns = 0
+            var lootRolls = 0
+            repeat(40) {
+                for (slot in 0 until player.inv.size) {
+                    player.inv[slot] = null
+                }
+                player.inv[0] = InvObj("obj.ii_captured_impling_1")
+                player.withProtectedAccess { opHeld3(0) }
+                assertEquals(0, player.inv.count("obj.ii_captured_impling_1"))
+                if (player.inv.count(IMPLING_JAR) == 1) jarReturns++
+                val extra = player.inv.count { it != null } - player.inv.count(IMPLING_JAR)
+                if (extra > 0) lootRolls++
+            }
+            assertTrue(lootRolls >= 25)
+            assertTrue(jarReturns >= 25)
+        }
+
+    @Test
+    fun GameTestState.`destroying an impling jar removes it after confirmation`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.inv[0] = InvObj("obj.ii_captured_impling_1")
+
+            player.withProtectedAccess { opHeld5(0) }
+
+            val coroutine = player.activeCoroutine
+            assertNotNull(coroutine)
+            if (coroutine.isAwaiting(ResumePauseButtonInput::class)) {
+                coroutine.resumeWith(
+                    ResumePauseButtonInput("component.confirmdestroy:universe", 1)
+                )
+            }
+
+            assertEquals(0, player.inv.count("obj.ii_captured_impling_1"))
+        }
+
+    @Test
+    fun GameTestState.`cancelling the destroy dialog keeps the impling jar`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.inv[0] = InvObj("obj.ii_captured_impling_1")
+
+            player.withProtectedAccess { opHeld5(0) }
+
+            val coroutine = player.activeCoroutine
+            assertNotNull(coroutine)
+            if (coroutine.isAwaiting(ResumePauseButtonInput::class)) {
+                coroutine.resumeWith(
+                    ResumePauseButtonInput("component.confirmdestroy:universe", 0)
+                )
+            }
+
+            assertEquals(1, player.inv.count("obj.ii_captured_impling_1"))
+        }
+
+    @Test
+    fun GameTestState.`lucky impling jar has no loot table yet and stays put`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.inv[0] = InvObj("obj.ii_captured_impling_11")
+
+            player.withProtectedAccess { opHeld3(0) }
+
+            assertEquals(1, player.inv.count("obj.ii_captured_impling_11"))
+        }
+
+    @Test
+    fun GameTestState.`impling precursor manifests as an impling after the invisible wait`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            val npc =
+                spawnNpc(
+                    player.coords.translateZ(2),
+                    npcType("npc.ii_common_impling_precursor"),
+                )
+
+            probe.mapClock.cycle += 300
+            probe.implingSpawns.tick()
+
+            assertNotNull(npc.transmog)
+            assertTrue(npc.visType.internalName.startsWith("npc.ii_impling_type_"))
+        }
+
+    @Test
+    fun GameTestState.`manifested impling cycles back to visible after the window closes`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            val npc =
+                spawnNpc(
+                    player.coords.translateZ(2),
+                    npcType("npc.ii_common_impling_precursor"),
+                )
+
+            probe.mapClock.cycle += 300
+            probe.implingSpawns.tick()
+            assertNotNull(npc.transmog)
+
+            // The engine expires the transmog at the end of the visible window.
+            npc.resetTransmog()
+            probe.mapClock.cycle += 3000
+            probe.implingSpawns.tick()
+            probe.mapClock.cycle += 300
+            probe.implingSpawns.tick()
+
+            assertNotNull(npc.transmog)
+        }
+
+    @Test
+    fun GameTestState.`catching a manifested impling consumes a jar and produces the jarred type`() =
+        runInjectedGameTest(Probe::class, HunterTestModule(), HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 99)
+            probe.events.implingCatchChance = { _, _ -> 1.0 }
+            player.worn[0] = InvObj(BUTTERFLY_NET)
+            player.inv[0] = InvObj(IMPLING_JAR)
+            val npc =
+                spawnNpc(
+                    player.coords.translateZ(2),
+                    npcType("npc.ii_common_impling_precursor"),
+                )
+
+            probe.mapClock.cycle += 300
+            probe.implingSpawns.tick()
+            val manifested = npc.visType
+            val prey =
+                checkNotNull(
+                    probe.events.implings.firstOrNull { it.npcSymbol == manifested.internalName }
+                )
+
+            player.withProtectedAccess {
+                with(probe.events) { catchImpling(npc, prey) }
+            }
+
+            assertEquals(0, player.inv.count(IMPLING_JAR))
+            assertEquals(1, player.inv.count(prey.jarred))
         }
 
     private fun HunterEvents.swampPrey() =
@@ -672,6 +893,13 @@ class HunterEventsTest {
         const val GUAM_TAR = "obj.salamander_tar_green"
         const val BUTTERFLY_NET = "obj.hunting_butterfly_net"
         const val BUTTERFLY_JAR = "obj.butterfly_jar"
+        const val IMPLING_JAR = "obj.ii_impling_jar"
+    }
+
+    private class HunterTestModule : AbstractModule() {
+        override fun configure() {
+            bind(DropTableTomlResolver::class.java).to(ContentDropTableTomlResolver::class.java)
+        }
     }
 
     class Probe
@@ -680,5 +908,7 @@ class HunterEventsTest {
         val events: HunterEvents,
         val traps: HunterTrapManager,
         val locRepo: LocRepository,
+        val implingSpawns: ImplingSpawnManager,
+        val mapClock: MapClock,
     )
 }

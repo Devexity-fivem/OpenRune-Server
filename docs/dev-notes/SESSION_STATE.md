@@ -77,6 +77,35 @@ treating main as "finished".
   empty jar + plays the spot anim; miss keeps the jar and teleports the npc
   a few tiles. Rows: ruby 15/24, glacialis 25/34, snowy 35/44, warlock
   45/54. 31 integration tests.
+- Hunter implings (content/skills/hunter + content/drops/tables/items/
+  ImplingJarDropTables.kt) — INTEGRATION-TESTED (43 tests), live verify
+  pending (MCP bridge offline). Catch op1 on npc.ii_impling_type_1..11 +
+  _maze variants + the 17 type_12 crystal gang; requirements+XP from the
+  CURRENT wiki (OSRS rebalanced: baby needs 17 now — 17/22/28/36/42/50/58/
+  65/74/80/83/89; Puro vs Gielinor XP e.g. baby 18/20, lucky 80/380).
+  Barehanded = +10 levels; jar required when netted OR in Puro (maze npcs);
+  barehanded-with-jar still jars the catch; barehanded-no-jar outside Puro
+  pays loot directly. Catch chance = Ash formula: 12%->98% linear at lv1->99
+  +8pp for barehanded/magic-net (injectable `implingCatchChance` for tests).
+  anims: seq.hunting_impling_catch on player, seq.ii_impling_dodge on miss
+  (NO teleport — implings don't flee per-catch), seq.ii_impling_caught on
+  the npc. `Loot` (iop3/onOpHeld3) rolls RSDropTable per jarred obj — NEW:
+  objs() binding + DropTableRegistry.forObj (api/drop-table[ -plugin]).
+  9/10 jar return + clue tertiaries per table; gourmet pre-rolls grubby key
+  1/500. `Destroy` (iop5) uses the real confirmDestroy dialog (params
+  fallback text since jars carry no destroy_note params). Lucky jar loot is
+  BLOCKED on Treasure Trails reward tables (table absent by design — Loot
+  no-ops, jar kept). Dragon jar's MM2-gated dragon javelin tips roll
+  unconditionally — MM2 varp doesn't exist yet (documented deviation).
+  `ImplingSpawnManager` drives precursor lifecycle: ii_*_impling_precursor
+  npcs (invisible, vislevel=0, 61 static spawns) manifest as a real impling
+  (npc.transmog) after 100-300t invisible roam, stay ~3000t, revert; exact
+  wiki tier pools (common 20/20/20/20/10/10, uncommon 10/10/20/37/20/2/1,
+  rare /101, rare_maze /301, Prif crystal = uniform pick of the 17 gang).
+  Catch a manifested impling -> precursor re-adds via Spawn event -> cycle
+  restarts. NOTE for live verify: implings manifest ~1-3 min after spawn —
+  tele to 2571,4305 (Puro maze) or stand near an overworld precursor and
+  WAIT; they're invisible at first by design.
 - Accounts cleaned up (2026-10-26): all ad-hoc test accounts deleted from
   main.accounts; kept Devexity + devin ai (login: devin ai / devinai).
   devin ai had stale xp_rate_in_hundreds=150 in character_progress — reset
