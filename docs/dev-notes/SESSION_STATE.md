@@ -223,6 +223,26 @@ treating main as "finished".
 - NOT yet verified: Prime splash on adjacent players (needs 2nd player),
   spinolyp dive visuals, prayer drain proc.
 
+## Thermonuclear smoke devil (2026-10-25) — VERIFIED LIVE
+
+`content/bosses/thermy`. Both branches of the facemask mechanic verified
+on `devin ai` in the Smoke Devil Dungeon (2360,9452):
+- Unprotected: `forceWhen(Condition.Custom(no-face-protection), smoke)`
+  replaces every attack — flat 18 magic hit + "smoke blinds and damages
+  you" / "A facemask can protect you" every 4t; killed the tester.
+- Protected (`obj.slayer_facemask`): normal spit resumes —
+  `spotanim.smoke_devil_smoke_proj` (644) projectile every 4t.
+- Kill dropped rune dagger + ashes.
+- GOTCHA caught live: the facemask is `obj.slayer_facemask` (4164), not
+  `obj.face_mask`. Slayer helm keys all share the `obj.slayer_helm` prefix.
+- Attack anim `seq.lore_dust_devil_attack` (3847); Kronos rev-184's
+  projectile 643 is the on-player spot in 241 (`smoke_devil_smoke_player_
+  spotanim`); the travel proj is `spotanim.smoke_devil_smoke_proj` (644).
+- Kronos SmokeDevil.smokeAttack() confirmed mechanics: 8-tile range,
+  fixed 18 unprotected, max 8 normal, attack replaces rather than adds.
+- Not yet: regular/superior smoke devils share the facemask mechanic in
+  OSRS — spec currently only bound to `npc.smoke_devil_boss`.
+
 ## Gotchas
 
 - ALWAYS run `gradlew run`/`jar` with `--no-configuration-cache` after adding
