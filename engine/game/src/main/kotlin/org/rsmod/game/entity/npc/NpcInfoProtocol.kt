@@ -8,6 +8,10 @@ public interface NpcInfoProtocol {
 
     public fun setSpotanim(spotanim: Int, delay: Int, height: Int, slot: Int)
 
+    public fun setBaseAnimationSet(walkAnim: Int, readyAnim: Int)
+
+    public fun resetBaseAnimationSet()
+
     public fun setSay(text: String)
 
     public fun setFacePathingEntity(slot: Int)
@@ -77,6 +81,10 @@ public data object NoopNpcInfo : NpcInfoProtocol {
     override fun setSequence(seq: Int, delay: Int) {}
 
     override fun setSpotanim(spotanim: Int, delay: Int, height: Int, slot: Int) {}
+
+    override fun setBaseAnimationSet(walkAnim: Int, readyAnim: Int) {}
+
+    override fun resetBaseAnimationSet() {}
 
     override fun setSay(text: String) {}
 

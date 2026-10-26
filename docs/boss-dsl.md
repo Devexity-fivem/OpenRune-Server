@@ -1039,7 +1039,7 @@ no neighbour is free. Usually wrapped in `onEach(playersOn(tile), knockback(...)
 | Builder | Effect | Runtime |
 |---|---|---|
 | `anim(seq, delay = 0)` | `Anim` | `npc.anim(seq, delay)` on the caster; `delay` in client cycles. |
-| `idleAnim(seq)` / `clearIdleAnim()` | `IdleAnim(seq?)` | Sets or clears the caster's idle anim. `transitionTo` and automatic phase changes overwrite it with the phase's `idleAnim`. |
+| `idleAnim(seq)` / `clearIdleAnim()` | `IdleAnim(seq?)` | Sets or clears the caster's walk/ready pose through the client base animation set (as OSRS does), so the loop is sent once and survives other anims; send the loop `anim` yourself if the real fight does. Clearing with an `anim` already queued that tick keeps that anim; otherwise it sends a reset. `transitionTo` and automatic phase changes overwrite it with the phase's `idleAnim`. |
 | `resetAnim()` | `ResetAnim` | Stops the caster's current anim. |
 | `spotanim(spot, height = 0, delay = 0)` | `Spotanim` | Plays on the **caster**, not the target. For the target use the hit's `spotanim(...)`; for a tile use `mapSpotanim`. |
 | `mapSpotanim(spot, at, height = 0, delay = 0)` | `MapSpotanim` | Map (tile) spotanim at the resolved `at`. Top-level only. |

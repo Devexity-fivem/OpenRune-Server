@@ -17,6 +17,14 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setSpotAnim(slot, spotanim, delay, height)
     }
 
+    override fun setBaseAnimationSet(walkAnim: Int, readyAnim: Int) {
+        rspAvatar.extendedInfo.setBaseAnimationSet(walkAnim = walkAnim, readyAnim = readyAnim)
+    }
+
+    override fun resetBaseAnimationSet() {
+        rspAvatar.extendedInfo.resetBaseAnimationSet()
+    }
+
     override fun setSay(text: String) {
         rspAvatar.extendedInfo.setSay(text)
     }

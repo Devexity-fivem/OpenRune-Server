@@ -63,6 +63,7 @@ internal class OcellusFinalAbilities {
                 icon(HEADICON_DEFLECT_MELEE, OcellusCurses.DEFLECT_MELEE),
                 external(OcellusPhaseTwo.DEFLECT_START, params = OcellusDeflect.Style.Ranged),
             ),
+            sequence(wait(CURSES_LOOP_AT), anim(DEFLECT_LOOP_SEQ)),
             sequence(wait(CURSES_FRAGMENT_AT), fragment(levitating = true)),
             sequence(
                 wait(CURSES_DEFLECT_OUT_AT),
@@ -103,6 +104,7 @@ internal class OcellusFinalAbilities {
         const val HEADICON_DEFLECT_MELEE = 15
         const val HEADICON_DEFLECT_MISSILES = 16
         const val CURSES_LENGTH = 60
+        const val CURSES_LOOP_AT = 2
         const val CURSES_FRAGMENT_AT = 3
         const val CURSES_DEFLECT_OUT_AT = 21
         const val CURSES_HYBRID_AT = 24

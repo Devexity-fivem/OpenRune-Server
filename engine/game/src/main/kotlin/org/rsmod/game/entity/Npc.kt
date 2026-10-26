@@ -182,12 +182,11 @@ public class Npc(
     public var actionDelay: Int = -1
 
     /**
-     * A persistent idle/stand animation override.
+     * A persistent idle/stand animation override, applied to the client as the npc's base
+     * animation set.
      */
     public var idleSequence: EntitySeq = EntitySeq.NULL
         private set
-
-    public var idleSequenceSentAt: Int = -1
 
     public var transmog: NpcServerType? = null
         private set
@@ -397,20 +396,27 @@ public class Npc(
     }
 
     /**
-     * Sets a persistent idle animation [seq] that the engine keeps displayed while the npc is
-     * stationary and not animating. See [idleSequence].
+     * Sets the npc's walk and ready animations to [seq] through the base animation set, so the
+     * client loops it by itself between other animations. See [idleSequence].
      */
     public fun setIdleAnim(seq: String) {
-        idleSequence = EntitySeq(seq.asRSCM(RSCMType.SEQ), delay = 0, priority = 0)
-        idleSequenceSentAt = -1
+        val id = seq.asRSCM(RSCMType.SEQ)
+        idleSequence = EntitySeq(id, delay = 0, priority = 0)
+        infoProtocol.setBaseAnimationSet(walkAnim = id, readyAnim = id)
     }
 
-    /** Clears the persistent idle animation, reverting the npc to its cache `standAnim`. */
+    /**
+     * Reverts the npc to its cache base animations. A sequence already queued this tick is left
+     * alone so an exit animation can play before or after the clear; otherwise the looping
+     * sequence is cancelled.
+     */
     public fun clearIdleAnim() {
-        val wasSet = idleSequence != EntitySeq.NULL
+        if (idleSequence == EntitySeq.NULL) {
+            return
+        }
         idleSequence = EntitySeq.NULL
-        idleSequenceSentAt = -1
-        if (wasSet) {
+        infoProtocol.resetBaseAnimationSet()
+        if (pendingSequence == EntitySeq.NULL) {
             resetAnim()
         }
     }
