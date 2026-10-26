@@ -89,6 +89,18 @@ Known deviations from live OSRS:
   `exchange` rolls back atomically) so interrupted dialogues cannot duplicate
   items and failed recipes cannot eat ingredients.
 
+## Smoke devils
+
+Known deviations from live OSRS:
+
+- `SmokeDevilProtection` makes unmasked hits from `npc.smoke_devil` and
+  `npc.superior_smoke_devil` queue an extra typeless hit (1-8) and drain
+  combat stats. OSRS gates smoke devils behind **93 Slayer and an active
+  Slayer task** — no Slayer task system exists yet, so that gate and the
+  Slayer level check are not enforced.
+- Exact choke damage/drain cadence is approximated; the unmasked outcome
+  (rapid extra damage + stat drain) matches the documented mechanic.
+
 ## Level-up popups
 
 `LevelUpScript` sets `varbit.busy` while `levelup_display` is open and clears

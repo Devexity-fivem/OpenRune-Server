@@ -1,8 +1,5 @@
 package org.rsmod.content.bosses.thermy
 
-import dev.openrune.rscm.RSCM
-import dev.openrune.rscm.RSCMType
-import dev.openrune.util.Wearpos
 import jakarta.inject.Inject
 import org.rsmod.api.bosses.dsl.boss
 import org.rsmod.api.bosses.runtime.BossDeps
@@ -12,7 +9,6 @@ import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.DamageExpr
 import org.rsmod.api.bosses.spec.Effect
 import org.rsmod.api.bosses.spec.HitType
-import org.rsmod.game.entity.Player
 
 // OSRS wiki + Kronos-184 (io.ruin SmokeDevil/ThermonuclearSmokeDevil): attacks
 // at range 8 with a smoke projectile (max 8). When the target wears no face
@@ -59,10 +55,4 @@ internal fun thermonuclearSmokeDevilSpec(): BossSpec = boss("npc.smoke_devil_bos
             +random(spit, weight = 1)
         }
     }
-}
-
-private fun hasFaceProtection(player: Player): Boolean {
-    val hat = player.worn.objs[Wearpos.Hat.slot] ?: return false
-    val key = RSCM.getReverseMapping(RSCMType.OBJ, hat.id) ?: return false
-    return key == "obj.slayer_facemask" || key.startsWith("obj.slayer_helm")
 }
