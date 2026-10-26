@@ -12,13 +12,16 @@ import org.rsmod.api.player.ui.ifOpenMainModal
 import org.rsmod.api.player.ui.ifSetEvents
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.script.onArea
+import org.rsmod.api.script.onEvent
 import org.rsmod.api.script.onAreaExit
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.script.onPlayerLogout
 import org.rsmod.content.raids.party.RaidParty
 import org.rsmod.content.raids.party.RaidPartyRegistry.ApplyResult
+import org.rsmod.content.raids.tfa.raid.reward.TfaVault
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.player.SessionStateEvent
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -39,6 +42,9 @@ constructor(private val parties: TfaParties, private val lobby: TfaLobby) : Plug
         onOpLoc1("loc.tfa_grouping_board") { openBoard() }
         onArea(LOBBY_AREA) { openLobbyHud() }
         onAreaExit(LOBBY_AREA) { exitLobby() }
+        onEvent<SessionStateEvent.PrepareLogin> {
+            if (lobby.wasInRaid(player)) player.coords = TfaVault.LOBBY
+        }
         onPlayerLogin { lobby.markNotInParty(player) }
         onPlayerLogout { lobby.leave(player) }
     }

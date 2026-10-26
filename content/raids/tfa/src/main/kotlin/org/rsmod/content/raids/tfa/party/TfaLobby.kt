@@ -46,6 +46,13 @@ class TfaLobby @Inject constructor(private val parties: TfaParties) {
         player.partyStatus = STATUS_IN_PARTY
     }
 
+    fun markInRaid(player: Player) {
+        player.partyController = IN_RAID
+        player.partyStatus = STATUS_IN_PARTY
+    }
+
+    fun wasInRaid(player: Player): Boolean = player.partyController == IN_RAID
+
     fun markNotInParty(player: Player) {
         player.partyController = NOT_IN_PARTY
         player.partyStatus = STATUS_NONE
@@ -113,6 +120,7 @@ class TfaLobby @Inject constructor(private val parties: TfaParties) {
 
         private const val NOT_IN_PARTY = -1
         private const val IN_PARTY = 0
+        private const val IN_RAID = 1
         private const val STATUS_NONE = 0
         private const val STATUS_IN_PARTY = 1
         private const val STATUS_STEP_INSIDE = 2

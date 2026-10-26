@@ -68,11 +68,12 @@ constructor(
     private fun closeFor(player: Player) {
         if (player.pendingLogout || player.loggingOut) return
         player.ifCloseOverlay(INTERFACE, eventBus)
+        lobby.sync(player)
     }
 
     private fun open(player: Player, party: RaidParty<TfaPartySettings>) {
         player.ifOpenFullOverlay(INTERFACE, eventBus)
-        lobby.markInParty(player)
+        lobby.markInRaid(player)
         VarPlayerIntMapSetter.set(player, PARTY_SLOT, party.members.indexOf(player) + 1)
         val names = Array(PARTY_CAPACITY) { party.members.getOrNull(it)?.displayName.orEmpty() }
         player.runClientScript(NAMES_SCRIPT.asRSCM(RSCMType.CLIENTSCRIPT), *names)
