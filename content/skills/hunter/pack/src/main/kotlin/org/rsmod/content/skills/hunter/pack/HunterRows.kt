@@ -157,6 +157,88 @@ internal fun DBTableBuilder.deadfallLogRows() {
     }
 }
 
+// xp values are in tenths (152 xp = 1520). The tree and trap locs are per-biome:
+// `tree` is the static young tree, `armed` the strung net, `catching`/`failing` the
+// transition states and `failed` the collapsed trap. Swamp mixes stems: its
+// catching/full locs use `_green` while the rest use `_swamp`.
+internal fun DBTableBuilder.netTrapRows() {
+    netTrapRow(
+        "swamp_lizard",
+        "npc.salamander_green",
+        29,
+        1520,
+        "swamp",
+        "green",
+        "obj.salamander_tar_green",
+        "obj.green_salamander",
+    )
+    netTrapRow(
+        "orange_salamander",
+        "npc.salamander_orange",
+        47,
+        2240,
+        "orange",
+        "orange",
+        "obj.salamander_tar_orange",
+        "obj.orange_salamander",
+    )
+    netTrapRow(
+        "red_salamander",
+        "npc.salamander_red",
+        59,
+        2720,
+        "red",
+        "red",
+        "obj.salamander_tar_red",
+        "obj.red_salamander",
+    )
+    netTrapRow(
+        "black_salamander",
+        "npc.salamander_black",
+        67,
+        3192,
+        "black",
+        "black",
+        "obj.salamander_tar_black",
+        "obj.black_salamander",
+    )
+    netTrapRow(
+        "tecu_salamander",
+        "npc.salamander_mountain",
+        79,
+        3440,
+        "mountain",
+        "mountain",
+        "obj.salamander_tar_mountain",
+        "obj.mountain_salamander",
+    )
+}
+
+private fun DBTableBuilder.netTrapRow(
+    name: String,
+    prey: String,
+    level: Int,
+    xp: Int,
+    suffix: String,
+    catchSuffix: String,
+    bait: String,
+    caught: String,
+) {
+    row("dbrow.hunter_net_$name") {
+        columnRSCM(Hunter.NET_COL_PREY, prey)
+        column(Hunter.NET_COL_LEVEL, level)
+        column(Hunter.NET_COL_XP, xp)
+        columnRSCM(Hunter.NET_COL_TREE, "loc.hunting_sapling_up_$suffix")
+        columnRSCM(Hunter.NET_COL_ARMED, "loc.hunting_sapling_net_set_$suffix")
+        columnRSCM(Hunter.NET_COL_CATCHING, "loc.hunting_sapling_catching_$catchSuffix")
+        columnRSCM(Hunter.NET_COL_FULL, "loc.hunting_sapling_full_$catchSuffix")
+        columnRSCM(Hunter.NET_COL_FAILING, "loc.hunting_sapling_failing_$suffix")
+        columnRSCM(Hunter.NET_COL_FAILED, "loc.hunting_sapling_failed_$suffix")
+        columnRSCM(Hunter.NET_COL_BAIT, bait)
+        columnRSCM(Hunter.NET_COL_CAUGHT, caught)
+    }
+}
+
 private val DEADFALL_LOGS =
     listOf(
         "logs",

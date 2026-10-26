@@ -8,7 +8,13 @@ import dev.openrune.pack.PluginPack
 
 class HunterPluginPack : PluginPack() {
     override fun dbTables(): List<DBTable> =
-        listOf(birdSnareTable(), boxTrapTable(), deadfallTable(), deadfallLogsTable())
+        listOf(
+            birdSnareTable(),
+            boxTrapTable(),
+            deadfallTable(),
+            deadfallLogsTable(),
+            netTrapTable(),
+        )
 }
 
 object Hunter {
@@ -41,6 +47,18 @@ object Hunter {
     const val DEAD_COL_MEAT = 7
 
     const val DEAD_LOG_COL = 0
+
+    const val NET_COL_PREY = 0
+    const val NET_COL_LEVEL = 1
+    const val NET_COL_XP = 2
+    const val NET_COL_TREE = 3
+    const val NET_COL_ARMED = 4
+    const val NET_COL_CATCHING = 5
+    const val NET_COL_FULL = 6
+    const val NET_COL_FAILING = 7
+    const val NET_COL_FAILED = 8
+    const val NET_COL_BAIT = 9
+    const val NET_COL_CAUGHT = 10
 }
 
 private fun DBTableBuilder.birdSnareColumns() {
@@ -99,4 +117,24 @@ private fun deadfallLogsTable(): DBTable =
     dbTable("dbtable.hunter_deadfall_logs", serverOnly = true) {
         column("log", Hunter.DEAD_LOG_COL, VarType.OBJ)
         deadfallLogRows()
+    }
+
+private fun DBTableBuilder.netTrapColumns() {
+    column("prey", Hunter.NET_COL_PREY, VarType.NPC)
+    column("level", Hunter.NET_COL_LEVEL, VarType.INT)
+    column("xp", Hunter.NET_COL_XP, VarType.INT)
+    column("tree", Hunter.NET_COL_TREE, VarType.LOC)
+    column("armed", Hunter.NET_COL_ARMED, VarType.LOC)
+    column("catching", Hunter.NET_COL_CATCHING, VarType.LOC)
+    column("full_loc", Hunter.NET_COL_FULL, VarType.LOC)
+    column("failing", Hunter.NET_COL_FAILING, VarType.LOC)
+    column("failed", Hunter.NET_COL_FAILED, VarType.LOC)
+    column("bait", Hunter.NET_COL_BAIT, VarType.OBJ)
+    column("caught", Hunter.NET_COL_CAUGHT, VarType.OBJ)
+}
+
+private fun netTrapTable(): DBTable =
+    dbTable("dbtable.hunter_net_traps", serverOnly = true) {
+        netTrapColumns()
+        netTrapRows()
     }

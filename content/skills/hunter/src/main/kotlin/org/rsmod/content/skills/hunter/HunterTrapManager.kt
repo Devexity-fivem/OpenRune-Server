@@ -56,8 +56,9 @@ constructor(
         if (!canSet(player, kind)) {
             return null
         }
+        val armed = kind.armedLoc ?: return null
         val loc =
-            locRepo.add(coords, kind.armedLoc, Int.MAX_VALUE, LocAngle.West, LocShape.CentrepieceStraight)
+            locRepo.add(coords, armed, Int.MAX_VALUE, LocAngle.West, LocShape.CentrepieceStraight)
         val trap = HunterTrap(player, loc, coords, kind)
         traps += trap
         return trap
@@ -76,8 +77,38 @@ constructor(
         if (!canSet(player, TrapKind.DEADFALL) || trapAt(coords) != null) {
             return null
         }
-        val loc = locRepo.add(coords, TrapKind.DEADFALL.armedLoc, Int.MAX_VALUE, angle, shape)
+        val loc =
+            locRepo.add(
+                coords,
+                checkNotNull(TrapKind.DEADFALL.armedLoc),
+                Int.MAX_VALUE,
+                angle,
+                shape,
+            )
         val trap = HunterTrap(player, loc, coords, TrapKind.DEADFALL)
+        traps += trap
+        return trap
+    }
+
+    /**
+     * Sets a net trap on a static young tree: like a deadfall the trap overlays the
+     * loc, so deleting it later reveals the original tree. The tree type fixes the
+     * prey, so [HunterTrap.prey] is assigned at set time rather than when a creature
+     * triggers it.
+     */
+    fun setNetTrap(
+        player: Player,
+        coords: CoordGrid,
+        angle: LocAngle,
+        shape: LocShape,
+        prey: TrapPrey,
+    ): HunterTrap? {
+        if (!canSet(player, TrapKind.NET) || trapAt(coords) != null) {
+            return null
+        }
+        val armed = checkNotNull(prey.armedLoc)
+        val loc = locRepo.add(coords, armed, Int.MAX_VALUE, angle, shape)
+        val trap = HunterTrap(player, loc, coords, TrapKind.NET, prey = prey)
         traps += trap
         return trap
     }
@@ -93,11 +124,12 @@ constructor(
 
     fun reset(trap: HunterTrap) {
         if (trap.state != State.FAILED && trap.state != State.CAUGHT) return
-        transition(trap, trap.kind.armedLoc)
+        transition(trap, armedLoc(trap))
         trap.state = State.ARMED
         trap.scanCycle = 0
-        trap.prey = null
+        trap.prey = if (trap.kind == TrapKind.NET) trap.prey else null
         trap.preyNpc = null
+        trap.baited = false
     }
 
     fun preyFor(trap: HunterTrap): TrapPrey? = trap.prey
@@ -184,12 +216,12 @@ constructor(
         }
         npcRepo.del(npc, PREY_RESPAWN_TICKS)
         trap.preyNpc = null
-        if (catchRoll(trap.owner.hunterLvl, prey.level)) {
+        if (catchRoll(trap.owner.hunterLvl, prey.level, trap.baited)) {
             transition(trap, prey.trappingLoc(trap.fromDir, trap.mirroredEntry()))
             trap.state = State.TRAPPING
             trap.stateCycle = 0
         } else {
-            transition(trap, trap.kind.failingLoc)
+            transition(trap, failingLoc(trap))
             trap.state = State.FAILING
             trap.stateCycle = 0
         }
@@ -208,7 +240,7 @@ constructor(
 
     private fun tickFailing(trap: HunterTrap) {
         if (++trap.stateCycle < FAILING_TICKS) return
-        val broken = trap.kind.brokenLoc
+        val broken = trap.prey?.failedLoc ?: trap.kind.brokenLoc
         if (broken != null) {
             transition(trap, broken)
             trap.state = State.FAILED
@@ -251,6 +283,8 @@ constructor(
             if (!npc.isVisible || npc.coords.level != trap.coords.level) continue
             val prey = preyMap[npc.type.id] ?: continue
             if (npc in targeted || prey.level > hunterLvl) continue
+            // A net trap's prey is fixed by the tree it was strung on.
+            if (trap.prey != null && npc.type.id != trap.prey?.npcId) continue
             val dist = chebyshev(npc.coords, trap.coords)
             if (dist < bestDist) {
                 best = npc
@@ -267,8 +301,10 @@ constructor(
         (0.55 + (level - required) * 0.02).coerceIn(0.10, 0.95)
     }
 
-    private fun catchRoll(level: Int, required: Int): Boolean =
-        Random.nextDouble() < catchChance(level, required)
+    private fun catchRoll(level: Int, required: Int, baited: Boolean): Boolean {
+        val chance = catchChance(level, required) + if (baited) BAIT_BONUS else 0.0
+        return Random.nextDouble() < chance
+    }
 
     fun registerPrey(kind: TrapKind, prey: List<TrapPrey>) {
         preyByNpcId[kind] = prey.associateBy { it.npcId }
@@ -291,15 +327,22 @@ constructor(
         WEST("w"),
     }
 
+    private fun armedLoc(trap: HunterTrap): String =
+        trap.prey?.armedLoc ?: checkNotNull(trap.kind.armedLoc)
+
+    private fun failingLoc(trap: HunterTrap): String =
+        trap.prey?.failingLoc ?: checkNotNull(trap.kind.failingLoc)
+
     enum class TrapKind(
         val item: String?,
-        val armedLoc: String,
-        val failingLoc: String,
+        val armedLoc: String?,
+        val failingLoc: String?,
         val brokenLoc: String?,
         val display: String,
         val suppressesOwner: Boolean,
         val kindLimit: Int?,
         val wide: Boolean,
+        val materials: List<String> = emptyList(),
     ) {
         SNARE(
             item = "obj.hunting_ojibway_bird_snare",
@@ -331,6 +374,17 @@ constructor(
             kindLimit = 2,
             wide = true,
         ),
+        NET(
+            item = null,
+            armedLoc = null,
+            failingLoc = null,
+            brokenLoc = null,
+            display = "net trap",
+            suppressesOwner = false,
+            kindLimit = null,
+            wide = false,
+            materials = listOf("obj.rope", "obj.net"),
+        ),
     }
 
     class HunterTrap(
@@ -344,6 +398,7 @@ constructor(
         var fromDir: Dir? = null,
         var scanCycle: Int = 0,
         var stateCycle: Int = 0,
+        var baited: Boolean = false,
     ) {
         // A prey entering a deadfall from the boulder's back side uses the mirrored loc.
         fun mirroredEntry(): Boolean = fromDir != null && fromDir == backDir(loc.angle)
@@ -371,6 +426,12 @@ constructor(
         val featherMax: Int = 0,
         val caughtItem: String? = null,
         val fixedDrops: List<String> = emptyList(),
+        // Net-trap traps keep all state locs per prey because they differ by biome.
+        val treeLoc: String? = null,
+        val armedLoc: String? = null,
+        val failingLoc: String? = null,
+        val failedLoc: String? = null,
+        val bait: String? = null,
     ) {
         fun trappingLoc(fromDir: Dir?, mirrored: Boolean): String {
             val locs = if (mirrored) mirroredTrappingLocs ?: trappingLocs else trappingLocs
@@ -384,5 +445,6 @@ constructor(
         const val TRAPPING_TICKS = 4
         const val FAILING_TICKS = 3
         const val PREY_RESPAWN_TICKS = 100
+        const val BAIT_BONUS = 0.10
     }
 }

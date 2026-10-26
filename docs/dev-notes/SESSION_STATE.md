@@ -61,6 +61,15 @@ treating main as "finished".
   (barb-tailed +134 at 1.0), and the tile reverts to the boulder. Own cap of
   2 traps. Rows: wild 23/102.4, barb-tailed 33/134.4, prickly 37/147.2,
   sabre 51/160, pyre fox 57/177.6. 22 integration tests.
+- Hunter net traps (TrapKind.NET, rope+net on young trees) — VERIFIED live
+  at Uzer (3406,3134): Set-trap on the static Young tree (8732) arms
+  net_set (8731), orange salamanders trigger catching -> full (8734,
+  Check/Reset), Check pays the wieldable salamander + rope + net + exact XP
+  (+224 x2 at 1.0), tree restored. Prey is pinned by the tree loc;
+  per-biome locs (net_set/catching/full/failing/failed). Tar bait
+  (salamander_tar_*) usable on armed traps for +10% catch. Rows: swamp
+  29/152, orange 47/224, red 59/272, black 67/319.2, tecu 79/344.
+  27 integration tests.
 - Accounts cleaned up (2026-10-26): all ad-hoc test accounts deleted from
   main.accounts; kept Devexity + devin ai (login: devin ai / devinai).
   devin ai had stale xp_rate_in_hundreds=150 in character_progress — reset

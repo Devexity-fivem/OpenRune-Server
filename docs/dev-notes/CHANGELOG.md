@@ -1,5 +1,28 @@
 # Dev-notes changelog
 
+## 2026-10-26 — Hunter: net traps (`dev`)
+
+- Net traps on young trees (`hunting_sapling_up_*` static locs) via
+  `TrapKind.NET`: no carried item — Set-trap needs rope + small fishing net
+  (`obj.net`), which are returned on check/dismantle. Per-biome loc set
+  (`net_set`/`catching`/`full`/`failing`/`failed`) is keyed off the tree, so
+  prey is fixed at set time and only that salamander can trigger it.
+- `dbtable.hunter_net_traps` rows (live OSRS values): swamp lizard 29/152.0,
+  orange 47/224.0, red 59/272.0, black 67/319.2, tecu 79/344.0 — caught item
+  is the wieldable creature itself; each row carries its tar bait item.
+- Optional baiting: use `salamander_tar_*` on an armed net trap to consume it
+  for a +10% catch roll (approximation of OSRS bait bonus; exact value is not
+  published). Bait does not persist across a Reset.
+- Live-verified on `devin ai` at Uzer: Set-trap on `Young tree` (8732) arms
+  `net_set` (8731), an orange salamander triggered `catching` -> `full`
+  (8734, Check/Reset), Check paid the salamander + rope + net + exact +224 XP
+  twice at xpRate 1.0, and the tree was restored each time.
+- 5 new integration tests (27 total): rope/net/level gates, species-pinned
+  prey, catch loot + materials + XP, failed->reset/dismantle, bait consume.
+- Note: embedded Postgres (port 54729 this boot) had to be relaunched
+  manually after `taskkill` on the old server orphaned the postmaster —
+  `postgres.exe -D .data/postgres -p <port> ...` then `gradlew run` reuses it.
+
 ## 2026-10-26 — Hunter: deadfall traps (`dev`)
 
 - Deadfall trapping (kebbits + pyre fox) on the generalized trap manager:

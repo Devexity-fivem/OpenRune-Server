@@ -8,6 +8,7 @@ import kotlin.random.Random
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.stat.hunterLvl
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onEvent
@@ -17,12 +18,14 @@ import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpLoc3
 import org.rsmod.api.script.onOpLoc4
 import org.rsmod.api.script.onOpLoc5
+import org.rsmod.api.script.onOpLocU
 import org.rsmod.api.script.onPlayerLogout
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.table.hunter.HunterBirdSnaresRow
 import org.rsmod.api.table.hunter.HunterBoxTrapsRow
 import org.rsmod.api.table.hunter.HunterDeadfallLogsRow
 import org.rsmod.api.table.hunter.HunterDeadfallRow
+import org.rsmod.api.table.hunter.HunterNetTrapsRow
 import org.rsmod.content.skills.hunter.HunterTrapManager.Dir
 import org.rsmod.content.skills.hunter.HunterTrapManager.TrapKind
 import org.rsmod.game.loc.BoundLocInfo
@@ -93,6 +96,26 @@ constructor(
             )
         }
 
+    val netPrey =
+        HunterNetTrapsRow.all().map { row ->
+            HunterTrapManager.TrapPrey(
+                name = ServerCacheManager.getNpc(row.prey.internalName.asRSCM(RSCMType.NPC))?.name
+                    ?: row.prey.internalName,
+                npcSymbol = row.prey.internalName,
+                npcId = row.prey.id,
+                level = row.level,
+                xpTenths = row.xp,
+                fullLoc = row.fullLoc.internalName,
+                trappingLocs = Dir.entries.associateWith { row.catching.internalName },
+                caughtItem = row.caught.internalName,
+                treeLoc = row.tree.internalName,
+                armedLoc = row.armed.internalName,
+                failingLoc = row.failing.internalName,
+                failedLoc = row.failed.internalName,
+                bait = row.bait.internalName,
+            )
+        }
+
     // Ordered lowest-tier first so the cheapest valid log is consumed.
     private val deadfallLogs = HunterDeadfallLogsRow.all().map { it.log.internalName }
 
@@ -102,6 +125,7 @@ constructor(
         traps.registerPrey(TrapKind.SNARE, birds)
         traps.registerPrey(TrapKind.BOX, boxPrey)
         traps.registerPrey(TrapKind.DEADFALL, deadfallPrey)
+        traps.registerPrey(TrapKind.NET, netPrey)
     }
 
     override fun ScriptContext.startup() {
@@ -111,7 +135,8 @@ constructor(
         }
 
         for (kind in TrapKind.entries) {
-            onLocOp(kind.armedLoc, "Dismantle") { dismantleTrap(it.coords) }
+            val armed = kind.armedLoc ?: continue
+            onLocOp(armed, "Dismantle") { dismantleTrap(it.coords) }
             val broken = kind.brokenLoc ?: continue
             onLocOp(broken, "Dismantle") { dismantleTrap(it.coords) }
             onLocOp(broken, "Reset") { loc ->
@@ -121,7 +146,20 @@ constructor(
 
         onLocOp(DEADFALL_BOULDER, "Set-trap") { setDeadfallTrap(it) }
 
-        for (prey in birds + boxPrey + deadfallPrey) {
+        for (prey in netPrey) {
+            val tree = prey.treeLoc ?: continue
+            onLocOp(tree, "Set-trap") { setNetTrap(it, prey) }
+            prey.armedLoc?.let { armed ->
+                onLocOp(armed, "Dismantle") { loc -> dismantleTrap(loc.coords) }
+                prey.bait?.let { bait -> onOpLocU(armed, bait) { baitTrap(it.loc.coords, bait) } }
+            }
+            prey.failedLoc?.let { failed ->
+                onLocOp(failed, "Dismantle") { loc -> dismantleTrap(loc.coords) }
+                onLocOp(failed, "Reset") { loc -> traps.trapAt(loc.coords)?.let(traps::reset) }
+            }
+        }
+
+        for (prey in birds + boxPrey + deadfallPrey + netPrey) {
             onLocOp(prey.fullLoc, "Check") { loc -> checkTrap(loc.coords) }
             onLocOp(prey.fullLoc, "Dismantle") { loc -> dismantleTrap(loc.coords) }
             onLocOp(prey.fullLoc, "Reset") { loc ->
@@ -170,10 +208,41 @@ constructor(
         traps.setDeadfall(player, bound.coords, bound.angle, bound.shape)
     }
 
+    fun ProtectedAccess.setNetTrap(bound: BoundLocInfo, prey: HunterTrapManager.TrapPrey) {
+        if (!traps.canSet(player, TrapKind.NET)) {
+            mes("You cannot set up more traps at your Hunter level.")
+            return
+        }
+        if (traps.trapAt(bound.coords) != null) {
+            return
+        }
+        if (player.hunterLvl < prey.level) {
+            mes("You need a Hunter level of at least ${prey.level} to catch a ${prey.name}.")
+            return
+        }
+        if (!inv.contains(ROPE) || !inv.contains(SMALL_NET)) {
+            mes("You need a rope and a small fishing net to set this trap.")
+            return
+        }
+        anim(LAY_SEQ)
+        invDel(inv, ROPE, 1)
+        invDel(inv, SMALL_NET, 1)
+        traps.setNetTrap(player, bound.coords, bound.angle, bound.shape, prey)
+    }
+
+    fun ProtectedAccess.baitTrap(coords: CoordGrid, bait: String) {
+        val trap = traps.trapAt(coords) ?: return
+        if (trap.baited) return
+        invDel(inv, bait, 1)
+        trap.baited = true
+        mes("You bait the trap.")
+    }
+
     fun ProtectedAccess.dismantleTrap(coords: CoordGrid) {
         val trap = traps.trapAt(coords) ?: return
         if (traps.dismantle(trap)) {
             trap.kind.item?.let { player.invAddOrDrop(objRepo, it) }
+            trap.kind.materials.forEach { player.invAddOrDrop(objRepo, it) }
             mes("You dismantle the ${trap.kind.display}.")
         }
     }
@@ -182,6 +251,7 @@ constructor(
         val trap = traps.trapAt(coords) ?: return
         val prey = traps.check(trap) ?: return
         trap.kind.item?.let { player.invAddOrDrop(objRepo, it) }
+        trap.kind.materials.forEach { player.invAddOrDrop(objRepo, it) }
         prey.caughtItem?.let { player.invAddOrDrop(objRepo, it) }
         prey.fixedDrops.forEach { player.invAddOrDrop(objRepo, it) }
         if (prey.feather != null) {
@@ -217,6 +287,8 @@ constructor(
         const val DEADFALL_BOULDER = "loc.hunting_deadfall_boulder"
         const val KNIFE = "obj.knife"
         const val FLETCHING_KNIFE = "obj.fletching_knife"
+        const val ROPE = "obj.rope"
+        const val SMALL_NET = "obj.net"
         const val RAW_BIRD_MEAT = "obj.spit_raw_bird_meat"
         const val STAT_HUNTER = "stat.hunter"
         const val LAY_SEQ = "seq.hunting_baiting_small_traps"

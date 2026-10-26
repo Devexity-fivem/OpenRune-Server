@@ -3,6 +3,7 @@ hunter_bird_snares = 63001
 hunter_box_traps = 63007
 hunter_deadfall = 63013
 hunter_deadfall_logs = 63014
+hunter_net_traps = 63033
 
 [gamevals.dbrow]
 hunter_bird_crimson_swift = 63002
@@ -33,3 +34,8 @@ hunter_deadfall_log_ironwood_logs = 63029
 hunter_deadfall_log_yew_logs = 63030
 hunter_deadfall_log_magic_logs = 63031
 hunter_deadfall_log_rosewood_logs = 63032
+hunter_net_swamp_lizard = 63034
+hunter_net_orange_salamander = 63035
+hunter_net_red_salamander = 63036
+hunter_net_black_salamander = 63037
+hunter_net_tecu_salamander = 63038

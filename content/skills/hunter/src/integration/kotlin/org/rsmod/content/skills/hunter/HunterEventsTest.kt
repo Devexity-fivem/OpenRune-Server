@@ -442,6 +442,136 @@ class HunterEventsTest {
             assertEquals(State.ARMED, probe.traps.trapAt(trapCoords)?.state)
         }
 
+    @Test
+    fun GameTestState.`a net trap needs a rope a net and the hunter level`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 29)
+            val tree = netTree(probe, player.coords)
+
+            player.inv[0] = InvObj(ROPE)
+            player.withProtectedAccess { with(probe.events) { setNetTrap(tree, probe.events.swampPrey()) } }
+            assertNull(probe.traps.trapAt(player.coords))
+
+            player.inv[1] = InvObj(SMALL_NET)
+            player.withProtectedAccess { with(probe.events) { setNetTrap(tree, probe.events.swampPrey()) } }
+            val trap = probe.traps.trapAt(player.coords)
+            assertNotNull(trap)
+            assertEquals(TrapKind.NET, trap.kind)
+            assertEquals(locId("loc.hunting_sapling_net_set_swamp"), trap.loc.id)
+            assertEquals("npc.salamander_green", trap.prey?.npcSymbol)
+            assertEquals(0, player.inv.count(ROPE))
+            assertEquals(0, player.inv.count(SMALL_NET))
+        }
+
+    @Test
+    fun GameTestState.`a net trap catches only the salamander of its tree`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.setCurrentLevel("stat.hunter", 80)
+            player.inv[0] = InvObj(ROPE)
+            player.inv[1] = InvObj(SMALL_NET)
+            spawnNpc(player.coords.translateZ(3), npcType("npc.salamander_red"))
+
+            val trapCoords = player.coords
+            player.withProtectedAccess {
+                with(probe.events) { setNetTrap(netTree(probe, trapCoords), swampPrey()) }
+            }
+            tickTraps(probe, 60)
+
+            assertEquals(State.ARMED, probe.traps.trapAt(trapCoords)?.state)
+        }
+
+    @Test
+    fun GameTestState.`checking a caught net trap returns the salamander and materials`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            probe.traps.catchChance = { _, _ -> 1.0 }
+            player.setCurrentLevel("stat.hunter", 29)
+            player.inv[0] = InvObj(ROPE)
+            player.inv[1] = InvObj(SMALL_NET)
+            spawnNpc(player.coords.translateZ(3), npcType("npc.salamander_green"))
+
+            val trapCoords = player.coords
+            player.withProtectedAccess {
+                with(probe.events) { setNetTrap(netTree(probe, trapCoords), swampPrey()) }
+            }
+            tickTraps(probe, 60)
+
+            val trap = probe.traps.trapAt(trapCoords)
+            assertEquals(State.CAUGHT, trap?.state)
+            assertEquals(locId("loc.hunting_sapling_full_green"), trap?.loc?.id)
+
+            player.withProtectedAccess { with(probe.events) { checkTrap(trapCoords) } }
+
+            assertEquals(1, player.inv.count("obj.green_salamander"))
+            assertEquals(1, player.inv.count(ROPE))
+            assertEquals(1, player.inv.count(SMALL_NET))
+            assertEquals(1520, player.statMap.getFineXP("stat.hunter"))
+            assertNull(probe.traps.trapAt(trapCoords))
+        }
+
+    @Test
+    fun GameTestState.`a failed net trap can be reset or dismantled for materials`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            probe.traps.catchChance = { _, _ -> 0.0 }
+            player.setCurrentLevel("stat.hunter", 29)
+            player.inv[0] = InvObj(ROPE, 2)
+            player.inv[1] = InvObj(SMALL_NET, 2)
+            spawnNpc(player.coords.translateZ(3), npcType("npc.salamander_green"))
+
+            val trapCoords = player.coords
+            player.withProtectedAccess {
+                with(probe.events) { setNetTrap(netTree(probe, trapCoords), swampPrey()) }
+            }
+            tickTraps(probe, 60)
+
+            val trap = probe.traps.trapAt(trapCoords)
+            assertEquals(State.FAILED, trap?.state)
+            assertEquals(locId("loc.hunting_sapling_failed_swamp"), trap?.loc?.id)
+
+            probe.traps.reset(checkNotNull(trap))
+            assertEquals(State.ARMED, trap.state)
+            assertEquals(locId("loc.hunting_sapling_net_set_swamp"), trap.loc.id)
+
+            player.withProtectedAccess { with(probe.events) { dismantleTrap(trapCoords) } }
+            assertNull(probe.traps.trapAt(trapCoords))
+            assertEquals(2, player.inv.count(ROPE))
+            assertEquals(2, player.inv.count(SMALL_NET))
+        }
+
+    @Test
+    fun GameTestState.`baiting an armed net trap consumes the tar`() =
+        runInjectedGameTest(Probe::class, null, HunterEvents::class) { probe ->
+            player.setCurrentLevel("stat.hunter", 29)
+            player.inv[0] = InvObj(ROPE)
+            player.inv[1] = InvObj(SMALL_NET)
+            player.inv[2] = InvObj(GUAM_TAR)
+
+            val trapCoords = player.coords
+            player.withProtectedAccess {
+                with(probe.events) { setNetTrap(netTree(probe, trapCoords), swampPrey()) }
+            }
+            player.withProtectedAccess {
+                with(probe.events) { baitTrap(trapCoords, GUAM_TAR) }
+            }
+            assertEquals(0, player.inv.count(GUAM_TAR))
+            assertEquals(true, probe.traps.trapAt(trapCoords)?.baited)
+        }
+
+    private fun HunterEvents.swampPrey() =
+        checkNotNull(netPrey.firstOrNull { it.npcSymbol == "npc.salamander_green" })
+
+    private fun netTree(probe: Probe, coords: CoordGrid): BoundLocInfo {
+        val loc =
+            probe.locRepo.add(
+                coords,
+                "loc.hunting_sapling_up_swamp",
+                Int.MAX_VALUE,
+                LocAngle.West,
+                LocShape.CentrepieceStraight,
+            )
+        return BoundLocInfo(loc, checkNotNull(ServerCacheManager.getObject(loc.id)))
+    }
+
     private fun deadfallBoulder(probe: Probe, coords: CoordGrid): BoundLocInfo {
         val loc =
             probe.locRepo.add(
@@ -467,6 +597,9 @@ class HunterEventsTest {
         const val BOX_TRAP = "obj.hunting_box_trap"
         const val KNIFE = "obj.knife"
         const val LOGS = "obj.logs"
+        const val ROPE = "obj.rope"
+        const val SMALL_NET = "obj.net"
+        const val GUAM_TAR = "obj.salamander_tar_green"
     }
 
     class Probe
