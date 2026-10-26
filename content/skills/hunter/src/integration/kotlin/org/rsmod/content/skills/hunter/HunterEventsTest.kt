@@ -1033,7 +1033,7 @@ class HunterEventsTest {
                 PlayerMovementEvent.CoordsMovedEvent(player, CoordGrid(2380, 3600))
             )
 
-            assertTrue(player.worn[Wearpos.RightHand.slot].isType(FALCON_GLOVES_EMPTY))
+            assertNull(player.worn[Wearpos.RightHand.slot])
         }
 
     @Test

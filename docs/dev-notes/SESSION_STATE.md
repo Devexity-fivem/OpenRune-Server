@@ -106,9 +106,20 @@ treating main as "finished".
   restarts. NOTE for live verify: implings manifest ~1-3 min after spawn —
   tele to 2571,4305 (Puro maze) or stand near an overworld precursor and
   WAIT; they're invisible at first by design.
-- Hunter falconry (content/skills/hunter + FalconryManager.kt) —
-  INTEGRATION-TESTED (53 tests), live verify pending. Matthias
-  (npc.hunting_npc_falconer at 2376,3606 in Piscatoris): Talk-to dialogue or
+- Hunter implings + falconry — LIVE-VERIFIED as devin ai (commits
+  71265a397 + 5aa263d1a + 57b70f01d, all merged to main):
+  falconry Quick-falcon rental took 500gp ("Matthias hands you a
+  falconer's glove..."), Catch on a spotted kebbit landed a Gyr Falcon
+  npc (Retrieve), retrieve paid +104 XP exactly (13,055,227->13,055,331)
+  + bones/fur, and teleporting out fired "As you leave the falconry
+  area, your gyr falcon flies back to Matthias." In Puro-Puro (~2571,
+  4305) implings of every tier roam (precursor -> manifest lifecycle
+  works); catching a maze Baby impling jarred it and paid +18 XP
+  (13,055,331->13,055,349) — correct Puro value. Follow-up 5aa263d1a
+  tightened OSRS rules: net required in the maze (barehanded is
+  Gielinor-only), barehanded always pays direct loot, +8pp boost only
+  for true barehanded/magic-net. 55 hunter integration tests green.
+  Matthias (npc.hunting_npc_falconer at 2376,3606 in Piscatoris): Talk-to dialogue or
   Quick-falcon (op3) rents a gyr falcon for 500gp — weapon/shield/glove
   slots auto-unequip to inv, refused if inv too full. 500k one-off
   investment via varp.hunter_falconry_invested (Perm, varbit bit0) makes
@@ -121,11 +132,21 @@ treating main as "finished".
   returns the bird to the glove. Landed falcons time out after 100t
   ("Your falcon has left its prey...") — owner-tracked, other players get
   "That is not your falcon." Leaving the pen box (x2355-2400 z3570-3650)
-  via onPlayerCoordsChanged: falcon_on_gloves -> falcon_gloves + lands
-  recalled. Empty glove -> Matthias re-rents free. Rows: spotted 43/104,
-  dark 57/132, dashing 69/156. Approximations: catchChance reuse (no
-  published falconry formula); pen bounds are a CoordGrid box (no area def
-  in cache); no visible falcon flight npc (projanim set doesn't cover it).
+  via onPlayerCoordsChanged: the rented glove is REMOVED entirely (Matthias
+  takes it back — not returned to inv) and landed falcons are recalled.
+  Rows: spotted 43/104, dark 57/132, dashing 69/156. Approximations:
+  catchChance reuse (no published falconry formula); pen bounds are a
+  CoordGrid box (no area def in cache); no visible falcon flight npc
+  (projanim set doesn't cover it).
+- Equipment appearance-sync fix — LIVE-VERIFIED as devin ai: falconry was
+  writing player.worn[...] directly, so programmatic unequips never fired
+  WearposChange/Unequip events or rebuildAppearance() — the client kept
+  rendering removed items in hand. All worn writes now go through
+  Player.setGlove (WearposChange + rebuildAppearance) / unequipOp.unequip /
+  Player.removeGlove (notifyWornUnequip). Verified live: Quick-falcon
+  rental removed a wielded staff from the rendered model AND equipped the
+  falcon glove; teleporting out of the pen removed the glove from both the
+  equipment panel and inventory.
 - Accounts cleaned up (2026-10-26): all ad-hoc test accounts deleted from
   main.accounts; kept Devexity + devin ai (login: devin ai / devinai).
   devin ai had stale xp_rate_in_hundreds=150 in character_progress — reset

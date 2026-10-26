@@ -20,11 +20,13 @@ import org.rsmod.api.enums.NamedEnums
 import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.player.dialogue.Dialogue
+import org.rsmod.api.player.events.interact.HeldEquipEvents
 import org.rsmod.api.player.events.interact.HeldObjEvents
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.hunterLvl
 import org.rsmod.api.player.stat.statAdvance
+import org.rsmod.api.player.worn.WornUnequipOp
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onEvent
@@ -53,11 +55,14 @@ import org.rsmod.api.table.hunter.HunterImplingsRow
 import org.rsmod.api.table.hunter.HunterNetTrapsRow
 import org.rsmod.content.skills.hunter.HunterTrapManager.Dir
 import org.rsmod.content.skills.hunter.HunterTrapManager.TrapKind
+import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.game.inv.InvObj
+import org.rsmod.game.inv.isType
 import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.game.type.getInvObj
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -74,6 +79,8 @@ constructor(
     private val dropRegistry: DropTableRegistry,
     private val implingSpawns: ImplingSpawnManager,
     private val falconry: FalconryManager,
+    private val eventBus: EventBus,
+    private val unequipOp: WornUnequipOp,
 ) : PluginScript() {
 
     private val birds =
@@ -305,10 +312,10 @@ constructor(
         }
         onPlayerCoordsChanged {
             if (!FalconryManager.insideArea(player.coords)) {
-                if (FALCON_GLOVES_WITH in player.worn) {
-                    player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_EMPTY)
+                if (player.removeGlove()) {
                     player.mes(
-                        "As you leave the falconry area, your gyr falcon flies back to Matthias."
+                        "As you leave the falconry area, Matthias takes back the falconer's " +
+                            "glove and your gyr falcon flies back to him."
                     )
                 }
                 if (falconry.recallOwned(player)) {
@@ -461,13 +468,31 @@ constructor(
             return
         }
         anim(FALCON_LAUNCH_SEQ)
-        player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_EMPTY)
+        player.setGlove(FALCON_GLOVES_EMPTY)
         if (Random.nextDouble() < traps.catchChance(player.hunterLvl, prey.level)) {
             npcRepo.del(npc, prey.respawn)
             falconry.land(Npc(prey.falconType, npc.coords), player)
         } else {
-            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+            player.setGlove(FALCON_GLOVES_WITH)
         }
+    }
+
+    private fun Player.setGlove(symbol: String) {
+        val obj = InvObj(symbol)
+        worn[Wearpos.RightHand.slot] = obj
+        eventBus.publish(HeldEquipEvents.WearposChange(this, Wearpos.RightHand, getInvObj(obj)))
+        rebuildAppearance()
+    }
+
+    /** Matthias takes the rented glove back on leaving; it is not returned to inventory. */
+    private fun Player.removeGlove(): Boolean {
+        val obj = worn[Wearpos.RightHand.slot] ?: return false
+        if (!obj.isType(FALCON_GLOVES_WITH) && !obj.isType(FALCON_GLOVES_EMPTY)) {
+            return false
+        }
+        worn[Wearpos.RightHand.slot] = null
+        WornUnequipOp.notifyWornUnequip(this, Wearpos.RightHand, getInvObj(obj), eventBus)
+        return true
     }
 
     fun ProtectedAccess.retrieveFalcon(npc: Npc, prey: FalconryPrey) {
@@ -478,7 +503,7 @@ constructor(
         }
         falconry.remove(npc)
         if (FALCON_GLOVES_EMPTY in player.worn) {
-            player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+            player.setGlove(FALCON_GLOVES_WITH)
         }
         player.invAddOrDrop(objRepo, "obj.bones")
         player.invAddOrDrop(objRepo, prey.fur)
@@ -490,7 +515,7 @@ constructor(
     /** The falcon hops back onto the empty glove; free while inside the falconry. */
     fun ProtectedAccess.reattachFalcon() {
         falconry.recallOwned(player)
-        player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+        player.setGlove(FALCON_GLOVES_WITH)
         mes("The gyr falcon hops back onto your glove.")
     }
 
@@ -520,12 +545,10 @@ constructor(
             invDel(inv, COINS, FALCON_COST)
         }
         for (slot in occupied) {
-            val obj = player.worn[slot] ?: continue
-            player.worn[slot] = null
-            invAdd(inv, obj)
+            unequipOp.unequip(player, slot, player.worn, player.inv)
         }
         falconry.recallOwned(player)
-        player.worn[Wearpos.RightHand.slot] = InvObj(FALCON_GLOVES_WITH)
+        player.setGlove(FALCON_GLOVES_WITH)
         mes("Matthias hands you a falconer's glove with a gyr falcon sitting on it.")
     }
 
