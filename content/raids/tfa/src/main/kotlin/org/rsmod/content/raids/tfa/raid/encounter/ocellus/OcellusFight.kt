@@ -49,6 +49,7 @@ internal class OcellusFight(
     var dying = false
     private var started = false
     private var startedAt = 0
+    private var endedAt: Int? = null
     private var partySize = 1
 
     fun contains(tile: CoordGrid): Boolean = OcellusArena.contains(origin, tile)
@@ -96,7 +97,14 @@ internal class OcellusFight(
         return true
     }
 
+    val elapsedTicks: Int?
+        get() = if (started) (endedAt ?: deps.mapClock.cycle) - startedAt else null
+
+    val finished: Boolean
+        get() = endedAt != null
+
     fun complete(npc: Npc) {
+        endedAt = deps.mapClock.cycle
         val ticks = deps.mapClock.cycle - startedAt
         phaseTwo.stopHazards()
         phaseTwo.playVictorySong(npc)

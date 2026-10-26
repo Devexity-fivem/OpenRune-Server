@@ -9,6 +9,7 @@ import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.content.raids.party.RaidParty
+import org.rsmod.content.raids.tfa.raid.TfaRaidHud
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusFight
 import org.rsmod.game.MapClock
@@ -21,6 +22,7 @@ constructor(
     private val parties: TfaParties,
     private val lobby: TfaLobby,
     private val partyScript: TfaPartyScript,
+    private val hud: TfaRaidHud,
     private val ocellus: OcellusEncounter,
     private val manager: InstanceManager,
     private val clock: MapClock,
@@ -71,6 +73,7 @@ constructor(
             }
         }
         lobby.bindRaid(room.fight.session.id, party)
+        hud.track(room.fight.session.id)
         mes("You enter the Archive...")
         withInstanceEnterTransition(InstanceEnterTransition()) {
             telejump(room.enter, TeleportType.Exempt)

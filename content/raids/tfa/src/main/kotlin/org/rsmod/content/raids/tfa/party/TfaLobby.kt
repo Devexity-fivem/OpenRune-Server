@@ -30,6 +30,8 @@ class TfaLobby @Inject constructor(private val parties: TfaParties) {
         raidParties[id] = party
     }
 
+    fun raidParty(id: InstanceId): RaidParty<TfaPartySettings>? = raidParties[id]
+
     fun raidEnded(id: InstanceId) {
         val party = raidParties.remove(id) ?: return
         for (member in parties.disband(party)) {
