@@ -100,6 +100,17 @@ internal object GuardianArena {
         return CoordGrid(stopX - HALF, stopZ - HALF, from.level)
     }
 
+    fun behindSw(npc: Npc, target: Player): CoordGrid {
+        val dx = target.coords.x - centre(npc).x
+        val dz = target.coords.z - centre(npc).z
+        if (dx == 0 && dz == 0) return npc.coords.translate(0, SIZE)
+        val scale = SIZE.toDouble() / maxOf(abs(dx), abs(dz))
+        return npc.coords.translate(-(dx * scale).roundToInt(), -(dz * scale).roundToInt())
+    }
+
+    fun behindNe(npc: Npc, target: Player): CoordGrid =
+        behindSw(npc, target).translate(SIZE - 1, SIZE - 1)
+
     fun isUnder(npc: Npc, player: Player): Boolean =
         player.coords.level == npc.coords.level &&
             player.coords.x in npc.coords.x until npc.coords.x + SIZE &&

@@ -47,6 +47,29 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
             val landedAny = landedPhases().map { Condition.InPhase(it) as Condition }.reduce { a, b -> a or b }
             val enragedNow: Condition = Condition.InPhase(ENRAGED_AIR) or Condition.InPhase(FINAL_GROUND)
 
+            val tendrilHit =
+                whenever(
+                    TargetPraying(Melee),
+                    hit {
+                        damage(0..VINE_PRAYED_MAX).roll()
+                        type(Typeless)
+                        hazard()
+                    },
+                    hit {
+                        damage(0..VINE_MAX).roll()
+                        type(Typeless)
+                        hazard()
+                    },
+                )
+
+            val behindBody =
+                playersIn(
+                    area(
+                        customTile { npc, target -> GuardianArena.behindSw(npc, target) },
+                        customTile { npc, target -> GuardianArena.behindNe(npc, target) },
+                    )
+                )
+
             val ranged =
                 ability(
                     "ranged",
@@ -72,6 +95,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                                 ),
                             ),
                         ),
+                        onEach(Focus, onEach(behindBody, tendrilHit)),
                     ),
                 )
 
@@ -265,23 +289,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                 ),
             )
 
-            val swipe =
-                onEach(
-                    AllInRadius(1, Self),
-                    whenever(
-                        TargetPraying(Melee),
-                        hit {
-                            damage(0..VINE_PRAYED_MAX).roll()
-                            type(Typeless)
-                            hazard()
-                        },
-                        hit {
-                            damage(0..VINE_MAX).roll()
-                            type(Typeless)
-                            hazard()
-                        },
-                    ),
-                )
+            val swipe = onEach(AllInRadius(1, Self), tendrilHit)
 
             val swipeAt: (Int) -> Effect = { delay ->
                 after(delay, sequence(anim("seq.npc_guardian_archive_tentacle_attack01"), swipe))
@@ -422,7 +430,6 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                     interrupt(),
                     transitionTo(DEAD),
                     external("guardian.dead"),
-                    faceTile(offset(Centre, 0, -DEATH_FACE_DISTANCE), instant = true),
                     anim("seq.npc_archive_guardian_death01"),
                     spotanim("spotanim.vfx_ocellus_null", height = DEATH_SPOT_HEIGHT, slot = 2),
                     after(
@@ -577,7 +584,6 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
 
         const val DEATH_SPOT_HEIGHT = 200
         const val DEATH_CORPSE_DELAY = 7
-        const val DEATH_FACE_DISTANCE = 10
 
         fun flyingPhase(landing: Int) = "flying_$landing"
 
