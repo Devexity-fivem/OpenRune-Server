@@ -200,6 +200,31 @@ class SpecValidatorTest {
     }
 
     @Test
+    fun `healSelf accepts a var expression`() {
+        assertEquals(emptyList<String>(), errorsFor(healSelf(varn("varn.test") + varn("varn.other"))))
+    }
+
+    @Test
+    fun `hitDamage is only valid inside onHit`() {
+        val slam = hit {
+            damage(0..10).roll()
+            type(Melee)
+            onHit(setVarn("varn.test", varn("varn.test") + HitDamage))
+        }
+        assertEquals(emptyList<String>(), errorsFor(slam))
+        assertHasError(errorsFor(setVarn("varn.test", HitDamage)), "HitDamage only works inside a hit's onHit")
+    }
+
+    @Test
+    fun `takeTiles count must be at least one`() {
+        assertEquals(emptyList<String>(), errorsFor(onTiles(takeTiles(randomFreeTiles(arena, 5..5), 1), Effect.NoOp)))
+        assertHasError(
+            errorsFor(onTiles(takeTiles(randomFreeTiles(arena, 5..5), 0), Effect.NoOp)),
+            "takeTiles count '0'",
+        )
+    }
+
+    @Test
     fun `headbar and head icon effects are range checked`() {
         val valid =
             sequence(

@@ -78,3 +78,9 @@ checkVis = "LineOfSight"
 checkNotCombat = 65522
 checkNotCombatSelf = 1
 findNewMode = "ApPlayer2"
+
+[[hunt]]
+id = "stalk.tfa_jelly"
+type = "Player"
+findKeepHunting = true
+findNewMode = "OpPlayer2"

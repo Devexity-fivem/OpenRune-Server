@@ -150,6 +150,7 @@ class HitBuilder internal constructor() {
     private var missSpot: String? = null
     private var onHitEffect: Effect? = null
     private var onHitEvenOnMiss: Boolean = false
+    private var onHitImmediately: Boolean = false
     private var lifestealPercent: Int = 0
 
     fun damage(expr: DamageExpr) {
@@ -197,9 +198,11 @@ class HitBuilder internal constructor() {
         missSpot = spot
     }
 
-    fun onHit(effect: Effect, evenOnMiss: Boolean = false) {
+    /** [immediately] runs [effect] on the tick the hit is queued rather than the one after. */
+    fun onHit(effect: Effect, evenOnMiss: Boolean = false, immediately: Boolean = false) {
         onHitEffect = effect
         onHitEvenOnMiss = evenOnMiss
+        onHitImmediately = immediately
     }
 
     fun lifesteal(percent: Int) {
@@ -231,6 +234,7 @@ class HitBuilder internal constructor() {
             spotanimUnlessPraying = spotanimUnlessPraying,
             penetrationWhen = penetrationWhen,
             hazard = hazardHit,
+            onHitNow = onHitImmediately,
         )
 }
 
@@ -384,7 +388,7 @@ class AbilityBuilder {
     }
 
     fun healSelf(amount: Int) {
-        effects += Effect.HealSelf(amount)
+        effects += Effect.HealSelf(VarExpr.Const(amount))
     }
 
     fun transitionTo(phase: String) {

@@ -81,6 +81,24 @@ class TileResolutionTest {
     }
 
     @Test
+    fun `takeRandom returns a duplicate-free subset of at most count tiles`() {
+        val tiles = List(10) { CoordGrid(3200 + it, 3200) }
+        repeat(20) {
+            val taken = takeRandom(tiles, 4, random)
+            assertEquals(4, taken.size)
+            assertEquals(4, taken.toSet().size)
+            assertTrue(tiles.containsAll(taken))
+        }
+    }
+
+    @Test
+    fun `takeRandom with a count above the set size returns every tile`() {
+        val tiles = List(3) { CoordGrid(3200 + it, 3200) }
+        assertEquals(tiles, takeRandom(tiles, 7, random))
+        assertEquals(emptyList<CoordGrid>(), takeRandom(emptyList(), 1, random))
+    }
+
+    @Test
     fun `random walkable tile without a picker resolves to its centre`() {
         val expr = TargetExpr.RandomWalkableTile(radius = 3, of = TargetExpr.CurrentTarget)
         assertEquals(player.coords, npc.resolveTile(expr, player))

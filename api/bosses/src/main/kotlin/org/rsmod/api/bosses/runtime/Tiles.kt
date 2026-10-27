@@ -27,6 +27,12 @@ internal data class TileBindings(
     }
 }
 
+internal fun takeRandom(tiles: List<CoordGrid>, count: Int, random: GameRandom): List<CoordGrid> {
+    if (tiles.size <= count) return tiles
+    val pool = tiles.toMutableList()
+    return List(count) { pool.removeAt(random.of(pool.size)) }
+}
+
 /** Where a condition is evaluated inside an effect: its tile resolution and bound tile sets. */
 interface TileScope {
     fun tile(expr: TargetExpr.Single): CoordGrid

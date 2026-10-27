@@ -37,6 +37,9 @@ sealed interface TileSet {
     /** Every tile of [a] that is not in [b]. */
     data class Minus(val a: TileSet, val b: TileSet) : TileSet
 
+    /** A uniformly random subset of at most [count] tiles of [tiles], picked after [tiles] resolves. */
+    data class Take(val tiles: TileSet, val count: Int) : TileSet
+
     data class Bound(val name: String) : TileSet
 
     /** Tiles holding a loc the encounter spawned with id [loc]; not filtered by freeness. */

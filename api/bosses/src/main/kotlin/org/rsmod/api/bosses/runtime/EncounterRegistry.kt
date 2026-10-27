@@ -30,6 +30,9 @@ class EncounterRegistry @Inject constructor(private val mapClock: MapClock) {
         }
     }
 
+    /** [npc]'s encounter, or null when its type has no registered spec. */
+    fun ofOrNull(npc: Npc): BossEncounter? = if (npc.type.id in registrations) of(npc) else null
+
     /** Starts [npc]'s encounter on [spec], one of the specs registered for its type. */
     fun start(npc: Npc, spec: BossSpec): BossEncounter {
         check(npc.slotId !in encounters) { "Npc type ${npc.type.id} already has an encounter." }

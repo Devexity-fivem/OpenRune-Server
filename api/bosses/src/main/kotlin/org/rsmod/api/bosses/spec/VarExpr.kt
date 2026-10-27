@@ -13,6 +13,9 @@ sealed interface VarExpr {
     /** The caster's base hitpoints (its max). */
     data object BaseHp : VarExpr
 
+    /** The damage a hit landed on its player, after prayer; only valid inside [Effect.Hit.onHit]. */
+    data object HitDamage : VarExpr
+
     data class Minus(val a: VarExpr, val b: VarExpr) : VarExpr
 
     data class Varn(val varn: String) : VarExpr

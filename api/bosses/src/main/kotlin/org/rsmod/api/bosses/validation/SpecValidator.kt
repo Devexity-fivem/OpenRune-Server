@@ -39,6 +39,7 @@ object SpecValidator {
         val setNames: Set<String> = emptySet(),
         val deferred: Boolean = false,
         val hitAware: Boolean = false,
+        val hitDamageBound: Boolean = false,
         val asNpc: Boolean = false,
     ) {
         val prefix: String
@@ -244,6 +245,10 @@ object SpecValidator {
                     varExpr(expr.a, scope)
                     varExpr(expr.b, scope)
                 }
+                is VarExpr.HitDamage ->
+                    if (!scope.hitDamageBound) {
+                        error("${scope.prefix}HitDamage only works inside a hit's onHit, where there is a hit.")
+                    }
                 is VarExpr.Hp,
                 is VarExpr.BaseHp -> {}
                 is VarExpr.BearingTo -> {
@@ -329,6 +334,10 @@ object SpecValidator {
                     tileSet(tiles.a, scope)
                     tileSet(tiles.b, scope)
                 }
+                is TileSet.Take -> {
+                    if (tiles.count < 1) error("${scope.prefix}takeTiles count '${tiles.count}' must be at least 1.")
+                    tileSet(tiles.tiles, scope)
+                }
                 is TileSet.Bound -> boundSet(tiles.name, scope, what)
                 is TileSet.OwnedLocs,
                 is TileSet.Tagged -> {}
@@ -352,10 +361,13 @@ object SpecValidator {
                     if (effect.ticks < 0) {
                         error("${scope.prefix}NextAttackIn ticks '${effect.ticks}' must not be negative.")
                     }
-                is Effect.HealSelf ->
-                    if (effect.amount <= 0) {
-                        error("${scope.prefix}HealSelf amount '${effect.amount}' must be greater than 0.")
+                is Effect.HealSelf -> {
+                    val amount = effect.amount
+                    if (amount is VarExpr.Const && amount.value <= 0) {
+                        error("${scope.prefix}HealSelf amount '${amount.value}' must be greater than 0.")
                     }
+                    varExpr(amount, scope)
+                }
                 is Effect.Headbar -> headbar(effect, scope)
                 is Effect.ClearHeadbar -> headbarRef(effect.headbar, scope)
                 is Effect.HeadIcon -> headIconSlot(effect.slot, scope)
@@ -499,7 +511,7 @@ object SpecValidator {
             if (projectile != null && hit.hazard) {
                 error("${scope.prefix}hazard() has no effect on a projectile hit, which always resolves as combat.")
             }
-            hit.onHit?.let { effect(it, scope.copy(deferred = true)) }
+            hit.onHit?.let { effect(it, scope.copy(deferred = true, hitDamageBound = true)) }
         }
 
         private fun projectile(proj: Effect.Projectile, scope: Scope) {

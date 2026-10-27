@@ -1465,6 +1465,7 @@ effect)` (binds the list under a name).
 | `Nearest(tiles, area, searchRadius)` | `nearestFreeTiles(tiles, area, searchRadius)` | For each anchor: the anchor if free, otherwise the first free tile on rings `1..searchRadius` around it; anchors with none are dropped |
 | `Custom(area, tiles)` | `customTiles(area) { npc, target, random -> … }` | The lambda's tiles, filtered to free ones, de-duplicated |
 | `Plus(a, b)` | `a + b` | `a` then `b`, de-duplicated |
+| `Take(tiles, count)` | `takeTiles(tiles, count)` | A random subset of at most `count` tiles of `tiles` |
 | `Bound(name)` | `bound(name)` | The set bound by an enclosing `withTiles(name, …)`, as-is |
 
 A tile is **free** (`EffectInterpreter.isFree`) when all of these hold:
@@ -2652,6 +2653,28 @@ Additions made for the Archive Guardian. All are additive; bosses that don't use
   runs `e` as each spawned npc. `despawnSelf()` removes the caster. Kotlin-spawned npcs join an
   encounter with `BossDeps.adoptOwnedNpc(owner, npc)`, and `BossDeps.runAbilityAs(owner, caster, target,
   ability)` runs an ability as one of them.
+
+Additions made for Dreadnoth. All are additive.
+
+- **`takeTiles(set, n)`** (`TileSet.Take`): a uniformly random subset of at most `n` tiles of `set`, drawn
+  from the injected `GameRandom` after `set` resolves, so `takeTiles(a - b, 1)` is one tile in `a` and not
+  in `b`. `n` must be at least 1; a set smaller than `n` comes back whole.
+- **`healSelf(amount: VarExpr)`**: heals the caster by an expression (e.g. `varn("varn.x") + varn("varn.y")`),
+  clamped to its max, with the heal hitsplat. A zero or negative result heals nothing.
+- **`HitDamage`** (`VarExpr.HitDamage`): the damage a hit landed on its player after prayer, valid only
+  inside that hit's `onHit` (the validator rejects it elsewhere). For a direct hit `onHit` runs one tick
+  later with the landed damage; for a `resolveOnImpact` projectile it runs on the impact tick. Use it to
+  accumulate damage into a varn and `healSelf` from it once the hits have landed.
+- **`onHit(effect, immediately = true)`**: runs the hit's `onHit` on the tick the hit is queued instead of the
+  one after. Direct hits show on the tick they are queued; the default `onHit` runs a tick later, so use this
+  when a follow-up (e.g. a heal from `HitDamage`) must land on the same tick as the hitsplat.
+- **`projectile(impactLead = n)`**: runs `onImpact` `n` ticks earlier than the queue's natural landing. A
+  projectile's hit shows one tick before its `onImpact` effects; `impactLead = 1` lines them up.
+- **`spawnLoc(randomAngle = true)`**: rolls the loc's rotation from 0..3.
+- **`exactMove(teleport = true)`**: sends the move as a teleport instead of a jump.
+- **`retire()`** (`Effect.Retire`): takes the caster out of combat for good (`NpcMode.None`, interaction
+  cleared, `ignoreCombatInteractions = true`): it stops attacking and hunting and can't be targeted. Meant
+  for dying bosses and adds, inside `asNpc` or on the boss.
 
 ## Approach: attacking from range while closing to melee
 

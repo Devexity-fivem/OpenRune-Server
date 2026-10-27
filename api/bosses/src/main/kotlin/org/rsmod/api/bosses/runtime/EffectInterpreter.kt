@@ -3,6 +3,7 @@ package org.rsmod.api.bosses.runtime
 import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.types.NpcMode
 import dev.openrune.types.ProjAnimType
 import dev.openrune.types.aconverted.SpotanimType
 import kotlin.math.abs
@@ -55,6 +56,7 @@ class EffectInterpreter internal constructor(
     private val deps: BossDeps,
     private val abilityRun: AbilityRun,
     private val bindings: TileBindings,
+    private val hitDamage: Int = 0,
 ) {
     constructor(
         npc: Npc,
@@ -67,10 +69,12 @@ class EffectInterpreter internal constructor(
     private fun child(
         target: Player = this.target,
         bindings: TileBindings = this.bindings,
-    ): EffectInterpreter = EffectInterpreter(npc, target, spec, encounter, deps, abilityRun, bindings)
+        hitDamage: Int = this.hitDamage,
+    ): EffectInterpreter =
+        EffectInterpreter(npc, target, spec, encounter, deps, abilityRun, bindings, hitDamage)
 
     private fun asNpc(other: Npc): EffectInterpreter =
-        EffectInterpreter(other, target, spec, encounter, deps, AbilityRun(encounter.epoch), bindings)
+        EffectInterpreter(other, target, spec, encounter, deps, AbilityRun(encounter.epoch), bindings, hitDamage)
 
     private val actingAsBoss: Boolean
         get() = npc === encounter.npc
@@ -198,7 +202,16 @@ class EffectInterpreter internal constructor(
             is Effect.ClearHeadIcon -> npc.clearHeadIcon(effect.slot)
             is Effect.LockMovement ->
                 npc.movementLocked = effect.locked || encounter.currentPhase?.lockMovement == true
-            is Effect.HealSelf -> npc.heal(effect.amount, showHitsplat = true)
+            is Effect.HealSelf -> {
+                val amount = evaluateVar(effect.amount)
+                if (amount > 0) npc.heal(amount, showHitsplat = true)
+            }
+            is Effect.Retire -> {
+                npc.mode = NpcMode.None
+                npc.clearInteraction()
+                npc.ignoreCombatInteractions = true
+                deps.encounterRegistry.ofOrNull(npc)?.invulnerable = true
+            }
 
             is Effect.Teleport -> {
                 if (npc.isValidTarget()) {
@@ -337,7 +350,7 @@ class EffectInterpreter internal constructor(
                     encounter,
                     resolveTile(effect.at),
                     effect.loc,
-                    effect.angle,
+                    if (effect.randomAngle) deps.random.of(LOC_ANGLES) else effect.angle,
                     effect.blockPlayersOnly,
                 )
             }
@@ -379,6 +392,7 @@ class EffectInterpreter internal constructor(
                         delay2 = cycles,
                         dir = Angles.bearing(start, end),
                         collision = deps.collision,
+                        viaTeleport = effect.teleport,
                     )
                     if (engaged != null && engaged.isValidTarget()) {
                         npc.apPlayer2(engaged, deps.interactions)
@@ -433,6 +447,7 @@ class EffectInterpreter internal constructor(
             is VarExpr.Const -> expr.value
             is VarExpr.Now -> deps.mapClock.cycle
             is VarExpr.Varn -> encounter.npc.vars[expr.varn]
+            is VarExpr.HitDamage -> hitDamage
             is VarExpr.Hp -> npc.hitpoints
             is VarExpr.BaseHp -> npc.baseHitpointsLvl
             is VarExpr.Minus -> evaluateVar(expr.a) - evaluateVar(expr.b)
@@ -620,7 +635,7 @@ class EffectInterpreter internal constructor(
         }
 
         proj.onImpact?.let { onImpact ->
-            deps.worldQueues.add(ticks) {
+            deps.worldQueues.add((ticks - proj.impactLead).coerceAtLeast(1)) {
                 child(bindings = bindings.copy(impactTile = destCoord)).run(access, onImpact)
             }
         }
@@ -675,7 +690,7 @@ class EffectInterpreter internal constructor(
             if (!npc.isValidTarget()) return@PlayerHitModifier
             val heal = damage * hit.lifesteal / 100
             if (heal > 0) npc.heal(heal)
-            onHit?.let { child(target = t).run(access, it) }
+            onHit?.let { child(target = t, hitDamage = damage).run(access, it) }
         }
     }
 
@@ -696,10 +711,16 @@ class EffectInterpreter internal constructor(
         val onHit = landingEffect(hit, rolled)
         val heal = landed * hit.lifesteal / 100
         if (onHit == null && heal <= 0) return
+        if (hit.onHitNow) {
+            if (!npc.isValidTarget()) return
+            if (heal > 0) npc.heal(heal)
+            onHit?.let { child(hitDamage = landed).run(access, it) }
+            return
+        }
         deps.worldQueues.add(serverDelay) {
             if (!npc.isValidTarget()) return@add
             if (heal > 0) npc.heal(heal)
-            onHit?.let { run(access, it) }
+            onHit?.let { child(hitDamage = landed).run(access, it) }
         }
     }
 
@@ -897,6 +918,7 @@ class EffectInterpreter internal constructor(
                 val excluded = resolveTiles(set.b).toSet()
                 resolveTiles(set.a).filter { it !in excluded }
             }
+            is TileSet.Take -> takeRandom(resolveTiles(set.tiles), set.count, deps.random)
             is TileSet.Bound -> bindings.set(set.name)
             is TileSet.OwnedLocs -> encounter.ownedLocTiles(set.loc)
             is TileSet.Tagged -> encounter.taggedTiles(set.tag)
@@ -1100,6 +1122,7 @@ class EffectInterpreter internal constructor(
     private companion object {
         // UNVERIFIED: the range (the client's view distance; live only shows the target leaving).
         private const val SOUND_TO_RANGE = 15
+        private const val LOC_ANGLES = 4
 
         private val KNOCKBACK_DIRECTIONS =
             listOf(0 to 1, 1 to 0, 0 to -1, -1 to 0, 1 to 1, 1 to -1, -1 to -1, -1 to 1)

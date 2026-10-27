@@ -110,6 +110,7 @@ fun projectile(
     onImpact: Effect? = null,
     from: TargetExpr.Single? = null,
     impactRounding: ImpactRounding = ImpactRounding.Down,
+    impactLead: Int = 0,
 ): Effect =
     Effect.Projectile(
         spotanim,
@@ -123,6 +124,7 @@ fun projectile(
         onImpact,
         from,
         impactRounding,
+        impactLead,
     )
 
 fun tileAoE(
@@ -206,7 +208,13 @@ fun lockMovement(): Effect = Effect.LockMovement(true)
 
 fun unlockMovement(): Effect = Effect.LockMovement(false)
 
-fun healSelf(amount: Int): Effect = Effect.HealSelf(amount)
+fun healSelf(amount: Int): Effect = Effect.HealSelf(VarExpr.Const(amount))
+
+fun healSelf(amount: VarExpr): Effect = Effect.HealSelf(amount)
+
+fun retire(): Effect = Effect.Retire
+
+val HitDamage: VarExpr = VarExpr.HitDamage
 
 fun area(sw: TargetExpr.Single, ne: TargetExpr.Single): Area = Area(sw, ne)
 
@@ -221,6 +229,8 @@ fun customTiles(
     area: Area,
     tiles: (npc: Npc, target: Player, random: GameRandom) -> List<CoordGrid>,
 ): TileSet = TileSet.Custom(area, tiles)
+
+fun takeTiles(tiles: TileSet, count: Int): TileSet = TileSet.Take(tiles, count)
 
 operator fun TileSet.plus(other: TileSet): TileSet = TileSet.Plus(this, other)
 
@@ -257,8 +267,13 @@ fun hitDamageAtLeast(damage: Int): Condition = Condition.HitDamageAtLeast(damage
 fun after(ticks: Int, effect: Effect, requireAlive: Boolean = true): Effect =
     Effect.After(ticks, effect, requireAlive)
 
-fun spawnLoc(loc: String, at: TargetExpr.Single, angle: Int = 0, blockPlayersOnly: Boolean = false): Effect =
-    Effect.SpawnLoc(loc, at, angle, blockPlayersOnly)
+fun spawnLoc(
+    loc: String,
+    at: TargetExpr.Single,
+    angle: Int = 0,
+    blockPlayersOnly: Boolean = false,
+    randomAngle: Boolean = false,
+): Effect = Effect.SpawnLoc(loc, at, angle, blockPlayersOnly, randomAngle)
 
 fun knockback(anim: String, within: Area): Effect = Effect.Knockback(anim, within)
 
@@ -462,8 +477,8 @@ fun messageParty(area: Area, self: String, others: String): Effect =
 
 fun song(id: Int, area: Area): Effect = Effect.Song(id, area)
 
-fun exactMove(to: TargetExpr.Single, baseCycles: Int, perTile: Int = 0): Effect =
-    Effect.ExactMove(to, baseCycles, perTile)
+fun exactMove(to: TargetExpr.Single, baseCycles: Int, perTile: Int = 0, teleport: Boolean = false): Effect =
+    Effect.ExactMove(to, baseCycles, perTile, teleport)
 
 fun replaceLoc(at: TargetExpr.Single, loc: String): Effect = Effect.ReplaceLoc(at, loc)
 

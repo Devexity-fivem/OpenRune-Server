@@ -106,6 +106,8 @@ sealed interface Effect {
         val penetrationWhen: Condition? = null,
         /** Environmental damage (falling rocks etc.): no retaliation and no defend anim. */
         val hazard: Boolean = false,
+        /** Runs [onHit] on the tick the hit is queued instead of the one after. */
+        val onHitNow: Boolean = false,
     ) : Effect
 
     data class Projectile(
@@ -131,6 +133,8 @@ sealed interface Effect {
         /** Launch tile, without an entity anchor; the caster itself when null. */
         val from: TargetExpr.Single? = null,
         val impactRounding: ImpactRounding = ImpactRounding.Down,
+        /** Ticks earlier than the queue's natural landing that [onImpact] runs, to line up with the hit. */
+        val impactLead: Int = 0,
     ) : Effect
 
     data class TileAoE(
@@ -207,7 +211,13 @@ sealed interface Effect {
     data class LockMovement(val locked: Boolean) : Effect
 
     /** Heals the caster by [amount], capped at its max hp, with a heal hitsplat. */
-    data class HealSelf(val amount: Int) : Effect
+    data class HealSelf(val amount: VarExpr) : Effect
+
+    /**
+     * Takes the caster out of combat for good: no more attacks or hunting, it can no longer
+     * retaliate, and hits already in flight deal no damage.
+     */
+    data object Retire : Effect
 
     data class Teleport(val to: TargetExpr.Single) : Effect
 
@@ -295,6 +305,8 @@ sealed interface Effect {
         val at: TargetExpr.Single,
         val angle: Int = 0,
         val blockPlayersOnly: Boolean = false,
+        /** Rolls the loc's rotation from 0..3 instead of using [angle]. */
+        val randomAngle: Boolean = false,
     ) : Effect
 
     /** Shoves the target one tile to a random free neighbour inside [within], playing [anim]. */
@@ -332,7 +344,13 @@ sealed interface Effect {
      * Slides the caster to [to] with the exact-move update, taking `baseCycles + perTile *
      * distance` client cycles.
      */
-    data class ExactMove(val to: TargetExpr.Single, val baseCycles: Int, val perTile: Int = 0) : Effect
+    data class ExactMove(
+        val to: TargetExpr.Single,
+        val baseCycles: Int,
+        val perTile: Int = 0,
+        /** Sends the move as a teleport rather than a jump. */
+        val teleport: Boolean = false,
+    ) : Effect
 
     /** Swaps the owned loc on [at] for [loc], keeping the tile owned. */
     data class ReplaceLoc(val at: TargetExpr.Single, val loc: String) : Effect

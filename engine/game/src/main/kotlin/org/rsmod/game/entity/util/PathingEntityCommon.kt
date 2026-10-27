@@ -86,8 +86,9 @@ public object PathingEntityCommon {
         delay2: Int,
         dir: Int,
         collision: CollisionFlagMap,
+        viaTeleport: Boolean = false,
     ) {
-        telejump(entity, collision, end)
+        if (viaTeleport) teleport(entity, collision, end) else telejump(entity, collision, end)
         val delta1 = Translation.between(start, end)
         val delta2 = Translation.between(end, entity.coords)
         val exactMove =

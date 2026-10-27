@@ -4,5 +4,6 @@ import dev.openrune.definition.dbtables.DBTable
 import dev.openrune.pack.PluginPack
 
 class TfaPluginPack : PluginPack() {
-    override fun dbTables(): List<DBTable> = listOf(GuardianScalingTable.scaling())
+    override fun dbTables(): List<DBTable> =
+        listOf(GuardianScalingTable.scaling(), DreadnothScalingTable.scaling())
 }

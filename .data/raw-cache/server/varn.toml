@@ -279,3 +279,24 @@ id = "varn.guardian_battery_hit"
 
 [[varn]]
 id = "varn.guardian_enraged"
+
+[[varn]]
+id = "varn.dreadnoth_hp_max"
+
+[[varn]]
+id = "varn.dreadnoth_absorbed"
+
+[[varn]]
+id = "varn.dreadnoth_dealt"
+
+[[varn]]
+id = "varn.dreadnoth_split"
+
+[[varn]]
+id = "varn.dreadnoth_waves_done"
+
+[[varn]]
+id = "varn.dreadnoth_spawn_budget"
+
+[[varn]]
+id = "varn.dreadnoth_done"
