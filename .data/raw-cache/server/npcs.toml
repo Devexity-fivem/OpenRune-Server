@@ -27876,12 +27876,14 @@ id = "npc.vetion"
 inherit = "npc.vetion"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
+"param.killcount_varp"="varp.total_vetion_kills"
 
 [[npc]]
 id = "npc.vetion_2"
 inherit = "npc.vetion_2"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
+"param.killcount_varp"="varp.total_vetion_kills"
 
 [[npc]]
 id = "npc.viyeldi"
@@ -28798,3 +28800,15 @@ id = "npc.fossil_crazy_archaeologist"
 inherit = "npc.fossil_crazy_archaeologist"
 [npc.params]
 "param.killcount_varp"="varp.total_derangedarchaeologist_kills"
+
+[[npc]]
+id = "npc.vetion_single"
+inherit = "npc.vetion_single"
+[npc.params]
+"param.killcount_varp"="varp.total_calvarion_kills"
+
+[[npc]]
+id = "npc.vetion_2_single"
+inherit = "npc.vetion_2_single"
+[npc.params]
+"param.killcount_varp"="varp.total_calvarion_kills"
