@@ -152,7 +152,7 @@ class Araxxor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             ticks = DRIP_TICKS,
             onTick = { remaining ->
                 if (boss.hitpoints <= 0 || !target.isValidTarget()) return@repeatTick false
-                spitPool(centre, target.coords)
+                spitPool(boss, centre, target.coords)
                 remaining > 1
             },
         )
@@ -167,7 +167,7 @@ class Araxxor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                     deps.random.of(SPRAY_RADIUS * 2 + 1) - SPRAY_RADIUS,
                     deps.random.of(SPRAY_RADIUS * 2 + 1) - SPRAY_RADIUS,
                 )
-            spitPool(centre, tile)
+            spitPool(boss, centre, tile)
         }
     }
 
@@ -181,7 +181,7 @@ class Araxxor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 target.coords.translate(deps.random.of(3) - 1, deps.random.of(3) - 1),
             )
         for (tile in tiles) {
-            spitPool(centre, tile)
+            spitPool(boss, centre, tile)
         }
     }
 
@@ -197,7 +197,7 @@ class Araxxor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         addPools(boss, tiles, POOL_LINGER_TICKS)
     }
 
-    private fun spitPool(centre: CoordGrid, tile: CoordGrid) {
+    private fun spitPool(boss: Npc, centre: CoordGrid, tile: CoordGrid) {
         val distance = max(abs(tile.x - centre.x), abs(tile.z - centre.z))
         val travel = POOL_TRAVEL_BASE + POOL_TRAVEL_PER_TILE * distance
         deps.bossProjectile(
@@ -210,6 +210,11 @@ class Araxxor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             travel = travel,
             curve = 0,
         )
+        deps.worldQueues.add(1 + travel / CLIENT_CYCLES_PER_TICK) {
+            if (boss.isSlotAssigned) {
+                addPools(boss, listOf(tile), POOL_LINGER_TICKS)
+            }
+        }
     }
 
     private fun addPools(boss: Npc, tiles: List<CoordGrid>, linger: Int) {
@@ -453,5 +458,6 @@ class Araxxor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val POOL_START_HEIGHT = 43
         private const val POOL_TRAVEL_BASE = 15
         private const val POOL_TRAVEL_PER_TILE = 3
+        private const val CLIENT_CYCLES_PER_TICK = 30
     }
 }
