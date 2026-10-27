@@ -11,6 +11,7 @@ import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.Condition.InPhase
+import org.rsmod.api.npc.cancelDying
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.bonus.WornBonuses
@@ -216,7 +217,10 @@ internal constructor(
         for (name in listOf(DoomNpcs.BOSS, DoomNpcs.SHIELDED, DoomNpcs.BURROWED)) {
             val type = ServerCacheManager.getNpc(name.asRSCM(RSCMType.NPC))!!
             onNpcQueue(type, "queue.death") {
-                if (shields.absorbsDeath(npc)) return@onNpcQueue
+                if (shields.absorbsDeath(npc)) {
+                    npc.cancelDying()
+                    return@onNpcQueue
+                }
                 val unique = loot.roll(this)
                 holyWater.onDeath(this)
                 delves.onDeath(this, unique)

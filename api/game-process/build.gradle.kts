@@ -39,6 +39,13 @@ dependencies {
     implementation(projects.engine.routefinder)
 
     testImplementation(projects.api.areaChecker)
+    testImplementation(projects.api.combat.combatCommons)
+    testImplementation(projects.api.core)
+    testImplementation(projects.api.death)
+    testImplementation(projects.api.deathPlugin)
+    testImplementation(projects.api.hitPlugin)
     testImplementation(projects.api.market)
+    testImplementation(projects.api.testing)
     testImplementation(projects.engine.coroutine)
+    testImplementation(projects.engine.module)
 }

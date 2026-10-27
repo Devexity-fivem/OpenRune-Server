@@ -17,7 +17,16 @@ public fun Npc.clearInteractionRoute() {
 }
 
 public fun Npc.queueDeath() {
+    if (isDying) {
+        return
+    }
+    isDying = true
     queue("queue.death", 1)
+}
+
+public fun Npc.cancelDying() {
+    isDying = false
+    clearQueue("queue.death")
 }
 
 public fun Npc.isValidTarget(): Boolean {

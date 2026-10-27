@@ -99,6 +99,13 @@ public class Npc(
     public var movementLocked: Boolean = false
 
     /**
+     * Whether the npc's death has been queued. While set, new access coroutines must not launch:
+     * [PathingEntity.launch] cancels the active coroutine, which would kill the suspended death
+     * sequence and leave the npc stuck at 0 hitpoints.
+     */
+    public var isDying: Boolean = false
+
+    /**
      * Used for temporarily overwriting a Npc's ap-range, i.e. the distance at which it can
      * perform a ranged attack.
      */
@@ -348,6 +355,7 @@ public class Npc(
         }
         transmog = null
         cachedHitmark = null
+        isDying = false
         mode = defaultMode
         assignUid()
         clearInteraction()

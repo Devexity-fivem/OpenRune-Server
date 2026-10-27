@@ -26,6 +26,7 @@ import org.rsmod.api.combat.commons.player.finishNpcHit
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.death.NpcDeath
 import org.rsmod.api.instances.InstanceManager
+import org.rsmod.api.npc.cancelDying
 import org.rsmod.api.npc.hit.modifier.StandardNpcHitModifier
 import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.isValidTarget
@@ -899,7 +900,7 @@ constructor(
 
     private fun preventPreEnrageDeath(boss: Npc) {
         if (boss.hitpoints > 0 || deps.encounter(boss).currentPhaseName == ENRAGED_PHASE) return
-        boss.clearQueue("queue.death")
+        boss.cancelDying()
         boss.hitpoints = 1
         beginEnrage(boss)
     }

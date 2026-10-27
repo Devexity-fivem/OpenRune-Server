@@ -27,6 +27,7 @@ import org.rsmod.api.instances.withInstanceLeaveTransition
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.api.npc.apPlayer2
+import org.rsmod.api.npc.cancelDying
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.player.events.skilling.SkillingActionCompleteEvent
 import org.rsmod.api.player.events.skilling.SkillingActionContext
@@ -269,6 +270,7 @@ constructor(
         npc.resetTransmog()
         npc.copyStats(asleep)
         npc.hitpoints = npc.baseHitpointsLvl
+        npc.cancelDying()
         npc.apRequiresLineOfSight = true
         npc.apRangeOverride = null
         deps.encounterRegistry.remove(npc)

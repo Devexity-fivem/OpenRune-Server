@@ -1,5 +1,7 @@
 package org.rsmod.api.game.process.npc
 
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
 import dev.openrune.types.NpcServerType
 import jakarta.inject.Inject
 import org.rsmod.api.npc.access.StandardNpcAccessLauncher
@@ -47,11 +49,16 @@ constructor(private val eventBus: EventBus, private val accessLauncher: Standard
     }
 
     private fun Npc.publishEvent(queue: NpcQueueList.Queue, type: NpcServerType = visType) {
+        val isDeathQueue = queue.id == DEATH_QUEUE_ID
+        if (isDeathQueue) {
+            isDying = true
+        }
+
         val packedType = EventBus.composeLongKey(type.id, queue.id)
         val typeTrigger = eventBus.suspend[NpcQueueEvents.Type::class.java, packedType]
         if (typeTrigger != null) {
             val event = NpcQueueEvents.Type(this, queue.args, queue.id)
-            accessLauncher.launch(this) { typeTrigger(event) }
+            accessLauncher.launch(this, isDeathQueue) { typeTrigger(event) }
             return
         }
 
@@ -61,12 +68,16 @@ constructor(private val eventBus: EventBus, private val accessLauncher: Standard
                 eventBus.suspend[NpcQueueEvents.Content::class.java, packedContentGroup]
             if (contentTrigger != null) {
                 val event = NpcQueueEvents.Content(this, queue.args, type.contentGroup, queue.id)
-                accessLauncher.launch(this) { contentTrigger(event) }
+                accessLauncher.launch(this, isDeathQueue) { contentTrigger(event) }
                 return
             }
         }
 
         val event = NpcQueueEvents.Default(this, queue.args, queue.id)
-        accessLauncher.launch(this) { eventBus.publish(this, event) }
+        accessLauncher.launch(this, isDeathQueue) { eventBus.publish(this, event) }
+    }
+
+    private companion object {
+        private val DEATH_QUEUE_ID = "queue.death".asRSCM(RSCMType.QUEUE)
     }
 }
