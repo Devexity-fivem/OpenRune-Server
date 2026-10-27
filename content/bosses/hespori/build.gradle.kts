@@ -5,6 +5,8 @@ plugins {
 
 dependencies {
     implementation(projects.api.bosses)
+    implementation(projects.api.death)
+    implementation(projects.api.invtx)
     implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.pluginCommons)
@@ -12,4 +14,5 @@ dependencies {
     implementation(projects.api.repo)
     implementation(projects.engine.game)
     implementation(projects.engine.map)
+    implementation(projects.engine.plugin)
 }

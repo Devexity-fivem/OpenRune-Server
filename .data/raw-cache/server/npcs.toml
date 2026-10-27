@@ -15372,11 +15372,20 @@ respawnRate = 150
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=100
 "param.killcount_varp"="varp.total_hespori_kills"
+"param.dropped_remains"=-1
+
+[[npc]]
+id = "npc.hespori_healer_active"
+inherit = "npc.hespori_healer_active"
+[npc.params]
+"param.dropped_remains"=-1
 
 [[npc]]
 id = "npc.hespori_healer_inactive"
 inherit = "npc.hespori_healer_inactive"
 respawnRate = 30000
+[npc.params]
+"param.dropped_remains"=-1
 
 [[npc]]
 id = "npc.hosdun_spider"

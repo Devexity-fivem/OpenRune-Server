@@ -152,8 +152,19 @@ class Hespori @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         ServerCacheManager.getNpc(BUD_ACTIVE.asRSCM(RSCMType.NPC))?.let { budType ->
             onModifyNpcHit(budType) { if (hit.damage > 0) hit.damage = npc.hitpoints }
         }
-        onEvent<NpcStateEvents.Spawn>(bossId) { closeBuds(npc) }
-        onEvent<NpcStateEvents.Respawn> { if (npc.id == bossId) closeBuds(npc) }
+        onEvent<NpcStateEvents.Spawn>(bossId) {
+            npc.movementLocked = true
+            closeBuds(npc)
+        }
+        // Hespori is a rooted plant: BossCombat.resetBoss unlocks movement on
+        // respawn, so it is locked again here. The handler runs after the
+        // reset because this subscription is registered after BossCombat's.
+        onEvent<NpcStateEvents.Respawn> {
+            if (npc.id == bossId) {
+                npc.movementLocked = true
+                closeBuds(npc)
+            }
+        }
         deps.worldQueues.add(WORLD_LOAD_DELAY) { spawnBoss() }
     }
 
