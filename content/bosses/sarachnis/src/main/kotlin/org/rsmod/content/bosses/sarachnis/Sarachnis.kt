@@ -3,92 +3,129 @@ package org.rsmod.content.bosses.sarachnis
 import dev.openrune.types.NpcMode
 import jakarta.inject.Inject
 import org.rsmod.api.bosses.dsl.*
+import org.rsmod.api.bosses.runtime.BossCombat
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
-import org.rsmod.api.bosses.spec.BossSpec
+import org.rsmod.api.bosses.runtime.clearOwnedNpcs
 import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.Effect
 import org.rsmod.api.bosses.spec.TargetExpr
+import org.rsmod.plugin.scripts.ScriptContext
 
-// OSRS wiki: crush melee up to 31 and a ranged spit at a 4-tick attack rate.
-// She periodically fires a sticky web that binds the target. At ~66% and ~33%
-// hitpoints she summons one melee and one magic Spawn of Sarachnis; spawn hits
-// on the player should heal her (not modelled - see docs/quirks.md).
+/**
+ * Sarachnis (npc.sarachnis) in the Forthos Dungeon tomb. She melee-attacks when
+ * her target is adjacent and fires ranged bolts at every player in the tomb when
+ * it is not; both styles heal her for a share of the damage dealt. Every fourth
+ * attack she spits a sticky web that binds the target, then relocates to a new
+ * spot in the arena. At 66% and 33% health she calls a Spawn of Sarachnis pair —
+ * an orange melee user west of the room and a blue magic user east — which die
+ * with her.
+ * Deviations: the post-web relocation teleports rather than sprinting two tiles
+ * a tick, and the aranea-boots web immunity is not modelled.
+ */
 class Sarachnis @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
-    override val spec: BossSpec = boss("npc.sarachnis") {
+    override val spec =
+        boss(BOSS) {
+            stats(attackRate = ATTACK_RATE)
 
-        stats(attackRate = 4)
-
-        val melee =
-            ability("melee") {
-                anim("seq.spider_attack")
-                hit {
-                    damage(0..31).roll()
-                    type(Melee)
+            val melee =
+                ability("melee") {
+                    anim("seq.giantspider_attack")
+                    hit {
+                        damage(0..MAX_HIT).roll()
+                        type(Melee)
+                        lifesteal(LIFESTEAL_PERCENT)
+                    }
                 }
+
+            val ranged =
+                ability("ranged") {
+                    anim("seq.giantspider_attack")
+                    projectile(
+                        spotanim = "spotanim.sarachnis_rangeproj",
+                        hit =
+                            Effect.Hit(
+                                target = TargetExpr.AllInRadius(ARENA_RADIUS),
+                                damage = (0..MAX_HIT).roll(),
+                                type = Ranged,
+                                lifesteal = LIFESTEAL_PERCENT,
+                            ),
+                    )
+                }
+
+            val web =
+                ability("web_bind") {
+                    anim("seq.giantspider_attack")
+                    projectile(
+                        spotanim = "spotanim.sarachnis_web_proj",
+                        hit =
+                            Effect.Hit(
+                                damage = (0..0).roll(),
+                                type = Typeless,
+                                onHit = Effect.Freeze(WEB_BIND_TICKS),
+                                onHitEvenOnMiss = true,
+                            ),
+                    )
+                    delay(WEB_REPOSITION_DELAY)
+                    teleport(TargetExpr.RandomWalkableTile(WEB_REPOSITION_RADIUS, of = TargetExpr.SpawnTile()))
+                }
+
+            val spawns =
+                ability("spawn_minions") {
+                    summon(
+                        npc = MELEE_SPAWN,
+                        count = 1,
+                        centeredOn = TargetExpr.SpawnTile(dx = -SPAWN_OFFSET, dz = 0),
+                        mode = NpcMode.ApPlayer2,
+                        duration = Int.MAX_VALUE,
+                        owned = true,
+                    )
+                    summon(
+                        npc = MAGE_SPAWN,
+                        count = 1,
+                        centeredOn = TargetExpr.SpawnTile(dx = SPAWN_OFFSET, dz = 0),
+                        mode = NpcMode.ApPlayer2,
+                        duration = Int.MAX_VALUE,
+                        owned = true,
+                    )
+                }
+
+            triggers {
+                on(Condition.HpBelow(FIRST_SPAWN_HP)) runs Effect.Run(spawns.name)
+                on(Condition.HpBelow(SECOND_SPAWN_HP)) runs Effect.Run(spawns.name)
             }
 
-        val ranged =
-            ability("ranged") {
-                anim("seq.spider_attack")
-                projectile(
-                    spotanim = "spotanim.ice_burst_impact",
-                    hit = Effect.Hit(damage = Roll(0..18), type = Ranged),
-                )
+            phase("combat") {
+                weightedSelectorRandom {
+                    +random(melee, weight = 1, requires = WithinMeleeRange)
+                    +random(ranged, weight = 1, requires = Condition.Not(WithinMeleeRange))
+                }
+                forceEveryAttacks(WEB_ATTACK_COUNT, WEB_ATTACK_COUNT, web)
             }
-
-        val stickyWeb =
-            ability("sticky_web") {
-                anim("seq.spider_attack")
-                projectile(spotanim = "spotanim.ice_burst_impact")
-                freeze(WEB_BIND_TICKS)
-                message("Sarachnis spits a sticky web at you!")
-            }
-
-        val summonFirst = summonAbility("summon_first")
-        val summonSecond = summonAbility("summon_second")
-
-        triggers {
-            on(Condition.HpBelow(SUMMON_ONE_HP)) runs Effect.Run(summonFirst.name)
-            on(Condition.HpBelow(SUMMON_TWO_HP)) runs Effect.Run(summonSecond.name)
         }
 
-        phase("combat") {
-            weightedSelectorRandom {
-                +random(melee, weight = 5, requires = WithinMeleeRange)
-                +random(ranged, weight = 3)
-                +random(stickyWeb, weight = 1)
-            }
-        }
+    override fun ScriptContext.startup() {
+        BossCombat.register(this, spec, deps, onLethal = deps::clearOwnedNpcs)
     }
 
-    private fun BossSpecBuilder.summonAbility(name: String) =
-        ability(name) {
-            message("Sarachnis summons her brood!")
-            summon(
-                "npc.sarachnis_melee_spawn",
-                count = 1,
-                radius = 2,
-                centeredOn = TargetExpr.Self,
-                mode = NpcMode.ApPlayer2,
-                owned = true,
-                duration = Int.MAX_VALUE,
-            )
-            summon(
-                "npc.sarachnis_mage_spawn",
-                count = 1,
-                radius = 2,
-                centeredOn = TargetExpr.Self,
-                mode = NpcMode.ApPlayer2,
-                owned = true,
-                duration = Int.MAX_VALUE,
-            )
-        }
-
     private companion object {
-        const val WEB_BIND_TICKS = 10
-        const val SUMMON_ONE_HP = 0.66
-        const val SUMMON_TWO_HP = 0.33
+        private const val BOSS = "npc.sarachnis"
+        private const val MELEE_SPAWN = "npc.sarachnis_melee_spawn"
+        private const val MAGE_SPAWN = "npc.sarachnis_mage_spawn"
+
+        private const val ATTACK_RATE = 4
+        private const val MAX_HIT = 31
+        private const val LIFESTEAL_PERCENT = 50
+        private const val ARENA_RADIUS = 15
+
+        private const val WEB_ATTACK_COUNT = 4
+        private const val WEB_BIND_TICKS = 6
+        private const val WEB_REPOSITION_DELAY = 2
+        private const val WEB_REPOSITION_RADIUS = 10
+
+        private const val FIRST_SPAWN_HP = 0.66
+        private const val SECOND_SPAWN_HP = 0.33
+        private const val SPAWN_OFFSET = 5
     }
 }

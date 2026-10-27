@@ -4,6 +4,8 @@ import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
@@ -23,10 +25,26 @@ class SarachnisSpecTest {
 
     @Test
     fun `spec symbols resolve`() {
-        assertDoesNotThrow { "npc.sarachnis".asRSCM(RSCMType.NPC) }
-        assertDoesNotThrow { "npc.sarachnis_melee_spawn".asRSCM(RSCMType.NPC) }
-        assertDoesNotThrow { "npc.sarachnis_mage_spawn".asRSCM(RSCMType.NPC) }
-        assertDoesNotThrow { "seq.spider_attack".asRSCM(RSCMType.SEQ) }
-        assertDoesNotThrow { "spotanim.ice_burst_impact".asRSCM(RSCMType.SPOTANIM) }
+        for (npc in
+            listOf("npc.sarachnis", "npc.sarachnis_melee_spawn", "npc.sarachnis_mage_spawn")) {
+            assertDoesNotThrow { npc.asRSCM(RSCMType.NPC) }
+        }
+        assertDoesNotThrow { "seq.giantspider_attack".asRSCM(RSCMType.SEQ) }
+        assertDoesNotThrow { "spotanim.sarachnis_rangeproj".asRSCM(RSCMType.SPOTANIM) }
+        assertDoesNotThrow { "spotanim.sarachnis_web_proj".asRSCM(RSCMType.SPOTANIM) }
+    }
+
+    @Test
+    fun `sarachnis stats match wiki`() {
+        val boss = ServerCacheManager.getNpc("npc.sarachnis".asRSCM(RSCMType.NPC))
+        assertEquals(318, boss?.combatLevel)
+    }
+
+    @Test
+    fun `sarachnis engages at ranged distance`() {
+        val boss = ServerCacheManager.getNpc("npc.sarachnis".asRSCM(RSCMType.NPC))
+        assertTrue((boss?.attackRange ?: 0) > 1) {
+            "sarachnis type attackRange=${boss?.attackRange} — needs an npcs.toml override"
+        }
     }
 }

@@ -15380,9 +15380,20 @@ inherit = "npc.hosdun_spider"
 [[npc]]
 id = "npc.sarachnis"
 inherit = "npc.sarachnis"
+attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
+"param.killcount_varp"="varp.total_sarachnis_kills"
+
+[[npc]]
+id = "npc.sarachnis_melee_spawn"
+inherit = "npc.sarachnis_melee_spawn"
+
+[[npc]]
+id = "npc.sarachnis_mage_spawn"
+inherit = "npc.sarachnis_mage_spawn"
+attackRange = 10
 
 [[npc]]
 id = "npc.prif_mossgiant"
