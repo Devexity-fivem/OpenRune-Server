@@ -331,5 +331,23 @@ object InstanceSettingsTable {
             columnRSCM(ENTER_OBJECT, "loc.vmq3_ruins_door_multi")
             columnRSCM(EXIT_OBJECT, "loc.amoxliatl_exit")
         }
+
+        row("dbrow.instance_zulrah") {
+            column(KEY, "zulrah")
+            columnCoord(EXIT_COORD, CoordGrid(2214, 3056, 0))
+            columnCoord(ENTER_COORD, CoordGrid(2269, 3068, 0))
+            column(FEE, 0)
+            column(MAX_PLAYERS, 1)
+            column(TIME_LIMIT_MINUTES, 0)
+            column(GRACE_MINUTES, 10)
+            columnRSCM(BOSS_NPC, "npc.snakeboss_boss_ranged")
+            column(BOSS_NAME, "Zulrah")
+            column(RECOMMENDED_COMBAT, 90, 125)
+            column(TEAM_SIZE, 1)
+            column(LOOT_MULTIPLIER, "x1.0")
+            column(DESCRIPTION, "The great serpent of the Poison Waste.")
+            columnRSCM(ENTER_OBJECT, "loc.snakeboss_boat")
+            columnRSCM(EXIT_OBJECT, "loc.snakeboss_exit")
+        }
     }
 }

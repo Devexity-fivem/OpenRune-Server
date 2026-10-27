@@ -26537,6 +26537,7 @@ inherit = "npc.snakeboss_minion_melee"
 [npc.params]
 "param.attack_anim"="seq.snake_attack"
 "param.npc_attack_type"="category.attacktype_stab"
+"param.dropped_remains"=-1
 
 [[npc]]
 id = "npc.snakeboss_minion_magic"
@@ -26544,6 +26545,7 @@ inherit = "npc.snakeboss_minion_magic"
 [npc.params]
 "param.attack_anim"="seq.snake_attack"
 "param.npc_attack_type"="category.attacktype_stab"
+"param.dropped_remains"=-1
 
 [[npc]]
 id = "npc.sailing_charting_drink_crate_snake_gravy_effect_snakeling"
@@ -28757,6 +28759,8 @@ inherit = "npc.snakeboss_boss_ranged"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=3
+"param.dropped_remains"=-1
+"param.killcount_varp"="varp.total_snakeboss_kills"
 
 [[npc]]
 id = "npc.snakeboss_boss_melee"
@@ -28764,6 +28768,8 @@ inherit = "npc.snakeboss_boss_melee"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=3
+"param.dropped_remains"=-1
+"param.killcount_varp"="varp.total_snakeboss_kills"
 
 [[npc]]
 id = "npc.snakeboss_boss_magic"
@@ -28771,3 +28777,5 @@ inherit = "npc.snakeboss_boss_magic"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=3
+"param.dropped_remains"=-1
+"param.killcount_varp"="varp.total_snakeboss_kills"
