@@ -29,7 +29,7 @@ constructor(
         }
         onCommand("guardian") {
             requiredRights = Rights.ADMINISTRATOR
-            desc = "Archive Guardian testing: start | shield | land | enrage | hp <percent> | leave"
+            desc = "Archive Guardian testing: start | special | shield | land | enrage | hp <percent> | leave"
             cheat { guardianCommand() }
         }
     }
@@ -39,6 +39,7 @@ constructor(
             "start" -> fight()?.ready(player) ?: player.mes("You aren't in an Archive Guardian room.")
             "shield",
             "land" -> report(fight()?.setHealthPercent(0), "Shield dropped to 1 hp.")
+            "special" -> report(fight()?.forceSpecial(player), "Special triggered.")
             "enrage" -> report(fight()?.setHealthPercent(ENRAGE_PERCENT), "Health set to $ENRAGE_PERCENT%.")
             "leave" -> leave()
             "hp" -> {
@@ -49,7 +50,7 @@ constructor(
                 }
                 report(fight()?.setHealthPercent(percent), "Boss hp set to $percent%.")
             }
-            else -> player.mes("Usage: ::guardian start | shield | land | enrage | hp <percent> | leave")
+            else -> player.mes("Usage: ::guardian start | special | shield | land | enrage | hp <percent> | leave")
         }
     }
 

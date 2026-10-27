@@ -155,7 +155,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                 onEach(
                     Focus,
                     whenever(
-                        !targetWithin(SWOOP_MIN_DISTANCE),
+                        !targetWithin(SWOOP_MIN_DISTANCE - 1),
                         sequence(
                             anim("seq.npc_archive_guardian_swoosh_attack01"),
                             exactMove(customTile(GuardianArena::swoopLanding), SWOOP_BASE_CYCLES, SWOOP_CYCLES_PER_TILE),

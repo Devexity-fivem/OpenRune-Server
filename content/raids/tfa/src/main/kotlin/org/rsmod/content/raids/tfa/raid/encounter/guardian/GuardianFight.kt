@@ -145,6 +145,12 @@ internal class GuardianFight(
         hpBar.onUpdate(player, boss, if (depleted) 0 else boss.hitpoints, boss.baseHitpointsLvl)
     }
 
+    fun forceSpecial(player: Player): Boolean {
+        if (!started || !boss.isSlotAssigned) return false
+        deps.runAbility(boss, player, "special")
+        return true
+    }
+
     fun setHealthPercent(percent: Int): Boolean {
         if (!started || !boss.isSlotAssigned) return false
         boss.hitpoints = maxOf(1, (boss.baseHitpointsLvl.toLong() * percent / 100).toInt())
