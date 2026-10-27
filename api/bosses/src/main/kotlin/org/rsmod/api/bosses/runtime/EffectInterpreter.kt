@@ -3,6 +3,7 @@ package org.rsmod.api.bosses.runtime
 import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.types.NpcMode
 import dev.openrune.types.ProjAnimType
 import dev.openrune.types.aconverted.SpotanimType
 import kotlin.math.abs
@@ -16,8 +17,18 @@ import org.rsmod.api.combat.commons.player.finishNpcHit
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.npc.access.StandardNpcAccess
+import org.rsmod.api.npc.apPlayer1
+import org.rsmod.api.npc.apPlayer2
+import org.rsmod.api.npc.apPlayer3
+import org.rsmod.api.npc.apPlayer4
+import org.rsmod.api.npc.apPlayer5
 import org.rsmod.api.npc.heal
 import org.rsmod.api.npc.isValidTarget
+import org.rsmod.api.npc.opPlayer1
+import org.rsmod.api.npc.opPlayer2
+import org.rsmod.api.npc.opPlayer3
+import org.rsmod.api.npc.opPlayer4
+import org.rsmod.api.npc.opPlayer5
 import org.rsmod.api.player.disableOverheadPrayers
 import org.rsmod.api.player.disablePrayers
 import org.rsmod.api.player.hit.modifier.PlayerHitModifier
@@ -632,9 +643,31 @@ class EffectInterpreter internal constructor(
             spawned.mode = mode
             deps.npcRepo.add(spawned, summon.duration)
             if (summon.owned) encounter.addOwnedNpc(spawned)
+            // Player-targeting modes need an interaction bound, not just the mode
+            // flag; without one the mode processor resets the npc to wander.
+            if (target.isValidTarget()) {
+                spawned.sicOnPlayer(mode, target)
+            }
             summon.onSummon?.let { handler ->
                 deps.extensionRegistry.invoke(handler, access, spawned, target, summon.onSummonParams)
             }
+        }
+    }
+
+    private fun Npc.sicOnPlayer(mode: NpcMode, target: Player) {
+        val interactions = deps.playerInteractions
+        when (mode) {
+            NpcMode.ApPlayer1 -> apPlayer1(target, interactions)
+            NpcMode.ApPlayer2 -> apPlayer2(target, interactions)
+            NpcMode.ApPlayer3 -> apPlayer3(target, interactions)
+            NpcMode.ApPlayer4 -> apPlayer4(target, interactions)
+            NpcMode.ApPlayer5 -> apPlayer5(target, interactions)
+            NpcMode.OpPlayer1 -> opPlayer1(target, interactions)
+            NpcMode.OpPlayer2 -> opPlayer2(target, interactions)
+            NpcMode.OpPlayer3 -> opPlayer3(target, interactions)
+            NpcMode.OpPlayer4 -> opPlayer4(target, interactions)
+            NpcMode.OpPlayer5 -> opPlayer5(target, interactions)
+            else -> Unit
         }
     }
 

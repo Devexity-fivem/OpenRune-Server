@@ -9,7 +9,7 @@ import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.Effect
-import org.rsmod.api.npc.apPlayer1
+import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.hit.NpcHitpointsFloorHook
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.game.entity.Npc
@@ -117,7 +117,7 @@ constructor(private val deps: BossDeps, private val interactions: AiPlayerIntera
         val zone = ZoneKey.from(npc.coords)
         for (worker in deps.npcRepo.findAll(zone, WORKER_ZONE_RADIUS)) {
             if (!worker.isType(WORKER) || worker.mode != NpcMode.Wander) continue
-            worker.apPlayer1(target, interactions)
+            worker.apPlayer2(target, interactions)
         }
     }
 

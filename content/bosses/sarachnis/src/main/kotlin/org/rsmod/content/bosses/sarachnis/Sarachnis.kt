@@ -71,7 +71,7 @@ class Sarachnis @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 count = 1,
                 radius = 2,
                 centeredOn = TargetExpr.Self,
-                mode = NpcMode.ApPlayer1,
+                mode = NpcMode.ApPlayer2,
                 owned = true,
                 duration = Int.MAX_VALUE,
             )
@@ -80,7 +80,7 @@ class Sarachnis @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 count = 1,
                 radius = 2,
                 centeredOn = TargetExpr.Self,
-                mode = NpcMode.ApPlayer1,
+                mode = NpcMode.ApPlayer2,
                 owned = true,
                 duration = Int.MAX_VALUE,
             )

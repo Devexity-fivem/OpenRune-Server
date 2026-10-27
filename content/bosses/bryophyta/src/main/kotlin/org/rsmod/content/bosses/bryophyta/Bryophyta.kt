@@ -56,7 +56,7 @@ class Bryophyta @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                     count = 3,
                     radius = 3,
                     centeredOn = TargetExpr.CurrentTarget,
-                    mode = NpcMode.ApPlayer1,
+                    mode = NpcMode.ApPlayer2,
                     owned = true,
                     duration = Int.MAX_VALUE,
                     onSummon = GROWTHLING_TRACK,
