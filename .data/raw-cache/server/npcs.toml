@@ -17172,6 +17172,10 @@ inherit = "npc.tfa_guardian"
 maxRange = 30
 huntMode = 2
 huntRange = 40
+[npc.params]
+"param.boss_hp_bar_colour_back"=8224
+"param.boss_hp_bar_colour_sliding"=39032
+"param.boss_hp_bar_colour_remaining"=53416
 
 [[npc]]
 id = "npc.tfa_guardian_unshielded"
@@ -17179,3 +17183,7 @@ inherit = "npc.tfa_guardian_unshielded"
 maxRange = 30
 huntMode = 2
 huntRange = 40
+[npc.params]
+"param.boss_hp_bar_colour_back"=13107200
+"param.boss_hp_bar_colour_sliding"=36864
+"param.boss_hp_bar_colour_remaining"=51200
