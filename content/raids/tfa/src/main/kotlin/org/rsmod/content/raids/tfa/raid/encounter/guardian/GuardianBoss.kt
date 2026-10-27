@@ -31,6 +31,8 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
     private val lines by lazy { LineValidator(deps.collision) }
 
     private val batteryActive by lazy { BATTERY_ACTIVE.asRSCM(RSCMType.NPC) }
+    private val flyingType by lazy { FLYING.asRSCM(RSCMType.NPC) }
+    private val groundedType by lazy { GROUNDED.asRSCM(RSCMType.NPC) }
 
     override fun ScriptContext.startup() {
         GuardianBatteryHits(deps, fights).register(this)
@@ -45,7 +47,9 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
             val shieldMax = varn(SHIELD_MAX)
             val groundMax = varn(GROUND_MAX)
             val landedAny = landedPhases().map { Condition.InPhase(it) as Condition }.reduce { a, b -> a or b }
-            val enragedNow: Condition = Condition.InPhase(ENRAGED_AIR) or Condition.InPhase(FINAL_GROUND)
+            val enragedNow: Condition = Condition.InPhase(ENRAGED_PHASE)
+            val shieldedForm = Condition.Custom { npc, _ -> npc.visType.id == flyingType }
+            val groundedForm = Condition.Custom { npc, _ -> npc.visType.id == groundedType }
 
             val tendrilHit =
                 whenever(
@@ -363,7 +367,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                     setHp(shieldMax, shieldMax),
                     setFocus(randomPlayer(arena)),
                     nextAttackIn(TAKE_OFF_FIRST_ATTACK),
-                    whenever(varnIs(ENRAGED, 1), transitionTo(ENRAGED_AIR)),
+                    whenever(varnIs(ENRAGED, 1), transitionTo(ENRAGED_PHASE)),
                     external("guardian.bar"),
                 ),
             )
@@ -372,7 +376,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                 "enrage_takeoff",
                 sequence(
                     setVarn(HEALTH, Hp),
-                    transitionTo(ENRAGED_AIR),
+                    transitionTo(ENRAGED_PHASE),
                     anim("seq.npc_archive_guardian_ground_to_flying01"),
                     spotanim("spotanim.vfx_guardian_groundtoidle_spotanim01"),
                     setHp(shieldMax, shieldMax),
@@ -400,11 +404,14 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
             }
 
             ability(
-                "ground_final",
-                sequence(
-                    transitionTo(FINAL_GROUND),
-                    setHp(varn(HEALTH), groundMax),
-                    external("guardian.bar"),
+                "enrage_ground",
+                after(
+                    BREAK_DELAY,
+                    sequence(
+                        transmog(GROUNDED, Int.MAX_VALUE),
+                        setHp(varn(HEALTH), groundMax),
+                        external("guardian.bar"),
+                    ),
                 ),
             )
 
@@ -413,14 +420,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                 sequence(
                     interrupt(),
                     transitionTo(BREAKING),
-                    after(
-                        BREAK_DELAY,
-                        whenever(
-                            varnIs(ENRAGED, 1),
-                            run("ground_final"),
-                            switch(LANDINGS, landings, otherwise = landings.last()),
-                        ),
-                    ),
+                    after(BREAK_DELAY, switch(LANDINGS, landings, otherwise = landings.last())),
                 ),
             )
 
@@ -484,24 +484,13 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
             }
             phase(BREAKING, lockMovement = true, scriptedMovement = true) {}
             phase(
-                ENRAGED_AIR,
+                ENRAGED_PHASE,
                 transmog = FLYING,
                 lockMovement = true,
                 scriptedMovement = true,
                 interactUnderTarget = true,
             ) {
                 every(ENRAGE_INTERVAL, run("enrage_cycle"), firstAfter = ENRAGE_FIRST)
-                every(1, whenever(Condition.HpExact(1), run("break_shield")))
-            }
-            phase(
-                FINAL_GROUND,
-                transmog = GROUNDED,
-                lockMovement = true,
-                scriptedMovement = true,
-                interactUnderTarget = true,
-            ) {
-                every(ENRAGE_INTERVAL, run("enrage_cycle"), firstAfter = ENRAGE_FIRST)
-                every(1, whenever(Condition.HpExact(1), run("die")))
             }
             phase(DEAD, lockMovement = true, scriptedMovement = true) {}
 
@@ -513,6 +502,8 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                         setVarn(ENRAGED, 1),
                         after(ENRAGE_TAKEOFF_DELAY, whenever(landedAny, run("enrage_takeoff"))),
                     )
+                on(enragedNow and shieldedForm and Condition.HpExact(1)) runs run("enrage_ground")
+                on(enragedNow and groundedForm and Condition.HpExact(1)) runs run("die")
             }
         }
 
@@ -524,8 +515,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
 
         const val INERT = "inert"
         const val BREAKING = "breaking"
-        const val ENRAGED_AIR = "enraged_air"
-        const val FINAL_GROUND = "final_ground"
+        const val ENRAGED_PHASE = "enraged"
         const val DEAD = "dead"
         const val RIPE = "ripe"
         const val ARMED = "armed"
