@@ -115,7 +115,9 @@ class TzTokJad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     private fun spawnHealers(boss: Npc) {
         val centre = boss.coords.translate(boss.size / 2, boss.size / 2)
         for ((dx, dz) in HEALER_OFFSETS) {
-            val healer = deps.spawnOwnedNpc(boss, HEALER, centre.translate(dx, dz)) ?: continue
+            val healer =
+                deps.spawnOwnedNpc(boss, HEALER, centre.translate(dx, dz), HEALER_DURATION)
+                    ?: continue
             healer.mode = NpcMode.None
             healers.getOrPut(boss) { mutableListOf() } += healer
         }
@@ -202,7 +204,7 @@ class TzTokJad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val BOULDER_DELAY = 60
 
         private const val HEALER_THRESHOLD = 150
-        private const val HEALER_COUNT = 4
+        private const val HEALER_DURATION = 99_999
         private const val HEALER_ATTACK_RATE = 4
         private const val HEALER_MAX = 14
         private const val HEAL_INTERVAL = 4
@@ -210,6 +212,6 @@ class TzTokJad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val HEAL_ROLL = 2
         private const val HEAL_RANGE = 3
 
-        private val HEALER_OFFSETS = listOf(0 to 5, 5 to 0, 0 to -5, -5 to 0)
+        private val HEALER_OFFSETS = listOf(0 to 2, 2 to 0, 0 to -2, -2 to 0)
     }
 }
