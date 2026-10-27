@@ -15366,9 +15366,17 @@ inherit = "npc.molch_tree_frog"
 [[npc]]
 id = "npc.hespori"
 inherit = "npc.hespori"
+attackRange = 10
+respawnRate = 150
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=100
+"param.killcount_varp"="varp.total_hespori_kills"
+
+[[npc]]
+id = "npc.hespori_healer_inactive"
+inherit = "npc.hespori_healer_inactive"
+respawnRate = 30000
 
 [[npc]]
 id = "npc.hosdun_spider"
