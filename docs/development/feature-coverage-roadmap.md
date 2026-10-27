@@ -140,6 +140,32 @@ Target revision: **241** (game.yml; AGENTS.md still says 240.2 — stale).
 - Gaps in docs/quirks.md: prayer model is %-scale not immunity, lightning
   doesn't chain, spines don't AoE, worker cadence is timer-based.
 
+### Corporeal Beast
+
+- Path: `content/bosses/corporeal-beast/`. Design informed by
+  `Kronos-184-Fixed/.../bosses/corp/CorporealBeast.java` + `DarkCore.java`
+  (halved non-spear damage, 100 cap, dark energy core loop); ids re-derived
+  for rev-241 (`npc.corp_beast` 319, `npc.dark_core` 320,
+  `spotanim.corp_spirit_beast_*_proj` 314-316, `spotanim.dark_core_jump` 319).
+- Mechanics: melee stomp + weak/powered/split magic projectiles (split uses
+  `debris` ground AoE); `onModifyHit` halves damage from non-Spear/Polearm
+  weapon categories with the "resists your weapon" message; incoming rule
+  caps hits at 100; below half hp (wiki gate) a `HitDamageAtLeast(32)`
+  reaction and an `every(attackRate)` timer each roll 1/8 to summon the
+  core. The core is a `NpcMode.None` summon (not a
+  spec'd combat npc): a `corp.core_tick` extension every 2t drains 5-13
+  typeless from each player in its 3x3 and feeds half to Corp; when nobody
+  is adjacent it hops onto a player (northernmost, then easternmost) on a
+  4-tick cooldown via `bossProjectile` + `telejump`.
+- Status: **Verified live** (2026-10-26): resist message + halved damage,
+  one core at a time (`noCoreAlive` guard on both spawn paths), core hops
+  to the player, drain messages + typeless hits + Corp heal, core killable,
+  zero exceptions.
+- Gaps in docs/quirks.md: core isn't hidden during the hop and stays
+  attackable mid-jump; poisoned-core slowdown unmodelled; Corp's off-target
+  retarget (hit ≥15, 1/5) unmodelled; powered projectile doesn't vary
+  through Protect from Magic.
+
 ## Skills (breadth audit pending)
 
 14 skill modules exist and load: cooking, crafting(+pack), firemaking,

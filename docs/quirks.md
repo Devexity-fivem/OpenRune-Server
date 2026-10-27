@@ -156,6 +156,21 @@ Known deviations from live OSRS:
 - Emerge anim/gfx reuse `seq.kalphite_queen_glow` + `spotanim.kalphite_queen_glow`
   (the dedicated emerge/transform sequence has no named symbol in this cache).
 
+## Corporeal Beast
+
+- The dark energy core drains 5-13 typeless every 2 ticks from players in
+  its 3x3 and feeds half to the beast, and hops onto a player (northernmost,
+  then easternmost) on a 4-tick cooldown when nobody is adjacent — matching
+  the wiki cadence. Remaining gaps vs OSRS: the core is not hidden during
+  the hop and stays attackable mid-jump; a poisoned core doesn't slow its
+  drain (emerald-bolts-e interaction unmodelled); the beast doesn't retarget
+  to a strong off-target attacker (hit ≥15, 1/5 in Kronos).
+- The powered magic projectile always rolls 30-65; OSRS reduces it to 10-35
+  against Protect from Magic — the prayer-dependent max isn't modelled.
+- The `npc.corp_beast` type's cached stats probe reports an unrelated "Woman"
+  record in some tools paths, though the live spawn is the correct level-785
+  beast — the RSCM/probe metadata discrepancy is unresolved.
+
 ## Level-up popups
 
 `LevelUpScript` sets `varbit.busy` while `levelup_display` is open and clears
