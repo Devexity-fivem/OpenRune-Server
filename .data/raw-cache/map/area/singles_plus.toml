@@ -1,0 +1,12 @@
+[[area]]
+name = "Minor Wilderness Bosses Dungeons singles-plus"
+area_id = "area.singles_plus"
+levels = [0]
+
+[[area.polygons]]
+vertices = [
+    [1600, 11524],
+    [1910, 11524],
+    [1910, 11584],
+    [1600, 11584],
+]

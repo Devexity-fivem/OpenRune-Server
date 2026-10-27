@@ -1,8 +1,6 @@
 package org.rsmod.api.combat.scripts
 
 import jakarta.inject.Inject
-import org.rsmod.api.death.NpcAttackValidateHook
-import org.rsmod.api.death.NpcAttackValidateResult
 import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
 import org.rsmod.api.combat.PvNCombat
 import org.rsmod.api.combat.commons.magic.MagicSpell
@@ -16,6 +14,9 @@ import org.rsmod.api.combat.player.resolveAutocastSpell
 import org.rsmod.api.combat.player.resolveCombatAttack
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.combat.weapon.types.AttackTypes
+import org.rsmod.api.death.NpcAttackValidateHook
+import org.rsmod.api.death.NpcAttackValidateResult
+import org.rsmod.api.npc.owner.isSpawnOwnedBy
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
 import org.rsmod.api.script.advanced.onDefaultApNpc2
@@ -137,8 +138,8 @@ constructor(
             return false
         }
 
-        // TODO(combat): Add singles plus support.
-        val singleCombat = !mapMultiway()
+        // Singles-plus areas lift the single-way restriction for pvn only; pvp stays single-way.
+        val singleCombat = !mapMultiway() && !inArea("area.singles_plus", player.coords)
         if (singleCombat && !bypassSingleWayPvn) {
             if (isInPvpCombat()) {
                 spam("I'm already under attack.")
@@ -146,7 +147,9 @@ constructor(
             }
 
             if (isInPvnCombat()) {
-                if (aggressiveNpc != null && aggressiveNpc != npc.uid) {
+                // Spawn-owned npcs (boss minions, barrows brothers) may join an existing
+                // single-way fight, so the player can retaliate against them.
+                if (aggressiveNpc != null && aggressiveNpc != npc.uid && !npc.isSpawnOwnedBy(player)) {
                     spam("I'm already under attack.")
                     return false
                 }

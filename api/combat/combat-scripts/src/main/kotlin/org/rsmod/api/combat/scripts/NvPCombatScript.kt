@@ -39,7 +39,11 @@ constructor(private val combat: NvPCombat, private val areaChecker: AreaChecker)
 
     private fun StandardNpcAccess.canAttack(target: Player): Boolean {
         // Owned spawns (barrows brothers, slayer superiors) are dedicated to their owner.
-        val singleCombat = !mapMultiway(areaChecker) && !npc.isSpawnOwnedBy(target)
+        // Singles-plus areas lift the single-way restriction for pvn only; pvp stays single-way.
+        val singleCombat =
+            !mapMultiway(areaChecker) &&
+                !npc.isSpawnOwnedBy(target) &&
+                !inArea("area.singles_plus", target.coords, areaChecker)
         if (singleCombat) {
             if (target.isInPvpCombat()) {
                 return false

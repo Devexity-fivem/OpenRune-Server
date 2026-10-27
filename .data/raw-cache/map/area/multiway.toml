@@ -223,7 +223,7 @@ vertices = [
 
 [[area]]
 name = "Revenant caves singles-plus"
-area_id = "area.multiway"
+area_id = "area.singles_plus"
 levels = [0, 1, 2, 3]
 
 [[area.polygons]]

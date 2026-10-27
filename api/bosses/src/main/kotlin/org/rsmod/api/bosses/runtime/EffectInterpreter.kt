@@ -29,6 +29,7 @@ import org.rsmod.api.npc.opPlayer2
 import org.rsmod.api.npc.opPlayer3
 import org.rsmod.api.npc.opPlayer4
 import org.rsmod.api.npc.opPlayer5
+import org.rsmod.api.npc.owner.assignSpawnOwner
 import org.rsmod.api.player.disableOverheadPrayers
 import org.rsmod.api.player.disablePrayers
 import org.rsmod.api.player.hit.modifier.PlayerHitModifier
@@ -646,6 +647,7 @@ class EffectInterpreter internal constructor(
             // Player-targeting modes need an interaction bound, not just the mode
             // flag; without one the mode processor resets the npc to wander.
             if (target.isValidTarget()) {
+                if (summon.owned) spawned.assignSpawnOwner(target, deps.mapClock.cycle)
                 spawned.sicOnPlayer(mode, target)
             }
             summon.onSummon?.let { handler ->
