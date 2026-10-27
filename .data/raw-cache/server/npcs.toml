@@ -8383,6 +8383,7 @@ inherit = "npc.kalphite_queen"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
+"param.killcount_varp"="varp.total_kalphite_kills"
 
 [[npc]]
 id = "npc.kalphite_flyingqueen"
@@ -8392,6 +8393,7 @@ inherit = "npc.kalphite_flyingqueen"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
+"param.killcount_varp"="varp.total_kalphite_kills"
 
 [[npc]]
 id = "npc.horror_dagganoth_jr"
@@ -9332,6 +9334,7 @@ inherit = "npc.chaoselemental"
 "param.attackrate"=5
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=50
+"param.killcount_varp"="varp.total_chaosele_kills"
 
 [[npc]]
 id = "npc.firegiant_big"
@@ -9931,6 +9934,7 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
+"param.killcount_varp"="varp.total_supreme_kills"
 
 [[npc]]
 id = "npc.dagcave_magic_boss"
@@ -9941,6 +9945,7 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
+"param.killcount_varp"="varp.total_prime_kills"
 
 [[npc]]
 id = "npc.dagcave_melee_boss"
@@ -9951,6 +9956,7 @@ attackRange = 1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
+"param.killcount_varp"="varp.total_rex_kills"
 
 [[npc]]
 id = "npc.warguild_bronze_armour"
@@ -12828,6 +12834,7 @@ inherit = "npc.mole_giant"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=50
+"param.killcount_varp"="varp.total_mole_kills"
 
 [[npc]]
 id = "npc.fris_troll_king_true"
@@ -13675,6 +13682,7 @@ inherit = "npc.scorpia"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=35
+"param.killcount_varp"="varp.total_scorpia_kills"
 
 [[npc]]
 id = "npc.scorpia_guardian"
@@ -14067,6 +14075,7 @@ inherit = "npc.hillgiant_boss"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
+"param.killcount_varp"="varp.total_hillgiant_boss_kills"
 
 [[npc]]
 id = "npc.kourend_zombie1"
@@ -15087,6 +15096,7 @@ inherit = "npc.gb_mossgiant"
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
+"param.killcount_varp"="varp.total_bryophyta_kills"
 
 [[npc]]
 id = "npc.swampcrab"
@@ -20711,6 +20721,7 @@ inherit = "npc.chaos_fanatic"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
+"param.killcount_varp"="varp.total_chaosfanatic_kills"
 
 [[npc]]
 id = "npc.superior_nechryael_melee_spawn"
@@ -20953,6 +20964,7 @@ id = "npc.crazy_archaeologist"
 inherit = "npc.crazy_archaeologist"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.killcount_varp"="varp.total_crazyarchaeologist_kills"
 
 [[npc]]
 id = "npc.falador_doric_area_man1"
@@ -28779,3 +28791,10 @@ inherit = "npc.snakeboss_boss_magic"
 "param.attackrate"=3
 "param.dropped_remains"=-1
 "param.killcount_varp"="varp.total_snakeboss_kills"
+
+
+[[npc]]
+id = "npc.fossil_crazy_archaeologist"
+inherit = "npc.fossil_crazy_archaeologist"
+[npc.params]
+"param.killcount_varp"="varp.total_derangedarchaeologist_kills"
