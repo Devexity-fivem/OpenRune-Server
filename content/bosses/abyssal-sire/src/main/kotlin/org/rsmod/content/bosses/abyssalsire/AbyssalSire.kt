@@ -41,7 +41,8 @@ class AbyssalSire @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
     override fun ScriptContext.startup() {
         BossCombat.register(this, spec, deps, onCombatTick = { combatTick(npc, it) })
-        BossCombat.register(this, minionSpec, deps)
+        BossCombat.register(this, spawnSpec, deps)
+        BossCombat.register(this, scionSpec, deps)
 
         deps.extensionRegistry.register("abyssalsire.track_spawn") { access, spawn, _, _ ->
             access?.npc?.let { boss ->
@@ -110,7 +111,7 @@ class AbyssalSire @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 
     override val spec =
-        boss(SIRE) {
+        boss(SIRE, PANICKING) {
             stats(attackRate = 7)
 
             val whips =
@@ -139,8 +140,8 @@ class AbyssalSire @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                     summon(
                         npc = SPAWN,
                         count = 2,
-                        radius = 5,
-                        centeredOn = Self,
+                        radius = 3,
+                        centeredOn = CurrentTarget,
                         mode = NpcMode.ApPlayer2,
                         duration = MINION_DURATION,
                         owned = true,
@@ -154,8 +155,8 @@ class AbyssalSire @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                     summon(
                         npc = SPAWN,
                         count = 3,
-                        radius = 5,
-                        centeredOn = Self,
+                        radius = 3,
+                        centeredOn = CurrentTarget,
                         mode = NpcMode.ApPlayer2,
                         duration = MINION_DURATION,
                         owned = true,
@@ -192,12 +193,31 @@ class AbyssalSire @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             }
         }
 
-    private val minionSpec =
-        boss(SPAWN, SCION) {
+    private val spawnSpec =
+        boss(SPAWN) {
             stats(attackRate = MINION_ATTACK_RATE)
 
             val melee =
                 ability("melee") {
+                    anim("seq.abyssal_spawn_attack")
+                    hit {
+                        damage((0..MINION_MAX).roll())
+                        type(Melee)
+                    }
+                }
+
+            phase("combat") {
+                weightedSelectorRandom { +random(melee, weight = 1, requires = WithinMeleeRange) }
+            }
+        }
+
+    private val scionSpec =
+        boss(SCION) {
+            stats(attackRate = MINION_ATTACK_RATE)
+
+            val melee =
+                ability("melee") {
+                    anim("seq.abyssal_scion_attack_melee")
                     hit {
                         damage((0..MINION_MAX).roll())
                         type(Melee)
@@ -206,6 +226,7 @@ class AbyssalSire @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
             val ranged =
                 ability("ranged") {
+                    anim("seq.abyssal_scion_attack_ranged")
                     hit {
                         damage((0..MINION_MAX).roll())
                         type(Ranged)
@@ -222,6 +243,7 @@ class AbyssalSire @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
     private companion object {
         private const val SIRE = "npc.abyssalsire_sire_wandering"
+        private const val PANICKING = "npc.abyssalsire_sire_panicking"
         private const val SPAWN = "npc.abyssalsire_spawn"
         private const val SCION = "npc.abyssalsire_scion"
 
