@@ -12,6 +12,18 @@ unverified** / **Verified with known gaps** / **Complete for target revision**
 
 Target revision: **241** (game.yml; AGENTS.md still says 240.2 — stale).
 
+## Reference sources
+
+- **OSRS Wiki** — source of truth for intended mechanics.
+- **OpenRune cache / gamevals** — source of truth for rev-241 ids and symbols.
+- **[osrs-dumps](https://github.com/Joshua-F/osrs-dumps)** — Jagex CS2/interface dumps.
+- **Kronos-184-Fixed** (`../Kronos-184-Fixed`, github.com/Devexity-fivem/Kronos-184-Fixed) —
+  rev-184 Java RSPS used as an *implementation-pattern* reference for hard
+  content (bosses under `kronos-server/.../activities/bosses/`, ToB party infra
+  under `.../raids/tob/party/`). Its kronos-server code ships **no license** —
+  read for design only, never copy source; all ids must be re-derived against
+  our rev-241 cache (some survived: KQ npcs 963/965, spotanim 289 spine).
+
 ---
 
 ## Agility
@@ -107,6 +119,26 @@ Target revision: **241** (game.yml; AGENTS.md still says 240.2 — stale).
   3t, out-of-range despawn, no re-summon. Deterministic test:
   `api/bosses/.../BossEncounterForcedAbilityTest`. Approximation noted:
   1/4 poison proc rate (no published figure).
+
+### Kalphite Queen
+
+- Path: `content/bosses/kalphite-queen/`. Design informed by
+  `Kronos-184-Fixed/.../bosses/KalphiteQueen.java` (two forms, per-form
+  protection, worker aggro); ids re-derived for rev-241 (`npc.kalphite_queen`
+  963, `npc.kalphite_flyingqueen` 965, `npc.kalphite_worker` 955, verified
+  seq/spotanim symbols).
+- Mechanics: two 255-hp forms; grounded clamps lethal hits at 1 hp via the
+  new `NpcHitpointsFloorHook` binding, then `HpExact(1)` trigger runs
+  emerge (glow anim + spotanim, heal to 255, `transitionTo` flying phase,
+  phase-level `transmog` to `npc.kalphite_flyingqueen`). Incoming-rule
+  `ScalePercent(10)` stands in for form protection prayers. Workers roused
+  on a 6t / 1-in-3 `every` timer via `kq.aggro_workers` extension
+  (`npcRepo.findAll` zone scan + `apPlayer1`).
+- Status: **Verified live** (2026-10-26): grounded → flying transmog with
+  fresh 255 bar observed in-game, magic-chip damage on grounded form, real
+  death + drops on flying form, zero exceptions.
+- Gaps in docs/quirks.md: prayer model is %-scale not immunity, lightning
+  doesn't chain, spines don't AoE, worker cadence is timer-based.
 
 ## Skills (breadth audit pending)
 

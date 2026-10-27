@@ -137,6 +137,25 @@ Known deviations from live OSRS:
   symbol in this revision.
 - Web bind is a flat 10-tick freeze approximation.
 
+## Kalphite Queen
+
+- OSRS gives each form true protection prayers (ranged+magic on the grounded
+  form, melee on the flying form). We model the reduction as
+  `IncomingAction.ScalePercent(10)` — protected styles still chip ~10% damage
+  instead of splashing outright. Verified live: magic hits on the grounded
+  form landed for single digits while melee cut through normally.
+- Her two-form mechanic is implemented as a hp floor (`NpcHitpointsFloorHook`
+  keeps the grounded form at 1 hp) plus a `HpExact(1)` trigger that plays the
+  emerge sequence and transitions to the flying phase — rather than OSRS's
+  actual death-and-re-emerge, which the death pipeline cannot express.
+- The magic lightning does not chain to nearby players and the spine volley
+  does not splash nearby players (Kronos-184 implements both; needs
+  multi-target `TargetExpr` support that the boss DSL lacks today).
+- Worker rousing fires on a 6-tick 1-in-3 timer and only sets already-spawned
+  wandering workers onto the queen's target; OSRS rolls per attack.
+- Emerge anim/gfx reuse `seq.kalphite_queen_glow` + `spotanim.kalphite_queen_glow`
+  (the dedicated emerge/transform sequence has no named symbol in this cache).
+
 ## Level-up popups
 
 `LevelUpScript` sets `varbit.busy` while `levelup_display` is open and clears
