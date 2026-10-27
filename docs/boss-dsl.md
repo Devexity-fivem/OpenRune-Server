@@ -2638,11 +2638,14 @@ Additions made for the Archive Guardian. All are additive; bosses that don't use
   tick's target is the focus. `clearFocus()` drops the focus but leaves the interaction on its last target. `messageParty(area, self, others)` messages everyone in the area, `self` for
   the focus player, `others` (with `{name}`) for the rest. `song(id, area)` plays a midi song.
 - **`exactMove(to, baseCycles, perTile)`**: slides the caster to a tile with the exact-move update; takes
-  `baseCycles + perTile * distance` client cycles.
+  `baseCycles + perTile * distance` client cycles. The engine clears an npc's interaction on any
+  teleport, so the effect re-engages the player the boss was interacting with (`apPlayer2`) after
+  the move; without it the boss goes silent until something else re-targets it.
 - **Owned locs and tags**: `replaceLoc(at, loc)` swaps an owned loc (tags survive), `removeLoc(at)` frees
   the tile. `tagTile` / `untagTile` mark tiles with a string tag; `taggedTiles(tag)` and
   `ownedLocs(loc)` are tile sets (not filtered by freeness, so `taggedTiles(a) - taggedTiles(b)` works).
-- **Acting as another npc**: `asNpc(ownedNpcs(type) | nearestOwned(type, of, radius), effect)` runs
+- **Acting as another npc**: `asNpc(ownedNpcs(type) | nearestOwned(type, of, radius) |
+  customNpcs { boss, target, owned -> ... }, effect)` runs
   `effect` with the owned npc as caster (anim, spotanim, hit source, `Self`, `Centre`, `setHp`), while
   varns, phase and the encounter stay the boss's. It has its own ability run, so the boss's `interrupt()`
   does not cancel it; `interrupt()` and `transitionTo` are not allowed inside. `summon(behaviour = e)`

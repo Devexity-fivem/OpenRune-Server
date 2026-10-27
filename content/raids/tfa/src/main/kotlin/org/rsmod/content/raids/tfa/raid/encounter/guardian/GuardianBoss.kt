@@ -207,9 +207,20 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                     deps.encounterRegistry.of(npc).focus?.let { GuardianArena.isUnder(npc, it) } == true
                 }
 
-            val batteryNear =
+            val beamBattery =
+                customNpcs { boss, target, owned ->
+                    listOfNotNull(GuardianArena.beamBattery(boss, target, owned, batteryActive))
+                }
+
+            val batteryOnBeam =
                 Condition.Custom { npc, target ->
-                    GuardianArena.batteryWithin(deps, npc, batteryActive, target, BEAM_ABSORB_RADIUS)
+                    target != null &&
+                        GuardianArena.beamBattery(
+                            npc,
+                            target,
+                            deps.encounterRegistry.of(npc).ownedNpcList(),
+                            batteryActive,
+                        ) != null
                 }
 
             val breakBattery =
@@ -241,17 +252,14 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                     sequence(
                         faceTile(CurrentTargetTile, instant = true),
                         whenever(
-                            batteryNear,
+                            batteryOnBeam,
                             sequence(
                                 hit {
                                     damage(Fixed(BEAM_ABSORBED))
                                     type(Typeless)
                                     hazard()
                                 },
-                                asNpc(
-                                    nearestOwned(BATTERY_ACTIVE, CurrentTarget, BEAM_ABSORB_RADIUS),
-                                    sequence(damageSelf(Hp), run("battery_body")),
-                                ),
+                                asNpc(beamBattery, sequence(damageSelf(Hp), run("battery_body"))),
                                 run("battery_shield"),
                             ),
                             hit {
@@ -544,7 +552,6 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
         const val BEAM_DELAY = 15
         const val BEAM_ABSORBED = 10
         const val BEAM_FULL = 60
-        const val BEAM_ABSORB_RADIUS = 4
         const val BATTERY_CHARGE_RADIUS = 40
         const val BATTERY_SHIELD_DELAY = 4
         const val CAM_SHAKE_TICKS = 5

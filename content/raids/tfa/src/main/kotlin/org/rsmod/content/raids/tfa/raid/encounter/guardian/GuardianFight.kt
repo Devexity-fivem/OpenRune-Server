@@ -86,6 +86,7 @@ internal class GuardianFight(
         for ((dx, dz) in GuardianArena.BATTERY_OFFSETS) {
             val battery = Npc(BATTERY_INACTIVE, origin.translate(dx, dz))
             battery.moveRestrict = MoveRestrict.NoMove
+            battery.ignoreCombatInteractions = true
             deps.npcRepo.add(battery, Int.MAX_VALUE)
             deps.adoptOwnedNpc(npc, battery)
             batteries += battery
@@ -166,15 +167,20 @@ internal class GuardianFight(
         for (fighter in fighters) {
             val precise = fighter.vars["varbit.option_precise_timing"] != 0
             val duration = formatInstanceKillTime(now - startedAt, precise)
-            fighter.midiSong(VICTORY_SONG)
             fighter.mes("Challenge complete: Archive Guardian. Duration: <col=ef1020>$duration</col>")
         }
+        playVictorySong(VICTORY_SONG_TICKS)
         deps.worldQueues.add(HUD_FADE_DELAY) {
             for (fighter in fighters) hpBar.fadeOut(fighter)
             deps.worldQueues.add(HUD_HIDE_DELAY) { fighters.forEach(hpBar::onDeathClose) }
         }
         events.publish(TfaRoomCleared(session.id, "guardian"))
         deps.worldQueues.add(ALLIANCE_DELAY) { spawnAlliance() }
+    }
+
+    private fun playVictorySong(remaining: Int) {
+        for (fighter in fighters()) fighter.midiSong(VICTORY_SONG, fadeOutSpeed = VICTORY_FADE_OUT)
+        if (remaining > 1) deps.worldQueues.add(1) { playVictorySong(remaining - 1) }
     }
 
     private fun spawnAlliance() {
@@ -196,6 +202,8 @@ internal class GuardianFight(
         const val BATTERY_SHIELD_PERCENT = 40
         const val IDLE_SPOT_INTERVAL = 3
         const val VICTORY_SONG = 147
+        const val VICTORY_SONG_TICKS = 18
+        const val VICTORY_FADE_OUT = 50
         val ALLIANCE =
             listOf(
                 "npc.armacus_selles_postguardian",

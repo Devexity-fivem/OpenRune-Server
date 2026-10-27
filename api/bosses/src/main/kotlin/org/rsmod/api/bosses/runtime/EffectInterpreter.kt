@@ -36,6 +36,7 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.util.EntityExactMove
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.interact.InteractionPlayer
 import org.rsmod.game.headbar.Headbar as EngineHeadbar
 import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.map.collision.isWalkBlocked
@@ -114,6 +115,7 @@ class EffectInterpreter internal constructor(
                     ?.let(::listOf)
                     .orEmpty()
             }
+            is NpcExpr.Custom -> expr.select(encounter.npc, target, encounter.ownedNpcList())
         }
 
     private fun footprintDistance(other: Npc, from: CoordGrid): Int {
@@ -368,6 +370,7 @@ class EffectInterpreter internal constructor(
                     val start = npc.coords
                     val end = resolveTile(effect.to)
                     val cycles = effect.baseCycles + effect.perTile * start.chebyshevDistance(end)
+                    val engaged = (npc.interaction as? InteractionPlayer)?.target
                     PathingEntityCommon.exactMove(
                         npc,
                         start,
@@ -377,6 +380,9 @@ class EffectInterpreter internal constructor(
                         dir = Angles.bearing(start, end),
                         collision = deps.collision,
                     )
+                    if (engaged != null && engaged.isValidTarget()) {
+                        npc.apPlayer2(engaged, deps.interactions)
+                    }
                 }
             }
             is Effect.ReplaceLoc -> deps.replaceOwnedLoc(encounter, resolveTile(effect.at), effect.loc)

@@ -1,5 +1,8 @@
 package org.rsmod.api.bosses.spec
 
+import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
+
 /** Which npc(s) [Effect.AsNpc] acts as, among the ones the encounter owns. */
 sealed interface NpcExpr {
     /** Every owned npc of type [npcType], or every owned npc when null. */
@@ -10,5 +13,10 @@ sealed interface NpcExpr {
         val npcType: String,
         val of: TargetExpr.Single,
         val radius: Int,
+    ) : NpcExpr
+
+    /** The npcs [select] picks from the encounter's owned npcs, given the boss and current target. */
+    data class Custom(
+        val select: (boss: Npc, target: Player, owned: List<Npc>) -> List<Npc>,
     ) : NpcExpr
 }

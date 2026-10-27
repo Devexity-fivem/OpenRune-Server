@@ -1,11 +1,11 @@
 package org.rsmod.content.raids.tfa.raid.encounter.guardian
 
 import kotlin.math.abs
+import kotlin.math.hypot
 import kotlin.math.roundToInt
 import kotlin.math.sign
 import org.rsmod.api.bosses.dsl.area
 import org.rsmod.api.bosses.dsl.spawnTile
-import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.spec.Area
 import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.random.GameRandom
@@ -34,6 +34,8 @@ internal object GuardianArena {
     private const val HALF = SIZE / 2
     private const val SWOOP_STOP_GAP = 3
     private const val STACK_VINE_MIN = 2
+    private const val BEAM_REACH = 18.0
+    private const val BEAM_HALF_WIDTH = 5.0
 
     const val REACH = 30
     const val ENTRY_X = 4127
@@ -116,16 +118,29 @@ internal object GuardianArena {
             player.coords.x in npc.coords.x until npc.coords.x + SIZE &&
             player.coords.z in npc.coords.z until npc.coords.z + SIZE
 
-    fun batteryWithin(deps: BossDeps, boss: Npc, batteryType: Int, target: Player?, radius: Int): Boolean {
-        if (target == null) return false
-        return deps.encounterRegistry.of(boss).ownedNpcList().any {
-            it.visType.id == batteryType && footprintDistance(it, target.coords) <= radius
-        }
-    }
-
-    fun footprintDistance(other: Npc, from: CoordGrid): Int {
-        val dx = maxOf(other.coords.x - from.x, from.x - (other.coords.x + other.size - 1), 0)
-        val dz = maxOf(other.coords.z - from.z, from.z - (other.coords.z + other.size - 1), 0)
-        return maxOf(dx, dz)
+    /**
+     * The charged battery the beam hits: the one closest to the line from the Guardian's centre
+     * through the target, among those in front of the Guardian and within [BEAM_REACH]. Captured
+     * breaks sit up to [BEAM_HALF_WIDTH] tiles off that line and up to 18 tiles along it, and the
+     * pick follows the line rather than distance to the player.
+     */
+    fun beamBattery(boss: Npc, target: Player, owned: List<Npc>, batteryType: Int): Npc? {
+        val from = centre(boss)
+        val dx = target.coords.x - from.x
+        val dz = target.coords.z - from.z
+        val length = hypot(dx.toDouble(), dz.toDouble())
+        if (length == 0.0) return null
+        return owned
+            .filter { it.visType.id == batteryType }
+            .mapNotNull { battery ->
+                val rx = battery.coords.x + battery.size / 2 - from.x
+                val rz = battery.coords.z + battery.size / 2 - from.z
+                val along = (rx * dx + rz * dz) / length
+                val across = abs(rx * dz - rz * dx) / length
+                if (along <= 0 || along > BEAM_REACH || across > BEAM_HALF_WIDTH) null
+                else battery to across
+            }
+            .minByOrNull { it.second }
+            ?.first
     }
 }

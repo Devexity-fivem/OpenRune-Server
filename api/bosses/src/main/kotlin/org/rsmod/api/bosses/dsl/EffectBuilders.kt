@@ -484,4 +484,7 @@ fun ownedNpcs(npcType: String? = null): NpcExpr = NpcExpr.Owned(npcType)
 fun nearestOwned(npcType: String, of: TargetExpr.Single, radius: Int): NpcExpr =
     NpcExpr.NearestOwned(npcType, of, radius)
 
+fun customNpcs(select: (boss: Npc, target: Player, owned: List<Npc>) -> List<Npc>): NpcExpr =
+    NpcExpr.Custom(select)
+
 fun despawnSelf(): Effect = Effect.DespawnSelf
