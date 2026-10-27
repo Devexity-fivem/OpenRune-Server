@@ -4,6 +4,7 @@ import dev.openrune.types.NpcMode
 import org.rsmod.api.bosses.spec.*
 import org.rsmod.api.bosses.validation.SpecValidator
 import org.rsmod.api.player.output.CamShakeAxis
+import org.rsmod.game.entity.npc.NpcApproach
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
@@ -49,6 +50,8 @@ class BossSpecBuilder(private val npcTypes: List<String>) {
         transmog: String? = null,
         lockMovement: Boolean = false,
         scriptedMovement: Boolean = false,
+        approach: NpcApproach = NpcApproach.StopInRange,
+        interactUnderTarget: Boolean = false,
         exitAfter: Int? = null,
         nextPhase: String? = null,
         idleAnim: String? = null,
@@ -63,6 +66,8 @@ class BossSpecBuilder(private val npcTypes: List<String>) {
                 transmog = transmog,
                 lockMovement = lockMovement,
                 scriptedMovement = scriptedMovement,
+                approach = approach,
+                interactUnderTarget = interactUnderTarget,
                 exitAfter = exitAfter,
                 nextPhase = nextPhase,
                 idleAnim = idleAnim,

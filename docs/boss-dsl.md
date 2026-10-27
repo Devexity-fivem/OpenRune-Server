@@ -2648,3 +2648,26 @@ Additions made for the Archive Guardian. All are additive; bosses that don't use
   runs `e` as each spawned npc. `despawnSelf()` removes the caster. Kotlin-spawned npcs join an
   encounter with `BossDeps.adoptOwnedNpc(owner, npc)`, and `BossDeps.runAbilityAs(owner, caster, target,
   ability)` runs an ability as one of them.
+
+## Approach: attacking from range while closing to melee
+
+`phase(name, approach = NpcApproach.ChaseToMelee)` keeps the engine routing the boss toward its target
+after the combat tick fires, instead of stopping where it fired (`StopInRange`, the default), and the
+boss is not dropped for having moved. The tick still fires from anywhere inside the npc's attack range,
+so a spec can swing when `WithinMeleeRange` and cast otherwise:
+
+```kotlin
+phase("fight", approach = NpcApproach.ChaseToMelee) { ... }
+ability("attack", whenever(WithinMeleeRange, swing, otherwise = spell))
+```
+
+The engine still owns routing, facing and stepping out from under the target (unlike
+`scriptedMovement`). Use `lockMovement()` / `unlockMovement()` around an attack animation to stop the
+boss walking during it; note that a phase with `lockMovement = true` keeps the lock on regardless.
+`approach` is per phase and resets with the phase, like the other movement settings.
+
+By default the engine steps a boss away from a target standing on top of it ("Red-X") and holds the
+combat tick until the overlap clears. Set `interactUnderTarget = true` on a phase to keep the combat
+tick running with the target underneath, e.g. a boss with a stomp or a `forceWhen(underBody, ...)`
+ability. It is per phase and resets with the phase. `scriptedMovement` already skips the step-away,
+but still needs this flag for the combat tick to fire while the target is under it.

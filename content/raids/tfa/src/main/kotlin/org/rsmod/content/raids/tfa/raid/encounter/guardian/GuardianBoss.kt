@@ -446,6 +446,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                     transmog = FLYING,
                     lockMovement = true,
                     scriptedMovement = true,
+                    interactUnderTarget = true,
                 ) {
                     if (landing > 1) entry = "take_off"
                     weightedSelectorRandom { +random(ranged, weight = 1) }
@@ -462,6 +463,7 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                     transmog = GROUNDED,
                     lockMovement = true,
                     scriptedMovement = true,
+                    interactUnderTarget = true,
                     idleAnim = "seq.npc_archive_guardian_ground_idle01",
                     exitAfter = LANDING_CAP + LANDING_CAP_STEP * (landing - 1),
                     nextPhase = flyingPhase(minOf(landing + 1, LANDINGS_MAX)),
@@ -471,11 +473,23 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                 }
             }
             phase(BREAKING, lockMovement = true, scriptedMovement = true) {}
-            phase(ENRAGED_AIR, transmog = FLYING, lockMovement = true, scriptedMovement = true) {
+            phase(
+                ENRAGED_AIR,
+                transmog = FLYING,
+                lockMovement = true,
+                scriptedMovement = true,
+                interactUnderTarget = true,
+            ) {
                 every(ENRAGE_INTERVAL, run("enrage_cycle"), firstAfter = ENRAGE_FIRST)
                 every(1, whenever(Condition.HpExact(1), run("break_shield")))
             }
-            phase(FINAL_GROUND, transmog = GROUNDED, lockMovement = true, scriptedMovement = true) {
+            phase(
+                FINAL_GROUND,
+                transmog = GROUNDED,
+                lockMovement = true,
+                scriptedMovement = true,
+                interactUnderTarget = true,
+            ) {
                 every(ENRAGE_INTERVAL, run("enrage_cycle"), firstAfter = ENRAGE_FIRST)
                 every(1, whenever(Condition.HpExact(1), run("die")))
             }

@@ -1,5 +1,7 @@
 package org.rsmod.api.bosses.spec
 
+import org.rsmod.game.entity.npc.NpcApproach
+
 data class BossSpec(
     val npcTypes: List<String>,
     val stats: BossStats,
@@ -25,6 +27,17 @@ data class PhaseSpec(
      * [Effect.WalkTo] for scripted routes.
      */
     val scriptedMovement: Boolean = false,
+    /**
+     * What the engine's routing does once the combat tick fires in this phase. [NpcApproach.ChaseToMelee]
+     * lets the boss attack from range while still closing to melee; pair it with abilities that
+     * choose by `WithinMeleeRange` and `lockMovement()` for the length of an attack animation.
+     */
+    val approach: NpcApproach = NpcApproach.StopInRange,
+    /**
+     * Keeps the combat loop ticking while a player stands on top of the boss, instead of the
+     * engine stepping it away and holding its interaction until the overlap clears.
+     */
+    val interactUnderTarget: Boolean = false,
     /**
      * Per-phase attack-rate default (ticks between ability uses). When set, it overrides
      * [BossStats.attackRate] while this phase is active. A per-encounter

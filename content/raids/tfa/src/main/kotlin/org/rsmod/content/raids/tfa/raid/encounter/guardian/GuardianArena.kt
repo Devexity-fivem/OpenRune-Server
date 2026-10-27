@@ -100,11 +100,13 @@ internal object GuardianArena {
         return CoordGrid(stopX - HALF, stopZ - HALF, from.level)
     }
 
+    fun isUnder(npc: Npc, player: Player): Boolean =
+        player.coords.level == npc.coords.level &&
+            player.coords.x in npc.coords.x until npc.coords.x + SIZE &&
+            player.coords.z in npc.coords.z until npc.coords.z + SIZE
+
     fun anyUnder(npc: Npc, playerList: PlayerList): Boolean =
-        players(npc.spawnCoords, playerList).any {
-            it.coords.x in npc.coords.x until npc.coords.x + SIZE &&
-                it.coords.z in npc.coords.z until npc.coords.z + SIZE
-        }
+        players(npc.spawnCoords, playerList).any { isUnder(npc, it) }
 
     fun batteryWithin(deps: BossDeps, boss: Npc, batteryType: Int, target: Player?, radius: Int): Boolean {
         if (target == null) return false

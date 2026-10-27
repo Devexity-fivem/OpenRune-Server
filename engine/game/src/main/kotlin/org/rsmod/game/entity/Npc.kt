@@ -13,6 +13,7 @@ import dev.openrune.types.NpcServerType
 import dev.openrune.util.BlockWalk
 import org.rsmod.annotations.InternalApi
 import org.rsmod.game.damage.DamageContributions
+import org.rsmod.game.entity.npc.NpcApproach
 import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.npc.OpVisibility
@@ -105,6 +106,15 @@ public class Npc(
      * walking its own route on cycles an interaction triggers.
      */
     public var scriptedMovement: Boolean = false
+
+    /** See [NpcApproach]. Only applies to ap-range interactions, and not under [scriptedMovement]. */
+    public var approach: NpcApproach = NpcApproach.StopInRange
+
+    /**
+     * Whether this Npc keeps interacting (e.g. attacking) with a target standing on top of it,
+     * instead of stepping out from under it and holding its interaction until the overlap clears.
+     */
+    public var interactsWhenUnderTarget: Boolean = false
 
     /**
      * Used for temporarily overwriting a Npc's ap-range, i.e. the distance at which it can

@@ -16,6 +16,7 @@ import org.rsmod.api.script.onModifyNpcHit
 import org.rsmod.api.script.onNpcHit
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.npc.NpcApproach
 import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -136,6 +137,8 @@ object BossCombat {
         deps.encounterRegistry.remove(npc)?.let(deps::disposeOwned)
         npc.movementLocked = false
         npc.scriptedMovement = false
+        npc.approach = NpcApproach.StopInRange
+        npc.interactsWhenUnderTarget = false
         npc.apRangeOverride = null
         npc.apRequiresLineOfSight = true
         npc.moveRestrict = npc.type.moveRestrict

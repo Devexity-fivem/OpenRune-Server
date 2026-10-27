@@ -11,6 +11,7 @@ import org.rsmod.api.bosses.spec.*
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.npc.NpcApproach
 import org.rsmod.map.CoordGrid
 
 class BossEncounter(
@@ -192,6 +193,8 @@ class BossEncounter(
     private fun applyMovementMode(phase: PhaseSpec?) {
         npc.movementLocked = phase?.lockMovement == true
         npc.scriptedMovement = phase?.scriptedMovement == true
+        npc.approach = phase?.approach ?: NpcApproach.StopInRange
+        npc.interactsWhenUnderTarget = phase?.interactUnderTarget == true
         // A face lock from before the phase (e.g. intro dialogue) would otherwise persist.
         if (npc.scriptedMovement) npc.resetFaceEntity()
     }

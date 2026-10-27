@@ -21,6 +21,7 @@ import org.rsmod.api.route.RayCastValidator
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.PathingEntity
+import org.rsmod.game.entity.npc.NpcApproach
 import org.rsmod.game.interact.Interaction
 import org.rsmod.game.interact.InteractionLoc
 import org.rsmod.game.interact.InteractionLocOp
@@ -68,7 +69,10 @@ constructor(
         var interacted = false
 
         val isUnderTarget =
-            interaction != null && !npc.scriptedMovement && npc.isUnderTarget(interaction)
+            interaction != null &&
+                !npc.scriptedMovement &&
+                !npc.interactsWhenUnderTarget &&
+                npc.isUnderTarget(interaction)
         if (isUnderTarget) {
             // TODO(engine): Red-X has changed a bit over the past revisions. Exceptions have been
             //  added to the condition; will need to test and investigate further.
@@ -112,7 +116,7 @@ constructor(
             if (interaction != null && !npc.isBusy) {
                 npc.postMovementInteraction(interaction)
             }
-        } else if (npc.scriptedMovement) {
+        } else if (npc.scriptedMovement || npc.approach == NpcApproach.ChaseToMelee) {
             movement.process(npc)
         }
     }
@@ -140,7 +144,7 @@ constructor(
                     interacted = true
                 }
                 InteractionStep.TriggerScriptAp -> {
-                    if (!scriptedMovement) abortRoute()
+                    if (!scriptedMovement && approach != NpcApproach.ChaseToMelee) abortRoute()
                     triggerAp(interaction)
                     interacted = true
                 }
@@ -272,7 +276,7 @@ constructor(
         boundValidator.touches(source = avatar, target = interaction.target.avatar)
 
     private fun Npc.isWithinApRange(interaction: InteractionNpc): Boolean {
-        val isUnderTarget = isUnderTarget(interaction)
+        val isUnderTarget = !interactsWhenUnderTarget && isUnderTarget(interaction)
         if (isUnderTarget) {
             return false
         }
@@ -348,7 +352,7 @@ constructor(
         boundValidator.touches(source = avatar, target = interaction.target.avatar)
 
     private fun Npc.isWithinApRange(interaction: InteractionPlayer): Boolean {
-        val isUnderTarget = isUnderTarget(interaction)
+        val isUnderTarget = !interactsWhenUnderTarget && isUnderTarget(interaction)
         if (isUnderTarget) {
             return false
         }
@@ -449,7 +453,10 @@ constructor(
     }
 
     private fun Npc.shouldCancelChase(): Boolean {
-        return hasMovedThisCycle && !visType.giveChase && !scriptedMovement
+        return hasMovedThisCycle &&
+            !visType.giveChase &&
+            !scriptedMovement &&
+            approach != NpcApproach.ChaseToMelee
     }
 
     /* Interaction event launch functions */
