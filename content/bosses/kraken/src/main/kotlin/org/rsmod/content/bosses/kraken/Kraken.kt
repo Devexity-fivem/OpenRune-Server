@@ -44,7 +44,7 @@ class Kraken @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 
     override val spec =
-        boss(BOSS) {
+        boss(BOSS, WHIRLPOOL) {
             stats(attackRate = ATTACK_RATE)
 
             val immune = ability("immune") { message("The Kraken resists your attack.") }
@@ -77,7 +77,7 @@ class Kraken @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
 
     private val tentacleSpec =
-        boss(TENTACLE) {
+        boss(TENTACLE, TENTACLE_WHIRLPOOL) {
             stats(attackRate = TENTACLE_ATTACK_RATE)
 
             val slap =
