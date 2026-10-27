@@ -332,6 +332,24 @@ object InstanceSettingsTable {
             columnRSCM(EXIT_OBJECT, "loc.amoxliatl_exit")
         }
 
+        row("dbrow.instance_nex") {
+            column(KEY, "nex")
+            columnCoord(EXIT_COORD, CoordGrid(2907, 5203, 0))
+            columnCoord(ENTER_COORD, CoordGrid(2910, 5203, 0))
+            column(FEE, 0)
+            column(MAX_PLAYERS, 20)
+            column(TIME_LIMIT_MINUTES, 0)
+            column(GRACE_MINUTES, 10)
+            columnRSCM(BOSS_NPC, "npc.nex")
+            column(BOSS_NAME, "Nex")
+            column(RECOMMENDED_COMBAT, 100, 126)
+            column(TEAM_SIZE, 20)
+            column(LOOT_MULTIPLIER, "x1.0")
+            column(DESCRIPTION, "The Zarosian general sealed in the Ancient Prison.")
+            columnRSCM(ENTER_OBJECT, "loc.nex_fight_barrier_outer")
+            columnRSCM(EXIT_OBJECT, "loc.nex_fight_barrier_outer_priv")
+        }
+
         row("dbrow.instance_zulrah") {
             column(KEY, "zulrah")
             columnCoord(EXIT_COORD, CoordGrid(2214, 3056, 0))

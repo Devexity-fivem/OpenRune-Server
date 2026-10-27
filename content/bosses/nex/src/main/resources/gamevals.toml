@@ -1,0 +1,9 @@
+[gamevals.varn]
+nex_curse = 64600
+nex_mage_called = 64601
+nex_siphon = 64602
+nex_darkness = 64603
+nex_choked = 64604
+
+[gamevals.dbrow]
+instance_nex = 58001

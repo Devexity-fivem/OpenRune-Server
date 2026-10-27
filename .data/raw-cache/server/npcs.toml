@@ -19162,6 +19162,52 @@ inherit = "npc.nex_prison_blood_reaver_boss"
 "param.demon"=1
 
 [[npc]]
+id = "npc.nex"
+inherit = "npc.nex"
+[npc.params]
+"param.killcount_varp"="varp.total_nex_kills"
+
+[[npc]]
+id = "npc.nex_spawning"
+inherit = "npc.nex_spawning"
+[npc.params]
+"param.killcount_varp"="varp.total_nex_kills"
+
+[[npc]]
+id = "npc.nex_soulsplit"
+inherit = "npc.nex_soulsplit"
+[npc.params]
+"param.killcount_varp"="varp.total_nex_kills"
+
+[[npc]]
+id = "npc.nex_deflect"
+inherit = "npc.nex_deflect"
+[npc.params]
+"param.killcount_varp"="varp.total_nex_kills"
+
+[[npc]]
+id = "npc.nex_dying"
+inherit = "npc.nex_dying"
+[npc.params]
+"param.killcount_varp"="varp.total_nex_kills"
+
+[[npc]]
+id = "npc.nex_smokemage"
+inherit = "npc.nex_smokemage"
+
+[[npc]]
+id = "npc.nex_shadowmage"
+inherit = "npc.nex_shadowmage"
+
+[[npc]]
+id = "npc.nex_bloodmage"
+inherit = "npc.nex_bloodmage"
+
+[[npc]]
+id = "npc.nex_icemage"
+inherit = "npc.nex_icemage"
+
+[[npc]]
 id = "npc.arena_bouncer"
 inherit = "npc.arena_bouncer"
 [npc.params]
