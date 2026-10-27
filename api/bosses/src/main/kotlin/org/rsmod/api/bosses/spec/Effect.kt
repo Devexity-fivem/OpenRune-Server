@@ -312,6 +312,8 @@ sealed interface Effect {
     /**
      * Stores the player [who] resolves to as the encounter's [TargetExpr.Focus]. With a
      * [TargetExpr.RandomPlayer], its area is also where the focus re-rolls from once it is gone.
+     * The boss's combat interaction is retargeted to the focus, so the combat tick's target is
+     * always the focus.
      */
     data class SetFocus(val who: TargetExpr.Single) : Effect
 

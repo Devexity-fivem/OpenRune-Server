@@ -16,6 +16,7 @@ import org.rsmod.api.combat.commons.player.finishNpcHit
 import org.rsmod.api.combat.commons.player.queueCombatRetaliate
 import org.rsmod.api.combat.commons.types.MeleeAttackType
 import org.rsmod.api.npc.access.StandardNpcAccess
+import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.heal
 import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.player.disableOverheadPrayers
@@ -351,6 +352,8 @@ class EffectInterpreter internal constructor(
                 val who = effect.who
                 if (who is TargetExpr.RandomPlayer) encounter.focusArea = who.area
                 encounter.focus = resolveSingle(who)
+                val focus = encounter.focus
+                if (actingAsBoss && focus != null) npc.apPlayer2(focus, deps.interactions)
             }
             is Effect.ClearFocus -> encounter.focus = null
             is Effect.MessageParty -> messageParty(effect)

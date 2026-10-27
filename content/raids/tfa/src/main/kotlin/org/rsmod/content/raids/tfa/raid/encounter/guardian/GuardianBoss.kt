@@ -174,7 +174,10 @@ constructor(deps: BossDeps, private val fights: GuardianEncounter) : BossPluginS
                     ),
                 )
 
-            val underBody = Condition.Custom { npc, _ -> GuardianArena.anyUnder(npc, deps.playerList) }
+            val underBody =
+                Condition.Custom { npc, _ ->
+                    deps.encounterRegistry.of(npc).focus?.let { GuardianArena.isUnder(npc, it) } == true
+                }
 
             val batteryNear =
                 Condition.Custom { npc, target ->

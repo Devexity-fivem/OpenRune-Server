@@ -2634,7 +2634,8 @@ Additions made for the Archive Guardian. All are additive; bosses that don't use
   with a hitsplat, never below 1. `Hp`, `BaseHp` and `a - b` are `VarExpr`s.
 - **Focus player**: `setFocus(randomPlayer(area))` stores one player on the encounter; `Focus` is a
   `TargetExpr.Single` that resolves to it and re-rolls from the same area when the player is gone.
-  `clearFocus()` drops it. `messageParty(area, self, others)` messages everyone in the area, `self` for
+  `setFocus` also retargets the boss's combat interaction (`apPlayer2`) to the new focus, so the combat
+  tick's target is the focus. `clearFocus()` drops the focus but leaves the interaction on its last target. `messageParty(area, self, others)` messages everyone in the area, `self` for
   the focus player, `others` (with `{name}`) for the rest. `song(id, area)` plays a midi song.
 - **`exactMove(to, baseCycles, perTile)`**: slides the caster to a tile with the exact-move update; takes
   `baseCycles + perTile * distance` client cycles.

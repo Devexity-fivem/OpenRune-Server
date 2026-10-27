@@ -105,9 +105,6 @@ internal object GuardianArena {
             player.coords.x in npc.coords.x until npc.coords.x + SIZE &&
             player.coords.z in npc.coords.z until npc.coords.z + SIZE
 
-    fun anyUnder(npc: Npc, playerList: PlayerList): Boolean =
-        players(npc.spawnCoords, playerList).any { isUnder(npc, it) }
-
     fun batteryWithin(deps: BossDeps, boss: Npc, batteryType: Int, target: Player?, radius: Int): Boolean {
         if (target == null) return false
         return deps.encounterRegistry.of(boss).ownedNpcList().any {
