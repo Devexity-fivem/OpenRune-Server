@@ -97,7 +97,7 @@ class DagannothMother @Inject constructor(deps: BossDeps) : BossPluginScript(dep
             }
             val ranged = ability("ranged") {
                 anim("horror_dagannoth_attack")
-                projectile(spotanim = "troll_rock_travel", hit = Effect.Hit(damage = Roll(0..14), type = Ranged))
+                projectile(spotanim = "spotanim.troll_rock_travel", hit = Effect.Hit(damage = Roll(0..14), type = Ranged))
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -148,7 +148,7 @@ class Sigmund @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             }
             val ranged = ability("ranged") {
                 anim("human_bow")
-                projectile(spotanim = "rune_arrow_travel", hit = Effect.Hit(damage = Roll(0..9), type = Ranged))
+                projectile(spotanim = "spotanim.rune_arrow_travel", hit = Effect.Hit(damage = Roll(0..9), type = Ranged))
             }
             val magic = ability("magic") {
                 projectile(spotanim = "spotanim.earthbolt_travel", hit = Effect.Hit(damage = Roll(0..9), type = Magic))
@@ -209,7 +209,7 @@ class Galvek @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             }
             val fire = ability("dragonfire") {
                 anim("seq.dragon_attack")
-                projectile(spotanim = "firebreath_travel", hit = Effect.Hit(damage = Roll(0..28), type = Magic))
+                projectile(spotanim = "spotanim.firebreath_travel", hit = Effect.Hit(damage = Roll(0..28), type = Magic))
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -230,10 +230,10 @@ class RevenantMaledictus @Inject constructor(deps: BossDeps) : BossPluginScript(
             hit { damage(0..30).roll(); type(Melee) }
         }
         val ranged = ability("ranged") {
-            projectile(spotanim = "rune_arrow_travel", hit = Effect.Hit(damage = Roll(0..26), type = Ranged))
+            projectile(spotanim = "spotanim.rune_arrow_travel", hit = Effect.Hit(damage = Roll(0..26), type = Ranged))
         }
         val magic = ability("magic") {
-            projectile(spotanim = "firebolt_travel", hit = Effect.Hit(damage = Roll(0..26), type = Magic))
+            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..26), type = Magic))
             freeze(8, chance = 1, outOf = 6)
         }
         phase("combat") {

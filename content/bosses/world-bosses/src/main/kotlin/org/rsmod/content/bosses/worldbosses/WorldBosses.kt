@@ -91,7 +91,7 @@ class NightmareBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
                 hit { damage(0..25).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                projectile(spotanim = "spell_blood_barrage_impact", hit = Effect.Hit(damage = Roll(0..20), type = Magic))
+                projectile(spotanim = "spotanim.spell_blood_barrage_impact", hit = Effect.Hit(damage = Roll(0..20), type = Magic))
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -112,7 +112,7 @@ class YamaBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 hit { damage(0..30).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                projectile(spotanim = "fireblast_travel", hit = Effect.Hit(damage = Roll(0..26), type = Magic))
+                projectile(spotanim = "spotanim.fireblast_travel", hit = Effect.Hit(damage = Roll(0..26), type = Magic))
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -169,7 +169,7 @@ class PenanceQueen @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
             hit { damage(0..24).roll(); type(Melee) }
         }
         val magic = ability("magic") {
-            projectile(spotanim = "firebolt_travel", hit = Effect.Hit(damage = Roll(0..18), type = Magic))
+            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..18), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -210,7 +210,7 @@ class Tempoross @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.tempoross_boss_ready", "npc.tempoross_boss_whirlpool", "npc.tempoross_boss_enraged") {
             stats(attackRate = 5)
             val magic = ability("magic") {
-                projectile(spotanim = "water_wave_travel", hit = Effect.Hit(damage = Roll(0..20), type = Magic))
+                projectile(spotanim = "spotanim.water_wave_travel", hit = Effect.Hit(damage = Roll(0..20), type = Magic))
             }
             phase("combat") { weightedSelectorRandom { +random(magic, weight = 1) } }
         }

@@ -90,7 +90,7 @@ class AgrithNaNa @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             hit { damage(0..16).roll(); type(Melee) }
         }
         val magic = ability("magic") {
-            projectile(spotanim = "firebolt_travel", hit = Effect.Hit(damage = Roll(0..12), type = Magic))
+            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..12), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {

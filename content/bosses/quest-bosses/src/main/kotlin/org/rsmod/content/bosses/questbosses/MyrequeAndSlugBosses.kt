@@ -29,7 +29,7 @@ class RanisDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 hit { damage(0..15).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                projectile(spotanim = "blood_blitz_travel", hit = Effect.Hit(damage = Roll(0..12), type = Magic))
+                projectile(spotanim = "spotanim.blood_blitz_travel", hit = Effect.Hit(damage = Roll(0..12), type = Magic))
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -61,7 +61,7 @@ class JudgeOfYama @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             hit { damage(0..12).roll(); type(Melee) }
         }
         val magic = ability("magic") {
-            projectile(spotanim = "firebolt_travel", hit = Effect.Hit(damage = Roll(0..10), type = Magic))
+            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..10), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -82,7 +82,7 @@ class Xamphur @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 hit { damage(0..14).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                projectile(spotanim = "firebolt_travel", hit = Effect.Hit(damage = Roll(0..12), type = Magic))
+                projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..12), type = Magic))
             }
             phase("combat") {
                 weightedSelectorRandom {

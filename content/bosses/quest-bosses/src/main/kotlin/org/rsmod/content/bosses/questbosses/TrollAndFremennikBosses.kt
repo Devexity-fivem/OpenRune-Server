@@ -101,7 +101,7 @@ class JungleDemon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
         val magic = ability("magic") {
             anim("seq.demon_attack")
-            projectile(spotanim = "firebolt_travel", hit = Effect.Hit(damage = Roll(0..26), type = Magic))
+            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..26), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {

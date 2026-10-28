@@ -17,7 +17,7 @@ class Elvarg @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
         val fire = ability("dragonfire") {
             anim("seq.dragon_attack")
-            projectile(spotanim = "firebreath_travel", hit = Effect.Hit(damage = Roll(0..25), type = Magic))
+            projectile(spotanim = "spotanim.firebreath_travel", hit = Effect.Hit(damage = Roll(0..25), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -62,7 +62,7 @@ class AgrithNaar @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
         val magic = ability("magic") {
             anim("seq.demon_attack")
-            projectile(spotanim = "firebolt_travel", hit = Effect.Hit(damage = Roll(0..8), type = Magic))
+            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..8), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {

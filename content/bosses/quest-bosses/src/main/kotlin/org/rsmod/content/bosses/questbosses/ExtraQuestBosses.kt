@@ -28,7 +28,7 @@ class RoyalTitanFire @Inject constructor(deps: BossDeps) : BossPluginScript(deps
             hit { damage(0..30).roll(); type(Melee) }
         }
         val magic = ability("magic") {
-            projectile(spotanim = "fireblast_travel", hit = Effect.Hit(damage = Roll(0..28), type = Magic))
+            projectile(spotanim = "spotanim.fireblast_travel", hit = Effect.Hit(damage = Roll(0..28), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -48,7 +48,7 @@ class RoyalTitanIce @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
             hit { damage(0..30).roll(); type(Melee) }
         }
         val magic = ability("magic") {
-            projectile(spotanim = "spell_ice_barrage_impact", hit = Effect.Hit(damage = Roll(0..28), type = Magic))
+            projectile(spotanim = "spotanim.spell_ice_barrage_impact", hit = Effect.Hit(damage = Roll(0..28), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -72,7 +72,7 @@ class NightmareStandard @Inject constructor(deps: BossDeps) : BossPluginScript(d
                 hit { damage(0..30).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                projectile(spotanim = "spell_blood_barrage_impact", hit = Effect.Hit(damage = Roll(0..24), type = Magic))
+                projectile(spotanim = "spotanim.spell_blood_barrage_impact", hit = Effect.Hit(damage = Roll(0..24), type = Magic))
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -92,7 +92,7 @@ class RaidsIceDemon @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
             hit { damage(0..35).roll(); type(Melee) }
         }
         val magic = ability("magic") {
-            projectile(spotanim = "spell_ice_barrage_impact", hit = Effect.Hit(damage = Roll(0..30), type = Magic))
+            projectile(spotanim = "spotanim.spell_ice_barrage_impact", hit = Effect.Hit(damage = Roll(0..30), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -112,7 +112,7 @@ class TzKalZuk @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             hit { damage(0..40).roll(); type(Melee) }
         }
         val ranged = ability("ranged") {
-            projectile(spotanim = "dharok_head_fly", hit = Effect.Hit(damage = Roll(0..35), type = Ranged))
+            projectile(spotanim = "spotanim.dharok_head_fly", hit = Effect.Hit(damage = Roll(0..35), type = Ranged))
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -144,7 +144,7 @@ class ShadowKhazard @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
             hit { damage(0..35).roll(); type(Melee) }
         }
         val magic = ability("magic") {
-            projectile(spotanim = "fireblast_travel", hit = Effect.Hit(damage = Roll(0..30), type = Magic))
+            projectile(spotanim = "spotanim.fireblast_travel", hit = Effect.Hit(damage = Roll(0..30), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {
