@@ -11,7 +11,6 @@ import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onEvent
-import org.rsmod.api.player.events.interact.LocEvents
 import org.rsmod.api.player.events.interact.NpcEvents
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onProtectedEvent
@@ -42,11 +41,8 @@ class InfernoScript @Inject constructor(private val runs: InfernoRuns) : PluginS
                 with(runs) { enter() }
             }
         }
-        onProtectedEvent<LocEvents.Op1>(VENT_DOOR_ID) {
-            if (runs.sessionFor(player)?.key == KEY) {
-                with(runs) { leave() }
-            }
-        }
+        // The hot vent door (loc 30266) exit is bound once globally in
+        // nightmare-zone's script; it exits whichever instance session is active.
 
         onPlayerSoftTimer(WAVE_TIMER) {
             val session = runs.sessionFor(player)
@@ -93,7 +89,6 @@ class InfernoScript @Inject constructor(private val runs: InfernoRuns) : PluginS
         const val JAD_NAME = "inferno_jad"
         const val ZUK_NAME = "inferno_tzkalzuk_placeholder"
         const val KET_KEH_ID = 11247
-        const val VENT_DOOR_ID = 30266
     }
 }
 
