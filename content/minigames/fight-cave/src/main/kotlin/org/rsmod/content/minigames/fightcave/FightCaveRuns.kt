@@ -2,8 +2,7 @@ package org.rsmod.content.minigames.fightcave
 
 import com.github.michaelbull.logging.InlineLogger
 import dev.openrune.ServerCacheManager
-import dev.openrune.rscm.RSCM.asRSCM
-import dev.openrune.rscm.RSCMType
+import dev.openrune.types.MoveRestrict
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.rsmod.api.instances.InstanceAccess
@@ -22,11 +21,14 @@ import org.rsmod.api.player.hook.TeleportType
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.npc.NpcRepository
+import org.rsmod.api.route.StepFactory
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
+import org.rsmod.routefinder.RouteFinding
 import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionStrategy
 import org.rsmod.routefinder.flag.CollisionFlag
 
 class FightCaveRun(
@@ -45,6 +47,7 @@ constructor(
     private val npcRepo: NpcRepository,
     private val aiPlayerInteractions: AiPlayerInteractions,
     private val collision: CollisionFlagMap,
+    private val steps: StepFactory,
 ) {
     private val active = HashMap<InstanceId, FightCaveRun>()
     private val logger = InlineLogger()
@@ -95,16 +98,22 @@ constructor(
 
     fun spawnWave(player: Player, sessionId: InstanceId, wave: Int) {
         val run = active[sessionId] ?: return
-        run.wave = wave
         val npcSyms =
             if (wave == FightCaveWaves.LAST_WAVE) {
                 listOf(FightCaveWaves.TZTOK_JAD)
             } else {
                 FightCaveWaves.WAVES[wave - 1]
             }
-        npcSyms.forEachIndexed { index, sym ->
-            spawn(sessionId, sym, player.coords, index, player)?.let { run.npcs.add(it) }
+        val spawned =
+            npcSyms.mapIndexedNotNull { index, sym ->
+                spawn(sessionId, sym, player.coords, index, player)
+            }
+        if (spawned.isEmpty()) {
+            player.mes("Wave $wave has no room to spawn - keep moving.")
+            return
         }
+        run.wave = wave
+        run.npcs.addAll(spawned)
         player.mes("Wave: $wave")
     }
 
@@ -135,13 +144,13 @@ constructor(
             logger.warn { "fightcave: no session for $sessionId" }
             return null
         }
-        val size = ServerCacheManager.getNpc(sym.asRSCM(RSCMType.NPC))?.size ?: 1
-        val coords = spawnTile(anchor, size, index, radiusMin, radiusMax)
+        val npc = Npc(sym, anchor)
+        val coords = spawnTile(npc, anchor, index, radiusMin, radiusMax)
         if (coords == null) {
             logger.warn { "fightcave: no open spawn tile near $anchor for $sym" }
             return null
         }
-        val npc = Npc(sym, coords)
+        npc.coords = coords
         engage(npc, player)
         npcRepo.add(npc, NPC_LIFETIME)
         manager.attachNpc(sessionId, npc)
@@ -149,8 +158,8 @@ constructor(
     }
 
     private fun spawnTile(
+        npc: Npc,
         anchor: CoordGrid,
-        size: Int,
         index: Int,
         radiusMin: Int,
         radiusMax: Int,
@@ -161,10 +170,32 @@ constructor(
                 val x = anchor.x + (kotlin.math.cos(angle) * radius).toInt()
                 val z = anchor.z + (kotlin.math.sin(angle) * radius).toInt()
                 val tile = CoordGrid(x, z, anchor.level)
-                if (open(tile, size)) return tile
+                if (open(tile, npc.size) && reaches(npc, anchor, tile)) return tile
             }
         }
         return null
+    }
+
+    // NPC movement steps are straight-line only (no A*), so a spawn tile is useless
+    // unless the npc can actually step from it to the anchor's perimeter the same way
+    // the movement processor does: StepFactory-validated diagonal/horizontal/vertical.
+    private fun reaches(npc: Npc, anchor: CoordGrid, from: CoordGrid): Boolean {
+        val dest =
+            RouteFinding.naiveDestination(
+                sourceX = from.x,
+                sourceZ = from.z,
+                sourceWidth = npc.size,
+                sourceLength = npc.size,
+                targetX = anchor.x,
+                targetZ = anchor.z,
+                targetWidth = 1,
+                targetLength = 1,
+            )
+        val target = CoordGrid(dest.x, dest.z, anchor.level)
+        if (from == target) return true
+        val extraFlag = if (npc.moveRestrict == MoveRestrict.PassThru) 0 else CollisionFlag.BLOCK_NPCS
+        val path = steps.createPath(from, target, npc.size, extraFlag, CollisionStrategy.Normal)
+        return path.lastOrNull() == target
     }
 
     private fun open(tile: CoordGrid, size: Int): Boolean {
@@ -203,6 +234,7 @@ constructor(
         const val AGGRO_RANGE = 64
         const val NPC_LIFETIME = 100_000
         const val SPAWN_RADIUS_MIN = 6
+        const val MAX_ROUTE_STEPS = 24
         const val SPAWN_RADIUS_MAX = 14
         const val RING_SLOTS = 16
         const val ANGLE_STEP = 5

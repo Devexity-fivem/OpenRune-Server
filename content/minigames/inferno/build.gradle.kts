@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.api.random)
     implementation(projects.api.registry)
     implementation(projects.api.repo)
+    implementation(projects.api.route)
     implementation(projects.engine.game)
     implementation(projects.engine.map)
     implementation(projects.engine.routefinder)
