@@ -1,5 +1,5 @@
 id = "Skeleton Drops (Plain) Drops"
-npcs = ["npc.giantskeleton2", "npc.skeleton_armed4", "npc.skeleton_armed5"]
+npcs = ["npc.giantskeleton2", "npc.skeleton_armed4", "npc.skeleton_armed5", "npc.skeleton_unagressive", "npc.skeleton_unagressive2", "npc.skeleton_unagressive3", "npc.skeleton_unarmed", "npc.skeleton_unarmed2", "npc.skeleton_unarmed3", "npc.skeleton_unarmed4"]
 
 [[guaranteed]]
 obj = "obj.bones"

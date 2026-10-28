@@ -1,0 +1,6 @@
+id = "Baby green dragon Drops"
+npcs = ["npc.babygreendragon2", "npc.babygreendragon3"]
+
+[[guaranteed]]
+obj = "obj.babydragon_bones"
+count = 1

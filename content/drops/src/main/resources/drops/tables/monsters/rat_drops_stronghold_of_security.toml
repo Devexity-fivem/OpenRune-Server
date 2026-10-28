@@ -1,5 +1,5 @@
 id = "Rat Drops (Stronghold of Security) Drops"
-npcs = ["npc.sos_fam_rat", "npc.sos_war_rat"]
+npcs = ["npc.dungeon_rat", "npc.sos_fam_rat", "npc.sos_war_rat"]
 
 [[guaranteed]]
 obj = "obj.bones"

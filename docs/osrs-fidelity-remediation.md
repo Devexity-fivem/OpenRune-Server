@@ -109,3 +109,34 @@ lesser/black/greater demon (standard + Wilderness Slayer Cave), green dragon (L7
 - Shops/stock/prices, quests/dialogue, interfaces systematic audits — NOT done this phase.
 - `Gradlew test` full suite not re-run (data-only changes; boot+loader validation is the coverage for TOML data).
 - GenDropTables.py remains provisional tooling pending Kotlin port.
+
+## Phase 3b — NPC reconciliation, inventory counts, full test sweep
+
+### Unbound-attackable NPC reconciliation (partial)
+Complete prefix classification of the 458 remaining unbound attackable spawned NPCs:
+dominated by quest-instance groups (`brain_zombie_pirate*` ×31, `dt2_strangled*` ×8,
+`tourtrap_qip_*` ×13, `fai_barbarian*` ×17, `lotr_*` ×18, `misc_*` ×12,
+`battlefield_*` no-drop quest NPCs) — these are scripted/quest NPCs, not ordinary
+killable reward sources; documented, not silently resolved.
+Actionable cases resolved this batch:
+- `flesh_crawler_members_worlds.toml` + `flesh_crawler_free_to_play_worlds.toml` (3 syms incl. `sos_fam_fleshcrawler`)
+- `barbarian_level_8_9_and_10.toml` (18 syms; L15/17 already covered)
+- `baby_green_dragon.toml` (guaranteed `babydragon_bones`, 2 syms)
+- Variant binds added: `skeleton_armed/2/3`→armed, `skeleton_unarmed2/3/4`, `skeleton_unagressive/2/3`→plain,
+  `zombie_unarmed_city1-6`, `zombie_entranan1-5`→zombie L24 union, `dungeon_rat`→SoS rat table.
+Remaining unbound-attackable: ~430, pending manual wiki review per NPC group.
+
+### Inventory counts (recorded, NOT fully audited)
+- Drop tables: 599 TOML (net after union merges) + Kotlin DSL tables; 2,406+ bound npc syms.
+- Shops: 28 Kotlin shop sites; shop data is cache-dbtable driven (`dbtable.shop_currency`,
+  Omnishop stock/currency rows) — stock/prices inherit packed-revision accuracy by
+  construction; custom shop logic only partially reviewed.
+- Quests: 105 quest-related Kotlin files — systematic stage/dialogue audit NOT performed.
+- Interfaces: 86 interface Kotlin files — systematic functional audit NOT performed.
+- MCP live checks this phase: lesser demon, giant rat, Callisto aggro/anim — all PASS.
+- `devin ai` account password reset in embedded Postgres (bcrypt); login verified.
+
+### Validation (phase 3b)
+- Full-table validation: 0 unresolved symbols, 0 weight-sum violations, 0 duplicate
+  npc bindings, all shared names valid.
+- `gradlew test` full suite: result recorded below in commit message / run log.

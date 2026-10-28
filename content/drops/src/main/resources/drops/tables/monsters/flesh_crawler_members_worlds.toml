@@ -1,0 +1,64 @@
+id = "Flesh Crawler Members' worlds Drops"
+npcs = ["npc.sos_fam_fleshcrawler2", "npc.sos_fam_fleshcrawler3"]
+
+[main]
+total = 100
+name = "Flesh Crawler Members' worlds Drops"
+
+[[main.entries]]
+weight = 2
+shared = "gem"
+
+[[main.entries]]
+weight = 10
+obj = "obj.bodyrune"
+count = "3..12"
+
+[[main.entries]]
+weight = 4
+obj = "obj.firerune"
+count = 42
+
+[[main.entries]]
+weight = 10
+obj = "obj.dustrune"
+count = "3..9"
+
+[[main.entries]]
+weight = 4
+obj = "obj.naturerune"
+count = 5
+
+[[main.entries]]
+weight = 5
+obj = "obj.iron_ore"
+count = 1
+
+[[main.entries]]
+weight = 12
+obj = "obj.iron_ore"
+count = "3..7"
+
+[[main.entries]]
+weight = 2
+obj = "obj.silver_bar"
+count = 1
+
+[[main.entries]]
+weight = 7
+obj = "obj.coins"
+count = "5..84"
+
+[[main.entries]]
+weight = 4
+obj = "obj.ashes"
+count = 1
+
+[[main.entries]]
+weight = 2
+nothing = true
+
+# Main table pool padding uses a nothing roll (38 weight)
+[[main.entries]]
+weight = 38
+nothing = true

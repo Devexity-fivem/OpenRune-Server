@@ -1,0 +1,44 @@
+id = "Flesh Crawler Free-to-play worlds Drops"
+npcs = ["npc.sos_fam_fleshcrawler"]
+
+[main]
+total = 100
+name = "Flesh Crawler Free-to-play worlds Drops"
+
+[[main.entries]]
+weight = 2
+shared = "gem"
+
+[[main.entries]]
+weight = 19
+obj = "obj.bodyrune"
+count = "3..12"
+
+[[main.entries]]
+weight = 4
+obj = "obj.coins"
+count = 10
+
+[[main.entries]]
+weight = 7
+obj = "obj.coins"
+count = "5..84"
+
+[[main.entries]]
+weight = 5
+obj = "obj.iron_ore"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.ashes"
+count = 1
+
+[[main.entries]]
+weight = 56
+nothing = true
+
+# Main table pool padding uses a nothing roll (3 weight)
+[[main.entries]]
+weight = 3
+nothing = true
