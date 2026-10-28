@@ -144,7 +144,7 @@ const NOT_IMPLEMENTATION = /^content\/drops\/|collection-log\/.*gamevals\.toml$/
  * this, a blocklist counts as an implementation: BraceletOfSlaughter.kt lists
  * tzkalzuk and tztokjad only to exclude them, which marked both as done.
  */
-const BEHAVIOUR = /\bon[A-Z][A-Za-z0-9]*\(|PluginScript\b|\bencounter\(/
+const BEHAVIOUR = /\bon[A-Z][A-Za-z0-9]*\(|PluginScript\b|\bencounter\(|\benum class\b/
 
 /** RSCM symbols referenced by content/ files that actually do something with them. */
 function scanReferences() {
@@ -491,7 +491,7 @@ const categories = spec.categories.map((c) => {
     name: c.name,
     features: members.map((title) => {
       const mod = findModule(title, c.moduleRoot, modules, aliases)
-      return scoreFeature({ name: title, wiki: title, module: mod?.path }, ctx)
+      return scoreFeature({ name: title, wiki: title, module: mod?.path, ...(c.overrides?.[title] ?? {}) }, ctx)
     }),
   }
 })

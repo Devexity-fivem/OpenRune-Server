@@ -9,7 +9,7 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **23/23** · Bosses **151/169** · Raids **0/4** · Minigames **2/52**
+Skills **23/23** · Bosses **164/169** · Raids **3/4** · Minigames **2/52**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
@@ -43,13 +43,14 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 2,036 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
-### Bosses <sup>151/169</sup>
+### Bosses <sup>164/169</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Abyssal_Sire_%28phase_1%29.png/48px-Abyssal_Sire_%28phase_1%29.png?0db8f" height="20" alt=""> [Abyssal Sire](content/bosses/abyssal-sire) | 271 loc | [wiki](https://oldschool.runescape.wiki/w/Abyssal_Sire) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Agrith_Naar.png/48px-Agrith_Naar.png?fcbf6" height="20" alt=""> Agrith Naar | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Agrith_Naar) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Agrith-Na-Na.png/48px-Agrith-Na-Na.png?9d9fc" height="20" alt=""> Agrith-Na-Na | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Agrith-Na-Na) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ahrim_the_Blighted.png/48px-Ahrim_the_Blighted.png?33092" height="20" alt=""> Ahrim the Blighted | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Ahrim_the_Blighted) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Akkha.png/48px-Akkha.png?09042" height="20" alt=""> Akkha | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Akkha) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Alchemical_Hydra_%28serpentine%29.png/48px-Alchemical_Hydra_%28serpentine%29.png?925dd" height="20" alt=""> [Alchemical Hydra](content/bosses/alchemical-hydra) | 271 loc | [wiki](https://oldschool.runescape.wiki/w/Alchemical_Hydra) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Amoxliatl.png/48px-Amoxliatl.png?01b12" height="20" alt=""> [Amoxliatl](content/bosses/amoxliatl) | 387 loc | [wiki](https://oldschool.runescape.wiki/w/Amoxliatl) |
@@ -64,10 +65,12 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Barrelchest.png/48px-Barrelchest.png?b2ae4" height="20" alt=""> Barrelchest | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Barrelchest) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Barrows_minigame.png/48px-Barrows_minigame.png?f7aaf" height="20" alt=""> [Barrows](content/bosses/barrows) | 1,566 loc | [wiki](https://oldschool.runescape.wiki/w/Barrows) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Black_Knight_Titan.png/48px-Black_Knight_Titan.png?69152" height="20" alt=""> Black Knight Titan | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_Knight_Titan) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Black_demon.png/48px-Black_demon.png?5ecf8" height="20" alt=""> Black demon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_demon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Black_golem.png/48px-Black_golem.png?18834" height="20" alt=""> Black golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_golem) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Blood_Moon.png/48px-Blood_Moon.png?c3e72" height="20" alt=""> Blood Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blood_Moon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Blue_Moon.png/48px-Blue_Moon.png?c3e72" height="20" alt=""> Blue Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blue_Moon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer.png/48px-Bouncer.png?4de03" height="20" alt=""> Bouncer | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer_%28ghost%29.png/48px-Bouncer_%28ghost%29.png?756db" height="20" alt=""> Bouncer (ghost) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer_(ghost)) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Branda_the_Fire_Queen.png/48px-Branda_the_Fire_Queen.png?0687c" height="20" alt=""> Branda the Fire Queen | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Branda_the_Fire_Queen) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Brutus.png/48px-Brutus.png?eda9e" height="20" alt=""> [Brutus](content/bosses/brutus) | 1,411 loc | [wiki](https://oldschool.runescape.wiki/w/Brutus) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bryophyta.png/48px-Bryophyta.png?08bc8" height="20" alt=""> [Bryophyta](content/bosses/bryophyta) | 153 loc | [wiki](https://oldschool.runescape.wiki/w/Bryophyta) |
@@ -96,6 +99,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Deranged_archaeologist.png/48px-Deranged_archaeologist.png?32c7e" height="20" alt=""> [Deranged archaeologist](content/bosses/deranged-archaeologist) | 76 loc | [wiki](https://oldschool.runescape.wiki/w/Deranged_archaeologist) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dessourt.png/48px-Dessourt.png?c2392" height="20" alt=""> Dessourt | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dessourt) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dessous.png/48px-Dessous.png?bd2c8" height="20" alt=""> Dessous | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dessous) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dharok_the_Wretched.png/48px-Dharok_the_Wretched.png?33092" height="20" alt=""> Dharok the Wretched | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Dharok_the_Wretched) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Doom_of_Mokhaiotl.png/48px-Doom_of_Mokhaiotl.png?e5edb" height="20" alt=""> [Doom of Mokhaiotl](content/bosses/doom-of-mokhaiotl) | 3,150 loc | [wiki](https://oldschool.runescape.wiki/w/Doom_of_Mokhaiotl) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Duke_Sucellus.png/48px-Duke_Sucellus.png?d588a" height="20" alt=""> [Duke Sucellus](content/bosses/duke-sucellus) | 1,264 loc | [wiki](https://oldschool.runescape.wiki/w/Duke_Sucellus) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dusk.png/48px-Dusk.png?2d6f0" height="20" alt=""> Dusk | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Dusk) |
@@ -120,14 +124,18 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Glough.png/48px-Glough.png?81044" height="20" alt=""> Glough | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Glough) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Great_Olm.png/48px-Great_Olm.png?f1081" height="20" alt=""> Great Olm | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Great_Olm) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Grey_golem.png/48px-Grey_golem.png?857cb" height="20" alt=""> Grey golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Grey_golem) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fighting_Grotesque_Guardians.png/48px-Fighting_Grotesque_Guardians.png?f7fd9" height="20" alt=""> Grotesque Guardians | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Grotesque_Guardians) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Guthan_the_Infested.png/48px-Guthan_the_Infested.png?33092" height="20" alt=""> Guthan the Infested | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Guthan_the_Infested) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Hespori.png/48px-Hespori.png?83c72" height="20" alt=""> [Hespori](content/bosses/hespori) | 330 loc | [wiki](https://oldschool.runescape.wiki/w/Hespori) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ice_Troll_King.png/48px-Ice_Troll_King.png?a972f" height="20" alt=""> Ice Troll King | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Ice_Troll_King) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ice_demon.png/48px-Ice_demon.png?c9bce" height="20" alt=""> Ice demon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Ice_demon) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Judge_of_Yama.png/48px-Judge_of_Yama.png?02e2b" height="20" alt=""> Judge of Yama (A Kingdom Divided) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Judge_of_Yama_(A_Kingdom_Divided)) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Jungle_Demon.png/48px-Jungle_Demon.png?b44f3" height="20" alt=""> Jungle Demon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Jungle_Demon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/K%27ril_Tsutsaroth.png/48px-K%27ril_Tsutsaroth.png?73bda" height="20" alt=""> [K'ril Tsutsaroth](content/bosses/kril) | 191 loc | [wiki](https://oldschool.runescape.wiki/w/K'ril_Tsutsaroth) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kalphite_Queen.png/48px-Kalphite_Queen.png?a4955" height="20" alt=""> [Kalphite Queen](content/bosses/kalphite-queen) | 149 loc | [wiki](https://oldschool.runescape.wiki/w/Kalphite_Queen) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kamil.png/48px-Kamil.png?68693" height="20" alt=""> Kamil | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Kamil) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Karamel.png/48px-Karamel.png?f69b4" height="20" alt=""> Karamel | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Karamel) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Karil_the_Tainted.png/48px-Karil_the_Tainted.png?33092" height="20" alt=""> Karil the Tainted | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Karil_the_Tainted) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kephri.png/48px-Kephri.png?4c3cd" height="20" alt=""> Kephri | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Kephri) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/King_Black_Dragon.png/48px-King_Black_Dragon.png?d25f0" height="20" alt=""> [King Black Dragon](content/bosses/kbd) | 143 loc | [wiki](https://oldschool.runescape.wiki/w/King_Black_Dragon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Koschei_the_deathless.png/48px-Koschei_the_deathless.png?37d97" height="20" alt=""> Koschei the deathless | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Koschei_the_deathless) |
@@ -135,6 +143,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/48px-Kree%27arra.png?ba75c" height="20" alt=""> [Kree'arra](content/bosses/kreearra) | 229 loc | [wiki](https://oldschool.runescape.wiki/w/Kree'arra) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Me.png/48px-Me.png?65f08" height="20" alt=""> Me | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Me) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Melzar_the_Mad.png/48px-Melzar_the_Mad.png?b3424" height="20" alt=""> Melzar the Mad | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Melzar_the_Mad) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Moons of Peril | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Moons_of_Peril) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Moss_Guardian.png/48px-Moss_Guardian.png?a1e47" height="20" alt=""> Moss Guardian | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Moss_Guardian) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Muttadile.png/48px-Muttadile.png?55798" height="20" alt=""> Muttadile | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Muttadile) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Nex.png/48px-Nex.png?2a1b3" height="20" alt=""> [Nex](content/bosses/nex) | 1,242 loc | [wiki](https://oldschool.runescape.wiki/w/Nex) |
@@ -146,6 +155,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Phantom_Muspah_%28ranged%29.png/48px-Phantom_Muspah_%28ranged%29.png?9cf6a" height="20" alt=""> [Phantom Muspah](content/bosses/muspah) | 1,295 loc | [wiki](https://oldschool.runescape.wiki/w/Phantom_Muspah) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/48px-The_Nightmare.png?0128a" height="20" alt=""> Phosani's Nightmare | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Phosani's_Nightmare) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Revenant_maledictus.png/48px-Revenant_maledictus.png?73c48" height="20" alt=""> Revenant maledictus | no module, code in content/areas/wilderness, content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Revenant_maledictus) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fighting_Royal_Titans.png/48px-Fighting_Royal_Titans.png?bfd16" height="20" alt=""> Royal Titans | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Royal_Titans) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Salarin_the_twisted.png/48px-Salarin_the_twisted.png?079fa" height="20" alt=""> Salarin the twisted | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Salarin_the_twisted) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Sarachnis.png/48px-Sarachnis.png?8f040" height="20" alt=""> [Sarachnis](content/bosses/sarachnis) | 132 loc | [wiki](https://oldschool.runescape.wiki/w/Sarachnis) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Scorpia.png/48px-Scorpia.png?517c9" height="20" alt=""> [Scorpia](content/bosses/scorpia) | 133 loc | [wiki](https://oldschool.runescape.wiki/w/Scorpia) |
@@ -173,11 +183,13 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Leviathan.png/48px-The_Leviathan.png?d588a" height="20" alt=""> [The Leviathan](content/bosses/leviathan) | 1,397 loc | [wiki](https://oldschool.runescape.wiki/w/The_Leviathan) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Maiden_of_Sugadinti.png/48px-The_Maiden_of_Sugadinti.png?c69d5" height="20" alt=""> The Maiden of Sugadinti | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Maiden_of_Sugadinti) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Mimic.png/48px-The_Mimic.png?b45f4" height="20" alt=""> The Mimic | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Mimic) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/48px-The_Nightmare.png?0128a" height="20" alt=""> The Nightmare | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Nightmare) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/48px-The_Nightmare.png?0128a" height="20" alt=""> The Nightmare | no module, code in content/other/pets, content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Nightmare) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Untouchable.png/48px-The_Untouchable.png?dc69e" height="20" alt=""> The Untouchable | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Untouchable) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Whisperer.png/48px-The_Whisperer.png?aedab" height="20" alt=""> [The Whisperer](content/bosses/whisperer) | 1,854 loc | [wiki](https://oldschool.runescape.wiki/w/The_Whisperer) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Thermonuclear_smoke_devil.png/48px-Thermonuclear_smoke_devil.png?de858" height="20" alt=""> Thermonuclear smoke devil | no module, code in content/bosses/thermy | [wiki](https://oldschool.runescape.wiki/w/Thermonuclear_smoke_devil) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tolna_%28boy%29.png/48px-Tolna_%28boy%29.png?0e3b5" height="20" alt=""> Tolna | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Tolna) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Torag_the_Corrupted.png/48px-Torag_the_Corrupted.png?33092" height="20" alt=""> Torag the Corrupted | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Torag_the_Corrupted) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tree_spirit_%28Lost_City%29.png/48px-Tree_spirit_%28Lost_City%29.png?2446d" height="20" alt=""> Tree spirit (Lost City) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Tree_spirit_(Lost_City)) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Treus_Dayth.png/48px-Treus_Dayth.png?9cace" height="20" alt=""> Treus Dayth | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Treus_Dayth) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tumeken%27s_Warden.png/48px-Tumeken%27s_Warden.png?c9f68" height="20" alt=""> Tumeken's Warden | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tumeken's_Warden) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzKal-Zuk.png/48px-TzKal-Zuk.png?2d222" height="20" alt=""> TzKal-Zuk | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/TzKal-Zuk) |
@@ -187,6 +199,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vardorvis.png/48px-Vardorvis.png?48af8" height="20" alt=""> [Vardorvis](content/bosses/vardorvis) | 1,287 loc | [wiki](https://oldschool.runescape.wiki/w/Vardorvis) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vasa_Nistirio.png/48px-Vasa_Nistirio.png?64087" height="20" alt=""> Vasa Nistirio | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Vasa_Nistirio) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Venenatis.png/48px-Venenatis.png?13693" height="20" alt=""> Venenatis | no module, code in content/bosses/spindel | [wiki](https://oldschool.runescape.wiki/w/Venenatis) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Verac_the_Defiled.png/48px-Verac_the_Defiled.png?33092" height="20" alt=""> Verac the Defiled | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Verac_the_Defiled) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Verzik_Vitur.png/48px-Verzik_Vitur.png?cfc15" height="20" alt=""> Verzik Vitur | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Verzik_Vitur) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vespula.png/48px-Vespula.png?09658" height="20" alt=""> Vespula | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Vespula) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vet%27ion.png/48px-Vet%27ion.png?8695f" height="20" alt=""> [Vet'ion](content/bosses/vetion) | 233 loc | [wiki](https://oldschool.runescape.wiki/w/Vet'ion) |
@@ -200,26 +213,22 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/48px-Zulrah_%28serpentine%29.png?29a54" height="20" alt=""> [Zulrah](content/bosses/zulrah) | 639 loc | [wiki](https://oldschool.runescape.wiki/w/Zulrah) |
 
 <details>
-<summary>🔴 <b>18 not started</b></summary>
+<summary>🔴 <b>5 not started</b></summary>
 
-**Drop table already done (6)** — needs the encounter scripting.
+**Nothing yet (5)**
 
-[Ahrim the Blighted](https://oldschool.runescape.wiki/w/Ahrim_the_Blighted) · [Dharok the Wretched](https://oldschool.runescape.wiki/w/Dharok_the_Wretched) · [Guthan the Infested](https://oldschool.runescape.wiki/w/Guthan_the_Infested) · [Karil the Tainted](https://oldschool.runescape.wiki/w/Karil_the_Tainted) · [Torag the Corrupted](https://oldschool.runescape.wiki/w/Torag_the_Corrupted) · [Verac the Defiled](https://oldschool.runescape.wiki/w/Verac_the_Defiled)
-
-**Nothing yet (12)**
-
-[Black demon](https://oldschool.runescape.wiki/w/Black_demon) · [Bouncer (ghost)](https://oldschool.runescape.wiki/w/Bouncer_(ghost)) · [Grotesque Guardians](https://oldschool.runescape.wiki/w/Grotesque_Guardians) · [Judge of Yama (A Kingdom Divided)](https://oldschool.runescape.wiki/w/Judge_of_Yama_(A_Kingdom_Divided)) · [Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Mad Angel](https://oldschool.runescape.wiki/w/Mad_Angel) · [Maggot King](https://oldschool.runescape.wiki/w/Maggot_King) · [Moons of Peril](https://oldschool.runescape.wiki/w/Moons_of_Peril) · [Royal Titans](https://oldschool.runescape.wiki/w/Royal_Titans) · [Tree spirit (Lost City)](https://oldschool.runescape.wiki/w/Tree_spirit_(Lost_City)) · [Wintertodt](https://oldschool.runescape.wiki/w/Wintertodt) · [Wrathmaw](https://oldschool.runescape.wiki/w/Wrathmaw)
+[Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Mad Angel](https://oldschool.runescape.wiki/w/Mad_Angel) · [Maggot King](https://oldschool.runescape.wiki/w/Maggot_King) · [Wintertodt](https://oldschool.runescape.wiki/w/Wintertodt) · [Wrathmaw](https://oldschool.runescape.wiki/w/Wrathmaw)
 
 </details>
 
-### Raids <sup>0/4</sup>
+### Raids <sup>3/4</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
-| 🔴 | <img src="https://oldschool.runescape.wiki/images/thumb/Chambers_of_Xeric_logo.png/48px-Chambers_of_Xeric_logo.png?34a98" height="20" alt=""> Chambers of Xeric | nothing yet | [wiki](https://oldschool.runescape.wiki/w/Chambers_of_Xeric) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Chambers_of_Xeric_logo.png/48px-Chambers_of_Xeric_logo.png?34a98" height="20" alt=""> Chambers of Xeric | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Chambers_of_Xeric) |
 | 🔴 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Fractured_Archive_logo.png/48px-The_Fractured_Archive_logo.png?2eb86" height="20" alt=""> The Fractured Archive | nothing yet | [wiki](https://oldschool.runescape.wiki/w/The_Fractured_Archive) |
-| 🔴 | <img src="https://oldschool.runescape.wiki/images/thumb/Theatre_of_Blood_logo.png/48px-Theatre_of_Blood_logo.png?e6e68" height="20" alt=""> Theatre of Blood | nothing yet | [wiki](https://oldschool.runescape.wiki/w/Theatre_of_Blood) |
-| 🔴 | <img src="https://oldschool.runescape.wiki/images/thumb/Tombs_of_Amascut.png/48px-Tombs_of_Amascut.png?f9992" height="20" alt=""> Tombs of Amascut | nothing yet | [wiki](https://oldschool.runescape.wiki/w/Tombs_of_Amascut) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Theatre_of_Blood_logo.png/48px-Theatre_of_Blood_logo.png?e6e68" height="20" alt=""> Theatre of Blood | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Theatre_of_Blood) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tombs_of_Amascut.png/48px-Tombs_of_Amascut.png?f9992" height="20" alt=""> Tombs of Amascut | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tombs_of_Amascut) |
 
 ### Minigames <sup>2/52</sup>
 
@@ -327,7 +336,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/muspah` | 4 | 1,295 | 0 | 0 | 2026-10-18 |
 | `bosses/nex` | 3 | 1,242 | 1 | 0 | 2026-10-28 |
 | `bosses/obor` | 1 | 60 | 1 | 0 | 2026-10-26 |
-| `bosses/quest-bosses` | 7 | 1,166 | 0 | 0 | 2026-10-28 |
+| `bosses/quest-bosses` | 7 | 1,187 | 0 | 0 | 2026-10-28 |
 | `bosses/raid-bosses` | 1 | 290 | 0 | 0 | 2026-10-28 |
 | `bosses/sarachnis` | 1 | 132 | 1 | 0 | 2026-10-27 |
 | `bosses/scorpia` | 1 | 133 | 0 | 0 | 2026-10-25 |

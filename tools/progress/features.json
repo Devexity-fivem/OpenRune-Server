@@ -197,12 +197,159 @@
         "Boss slayer",
         "Bossing",
         "Dagannoth Kings"
-      ]
+      ],
+      "overrides": {
+        "Ahrim the Blighted": {
+          "rscmPrefixes": [
+            "barrows_ahrim"
+          ]
+        },
+        "Dharok the Wretched": {
+          "rscmPrefixes": [
+            "barrows_dharok"
+          ]
+        },
+        "Guthan the Infested": {
+          "rscmPrefixes": [
+            "barrows_guthan"
+          ]
+        },
+        "Karil the Tainted": {
+          "rscmPrefixes": [
+            "barrows_karil"
+          ]
+        },
+        "Torag the Corrupted": {
+          "rscmPrefixes": [
+            "barrows_torag"
+          ]
+        },
+        "Verac the Defiled": {
+          "rscmPrefixes": [
+            "barrows_verac"
+          ]
+        },
+        "Moons of Peril": {
+          "rscmPrefixes": [
+            "pmoon_boss"
+          ]
+        },
+        "Grotesque Guardians": {
+          "rscmPrefixes": [
+            "gargboss_"
+          ]
+        },
+        "Royal Titans": {
+          "rscmPrefixes": [
+            "rt_fire_queen",
+            "rt_ice_king"
+          ]
+        },
+        "Judge of Yama (A Kingdom Divided)": {
+          "rscmPrefixes": [
+            "akd_judge_of_yama",
+            "yama_judge_of_yama"
+          ]
+        },
+        "Bouncer (ghost)": {
+          "rscmPrefixes": [
+            "arena_bouncer",
+            "shadow_maj_bouncer"
+          ]
+        },
+        "Tree spirit (Lost City)": {
+          "rscmPrefixes": [
+            "tree_spirit",
+            "fairy2_dryhadguardian"
+          ]
+        },
+        "Black demon": {
+          "rscmPrefixes": [
+            "grandtree_blackdemon",
+            "nzone_grandtree_blackdemon"
+          ]
+        },
+        "The Nightmare": {
+          "rscmPrefixes": [
+            "nightmare_"
+          ]
+        },
+        "Dad": {
+          "rscmPrefixes": [
+            "troll_champion",
+            "troll_dad"
+          ]
+        },
+        "Dagannoth mother": {
+          "rscmPrefixes": [
+            "horror_dagganoth"
+          ]
+        },
+        "General Khazard": {
+          "rscmPrefixes": [
+            "general_khazard",
+            "shadow_maj_khazard"
+          ]
+        },
+        "Mad Angel": {
+          "rscmPrefixes": [
+            "mad_angel",
+            "soulbane_angel"
+          ]
+        },
+        "Maggot King": {
+          "rscmPrefixes": [
+            "maggot"
+          ]
+        },
+        "Wintertodt": {
+          "rscmPrefixes": [
+            "wintertodt"
+          ]
+        },
+        "Wrathmaw": {
+          "rscmPrefixes": [
+            "wrathmaw"
+          ]
+        },
+        "Lowerniel Drakan": {
+          "rscmPrefixes": [
+            "lowerniel",
+            "myq5_drakan"
+          ]
+        }
+      }
     },
     {
       "name": "Raids",
       "wikiCategory": "Category:Raids",
-      "moduleRoot": "content/raids"
+      "moduleRoot": "content/raids",
+      "overrides": {
+        "Chambers of Xeric": {
+          "rscmPrefixes": [
+            "raids_",
+            "olm_"
+          ]
+        },
+        "Theatre of Blood": {
+          "rscmPrefixes": [
+            "tob_",
+            "verzik_",
+            "nylocas_boss"
+          ]
+        },
+        "Tombs of Amascut": {
+          "rscmPrefixes": [
+            "toa_",
+            "akkha_"
+          ]
+        },
+        "The Fractured Archive": {
+          "rscmPrefixes": [
+            "archive_"
+          ]
+        }
+      }
     },
     {
       "name": "Minigames",

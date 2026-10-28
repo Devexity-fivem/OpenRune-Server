@@ -171,6 +171,27 @@ class DagannothMotherAll @Inject constructor(deps: BossDeps) : BossPluginScript(
         }
 }
 
+// The Grand Tree — Black demon: melee + magic up to ~30.
+class GrandTreeBlackDemon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+    override val spec: BossSpec =
+        boss("npc.grandtree_blackdemon", "npc.nzone_grandtree_blackdemon_normal", "npc.nzone_grandtree_blackdemon_hard") {
+            stats(attackRate = 4)
+            val melee = ability("melee") {
+                anim("seq.demon_attack")
+                hit { damage(0..30).roll(); type(Melee) }
+            }
+            val magic = ability("magic") {
+                projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..25), type = Magic))
+            }
+            phase("combat") {
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(magic, weight = 2)
+                }
+            }
+        }
+}
+
 // Troll Stronghold — Dad (troll champion): melee up to ~27.
 class DadChampion @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.troll_champion") {
