@@ -267,3 +267,41 @@ Blocked/uncertain for remaining three:
 - **Nightmare Zone**: `nzone_*` boss variants (normal+hard) + `npc.nzone_host` (Dominic Onion,
   Yanille 2608,3116) exist; arena copy region unconfirmed (no nzone locs in map dump);
   needs dream-selection interface + points varp + reward chest shop.
+
+## Wave-arena engine findings (verified at runtime, commit 6c029aa40)
+
+How NPC chase actually works — reuse this for BA penance waves, NMZ rumble, Colosseum:
+
+- `NpcMovementProcessor` routes a `RouteRequestPathingEntity` to a single target tile via
+  `RouteFinding.naiveDestination` (nearest tile on the target's perimeter), then steps ONE tile per
+  tick through `StepFactory.validated` — diagonal first, then horizontal, then vertical.
+  There is NO A*: if all three candidate steps are blocked, the npc freezes in place forever.
+- `StepFactory` is injectable and `StepValidator` (directional WALL_* flags + LOC + FLOOR_BLOCKED)
+  is what it uses — tile-level "is this tile open" checks are insufficient. Spawn validation must
+  simulate `steps.createPath(from, naiveDest, size, extraFlag, CollisionStrategy.Normal)` and
+  require `path.last() == naiveDest`. `extraFlag = BLOCK_NPCS` unless `moveRestrict == PassThru`.
+- Consequence: ring-of-walkable-tiles spawning must validate reachability with that exact sim,
+  and arena anchor points must be on open floor. The Inferno `enterCoord` originally landed inside
+  the walled antechamber (source 2464,5088 unwalkable) — waves could never path in; moved to
+  source (2464,5100) = `RegionLocal(0, 38, 79, 32, 44)` (z-local = source_z - region_z*64).
+- `npcRepo.add(npc, Int.MAX_VALUE)` sets `npc.respawns = true` — dead wave npcs respawn.
+  Use a finite lifetime (`100_000`).
+- `Npc.hasInteraction()` is internal — check `npc.mode` against `NpcMode.OpPlayer2/ApPlayer2`
+  for "is engaged" re-aggro checks in wave timers.
+- `npc.setHunt(range)` + `setHuntMode` (stalk gamevals: `constant_melee=1`, `constant_ranged=2`)
+  alone does NOT bridge long distances — native hunting is proximity-gated via `isAnyoneNear()`
+  (info protocol active). Explicit `opPlayer2`/`apPlayer2` engagement at spawn + re-engage on
+  mode-drop each wave-check tick is what makes arena chase reliable.
+- Binding ops without a gameval: `onProtectedEvent<NpcEvents.Op1>(rawNpcId)` and
+  `onProtectedEvent<LocEvents.Op1>(rawLocId)` — event keys are `type.id`. Custom gamevals in
+  `[gamevals.npc]` CANNOT alias existing ids (must exceed max base id ~16771).
+- `manager.resolveCoord(session, coord)` maps source-region coords into instance space;
+  `manager.sessionForPlayer(player)`, `manager.sessionForId(id)`, `manager.attachNpc(sessionId, npc)`
+  cover the session lifecycle. Spawn in source coords? No — spawn in resolved instance coords or
+  use the instance region's absolute coords.
+- Guard wave advance on spawn success: if every ring tile fails reachability (player in a nook),
+  `spawnWave` must not count the wave as spawned or the timer races to the boss wave.
+
+Live-verified on Inferno (region 9807 copy): Talk-to TzHaar-Ket-Keh (11247) -> instance ->
+wave 1-3 Jal-Nib/Jal-MejRah spawn on reachable ring tiles, walk in, trade hits; vent door
+(loc 30266, bound via raw-id op1, city-side inert) exits to `CITY_EXIT` (2494,5115).
