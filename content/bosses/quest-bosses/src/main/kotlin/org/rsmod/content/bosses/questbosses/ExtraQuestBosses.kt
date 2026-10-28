@@ -155,23 +155,6 @@ class ShadowKhazard @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
     }
 }
 
-// Lost City — dryad guardians: melee up to ~15.
-class LostCityTreeSpirit @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec =
-        boss(
-            "npc.fairy2_dryhadguardian_1", "npc.fairy2_dryhadguardian_2",
-            "npc.fairy2_dryhadguardian_3", "npc.fairy2_dryhadguardian_4",
-            "npc.fairy2_dryhadguardian_5", "npc.fairy2_dryhadguardian_6",
-        ) {
-            stats(attackRate = 4)
-            val melee = ability("melee") {
-                anim("seq.tentacle_monster_attack")
-                hit { damage(0..15).roll(); type(Melee) }
-            }
-            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
-        }
-}
-
 // Horror from the Deep — Dagannoth Mother all-colour cycle: melee up to ~28.
 class DagannothMotherAll @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
