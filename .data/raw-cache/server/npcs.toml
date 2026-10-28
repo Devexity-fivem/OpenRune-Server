@@ -84,7 +84,6 @@ inherit = "npc.hans"
 defaultMode = "Patrol"
 maxRange = 40
 
-
 [[npc.waypoints]]
 destination = { x = 3207, z = 3233, level = 0 }
 
@@ -115,7 +114,6 @@ destination = { x = 3202, z = 3205, level = 0 }
 
 [[npc.waypoints]]
 destination = { x = 3202, z = 3232, level = 0 }
-
 
 [[npc]]
 id = "npc.cook"
@@ -1529,6 +1527,7 @@ defaultMode = "Wander"
 "param.attack_anim"="seq.godwars_bandos_attack"
 "param.defend_anim"="seq.godwars_bandos_defend"
 "param.death_anim"="seq.godwars_bandos_death"
+"param.killcount_varp"="varp.total_bandos_kills"
 
 [[npc]]
 id = "npc.godwars_sergeant_goblin1"
@@ -1589,6 +1588,7 @@ defaultMode = "Wander"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 "param.death_anim"="seq.godwars_saradomin_death"
+"param.killcount_varp"="varp.total_saradomin_kills"
 
 [[npc]]
 id = "npc.godwars_saradomin_unicorn"
@@ -1652,6 +1652,7 @@ defaultMode = "Wander"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=30
 "param.death_anim"="seq.godwars_zamorak_death"
+"param.killcount_varp"="varp.total_zamorak_kills"
 
 [[npc]]
 id = "npc.godwars_ancient_black_demon"
@@ -2114,6 +2115,8 @@ category = 65517
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_mage"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_spiritual_bandos_ranger"
@@ -2124,6 +2127,8 @@ category = 65517
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_ranger"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_spiritual_bandos_warrior"
@@ -2135,6 +2140,8 @@ category = 65517
 "param.attackrate"=5
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_warrior"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_ancient_ork1"
@@ -2259,6 +2266,9 @@ category = 65518
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
+"param.killcount_varp"="varp.kc_spiritual_mage"
+"param.killcount_notify"=false
+
 [[npc]]
 id = "npc.godwars_spiritual_armadyl_ranger"
 inherit = "npc.godwars_spiritual_armadyl_ranger"
@@ -2268,6 +2278,8 @@ category = 65518
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_ranger"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_spiritual_armadyl_warrior"
@@ -2279,6 +2291,8 @@ category = 65518
 "param.attackrate"=5
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_warrior"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_armadyl_female_armor01_blue"
@@ -2424,6 +2438,8 @@ category = 65519
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_mage"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_spiritual_saradomin_ranger"
@@ -2434,6 +2450,8 @@ category = 65519
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_ranger"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_spiritual_saradomin_warrior"
@@ -2445,6 +2463,8 @@ category = 65519
 "param.attackrate"=5
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_warrior"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_saradomin_knight_1"
@@ -2478,6 +2498,8 @@ category = 65520
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_mage"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_spiritual_zamorak_ranger"
@@ -2488,6 +2510,8 @@ category = 65520
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
+"param.killcount_varp"="varp.kc_spiritual_ranger"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_spiritual_zamorak_warrior"
@@ -2499,15 +2523,8 @@ category = 65520
 "param.attackrate"=5
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.total_armadyl_kills"
-
-[[npc]]
-id = "npc.godwars_bandos_avatar"
-inherit = "npc.godwars_bandos_avatar"
-[npc.params]
-"param.elemental_weakness_type"=2
-"param.elemental_weakness_percent"=40
-"param.killcount_varp"="varp.total_bandos_kills"
+"param.killcount_varp"="varp.kc_spiritual_warrior"
+"param.killcount_notify"=false
 
 [[npc]]
 id = "npc.godwars_bloodveld"
@@ -2591,127 +2608,6 @@ category = 65520
 "param.attack_anim"="seq.dog_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=6
-[[npc]]
-id = "npc.godwars_saradomin_avatar"
-inherit = "npc.godwars_saradomin_avatar"
-[npc.params]
-"param.killcount_varp"="varp.total_saradomin_kills"
-
-[[npc]]
-id = "npc.godwars_spiritual_armadyl_mage"
-inherit = "npc.godwars_spiritual_armadyl_mage"
-[npc.params]
-"param.killcount_varp"="varp.kc_spiritual_mage"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_armadyl_ranger"
-inherit = "npc.godwars_spiritual_armadyl_ranger"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_ranger"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_armadyl_warrior"
-inherit = "npc.godwars_spiritual_armadyl_warrior"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_warrior"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_bandos_mage"
-inherit = "npc.godwars_spiritual_bandos_mage"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_mage"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_bandos_ranger"
-inherit = "npc.godwars_spiritual_bandos_ranger"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_ranger"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_bandos_warrior"
-inherit = "npc.godwars_spiritual_bandos_warrior"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_warrior"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_saradomin_mage"
-inherit = "npc.godwars_spiritual_saradomin_mage"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_mage"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_saradomin_ranger"
-inherit = "npc.godwars_spiritual_saradomin_ranger"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_ranger"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_saradomin_warrior"
-inherit = "npc.godwars_spiritual_saradomin_warrior"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_warrior"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_zamorak_mage"
-inherit = "npc.godwars_spiritual_zamorak_mage"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_mage"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_zamorak_ranger"
-inherit = "npc.godwars_spiritual_zamorak_ranger"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_ranger"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_spiritual_zamorak_warrior"
-inherit = "npc.godwars_spiritual_zamorak_warrior"
-[npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.kc_spiritual_warrior"
-"param.killcount_notify"=false
-
-[[npc]]
-id = "npc.godwars_zamorak_avatar"
-inherit = "npc.godwars_zamorak_avatar"
-[npc.params]
-"param.demon"=1
-"param.elemental_weakness_type"=1
-"param.elemental_weakness_percent"=30
-"param.killcount_varp"="varp.total_zamorak_kills"
-
 [[npc]]
 id = "npc.grimy_lizard"
 inherit = "npc.grimy_lizard"
@@ -4863,12 +4759,6 @@ contentGroup = "content.net_bait_fishing_spot"
 moveRestrict = "NoMove"
 wanderRange = 0
 [[npc]]
-id = "npc.0_50_49_saltfish"
-inherit = "npc.0_50_49_saltfish"
-contentGroup = "content.net_bait_fishing_spot"
-moveRestrict = "NoMove"
-wanderRange = 0
-[[npc]]
 id = "npc.0_39_55_saltfish"
 inherit = "npc.0_39_55_saltfish"
 contentGroup = "content.net_bait_fishing_spot"
@@ -5691,6 +5581,8 @@ defaultMode = "Wander"
 "param.death_anim"="seq.npc_callisto_death01"
 "param.killcount_varp"="varp.total_callisto_kills"
 "param.boss_hp_bar_mode"=1
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=30
 
 [[npc]]
 id = "npc.callisto_singles"
@@ -13660,13 +13552,6 @@ inherit = "npc.wilderness_ankou"
 "param.elemental_weakness_percent"=40
 
 [[npc]]
-id = "npc.callisto"
-inherit = "npc.callisto"
-[npc.params]
-"param.elemental_weakness_type"=3
-"param.elemental_weakness_percent"=30
-
-[[npc]]
 id = "npc.vetion_hellhound_jnr"
 inherit = "npc.vetion_hellhound_jnr"
 [npc.params]
@@ -18962,7 +18847,6 @@ wanderRange = 0
 "param.demon"=1
 "param.demonbane_resistant"=1
 "param.boss_hp_bar_mode"=2
-
 
 [[npc]]
 id = "npc.leviathan"
@@ -28896,7 +28780,6 @@ inherit = "npc.snakeboss_boss_magic"
 "param.attackrate"=3
 "param.dropped_remains"=-1
 "param.killcount_varp"="varp.total_snakeboss_kills"
-
 
 [[npc]]
 id = "npc.fossil_crazy_archaeologist"

@@ -24,6 +24,7 @@ import dev.openrune.getCacheLocation
 import dev.openrune.server.impl.item.ItemRenderDataManager
 import dev.openrune.toml.TomlMapper
 import dev.openrune.toml.model.TomlValue
+import dev.openrune.toml.rsconfig.RuneScapeTomlBlock
 import dev.openrune.toml.rsconfig.decodeRuneScape
 import dev.openrune.toml.rsconfig.decodeRuneScapeBlocks
 import dev.openrune.toml.rsconfig.rsconfig
@@ -309,15 +310,15 @@ class PackServerConfig(
 
         val files = (listOf(directory) + extraDirectories).flatMap { getFiles(it, "toml") }
 
-        for (file in files) {
-            val blocks = mapper.decodeRuneScapeBlocks(file.toPath())
-            for (block in blocks) {
-                val packType = packTypes[block.name] ?: continue
+        val fileBlocks = files.map { it to mapper.decodeRuneScapeBlocks(it.toPath()) }
+        val blocksByTable = collectBlocksByTable(fileBlocks, filesByTable)
+        for ((table, blocksById) in blocksByTable) {
+            val packType = packTypes[table] ?: continue
+            for (block in blocksById.values) {
                 val def =
-                    packType.tomlMapper.decodeRuneScape(packType.kType, block.map.properties)
+                    packType.tomlMapper.decodeRuneScape(packType.kType, block.properties)
                         as Definition
-                parsedDefinitions.getOrPut(packType.table) { mutableListOf() }.add(def)
-                filesByTable.getOrPut(packType.table) { linkedSetOf() }.add(file)
+                parsedDefinitions.getOrPut(table) { mutableListOf() }.add(def)
             }
         }
 
@@ -360,6 +361,50 @@ class PackServerConfig(
 
         private val tomlMapperDefault = tomlMapper {}
         private val packTypes = LinkedHashMap<String, PackType>()
+
+        /**
+         * Blocks that share a table + id are partial overlays of one definition, not separate
+         * definitions: later files override individual fields and nested sub-tables (e.g.
+         * `[npc.params]`) union across the duplicates. Decoding each block independently would
+         * silently discard every field the last block doesn't repeat.
+         */
+        internal fun collectBlocksByTable(
+            fileBlocks: List<Pair<File, List<RuneScapeTomlBlock>>>,
+            filesByTable: MutableMap<String, MutableSet<File>>,
+            tables: Set<String> = packTypes.keys,
+        ): Map<String, Map<String, TomlValue.Map>> {
+            val blocksByTable = linkedMapOf<String, MutableMap<String, TomlValue.Map>>()
+            var anonymousBlock = 0
+            for ((file, blocks) in fileBlocks) {
+                for (block in blocks) {
+                    if (block.name !in tables) continue
+                    filesByTable.getOrPut(block.name) { linkedSetOf() }.add(file)
+                    val key =
+                        when (val id = block.map.properties["id"]) {
+                            is TomlValue.String -> id.value
+                            is TomlValue.Integer -> id.value.toString()
+                            else -> "anonymous#${anonymousBlock++}"
+                        }
+                    blocksByTable.getOrPut(block.name) { linkedMapOf() }
+                        .merge(key, block.map) { a, b -> mergeOverlayBlocks(a, b) }
+                }
+            }
+            return blocksByTable
+        }
+
+        internal fun mergeOverlayBlocks(base: TomlValue.Map, overlay: TomlValue.Map): TomlValue.Map {
+            val merged = base.properties.toMutableMap()
+            for ((key, value) in overlay.properties) {
+                val existing = merged[key]
+                merged[key] =
+                    if (existing is TomlValue.Map && value is TomlValue.Map) {
+                        mergeOverlayBlocks(existing, value)
+                    } else {
+                        value
+                    }
+            }
+            return TomlValue.Map(merged)
+        }
 
         /**
          * Pack every id from [baseDefinitions]; Toml section `[[table]]` (for any overlay files);
