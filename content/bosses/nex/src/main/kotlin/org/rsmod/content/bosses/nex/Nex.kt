@@ -1,13 +1,14 @@
 package org.rsmod.content.bosses.nex
 
+import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
-import dev.openrune.types.NpcMode
 import jakarta.inject.Inject
 import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossCombat
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
+import org.rsmod.api.bosses.runtime.spawnOwnedNpc
 import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.DamageExpr
 import org.rsmod.api.bosses.spec.Effect
@@ -15,17 +16,29 @@ import org.rsmod.api.bosses.spec.HitType
 import org.rsmod.api.bosses.spec.TargetExpr
 import org.rsmod.api.bosses.spec.VarExpr
 import org.rsmod.api.combat.commons.CombatEffects
+import org.rsmod.api.npc.apPlayer2
+import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.heal
+import org.rsmod.api.npc.owner.assignSpawnOwner
+import org.rsmod.api.player.events.PlayerHitEvents
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.isValidTarget
+import org.rsmod.api.player.stat.stat
+import org.rsmod.api.player.stat.statAdd
+import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.player.stat.statSub
 import org.rsmod.api.script.onEvent
+import org.rsmod.api.script.onNpcHit
+import org.rsmod.api.script.onPlayerHit
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocShape
+import org.rsmod.game.map.collision.isWalkBlocked
+import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.plugin.scripts.ScriptContext
@@ -35,15 +48,19 @@ import org.rsmod.routefinder.LineValidator
  * Nex (npc.nex) in her instanced Ancient Prison chamber. Five HP-gated phases —
  * Smoke, Shadow, Blood, Ice and Zaros — each ended by slaying the corner mage
  * (Fumus, Umbra, Cruor, Glacies) she calls at the 80/60/40/20% thresholds. The
- * mages are invulnerable until called. Deviations: damage taken during Blood
- * Siphon negates rather than heals Nex (the reavers keep lifesteal pressure);
- * the ice prison shatters on its timer rather than needing to be attacked down;
- * the virus does not spread beyond the carrier's tile and Nex skips her
- * spawn/wake cinematic.
+ * mages are invulnerable until called. Deviations: the ice prison shatters on
+ * its timer rather than needing to be attacked down; the virus does not spread
+ * beyond the carrier's tile and Nex skips her spawn/wake cinematic.
  */
-class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
+    BossPluginScript(deps) {
 
     private val lineValidator = LineValidator(deps.collision)
+
+    private val nexId by lazy { NEX.asRSCM(RSCMType.NPC) }
+    private val nexIds by lazy { NEX_FORMS.map { it.asRSCM(RSCMType.NPC) }.toSet() }
+    private val mageIds by lazy { MAGE_TYPES.map { it.asRSCM(RSCMType.NPC) }.toSet() }
+    private val reaverType by lazy { ServerCacheManager.getNpc(REAVER.asRSCM(RSCMType.NPC)) }
 
     private val virusUntil = mutableMapOf<Player, Int>()
     private val sacrificed = mutableSetOf<Player>()
@@ -226,22 +243,39 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                     say("A siphon will solve this!")
                     spotanim("spotanim.nex_blood_siphon")
                     setVarn(VARN_SIPHON, Now + SIPHON_TICKS)
-                    summon(
-                        npc = REAVER,
-                        count = REAVER_COUNT,
-                        radius = 4,
-                        mode = NpcMode.ApPlayer2,
-                        duration = Int.MAX_VALUE,
-                        owned = true,
-                    )
+                    include(external(EXT_SIPHON_REAVERS))
                     // Surviving reavers die at the window's end and heal Nex
                     // for their remaining hitpoints.
                     include(after(SIPHON_TICKS + 1, external(EXT_SIPHON_END)))
+                    // She kneels for the whole window and stops attacking.
+                    wait(SIPHON_TICKS)
                 }
             val bloodSacrifice =
                 ability("blood_sacrifice") {
                     say("I demand a blood sacrifice!")
                     include(external(EXT_SACRIFICE))
+                }
+            // Blood specials fire on a cadence and strictly alternate, like
+            // OSRS: ~8-10 attacks, then siphon or sacrifice, never both in a row.
+            val bloodSpecial =
+                ability("blood_special") {
+                    addVarn(VARN_BLOOD_SPEC, 1)
+                    include(
+                        Effect.Switch(
+                            VARN_BLOOD_SPEC,
+                            mapOf(
+                                BLOOD_SPEC_SIPHON to Effect.Run(bloodSiphon.name),
+                                BLOOD_SPEC_SACRIFICE to
+                                    sequence(
+                                        Effect.SetVarn(
+                                            VARN_BLOOD_SPEC,
+                                            VarExpr.Const(0),
+                                        ),
+                                        Effect.Run(bloodSacrifice.name),
+                                    ),
+                            ),
+                        )
+                    )
                 }
 
             // Ice
@@ -279,6 +313,23 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                     projectile(spotanim = ICE_PRISON_PROJ)
                     freeze(PRISON_FREEZE_TICKS)
                     include(external(EXT_ICE_PRISON))
+                }
+            val iceSpecial =
+                ability("ice_special") {
+                    addVarn(VARN_ICE_SPEC, 1)
+                    include(
+                        Effect.Switch(
+                            VARN_ICE_SPEC,
+                            mapOf(
+                                ICE_SPEC_CONTAIN to Effect.Run(containment.name),
+                                ICE_SPEC_PRISON to
+                                    sequence(
+                                        Effect.SetVarn(VARN_ICE_SPEC, VarExpr.Const(0)),
+                                        Effect.Run(icePrison.name),
+                                    ),
+                            ),
+                        )
+                    )
                 }
 
             // Zaros
@@ -377,8 +428,8 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 }
 
             incoming {
-                // Invulnerable while siphoning.
-                rule(timerActive(VARN_SIPHON)) { scalePercent(0) }
+                // Invulnerable while her called mage lives.
+                rule(calledMageAlive()) { scalePercent(0) }
                 // Deflect Melee halves (and reflects) melee during the deflect window.
                 rule(
                     Condition.InPhase(PHASE_ZAROS) and
@@ -398,7 +449,6 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             }
 
             // Recurring windows.
-            every(SIPHON_HEAL_PERIOD, whenever(timerActive(VARN_SIPHON), Effect.HealSelf(SIPHON_HEAL)))
             every(
                 DARK_DAMAGE_PERIOD,
                 whenever(
@@ -449,9 +499,8 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 weightedSelectorRandom {
                     +random(bloodBarrage, weight = 11)
                     +random(melee, weight = 5, requires = WithinMeleeRange)
-                    +random(bloodSiphon, weight = 2, requires = reaversBelow(REAVER_COUNT))
-                    +random(bloodSacrifice, weight = 2)
                 }
+                forceEveryAttacks(BLOOD_SPECIAL_MIN, BLOOD_SPECIAL_MAX, bloodSpecial)
                 forceWhen(mageDead(CRUOR), toIce, once = true)
             }
 
@@ -460,9 +509,8 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 weightedSelectorRandom {
                     +random(iceBarrage, weight = 11)
                     +random(melee, weight = 5, requires = WithinMeleeRange)
-                    +random(containment, weight = 2)
-                    +random(icePrison, weight = 2)
                 }
+                forceEveryAttacks(ICE_SPECIAL_MIN, ICE_SPECIAL_MAX, iceSpecial)
                 forceWhen(mageDead(GLACIES), toZaros, once = true)
             }
 
@@ -488,11 +536,17 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
 
     override fun ScriptContext.startup() {
-        BossCombat.register(this, spec, deps, onLethal = ::onNexLethal)
+        BossCombat.register(
+            this,
+            spec,
+            deps,
+            onLethal = ::onNexLethal,
+            onModifyHit = { onNexIncoming() },
+        )
         BossCombat.register(this, mageSpec, deps)
 
         deps.extensionRegistry.register(EXT_CALL_MAGE) { ctx ->
-            (ctx.params as? String)?.let { callMage(ctx.npc, it) }
+            (ctx.params as? String)?.let { callMage(ctx.npc, ctx.target, it) }
         }
         deps.extensionRegistry.register(EXT_VIRUS) { ctx -> startVirus(ctx.npc, ctx.target) }
         deps.extensionRegistry.register(EXT_DRAG) { ctx -> dragTarget(ctx.npc, ctx.target) }
@@ -500,21 +554,51 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         deps.extensionRegistry.register(EXT_SHADOW_SMASH) { ctx -> shadowSmash(ctx.npc) }
         deps.extensionRegistry.register(EXT_SACRIFICE) { ctx -> sacrifice(ctx.npc) }
         deps.extensionRegistry.register(EXT_ICE_PRISON) { ctx -> icePrison(ctx.npc, ctx.target) }
+        deps.extensionRegistry.register(EXT_SIPHON_REAVERS) { ctx ->
+            summonReavers(ctx.npc, ctx.target)
+        }
         deps.extensionRegistry.register(EXT_SIPHON_END) { ctx -> siphonEnd(ctx.npc) }
 
-        for (type in listOf(NEX, NEX_SOULSPLIT, NEX_DEFLECT)) {
-            onEvent<NpcStateEvents.Spawn>(type.asRSCM(RSCMType.NPC)) {
-                npc.mode = NpcMode.ApPlayer2
+        // Reavers heal Nex for their damage dealt; attackers heal half of what
+        // they deal to a reaver.
+        onPlayerHit { reaverLeech(hit) }
+        reaverType?.let { type ->
+            onNpcHit(type) {
+                if (!hit.isFromPlayer || hit.damage <= 0) return@onNpcHit
+                val p = hit.resolvePlayerSource(deps.playerList) ?: return@onNpcHit
+                val missing = p.statBase("stat.hitpoints") - p.stat("stat.hitpoints")
+                val amount = minOf(hit.damage / 2, missing)
+                if (amount > 0) p.statAdd("stat.hitpoints", constant = amount, percent = 0)
+            }
+        }
+
+        // Mages stay passive and unattackable until Nex calls them: they take
+        // no damage (mageSpec incoming rule) and cannot retaliate or hunt.
+        for (mageId in mageIds) {
+            onEvent<NpcStateEvents.Spawn>(mageId.toLong()) {
+                npc.ignoreCombatInteractions = true
+            }
+        }
+
+        // A respawned Nex restarts the whole encounter: her slain mages (which
+        // never respawn on their own) come back, still uncalled.
+        onEvent<NpcStateEvents.Respawn> {
+            if (npc.id == nexId) {
+                reviveDeadMages(npc)
+            } else if (npc.id in mageIds) {
+                npc.vars[VARN_CALLED] = 0
+                npc.ignoreCombatInteractions = true
             }
         }
     }
 
     // ——— Extensions ———
 
-    private fun callMage(nex: Npc, mageType: String) {
+    private fun callMage(nex: Npc, target: Player, mageType: String) {
         val mage = findMage(nex, mageType) ?: return
         mage.vars[VARN_CALLED] = 1
-        mage.mode = NpcMode.ApPlayer2
+        mage.ignoreCombatInteractions = false
+        mage.apPlayer2(target, deps.playerInteractions)
     }
 
     private fun startVirus(nex: Npc, target: Player) {
@@ -536,6 +620,7 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
     private fun dragTarget(nex: Npc, target: Player) {
         val dest = freeAdjacent(nex, target.coords) ?: return
+        if (!deps.collision.isZoneValid(dest)) return
         PathingEntityCommon.telejump(target, deps.collision, dest)
         CombatEffects.freeze(target, DRAG_STUN_TICKS)
     }
@@ -544,7 +629,10 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         val dx = (target.coords.x - nex.coords.x).compareTo(0)
         val dz = (target.coords.z - nex.coords.z).compareTo(0)
         if (dx == 0 && dz == 0) return
-        val dest = nex.coords.translate(dx * DASH_TILES, dz * DASH_TILES)
+        val dest =
+            (DASH_TILES downTo 1)
+                .map { nex.coords.translate(dx * it, dz * it) }
+                .firstOrNull { canStand(nex, it) } ?: return
         nex.telejump(deps.collision, dest)
         for (p in roomPlayers(nex)) {
             if (p.coords.chebyshevDistance(dest) <= DASH_HIT_RADIUS) {
@@ -619,13 +707,72 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
     private fun siphonEnd(nex: Npc) {
         val reavers =
-            deps.npcRepo.findAll(ZoneKey.from(nex.coords), CHAMBER_RADIUS).filter {
-                it.isVisType(REAVER) && it.hitpoints > 0
-            }
+            deps.npcRepo.findAll(ZoneKey.from(nex.coords), CHAMBER_ZONE_RADIUS)
+                .filter { it.isVisType(REAVER) && it.hitpoints > 0 }
+                .toList()
         val heal = reavers.sumOf { it.hitpoints }
-        reavers.forEach { deps.npcRepo.despawn(it, 0) }
+        reavers.forEach { deps.npcRepo.del(it, Int.MAX_VALUE) }
         if (heal > 0) nex.heal(heal)
     }
+
+    private fun summonReavers(nex: Npc, target: Player) {
+        // A fresh siphon consumes any leftover reavers for their hitpoints.
+        siphonEnd(nex)
+        val party = roomPlayers(nex).size.coerceAtLeast(1)
+        val count = (REAVER_BASE + (party - 1) * REAVER_PER_EXTRA).coerceAtMost(REAVER_MAX)
+        val tiles = freeTilesAround(nex.coords, REAVER_SPAWN_RADIUS, reaverType?.size ?: 1)
+        repeat(count) {
+            val tile =
+                if (tiles.isNotEmpty()) {
+                    tiles.removeAt(deps.random.of(tiles.size))
+                } else {
+                    nex.coords
+                }
+            val spawned = deps.spawnOwnedNpc(nex, REAVER, tile) ?: return@repeat
+            if (target.isValidTarget()) {
+                spawned.assignSpawnOwner(target, deps.mapClock.cycle)
+                spawned.apPlayer2(target, deps.playerInteractions)
+            }
+        }
+    }
+
+    private fun NpcHitEvents.Modify.onNexIncoming() {
+        // During the siphon window, hits that would have damaged Nex heal her.
+        val until = npc.vars[VARN_SIPHON]
+        if (until <= 0 || deps.mapClock.cycle >= until || hit.damage <= 0) return
+        npc.heal(hit.damage, showHitsplat = true)
+        hit.damage = 0
+    }
+
+    private fun reaverLeech(hit: org.rsmod.game.hit.Hit) {
+        if (!hit.isFromNpc || hit.damage <= 0) return
+        val source = hit.resolveNpcSource(npcList) ?: return
+        if (!source.isVisType(REAVER)) return
+        findNex(source)?.heal(hit.damage, showHitsplat = true)
+    }
+
+    private fun findNex(near: Npc): Npc? =
+        deps.npcRepo.findAll(ZoneKey.from(near.coords), CHAMBER_ZONE_RADIUS).firstOrNull {
+            it.hitpoints > 0 && it.id in nexIds
+        }
+
+    private fun freeTilesAround(centre: CoordGrid, radius: Int, size: Int): MutableList<CoordGrid> =
+        buildList {
+            for (dx in -radius..radius) {
+                for (dz in -radius..radius) {
+                    val origin = centre.translate(dx, dz)
+                    var free = deps.collision.isZoneValid(origin)
+                    for (x in 0 until size) {
+                        for (z in 0 until size) {
+                            if (deps.collision.isWalkBlocked(origin.translate(x, z))) {
+                                free = false
+                            }
+                        }
+                    }
+                    if (free) add(origin)
+                }
+            }
+        }.toMutableList()
 
     private fun onNexLethal(nex: Npc) {
         nex.say("Taste my wrath!")
@@ -643,7 +790,7 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     // ——— Helpers ———
 
     private fun findMage(nex: Npc, mageType: String): Npc? =
-        deps.npcRepo.findAll(ZoneKey.from(nex.coords), CHAMBER_RADIUS).firstOrNull {
+        deps.npcRepo.findAll(ZoneKey.from(nex.coords), CHAMBER_ZONE_RADIUS).firstOrNull {
             it.isVisType(mageType) && it.hitpoints > 0
         }
 
@@ -660,27 +807,52 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             }
         }
         return candidates
+            .filter { !deps.collision.isWalkBlocked(it) }
             .filter {
                 lineValidator.hasLineOfWalk(near.level, near.x, near.z, it.x, it.z)
             }
             .minByOrNull { it.chebyshevDistance(near) }
     }
 
+    private fun canStand(nex: Npc, origin: CoordGrid): Boolean {
+        if (!deps.collision.isZoneValid(origin)) return false
+        for (dx in 0 until nex.size) {
+            for (dz in 0 until nex.size) {
+                if (deps.collision.isWalkBlocked(origin.translate(dx, dz))) return false
+            }
+        }
+        return true
+    }
+
+    private fun reviveDeadMages(nex: Npc) {
+        for (mage in deps.npcRepo.findAll(ZoneKey.from(nex.coords), CHAMBER_ZONE_RADIUS)) {
+            if (mage.id !in mageIds) continue
+            if (mage.hitpoints == 0) {
+                mage.lifecycleRespawnCycle = deps.mapClock.cycle + 1
+            } else {
+                mage.vars[VARN_CALLED] = 0
+                mage.ignoreCombatInteractions = true
+                mage.clearInteraction()
+                mage.resetMode()
+            }
+        }
+    }
+
     private fun isMage(type: String): Condition =
         Condition.Custom { npc, _ -> npc.isVisType(type) }
 
-    private fun mageDead(type: String): Condition =
+    private fun calledMageAlive(): Condition =
         Condition.Custom { npc, _ ->
-            deps.npcRepo.findAll(ZoneKey.from(npc.coords), CHAMBER_RADIUS).none {
-                it.isVisType(type) && it.hitpoints > 0
+            deps.npcRepo.findAll(ZoneKey.from(npc.coords), CHAMBER_ZONE_RADIUS).any {
+                it.id in mageIds && it.hitpoints > 0 && it.vars[VARN_CALLED] != 0
             }
         }
 
-    private fun reaversBelow(cap: Int): Condition =
+    private fun mageDead(type: String): Condition =
         Condition.Custom { npc, _ ->
-            deps.npcRepo.findAll(ZoneKey.from(npc.coords), CHAMBER_RADIUS).count {
-                it.isVisType(REAVER) && it.hitpoints > 0
-            } < cap
+            deps.npcRepo.findAll(ZoneKey.from(npc.coords), CHAMBER_ZONE_RADIUS).none {
+                it.isVisType(type) && it.hitpoints > 0
+            }
         }
 
     private fun cursing(state: Int): Condition = Condition.VarnIn(VARN_CURSE, state..state)
@@ -701,12 +873,16 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val CRUOR = "npc.nex_bloodmage"
         private const val GLACIES = "npc.nex_icemage"
         private const val REAVER = "npc.nex_prison_blood_reaver_boss"
+        private val NEX_FORMS = listOf(NEX, NEX_SOULSPLIT, NEX_DEFLECT)
+        private val MAGE_TYPES = listOf(FUMUS, UMBRA, CRUOR, GLACIES)
 
         private const val VARN_CALLED = "varn.nex_mage_called"
         private const val VARN_CURSE = "varn.nex_curse"
         private const val VARN_SIPHON = "varn.nex_siphon"
         private const val VARN_DARK = "varn.nex_darkness"
         private const val VARN_CHOKED = "varn.nex_choked"
+        private const val VARN_BLOOD_SPEC = "varn.nex_blood_special"
+        private const val VARN_ICE_SPEC = "varn.nex_ice_special"
 
         private const val EXT_CALL_MAGE = "nex.call_mage"
         private const val EXT_VIRUS = "nex.virus"
@@ -715,6 +891,7 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val EXT_SHADOW_SMASH = "nex.shadow_smash"
         private const val EXT_SACRIFICE = "nex.sacrifice"
         private const val EXT_ICE_PRISON = "nex.ice_prison"
+        private const val EXT_SIPHON_REAVERS = "nex.siphon_reavers"
         private const val EXT_SIPHON_END = "nex.siphon_end"
 
         private const val SMOKE_PROJ = "spotanim.nex_smoke_attack_proj"
@@ -736,6 +913,7 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val ATTACK_RATE = 4
         private const val MAGE_ATTACK_RATE = 5
         private const val CHAMBER_RADIUS = 30
+        private const val CHAMBER_ZONE_RADIUS = 6
 
         private const val MELEE_MAX = 30
         private const val MELEE_SWINGS = 3
@@ -804,9 +982,16 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val DARK_DAMAGE_PERIOD = 2
 
         private const val SIPHON_TICKS = 8
-        private const val SIPHON_HEAL = 80
-        private const val SIPHON_HEAL_PERIOD = 4
-        private const val REAVER_COUNT = 8
+        // OSRS scales the wave with team size: four for a solo player, up to
+        // eight in a full chamber.
+        private const val REAVER_BASE = 4
+        private const val REAVER_PER_EXTRA = 2
+        private const val REAVER_MAX = 8
+        private const val REAVER_SPAWN_RADIUS = 4
+        private const val BLOOD_SPEC_SIPHON = 1
+        private const val BLOOD_SPEC_SACRIFICE = 2
+        private const val BLOOD_SPECIAL_MIN = 8
+        private const val BLOOD_SPECIAL_MAX = 10
         private const val BLOOD_LEECH = 100
         private const val SACRIFICE_TICKS = 5
         private const val SACRIFICE_ESCAPE = 7
@@ -817,6 +1002,10 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val SACRIFICE_SPLASH_MAX = 12
         private const val SACRIFICE_SPLASH_PRAYER_PERCENT = 12
 
+        private const val ICE_SPEC_CONTAIN = 1
+        private const val ICE_SPEC_PRISON = 2
+        private const val ICE_SPECIAL_MIN = 8
+        private const val ICE_SPECIAL_MAX = 10
         private const val CONTAINMENT_RADIUS = 2
         private const val CONTAINMENT_MAX = 60
         private const val ICE_FREEZE_TICKS = 2

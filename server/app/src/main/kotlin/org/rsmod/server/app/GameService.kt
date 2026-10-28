@@ -31,7 +31,13 @@ constructor(
         if (shutdownSignaled.get()) {
             return
         }
-        val elapsedNanos = measureNanoTime { process.cycle() } + excessCycleNanos
+        val elapsedNanos =
+            try {
+                measureNanoTime { process.cycle() }
+            } catch (t: Throwable) {
+                logger.error(t) { "Unhandled exception during game cycle." }
+                throw t
+            } + excessCycleNanos
         val elapsedMillis = TimeUnit.NANOSECONDS.toMillis(elapsedNanos)
         val overdue = elapsedMillis > GAME_TICK_INTERVAL
         val sleepTime =

@@ -237,3 +237,9 @@ id = "varn.nex_darkness"
 
 [[varn]]
 id = "varn.nex_choked"
+
+[[varn]]
+id = "varn.nex_blood_special"
+
+[[varn]]
+id = "varn.nex_ice_special"

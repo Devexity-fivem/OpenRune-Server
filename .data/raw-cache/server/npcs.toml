@@ -19154,18 +19154,35 @@ id = "npc.nex_prison_blood_reaver"
 inherit = "npc.nex_prison_blood_reaver"
 [npc.params]
 "param.demon"=1
+"param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.blood_reaver_attack"
+"param.defend_anim"="seq.blood_reaver_defend"
+"param.death_anim"="seq.blood_reaver_death"
 
 [[npc]]
 id = "npc.nex_prison_blood_reaver_boss"
 inherit = "npc.nex_prison_blood_reaver_boss"
+respawnRate = 2147483647
 [npc.params]
 "param.demon"=1
+"param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.blood_reaver_attack"
+"param.defend_anim"="seq.blood_reaver_defend"
+"param.death_anim"="seq.blood_reaver_death"
 
 [[npc]]
 id = "npc.nex"
 inherit = "npc.nex"
+huntMode = 2
+huntRange = 20
+attackRange = 15
+maxRange = 40
+wanderRange = 8
 [npc.params]
 "param.killcount_varp"="varp.total_nex_kills"
+"param.attack_anim"="seq.nex_attack"
+"param.defend_anim"="seq.nex_defend"
+"param.death_anim"="seq.nex_death"
 
 [[npc]]
 id = "npc.nex_spawning"
@@ -19176,14 +19193,30 @@ inherit = "npc.nex_spawning"
 [[npc]]
 id = "npc.nex_soulsplit"
 inherit = "npc.nex_soulsplit"
+huntMode = 2
+huntRange = 20
+attackRange = 15
+maxRange = 40
+wanderRange = 8
 [npc.params]
 "param.killcount_varp"="varp.total_nex_kills"
+"param.attack_anim"="seq.nex_attack"
+"param.defend_anim"="seq.nex_defend"
+"param.death_anim"="seq.nex_death"
 
 [[npc]]
 id = "npc.nex_deflect"
 inherit = "npc.nex_deflect"
+huntMode = 2
+huntRange = 20
+attackRange = 15
+maxRange = 40
+wanderRange = 8
 [npc.params]
 "param.killcount_varp"="varp.total_nex_kills"
+"param.attack_anim"="seq.nex_attack"
+"param.defend_anim"="seq.nex_defend"
+"param.death_anim"="seq.nex_death"
 
 [[npc]]
 id = "npc.nex_dying"
@@ -19194,18 +19227,42 @@ inherit = "npc.nex_dying"
 [[npc]]
 id = "npc.nex_smokemage"
 inherit = "npc.nex_smokemage"
+respawnRate = 2147483647
+defaultMode = "None"
+attackRange = 40
+wanderRange = 0
+[npc.params]
+"param.attack_anim"="seq.nex_cast_attack"
 
 [[npc]]
 id = "npc.nex_shadowmage"
 inherit = "npc.nex_shadowmage"
+respawnRate = 2147483647
+defaultMode = "None"
+attackRange = 40
+wanderRange = 0
+[npc.params]
+"param.attack_anim"="seq.nex_cast_attack"
 
 [[npc]]
 id = "npc.nex_bloodmage"
 inherit = "npc.nex_bloodmage"
+respawnRate = 2147483647
+defaultMode = "None"
+attackRange = 40
+wanderRange = 0
+[npc.params]
+"param.attack_anim"="seq.nex_cast_attack"
 
 [[npc]]
 id = "npc.nex_icemage"
 inherit = "npc.nex_icemage"
+respawnRate = 2147483647
+defaultMode = "None"
+attackRange = 40
+wanderRange = 0
+[npc.params]
+"param.attack_anim"="seq.nex_cast_attack"
 
 [[npc]]
 id = "npc.arena_bouncer"

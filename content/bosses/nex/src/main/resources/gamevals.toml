@@ -4,6 +4,8 @@ nex_mage_called = 64601
 nex_siphon = 64602
 nex_darkness = 64603
 nex_choked = 64604
+nex_blood_special = 64605
+nex_ice_special = 64606
 
 [gamevals.dbrow]
 instance_nex = 58001
