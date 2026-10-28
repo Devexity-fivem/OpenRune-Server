@@ -346,7 +346,7 @@
         },
         "The Fractured Archive": {
           "rscmPrefixes": [
-            "archive_"
+            "raidquest_library"
           ]
         }
       }

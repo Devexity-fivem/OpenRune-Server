@@ -9,7 +9,7 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **23/23** · Bosses **164/169** · Raids **3/4** · Minigames **2/52**
+Skills **23/23** · Bosses **164/169** · Raids **4/4** · Minigames **2/52**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
@@ -221,12 +221,12 @@ the module table at the bottom before reading a 0 as "nothing exists".
 
 </details>
 
-### Raids <sup>3/4</sup>
+### Raids <sup>4/4</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Chambers_of_Xeric_logo.png/48px-Chambers_of_Xeric_logo.png?34a98" height="20" alt=""> Chambers of Xeric | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Chambers_of_Xeric) |
-| 🔴 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Fractured_Archive_logo.png/48px-The_Fractured_Archive_logo.png?2eb86" height="20" alt=""> The Fractured Archive | nothing yet | [wiki](https://oldschool.runescape.wiki/w/The_Fractured_Archive) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Fractured_Archive_logo.png/48px-The_Fractured_Archive_logo.png?2eb86" height="20" alt=""> The Fractured Archive | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Fractured_Archive) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Theatre_of_Blood_logo.png/48px-Theatre_of_Blood_logo.png?e6e68" height="20" alt=""> Theatre of Blood | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Theatre_of_Blood) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tombs_of_Amascut.png/48px-Tombs_of_Amascut.png?f9992" height="20" alt=""> Tombs of Amascut | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tombs_of_Amascut) |
 
@@ -336,7 +336,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/muspah` | 4 | 1,295 | 0 | 0 | 2026-10-18 |
 | `bosses/nex` | 3 | 1,242 | 1 | 0 | 2026-10-28 |
 | `bosses/obor` | 1 | 60 | 1 | 0 | 2026-10-26 |
-| `bosses/quest-bosses` | 7 | 1,187 | 0 | 0 | 2026-10-28 |
+| `bosses/quest-bosses` | 7 | 1,199 | 0 | 0 | 2026-10-28 |
 | `bosses/raid-bosses` | 1 | 290 | 0 | 0 | 2026-10-28 |
 | `bosses/sarachnis` | 1 | 132 | 1 | 0 | 2026-10-27 |
 | `bosses/scorpia` | 1 | 133 | 0 | 0 | 2026-10-25 |

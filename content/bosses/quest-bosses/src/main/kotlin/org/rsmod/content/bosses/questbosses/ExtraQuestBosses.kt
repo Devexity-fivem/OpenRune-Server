@@ -192,6 +192,18 @@ class GrandTreeBlackDemon @Inject constructor(deps: BossDeps) : BossPluginScript
         }
 }
 
+// The Fractured Archive — guardian tentacles: melee up to ~20.
+class ArchiveGuardianTentacle @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+    override val spec: BossSpec = boss("npc.raidquest_library_archive_guardian") {
+        stats(attackRate = 4)
+        val melee = ability("melee") {
+            anim("seq.tentacle_monster_attack")
+            hit { damage(0..20).roll(); type(Melee) }
+        }
+        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+    }
+}
+
 // Troll Stronghold — Dad (troll champion): melee up to ~27.
 class DadChampion @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.troll_champion") {
