@@ -16,7 +16,7 @@ import org.rsmod.api.script.onPlayerSoftTimer
 import org.rsmod.content.minigames.fightcave.FightCaveRuns.Companion.KEY
 import org.rsmod.content.minigames.fightcave.FightCaveRuns.Companion.WAVE_CHECK_TICKS
 import org.rsmod.content.minigames.fightcave.FightCaveRuns.Companion.WAVE_TIMER
-import org.rsmod.game.entity.Npc
+import dev.openrune.types.NpcMode
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.module.PluginModule
@@ -36,6 +36,11 @@ class FightCaveScript @Inject constructor(private val runs: FightCaveRuns) : Plu
             }
             val run = runs.runFor(player) ?: return@onPlayerSoftTimer
             run.npcs.removeAll { it.hitpoints <= 0 }
+            run.npcs.forEach {
+                if (it.mode != NpcMode.OpPlayer2 && it.mode != NpcMode.ApPlayer2) {
+                    runs.engage(it, player)
+                }
+            }
             if (!run.completed && run.npcs.isEmpty() && run.wave > 0) {
                 if (run.wave < FightCaveWaves.LAST_WAVE) {
                     runs.spawnWave(player, session.id, run.wave + 1)
@@ -70,13 +75,18 @@ constructor(private val runs: FightCaveRuns, private val objRepo: ObjRepository)
         when (context.npc.type.internalName) {
             TZ_KEK_NAME -> {
                 val session = runs.sessionFor(context.hero) ?: return
-                val coords = context.npc.coords
-                run.npcs.add(
-                    runs.spawn(session.id, FightCaveWaves.TZ_KEK_MINI, coords, 0 to 0)
-                )
-                run.npcs.add(
-                    runs.spawn(session.id, FightCaveWaves.TZ_KEK_MINI, coords, 0 to 0)
-                )
+                repeat(2) { index ->
+                    runs.spawn(
+                            session.id,
+                            FightCaveWaves.TZ_KEK_MINI,
+                            context.npc.coords,
+                            index,
+                            context.hero,
+                            radiusMin = 1,
+                            radiusMax = 3,
+                        )
+                        ?.let { run.npcs.add(it) }
+                }
             }
             JAD_NAME -> {
                 run.completed = true

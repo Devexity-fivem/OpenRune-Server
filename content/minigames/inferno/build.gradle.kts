@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.api.combat.combatCommons)
     implementation(projects.api.death)
     implementation(projects.api.instances)
     implementation(projects.api.invtx)
@@ -15,4 +16,5 @@ dependencies {
     implementation(projects.api.repo)
     implementation(projects.engine.game)
     implementation(projects.engine.map)
+    implementation(projects.engine.routefinder)
 }

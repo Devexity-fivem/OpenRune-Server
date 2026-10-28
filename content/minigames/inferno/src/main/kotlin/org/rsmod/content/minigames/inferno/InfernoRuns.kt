@@ -1,5 +1,8 @@
 package org.rsmod.content.minigames.inferno
 
+import dev.openrune.ServerCacheManager
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.rsmod.api.instances.InstanceAccess
@@ -11,15 +14,19 @@ import org.rsmod.api.instances.InstanceSpec
 import org.rsmod.api.instances.RegionLocal
 import org.rsmod.api.instances.withInstanceEnterTransition
 import org.rsmod.api.instances.withInstanceLeaveTransition
+import org.rsmod.api.npc.apPlayer2
+import org.rsmod.api.npc.interact.AiPlayerInteractions
+import org.rsmod.api.npc.opPlayer2
 import org.rsmod.api.player.hook.TeleportType
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.flag.CollisionFlag
 
 class InfernoRun(
     var wave: Int = 0,
@@ -35,8 +42,9 @@ class InfernoRuns
 constructor(
     private val manager: InstanceManager,
     private val clock: MapClock,
-    private val regions: RegionRegistry,
     private val npcRepo: NpcRepository,
+    private val aiPlayerInteractions: AiPlayerInteractions,
+    private val collision: CollisionFlagMap,
 ) {
     private val active = HashMap<InstanceId, InfernoRun>()
 
@@ -52,16 +60,17 @@ constructor(
         }
         when (val result = manager.create(player, KEY, SPEC, InstanceAccess.Private, clock.cycle)) {
             is InstanceManager.Result.Failed -> mes(result.reason)
-            is InstanceManager.Result.Created ->
+            is InstanceManager.Result.Created -> {
                 withInstanceEnterTransition(InstanceEnterTransition()) {
-                    active.keys.removeIf { manager.sessionForId(it) == null }
-                    active[result.session.id] = InfernoRun()
                     telejump(result.enter, TeleportType.Exempt)
                     manager.finalizeEntry(player, result.session, clock.cycle)
-                    mes("You enter the Inferno.")
-                    spawnWave(player, result.session.id, 1)
-                    player.softTimer(WAVE_TIMER, WAVE_CHECK_TICKS)
                 }
+                active.keys.removeIf { manager.sessionForId(it) == null }
+                active[result.session.id] = InfernoRun()
+                mes("You enter the Inferno.")
+                spawnWave(player, result.session.id, 1)
+                player.softTimer(WAVE_TIMER, WAVE_CHECK_TICKS)
+            }
             is InstanceManager.Result.Joined -> Unit
         }
     }
@@ -84,37 +93,17 @@ constructor(
     fun spawnWave(player: Player, sessionId: InstanceId, wave: Int) {
         val run = active[sessionId] ?: return
         run.wave = wave
-        val region = regions[player.coords] ?: return
-        val southWest = region.southWest
         when (wave) {
-            InfernoWaves.LAST_WAVE -> {
-                run.npcs.add(
-                    spawn(sessionId, InfernoWaves.TZKAL_ZUK, southWest, InfernoWaves.ZUK_OFFSET)
-                )
-            }
-            InfernoWaves.TRIPLE_JAD_WAVE -> {
+            InfernoWaves.LAST_WAVE ->
+                spawn(sessionId, InfernoWaves.TZKAL_ZUK, player.coords, 0, player)
+                    ?.let { run.npcs.add(it) }
+            InfernoWaves.TRIPLE_JAD_WAVE ->
                 InfernoWaves.TRIPLE_JAD.forEachIndexed { index, sym ->
-                    run.npcs.add(
-                        spawn(
-                            sessionId,
-                            sym,
-                            southWest,
-                            InfernoWaves.JAD_OFFSETS[index % InfernoWaves.JAD_OFFSETS.size],
-                        )
-                    )
+                    spawn(sessionId, sym, player.coords, index, player)?.let { run.npcs.add(it) }
                 }
-            }
             else ->
                 InfernoWaves.WAVES[wave - 1].forEachIndexed { index, sym ->
-                    run.npcs.add(
-                        spawn(
-                            sessionId,
-                            sym,
-                            southWest,
-                            InfernoWaves.SPAWN_OFFSETS[
-                                index % InfernoWaves.SPAWN_OFFSETS.size],
-                        )
-                    )
+                    spawn(sessionId, sym, player.coords, index, player)?.let { run.npcs.add(it) }
                 }
         }
         player.mes("Wave: $wave")
@@ -124,11 +113,11 @@ constructor(
         val run = active[sessionId] ?: return
         if (run.jadHealersSpawned) return
         run.jadHealersSpawned = true
-        val region = regions[player.coords] ?: return
-        for (offset in InfernoWaves.HEALER_OFFSETS) {
-            run.npcs.add(
-                spawn(sessionId, InfernoWaves.JALTOK_JAD_HEALER, region.southWest, offset)
-            )
+        val anchor = run.npcs.firstOrNull { it.type.internalName == JAD_NAME }?.coords ?: player.coords
+        repeat(4) { index ->
+            spawn(sessionId, InfernoWaves.JALTOK_JAD_HEALER, anchor, index, player)?.let {
+                run.npcs.add(it)
+            }
         }
         player.mes("The JalTok-Jads call for help!")
     }
@@ -137,9 +126,11 @@ constructor(
         val run = active[sessionId] ?: return
         if (run.zukHealersSpawned) return
         run.zukHealersSpawned = true
-        val region = regions[player.coords] ?: return
-        for (offset in InfernoWaves.ZUK_HEALER_OFFSETS) {
-            run.npcs.add(spawn(sessionId, InfernoWaves.ZUK_HEALER, region.southWest, offset))
+        val anchor = run.npcs.firstOrNull { it.type.internalName == ZUK_NAME }?.coords ?: player.coords
+        repeat(4) { index ->
+            spawn(sessionId, InfernoWaves.ZUK_HEALER, anchor, index, player)?.let {
+                run.npcs.add(it)
+            }
         }
         player.mes("TzKal-Zuk calls for help!")
     }
@@ -147,13 +138,54 @@ constructor(
     fun spawn(
         sessionId: InstanceId,
         sym: String,
-        southWest: CoordGrid,
-        offset: Pair<Int, Int>,
-    ): Npc {
-        val npc = Npc(sym, southWest.translate(offset.first, offset.second))
-        npcRepo.add(npc, Int.MAX_VALUE)
+        anchor: CoordGrid,
+        index: Int,
+        player: Player,
+    ): Npc? {
+        val session = manager.sessionForId(sessionId) ?: return null
+        val size = ServerCacheManager.getNpc(sym.asRSCM(RSCMType.NPC))?.size ?: 1
+        val coords = spawnTile(anchor, size, index) ?: return null
+        val npc = Npc(sym, coords)
+        engage(npc, player)
+        npcRepo.add(npc, NPC_LIFETIME)
         manager.attachNpc(sessionId, npc)
         return npc
+    }
+
+    private fun spawnTile(anchor: CoordGrid, size: Int, index: Int): CoordGrid? {
+        for (radius in SPAWN_RADIUS_MIN..SPAWN_RADIUS_MAX) {
+            for (slot in 0 until RING_SLOTS) {
+                val angle = ((slot + index * ANGLE_STEP) % RING_SLOTS) * (Math.PI * 2 / RING_SLOTS)
+                val x = anchor.x + (kotlin.math.cos(angle) * radius).toInt()
+                val z = anchor.z + (kotlin.math.sin(angle) * radius).toInt()
+                val tile = CoordGrid(x, z, anchor.level)
+                if (open(tile, size)) return tile
+            }
+        }
+        return null
+    }
+
+    private fun open(tile: CoordGrid, size: Int): Boolean {
+        for (dx in 0 until size) {
+            for (dz in 0 until size) {
+                val x = tile.x + dx
+                val z = tile.z + dz
+                if (!collision.isZoneAllocated(x, z, tile.level)) return false
+                if (collision[x, z, tile.level] and BLOCKED_MASK != 0) return false
+            }
+        }
+        return true
+    }
+
+    fun engage(npc: Npc, player: Player) {
+        val ranged = npc.type.internalName in InfernoWaves.RANGED
+        npc.setHuntMode(if (ranged) HUNT_RANGED else HUNT_MELEE)
+        npc.setHunt(AGGRO_RANGE)
+        if (ranged) {
+            npc.apPlayer2(player, aiPlayerInteractions)
+        } else {
+            npc.opPlayer2(player, aiPlayerInteractions)
+        }
     }
 
     fun remove(sessionId: InstanceId) {
@@ -164,7 +196,25 @@ constructor(
         const val KEY = "inferno"
         const val WAVE_TIMER = "timer.inferno_wave"
         const val WAVE_CHECK_TICKS = 3
+        const val REGION_X = 38
+        const val REGION_Z = 79
+        const val AGGRO_RANGE = 64
+        const val NPC_LIFETIME = 100_000
+        const val SPAWN_RADIUS_MIN = 6
+        const val SPAWN_RADIUS_MAX = 14
+        const val RING_SLOTS = 16
+        const val ANGLE_STEP = 5
+        const val JAD_NAME = "inferno_jad"
+        const val ZUK_NAME = "inferno_tzkalzuk_placeholder"
+        const val BLOCKED_MASK =
+            CollisionFlag.LOC or
+                CollisionFlag.BLOCK_WALK or
+                CollisionFlag.GROUND_DECOR or
+                CollisionFlag.BLOCK_NPCS or
+                CollisionFlag.BLOCK_PLAYERS
         val CITY_EXIT = CoordGrid(2494, 5115, 0)
+        private val HUNT_MELEE = checkNotNull(ServerCacheManager.getHunt(1))
+        private val HUNT_RANGED = checkNotNull(ServerCacheManager.getHunt(2))
 
         private val SPEC =
             InstanceSpec(
@@ -176,7 +226,7 @@ constructor(
                 area =
                     InstanceArea.copyRegions(
                         regionIds = listOf(9807),
-                        enterCoord = RegionLocal(0, 308, 636, 0, 0),
+                        enterCoord = RegionLocal(0, 38, 79, 32, 32),
                         exitCoord = CITY_EXIT,
                     ),
                 settingsRowId = 0,

@@ -12,6 +12,9 @@ internal object FightCaveWaves {
 
     const val LAST_WAVE = 63
 
+    val RANGED =
+        setOf("tzhaar_fightcave_swarm_3a", "tzhaar_fightcave_swarm_5a", "tzhaar_fightcave_swarm_boss")
+
     private val K = TZ_KIH
     private val E = TZ_KEK
     private val X = TOK_XIL

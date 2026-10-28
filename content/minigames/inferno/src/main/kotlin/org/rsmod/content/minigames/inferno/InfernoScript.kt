@@ -13,6 +13,7 @@ import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onEvent
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onPlayerSoftTimer
+import dev.openrune.types.NpcMode
 import org.rsmod.content.minigames.inferno.InfernoRuns.Companion.KEY
 import org.rsmod.content.minigames.inferno.InfernoRuns.Companion.WAVE_CHECK_TICKS
 import org.rsmod.content.minigames.inferno.InfernoRuns.Companion.WAVE_TIMER
@@ -40,6 +41,11 @@ class InfernoScript @Inject constructor(private val runs: InfernoRuns) : PluginS
             }
             val run = runs.runFor(player) ?: return@onPlayerSoftTimer
             run.npcs.removeAll { it.hitpoints <= 0 }
+            run.npcs.forEach {
+                if (it.mode != NpcMode.OpPlayer2 && it.mode != NpcMode.ApPlayer2) {
+                    runs.engage(it, player)
+                }
+            }
             if (!run.completed && run.npcs.isEmpty() && run.wave > 0) {
                 if (run.wave < InfernoWaves.LAST_WAVE) {
                     runs.spawnWave(player, session.id, run.wave + 1)

@@ -15,6 +15,16 @@ internal object InfernoWaves {
     const val LAST_WAVE = 69
     const val TRIPLE_JAD_WAVE = 67
 
+    val RANGED =
+        setOf(
+            "inferno_creature_harpie",
+            "inferno_creature_splitter",
+            "inferno_creature_ranger",
+            "inferno_creature_mager",
+            "inferno_jad",
+            "inferno_tzkalzuk_placeholder",
+        )
+
     private val N = JAL_NIB
     private val R = JAL_MEJRAH
     private val A = JAL_AK
