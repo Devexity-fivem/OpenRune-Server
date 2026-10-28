@@ -25,6 +25,8 @@ import org.rsmod.api.invtx.invClear
 import org.rsmod.api.mechanics.toxins.impl.PlayerDisease
 import org.rsmod.api.mechanics.toxins.impl.PlayerPoison
 import org.rsmod.api.mechanics.toxins.impl.PlayerVenom
+import org.rsmod.api.npc.hit.modifier.NpcHitModifier
+import org.rsmod.api.npc.hit.queueHit
 import org.rsmod.api.player.cheat.adminGodMode
 import org.rsmod.api.player.cheat.adminMaxHit
 import org.rsmod.api.player.debug.componentClickDebug
@@ -55,8 +57,10 @@ import org.rsmod.api.utils.system.SafeServiceExit
 import org.rsmod.game.GameUpdate
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.NpcList
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.hit.HitType
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocEntity
 import org.rsmod.game.loc.LocInfo
@@ -90,6 +94,8 @@ constructor(
     private val instanceRegistry: BossInstanceRegistry,
     private val injector: Injector,
     private val spellbooks: MagicSpellbookManager,
+    private val npcList: NpcList,
+    private val npcHitModifier: NpcHitModifier,
 ) : PluginScript() {
     private val logger = InlineLogger()
 
@@ -237,6 +243,9 @@ constructor(
             ::componentDebug,
         )
         onCommand("maxhit", "Toggle always max hit", ::maxhit)
+        onCommand("npchit", "Damage the faced npc (ex: ::npchit 500)", ::npcHit) {
+            invalidArgs = "Use as ::npchit damage"
+        }
         onCommand("openbank", "Open the bank", ::bank)
         onCommand("transmog", "Transmog player to NPC appearance (no args to reset)", ::transmog) {
             invalidArgs = "Use as ::transmog npcNameOrId (ex: goblin or 126) or ::transmog to reset"
@@ -926,6 +935,23 @@ constructor(
         Load,
         Reload,
     }
+
+    private fun npcHit(cheat: Cheat) =
+        with(cheat) {
+            val face = player.faceEntity
+            val npc = if (face.isNpc) npcList[face.npcSlot] else null
+            if (npc == null) {
+                player.mes("You are not facing an npc.")
+                return
+            }
+            val damage = args[0].toIntOrNull()
+            if (damage == null) {
+                player.mes("Invalid damage: '${args[0]}'")
+                return
+            }
+            npc.queueHit(player, 1, HitType.Typeless, damage, npcHitModifier)
+            player.mes("Dealt $damage damage to '${npc.name}'.")
+        }
 
     private fun dieTest(cheat: Cheat) =
         with(cheat) {
