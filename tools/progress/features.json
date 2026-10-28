@@ -354,7 +354,19 @@
     {
       "name": "Minigames",
       "wikiCategory": "Category:Minigames",
-      "moduleRoot": "content/minigames"
+      "moduleRoot": "content/minigames",
+      "overrides": {
+        "TzHaar Fight Cave": {
+          "rscmPrefixes": [
+            "tzhaar_fightcave"
+          ]
+        },
+        "Inferno": {
+          "rscmPrefixes": [
+            "inferno_"
+          ]
+        }
+      }
     }
   ]
 }
