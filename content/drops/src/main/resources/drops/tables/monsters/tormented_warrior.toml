@@ -1,0 +1,6 @@
+id = "Tormented Warrior Drops"
+npcs = ["npc.jungle_savage"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

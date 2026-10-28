@@ -1,0 +1,6 @@
+id = "Possessed pickaxe Haunted Mine Drops"
+npcs = ["npc.possessed_pickaxe_stationary"]
+
+[[guaranteed]]
+obj = "obj.iron_pickaxe"
+count = 1

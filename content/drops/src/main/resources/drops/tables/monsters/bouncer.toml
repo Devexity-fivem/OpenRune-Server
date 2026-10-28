@@ -1,0 +1,6 @@
+id = "Bouncer Drops"
+npcs = ["npc.arena_bouncer"]
+
+[[guaranteed]]
+obj = "obj.vile_ashes"
+count = 1

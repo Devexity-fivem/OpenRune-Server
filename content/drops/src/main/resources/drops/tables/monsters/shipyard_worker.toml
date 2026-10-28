@@ -1,0 +1,6 @@
+id = "Shipyard worker Drops"
+npcs = ["npc.shipyardworker1", "npc.shipyardworker2"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

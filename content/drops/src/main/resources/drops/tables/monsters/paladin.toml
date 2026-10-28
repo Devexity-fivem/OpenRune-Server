@@ -1,5 +1,9 @@
 id = "Paladin Drops"
-npcs = ["npc.paladin", "npc.paladin_west_vis", "npc.paladin_west_f_vis", "npc.paladin_variant01", "npc.paladin_variant02", "npc.paladin_f", "npc.paladin_f_variant01"]
+npcs = ["npc.paladin", "npc.paladin2", "npc.paladin_f", "npc.paladin_f_variant01", "npc.paladin_variant01", "npc.paladin_variant02"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
 
 [main]
 total = 128
@@ -46,6 +50,10 @@ obj = "obj.steel_bar"
 count = 1
 
 [[main.entries]]
+weight = 8
+shared = "herb"
+
+[[main.entries]]
 weight = 40
 obj = "obj.coins"
 count = 48
@@ -74,17 +82,7 @@ count = 120
 weight = 2
 nothing = true
 
-[[main.entries]]
-weight = 8
-shared = "herb"
-
+# Main table pool padding uses a nothing roll (2 weight)
 [[main.entries]]
 weight = 2
-shared = "gem"
-
-[[tertiary]]
-numerator = 1
-denominator = 121
-obj = "obj.trail_medium_emote_exp1"
-count = 1
-clue_scroll_box = true
+nothing = true

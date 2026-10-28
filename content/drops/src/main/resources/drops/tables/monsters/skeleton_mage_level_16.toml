@@ -1,0 +1,12 @@
+id = "Skeleton Mage Level 16 Drops"
+npcs = ["npc.skeletonmage"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 5000
+obj = "obj.champions_challenge_skeleton"
+count = 1

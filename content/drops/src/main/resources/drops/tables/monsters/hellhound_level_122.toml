@@ -1,0 +1,49 @@
+id = "Hellhound Level 122 Drops"
+npcs = ["npc.hellhound", "npc.hellhound_strongholdcave", "npc.kourend_hellhound"]
+brimstone_key_roll = true
+
+[[guaranteed]]
+obj = "obj.vile_ashes"
+count = 1
+
+[main]
+total = 819200
+name = "Hellhound Level 122 Drops"
+
+[[main.entries]]
+weight = 98304
+obj = "obj.deathrune"
+count = 10
+
+[[main.entries]]
+weight = 49152
+obj = "obj.deathrune"
+count = 20
+
+[[main.entries]]
+weight = 16384
+obj = "obj.deathrune"
+count = 50
+
+[[main.entries]]
+weight = 25
+obj = "obj.smouldering_stone"
+count = 1
+
+# Main table pool padding uses a nothing roll (655335 weight)
+[[main.entries]]
+weight = 655335
+nothing = true
+
+[[tertiary]]
+numerator = 1
+denominator = 40
+obj = "obj.arceuus_corpse_hellhound"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1
+should_drop_looting_bag = true

@@ -1,0 +1,2 @@
+id = "Scarred lesser demon Drops"
+npcs = ["npc.dt2_scar_maze_mage_demon", "npc.dt2_scar_maze_melee_demon", "npc.dt2_scar_maze_ranged_demon"]

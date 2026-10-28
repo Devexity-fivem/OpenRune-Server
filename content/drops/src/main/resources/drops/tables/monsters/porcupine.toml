@@ -1,0 +1,6 @@
+id = "Porcupine Drops"
+npcs = ["npc.varlamore_porcupine"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

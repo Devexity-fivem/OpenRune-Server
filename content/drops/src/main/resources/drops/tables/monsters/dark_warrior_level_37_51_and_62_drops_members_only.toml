@@ -1,5 +1,5 @@
 id = "Dark warrior Level 37, 51 and 62 drops (members only) Drops"
-npcs = ["npc.kourend_dark_warrior_2", "npc.kourend_dark_warrior_3"]
+npcs = ["npc.kourend_dark_warrior_1", "npc.kourend_dark_warrior_2", "npc.kourend_dark_warrior_3"]
 
 [[guaranteed]]
 obj = "obj.bones"

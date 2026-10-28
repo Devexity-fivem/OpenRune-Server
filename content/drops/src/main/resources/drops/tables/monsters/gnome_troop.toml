@@ -1,0 +1,6 @@
+id = "Gnome troop Drops"
+npcs = ["npc.battlefield_d_skingnomeknight", "npc.battlefield_gnomeknight", "npc.d_skingnomeknight", "npc.gnomeknight"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

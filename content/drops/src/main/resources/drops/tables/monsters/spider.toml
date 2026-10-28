@@ -1,5 +1,5 @@
 id = "Spider Drops"
-npcs = ["npc.sos_pest_spider", "npc.spider", "npc.upass_little_spider"]
+npcs = ["npc.laboratory_spider", "npc.mm_warehouse_spider", "npc.sos_pest_spider", "npc.spider", "npc.upass_little_spider"]
 
 [[tertiary]]
 numerator = 1

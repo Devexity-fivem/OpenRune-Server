@@ -1,5 +1,5 @@
 id = "Dagannoth Drops"
-npcs = ["npc.horror_dagganoth_jr", "npc.horror_dagganoth_jr_darker", "npc.horror_dagganoth_jr_lighter", "npc.horror_dagannoth_medium", "npc.horror_dagannoth_medium_darker", "npc.horror_dagannoth_medium_lighter", "npc.kourend_dagannoth1", "npc.kourend_dagannoth2"]
+npcs = ["npc.dungeon_dagganoth_lighter", "npc.dungeon_dagganoth_lighter_deeper", "npc.dungeon_dagganoth_mainroom", "npc.dungeon_dagganoth_mainroom_deeper", "npc.horror_dagannoth_medium", "npc.horror_dagannoth_medium_darker", "npc.horror_dagannoth_medium_lighter", "npc.horror_dagganoth_jr", "npc.horror_dagganoth_jr_darker", "npc.horror_dagganoth_jr_lighter", "npc.kourend_dagannoth1", "npc.kourend_dagannoth2"]
 brimstone_key_roll = true
 
 [main]

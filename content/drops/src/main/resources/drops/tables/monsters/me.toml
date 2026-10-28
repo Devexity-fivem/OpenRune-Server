@@ -1,0 +1,6 @@
+id = "Me Drops"
+npcs = ["npc.quest_lunar_mirror_of_player"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

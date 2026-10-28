@@ -1,5 +1,5 @@
 id = "Kalphite Guardian Drops"
-npcs = ["npc.kalphite_lord", "npc.kalphite_lord_chamber"]
+npcs = ["npc.kalphite_lord", "npc.kalphite_lord_chamber", "npc.kalphite_lord_strongholdcave"]
 brimstone_key_roll = true
 
 [main]
@@ -67,6 +67,10 @@ obj = "obj.lawrune"
 count = 3
 
 [[main.entries]]
+weight = 23
+shared = "herb"
+
+[[main.entries]]
 weight = 40
 obj = "obj.coins"
 count = 132
@@ -101,17 +105,10 @@ weight = 1
 obj = "obj.3dose1defense"
 count = 1
 
+# Main table pool padding uses a nothing roll (6 weight)
 [[main.entries]]
-weight = 23
-shared = "herb"
-
-[[main.entries]]
-weight = 1
-shared = "rareDrop"
-
-[[main.entries]]
-weight = 5
-shared = "gem"
+weight = 6
+nothing = true
 
 [[tertiary]]
 numerator = 1

@@ -1,0 +1,6 @@
+id = "Mounted terrorbird gnome Drops"
+npcs = ["npc.battlefield_terrorbird_mountedspear", "npc.battlefield_terrorbird_mountedspear2", "npc.battlefield_terrorbird_mountedspear3", "npc.terrorbird_mounted"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

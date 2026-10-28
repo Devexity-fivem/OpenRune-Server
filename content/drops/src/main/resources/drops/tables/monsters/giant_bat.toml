@@ -1,5 +1,5 @@
 id = "Giant bat Drops"
-npcs = ["npc.bat", "npc.bat_unaggressive"]
+npcs = ["npc.bat", "npc.bat_unaggressive", "npc.olaf2_giant_bat"]
 
 [[tertiary]]
 numerator = 1

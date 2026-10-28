@@ -1,0 +1,6 @@
+id = "Camp dweller Drops"
+npcs = ["npc.mdaughter_camp_female1", "npc.mdaughter_camp_female2", "npc.mdaughter_camp_female3", "npc.mdaughter_camp_male1", "npc.mdaughter_camp_male2"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

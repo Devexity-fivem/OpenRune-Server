@@ -1,0 +1,6 @@
+id = "Shadow Hound Drops"
+npcs = ["npc.shadow_dog_wild"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

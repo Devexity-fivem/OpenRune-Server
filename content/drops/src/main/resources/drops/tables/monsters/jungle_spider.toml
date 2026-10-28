@@ -1,5 +1,5 @@
 id = "Jungle spider Drops"
-npcs = ["npc.jungle_spider"]
+npcs = ["npc.jungle_spider", "npc.mm_jungle_spider"]
 
 [[guaranteed]]
 obj = "obj.village_spider_carcass"

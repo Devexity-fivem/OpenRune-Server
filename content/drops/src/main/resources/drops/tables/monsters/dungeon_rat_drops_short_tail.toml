@@ -1,0 +1,10 @@
+id = "Dungeon rat Drops (short tail) Drops"
+npcs = ["npc.dungeon_rat2", "npc.dungeon_rat3"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[[guaranteed]]
+obj = "obj.rats_tail"
+count = 1

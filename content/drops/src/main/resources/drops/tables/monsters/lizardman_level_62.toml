@@ -1,0 +1,26 @@
+id = "Lizardman Level 62 Drops"
+npcs = ["npc.molch_lizardman_1", "npc.zeah_lizardman_2_vn", "npc.zeah_lizardman_2_vp"]
+brimstone_key_roll = true
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 9750
+name = "Lizardman Level 62 Drops"
+
+[[main.entries]]
+weight = 1750
+obj = "obj.lizardman_fang"
+count = 1
+
+[[main.entries]]
+weight = 1000
+obj = "obj.xeric_fabric"
+count = 1
+
+# Main table pool padding uses a nothing roll (7000 weight)
+[[main.entries]]
+weight = 7000
+nothing = true

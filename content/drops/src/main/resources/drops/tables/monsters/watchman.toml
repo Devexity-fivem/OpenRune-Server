@@ -1,0 +1,11 @@
+id = "Watchman Drops"
+npcs = ["npc.yanille_watchman"]
+
+[main]
+total = 1
+name = "Watchman Drops"
+
+# Main table pool padding uses a nothing roll (1 weight)
+[[main.entries]]
+weight = 1
+nothing = true

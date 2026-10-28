@@ -1,0 +1,6 @@
+id = "Rannveig Drops"
+npcs = ["npc.misc_woman_4"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,10 @@
+id = "Ochre Blamish Snail Drops (Round) Drops"
+npcs = ["npc.mmsnailround_yellow"]
+
+[[guaranteed]]
+obj = "obj.shellround_yellow"
+count = 1
+
+[[guaranteed]]
+obj = "obj.snail_corpse1"
+count = 1

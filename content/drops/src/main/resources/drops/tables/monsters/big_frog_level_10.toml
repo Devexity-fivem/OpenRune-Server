@@ -1,0 +1,6 @@
+id = "Big frog Level 10 Drops"
+npcs = ["npc.medium_frog_nodrops"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,55 @@
+id = "Big frog Level 24 Drops"
+npcs = ["npc.medium_frog"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 128
+name = "Big frog Level 24 Drops"
+
+[[main.entries]]
+weight = 10
+obj = "obj.waterrune"
+count = 12
+
+[[main.entries]]
+weight = 10
+obj = "obj.earthrune"
+count = 12
+
+[[main.entries]]
+weight = 7
+obj = "obj.naturerune"
+count = 4
+
+[[main.entries]]
+weight = 6
+obj = "obj.cosmicrune"
+count = 2
+
+[[main.entries]]
+weight = 32
+obj = "obj.coins"
+count = 5
+
+[[main.entries]]
+weight = 19
+obj = "obj.coins"
+count = 15
+
+[[main.entries]]
+weight = 1
+obj = "obj.water_talisman"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.earth_talisman"
+count = 1
+
+# Main table pool padding uses a nothing roll (42 weight)
+[[main.entries]]
+weight = 42
+nothing = true

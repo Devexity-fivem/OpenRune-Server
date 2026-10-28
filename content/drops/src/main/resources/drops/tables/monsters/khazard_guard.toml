@@ -1,0 +1,6 @@
+id = "Khazard Guard Drops"
+npcs = ["npc.arena_guard1", "npc.arena_guard4", "npc.arena_guard5", "npc.arena_guard6", "npc.arena_guard7"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,6 @@
+id = "Khazard trooper Drops"
+npcs = ["npc.battlefield_khazard_troop", "npc.battlefield_khazard_troop_spearmen", "npc.khazard_troop"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

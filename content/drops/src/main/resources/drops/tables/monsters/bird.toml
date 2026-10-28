@@ -1,0 +1,6 @@
+id = "Bird Drops"
+npcs = ["npc.mm_jungle_bird_blue", "npc.mm_jungle_bird_green", "npc.sw_bird_blue"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

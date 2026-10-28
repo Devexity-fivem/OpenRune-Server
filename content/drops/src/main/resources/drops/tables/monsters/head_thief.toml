@@ -1,0 +1,6 @@
+id = "Head Thief Drops"
+npcs = ["npc.headthief_blanket"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

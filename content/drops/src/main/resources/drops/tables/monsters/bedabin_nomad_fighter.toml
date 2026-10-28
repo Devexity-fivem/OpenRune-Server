@@ -1,0 +1,6 @@
+id = "Bedabin Nomad Fighter Drops"
+npcs = ["npc.bedabin_fighter"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

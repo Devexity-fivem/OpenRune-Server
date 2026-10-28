@@ -1,0 +1,161 @@
+id = "Dark wizard Level 7 and 11 Drops"
+npcs = ["npc.bearded_dark_wizard", "npc.fai_dark_wizard_old_1", "npc.fai_dark_wizard_old_2", "npc.fai_dark_wizard_young_1", "npc.fai_dark_wizard_young_2", "npc.qip_ds_young_dark_wizard1", "npc.qip_ds_young_dark_wizard2", "npc.qip_ds_young_dark_wizard3", "npc.qip_ds_young_dark_wizard4", "npc.young_dark_wizard"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 130
+name = "Dark wizard Level 7 and 11 Drops"
+
+[[main.entries]]
+weight = 8
+obj = "obj.plainstaff"
+count = 1
+
+[[main.entries]]
+weight = 6
+obj = "obj.blackwizhat"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.black_robe"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.earthrune"
+count = 36
+
+[[main.entries]]
+weight = 3
+obj = "obj.airrune"
+count = 10
+
+[[main.entries]]
+weight = 3
+obj = "obj.waterrune"
+count = 10
+
+[[main.entries]]
+weight = 3
+obj = "obj.earthrune"
+count = 10
+
+[[main.entries]]
+weight = 3
+obj = "obj.firerune"
+count = 10
+
+[[main.entries]]
+weight = 2
+obj = "obj.airrune"
+count = 18
+
+[[main.entries]]
+weight = 2
+obj = "obj.waterrune"
+count = 18
+
+[[main.entries]]
+weight = 2
+obj = "obj.earthrune"
+count = 18
+
+[[main.entries]]
+weight = 2
+obj = "obj.firerune"
+count = 18
+
+[[main.entries]]
+weight = 7
+obj = "obj.naturerune"
+count = 4
+
+[[main.entries]]
+weight = 6
+obj = "obj.chaosrune"
+count = 5
+
+[[main.entries]]
+weight = 3
+obj = "obj.mindrune"
+count = 10
+
+[[main.entries]]
+weight = 3
+obj = "obj.bodyrune"
+count = 10
+
+[[main.entries]]
+weight = 2
+obj = "obj.mindrune"
+count = 18
+
+[[main.entries]]
+weight = 2
+obj = "obj.bodyrune"
+count = 18
+
+[[main.entries]]
+weight = 2
+obj = "obj.bloodrune"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.cosmicrune"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.lawrune"
+count = 3
+
+[[main.entries]]
+weight = 17
+obj = "obj.coins"
+count = 1
+
+[[main.entries]]
+weight = 7
+obj = "obj.coins"
+count = 4
+
+[[main.entries]]
+weight = 1
+obj = "obj.coins"
+count = 30
+
+[[main.entries]]
+weight = 16
+nothing = true
+
+[[main.entries]]
+weight = 1
+obj = "obj.water_talisman"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.fire_talisman"
+count = 1
+
+[[main.entries]]
+weight = 16
+obj = "obj.2dose1energy"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.4dose1energy"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 15
+obj = "obj.looting_bag"
+count = 1
+should_drop_looting_bag = true

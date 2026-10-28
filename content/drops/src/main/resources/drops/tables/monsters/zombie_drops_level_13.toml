@@ -1,5 +1,5 @@
 id = "Zombie Drops (level 13) Drops"
-npcs = ["npc.zombie_unarmed_sewer1", "npc.zombie_unarmed_sewer2", "npc.zombie_unarmed_sewer3", "npc.zombie_unarmed_sewer4"]
+npcs = ["npc.zombie2", "npc.zombie2_b", "npc.zombie2_c", "npc.zombie_unarmed2", "npc.zombie_unarmed4", "npc.zombie_unarmed5", "npc.zombie_unarmed6", "npc.zombie_unarmed_sewer1", "npc.zombie_unarmed_sewer2", "npc.zombie_unarmed_sewer3", "npc.zombie_unarmed_sewer4"]
 
 [[guaranteed]]
 obj = "obj.bones"

@@ -1,0 +1,11 @@
+id = "Vampyre Juvinate Drops"
+npcs = ["npc.burgh_vampire_juve_1", "npc.burgh_vampire_juve_2", "npc.burgh_vampire_juve_3", "npc.burgh_vampire_juve_4", "npc.darkm_juvinate_01", "npc.darkm_juvinate_02", "npc.sang_myq3_female_juvinate", "npc.sang_myq3_male_juvinate"]
+
+[main]
+total = 1
+name = "Vampyre Juvinate Drops"
+
+# Main table pool padding uses a nothing roll (1 weight)
+[[main.entries]]
+weight = 1
+nothing = true

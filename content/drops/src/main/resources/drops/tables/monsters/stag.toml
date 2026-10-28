@@ -1,0 +1,11 @@
+id = "Stag Drops"
+npcs = ["npc.fairy2_stag"]
+
+[main]
+total = 1
+name = "Stag Drops"
+
+# Main table pool padding uses a nothing roll (1 weight)
+[[main.entries]]
+weight = 1
+nothing = true

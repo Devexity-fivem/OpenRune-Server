@@ -1,0 +1,6 @@
+id = "Cave lizard Drops"
+npcs = ["npc.rc_zmi_lizard"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

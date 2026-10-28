@@ -1,0 +1,6 @@
+id = "Invrigar the Necromancer Drops"
+npcs = ["npc.invrigar_the_necromancer"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

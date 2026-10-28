@@ -1,5 +1,5 @@
 id = "Barbarian Level 8, 9, and 10 Drops"
-npcs = ["npc.barbarianwoman_varrock", "npc.fai_barbarian_1", "npc.fai_barbarian_10", "npc.fai_barbarian_11", "npc.fai_barbarian_12", "npc.fai_barbarian_13", "npc.fai_barbarian_14", "npc.fai_barbarian_2", "npc.fai_barbarian_3", "npc.fai_barbarian_4", "npc.fai_barbarian_5", "npc.fai_barbarian_6", "npc.fai_barbarian_7", "npc.fai_barbarian_8", "npc.fai_barbarian_female_1", "npc.fai_barbarian_female_2", "npc.fai_barbarian_female_3", "npc.fai_barbarian_female_4"]
+npcs = ["npc.akd_barbarian_1", "npc.akd_barbarian_2", "npc.akd_barbarian_3", "npc.akd_barbarian_4", "npc.akd_barbarian_5", "npc.barbarianwoman_varrock", "npc.fai_barbarian_1", "npc.fai_barbarian_10", "npc.fai_barbarian_11", "npc.fai_barbarian_12", "npc.fai_barbarian_13", "npc.fai_barbarian_14", "npc.fai_barbarian_2", "npc.fai_barbarian_3", "npc.fai_barbarian_4", "npc.fai_barbarian_5", "npc.fai_barbarian_6", "npc.fai_barbarian_7", "npc.fai_barbarian_8", "npc.fai_barbarian_female_1", "npc.fai_barbarian_female_2", "npc.fai_barbarian_female_3", "npc.fai_barbarian_female_4"]
 
 [[guaranteed]]
 obj = "obj.bones"

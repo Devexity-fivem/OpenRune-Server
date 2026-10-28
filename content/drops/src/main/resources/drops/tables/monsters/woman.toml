@@ -1,5 +1,5 @@
 id = "Woman Drops"
-npcs = ["npc.varrock_woman1", "npc.woman", "npc.woman2", "npc.woman3", "npc.zeah_woman", "npc.zeah_woman2", "npc.zeah_woman3", "npc.zeah_woman_outside", "npc.shayzien_woman_1", "npc.shayzien_woman_2", "npc.woman4"]
+npcs = ["npc.ardougnian_female1", "npc.dskin_w_ardoungecitizenlady1", "npc.dskin_w_ardoungecitizenlady3", "npc.dskin_w_ardoungecitizenlady4", "npc.misc_woman_2", "npc.misc_woman_5", "npc.shayzien_woman_1", "npc.shayzien_woman_2", "npc.varrock_woman1", "npc.w_ardoungecitizenlady1", "npc.w_ardoungecitizenlady2", "npc.w_ardoungecitizenlady4", "npc.woman", "npc.woman2", "npc.woman3", "npc.woman4", "npc.zeah_woman", "npc.zeah_woman2", "npc.zeah_woman3", "npc.zeah_woman_outside"]
 
 [main]
 total = 128

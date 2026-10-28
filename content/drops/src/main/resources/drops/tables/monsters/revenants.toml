@@ -1,0 +1,299 @@
+id = "revenants"
+npcs = ["npc.wild_cave_cyclops", "npc.wild_cave_darkbeast", "npc.wild_cave_demon", "npc.wild_cave_dragon", "npc.wild_cave_goblin", "npc.wild_cave_hellhound", "npc.wild_cave_hobgoblin", "npc.wild_cave_imp", "npc.wild_cave_knight", "npc.wild_cave_ork", "npc.wild_cave_pyrefiend"]
+
+[[guaranteed]]
+obj = "obj.wild_cave_shard"
+range = "2-11"
+
+# NOTE: authentic revenant rates scale with the individual revenant combat level
+# (A = floor(2200/floor(sqrt(combat)))). A single shared table cannot scale per-NPC;
+# tertiary denominators use representative A=300 (~1/2 unskulled unique odds for
+# mid-tier revenants). Mediocre pool weights/quantities are exact per wiki.
+[main]
+total = 198
+name = "Revenant mediocre table"
+
+[[main.entries]]
+weight = 30
+obj = "obj.wild_cave_bracelet_uncharged"
+count = 1
+
+[[main.entries]]
+weight = 10
+obj = "obj.battlestaff"
+count = 4
+
+[[main.entries]]
+weight = 4
+obj = "obj.rune_full_helm"
+count = 2
+
+[[main.entries]]
+weight = 4
+obj = "obj.rune_platebody"
+count = 2
+
+[[main.entries]]
+weight = 4
+obj = "obj.rune_platelegs"
+count = 2
+
+[[main.entries]]
+weight = 4
+obj = "obj.rune_kiteshield"
+count = 2
+
+[[main.entries]]
+weight = 4
+obj = "obj.rune_warhammer"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.dragon_platelegs"
+range = "1-2"
+
+[[main.entries]]
+weight = 1
+obj = "obj.dragon_plateskirt"
+range = "1-2"
+
+[[main.entries]]
+weight = 2
+obj = "obj.dragon_dagger"
+count = 2
+
+[[main.entries]]
+weight = 2
+obj = "obj.dragon_longsword"
+count = 2
+
+[[main.entries]]
+weight = 6
+obj = "obj.xbows_bolt_tips_dragonstone"
+range = "20-40"
+
+[[main.entries]]
+weight = 6
+obj = "obj.xbows_bolt_tips_onyx"
+range = "3-6"
+
+[[main.entries]]
+weight = 10
+obj = "obj.deathrune"
+range = "30-60"
+
+[[main.entries]]
+weight = 10
+obj = "obj.bloodrune"
+range = "50-100"
+
+[[main.entries]]
+weight = 10
+obj = "obj.lawrune"
+range = "20-45"
+
+[[main.entries]]
+weight = 12
+obj = "obj.coal"
+range = "30-60"
+
+[[main.entries]]
+weight = 12
+obj = "obj.adamantite_bar"
+range = "4-6"
+
+[[main.entries]]
+weight = 8
+obj = "obj.runite_ore"
+range = "2-4"
+
+[[main.entries]]
+weight = 6
+obj = "obj.runite_bar"
+range = "2-3"
+
+[[main.entries]]
+weight = 8
+obj = "obj.dragonhide_black"
+count = 4
+
+[[main.entries]]
+weight = 6
+obj = "obj.plank_mahogany"
+range = "8-16"
+
+[[main.entries]]
+weight = 8
+obj = "obj.yew_logs"
+range = "20-40"
+
+[[main.entries]]
+weight = 4
+obj = "obj.magic_logs"
+range = "8-16"
+
+[[main.entries]]
+weight = 2
+obj = "obj.uncut_dragonstone"
+range = "2-5"
+
+[[main.entries]]
+weight = 10
+obj = "obj.teleportscroll_revenants"
+range = "1-5"
+
+[[main.entries]]
+weight = 6
+obj = "obj.blighted_4dose2restore"
+range = "1-3"
+
+[[main.entries]]
+weight = 8
+obj = "obj.blighted_mantaray"
+range = "10-15"
+
+[[tertiary]]
+numerator = 1
+denominator = 20000
+obj = "obj.wild_cave_amulet"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 40000
+obj = "obj.wild_cave_bow_uncharged"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 40000
+obj = "obj.wild_cave_sceptre_uncharged"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 40000
+obj = "obj.wild_cave_chainmace_uncharged"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 2000
+obj = "obj.wild_cave_artifact_500"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 3000
+obj = "obj.wild_cave_artifact_1000"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 6000
+obj = "obj.wild_cave_artifact_2000"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 4000
+obj = "obj.wild_cave_obelisk_crystal"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 12000
+obj = "obj.wild_cave_artifact_4000"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 12000
+obj = "obj.wild_cave_artifact_8000"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 12000
+obj = "obj.wild_cave_artifact_16000"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 3000
+obj = "obj.magic_tree_seed"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 3000
+obj = "obj.yew_seed"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 923
+obj = "obj.dragon_med_helm"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 160
+obj = "obj.blighted_sack_icebarrage"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 160
+obj = "obj.blighted_sack_entangle"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 160
+obj = "obj.blighted_sack_teleblock"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 160
+obj = "obj.blighted_sack_vengeance"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 160
+obj = "obj.blighted_mantaray"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 160
+obj = "obj.blighted_anglerfish"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 160
+obj = "obj.blighted_karambwan"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 160
+obj = "obj.blighted_4dose2restore"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 160
+obj = "obj.teleportscroll_revenants"
+count = 1
+
+[[tertiary]]
+numerator = 3
+denominator = 10
+obj = "obj.looting_bag"
+count = 1
+should_drop_looting_bag = true

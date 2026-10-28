@@ -1,0 +1,110 @@
+id = "Iorwerth Warrior Drops (Iorwerth Dungeon) Drops"
+npcs = ["npc.prif_darkelf2", "npc.prif_darkelf3", "npc.regicide_darkelf2"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 1024
+name = "Iorwerth Warrior Drops (Iorwerth Dungeon) Drops"
+
+[[main.entries]]
+weight = 40
+shared = "gem"
+
+[[main.entries]]
+weight = 1
+obj = "obj.prif_teleport_seed"
+count = 1
+
+[[main.entries]]
+weight = 24
+obj = "obj.dragonhide_chaps"
+count = 1
+
+[[main.entries]]
+weight = 32
+obj = "obj.dragonhide_body"
+count = 1
+
+[[main.entries]]
+weight = 16
+obj = "obj.mithril_spear"
+count = 1
+
+[[main.entries]]
+weight = 8
+obj = "obj.mithril_kiteshield"
+count = 1
+
+[[main.entries]]
+weight = 8
+obj = "obj.adamant_full_helm"
+count = 1
+
+[[main.entries]]
+weight = 8
+obj = "obj.rune_dagger"
+count = 1
+
+[[main.entries]]
+weight = 64
+obj = "obj.waterrune"
+count = 70
+
+[[main.entries]]
+weight = 40
+obj = "obj.naturerune"
+count = 12
+
+[[main.entries]]
+weight = 24
+obj = "obj.lawrune"
+count = 2
+
+[[main.entries]]
+weight = 24
+obj = "obj.firerune"
+count = 37
+
+[[main.entries]]
+weight = 40
+obj = "obj.coins"
+count = 20
+
+[[main.entries]]
+weight = 232
+obj = "obj.coins"
+count = 44
+
+[[main.entries]]
+weight = 80
+obj = "obj.coins"
+count = 180
+
+[[main.entries]]
+weight = 24
+obj = "obj.bass"
+count = 1
+
+[[main.entries]]
+weight = 24
+obj = "obj.shark"
+count = 1
+
+[[main.entries]]
+weight = 8
+obj = "obj.adamantite_ore"
+count = 1
+
+# Main table pool padding uses a nothing roll (327 weight)
+[[main.entries]]
+weight = 327
+nothing = true
+
+[[tertiary]]
+numerator = 1
+denominator = 50
+obj = "obj.arceuus_corpse_elf"
+count = 1

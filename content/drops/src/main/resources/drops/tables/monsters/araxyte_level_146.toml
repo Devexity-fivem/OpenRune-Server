@@ -1,0 +1,115 @@
+id = "Araxyte Level 146 Drops"
+npcs = ["npc.araxyte_large"]
+
+[[guaranteed]]
+obj = "obj.araxyte_venom_sack"
+count = 1
+
+[main]
+total = 254000
+name = "Araxyte Level 146 Drops"
+
+[[main.entries]]
+weight = 10000
+obj = "obj.adamant_longsword"
+count = 2
+
+[[main.entries]]
+weight = 10000
+obj = "obj.adamant_battleaxe"
+count = 2
+
+[[main.entries]]
+weight = 6000
+obj = "obj.rune_dagger"
+count = 2
+
+[[main.entries]]
+weight = 4000
+obj = "obj.rune_med_helm"
+count = 2
+
+[[main.entries]]
+weight = 4000
+obj = "obj.rune_platelegs"
+count = 2
+
+[[main.entries]]
+weight = 20000
+obj = "obj.airrune"
+count = "240..280"
+
+[[main.entries]]
+weight = 20000
+obj = "obj.waterrune"
+count = "240..280"
+
+[[main.entries]]
+weight = 20000
+obj = "obj.earthrune"
+count = "240..280"
+
+[[main.entries]]
+weight = 20000
+obj = "obj.firerune"
+count = "240..280"
+
+[[main.entries]]
+weight = 10000
+obj = "obj.cosmicrune"
+count = "14..24"
+
+[[main.entries]]
+weight = 10000
+obj = "obj.chaosrune"
+count = "20..30"
+
+[[main.entries]]
+weight = 10000
+obj = "obj.naturerune"
+count = "30..40"
+
+[[main.entries]]
+weight = 10000
+obj = "obj.deathrune"
+count = "40..50"
+
+[[main.entries]]
+weight = 10000
+obj = "obj.lawrune"
+count = "24..30"
+
+[[main.entries]]
+weight = 10000
+obj = "obj.bloodrune"
+count = "30..36"
+
+[[main.entries]]
+weight = 10000
+obj = "obj.soulrune"
+count = "18..24"
+
+[[main.entries]]
+weight = 20000
+shared = "herb"
+
+[[main.entries]]
+weight = 10000
+obj = "obj.araxyte_venom_sack"
+count = 4
+
+[[main.entries]]
+weight = 20000
+obj = "obj.coins"
+count = "1600..2400"
+
+# Main table pool padding uses a nothing roll (20000 weight)
+[[main.entries]]
+weight = 20000
+nothing = true
+
+[[tertiary]]
+numerator = 1
+denominator = 2000
+obj = "obj.aranea_boots"
+count = 1

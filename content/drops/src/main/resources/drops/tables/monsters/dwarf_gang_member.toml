@@ -1,0 +1,6 @@
+id = "Dwarf gang member Drops"
+npcs = ["npc.favour_gangster_dwarf", "npc.favour_gangster_dwarf_2", "npc.favour_gangster_dwarf_3"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

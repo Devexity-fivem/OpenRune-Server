@@ -1,0 +1,6 @@
+id = "Foreman Drops"
+npcs = ["npc.grandtree_foreman"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

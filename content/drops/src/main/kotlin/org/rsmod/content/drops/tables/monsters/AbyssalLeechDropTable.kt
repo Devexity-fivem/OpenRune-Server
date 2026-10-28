@@ -16,7 +16,7 @@ import org.rsmod.game.entity.Player
 @JvmField
 public val abyssalLeechDropTable: RSDropTable<Player, DropRollItem> = RSDropTable(
     tableIdentifier = "Abyssal leech Drops",
-    npcs = npcs("npc.abyssal_leech"),
+    npcs = npcs("npc.abyssal_leech", "npc.dt2_scar_leech", "npc.dt2_scar_maze_leech"),
     mainTable = rsPlayerWeightedTable(total = 256) {
         name("Abyssal leech Drops")
         5 weight "obj.air_talisman" count 1

@@ -1,0 +1,6 @@
+id = "Poltenip Drops"
+npcs = ["npc.elid_mayor_guard_2"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

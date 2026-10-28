@@ -1,0 +1,33 @@
+id = "Hellhound Level 136 (Wilderness Slayer Cave) Drops"
+npcs = ["npc.wild_cave_hell_hound"]
+
+[[guaranteed]]
+obj = "obj.vile_ashes"
+count = 1
+
+[main]
+total = 16384
+name = "Hellhound Level 136 (Wilderness Slayer Cave) Drops"
+
+[[main.entries]]
+weight = 1
+obj = "obj.smouldering_stone"
+count = 1
+
+# Main table pool padding uses a nothing roll (16383 weight)
+[[main.entries]]
+weight = 16383
+nothing = true
+
+[[tertiary]]
+numerator = 1
+denominator = 40
+obj = "obj.arceuus_corpse_hellhound"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1
+should_drop_looting_bag = true

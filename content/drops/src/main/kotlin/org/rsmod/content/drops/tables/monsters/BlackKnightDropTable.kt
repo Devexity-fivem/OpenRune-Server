@@ -17,7 +17,7 @@ import org.rsmod.game.entity.Player
 @JvmField
 public val blackKnightDropTable: RSDropTable<Player, DropRollItem> = RSDropTable(
     tableIdentifier = "Black Knight Drops",
-    npcs = npcs("npc.aggressive_black_knight", "npc.aggressive_black_knight_f", "npc.black_knight", "npc.black_knight_f", "npc.kr_aggressive_black_knight"),
+    npcs = npcs("npc.aggressive_black_knight", "npc.aggressive_black_knight_f", "npc.black_knight", "npc.black_knight_f", "npc.kr_aggressive_black_knight", "npc.jail_black_knight"),
     mainTable = rsPlayerWeightedTable(total = 128) {
         name("Black Knight Drops")
         4 weight "obj.iron_sword" count 1

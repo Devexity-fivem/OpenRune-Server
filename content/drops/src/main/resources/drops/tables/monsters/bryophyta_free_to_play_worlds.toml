@@ -1,0 +1,142 @@
+id = "Bryophyta Free-to-play worlds Drops"
+npcs = ["npc.gb_mossgiant"]
+
+[[guaranteed]]
+obj = "obj.big_bones"
+count = 1
+
+[main]
+total = 128
+name = "Bryophyta Free-to-play worlds Drops"
+
+[[main.entries]]
+weight = 4
+shared = "gem"
+
+[[main.entries]]
+weight = 5
+obj = "obj.black_sq_shield"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.magic_staff"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.steel_med_helm"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.mithril_sword"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.steel_kiteshield"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.lawrune"
+count = 3
+
+[[main.entries]]
+weight = 3
+obj = "obj.airrune"
+count = 18
+
+[[main.entries]]
+weight = 3
+obj = "obj.earthrune"
+count = 27
+
+[[main.entries]]
+weight = 3
+obj = "obj.chaosrune"
+count = 7
+
+[[main.entries]]
+weight = 3
+obj = "obj.naturerune"
+count = 6
+
+[[main.entries]]
+weight = 2
+obj = "obj.cosmicrune"
+count = 3
+
+[[main.entries]]
+weight = 2
+obj = "obj.iron_arrow"
+count = 15
+
+[[main.entries]]
+weight = 1
+obj = "obj.steel_arrow"
+count = 30
+
+[[main.entries]]
+weight = 1
+obj = "obj.deathrune"
+count = 3
+
+[[main.entries]]
+weight = 5
+obj = "obj.coins"
+count = 10
+
+[[main.entries]]
+weight = 35
+obj = "obj.coins"
+count = 5
+
+[[main.entries]]
+weight = 19
+obj = "obj.coins"
+count = 37
+
+[[main.entries]]
+weight = 11
+obj = "obj.coins"
+count = 2
+
+[[main.entries]]
+weight = 10
+obj = "obj.coins"
+count = 119
+
+[[main.entries]]
+weight = 2
+obj = "obj.coins"
+count = 300
+
+[[main.entries]]
+weight = 6
+obj = "obj.steel_bar"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.coal"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.spinach_roll"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 45
+obj = "obj.trail_clue_beginner"
+count = 1
+clue_scroll_box = true
+
+[[tertiary]]
+numerator = 1
+denominator = 16
+obj = "obj.mossy_key"
+count = 1

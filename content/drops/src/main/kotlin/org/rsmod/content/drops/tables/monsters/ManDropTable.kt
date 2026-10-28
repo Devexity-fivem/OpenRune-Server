@@ -16,7 +16,9 @@ import org.rsmod.game.entity.Player
 @JvmField
 public val manDropTable: RSDropTable<Player, DropRollItem> = RSDropTable(
     tableIdentifier = "Man Drops",
-    npcs = npcs("npc.al_kharid_man", "npc.death_man_indoors1", "npc.falador_man2", "npc.falador_man3", "npc.karamja_man", "npc.man", "npc.man2", "npc.man3", "npc.man4", "npc.man4_for_musa_point", "npc.man5", "npc.man_indoor", "npc.shayzien_man_1", "npc.shayzien_man_2", "npc.varrock_man1", "npc.zeah_man", "npc.zeah_man2", "npc.zeah_man3"),
+    npcs = npcs("npc.al_kharid_man", "npc.death_man_indoors1", "npc.falador_man2", "npc.falador_man3", "npc.karamja_man", "npc.man", "npc.man2", "npc.man3", "npc.man4", "npc.man4_for_musa_point", "npc.man5", "npc.man_indoor", "npc.shayzien_man_1", "npc.shayzien_man_2", "npc.varrock_man1", "npc.zeah_man", "npc.zeah_man2", "npc.zeah_man3",
+        "npc.dskin_w_ardoungecitizen1", "npc.dskin_w_ardoungecitizen2", "npc.ardougnian_male1",
+        "npc.misc_man_1", "npc.misc_man_3", "npc.misc_man_4", "npc.misc_man_6"),
     mainTable = rsPlayerWeightedTable(total = 128) {
         name("Man Drops")
         2 weight "obj.bronze_med_helm" count 1

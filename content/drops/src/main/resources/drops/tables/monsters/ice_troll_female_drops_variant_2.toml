@@ -1,0 +1,12 @@
+id = "Ice troll female Drops (variant 2) Drops"
+npcs = ["npc.fris_trollf"]
+
+[[guaranteed]]
+obj = "obj.big_bones"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 400
+obj = "obj.dorgesh_construction_bone"
+count = 1

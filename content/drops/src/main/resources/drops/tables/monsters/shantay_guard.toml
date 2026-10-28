@@ -1,0 +1,6 @@
+id = "Shantay Guard Drops"
+npcs = ["npc.shantay_guard", "npc.shantay_guard_still"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

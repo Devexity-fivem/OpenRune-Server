@@ -1,0 +1,6 @@
+id = "Gnome woman Drops"
+npcs = ["npc.gnomefemale", "npc.gnomefemale_dskinned"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,6 @@
+id = "Thorhild Drops"
+npcs = ["npc.misc_woman_1"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

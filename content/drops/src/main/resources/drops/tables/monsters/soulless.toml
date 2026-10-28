@@ -1,0 +1,6 @@
+id = "Soulless Drops"
+npcs = ["npc.souless_vis"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,6 @@
+id = "Ragnvald Drops"
+npcs = ["npc.misc_man_7"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

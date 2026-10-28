@@ -15,7 +15,7 @@ import org.rsmod.game.entity.Player
 @JvmField
 public val chickenDropTable: RSDropTable<Player, DropRollItem> = RSDropTable(
     tableIdentifier = "Chicken Drops",
-    npcs = npcs("npc.chicken", "npc.chicken_brown", "npc.farm_chicken_brown", "npc.farm_chicken_brown_indoors", "npc.farm_chicken_brown_outdoors", "npc.farm_chicken_dark_brown", "npc.farm_chicken_dark_brown_outdoors", "npc.farm_chicken_tan", "npc.farm_chicken_tan_outdoors", "npc.misc_chicken", "npc.misc_chicken_brown", "npc.tut2_chicken"),
+    npcs = npcs("npc.chicken", "npc.chicken_brown", "npc.farm_chicken_brown", "npc.farm_chicken_brown_indoors", "npc.farm_chicken_brown_outdoors", "npc.farm_chicken_dark_brown", "npc.farm_chicken_dark_brown_outdoors", "npc.farm_chicken_tan", "npc.farm_chicken_tan_outdoors", "npc.misc_chicken", "npc.misc_chicken_brown", "npc.tut2_chicken", "npc.newbiechicken"),
     guaranteed = rsPlayerGuaranteedTable {
         "obj.raw_chicken" count 1
     },

@@ -1,5 +1,5 @@
 id = "Warrior (Rellekka) Drops"
-npcs = ["npc.viking_guard2"]
+npcs = ["npc.viking_guard2", "npc.warrior_man", "npc.warrior_man_variant01", "npc.warrior_man_variant02", "npc.warrior_woman", "npc.warrior_woman_variant01", "npc.warrior_woman_variant02"]
 
 [main]
 total = 128

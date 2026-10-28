@@ -1,0 +1,12 @@
+id = "Giant frog Level 13 Drops"
+npcs = ["npc.giant_frog_nodrops"]
+
+[[guaranteed]]
+obj = "obj.big_bones"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 400
+obj = "obj.dorgesh_construction_bone"
+count = 1

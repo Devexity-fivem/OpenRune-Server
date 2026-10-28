@@ -1,0 +1,6 @@
+id = "Gnome guard Drops"
+npcs = ["npc.gnomekingsguard", "npc.gnomekingsguard2"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

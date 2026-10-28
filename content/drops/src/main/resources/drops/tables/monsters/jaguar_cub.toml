@@ -1,0 +1,6 @@
+id = "Jaguar cub Drops"
+npcs = ["npc.varlamore_jaguar_cub"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

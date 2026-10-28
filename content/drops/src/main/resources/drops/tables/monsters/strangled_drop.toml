@@ -1,0 +1,11 @@
+id = "Strangled Drop Drops"
+npcs = ["npc.dt2_strangled_base_t1_1", "npc.dt2_strangled_base_t1_2", "npc.dt2_strangled_base_t1_3", "npc.dt2_strangled_base_t1_4", "npc.dt2_strangled_base_t2_1", "npc.dt2_strangled_base_t2_2", "npc.dt2_strangled_base_t2_3", "npc.dt2_strangled_bear", "npc.dt2_strangled_boar", "npc.dt2_strangled_lynx"]
+
+[main]
+total = 1
+name = "Strangled Drop Drops"
+
+# Main table pool padding uses a nothing roll (1 weight)
+[[main.entries]]
+weight = 1
+nothing = true

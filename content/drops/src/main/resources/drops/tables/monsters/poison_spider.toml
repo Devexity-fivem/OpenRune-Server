@@ -1,5 +1,5 @@
 id = "Poison spider Drops"
-npcs = ["npc.poisonspider", "npc.dungeonspider", "npc.wbr_poisonspider"]
+npcs = ["npc.dungeonspider", "npc.poisonspider", "npc.wbr_cave_poisonspider", "npc.wbr_poisonspider"]
 
 [[tertiary]]
 numerator = 1

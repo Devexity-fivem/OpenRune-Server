@@ -1,0 +1,6 @@
+id = "Pirate Guard Drops"
+npcs = ["npc.pirate_guard"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

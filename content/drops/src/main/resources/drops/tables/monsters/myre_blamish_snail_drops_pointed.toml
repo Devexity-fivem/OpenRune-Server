@@ -1,0 +1,10 @@
+id = "Myre Blamish Snail Drops (Pointed) Drops"
+npcs = ["npc.mmsnailpoint_swamp"]
+
+[[guaranteed]]
+obj = "obj.shellpoint_swamp"
+count = 1
+
+[[guaranteed]]
+obj = "obj.snail_corpse1"
+count = 1

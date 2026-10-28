@@ -1,0 +1,75 @@
+id = "Skeleton Mage Level 83 Drops"
+npcs = ["npc.swan_skeleton_training"]
+
+[[guaranteed]]
+obj = "obj.ashes"
+count = 1
+
+[main]
+total = 128
+name = "Skeleton Mage Level 83 Drops"
+
+[[main.entries]]
+weight = 5
+shared = "gem"
+
+[[main.entries]]
+weight = 2
+obj = "obj.pink_skirt"
+count = 1
+
+[[main.entries]]
+weight = 12
+obj = "obj.mindrune"
+count = "7..9"
+
+[[main.entries]]
+weight = 10
+obj = "obj.chaosrune"
+count = "3..4"
+
+[[main.entries]]
+weight = 12
+obj = "obj.lawrune"
+count = "2..3"
+
+[[main.entries]]
+weight = 11
+obj = "obj.naturerune"
+count = "1..3"
+
+[[main.entries]]
+weight = 10
+obj = "obj.uncut_opal"
+count = 1
+
+[[main.entries]]
+weight = 10
+obj = "obj.pot_flour"
+count = 1
+
+[[main.entries]]
+weight = 5
+obj = "obj.iron_bar"
+count = "1..2"
+
+[[main.entries]]
+weight = 33
+obj = "obj.coins"
+count = "25..54"
+
+[[main.entries]]
+weight = 6
+obj = "obj.big_bones"
+count = "2..4"
+
+# Main table pool padding uses a nothing roll (12 weight)
+[[main.entries]]
+weight = 12
+nothing = true
+
+[[tertiary]]
+numerator = 1
+denominator = 5000
+obj = "obj.champions_challenge_skeleton"
+count = 1

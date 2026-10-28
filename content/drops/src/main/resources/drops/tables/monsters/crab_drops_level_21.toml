@@ -1,0 +1,16 @@
+id = "Crab Drops (Level 21) Drops"
+npcs = ["npc.hundred_pirate_giant_crab"]
+
+[main]
+total = 80
+name = "Crab Drops (Level 21) Drops"
+
+[[main.entries]]
+weight = 8
+obj = "obj.oystershell"
+count = 1
+
+# Main table pool padding uses a nothing roll (72 weight)
+[[main.entries]]
+weight = 72
+nothing = true

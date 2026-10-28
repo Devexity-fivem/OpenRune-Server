@@ -1,0 +1,31 @@
+id = "Possessed pickaxe Catacombs of Kourend Drops"
+npcs = ["npc.kourend_pickaxe"]
+
+[main]
+total = 500
+name = "Possessed pickaxe Catacombs of Kourend Drops"
+
+[[main.entries]]
+weight = 475
+obj = "obj.iron_pickaxe"
+count = 1
+
+[[main.entries]]
+weight = 10
+obj = "obj.steel_pickaxe"
+count = 1
+
+[[main.entries]]
+weight = 10
+obj = "obj.mithril_pickaxe"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.adamant_pickaxe"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.rune_pickaxe"
+count = 1

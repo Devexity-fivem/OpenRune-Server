@@ -1,5 +1,5 @@
 id = "Giant rat Level 3 and 6 Drops"
-npcs = ["npc.giantrat", "npc.giantrat1", "npc.giantrat1_2", "npc.giantrat1_3", "npc.giantrat2", "npc.giantrat3", "npc.giantrat_grey", "npc.giantrat_grey2", "npc.giantrat_grey3"]
+npcs = ["npc.giantrat", "npc.giantrat1", "npc.giantrat1_2", "npc.giantrat1_3", "npc.giantrat2", "npc.giantrat3", "npc.giantrat_grey", "npc.giantrat_grey2", "npc.giantrat_grey3", "npc.newbiegiantrat", "npc.tut2_giantrat"]
 
 [[guaranteed]]
 obj = "obj.bones"

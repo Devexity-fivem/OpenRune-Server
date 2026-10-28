@@ -1,0 +1,6 @@
+id = "Sir Mordred Drops"
+npcs = ["npc.sir_mordred"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

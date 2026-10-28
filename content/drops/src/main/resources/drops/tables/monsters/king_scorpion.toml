@@ -1,5 +1,5 @@
 id = "King Scorpion Drops"
-npcs = ["npc.kingscorpion"]
+npcs = ["npc.arena_scorpion", "npc.kingscorpion"]
 
 [[tertiary]]
 numerator = 1

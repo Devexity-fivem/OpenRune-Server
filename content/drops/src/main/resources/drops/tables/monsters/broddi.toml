@@ -1,0 +1,6 @@
+id = "Broddi Drops"
+npcs = ["npc.misc_man_5"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,6 @@
+id = "Gnome child Drops"
+npcs = ["npc.gnomechild", "npc.gnomechildblue", "npc.gnomechildgreen"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

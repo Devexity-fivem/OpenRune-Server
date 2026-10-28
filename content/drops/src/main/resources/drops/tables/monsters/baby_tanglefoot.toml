@@ -1,0 +1,6 @@
+id = "Baby tanglefoot Drops"
+npcs = ["npc.fairy_tanglefoot_sml1", "npc.fairy_tanglefoot_sml2"]
+
+[[guaranteed]]
+obj = "obj.leaves"
+count = 1

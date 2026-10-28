@@ -1,5 +1,5 @@
 id = "Grizzly bear Drops"
-npcs = ["npc.brownbear", "npc.regicide_darkbear"]
+npcs = ["npc.brownbear", "npc.regicide_darkbear", "npc.wbr_bear"]
 
 [[guaranteed]]
 obj = "obj.fur"

@@ -140,3 +140,48 @@ Remaining unbound-attackable: ~430, pending manual wiki review per NPC group.
 - Full-table validation: 0 unresolved symbols, 0 weight-sum violations, 0 duplicate
   npc bindings, all shared names valid.
 - `gradlew test` full suite: result recorded below in commit message / run log.
+
+### Phase 3c — remaining unbound NPC reconciliation (completed)
+
+Progression: 458 → 416 → 257 → 189 → **103 unbound attackable** (700→701 TOML tables).
+
+Bulk wiki-name sweep (187 unique display names): +104 generated tables, 0 defects.
+
+Variant/cover binds added this batch (~80 syms): `brain_zombie_pirate*`×31→zombie_pirate,
+`lotr_*`×25→skeleton/zombie, `akd_barbarian`×5→barbarian, `fai_black_guard`×4→black_guard,
+`zombie_unarmed`→zombie L13, `rimmington_/slug2_hobgoblin`→hobgoblin, `dt2_strangled*`→strangled,
+`paladin*`→paladin, `warrior_*`→warrior_rellekka, `dskin_/w_/ardougnian/misc_*` citizens→Man/Woman
+(Kotlin DSL + woman.toml), `kalphite_lord*`→kalphite_guardian, `dungeon_dagganoth*`→dagannoth,
+`kourend_hillgiant`→HillGiant.kt, `kourend_dark_warrior`→dark_warrior, `jail_black_knight`→BlackKnight.kt,
+`newbiechicken`→Chicken.kt, `dt2_scar_leech`→AbyssalLeech.kt, `white_knight*`→white_knight L36/L42,
+`olaf2_giant_bat`, `wbr_bear`, `wbr_cave_poisonspider`, `mm_/laboratory_spider`, `arena_scorpion`→king_scorpion,
+`tut2_/newbie rats`, `zamorakghost`→ghost, `zombie2*`.
+
+New tables: `revenants.toml` — all 11 `wild_cave_*` (Wilderness Slayer Cave) revenants bound;
+mediocre pool reproduced at full wiki fidelity (28 entries, weights sum exactly 198);
+ether guaranteed; uniques/artefacts/seeds/dmed + blighted sacks/food + 30% looting bag as
+tertiary rolls. Rates are combat-level-scaled formulas on the wiki — denominators use
+representative A=300; approximation documented in table header.
+
+Final static validation: 701 tables — 0 weight-sum violations, 0 unresolved obj refs,
+0 duplicate npc bindings.
+
+#### Remaining 103 unbound — classified, no actionable drop table
+- Boss-phase/minion entities: abyssalsire_lung, coa_scarab, dark_seren_healer,
+  pmoon_boss_*_vis, dt2_scar_maze_2_pillar_repairer, ds2_golem_*, dream_inadequacy,
+  my2arm_dontknowwhat_battle, soul_wars_avatar_red, mdaughter_multi_bear, tbwt_beast,
+  ungadulu_good, mourning_shadow_beast, priestperil_*, soulbane_* ×6, kalrag*, blessed_spider*.
+- Quest-instance/combat NPCs with no wiki drop table (verified via page fetch or
+  classification): tourtrap_qip_* ×14, dttd_ham_guard_* ×5 (pickpocket-only), mcannonguard ×5,
+  fortressguard ×4, clocktower_rat ×3, death_* ×3, battlefield_*/gnome, jail knight handled,
+  renegade_knight, grip, ds2_golem_*, death_white_knight, ics_* ×3, dungeon-dummy types.
+- No-drop ambient/utility: duck*, penguin, harmless_*, hunting_chinchompa* ×3,
+  varlamore_hunterjerboa, shadeshadow ×6 (Loar Shadow — no drops), wilderness_ent,
+  wilderness_rune_golem (NO DROP SECTIONS on wiki), ardougne_archer, knight_of_ardougne*
+  (pickpocket targets), etc_guard (Skraeling), elid_mayor_guard, farming_market_guard,
+  ranging_guild_guard, wcguild_forester, weaponsmaster, barrows_* (crypt spiders — no drops),
+  slayer_mutated_zygomite_adolescent (uncertain — no wiki table emitted), lotr_possessed_pickaxe,
+  vampire_leech (NO DROP SECTIONS), weaponsmaster.
+
+Uncertain (flagged): slayer_mutated_zygomite_adolescent, knight_of_ardougne kill-drops,
+desert-mining guard drop existence — wiki shows none; left unbound intentionally.

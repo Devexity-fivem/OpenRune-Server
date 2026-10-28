@@ -17,7 +17,7 @@ import org.rsmod.game.entity.Player
 @JvmField
 public val hillGiantDropTable: RSDropTable<Player, DropRollItem> = RSDropTable(
     tableIdentifier = "Hill Giant Drops",
-    npcs = npcs("npc.avium_giant1", "npc.avium_giant2", "npc.avium_giant3", "npc.gh_giant1", "npc.gh_giant2", "npc.gh_giant3", "npc.giant", "npc.giant2", "npc.giant3", "npc.giant4", "npc.giant5", "npc.giant6", "npc.wilderness_hill_giant", "npc.wilderness_hill_giant2", "npc.wilderness_hill_giant3"),
+    npcs = npcs("npc.avium_giant1", "npc.avium_giant2", "npc.avium_giant3", "npc.gh_giant1", "npc.gh_giant2", "npc.gh_giant3", "npc.giant", "npc.giant2", "npc.giant3", "npc.giant4", "npc.giant5", "npc.giant6", "npc.wilderness_hill_giant", "npc.wilderness_hill_giant2", "npc.wilderness_hill_giant3", "npc.kourend_hillgiant"),
     preRoll = rsPlayerPrerollTable {
         1 outOf 128 weight "obj.hillgiant_boss_key" count 1
     },

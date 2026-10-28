@@ -1,0 +1,6 @@
+id = "Eadburg Drops"
+npcs = ["npc.death_cook"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,6 @@
+id = "Swamp frog Drops"
+npcs = ["npc.molch_tree_frog"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

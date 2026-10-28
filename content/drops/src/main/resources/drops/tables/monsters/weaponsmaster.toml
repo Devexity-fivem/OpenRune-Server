@@ -1,0 +1,6 @@
+id = "Weaponsmaster Drops"
+npcs = ["npc.weaponsmaster_vis"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

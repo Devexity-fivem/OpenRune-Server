@@ -1,0 +1,6 @@
+id = "Radat Drops"
+npcs = ["npc.elid_mayor_guard_3"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

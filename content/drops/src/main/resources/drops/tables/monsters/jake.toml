@@ -1,0 +1,6 @@
+id = "Jake Drops"
+npcs = ["npc.lunar_pirate_generic_pirate_1_attackable"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

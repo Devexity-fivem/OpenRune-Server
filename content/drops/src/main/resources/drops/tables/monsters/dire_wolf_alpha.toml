@@ -1,0 +1,11 @@
+id = "Dire Wolf Alpha Drops"
+npcs = ["npc.mag_direwolf"]
+
+[main]
+total = 1
+name = "Dire Wolf Alpha Drops"
+
+# Main table pool padding uses a nothing roll (1 weight)
+[[main.entries]]
+weight = 1
+nothing = true

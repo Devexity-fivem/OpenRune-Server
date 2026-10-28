@@ -1,0 +1,13 @@
+id = "Hellhound Level 127 (God Wars Dungeon) Drops"
+npcs = ["npc.godwars_ancient_hellhound"]
+brimstone_key_roll = true
+
+[[guaranteed]]
+obj = "obj.vile_ashes"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 40
+obj = "obj.arceuus_corpse_hellhound"
+count = 1

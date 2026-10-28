@@ -1,0 +1,15 @@
+id = "Guardian of Armadyl Drops"
+npcs = ["npc.ikov_guardianfemale", "npc.ikov_guardianmale"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 1
+name = "Guardian of Armadyl Drops"
+
+# Main table pool padding uses a nothing roll (1 weight)
+[[main.entries]]
+weight = 1
+nothing = true

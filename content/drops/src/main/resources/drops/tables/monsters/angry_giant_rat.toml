@@ -1,0 +1,6 @@
+id = "Angry giant rat Drops"
+npcs = ["npc.soulbane_rat", "npc.soulbane_rat2"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

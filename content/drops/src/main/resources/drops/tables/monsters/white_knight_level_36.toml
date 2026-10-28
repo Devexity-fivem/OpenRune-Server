@@ -1,5 +1,5 @@
 id = "White Knight Level 36 Drops"
-npcs = ["npc.white_knight_blue_plumes_f"]
+npcs = ["npc.white_knight", "npc.white_knight_blue_plumes_f", "npc.white_knight_f", "npc.white_knight_green_plumes", "npc.white_knight_green_plumes_f"]
 
 [[guaranteed]]
 obj = "obj.bones"

@@ -1,0 +1,6 @@
+id = "Palmer Drops"
+npcs = ["npc.lunar_pirate_generic_pirate_5_attackable"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

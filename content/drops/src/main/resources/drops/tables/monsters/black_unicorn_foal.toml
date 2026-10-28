@@ -1,0 +1,6 @@
+id = "Black unicorn Foal Drops"
+npcs = ["npc.black_unicorn_foal"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

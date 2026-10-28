@@ -1,0 +1,6 @@
+id = "Gardener Drops"
+npcs = ["npc.falador_gardener", "npc.falador_gardener2"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

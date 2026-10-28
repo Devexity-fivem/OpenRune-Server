@@ -1,0 +1,10 @@
+id = "Ochre Blamish Snail Drops (Pointed) Drops"
+npcs = ["npc.mmsnailpoint_yellow"]
+
+[[guaranteed]]
+obj = "obj.shellpoint_yellow"
+count = 1
+
+[[guaranteed]]
+obj = "obj.snail_corpse1"
+count = 1

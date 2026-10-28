@@ -1,0 +1,122 @@
+id = "gorak_full_gorak_drop_table_drops"
+npcs = ["npc.fairytale2_gorak"]
+
+[[guaranteed]]
+obj = "obj.big_bones"
+count = 1
+
+[main]
+total = 384
+name = "Gorak 'Full' Gorak drop table Drops"
+
+[[main.entries]]
+weight = 15
+shared = "gem"
+
+[[main.entries]]
+weight = 9
+obj = "obj.iron_halberd"
+count = 1
+
+[[main.entries]]
+weight = 6
+obj = "obj.bronze_dagger_p++"
+count = 1
+
+[[main.entries]]
+weight = 9
+obj = "obj.iron_2h_sword"
+count = 1
+
+[[main.entries]]
+weight = 9
+obj = "obj.steel_thrownaxe"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.steel_battleaxe"
+count = 1
+
+[[main.entries]]
+weight = 9
+obj = "obj.mithril_thrownaxe"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.adamant_kiteshield"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.steel_plateskirt"
+count = 1
+
+[[main.entries]]
+weight = 12
+obj = "obj.steel_platelegs"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.rune_chainbody"
+count = 1
+
+[[main.entries]]
+weight = 15
+obj = "obj.coins"
+count = 27
+
+[[main.entries]]
+weight = 15
+obj = "obj.coins"
+count = 97
+
+[[main.entries]]
+weight = 87
+obj = "obj.coins"
+count = 104
+
+[[main.entries]]
+weight = 75
+obj = "obj.coins"
+count = 132
+
+[[main.entries]]
+weight = 30
+obj = "obj.coins"
+count = 286
+
+[[main.entries]]
+weight = 24
+obj = "obj.coins"
+count = 475
+
+[[main.entries]]
+weight = 6
+obj = "obj.mithril_arrow_p++"
+count = 4
+
+[[main.entries]]
+weight = 3
+obj = "obj.ring_of_life"
+count = 1
+
+# Main table pool padding uses a nothing roll (48 weight)
+[[main.entries]]
+weight = 48
+nothing = true
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1
+should_drop_looting_bag = true
+
+[[tertiary]]
+numerator = 1
+denominator = 400
+obj = "obj.dorgesh_construction_bone"
+count = 1
