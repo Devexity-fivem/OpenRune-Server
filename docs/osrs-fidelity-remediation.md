@@ -214,3 +214,27 @@ Variant binds: `tbwt_beast`→the_shaikahan, `wilderness_ent`→ent, `weaponsmas
 
 Boot-verified: "Server ready in 22.4s" — all 710 tables + Kotlin binds load clean.
 Static: 0 weight-sum violations, 0 unresolved objs, 0 duplicate bindings.
+
+## Fight Cave build plan (staged, verified)
+
+Module: `content/minigames/fight-cave` (build.gradle.kts copied, dir exists)
+
+Verified facts:
+- NPC syms: `tzhaar_fightcave_swarm_{1a,1b,2a,2b,2spawn,3a,3b,4a,4b,5a,5b}` (Tz-Kih→Ket-Zek),
+  `tzhaar_fightcave_swarm_boss` (Jad), `tzhaar_fightcave_swarm_boss_cleric` (Yt-HurKot healers)
+- Locs: `loc.tzhaar_fightcave_wall_entrance`, `loc.tzhaar_fightcave_wall_exit`
+- Arena: region `9551` (x 2368-2431, y 5056-5119), cave center ~(2417, 5085)
+- Spawn API: `Npc(ServerCacheManager.getNpc(id), coords)` + `npcRepo.add(npc, duration)` (AdminCommands.kt:622)
+- Instance pattern: `content/bosses/giant-mole/.../GiantMoleInstance.kt` — `InstanceScript`,
+  `InstanceArea.copyRegions(regionIds, npcSpawns)`, `onInstancePlayerJoin`, `onExitObject`, `telejump`, `defaultLeaveFlow`
+- Entry plumbing: `InstanceObjectHookRegistry.registerEnterTransition/Prelude`, `InstanceCreateScript.instanceEntry`
+
+Blockers to resolve first:
+1. `settingsRow()` requires real `dbrow.instance_fight_cave` — provision in a pack module `dbTable` +
+   `src/main/resources/gamevals.toml` (custom id ~64682), then `gradlew buildCache`. Interim: reuse
+   `dbrow.instance_giant_mole` (same InstanceSettingsRow type) if functional.
+2. Wave scheduler: coroutine loop spawning via npcRepo; track spawned Npc list per session; next wave
+   when all dead; wave 63 = Jad + 4 clerics; Jad death → `obj.fire_cape` (verify obj name) + exit telejump.
+3. 63-wave authentic composition table (OSRS wiki formula: rotating pairs, boss-only final wave).
+4. Then clone shell to: Inferno (same engine), Fortis Colosseum (Sol Heredit spec exists),
+   NMZ (`nzone_*` spec'd NPCs — cheapest), Barbarian Assault (penance waves + role varps + horn).
