@@ -20,7 +20,6 @@ import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.heal
 import org.rsmod.api.npc.owner.assignSpawnOwner
-import org.rsmod.api.player.events.PlayerHitEvents
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.isValidTarget
 import org.rsmod.api.player.stat.stat
@@ -982,6 +981,7 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
         private const val DARK_DAMAGE_PERIOD = 2
 
         private const val SIPHON_TICKS = 8
+
         // OSRS scales the wave with team size: four for a solo player, up to
         // eight in a full chamber.
         private const val REAVER_BASE = 4
