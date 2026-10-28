@@ -1,6 +1,9 @@
 id = "Nex Drops"
 npcs = ["npc.nex", "npc.nex_spawning", "npc.nex_soulsplit", "npc.nex_deflect", "npc.nex_dying"]
 
+# OSRS: two common drops are guaranteed per kill. Big bones are not listed here —
+# the engine already drops the npc's declared dropped_remains (big bones) once
+# per kill; adding a guaranteed entry would double them.
 [main]
 total = 258
 name = "Nex Drops"
@@ -28,6 +31,226 @@ count = 1
 [[main.entries]]
 weight = 254
 nothing = true
+
+# Guaranteed common roll #1 (Nex always drops two commons per kill).
+[[main.separate_rolls]]
+numerator = 1
+denominator = 1
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.bloodrune"
+count = "84..876"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.deathrune"
+count = "85..986"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.soulrune"
+count = "86..592"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.dragon_bolts_unfeathered"
+count = "12..283"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.mcannonball"
+count = "42..2252"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.cert_air_orb"
+count = "6..100"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.cert_uncut_ruby"
+count = "3..80"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.cert_uncut_diamond"
+count = "3..64"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.cert_wine_of_zamorak"
+count = "4..64"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.shark"
+count = 10
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.4doseprayerrestore"
+count = 3
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.4dosepotionofsaradomin"
+count = "1..10"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.4dose2restore"
+count = "1..5"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.ecumenical_key_shard"
+count = "6..39"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.airrune"
+count = "123..10000"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.firerune"
+count = "1..10000"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.waterrune"
+count = "193..10000"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.xbows_crossbow_bolts_runite_tipped_onyx_enchanted"
+count = "11..29"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.cert_coal"
+count = "23..2354"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.cert_runite_ore"
+count = "2..30"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.coins"
+count = "8539..26748"
+
+# Guaranteed common roll #2.
+[[main.separate_rolls]]
+numerator = 1
+denominator = 1
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.bloodrune"
+count = "84..876"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.deathrune"
+count = "85..986"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.soulrune"
+count = "86..592"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.dragon_bolts_unfeathered"
+count = "12..283"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.mcannonball"
+count = "42..2252"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.cert_air_orb"
+count = "6..100"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.cert_uncut_ruby"
+count = "3..80"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.cert_uncut_diamond"
+count = "3..64"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.cert_wine_of_zamorak"
+count = "4..64"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.shark"
+count = 10
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.4doseprayerrestore"
+count = 3
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.4dosepotionofsaradomin"
+count = "1..10"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.4dose2restore"
+count = "1..5"
+
+[[main.separate_rolls.entries]]
+weight = 12
+obj = "obj.ecumenical_key_shard"
+count = "6..39"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.airrune"
+count = "123..10000"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.firerune"
+count = "1..10000"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.waterrune"
+count = "193..10000"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.xbows_crossbow_bolts_runite_tipped_onyx_enchanted"
+count = "11..29"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.cert_coal"
+count = "23..2354"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.cert_runite_ore"
+count = "2..30"
+
+[[main.separate_rolls.entries]]
+weight = 4
+obj = "obj.coins"
+count = "8539..26748"
 
 [[main.separate_rolls]]
 numerator = 1
@@ -97,25 +320,5 @@ count = 1
 clue_scroll_box = true
 
 
-# Unknown wiki drop rate: Air rune [main/Runes and ammunition/Uncommon]
-# Unknown wiki drop rate: Fire rune [main/Runes and ammunition/Uncommon]
-# Unknown wiki drop rate: Blood rune [main/Runes and ammunition/Common]
-# Unknown wiki drop rate: Death rune [main/Runes and ammunition/Common]
-# Unknown wiki drop rate: Water rune [main/Runes and ammunition/Uncommon]
-# Unknown wiki drop rate: Soul rune [main/Runes and ammunition/Common]
-# Unknown wiki drop rate: Dragon bolts (unf) [main/Runes and ammunition/Common]
-# Unknown wiki drop rate: Onyx bolts (e) [main/Runes and ammunition/Uncommon]
-# Unknown wiki drop rate: Steel cannonball [main/Runes and ammunition/Common]
-# Unknown wiki drop rate: Air orb [main/Resources/Common]
-# Unknown wiki drop rate: Coal [main/Resources/Uncommon]
-# Unknown wiki drop rate: Runite ore [main/Resources/Uncommon]
-# Unknown wiki drop rate: Uncut ruby [main/Resources/Common]
-# Unknown wiki drop rate: Uncut diamond [main/Resources/Common]
-# Unknown wiki drop rate: Wine of zamorak [main/Resources/Common]
-# Unknown wiki drop rate: Shark [main/Consumables/Common]
-# Unknown wiki drop rate: Prayer potion(4) [main/Consumables/Common]
-# Unknown wiki drop rate: Saradomin brew(4) [main/Consumables/Common]
-# Unknown wiki drop rate: Super restore(4) [main/Consumables/Common]
-# Unknown wiki drop rate: Coins [main/Other/Uncommon]
-# Unknown wiki drop rate: Ecumenical key shard [main/Other/Common]
-# Main table pool padding uses a nothing roll (F2P drops removed and/or subtable access missing from wiki parse) (254 weight)
+# Paired drops modelled as independent same-weight entries: shark drops with
+# prayer potion(4); saradomin brew(4) drops with super restore(4).
