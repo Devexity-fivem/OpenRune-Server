@@ -222,3 +222,18 @@ id = "varn.slayer_finishing_until"
 
 [[varn]]
 id = "varn.bryophyta_summon_cd"
+
+[[varn]]
+id = "varn.nex_curse"
+
+[[varn]]
+id = "varn.nex_mage_called"
+
+[[varn]]
+id = "varn.nex_siphon"
+
+[[varn]]
+id = "varn.nex_darkness"
+
+[[varn]]
+id = "varn.nex_choked"

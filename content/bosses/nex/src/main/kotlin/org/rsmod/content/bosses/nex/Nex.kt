@@ -378,7 +378,7 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
             incoming {
                 // Invulnerable while siphoning.
-                rule(Condition.Not(Condition.VarnExpired(VARN_SIPHON))) { scalePercent(0) }
+                rule(timerActive(VARN_SIPHON)) { scalePercent(0) }
                 // Deflect Melee halves (and reflects) melee during the deflect window.
                 rule(
                     Condition.InPhase(PHASE_ZAROS) and
@@ -398,11 +398,11 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             }
 
             // Recurring windows.
-            every(SIPHON_HEAL_PERIOD, whenever(Condition.Not(Condition.VarnExpired(VARN_SIPHON)), Effect.HealSelf(SIPHON_HEAL)))
+            every(SIPHON_HEAL_PERIOD, whenever(timerActive(VARN_SIPHON), Effect.HealSelf(SIPHON_HEAL)))
             every(
                 DARK_DAMAGE_PERIOD,
                 whenever(
-                    Condition.Not(Condition.VarnExpired(VARN_DARK)),
+                    timerActive(VARN_DARK),
                     Effect.OnEach(
                         TargetExpr.AllInRadius(DARK_RADIUS, TargetExpr.Self),
                         Effect.Hit(
@@ -502,7 +502,7 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         deps.extensionRegistry.register(EXT_ICE_PRISON) { ctx -> icePrison(ctx.npc, ctx.target) }
         deps.extensionRegistry.register(EXT_SIPHON_END) { ctx -> siphonEnd(ctx.npc) }
 
-        for (type in listOf(NEX, NEX_SOULSPLIT, NEX_DEFLECT, FUMUS, UMBRA, CRUOR, GLACIES)) {
+        for (type in listOf(NEX, NEX_SOULSPLIT, NEX_DEFLECT)) {
             onEvent<NpcStateEvents.Spawn>(type.asRSCM(RSCMType.NPC)) {
                 npc.mode = NpcMode.ApPlayer2
             }
@@ -565,7 +565,7 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         deps.worldQueues.add(SMASH_WINDUP) {
             for (p in roomPlayers(nex)) {
                 if (p.coords in tiles) {
-                    p.queueHit(nex, 0, org.rsmod.game.hit.HitType.Typeless,
+                    p.queueHit(nex, 1, org.rsmod.game.hit.HitType.Typeless,
                         deps.random.of(SMASH_MAX + 1), deps.playerHitModifier)
                 }
             }
@@ -581,12 +581,12 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             if (!sacrificed.remove(target) || !target.isValidTarget()) return@add
             if (target.coords.chebyshevDistance(nex.coords) > SACRIFICE_ESCAPE) return@add
             val dmg = deps.random.of(SACRIFICE_MAX + 1)
-            target.queueHit(nex, 0, org.rsmod.game.hit.HitType.Magic, dmg, deps.playerHitModifier)
+            target.queueHit(nex, 1, org.rsmod.game.hit.HitType.Magic, dmg, deps.playerHitModifier)
             target.statSub("stat.prayer", constant = 0, percent = SACRIFICE_PRAYER_PERCENT)
             nex.heal(SACRIFICE_HEAL)
             for (p in roomPlayers(nex)) {
                 if (p !== target && p.coords.chebyshevDistance(target.coords) <= SACRIFICE_SPLASH) {
-                    p.queueHit(nex, 0, org.rsmod.game.hit.HitType.Magic,
+                    p.queueHit(nex, 1, org.rsmod.game.hit.HitType.Magic,
                         deps.random.of(SACRIFICE_SPLASH_MAX + 1), deps.playerHitModifier)
                     p.statSub("stat.prayer", constant = 0, percent = SACRIFICE_SPLASH_PRAYER_PERCENT)
                 }
@@ -610,7 +610,7 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             locs.forEach { deps.locRepo.del(it, Int.MAX_VALUE) }
             for (p in roomPlayers(nex)) {
                 if (p.coords.chebyshevDistance(centre) <= PRISON_RADIUS) {
-                    p.queueHit(nex, 0, org.rsmod.game.hit.HitType.Typeless,
+                    p.queueHit(nex, 1, org.rsmod.game.hit.HitType.Typeless,
                         deps.random.of(PRISON_MAX + 1), deps.playerHitModifier)
                 }
             }
@@ -633,7 +633,7 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         deps.worldQueues.add(WRATH_TICKS) {
             for (p in deps.playerList) {
                 if (p.isValidTarget() && p.coords.chebyshevDistance(centre) <= WRATH_RADIUS) {
-                    p.queueHit(nex, 0, org.rsmod.game.hit.HitType.Typeless,
+                    p.queueHit(nex, 1, org.rsmod.game.hit.HitType.Typeless,
                         deps.random.of(WRATH_MAX + 1), deps.playerHitModifier)
                 }
             }
@@ -684,6 +684,9 @@ class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
 
     private fun cursing(state: Int): Condition = Condition.VarnIn(VARN_CURSE, state..state)
+
+    private fun timerActive(varn: String): Condition =
+        Condition.VarnIn(varn, 1..Int.MAX_VALUE) and Condition.Not(Condition.VarnExpired(varn))
 
     private fun square(centre: CoordGrid, radius: Int): List<CoordGrid> = buildList {
         for (dx in -radius..radius) for (dz in -radius..radius) add(centre.translate(dx, dz))
