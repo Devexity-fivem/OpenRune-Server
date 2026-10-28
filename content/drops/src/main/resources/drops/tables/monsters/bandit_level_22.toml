@@ -103,10 +103,13 @@ weight = 6
 obj = "obj.coal"
 count = 1
 
-# Main table pool padding uses a nothing roll (2 weight)
+[[main.entries]]
+weight = 2
+nothing = true
 
 [[tertiary]]
 numerator = 1
 denominator = 6
 obj = "obj.looting_bag"
 count = 1
+should_drop_looting_bag = true

@@ -79,12 +79,16 @@ obj = "obj.gold_ore"
 count = 5
 
 # Main table pool padding uses a nothing roll (1 weight)
+[[main.entries]]
+weight = 1
+nothing = true
 
 [[tertiary]]
 numerator = 1
 denominator = 3
 obj = "obj.looting_bag"
 count = 1
+should_drop_looting_bag = true
 
 [[tertiary]]
 numerator = 1

@@ -40,7 +40,14 @@ weight = 4
 obj = "obj.uncut_diamond"
 count = 1
 
-# Main table pool padding uses a nothing roll (1920 weight)
+[[main.entries]]
+weight = 1280
+nothing = true
+
+# Main table pool padding uses a nothing roll (640 weight)
+[[main.entries]]
+weight = 640
+nothing = true
 
 [[tertiary]]
 numerator = 1

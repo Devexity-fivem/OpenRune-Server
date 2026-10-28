@@ -60,7 +60,14 @@ weight = 5000
 obj = "obj.xbows_bolt_tips_onyx"
 count = "1..4"
 
-# Main table pool padding uses a nothing roll (232616 weight)
+[[main.entries]]
+weight = 137000
+nothing = true
+
+# Main table pool padding uses a nothing roll (95616 weight)
+[[main.entries]]
+weight = 95616
+nothing = true
 
 [[tertiary]]
 numerator = 1

@@ -44,6 +44,10 @@ obj = "obj.coins"
 count = 25
 
 [[main.entries]]
+weight = 28
+nothing = true
+
+[[main.entries]]
 weight = 5
 obj = "obj.fishing_bait"
 count = 1
@@ -78,4 +82,7 @@ weight = 1
 obj = "obj.watering_can_8"
 count = 1
 
-# Main table pool padding uses a nothing roll (39 weight)
+# Main table pool padding uses a nothing roll (11 weight)
+[[main.entries]]
+weight = 11
+nothing = true

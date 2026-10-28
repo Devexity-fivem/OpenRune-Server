@@ -1,6 +1,0 @@
-id = "Highwayman Drops (hood) Drops"
-npcs = ["npc.highwayman2"]
-
-[[guaranteed]]
-obj = "obj.bones"
-count = 1

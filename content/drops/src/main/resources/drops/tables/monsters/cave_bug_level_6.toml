@@ -84,4 +84,6 @@ weight = 5
 obj = "obj.unlit_candle"
 count = 1
 
-# Main table pool padding uses a nothing roll (48 weight)
+[[main.entries]]
+weight = 48
+nothing = true

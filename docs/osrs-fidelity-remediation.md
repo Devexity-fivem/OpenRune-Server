@@ -82,3 +82,30 @@ lesser/black/greater demon (standard + Wilderness Slayer Cave), green dragon (L7
 - Shops/stock/prices audit, quest/dialogue audit, interface audit — not yet systematically examined.
 - `GenDropTables.py` disposition: provisional tooling; either port logic into `tools/wiki-dumping` Kotlin or remove after review — kept in repo for reproducibility of this phase's generated data.
 - Clue/casket/Tokkul/perfect-shell conventions vs `docs/drops.md`.
+
+## Phase 3 — Runtime validation + live MCP verification
+
+### Critical defects found & fixed this session
+- **Loader semantic violation (boot crash):** `RSWeightedTableBuilder` requires `sum(weights) == pool total` exactly. Phase-2 tables emitted comment-only padding → `IllegalArgumentException` at startup. Fixed: explicit `[[main.entries]] nothing = true` padding rows + 'Nothing' wiki lines emitted as weighted nothing entries.
+- **Duplicate npc binding (boot crash):** `DropTableRegistry` rejects one npc in two tables. Wilderness Slayer Cave variants reuse the same npc ids as base tables → union-find merge in the generator produces one merged table per overlapping id set (matches existing 'Standard and Catacombs' convention).
+- **Looting bag dropped outside wilderness (live-caught):** `obj.looting_bag` emitted without `should_drop_looting_bag = true` — live kill of a giant rat at Lumbridge produced a looting bag. Fixed in generator + patched all 18 generated files (62 pre-existing files already correct; engine gate = `Player.shouldDropLootingBag()` → `isInWildernessBasic()`).
+- **Clue scrolls:** `Clue scroll (tier)` now resolves to canonical clue objs (`trail_clue_beginner/easy_simple001/medium_sextant001/hard_map001`, `trail_elite_emote_exp1`) with `clue_scroll_box = true`; `Reward casket` lines skipped (same roll).
+
+### Live MCP verification (RESTORED this session)
+- Server: `gradlew run` — **boots clean** with all 600 tables, 677 scripts, rev-241, baseXpRate=1.0.
+- Client: RSProx + dev-tools MCP at 127.0.0.1:7780 — **functional**.
+- `devin ai` account: bcrypt password reset in embedded Postgres (`public.accounts`) to documented value — login verified LOGGED_IN.
+- **Lesser demon kill (live):** `Vile ashes` guaranteed + `Death rune` ×3 main-table roll — table functions end-to-end.
+- **Giant rat kill (live):** `Bones` guaranteed + `Raw rat meat` — correct per wiki; no looting bag outside wilderness after fix.
+- **Callisto (live):** spawned, immediately aggro'd a player (`interacting: Devexity`), attack anim 10012, HP 96% — Phase-1 overlay merge (hunt/combat fields) functioning.
+
+### Validation
+- All 600 TOML: `sum(main.entries.weight) == total` strict, every obj/npc symbol resolves, all `shared` names in SHARED_TABLES, zero duplicate npc bindings.
+- `:tools:wiki-dumping:compileKotlin` clean.
+
+### Still outstanding
+- 458 unbound attackable NPC classification (partial — spot-checked categories only).
+- 9 normalized tables: now satisfy loader via sum-normalized totals; wiki-internal inconsistency documented — probabilities preserved relatively, flagged for manual review.
+- Shops/stock/prices, quests/dialogue, interfaces systematic audits — NOT done this phase.
+- `Gradlew test` full suite not re-run (data-only changes; boot+loader validation is the coverage for TOML data).
+- GenDropTables.py remains provisional tooling pending Kotlin port.

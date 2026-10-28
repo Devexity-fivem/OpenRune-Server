@@ -124,12 +124,16 @@ obj = "obj.wilderness_fishing_bait"
 count = "10..24"
 
 # Main table pool padding uses a nothing roll (41 weight)
+[[main.entries]]
+weight = 41
+nothing = true
 
 [[tertiary]]
 numerator = 1
 denominator = 3
 obj = "obj.looting_bag"
 count = 1
+should_drop_looting_bag = true
 
 [[tertiary]]
 numerator = 1

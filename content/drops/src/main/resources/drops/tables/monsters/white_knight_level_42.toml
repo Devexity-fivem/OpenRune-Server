@@ -6,7 +6,7 @@ obj = "obj.bones"
 count = 1
 
 [main]
-total = 154
+total = 155
 name = "White Knight Level 42 Drops"
 
 [[main.entries]]
@@ -117,6 +117,10 @@ count = 120
 weight = 1
 obj = "obj.coins"
 count = 1
+
+[[main.entries]]
+weight = 1
+nothing = true
 
 [[main.entries]]
 weight = 5

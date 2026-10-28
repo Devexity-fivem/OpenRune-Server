@@ -94,17 +94,20 @@ obj = "obj.coins"
 count = 1
 
 [[main.entries]]
+weight = 8
+nothing = true
+
+[[main.entries]]
 weight = 5
 obj = "obj.bronze_bar"
 count = 1
-
-# Main table pool padding uses a nothing roll (8 weight)
 
 [[tertiary]]
 numerator = 1
 denominator = 14
 obj = "obj.looting_bag"
 count = 1
+should_drop_looting_bag = true
 
 [[tertiary]]
 numerator = 1

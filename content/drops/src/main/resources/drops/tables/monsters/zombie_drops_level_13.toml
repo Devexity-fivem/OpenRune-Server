@@ -6,7 +6,7 @@ obj = "obj.bones"
 count = 1
 
 [main]
-total = 145
+total = 153
 name = "Zombie Drops (level 13) Drops"
 
 [[main.entries]]
@@ -92,6 +92,10 @@ count = 28
 weight = 37
 obj = "obj.fishing_bait"
 count = 5
+
+[[main.entries]]
+weight = 8
+nothing = true
 
 [[main.entries]]
 weight = 2

@@ -1,8 +1,12 @@
 id = "Terror dog Level 100 Drops"
-npcs = ["npc.lotr_terror_dog_small"]
+npcs = ["npc.lotr_terror_dog_large", "npc.lotr_terror_dog_small"]
 
 [[guaranteed]]
 obj = "obj.bones"
+count = 1
+
+[[guaranteed]]
+obj = "obj.big_bones"
 count = 1
 
 [main]
@@ -109,3 +113,12 @@ obj = "obj.bass"
 count = 1
 
 # Main table pool padding uses a nothing roll (15 weight)
+[[main.entries]]
+weight = 15
+nothing = true
+
+[[tertiary]]
+numerator = 1
+denominator = 400
+obj = "obj.dorgesh_construction_bone"
+count = 1

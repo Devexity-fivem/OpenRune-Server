@@ -90,6 +90,10 @@ obj = "obj.coins"
 count = 460
 
 [[main.entries]]
+weight = 2
+nothing = true
+
+[[main.entries]]
 weight = 3
 obj = "obj.tuna"
 count = 1
@@ -104,13 +108,12 @@ weight = 1
 obj = "obj.thread"
 count = 10
 
-# Main table pool padding uses a nothing roll (2 weight)
-
 [[tertiary]]
 numerator = 1
 denominator = 3
 obj = "obj.looting_bag"
 count = 1
+should_drop_looting_bag = true
 
 [[tertiary]]
 numerator = 1

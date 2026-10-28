@@ -89,6 +89,10 @@ obj = "obj.fishing_bait"
 count = 7
 
 [[main.entries]]
+weight = 3
+nothing = true
+
+[[main.entries]]
 weight = 2
 obj = "obj.tinderbox"
 count = 1
@@ -102,8 +106,6 @@ count = 1
 weight = 1
 obj = "obj.tin_ore"
 count = 1
-
-# Main table pool padding uses a nothing roll (3 weight)
 
 [[tertiary]]
 numerator = 1

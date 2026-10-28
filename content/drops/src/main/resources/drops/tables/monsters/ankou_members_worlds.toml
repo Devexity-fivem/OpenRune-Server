@@ -7,7 +7,7 @@ obj = "obj.bones"
 count = 1
 
 [main]
-total = 130
+total = 137
 name = "Ankou Members' worlds Drops"
 
 [[main.entries]]
@@ -75,6 +75,10 @@ obj = "obj.wilderness_fishing_bait"
 count = 60
 
 [[main.entries]]
+weight = 7
+nothing = true
+
+[[main.entries]]
 weight = 3
 obj = "obj.sos_half_skull1"
 count = 1
@@ -99,3 +103,4 @@ numerator = 1
 denominator = 3
 obj = "obj.looting_bag"
 count = 1
+should_drop_looting_bag = true

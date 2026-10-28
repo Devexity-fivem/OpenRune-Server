@@ -132,6 +132,14 @@ def parse_dropslines(body):
                 out.append({'_sec': skey, '_shared': 'gem', 'rarity': m.group(1), '_dv': dv})
             for m in re.finditer(r'\{\{\s*(?:Allotment|AllotmentSeed|RareAllotment|General|Herb)?SeedDropTable\w*\s*\|\s*([\d/]+)', seg2):
                 out.append({'_sec': skey, '_shared': 'seed', 'rarity': m.group(1), '_dv': dv})
+            for m in re.finditer(r'\{\{\s*RareSeedDropTable\w*\s*\|\s*([\d/]+)', seg2):
+                out.append({'_sec': skey, '_shared': 'rareSeed', 'rarity': m.group(1), '_dv': dv})
+            for m in re.finditer(r'\{\{\s*UsefulHerbDropTable\w*\s*\|\s*([\d/]+)', seg2):
+                out.append({'_sec': skey, '_shared': 'usefulHerb', 'rarity': m.group(1), '_dv': dv})
+            for m in re.finditer(r'\{\{\s*Mega\w*RareDropTable\w*\s*\|\s*([\d/]+)', seg2):
+                out.append({'_sec': skey, '_shared': 'megaRare', 'rarity': m.group(1), '_dv': dv})
+            for m in re.finditer(r'\{\{\s*RareDropTable\w*\s*\|\s*([\d/]+)', seg2):
+                out.append({'_sec': skey, '_shared': 'rareDrop', 'rarity': m.group(1), '_dv': dv})
     return out
 
 def qty(q):
@@ -196,7 +204,13 @@ def emit_toml(page_display, variant, npc_syms, drops, flags):
                 continue
             obj = d.get('_obj')
             c = qty(d.get('quantity'))
-            if (d.get('name') or '').lower() == 'nothing':
+            nm_lower = (d.get('name') or '').lower()
+            if nm_lower == 'nothing' or d.get('_nothing'):
+                wsum += w
+                lines.append('[[main.entries]]')
+                lines.append(f'weight = {w}')
+                lines.append('nothing = true')
+                lines.append('')
                 continue
             if not obj or c is None:
                 flags.setdefault('unresolved', []).append(d.get('name'))
@@ -206,11 +220,16 @@ def emit_toml(page_display, variant, npc_syms, drops, flags):
             lines.append(f'weight = {w}')
             lines.append(f'obj = "{obj}"')
             lines.append(f'count = {c}')
-            if d.get('gemw', '').lower() == 'no' or d.get('namenotes'):
-                pass
+            if d.get('_clue'):
+                lines.append('clue_scroll_box = true')
+            if obj == 'obj.looting_bag':
+                lines.append('should_drop_looting_bag = true')
             lines.append('')
         if wsum < total:
             lines.append(f'# Main table pool padding uses a nothing roll ({total - wsum} weight)')
+            lines.append('[[main.entries]]')
+            lines.append(f'weight = {total - wsum}')
+            lines.append('nothing = true')
             lines.append('')
         elif wsum > total:
             # rebuild header with normalized total to preserve relative probabilities
@@ -231,6 +250,10 @@ def emit_toml(page_display, variant, npc_syms, drops, flags):
         lines.append(f'denominator = {f[1]}')
         lines.append(f'obj = "{obj}"')
         lines.append(f'count = {c}')
+        if d.get('_clue'):
+            lines.append('clue_scroll_box = true')
+        if obj == 'obj.looting_bag':
+            lines.append('should_drop_looting_bag = true')
         lines.append('')
     return '\n'.join(lines)
 
@@ -349,6 +372,14 @@ def run(pages):
             seen_sigs[sig] = idhit if idhit else set()
             merged.append((label, body, sig))
         merged.sort(key=lambda t: 0 if 'member' in t[0].lower() and 'free' not in t[0].lower() else 1)
+        CLUE_OBJ = {
+            'beginner': 'trail_clue_beginner',
+            'easy': 'trail_clue_easy_simple001',
+            'medium': 'trail_clue_medium_sextant001',
+            'hard': 'trail_clue_hard_map001',
+            'elite': 'trail_elite_emote_exp1',
+        }
+        emit_groups = []  # [(label, udrops, use)]
         for label, body, sig in merged:
             idhit = seen_sigs[sig] or None
             use = idhit if idhit else (rest or (set() if claimed else set(i for grp in ids.values() for i in grp)))
@@ -369,6 +400,19 @@ def run(pages):
             for d in drops:
                 nm = d.get('name', '')
                 if '_shared' in d: continue
+                clue_m = re.match(r'(?i)clue scroll \((\w+)\)', nm)
+                casket_m = re.match(r'(?i)reward casket', nm)
+                if casket_m:
+                    d['_skip'] = True
+                    continue
+                if clue_m:
+                    co = CLUE_OBJ.get(clue_m.group(1).lower())
+                    if co and co in obj_ids:
+                        d['_obj'] = 'obj.' + co
+                        d['_clue'] = True
+                    else:
+                        unres.append(nm)
+                    continue
                 key = norm(nm)
                 obj = name2obj.get(key)
                 if not obj and key.endswith('s'): obj = name2obj.get(key[:-1])
@@ -415,6 +459,51 @@ def run(pages):
                     seen_line.add(k)
                     seen_nq.add(nq)
                     udrops.append(d)
+            emit_groups.append((label, udrops, set(use), unres, unkn))
+        # union-find merge: sections sharing npc symbols must become one table
+        # (engine rejects duplicate npc bindings; e.g. Wilderness Slayer Cave
+        # variants reuse the same npc ids as the base table)
+        parent = list(range(len(emit_groups)))
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+        sym2grp = {}
+        for gi, (label, udrops, use, unres, unkn) in enumerate(emit_groups):
+            for i in use:
+                if i not in id2sym: continue
+                s = 'npc.' + id2sym[i]
+                if s in sym2grp:
+                    parent[find(gi)] = find(sym2grp[s])
+                else:
+                    sym2grp[s] = gi
+        unions = {}
+        for gi in range(len(emit_groups)):
+            unions.setdefault(find(gi), []).append(gi)
+        for root, gidx in unions.items():
+            label = emit_groups[gidx[0]][0]
+            udrops = []
+            use = set()
+            unres, unkn = [], []
+            seen_line = set()
+            seen_nq = set()
+            for gi in gidx:
+                use |= emit_groups[gi][2]
+                unres += emit_groups[gi][3]
+                unkn += emit_groups[gi][4]
+                for d in emit_groups[gi][1]:
+                    k = (d.get('name', ''), d.get('rarity', ''), d.get('quantity', ''), d['_sec'])
+                    nq = (d.get('name', ''), d.get('quantity', ''), d['_sec'])
+                    if k in seen_line or nq in seen_nq: continue
+                    seen_line.add(k)
+                    seen_nq.add(nq)
+                    udrops.append(d)
+            syms = sorted('npc.' + id2sym[i] for i in use if i in id2sym and 'npc.' + id2sym[i] in unbound)
+            allsyms = sorted('npc.' + id2sym[i] for i in use if i in id2sym)
+            if not syms:
+                outfiles.append((None, 0, len(allsyms), unres, unkn))
+                continue
             flags = {'unknown': unkn, 'unresolved': unres}
             toml = emit_toml(page.replace('_', ' '), label, syms, udrops, flags)
             base = re.sub(r'[^a-z0-9]+', '_', (page + '_' + label).lower()).strip('_')

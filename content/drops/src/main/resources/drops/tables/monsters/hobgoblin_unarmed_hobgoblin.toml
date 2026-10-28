@@ -6,7 +6,7 @@ obj = "obj.bones"
 count = 1
 
 [main]
-total = 190
+total = 192
 name = "Hobgoblin Unarmed hobgoblin Drops"
 
 [[main.entries]]
@@ -153,11 +153,21 @@ weight = 5
 obj = "obj.goblin_armour"
 count = 1
 
+[[main.entries]]
+weight = 1
+nothing = true
+
+[[main.entries]]
+weight = 1
+obj = "obj.iron_javelin"
+count = 5
+
 [[tertiary]]
 numerator = 1
 denominator = 5
 obj = "obj.looting_bag"
 count = 1
+should_drop_looting_bag = true
 
 [[tertiary]]
 numerator = 1

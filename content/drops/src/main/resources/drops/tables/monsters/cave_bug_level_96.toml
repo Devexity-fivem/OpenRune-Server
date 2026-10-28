@@ -60,3 +60,6 @@ obj = "obj.dorgesh_swamp_weed"
 count = "5..8"
 
 # Main table pool padding uses a nothing roll (5 weight)
+[[main.entries]]
+weight = 5
+nothing = true

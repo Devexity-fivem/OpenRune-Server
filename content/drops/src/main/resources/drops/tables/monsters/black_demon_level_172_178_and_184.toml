@@ -1,121 +1,189 @@
 id = "Black demon Level 172, 178, and 184 Drops"
-npcs = ["npc.black_demon", "npc.black_demon2", "npc.black_demon3", "npc.black_demon4", "npc.black_demon5", "npc.black_demon_strongholdcave_1", "npc.black_demon_strongholdcave_2", "npc.black_demon_strongholdcave_3", "npc.black_demon_strongholdcave_4", "npc.black_demon_strongholdcave_5", "npc.kourend_black_demon_1", "npc.kourend_black_demon_2"]
+npcs = ["npc.black_demon", "npc.black_demon2", "npc.black_demon3", "npc.black_demon4", "npc.black_demon5", "npc.black_demon_strongholdcave_1", "npc.black_demon_strongholdcave_2", "npc.black_demon_strongholdcave_3", "npc.black_demon_strongholdcave_4", "npc.black_demon_strongholdcave_5", "npc.kourend_black_demon_1", "npc.kourend_black_demon_2", "npc.wild_cave_black_demon3"]
 brimstone_key_roll = true
 
 [[guaranteed]]
 obj = "obj.malicious_ashes"
 count = "1;2"
 
+[[guaranteed]]
+obj = "obj.malicious_ashes"
+count = 1
+
 [main]
-total = 128
+total = 6196
 name = "Black demon Level 172, 178, and 184 Drops"
 
 [[main.entries]]
-weight = 4
+weight = 37
+shared = "rareDrop"
+
+[[main.entries]]
+weight = 148
 obj = "obj.black_sword"
 count = 1
 
 [[main.entries]]
-weight = 3
+weight = 111
 obj = "obj.steel_battleaxe"
 count = 1
 
 [[main.entries]]
-weight = 2
+weight = 74
 obj = "obj.black_axe"
 count = 1
 
 [[main.entries]]
-weight = 1
+weight = 37
 obj = "obj.mithril_kiteshield"
 count = 1
 
 [[main.entries]]
-weight = 1
+weight = 37
 obj = "obj.rune_med_helm"
 count = 1
 
 [[main.entries]]
-weight = 1
+weight = 37
 obj = "obj.rune_chainbody"
 count = 1
 
 [[main.entries]]
-weight = 8
+weight = 296
 obj = "obj.airrune"
 count = 50
 
 [[main.entries]]
-weight = 7
+weight = 259
 obj = "obj.chaosrune"
 count = 10
 
 [[main.entries]]
-weight = 4
+weight = 148
 obj = "obj.bloodrune"
 count = 7
 
 [[main.entries]]
-weight = 1
+weight = 37
 obj = "obj.firerune"
 count = 37
 
 [[main.entries]]
-weight = 1
+weight = 37
 obj = "obj.lawrune"
 count = 3
 
 [[main.entries]]
-weight = 23
-shared = "herb"
-
-[[main.entries]]
-weight = 40
+weight = 1480
 obj = "obj.coins"
 count = 132
 
 [[main.entries]]
-weight = 7
+weight = 259
 obj = "obj.coins"
 count = 30
 
 [[main.entries]]
-weight = 6
+weight = 222
 obj = "obj.coins"
 count = 44
 
 [[main.entries]]
-weight = 6
+weight = 222
 obj = "obj.coins"
 count = 220
 
 [[main.entries]]
-weight = 1
+weight = 37
 obj = "obj.coins"
 count = 460
 
 [[main.entries]]
-weight = 3
+weight = 111
 obj = "obj.lobster"
 count = 1
 
 [[main.entries]]
-weight = 2
+weight = 74
 obj = "obj.adamantite_bar"
 count = 1
 
 [[main.entries]]
-weight = 1
+weight = 37
 obj = "obj.3dose1defense"
 count = 1
 
-# Main table pool padding uses a nothing roll (6 weight)
+[[main.entries]]
+weight = 256
+obj = "obj.rune_sword"
+count = 1
+
+[[main.entries]]
+weight = 192
+obj = "obj.adamant_dagger"
+count = 1
+
+[[main.entries]]
+weight = 128
+obj = "obj.adamant_battleaxe"
+count = 1
+
+[[main.entries]]
+weight = 64
+obj = "obj.adamant_platebody"
+count = 1
+
+[[main.entries]]
+weight = 64
+obj = "obj.rune_dagger"
+count = 1
+
+[[main.entries]]
+weight = 64
+obj = "obj.rune_full_helm"
+count = 1
+
+[[main.entries]]
+weight = 512
+obj = "obj.deathrune"
+count = 5
+
+[[main.entries]]
+weight = 448
+obj = "obj.chaosrune"
+count = 25
+
+[[main.entries]]
+weight = 64
+obj = "obj.lawrune"
+count = 15
+
+[[main.entries]]
+weight = 64
+obj = "obj.bloodrune"
+count = 5
+
+[[main.entries]]
+weight = 128
+obj = "obj.adamantite_bar"
+count = 2
+
+[[main.entries]]
+weight = 64
+obj = "obj.adamantite_ore"
+count = 2
+
+[[main.entries]]
+weight = 448
+obj = "obj.coins"
+count = 250
 
 [[tertiary]]
 numerator = 1
 denominator = 3
 obj = "obj.looting_bag"
 count = 1
+should_drop_looting_bag = true
 
 [[tertiary]]
 numerator = 1

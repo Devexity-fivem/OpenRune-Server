@@ -6,7 +6,7 @@ obj = "obj.bones"
 count = 1
 
 [main]
-total = 128
+total = 138
 name = "Tortoise Drops without riders Drops"
 
 [[main.entries]]
@@ -52,6 +52,10 @@ count = 1
 weight = 20
 obj = "obj.swamp_toad"
 count = 1
+
+[[main.entries]]
+weight = 10
+nothing = true
 
 [[main.entries]]
 weight = 10

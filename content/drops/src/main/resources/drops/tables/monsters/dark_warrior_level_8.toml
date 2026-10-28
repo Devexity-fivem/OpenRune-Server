@@ -6,7 +6,7 @@ obj = "obj.bones"
 count = 1
 
 [main]
-total = 128
+total = 131
 name = "Dark warrior Level 8 Drops"
 
 [[main.entries]]
@@ -99,6 +99,10 @@ obj = "obj.coins"
 count = 30
 
 [[main.entries]]
+weight = 18
+nothing = true
+
+[[main.entries]]
 weight = 1
 obj = "obj.iron_ore"
 count = 1
@@ -108,10 +112,9 @@ weight = 1
 obj = "obj.sardine"
 count = 1
 
-# Main table pool padding uses a nothing roll (15 weight)
-
 [[tertiary]]
 numerator = 1
 denominator = 15
 obj = "obj.looting_bag"
 count = 1
+should_drop_looting_bag = true
