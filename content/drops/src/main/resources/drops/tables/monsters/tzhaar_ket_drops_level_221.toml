@@ -1,0 +1,69 @@
+id = "TzHaar-Ket Drops (Level 221) Drops"
+npcs = ["npc.tzhaar_guard_border", "npc.tzhaar_ket1", "npc.tzhaar_ket2", "npc.tzhaar_ket3", "npc.tzhaar_ket4", "npc.tzhaar_ket5", "npc.tzhaar_ket6", "npc.tzhaar_ket7"]
+
+[main]
+total = 256000
+name = "TzHaar-Ket Drops (Level 221) Drops"
+
+[[main.entries]]
+weight = 500
+obj = "obj.tzhaar_maul"
+count = 1
+
+[[main.entries]]
+weight = 500
+obj = "obj.tzhaar_spikeshield"
+count = 1
+
+[[main.entries]]
+weight = 500
+obj = "obj.tzhaar_cape_obsidian"
+count = 1
+
+[[main.entries]]
+weight = 128
+obj = "obj.obsidian_helmet"
+count = 1
+
+[[main.entries]]
+weight = 128
+obj = "obj.obsidian_platebody"
+count = 1
+
+[[main.entries]]
+weight = 128
+obj = "obj.obsidian_platelegs"
+count = 1
+
+[[main.entries]]
+weight = 8000
+obj = "obj.uncut_sapphire"
+count = 1
+
+[[main.entries]]
+weight = 4000
+obj = "obj.uncut_emerald"
+count = 1
+
+[[main.entries]]
+weight = 3000
+obj = "obj.uncut_ruby"
+count = 1
+
+[[main.entries]]
+weight = 1500
+obj = "obj.uncut_diamond"
+count = 1
+
+[[main.entries]]
+weight = 5000
+obj = "obj.xbows_bolt_tips_onyx"
+count = "1..4"
+
+# Main table pool padding uses a nothing roll (232616 weight)
+
+[[tertiary]]
+numerator = 1
+denominator = 25
+obj = "obj.arceuus_corpse_tzhaar"
+count = 1

@@ -1,0 +1,104 @@
+id = "Dark warrior Level 37, 51 and 62 drops (members only) Drops"
+npcs = ["npc.kourend_dark_warrior_2", "npc.kourend_dark_warrior_3"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 128
+name = "Dark warrior Level 37, 51 and 62 drops (members only) Drops"
+
+[[main.entries]]
+weight = 3
+obj = "obj.steel_med_helm"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.steel_mace"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.black_med_helm"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.black_mace"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.bronze_arrow"
+count = 12
+
+[[main.entries]]
+weight = 3
+obj = "obj.mindrune"
+count = 10
+
+[[main.entries]]
+weight = 2
+obj = "obj.waterrune"
+count = 10
+
+[[main.entries]]
+weight = 2
+obj = "obj.naturerune"
+count = 8
+
+[[main.entries]]
+weight = 1
+obj = "obj.earthrune"
+count = 10
+
+[[main.entries]]
+weight = 1
+obj = "obj.chaosrune"
+count = 8
+
+[[main.entries]]
+weight = 3
+shared = "herb"
+
+[[main.entries]]
+weight = 31
+obj = "obj.coins"
+count = 50
+
+[[main.entries]]
+weight = 20
+obj = "obj.coins"
+count = 20
+
+[[main.entries]]
+weight = 20
+obj = "obj.coins"
+count = 30
+
+[[main.entries]]
+weight = 18
+obj = "obj.coins"
+count = 10
+
+[[main.entries]]
+weight = 9
+obj = "obj.coins"
+count = 80
+
+[[main.entries]]
+weight = 6
+obj = "obj.coins"
+count = 100
+
+[[main.entries]]
+weight = 1
+obj = "obj.sardine"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.iron_ore"
+count = 3

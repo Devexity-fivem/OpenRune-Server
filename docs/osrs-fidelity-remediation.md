@@ -43,3 +43,42 @@ Commits (in order): `1839ba1c5` cache merge fix · `be9e1d7d0` gameval refs + de
 - [ ] MCP live verification of changed npcs (MCP tool listing flaky this session)
 - [ ] Revenant content (missing feature — backlog)
 - [ ] Full `gradlew test` sweep + push branch
+
+## Phase 2 — Drop-table coverage remediation
+
+### Root-cause findings (parser)
+- `WikiDropParser.extractSection(wikitext, "==Drops==")` only matched that exact heading. Monsters with level/variant sections (`==Level 82, 87, and 94 drops==`, `==Standard drops==`, `==Drops (level 13)==`) were dumped as `no_drop_section` — this produced the false claim that ~655 monsters had no drops. Broadened `dropTableHeadingPattern` to match any `==…drops==` heading.
+- `npcIdPattern` required `id\d+` and skipped bare `|id =` infoboxes (single-variant pages). Fixed to `id\d*`.
+- `parseNpcIdsByDropTable` / `npcIdsForDropVariant` now map `version<N>` names (e.g. `version3 = Level 26`) to `id<N>` for variant-labelled sections; bare-id pages bind all ids.
+- `GenDropTables.py` (exploratory generator at repo root, provisional): fetches live OSRS Wiki raw pages, parses `DropsLine`/`DropsTableHead`, resolves `obj.*`/`npc.*` from `.data/gamevals-binary/gamevals.dat`, merges per-dropversion lines into per-section tables (repo convention: union+dedupe like `abyssal_demon_standard_catacombs`), binds only unclaimed ids per variant, normalizes `total` to weight-sum when wiki per-version rarity variants push sum over denominator (probability-preserving), emits `brimstone_key_roll`, guaranteed/pre-roll/tertiary blocks. Nested `{{refn}}` inside `raritynotes` handled via balanced-template parsing.
+
+### Coverage counts (after remediation)
+- Drop tables on disk: 600 TOML + Kotlin DSL tables; bound NPC symbols: 2,406.
+- Structural validation (all 600 files): every `obj.*`/`npc.*` reference resolves against packed gamevals; every `[main]` pool's weight sum ≤ `total`. **0 violations.**
+- Spawned NPC symbols: 6,384. Spawned-attackable (dump.npc `opN=Attack`): 1,833.
+- Attackable spawned NPCs still unbound: **458** (was 592 → now 458 after 44 new tables from 22 pages; earlier partial batches had lowered it to 454 — recount includes all bound symbols).
+- Remaining unbound-attackable classification (spot-checked): dominated by quest-instance variants (`brain_zombie_pirate_*`, `battlefield_*`, `akd_barbarian_*` — quest-only/no-drop in OSRS), utility/phase NPCs (`abyssalsire_lung`, `araxyte_*` — killed via parent mechanic or no loot), and pages needing manual variant review (`barbarian`, `babygreendragon`, `ardougne_archer`). Documented for follow-up; NOT counted as verified-correct.
+
+### Newly generated tables (44 files, 22 pages)
+lesser/black/greater demon (standard + Wilderness Slayer Cave), green dragon (L79 + WSC), ankou (members/F2P/WSC), giant rat (L3&6, L26), rat (regular + SoS), skeleton (plain/armed), zombie (L13, L18∪L24 merged file L24), hobgoblin (unarmed/armed), TzHaar-Ket (L149, L221), white knight (L36, L42), dark warrior (L8, L37-62, L145), highwayman (hood/no-hood), jail guard, cave bug (L6/L96), terror dog (L100/L110), farmer (members), hero, jungle spider, tortoise (with/without riders), bandit (L22, L130), rogue (L15, L135).
+
+### Known limitations of generated data (honest dispositions)
+- `Clue scroll (elite)`/`Reward casket (elite)` unresolved on green dragon + ankou tables — clue/casket indirection needs engine convention check (dropped, not emitted).
+- `Brimstone key` template rarities (`{{Brimstone rarity|N}}`) on black demon/greater demon/ankou: emitted as `brimstone_key_roll` where parseable; template-valued rarity lines skipped.
+- `Tokkul` (TzHaar currency) skipped — engine convention for currency drops unverified.
+- `Perfect shell` (tortoise), `Curved bone` 1/5012.5 fractional rarity — unresolved/skipped.
+- Weight-sum normalization: 9 tables had wiki per-variant rarity lines whose merged sum exceeded the denominator; `total` raised to sum preserving relative probabilities. Flagged for manual review: ankou members/F2P, hobgoblin armed/unarmed, tortoise-with-riders, white knight L36/L42, zombie L13, bandit L22.
+- Unspawned variant ids within generated tables bind regardless of spawn presence (engine tolerates; harmless).
+
+### Validation log (phase 2)
+- `GenDropTables.py` self-validation pass over all 600 monster tables: 0 unresolved `obj.*`/`npc.*`, 0 weight overflows.
+- `:tools:wiki-dumping:compileKotlin` — clean (parser regex fixes).
+- Coverage recount scripted: spawned vs bound vs attackable from `osrs-dumps/dump.npc`.
+- Full `gradlew test` re-run: pending (not re-run this phase — prior 130-task pass stands for untouched modules; generated TOMLs are data-only, loaded at startup).
+- Live MCP verification: still unavailable this session — remains blocked.
+
+### Still deferred
+- 458 unbound-attackable classification into no-drop/missing-table/blocked (spot-checked only).
+- Shops/stock/prices audit, quest/dialogue audit, interface audit — not yet systematically examined.
+- `GenDropTables.py` disposition: provisional tooling; either port logic into `tools/wiki-dumping` Kotlin or remove after review — kept in repo for reproducibility of this phase's generated data.
+- Clue/casket/Tokkul/perfect-shell conventions vs `docs/drops.md`.

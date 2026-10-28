@@ -26,9 +26,11 @@ data class ParsedNpcDropTable(
 )
 
 object WikiDropParser {
-    private val npcIdPattern = Regex("""(?im)\|id(\d+)\s*=\s*([0-9,\s]+)""")
-    private val dropVersionPattern = Regex("""(?im)\|dropversion(\d+)\s*=\s*(.+)$""")
-    private val dropTableHeadingPattern = Regex("""(?m)^==(Drop table \d+|Drops)==\s*$""")
+    private val npcIdPattern = Regex("""(?im)\|id(\d*)\s*=\s*([0-9,\s]+)""")
+    private val dropVersionPattern = Regex("""(?im)\|dropversion(\d*)\s*=\s*(.+)$""")
+    private val versionNamePattern = Regex("""(?im)\|version(\d*)\s*=\s*(.+)$""")
+    private val dropTableHeadingPattern =
+        Regex("""(?m)^==\s*(Drop table \d+|Drops|[^\n=]*?\bdrops\b[^\n=]*?)\s*==\s*$""", RegexOption.IGNORE_CASE)
     private val dropVariantHeadingPattern = Regex("""(?m)^={3}(?!=)\s*(.+?)\s*={3}(?!=)\s*$""")
 
     fun parseNpcIds(wikitext: String): List<Int> = WikiInfoboxIds.allNpcIds(wikitext)
@@ -39,7 +41,7 @@ object WikiDropParser {
             dropVersionPattern
                 .findAll(wikitext)
                 .associate { match ->
-                    match.groupValues[1].toInt() to match.groupValues[2].trim()
+                    (match.groupValues[1].toIntOrNull() ?: 1) to match.groupValues[2].trim()
                 }
         if (versions.isEmpty()) {
             return emptyMap()
@@ -49,7 +51,7 @@ object WikiDropParser {
             npcIdPattern
                 .findAll(wikitext)
                 .associate { match ->
-                    match.groupValues[1].toInt() to parseIdList(match.groupValues[2])
+                    (match.groupValues[1].toIntOrNull() ?: 1) to parseIdList(match.groupValues[2])
                 }
 
         val grouped = mutableMapOf<String, MutableList<Int>>()
@@ -70,31 +72,58 @@ object WikiDropParser {
         val npcByTable = parseNpcIdsByDropTable(wikitext)
         val fallbackNpcIds = parseNpcIds(wikitext)
 
-        return sections.flatMap { (tableName, body) ->
-            val variants =
-                if (tableName.equals("Drops", ignoreCase = true)) {
-                    parseDropVariants(body, wikitext)
-                } else {
-                    listOf("" to body)
-                }
-
-            variants.map { (variantName, variantBody) ->
-                val npcIds =
-                    when {
-                        variantName.isNotBlank() ->
-                            npcIdsForDropVariant(wikitext, variantName, fallbackNpcIds)
-                        npcByTable.containsKey(tableName) -> npcByTable.getValue(tableName)
-                        sections.size == 1 && variants.size == 1 -> fallbackNpcIds
-                        else -> emptyList()
+        val resolved =
+            sections.flatMap { (tableName, body) ->
+                val variants =
+                    if (tableName.equals("Drops", ignoreCase = true)) {
+                        parseDropVariants(body, wikitext)
+                    } else if (tableName.startsWith("Drop table", ignoreCase = true)) {
+                        listOf("" to body)
+                    } else {
+                        val stripped =
+                            tableName
+                                .replace(Regex("""(?i)\s+drops?\s*$"""), "")
+                                .trim('(', ')')
+                                .trim()
+                        listOf(stripped to body)
                     }
 
-                ParsedNpcDropTable(
-                    tableName = tableName,
-                    dropVariant = variantName,
-                    drops = parseDropsFromBody(variantBody),
-                    subtableAccesses = parseSubtableAccessesFromBody(variantBody),
-                    npcIds = npcIds,
-                )
+                variants.map { (variantName, variantBody) ->
+                    val labelledSection =
+                        !tableName.equals("Drops", ignoreCase = true) &&
+                            !tableName.startsWith("Drop table", ignoreCase = true)
+                    val npcIds =
+                        when {
+                            variantName.isNotBlank() -> {
+                                val matched =
+                                    npcIdsForDropVariant(wikitext, variantName, emptyList())
+                                if (matched.isEmpty() && labelledSection) {
+                                    emptyList()
+                                } else {
+                                    matched.ifEmpty { fallbackNpcIds }
+                                }
+                            }
+                            npcByTable.containsKey(tableName) -> npcByTable.getValue(tableName)
+                            else -> emptyList()
+                        }
+
+                    ParsedNpcDropTable(
+                        tableName = tableName,
+                        dropVariant = if (labelledSection && npcIds.isEmpty()) "" else variantName,
+                        drops = parseDropsFromBody(variantBody),
+                        subtableAccesses = parseSubtableAccessesFromBody(variantBody),
+                        npcIds = npcIds,
+                    )
+                }
+            }
+
+        val claimed = resolved.flatMap { it.npcIds }.toSet()
+        return resolved.map { table ->
+            if (table.npcIds.isNotEmpty() || fallbackNpcIds.isEmpty()) {
+                table
+            } else {
+                val unclaimed = (fallbackNpcIds - claimed).ifEmpty { fallbackNpcIds }
+                table.copy(npcIds = unclaimed.toList())
             }
         }
     }
@@ -184,7 +213,24 @@ object WikiDropParser {
         fallbackNpcIds: List<Int>,
     ): List<Int> {
         val versionToIds = parseNpcIdsByDropTable(wikitext)
-        if (versionToIds.isEmpty()) {
+        val versionNames =
+            versionNamePattern
+                .findAll(wikitext)
+                .associate { match ->
+                    (match.groupValues[1].toIntOrNull() ?: 1) to match.groupValues[2].trim()
+                }
+        val idsByIndex =
+            npcIdPattern
+                .findAll(wikitext)
+                .associate { match ->
+                    (match.groupValues[1].toIntOrNull() ?: 1) to parseIdList(match.groupValues[2])
+                }
+        val nameToIds =
+            versionToIds +
+                versionNames
+                    .mapNotNull { (index, name) -> idsByIndex[index]?.let { name to it } }
+                    .toMap()
+        if (nameToIds.isEmpty()) {
             return fallbackNpcIds
         }
 
@@ -196,7 +242,7 @@ object WikiDropParser {
                 .filter { it.isNotEmpty() }
 
         val matched = mutableListOf<Int>()
-        for ((versionName, ids) in versionToIds) {
+        for ((versionName, ids) in nameToIds) {
             val versionMatched =
                 tokens.any { token ->
                     versionName.equals(token, ignoreCase = true) ||

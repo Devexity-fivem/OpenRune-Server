@@ -1,0 +1,8 @@
+id = "Rogue Level 15 Drops"
+npcs = ["npc.rogue"]
+
+[[tertiary]]
+numerator = 1
+denominator = 10
+obj = "obj.looting_bag"
+count = 1

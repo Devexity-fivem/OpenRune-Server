@@ -1,0 +1,74 @@
+id = "Tortoise Drops without riders Drops"
+npcs = ["npc.battle_tortoise"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 128
+name = "Tortoise Drops without riders Drops"
+
+[[main.entries]]
+weight = 10
+shared = "seed"
+
+[[main.entries]]
+weight = 10
+obj = "obj.naturerune"
+count = "1..3"
+
+[[main.entries]]
+weight = 20
+obj = "obj.steel_arrow"
+count = "12..23"
+
+[[main.entries]]
+weight = 5
+obj = "obj.earthrune"
+count = "10..14"
+
+[[main.entries]]
+weight = 10
+obj = "obj.cabbage_seed"
+count = "10..19"
+
+[[main.entries]]
+weight = 20
+obj = "obj.cabbage"
+count = "20..59"
+
+[[main.entries]]
+weight = 10
+obj = "obj.pineapple"
+count = 1
+
+[[main.entries]]
+weight = 8
+obj = "obj.worm_batta"
+count = 1
+
+[[main.entries]]
+weight = 20
+obj = "obj.swamp_toad"
+count = 1
+
+[[main.entries]]
+weight = 10
+obj = "obj.battle_tortoise_shell"
+count = "1..3"
+
+[[main.entries]]
+weight = 2
+obj = "obj.mahogany_logs"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.teak_logs"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.teak_logs"
+count = 2

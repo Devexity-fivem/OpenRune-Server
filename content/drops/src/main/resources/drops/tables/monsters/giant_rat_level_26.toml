@@ -1,0 +1,12 @@
+id = "Giant rat Level 26 Drops"
+npcs = ["npc.sos_fam_giantrat", "npc.sos_fam_giantrat2", "npc.sos_fam_giantrat3"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 4
+obj = "obj.rag_rat_bone"
+count = 1

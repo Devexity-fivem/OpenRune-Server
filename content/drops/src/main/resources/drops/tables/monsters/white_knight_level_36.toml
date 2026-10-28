@@ -1,0 +1,144 @@
+id = "White Knight Level 36 Drops"
+npcs = ["npc.white_knight_blue_plumes_f"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 141
+name = "White Knight Level 36 Drops"
+
+[[main.entries]]
+weight = 15
+shared = "seed"
+
+[[main.entries]]
+weight = 2
+obj = "obj.iron_longsword"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.steel_sword"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.steel_med_helm"
+count = 1
+
+[[main.entries]]
+weight = 11
+obj = "obj.mindrune"
+count = 5
+
+[[main.entries]]
+weight = 4
+obj = "obj.naturerune"
+count = 4
+
+[[main.entries]]
+weight = 3
+obj = "obj.bodyrune"
+count = "9..13"
+
+[[main.entries]]
+weight = 3
+obj = "obj.chaosrune"
+count = 2
+
+[[main.entries]]
+weight = 3
+obj = "obj.waterrune"
+count = "25..30"
+
+[[main.entries]]
+weight = 2
+obj = "obj.mithril_arrow"
+count = 5
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_arrow"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.bloodrune"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.lawrune"
+count = 2
+
+[[main.entries]]
+weight = 15
+obj = "obj.coins"
+count = 48
+
+[[main.entries]]
+weight = 15
+obj = "obj.coins"
+count = 15
+
+[[main.entries]]
+weight = 15
+obj = "obj.coins"
+count = 5
+
+[[main.entries]]
+weight = 11
+obj = "obj.coins"
+count = 8
+
+[[main.entries]]
+weight = 10
+obj = "obj.coins"
+count = "45..53"
+
+[[main.entries]]
+weight = 5
+obj = "obj.coins"
+count = 1
+
+[[main.entries]]
+weight = 5
+obj = "obj.coins"
+count = 2
+
+[[main.entries]]
+weight = 5
+obj = "obj.coins"
+count = 10
+
+[[main.entries]]
+weight = 1
+obj = "obj.coins"
+count = 120
+
+[[main.entries]]
+weight = 6
+obj = "obj.iron_bar"
+count = 2
+
+[[main.entries]]
+weight = 2
+obj = "obj.iron_bar"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.half_an_apple_pie"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.iron_ore"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.pot_flour"
+count = 1

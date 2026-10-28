@@ -1,0 +1,122 @@
+id = "Green dragon Wilderness Slayer Cave Drops"
+npcs = ["npc.green_dragon", "npc.green_dragon2", "npc.green_dragon3", "npc.green_dragon4", "npc.green_dragon5", "npc.wild_cave_green_dragon", "npc.wild_cave_green_dragon2", "npc.wild_cave_green_dragon3"]
+
+[[guaranteed]]
+obj = "obj.dragon_bones"
+count = 1
+
+[[guaranteed]]
+obj = "obj.dragonhide_green"
+count = 1
+
+[main]
+total = 128
+name = "Green dragon Wilderness Slayer Cave Drops"
+
+[[main.entries]]
+weight = 5
+shared = "gem"
+
+[[main.entries]]
+weight = 5
+obj = "obj.mithril_2h_sword"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.mithril_platelegs"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.mithril_battleaxe"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_dagger"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_sword"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_full_helm"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_kiteshield"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.lawrune"
+count = "3..10"
+
+[[main.entries]]
+weight = 1
+obj = "obj.naturerune"
+count = 10
+
+[[main.entries]]
+weight = 1
+obj = "obj.deathrune"
+count = 15
+
+[[main.entries]]
+weight = 1
+obj = "obj.bloodrune"
+count = 5
+
+[[main.entries]]
+weight = 29
+obj = "obj.coins"
+count = "100..199"
+
+[[main.entries]]
+weight = 25
+obj = "obj.coins"
+count = "250..499"
+
+[[main.entries]]
+weight = 14
+obj = "obj.coins"
+count = "500..749"
+
+[[main.entries]]
+weight = 6
+obj = "obj.coins"
+count = 110
+
+[[main.entries]]
+weight = 6
+obj = "obj.coins"
+count = "500..999"
+
+[[main.entries]]
+weight = 7
+obj = "obj.monkfish"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.mithril_ore"
+count = 2
+
+# Main table pool padding uses a nothing roll (15 weight)
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 35
+obj = "obj.arceuus_corpse_dragon"
+count = 1

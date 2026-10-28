@@ -1,0 +1,108 @@
+id = "Tortoise Drops with riders Drops"
+npcs = ["npc.battle_tortoise_war2"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 3
+
+[main]
+total = 136
+name = "Tortoise Drops with riders Drops"
+
+[[main.entries]]
+weight = 10
+shared = "seed"
+
+[[main.entries]]
+weight = 1
+obj = "obj.gnome_boots_pink"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.gnome_robebottoms_pink"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.gnome_robetop_pink"
+count = 1
+
+[[main.entries]]
+weight = 10
+obj = "obj.earthrune"
+count = "10..14"
+
+[[main.entries]]
+weight = 20
+obj = "obj.mithril_arrow"
+count = "6..11"
+
+[[main.entries]]
+weight = 10
+obj = "obj.naturerune"
+count = "1..3"
+
+[[main.entries]]
+weight = 10
+obj = "obj.steel_arrow"
+count = "12..23"
+
+[[main.entries]]
+weight = 10
+obj = "obj.cabbage_seed"
+count = "10..19"
+
+[[main.entries]]
+weight = 20
+obj = "obj.cabbage"
+count = "20..59"
+
+[[main.entries]]
+weight = 10
+obj = "obj.pineapple"
+count = 1
+
+[[main.entries]]
+weight = 10
+obj = "obj.toad_crunchies"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.worm_batta"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.blurberry_special"
+count = 1
+
+[[main.entries]]
+weight = 8
+obj = "obj.battle_tortoise_shell"
+count = "1..3"
+
+[[main.entries]]
+weight = 5
+obj = "obj.swamp_toad"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.mahogany_logs"
+count = 2
+
+[[main.entries]]
+weight = 2
+obj = "obj.teak_logs"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.teak_logs"
+count = 4

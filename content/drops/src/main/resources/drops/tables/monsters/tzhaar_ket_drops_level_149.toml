@@ -1,0 +1,49 @@
+id = "TzHaar-Ket Drops (Level 149 Drops"
+npcs = ["npc.tzhaar_ket_strong"]
+
+[main]
+total = 2048
+name = "TzHaar-Ket Drops (Level 149 Drops"
+
+[[main.entries]]
+weight = 4
+obj = "obj.tzhaar_maul"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.tzhaar_spikeshield"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.tzhaar_cape_obsidian"
+count = 1
+
+[[main.entries]]
+weight = 64
+obj = "obj.uncut_sapphire"
+count = 1
+
+[[main.entries]]
+weight = 32
+obj = "obj.uncut_emerald"
+count = 1
+
+[[main.entries]]
+weight = 16
+obj = "obj.uncut_ruby"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.uncut_diamond"
+count = 1
+
+# Main table pool padding uses a nothing roll (1920 weight)
+
+[[tertiary]]
+numerator = 1
+denominator = 35
+obj = "obj.arceuus_corpse_tzhaar"
+count = 1

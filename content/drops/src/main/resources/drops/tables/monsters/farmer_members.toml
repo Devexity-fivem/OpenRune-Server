@@ -1,0 +1,81 @@
+id = "Farmer Members' Drops"
+npcs = ["npc.farmer1", "npc.farmer1_f", "npc.farmer2", "npc.farmer2_f", "npc.farmer3", "npc.farmer3_f", "npc.farmer4"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 128
+name = "Farmer Members' Drops"
+
+[[main.entries]]
+weight = 27
+shared = "seed"
+
+[[main.entries]]
+weight = 2
+obj = "obj.earthrune"
+count = 4
+
+[[main.entries]]
+weight = 2
+obj = "obj.firerune"
+count = 6
+
+[[main.entries]]
+weight = 2
+obj = "obj.mindrune"
+count = 9
+
+[[main.entries]]
+weight = 1
+obj = "obj.chaosrune"
+count = 2
+
+[[main.entries]]
+weight = 38
+obj = "obj.coins"
+count = 3
+
+[[main.entries]]
+weight = 1
+obj = "obj.coins"
+count = 25
+
+[[main.entries]]
+weight = 5
+obj = "obj.fishing_bait"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.rake"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.earth_talisman"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.gardening_boots"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.dibber"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.secateurs"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.watering_can_8"
+count = 1
+
+# Main table pool padding uses a nothing roll (39 weight)

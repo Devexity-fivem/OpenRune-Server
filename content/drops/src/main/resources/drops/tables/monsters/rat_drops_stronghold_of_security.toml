@@ -1,0 +1,12 @@
+id = "Rat Drops (Stronghold of Security) Drops"
+npcs = ["npc.sos_fam_rat", "npc.sos_war_rat"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 4
+obj = "obj.rag_rat_bone"
+count = 1

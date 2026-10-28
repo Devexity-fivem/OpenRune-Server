@@ -1,0 +1,18 @@
+id = "Skeleton Drops (Plain) Drops"
+npcs = ["npc.giantskeleton2", "npc.skeleton_armed4", "npc.skeleton_armed5"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 6
+obj = "obj.looting_bag"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 5000
+obj = "obj.champions_challenge_skeleton"
+count = 1

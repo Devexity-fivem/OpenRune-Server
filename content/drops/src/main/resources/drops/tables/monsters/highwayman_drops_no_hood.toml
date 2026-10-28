@@ -1,0 +1,14 @@
+id = "Highwayman Drops (no hood) Drops"
+npcs = ["npc.highwayman", "npc.highwayman2"]
+
+[[guaranteed]]
+obj = "obj.black_cape"
+count = 1
+
+[[guaranteed]]
+obj = "obj.xbows_crossbow_bolts_iron"
+count = "2..12"
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,16 @@
+id = "Rogue Level 135 Drops"
+npcs = ["npc.wilderness_rogue"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[[guaranteed]]
+obj = "obj.coins"
+count = "1000..3000"
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1

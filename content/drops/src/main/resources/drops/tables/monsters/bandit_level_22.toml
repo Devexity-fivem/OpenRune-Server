@@ -1,0 +1,112 @@
+id = "Bandit Level 22 Drops"
+npcs = ["npc.brawling_bandit"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 128
+name = "Bandit Level 22 Drops"
+
+[[main.entries]]
+weight = 3
+shared = "gem"
+
+[[main.entries]]
+weight = 4
+obj = "obj.iron_scimitar"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.steel_sq_shield"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.steel_axe"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.chaosrune"
+count = 6
+
+[[main.entries]]
+weight = 3
+obj = "obj.waterrune"
+count = 9
+
+[[main.entries]]
+weight = 2
+obj = "obj.airrune"
+count = 10
+
+[[main.entries]]
+weight = 2
+obj = "obj.deathrune"
+count = 2
+
+[[main.entries]]
+weight = 2
+obj = "obj.lawrune"
+count = 3
+
+[[main.entries]]
+weight = 1
+obj = "obj.bloodrune"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.mindrune"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.naturerune"
+count = 2
+
+[[main.entries]]
+weight = 37
+obj = "obj.coins"
+count = 10
+
+[[main.entries]]
+weight = 26
+obj = "obj.coins"
+count = 35
+
+[[main.entries]]
+weight = 13
+obj = "obj.coins"
+count = 12
+
+[[main.entries]]
+weight = 10
+obj = "obj.coins"
+count = 53
+
+[[main.entries]]
+weight = 7
+obj = "obj.coins"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.coins"
+count = 80
+
+[[main.entries]]
+weight = 6
+obj = "obj.coal"
+count = 1
+
+# Main table pool padding uses a nothing roll (2 weight)
+
+[[tertiary]]
+numerator = 1
+denominator = 6
+obj = "obj.looting_bag"
+count = 1

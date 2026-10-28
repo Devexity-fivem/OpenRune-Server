@@ -1,0 +1,14 @@
+id = "Rat Drops (Regular) Drops"
+npcs = ["npc.rat", "npc.rat_indoors"]
+
+[[tertiary]]
+numerator = 1
+denominator = 4
+obj = "obj.rag_rat_bone"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 15
+obj = "obj.looting_bag"
+count = 1

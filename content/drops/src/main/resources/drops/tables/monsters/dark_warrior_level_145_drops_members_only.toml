@@ -1,0 +1,117 @@
+id = "Dark warrior Level 145 drops (members only) Drops"
+npcs = ["npc.wilderness_dark_warrior"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 128
+name = "Dark warrior Level 145 drops (members only) Drops"
+
+[[main.entries]]
+weight = 3
+obj = "obj.adamant_med_helm"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.black_mace"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.black_med_helm"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.mithril_mace"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.mindrune"
+count = 12
+
+[[main.entries]]
+weight = 2
+obj = "obj.waterrune"
+count = 12
+
+[[main.entries]]
+weight = 1
+obj = "obj.earthrune"
+count = 12
+
+[[main.entries]]
+weight = 4
+obj = "obj.bronze_arrow"
+count = 28
+
+[[main.entries]]
+weight = 1
+obj = "obj.chaosrune"
+count = 8
+
+[[main.entries]]
+weight = 2
+obj = "obj.naturerune"
+count = 9
+
+[[main.entries]]
+weight = 3
+shared = "herb"
+
+[[main.entries]]
+weight = 31
+obj = "obj.coins"
+count = 100
+
+[[main.entries]]
+weight = 20
+obj = "obj.coins"
+count = 20
+
+[[main.entries]]
+weight = 20
+obj = "obj.coins"
+count = 60
+
+[[main.entries]]
+weight = 7
+obj = "obj.coins"
+count = 130
+
+[[main.entries]]
+weight = 6
+obj = "obj.coins"
+count = 200
+
+[[main.entries]]
+weight = 2
+obj = "obj.coins"
+count = 90
+
+[[main.entries]]
+weight = 2
+obj = "obj.wilderness_fishing_bait"
+count = "10..24"
+
+[[main.entries]]
+weight = 1
+obj = "obj.iron_ore"
+count = 3
+
+[[main.entries]]
+weight = 1
+obj = "obj.sardine"
+count = 3
+
+# Main table pool padding uses a nothing roll (16 weight)
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1

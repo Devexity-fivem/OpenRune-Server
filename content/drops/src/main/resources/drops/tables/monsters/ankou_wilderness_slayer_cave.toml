@@ -1,0 +1,72 @@
+id = "Ankou Wilderness Slayer Cave Drops"
+npcs = ["npc.sos_death_ankou", "npc.sos_death_ankou_strongholdcave", "npc.wild_cave_ankou"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 8740
+name = "Ankou Wilderness Slayer Cave Drops"
+
+[[main.entries]]
+weight = 184
+shared = "gem"
+
+[[main.entries]]
+weight = 95
+obj = "obj.adamant_platelegs"
+count = 1
+
+[[main.entries]]
+weight = 380
+obj = "obj.rune_arrow"
+count = "5..14"
+
+[[main.entries]]
+weight = 285
+obj = "obj.deathrune"
+count = 15
+
+[[main.entries]]
+weight = 285
+obj = "obj.deathrune"
+count = 17
+
+[[main.entries]]
+weight = 285
+obj = "obj.bloodrune"
+count = 11
+
+[[main.entries]]
+weight = 190
+obj = "obj.bloodrune"
+count = 8
+
+[[main.entries]]
+weight = 95
+obj = "obj.bloodrune"
+count = 18
+
+[[main.entries]]
+weight = 5415
+obj = "obj.wilderness_fishing_bait"
+count = 60
+
+[[main.entries]]
+weight = 920
+obj = "obj.coins"
+count = "500..999"
+
+[[main.entries]]
+weight = 190
+obj = "obj.mithril_ore"
+count = "3..7"
+
+# Main table pool padding uses a nothing roll (416 weight)
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1

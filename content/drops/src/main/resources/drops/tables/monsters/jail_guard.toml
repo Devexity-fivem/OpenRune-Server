@@ -1,0 +1,6 @@
+id = "Jail guard Drops"
+npcs = ["npc.jailguard", "npc.jailguard_four_patrol", "npc.jailguard_three_patrol", "npc.jailguard_two_patrol"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,6 @@
+id = "Hero Drops"
+npcs = ["npc.hero", "npc.hero_f", "npc.hero_variant01"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

@@ -1,0 +1,101 @@
+id = "Ankou Members' worlds Drops"
+npcs = ["npc.kourend_ankou"]
+brimstone_key_roll = true
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 130
+name = "Ankou Members' worlds Drops"
+
+[[main.entries]]
+weight = 2
+shared = "gem"
+
+[[main.entries]]
+weight = 1
+obj = "obj.black_knife"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.black_robe"
+count = 1
+
+[[main.entries]]
+weight = 10
+obj = "obj.deathrune"
+count = 10
+
+[[main.entries]]
+weight = 6
+obj = "obj.bloodrune"
+count = 11
+
+[[main.entries]]
+weight = 4
+obj = "obj.adamant_arrow"
+count = "5..14"
+
+[[main.entries]]
+weight = 7
+obj = "obj.lawrune"
+count = 2
+
+[[main.entries]]
+weight = 3
+obj = "obj.bloodrune"
+count = 5
+
+[[main.entries]]
+weight = 5
+obj = "obj.blankrune_high"
+count = 15
+
+[[main.entries]]
+weight = 2
+obj = "obj.mithril_ore"
+count = "3..7"
+
+[[main.entries]]
+weight = 33
+obj = "obj.coins"
+count = 8
+
+[[main.entries]]
+weight = 10
+obj = "obj.coins"
+count = "5..204"
+
+[[main.entries]]
+weight = 38
+obj = "obj.wilderness_fishing_bait"
+count = 60
+
+[[main.entries]]
+weight = 3
+obj = "obj.sos_half_skull1"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.bass"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.weapon_poison++"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.bowl_mushroom_fried"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1

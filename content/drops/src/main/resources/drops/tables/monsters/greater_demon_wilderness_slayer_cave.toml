@@ -1,0 +1,91 @@
+id = "Greater demon Wilderness Slayer Cave Drops"
+npcs = ["npc.wild_cave_greater_demon", "npc.wild_cave_greater_demon2", "npc.wild_cave_greater_demon3"]
+
+[[guaranteed]]
+obj = "obj.vile_ashes"
+count = 1
+
+[main]
+total = 41
+name = "Greater demon Wilderness Slayer Cave Drops"
+
+[[main.entries]]
+weight = 5
+shared = "gem"
+
+[[main.entries]]
+weight = 4
+obj = "obj.adamant_2h_sword"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.adamant_axe"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.adamant_battleaxe"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_kiteshield"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_platelegs"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.rune_full_helm"
+count = 1
+
+[[main.entries]]
+weight = 5
+obj = "obj.chaosrune"
+count = 40
+
+[[main.entries]]
+weight = 5
+obj = "obj.deathrune"
+count = 5
+
+[[main.entries]]
+weight = 2
+obj = "obj.deathrune"
+count = 15
+
+[[main.entries]]
+weight = 1
+obj = "obj.bloodrune"
+count = 20
+
+[[main.entries]]
+weight = 7
+obj = "obj.coins"
+count = 150
+
+[[main.entries]]
+weight = 3
+obj = "obj.gold_bar"
+count = 10
+
+[[main.entries]]
+weight = 1
+obj = "obj.gold_ore"
+count = 10
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 40
+obj = "obj.arceuus_corpse_demon"
+count = 1

@@ -1,0 +1,99 @@
+id = "Lesser demon Wilderness Slayer Cave Drops"
+npcs = ["npc.wild_cave_lesser_demon", "npc.wild_cave_lesser_demon2", "npc.wild_cave_lesser_demon3"]
+
+[[guaranteed]]
+obj = "obj.vile_ashes"
+count = 1
+
+[main]
+total = 39
+name = "Lesser demon Wilderness Slayer Cave Drops"
+
+[[main.entries]]
+weight = 5
+shared = "gem"
+
+[[main.entries]]
+weight = 4
+obj = "obj.black_full_helm"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.mithril_axe"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_dagger"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_chainbody"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_platebody"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.rune_med_helm"
+count = 1
+
+[[main.entries]]
+weight = 5
+obj = "obj.chaosrune"
+count = 20
+
+[[main.entries]]
+weight = 3
+obj = "obj.deathrune"
+count = 10
+
+[[main.entries]]
+weight = 1
+obj = "obj.deathrune"
+count = 30
+
+[[main.entries]]
+weight = 1
+obj = "obj.bloodrune"
+count = 10
+
+[[main.entries]]
+weight = 6
+obj = "obj.coins"
+count = 100
+
+[[main.entries]]
+weight = 3
+obj = "obj.jug_wine"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.gold_ore"
+count = 5
+
+# Main table pool padding uses a nothing roll (1 weight)
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 50
+obj = "obj.arceuus_corpse_demon"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 5000
+obj = "obj.champions_challenge_lesserdemon"
+count = 1

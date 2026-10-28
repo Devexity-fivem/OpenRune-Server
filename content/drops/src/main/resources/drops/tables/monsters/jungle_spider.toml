@@ -1,0 +1,6 @@
+id = "Jungle spider Drops"
+npcs = ["npc.jungle_spider"]
+
+[[guaranteed]]
+obj = "obj.village_spider_carcass"
+count = 1

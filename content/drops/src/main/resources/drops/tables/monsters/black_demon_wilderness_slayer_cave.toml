@@ -1,0 +1,108 @@
+id = "Black demon Wilderness Slayer Cave Drops"
+npcs = ["npc.black_demon", "npc.black_demon2", "npc.black_demon3", "npc.black_demon4", "npc.black_demon5", "npc.black_demon_strongholdcave_1", "npc.black_demon_strongholdcave_2", "npc.black_demon_strongholdcave_3", "npc.black_demon_strongholdcave_4", "npc.black_demon_strongholdcave_5", "npc.wild_cave_black_demon3"]
+
+[[guaranteed]]
+obj = "obj.malicious_ashes"
+count = 1
+
+[main]
+total = 74
+name = "Black demon Wilderness Slayer Cave Drops"
+
+[[main.entries]]
+weight = 4
+obj = "obj.rune_sword"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.adamant_dagger"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.adamant_battleaxe"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamant_platebody"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.rune_dagger"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.rune_med_helm"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.rune_full_helm"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.rune_chainbody"
+count = 1
+
+[[main.entries]]
+weight = 8
+obj = "obj.deathrune"
+count = 5
+
+[[main.entries]]
+weight = 7
+obj = "obj.chaosrune"
+count = 25
+
+[[main.entries]]
+weight = 4
+obj = "obj.bloodrune"
+count = 7
+
+[[main.entries]]
+weight = 1
+obj = "obj.lawrune"
+count = 15
+
+[[main.entries]]
+weight = 1
+obj = "obj.bloodrune"
+count = 5
+
+[[main.entries]]
+weight = 23
+shared = "herb"
+
+[[main.entries]]
+weight = 2
+obj = "obj.adamantite_bar"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.adamantite_ore"
+count = 2
+
+[[main.entries]]
+weight = 7
+obj = "obj.coins"
+count = 250
+
+# Main table pool padding uses a nothing roll (6 weight)
+
+[[tertiary]]
+numerator = 1
+denominator = 3
+obj = "obj.looting_bag"
+count = 1
+
+[[tertiary]]
+numerator = 1
+denominator = 35
+obj = "obj.arceuus_corpse_demon"
+count = 1

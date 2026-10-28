@@ -1,0 +1,87 @@
+id = "Cave bug Level 6 Drops"
+npcs = ["npc.swamp_cave_bug"]
+
+[main]
+total = 128
+name = "Cave bug Level 6 Drops"
+
+[[main.entries]]
+weight = 2
+obj = "obj.earthrune"
+count = 6
+
+[[main.entries]]
+weight = 5
+obj = "obj.waterrune"
+count = 8
+
+[[main.entries]]
+weight = 5
+obj = "obj.naturerune"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.naturerune"
+count = 2
+
+[[main.entries]]
+weight = 16
+obj = "obj.unidentified_guam"
+count = 1
+
+[[main.entries]]
+weight = 23
+shared = "herb"
+
+[[main.entries]]
+weight = 2
+obj = "obj.unicorn_horn_dust"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.eye_of_newt"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.limpwurt_root"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.snape_grass"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.red_spiders_eggs"
+count = 1
+
+[[main.entries]]
+weight = 8
+obj = "obj.coins"
+count = 3
+
+[[main.entries]]
+weight = 3
+obj = "obj.coins"
+count = 8
+
+[[main.entries]]
+weight = 3
+obj = "obj.tinderbox"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.candle_lantern_empty"
+count = 1
+
+[[main.entries]]
+weight = 5
+obj = "obj.unlit_candle"
+count = 1
+
+# Main table pool padding uses a nothing roll (48 weight)
