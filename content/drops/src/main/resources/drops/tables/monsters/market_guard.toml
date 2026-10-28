@@ -1,0 +1,113 @@
+id = "Market Guard Drops"
+npcs = ["npc.farming_market_guard"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
+
+[main]
+total = 128
+name = "Market Guard Drops"
+
+[[main.entries]]
+weight = 3
+obj = "obj.bronze_warhammer"
+count = 1
+
+[[main.entries]]
+weight = 6
+obj = "obj.iron_warhammer"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.steel_warhammer"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.black_warhammer"
+count = 1
+
+[[main.entries]]
+weight = 2
+shared = "herb"
+
+[[main.entries]]
+weight = 42
+obj = "obj.coins"
+count = 15
+
+[[main.entries]]
+weight = 5
+obj = "obj.coins"
+count = 17
+
+[[main.entries]]
+weight = 9
+obj = "obj.coins"
+count = 22
+
+[[main.entries]]
+weight = 3
+obj = "obj.coins"
+count = 27
+
+[[main.entries]]
+weight = 1
+obj = "obj.bucket_water"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.fur"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.keg_of_beer"
+count = 1
+
+[[main.entries]]
+weight = 2
+obj = "obj.copper_ore"
+count = 5
+
+[[main.entries]]
+weight = 1
+obj = "obj.tin_ore"
+count = 1
+
+[[main.entries]]
+weight = 3
+obj = "obj.iron_ore"
+count = 2
+
+[[main.entries]]
+weight = 1
+obj = "obj.raw_sardine"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.beer"
+count = 1
+
+[[main.entries]]
+weight = 4
+obj = "obj.cake"
+count = 1
+
+[[main.entries]]
+weight = 1
+obj = "obj.ring_mould"
+count = 1
+
+[[main.entries]]
+weight = 1
+shared = "gem"
+
+# Main table pool padding uses a nothing roll (36 weight)
+[[main.entries]]
+weight = 36
+nothing = true

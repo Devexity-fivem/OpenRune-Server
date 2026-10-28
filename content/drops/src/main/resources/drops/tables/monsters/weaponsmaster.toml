@@ -1,5 +1,5 @@
 id = "Weaponsmaster Drops"
-npcs = ["npc.weaponsmaster_vis"]
+npcs = ["npc.weaponsmaster", "npc.weaponsmaster_vis"]
 
 [[guaranteed]]
 obj = "obj.bones"

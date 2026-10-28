@@ -1,0 +1,6 @@
+id = "Archer (Ardougne) Drops"
+npcs = ["npc.ardougne_archer"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

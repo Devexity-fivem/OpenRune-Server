@@ -1,0 +1,6 @@
+id = "Loar Shade Drops"
+npcs = ["npc.shadeshadow_level1", "npc.shadeshadow_level2", "npc.shadeshadow_level3", "npc.shadeshadow_level4", "npc.shadeshadow_level5", "npc.shadeshadow_level6"]
+
+[[guaranteed]]
+obj = "obj.shade_bones1"
+count = 1

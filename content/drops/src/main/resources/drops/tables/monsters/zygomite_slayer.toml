@@ -1,0 +1,203 @@
+id = "Zygomite Drops"
+npcs = ["npc.slayer_mutated_zygomite_adolescent"]
+brimstone_key_roll = true
+
+[[guaranteed]]
+obj = "obj.ashes"
+count = 1
+
+[[guaranteed]]
+obj = "obj.ashes"
+count = 1
+
+[main]
+total = 122384
+name = "Zygomite Drops"
+
+[[main.entries]]
+weight = 1314
+obj = "obj.steel_axe"
+count = 1
+
+[[main.entries]]
+weight = 1314
+obj = "obj.steel_2h_sword"
+count = 1
+
+[[main.entries]]
+weight = 438
+obj = "obj.mithril_full_helm"
+count = 1
+
+[[main.entries]]
+weight = 13140
+obj = "obj.naturerune"
+count = 2
+
+[[main.entries]]
+weight = 2190
+obj = "obj.earthrune"
+count = 15
+
+[[main.entries]]
+weight = 2628
+obj = "obj.unidentified_ranarr"
+count = 2
+
+[[main.entries]]
+weight = 876
+obj = "obj.unidentified_tarromin"
+count = 1
+
+[[main.entries]]
+weight = 438
+obj = "obj.unidentified_harralander"
+count = 1
+
+[[main.entries]]
+weight = 4818
+obj = "obj.strawberry_seed"
+count = 4
+
+[[main.entries]]
+weight = 438
+obj = "obj.potato_seed"
+count = 4
+
+[[main.entries]]
+weight = 1168
+obj = "obj.mushroom_seed"
+count = 1
+
+[[main.entries]]
+weight = 1314
+obj = "obj.coins"
+count = 24
+
+[[main.entries]]
+weight = 17082
+obj = "obj.coins"
+count = 64
+
+[[main.entries]]
+weight = 4380
+obj = "obj.coins"
+count = 120
+
+[[main.entries]]
+weight = 876
+obj = "obj.coins"
+count = 250
+
+[[main.entries]]
+weight = 2628
+obj = "obj.bucket_supercompost"
+count = 1
+
+[[main.entries]]
+weight = 1168
+obj = "obj.mortmyremushroom"
+count = 1
+
+[[main.entries]]
+weight = 3066
+obj = "obj.clay"
+count = 1
+
+[[main.entries]]
+weight = 2190
+shared = "gem"
+
+[[main.entries]]
+weight = 1287
+obj = "obj.steel_axe"
+count = 1
+
+[[main.entries]]
+weight = 2574
+obj = "obj.steel_2h_sword"
+count = 1
+
+[[main.entries]]
+weight = 429
+obj = "obj.rune_full_helm"
+count = 1
+
+[[main.entries]]
+weight = 1287
+obj = "obj.naturerune"
+count = 2
+
+[[main.entries]]
+weight = 2145
+obj = "obj.earthrune"
+count = 15
+
+[[main.entries]]
+weight = 2574
+obj = "obj.unidentified_snapdragon"
+count = 1
+
+[[main.entries]]
+weight = 858
+obj = "obj.unidentified_tarromin"
+count = 1
+
+[[main.entries]]
+weight = 429
+obj = "obj.unidentified_harralander"
+count = 1
+
+[[main.entries]]
+weight = 4719
+obj = "obj.strawberry_seed"
+count = 4
+
+[[main.entries]]
+weight = 429
+obj = "obj.potato_seed"
+count = 4
+
+[[main.entries]]
+weight = 1716
+obj = "obj.mushroom_seed"
+count = 1
+
+[[main.entries]]
+weight = 12870
+obj = "obj.coins"
+count = 44
+
+[[main.entries]]
+weight = 16731
+obj = "obj.coins"
+count = 102
+
+[[main.entries]]
+weight = 3003
+obj = "obj.coins"
+count = 220
+
+[[main.entries]]
+weight = 858
+obj = "obj.coins"
+count = 460
+
+[[main.entries]]
+weight = 2574
+obj = "obj.bucket_supercompost"
+count = "1..3"
+
+[[main.entries]]
+weight = 1716
+obj = "obj.mortmyremushroom"
+count = 1
+
+[[main.entries]]
+weight = 3003
+obj = "obj.clay"
+count = 1
+
+[[main.entries]]
+weight = 1716
+shared = "gem"

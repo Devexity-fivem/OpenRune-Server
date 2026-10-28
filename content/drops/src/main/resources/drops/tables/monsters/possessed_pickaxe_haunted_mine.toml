@@ -1,5 +1,5 @@
 id = "Possessed pickaxe Haunted Mine Drops"
-npcs = ["npc.possessed_pickaxe_stationary"]
+npcs = ["npc.lotr_possessed_pickaxe", "npc.possessed_pickaxe_stationary"]
 
 [[guaranteed]]
 obj = "obj.iron_pickaxe"

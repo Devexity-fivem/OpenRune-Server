@@ -185,3 +185,32 @@ Final static validation: 701 tables — 0 weight-sum violations, 0 unresolved ob
 
 Uncertain (flagged): slayer_mutated_zygomite_adolescent, knight_of_ardougne kill-drops,
 desert-mining guard drop existence — wiki shows none; left unbound intentionally.
+
+### Phase 3d — final unbound NPC completion (65 remain, all verified unactionable)
+
+Progression: 103 → **65 unbound attackable** (701→710 TOML tables).
+
+New tables: `guard_desert_mining_camp` (10 tourtrap syms), `loar_shade` (+6 shadeshadow),
+`zygomite_slayer`, `ham_guard_postquest` (5 syms), `knight_of_ardougne` (bones-only, accurate),
+`fortress_guard` (bones-only), `market_guard`, `archer_ardougne`, `guard_ranging_guild`.
+Variant binds: `tbwt_beast`→the_shaikahan, `wilderness_ent`→ent, `weaponsmaster`→weaponsmaster,
+`lotr_possessed_pickaxe`→possessed_pickaxe_haunted_mine, `battlefield_darkskinned_gnome_archer`
++`gnome`→gnome, `harmless_island_snake`→snake, `zombie2`→zombie L13.
+
+#### Remaining 65 — every NPC wiki-verified (page fetched; NO DROP SECTIONS or no infobox)
+- Boss-phase/mechanic entities: abyssalsire_lung, coa_scarab, dark_seren_healer,
+  pmoon_boss_*_vis ×3, dt2_scar_maze_2_pillar_repairer, ds2_golem_* ×3,
+  soul_wars_avatar_red, mdaughter_multi_bear.
+- Quest-only combat (verified no-drop): dream_inadequacy, my2arm_dontknowwhat_battle,
+  soulbane_* ×6, ungadulu_good, renegade_knight, grip, priestperil_* ×2,
+  death_* ×3 (Soldier/Servant/White Knight — no sections), ics_* ×3, mcannonguard ×5
+  (Dwarf Cannon quest), clocktower_rat ×3, tourtrap merc ×4 (Mercenary: NO DROP SECTIONS),
+  mourning_shadow_beast (verified), kalrag* ×2, blessed_spider* ×2 (verified).
+- Ambient/no-drop: duck* ×3, penguin, harmless_island_mosquito, hunting_chinchompa* ×3
+  (Chinchompa: NO DROP SECTIONS), varlamore_hunterjerboa01, wcguild_forester,
+  etc_guard ×2 (Skraeling: no infobox), elid_mayor_guard_1 (Tarik: NO DROP SECTIONS),
+  wilderness_rune_golem (NO DROP SECTIONS), vampire_leech (NO DROP SECTIONS),
+  barrows_spider/barrows_giantspider (Crypt/Giant crypt spider: NO DROP SECTIONS).
+
+Boot-verified: "Server ready in 22.4s" — all 710 tables + Kotlin binds load clean.
+Static: 0 weight-sum violations, 0 unresolved objs, 0 duplicate bindings.

@@ -1,5 +1,5 @@
 id = "Snake Drops"
-npcs = ["npc.snake", "npc.varlamore_snake_savannah", "npc.varlamore_snake_rainforest"]
+npcs = ["npc.harmless_island_snake", "npc.snake", "npc.varlamore_snake_rainforest", "npc.varlamore_snake_savannah"]
 
 [[tertiary]]
 numerator = 1

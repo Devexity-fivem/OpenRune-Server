@@ -1,0 +1,11 @@
+id = "Guard (Ranging Guild) Drops"
+npcs = ["npc.ranging_guild_guard"]
+
+[main]
+total = 1
+name = "Guard (Ranging Guild) Drops"
+
+# Main table pool padding uses a nothing roll (1 weight)
+[[main.entries]]
+weight = 1
+nothing = true

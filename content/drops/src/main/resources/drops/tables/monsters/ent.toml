@@ -1,5 +1,5 @@
 id = "Ent Drops"
-npcs = ["npc.wcguild_ent"]
+npcs = ["npc.wcguild_ent", "npc.wilderness_ent"]
 
 [[tertiary]]
 numerator = 1

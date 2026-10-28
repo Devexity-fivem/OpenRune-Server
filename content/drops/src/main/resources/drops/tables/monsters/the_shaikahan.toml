@@ -1,5 +1,5 @@
 id = "The Shaikahan Drops"
-npcs = ["npc.tbwt_beast_cutscene"]
+npcs = ["npc.tbwt_beast", "npc.tbwt_beast_cutscene"]
 
 [[guaranteed]]
 obj = "obj.tbwt_beast_bones"

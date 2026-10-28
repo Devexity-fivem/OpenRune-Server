@@ -1,0 +1,6 @@
+id = "Guard (Desert Mining Camp) Drops"
+npcs = ["npc.tourtrap_qip_desert_mining_guard_1", "npc.tourtrap_qip_desert_mining_guard_2", "npc.tourtrap_qip_desert_mining_guard_3", "npc.tourtrap_qip_desert_mining_guard_4", "npc.tourtrap_qip_desert_mining_guard_5", "npc.tourtrap_qip_desert_mining_guard_6", "npc.tourtrap_qip_desert_mining_guard_still_1", "npc.tourtrap_qip_desert_mining_guard_still_2", "npc.tourtrap_qip_desert_mining_guard_still_3", "npc.tourtrap_qip_rowdy_desert_mining_guard_1"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1

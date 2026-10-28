@@ -1,0 +1,6 @@
+id = "Fortress Guard Drops"
+npcs = ["npc.fortressguard_01", "npc.fortressguard_02", "npc.fortressguard_03", "npc.fortressguard_04"]
+
+[[guaranteed]]
+obj = "obj.bones"
+count = 1
