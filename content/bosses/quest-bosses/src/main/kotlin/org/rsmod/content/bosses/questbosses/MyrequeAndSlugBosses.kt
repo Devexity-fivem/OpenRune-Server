@@ -54,7 +54,7 @@ class Abomination @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
 // A Kingdom Divided — Judge of Yama: melee up to ~12 with demonic magic.
 class JudgeOfYama @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.akd_judge_of_yama_combat") {
+    override val spec: BossSpec = boss("npc.akd_judge_of_yama_combat", "npc.yama_judge_of_yama") {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.demon_attack")
