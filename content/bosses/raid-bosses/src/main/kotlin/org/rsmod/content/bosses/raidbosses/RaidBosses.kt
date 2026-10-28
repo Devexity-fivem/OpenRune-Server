@@ -287,23 +287,3 @@ class ElidinisWarden @Inject constructor(deps: BossDeps) : BossPluginScript(deps
         }
 }
 
-// --- God Wars ---
-
-class Nex @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.nex", "npc.nex_soulsplit", "npc.nex_deflect") {
-        stats(attackRate = 4)
-        val melee = ability("melee") {
-            anim("seq.demon_attack")
-            hit { damage(0..35).roll(); type(Melee) }
-        }
-        val magic = ability("magic") {
-            projectile(spotanim = "spell_ice_barrage_impact", hit = Effect.Hit(damage = Roll(0..40), type = Magic))
-        }
-        phase("combat") {
-            weightedSelectorRandom {
-                +random(melee, weight = 3, requires = WithinMeleeRange)
-                +random(magic, weight = 2)
-            }
-        }
-    }
-}
