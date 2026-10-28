@@ -3,7 +3,7 @@
 Baseline: `adf67c1d2` on `dev` → remediation branch `osrs-fidelity-remediation`
 Revision: 241 (game.yml / README / cache consistent; AGENTS.md was stale)
 
-Commits (in order): `1839ba1c5` cache merge fix · `be9e1d7d0` gameval refs + deadeye varbit · `98f2e3dd0` overlay verification test rewrite · `bbf0709a1` sweep-driven refs
+Commits (in order): `1839ba1c5` cache merge fix · `be9e1d7d0` gameval refs + deadeye varbit · `98f2e3dd0` overlay verification test rewrite · `bbf0709a1` sweep-driven refs · `118d47ec6` ledger · `bdafed6e9` varp dedupe · `3c0e81658` spotlessApply · pushed to `origin/osrs-fidelity-remediation`
 
 | ID | Sev | Finding | Status | Evidence / changed files |
 |----|-----|---------|--------|--------------------------|
@@ -19,21 +19,25 @@ Commits (in order): `1839ba1c5` cache merge fix · `be9e1d7d0` gameval refs + de
 | DOCS-001 | P3 | AGENTS.md revision 240.2 | **Fixed** | → 241 (both mentions) |
 | NPCANIM-001 | P2 | GWD spiritual mage/ranger `seq.human_sword_slash`+crush looked style-wrong | **Verified — cache-faithful** | LIVE Jagex cache params for all 12 spirituals (4 factions × mage/ranger/warrior): `65500(attack_anim)=390` and `65407(attack_type)=65534(crush)` — identical to the overlay. `seq.human_sword_slash`=390. The overlay mirrors Jagex's own packed params; NOT a defect. Source: direct LIVE vs SERVER def dump of npc ids 3166-3168, 2242-2244, 2210-2212, 3159-3161 |
 | NPCANIM-002 | — | generic human_* fallbacks on multi-style npcs | **Closed — no defect found** | `human_*` anims on NPCs are Jagex param-driven; the two fabricated ones found (`human_mine_bronze_pickaxe`, `human_fletching_add_bolt_tips`) are fixed (DATA-005, DATA-008). Remaining `human_*` refs resolve to real seqs |
-| WEAPON-001 | — | unarmed stance-3 block plays punch | **Open — unverified** | no evidence gathered this pass; carried to remaining work |
+| WEAPON-001 | — | unarmed stance-3 block plays punch | **Verified — correct** | `MeleeAnimationAndSound` stance3 default `human_unarmedpunch` is authentic: unarmed "Block" style still attacks with punch and grants defence XP; `human_unarmedblock` is the DEFEND anim and is correctly wired as `defend_anim` (`PlayerExtensions.kt:88`). No defect |
 | INFO-001 | Info | revenant content absent | Backlog | ForinthrySurgeKillHook now resolves but needs `npc.wild_cave_*` spawns to fire |
+| DATA-009 | P3 | `varp.barrows_state` duplicated in `varp.toml` | **Fixed** | Consolidated to one block (`isServerOnly` + scope/transmit union). All 18 raw-cache server tables re-scanned — no other in-file duplicates |
 | SWEEP-001 | — | Full-repo gameval sweep | **Done** | 3,714 files (kt/toml/yaml) scanned vs rev-241 binary gamevals (structural parse, 14 sections, exact byte-consumption) + `.data/gamevals/*.rscm` + plugin `gamevals.toml` + `id="t.n"` registrations. Initial 2,868 flags → dirty-parse artifacts → **13 real candidates** → 3 fixed (DATA-004, DATA-007, DATA-008) + 10 false positives (KDoc `seq.foo`/`npc.ice_block`/`obj.x`, `startsWith` prefixes `cup_guthix_rest`/`trail_elite_riddle_key`/`slayer_helm_i_`/`uncut_`/`barrows_door_`/`levelup_list_`, concat prefixes `duke_extremity_cone_`/`duke_door_eye_01_rouse_0`). **Every real symbolic reference in the codebase now resolves.** |
 
 ## Validation log
 - `:or-cache:test` PackServerConfigOverlayMergeTest — 4/4 pass
 - `:or-cache:buildCache` — success, rev-241 LIVE+SERVER rebuilt with merged defs
 - `:api:game-process:test` ServerCacheOverlayVerificationTest — 5/5 pass vs SERVER cache (huntMode/huntRange/respawnRate/paramsRaw on callisto, bandos avatar, saltfish, lesser_demon, zamorak spiritual warrior)
-- `:api:combat:combat-formulas` DefensivePrayerBonusTest — pass
+- `:api:combat:combat-formulas:integration` — full suite pass incl. DefensivePrayerBonusTest
+- `gradlew test` — **all 130 test tasks pass** (5m36s)
+- `gradlew spotlessCheck` — green (needed apply on new files + 2 dev-branch files: Nex.kt unused import, BossEncounterAttackForcedTest endings)
+- All touched modules compile: fletching-pack, lumbridge, wilderness, gemstone-crab, combat-formulas, api/game-process, or-cache
 - LIVE vs SERVER NpcType dump (15 npcs): identical client defs confirmed; server overlay fields verified via NpcServerType instead (osrs-mcp CacheTool can't see them — that path was wrong, replaced)
 - NOTE: earlier "passed" osrs-mcp runs were silent `assumeTrue` skips (test workingDir ≠ repo root); replaced by api/game-process test which has game-cache-test-conventions workingDir
 
 ## Remaining
 - [x] NPC anim audit — spirituals verified cache-faithful; fabricated fallbacks fixed
-- [ ] Weapons/equipment runtime verification (unarmed stance-3)
+- [x] Weapons/equipment: unarmed stance anims verified authentic (WEAPON-001); `gublinch_snowball` stance/defend params confirmed matching unarmed pattern
 - [ ] Drop tables / shops / quests / interfaces coverage (engine semantics verified earlier; per-row wiki compare of ~556 tables not feasible — documented)
 - [ ] Engine deep review
 - [ ] MCP live verification of changed npcs (MCP tool listing flaky this session)
