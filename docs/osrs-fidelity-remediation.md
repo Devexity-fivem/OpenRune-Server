@@ -238,3 +238,32 @@ Blockers to resolve first:
 3. 63-wave authentic composition table (OSRS wiki formula: rotating pairs, boss-only final wave).
 4. Then clone shell to: Inferno (same engine), Fortis Colosseum (Sol Heredit spec exists),
    NMZ (`nzone_*` spec'd NPCs — cheapest), Barbarian Assault (penance waves + role varps + horn).
+
+## Wave-arena minigames — built (commit 249f82bfa, bc5dc3af6)
+
+Architecture: programmatic instance via `InstanceManager.create(player, KEY, InstanceSpec(settingsRowId=0))`
++ `InstanceArea.copyRegions` — no dbrow needed. `Npc(sym, coords)` + `npcRepo.add` + `manager.attachNpc`
+for runtime spawns; `player.softTimer` drives wave-clear polling (3-tick); `NpcDeathKillHook`/
+`PlayerRespawnHook` set-bound via PluginModule.
+
+- **fight-cave** (`content/minigames/fight-cave`): 63 authentic waves, Tz-Kek split on death,
+  Jad healers at 50%, `obj.firecape` on Jad kill, enter/exit via `loc.tzhaar_fightcave_wall_*`,
+  region 9551, respawn → TzHaar city. Compile+boot verified (785 scripts). NOT MCP-runtime-tested
+  (client down at build time) — first live test: enter at wall in TzHaar city, verify wave 1
+  Tz-Kih spawn + wave progression + instance teardown.
+- **inferno** (`content/minigames/inferno`): 66 build waves + wave 67 triple JalTok-Jads +
+  wave 69 TzKal-Zuk, Jad/Zuk healers at 50%, `obj.infernal_cape` on Zuk kill,
+  `loc.inferno_entrance` dual-purpose in/out, region 9807. KNOWN GAPS vs real Inferno:
+  no Zuk moving shield, no pillar safespots, Jal-Ak doesn't split, healers are approximated,
+  wave table follows documented structure not the exact wiki list. Compile+boot verified; untested live.
+
+Blocked/uncertain for remaining three:
+- **Fortis Colosseum**: only `colosseum_minotaur/manticore/jaguar_warrior/shockwave_colossus/
+  javelin_colossus/doom_scorpion/bees/sol_p1` exist in npcs — the Fremennik warbander trio and
+  serpent shaman combat NPCs are NOT in rev-241's npc table (seq/anim names exist only).
+  Can't populate authentic waves without them.
+- **Barbarian Assault**: penance NPCs + Penance Queen spec exist, but needs 4-role interfaces,
+  horn-call varps, team lobby logic — biggest interface build of the set.
+- **Nightmare Zone**: `nzone_*` boss variants (normal+hard) + `npc.nzone_host` (Dominic Onion,
+  Yanille 2608,3116) exist; arena copy region unconfirmed (no nzone locs in map dump);
+  needs dream-selection interface + points varp + reward chest shop.
