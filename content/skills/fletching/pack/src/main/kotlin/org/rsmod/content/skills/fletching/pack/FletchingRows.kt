@@ -255,37 +255,37 @@ private fun ProductionTableScope.attachRows() {
     fun tippedRow(name: String, level: Int, xp: Int, bolt: String, tip: String, output: String, tipAnim: String) =
         fletchRow(name, KIND_ATTACH, level, xp, listOf(bolt to 10, tip to 10), output, 10,
             ticks = 2, anim = tipAnim)
-    val tipAnim = "seq.human_fletching_add_bolt_tips"
+    val bronzeTip = "seq.human_fletching_add_bolt_tips_bronze"
     tippedRow("tip_bronze_opal", 11, 16, "obj.bolt", "obj.opal_bolttips",
-        "obj.opal_bolt", tipAnim)
+        "obj.opal_bolt", bronzeTip)
     tippedRow("tip_blurite_jade", 26, 24, "obj.xbows_crossbow_bolts_blurite", "obj.xbows_bolt_tips_jade",
-        "obj.xbows_crossbow_bolts_blurite_tipped_jade", tipAnim)
+        "obj.xbows_crossbow_bolts_blurite_tipped_jade", "seq.human_fletching_add_bolt_tips_blurite")
     tippedRow("tip_iron_pearl", 41, 32, "obj.xbows_crossbow_bolts_iron", "obj.pearl_bolttips",
-        "obj.pearl_bolt", tipAnim)
+        "obj.pearl_bolt", "seq.human_fletching_add_bolt_tips_iron")
     tippedRow("tip_steel_topaz", 48, 39, "obj.xbows_crossbow_bolts_steel", "obj.xbows_bolt_tips_redtopaz",
-        "obj.xbows_crossbow_bolts_steel_tipped_redtopaz", tipAnim)
+        "obj.xbows_crossbow_bolts_steel_tipped_redtopaz", "seq.human_fletching_add_bolt_tips_steel")
     tippedRow("tip_bronze_barbed", 51, 95, "obj.bolt", "obj.barbed_bolttips",
-        "obj.barbed_bolt", tipAnim)
+        "obj.barbed_bolt", bronzeTip)
     tippedRow("tip_mithril_sapphire", 56, 47, "obj.xbows_crossbow_bolts_mithril", "obj.xbows_bolt_tips_sapphire",
-        "obj.xbows_crossbow_bolts_mithril_tipped_sapphire", tipAnim)
+        "obj.xbows_crossbow_bolts_mithril_tipped_sapphire", "seq.human_fletching_add_bolt_tips_mithril")
     tippedRow("tip_mithril_emerald", 58, 55, "obj.xbows_crossbow_bolts_mithril", "obj.xbows_bolt_tips_emerald",
-        "obj.xbows_crossbow_bolts_mithril_tipped_emerald", tipAnim)
+        "obj.xbows_crossbow_bolts_mithril_tipped_emerald", "seq.human_fletching_add_bolt_tips_mithril")
     tippedRow("tip_adamant_ruby", 63, 63, "obj.xbows_crossbow_bolts_adamantite", "obj.xbows_bolt_tips_ruby",
-        "obj.xbows_crossbow_bolts_adamantite_tipped_ruby", tipAnim)
+        "obj.xbows_crossbow_bolts_adamantite_tipped_ruby", "seq.human_fletching_add_bolt_tips_adamant")
     tippedRow("tip_adamant_diamond", 65, 70, "obj.xbows_crossbow_bolts_adamantite", "obj.xbows_bolt_tips_diamond",
-        "obj.xbows_crossbow_bolts_adamantite_tipped_diamond", tipAnim)
+        "obj.xbows_crossbow_bolts_adamantite_tipped_diamond", "seq.human_fletching_add_bolt_tips_adamant")
     tippedRow("tip_runite_dragonstone", 71, 82, "obj.xbows_crossbow_bolts_runite", "obj.xbows_bolt_tips_dragonstone",
-        "obj.xbows_crossbow_bolts_runite_tipped_dragonstone", tipAnim)
+        "obj.xbows_crossbow_bolts_runite_tipped_dragonstone", "seq.human_fletching_add_bolt_tips_rune")
     tippedRow("tip_runite_onyx", 73, 94, "obj.xbows_crossbow_bolts_runite", "obj.xbows_bolt_tips_onyx",
-        "obj.xbows_crossbow_bolts_runite_tipped_onyx", tipAnim)
+        "obj.xbows_crossbow_bolts_runite_tipped_onyx", "seq.human_fletching_add_bolt_tips_rune")
     tippedRow("tip_broad_amethyst", 76, 106, "obj.slayer_broad_bolt", "obj.xbows_bolt_tips_amethyst",
-        "obj.slayer_broad_bolt_amethyst", tipAnim)
+        "obj.slayer_broad_bolt_amethyst", "seq.human_fletching_add_bolt_tips_rune")
 
     // tipped dragon bolts (all lvl 84)
     fun dragonTipRow(gem: String, tip: String, xp: Int) =
         fletchRow("tip_dragon_$gem", KIND_ATTACH, 84, xp,
             listOf("obj.dragon_bolts" to 10, tip to 10),
-            "obj.dragon_bolts_unenchanted_$gem", 10, ticks = 2, anim = tipAnim)
+            "obj.dragon_bolts_unenchanted_$gem", 10, ticks = 2, anim = "seq.human_fletching_add_bolt_tips_dragon")
     dragonTipRow("opal", "obj.opal_bolttips", 16)
     dragonTipRow("jade", "obj.xbows_bolt_tips_jade", 24)
     dragonTipRow("pearl", "obj.pearl_bolttips", 32)
