@@ -42,18 +42,23 @@ class WintertodtGameTest {
             manager.lightBrazier(brazier)
             assertEquals(1, manager.litCount())
             val before = manager.energy
-            advance(10)
-            assertEquals(before - 10, manager.energy)
+            advance(WintertodtManager.ENERGY_INTERVAL + 2)
+            assertEquals(before - WintertodtManager.ENERGY_PER_PERCENT, manager.energy)
         }
 
     @Test
-    fun GameTestState.`warmth drains inside the prison`() =
+    fun GameTestState.`standard attack damage scales with lit braziers`() =
         runInjectedGameTest(WintertodtManager::class, null, WintertodtScript::class) { manager ->
             placeArena()
-            player.placeAt(CoordGrid(1630, 4007, 0))
-            player.warmth = WintertodtManager.MAX_WARMTH
-            advance(WintertodtManager.COLD_PULSE_INTERVAL + 2)
-            assertTrue(player.warmth < WintertodtManager.MAX_WARMTH)
+            val unlit = manager.standardWarmthDamage(player)
+            for (x in intArrayOf(1620, 1640)) {
+                for (z in intArrayOf(3996, 4018)) {
+                    manager.lightBrazier(manager.brazierAt(CoordGrid(x, z, 0))!!)
+                }
+            }
+            assertEquals(4, manager.litCount())
+            val lit = manager.standardWarmthDamage(player)
+            assertTrue(lit in 1 until unlit)
         }
 
     @Test
@@ -64,8 +69,9 @@ class WintertodtGameTest {
             advance(1)
             player.warmth = 500
             player.wintertodtPoints = 600
-            repeat(200) { manager.feedBrazier(true) }
-            advance(2)
+            manager.lightBrazier(manager.brazierAt(CoordGrid(1620, 3996, 0))!!)
+            manager.forceEnergy(1)
+            advance(WintertodtManager.ENERGY_INTERVAL + 2)
             assertTrue(manager.resting)
             assertEquals(WintertodtManager.MAX_WARMTH, player.warmth)
             val crate =
@@ -77,6 +83,8 @@ class WintertodtGameTest {
     fun GameTestState.`injured pyromancer locks its brazier and can be healed`() =
         runInjectedGameTest(WintertodtManager::class, null, WintertodtScript::class) { manager ->
             placeArena()
+            manager.injurePyromancer(0)
+            assertTrue(!manager.pyroDown(0))
             manager.injurePyromancer(0)
             assertTrue(manager.pyroDown(0))
             assertEquals(0, manager.brazierState(0))

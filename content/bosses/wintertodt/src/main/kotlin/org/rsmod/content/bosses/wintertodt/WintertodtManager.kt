@@ -61,8 +61,11 @@ constructor(
     private val pyros = arrayOfNulls<Pyromancer>(PYRO_COUNT)
     private val snowBursts = ArrayDeque<SnowBurst>()
     private var lastAttackCycle = 0
-    private var lastPulseCycle = 0
+    private var lastRegenCycle = 0
+    private var lastEnergyCycle = 0
+    private var allOutRegenCycle = -1
     private var lastHudCycle = 0
+    private var lastBossAnimCycle = 0
 
     class Brazier(val coords: CoordGrid) {
         var state = State.UNLIT
@@ -76,6 +79,7 @@ constructor(
 
     class Pyromancer(val npc: Npc) {
         var down = false
+        var hits = 0
     }
 
     private class SnowBurst(val coords: CoordGrid, val impactCycle: Int)
@@ -87,6 +91,12 @@ constructor(
         }
         val cycle = mapClock.cycle
         processSnowBursts(cycle)
+        boss?.let { npc ->
+            if (cycle - lastBossAnimCycle >= BOSS_ANIM_INTERVAL) {
+                lastBossAnimCycle = cycle
+                npc.anim(if (resting) "seq.wintertodt_resting" else "seq.wintertodt_idle_b")
+            }
+        }
         if (resting) {
             if (cycle >= restEndCycle) {
                 startRound()
@@ -94,7 +104,10 @@ constructor(
             pushHud(cycle, force = true)
             return
         }
-        drainEnergy()
+        if (cycle - lastEnergyCycle >= ENERGY_INTERVAL) {
+            lastEnergyCycle = cycle
+            drainEnergy(cycle)
+        }
         if (energy <= 0) {
             endRound()
             return
@@ -103,9 +116,9 @@ constructor(
             lastAttackCycle = cycle
             runAttack()
         }
-        if (cycle - lastPulseCycle >= COLD_PULSE_INTERVAL) {
-            lastPulseCycle = cycle
-            runColdPulse()
+        if (cycle - lastRegenCycle >= REGEN_INTERVAL) {
+            lastRegenCycle = cycle
+            runWarmthRegen()
         }
         pushHud(cycle, force = false)
     }
@@ -184,8 +197,19 @@ constructor(
             player.coords.x in ARENA_MIN_X..ARENA_MAX_X &&
             player.coords.z in ARENA_MIN_Z..ARENA_MAX_Z
 
-    private fun drainEnergy() {
-        energy = (energy - litCount()).coerceAtLeast(0)
+    private fun drainEnergy(cycle: Int) {
+        val lit = litCount()
+        if (lit > 0) {
+            allOutRegenCycle = -1
+            energy = (energy - lit * ENERGY_PER_PERCENT).coerceAtLeast(0)
+            return
+        }
+        if (allOutRegenCycle < 0) {
+            allOutRegenCycle = cycle + random.of(ENERGY_REGEN_INTERVAL)
+        } else if (cycle - allOutRegenCycle >= ENERGY_REGEN_INTERVAL) {
+            allOutRegenCycle = cycle
+            energy = (energy + ENERGY_PER_PERCENT).coerceAtMost(MAX_ENERGY)
+        }
     }
 
     fun litCount(): Int = braziers.count { it?.state == Brazier.State.LIT }
@@ -218,12 +242,13 @@ constructor(
     }
 
     fun feedBrazier(kindling: Boolean) {
-        energy = (energy - if (kindling) KINDLING_DRAIN else ROOT_DRAIN).coerceAtLeast(0)
+        // Feeding awards points and experience but does not accelerate the energy drain.
     }
 
     fun injurePyromancer(index: Int) {
         val pyro = pyros.getOrNull(index) ?: return
         if (pyro.down) return
+        if (++pyro.hits < PYRO_HITS_TO_DOWN) return
         pyro.down = true
         val downType = ServerCacheManager.getNpc(PYRO_DOWN_ID) ?: return
         pyro.npc.transmog(downType, Int.MAX_VALUE)
@@ -234,6 +259,7 @@ constructor(
         val pyro = pyros.getOrNull(index) ?: return
         if (!pyro.down) return
         pyro.down = false
+        pyro.hits = 0
         val upType = ServerCacheManager.getNpc(PYRO_UP_ID) ?: return
         pyro.npc.transmog(upType, Int.MAX_VALUE)
     }
@@ -241,6 +267,10 @@ constructor(
     fun pyroDown(index: Int): Boolean = pyros.getOrNull(index)?.down == true
 
     fun pyroIndexOf(npc: Npc): Int = pyros.indexOfFirst { it?.npc === npc }
+
+    fun forceEnergy(value: Int) {
+        energy = value.coerceIn(0, MAX_ENERGY)
+    }
 
     fun brazierState(index: Int): Int =
         when (braziers.getOrNull(index)?.state) {
@@ -251,10 +281,24 @@ constructor(
         }
 
     private fun runAttack() {
-        when (random.of(3)) {
-            0 -> attackPyromancer()
-            1 -> attackBrazier()
-            else -> snowBarrage()
+        // One attack is attempted per interval. Player-targeted attacks roll under
+        // current energy (frequent while high); brazier/pyromancer attacks roll
+        // over it (frequent while low). A failed roll produces no attack.
+        when (random.of(6)) {
+            in 0..2 ->
+                if (random.of(MAX_ENERGY) < energy) standardAttack()
+            3 -> if (random.of(MAX_ENERGY) < energy) snowBarrage()
+            4 -> if (random.of(MAX_ENERGY) > energy) shatterBrazier()
+            else ->
+                if (random.of(MAX_ENERGY) > energy) {
+                    if (random.of(2) == 0) attackPyromancer() else extinguishBrazier()
+                }
+            }
+    }
+
+    private fun standardAttack() {
+        for (player in arenaPlayers()) {
+            damageWarmth(player, standardWarmthDamage(player))
         }
     }
 
@@ -268,13 +312,26 @@ constructor(
         }
     }
 
-    private fun attackBrazier() {
+    private fun shatterBrazier() {
         val lit = braziers.filterNotNull().filter { it.state == Brazier.State.LIT }
         if (lit.isEmpty()) return
         val pick = lit[random.of(lit.size)]
         setBrazier(pick, Brazier.State.BROKEN)
         for (player in arenaPlayers()) {
             player.mes("The brazier has been damaged by the Wintertodt's magic!")
+            if (player.coords.chebyshevDistance(pick.coords) <= SHATTER_RADIUS) {
+                damageWarmth(player, brazierWarmthDamage(player))
+            }
+        }
+    }
+
+    private fun extinguishBrazier() {
+        val lit = braziers.filterNotNull().filter { it.state == Brazier.State.LIT }
+        if (lit.isEmpty()) return
+        val pick = lit[random.of(lit.size)]
+        setBrazier(pick, Brazier.State.UNLIT)
+        for (player in arenaPlayers()) {
+            player.mes("The Wintertodt extinguishes the brazier!")
         }
     }
 
@@ -305,44 +362,50 @@ constructor(
             iterator.remove()
             for (player in arenaPlayers()) {
                 if (player.coords.chebyshevDistance(burst.coords) <= SNOW_RADIUS) {
-                    player.takeInstantHit(HitType.Typeless, SNOW_DAMAGE, hitProcessor, COLD_HITMARK)
+                    damageWarmth(player, areaWarmthDamage(player))
                 }
             }
         }
     }
 
-    private fun runColdPulse() {
+    private fun runWarmthRegen() {
         for (player in arenaPlayers()) {
-            if (player.warmth <= 0) {
-                player.takeInstantHit(
-                    HitType.Typeless,
-                    coldDamage(player),
-                    hitProcessor,
-                    COLD_HITMARK,
-                )
-                continue
-            }
-            val drain = coldDrain(player)
-            val regen = warmthRegen(player)
-            player.warmth = (player.warmth - drain + regen).coerceIn(0, MAX_WARMTH)
+            if (player.warmth <= 0) continue
+            player.warmth =
+                (player.warmth + REGEN_BASE + warmPieces(player)).coerceAtMost(MAX_WARMTH)
         }
     }
 
-    fun coldDamage(player: Player): Int {
-        val base = 16.0 - player.firemakingLvl * 0.11
-        val lit = 1.0 - litCount() * 0.15
-        val clothing = 1.0 - warmPieces(player) * 0.1
-        return (base * lit * clothing).toInt().coerceAtLeast(1)
+    private fun damageWarmth(player: Player, damage: Int) {
+        if (player.warmth <= 0 || damage <= 0) return
+        player.warmth = (player.warmth - damage).coerceAtLeast(0)
+        if (player.warmth <= 0) {
+            player.mes("The cold of the Wintertodt seeps into your bones.")
+            player.takeInstantHit(
+                HitType.Typeless,
+                WARMTH_DEATH_DAMAGE,
+                hitProcessor,
+                COLD_HITMARK,
+            )
+        }
     }
 
-    private fun coldDrain(player: Player): Int {
-        val base = 110.0 - player.firemakingLvl * 0.55
-        val lit = litCount() * 12.0
-        val clothing = warmPieces(player) * 8.0
-        return (base - lit - clothing).toInt().coerceIn(MIN_WARMTH_DRAIN, MAX_WARMTH)
+    fun standardWarmthDamage(player: Player): Int {
+        val mitigated = 16 - warmPieces(player) - minOf(2 * litCount(), 6)
+        return (mitigated * 100.0 / player.firemakingLvl.coerceAtLeast(1))
+            .toInt()
+            .coerceAtLeast(1) * 10
     }
 
-    private fun warmthRegen(player: Player): Int = 10 + warmPieces(player) * 2
+    private fun areaWarmthDamage(player: Player): Int =
+        3 *
+            ((10 - warmPieces(player)) * 100.0 / player.firemakingLvl.coerceAtLeast(1))
+                .toInt() * 10
+
+    private fun brazierWarmthDamage(player: Player): Int =
+        2 *
+            ((10 - warmPieces(player)) * 100.0 / player.firemakingLvl.coerceAtLeast(1))
+                .toInt() * 10
 
     fun warmPieces(player: Player): Int =
         player.worn.objs.count { it != null && getInvObj(it).internalName in WARM_ITEMS }
@@ -419,7 +482,6 @@ constructor(
     companion object {
         const val MAX_ENERGY = 3500
         const val MAX_WARMTH = 1000
-        const val MIN_WARMTH_DRAIN = 15
         const val CRATE_COST = 500
         const val MAX_WARM_PIECES = 4
 
@@ -430,18 +492,22 @@ constructor(
 
         const val BRAZIER_COUNT = 4
         const val PYRO_COUNT = 4
+        const val PYRO_HITS_TO_DOWN = 2
 
         const val ATTACK_INTERVAL = 12
-        const val COLD_PULSE_INTERVAL = 8
+        const val REGEN_INTERVAL = 10
+        const val REGEN_BASE = 8
+        const val ENERGY_INTERVAL = 14
+        const val ENERGY_PER_PERCENT = MAX_ENERGY / 100
+        const val ENERGY_REGEN_INTERVAL = 35
         const val HUD_INTERVAL = 4
         const val REST_DURATION = 50
         const val SNOW_IMPACT_DELAY = 3
         const val SNOW_RADIUS = 1
-        const val SNOW_DAMAGE = 4
         const val SNOW_TARGETS = 3
-
-        const val ROOT_DRAIN = 8
-        const val KINDLING_DRAIN = 20
+        const val SHATTER_RADIUS = 2
+        const val WARMTH_DEATH_DAMAGE = 32767
+        const val BOSS_ANIM_INTERVAL = 6
 
         const val POINTS_LIGHT = 25
         const val POINTS_REPAIR = 25

@@ -13,6 +13,7 @@ import org.rsmod.api.game.process.GameLifecycle
 import org.rsmod.api.invtx.invAdd
 import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.invtx.invDel
+import org.rsmod.api.player.events.PlayerAteFoodEvent
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
 import org.rsmod.api.player.stat.firemakingLvl
@@ -30,6 +31,7 @@ import org.rsmod.api.script.onEvent
 import org.rsmod.api.script.onOpHeld1
 import org.rsmod.api.script.onOpHeldU
 import org.rsmod.api.script.onOpLoc1
+import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpLocU
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpcU
@@ -38,6 +40,7 @@ import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.inv.InvObj
 import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.map.CoordGrid
 import org.rsmod.game.type.getInvObj
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -55,6 +58,9 @@ constructor(
 
         onArea("area.wintertodt_prison") { enterArena() }
         onAreaExit("area.wintertodt_prison") { exitArena() }
+
+        onOpLoc1("loc.wint_door") { dinhDoor() }
+        onOpLoc2("loc.wint_door") { dinhDoor() }
 
         onOpLoc1("loc.wint_brazier") { lightBrazier(it.loc) }
         onOpLoc1("loc.wint_brazier_lit") { feedLoop(it.loc) }
@@ -88,6 +94,13 @@ constructor(
         onOpHeld1("obj.wint_potion1") { drinkPotion("obj.wint_potion1") }
 
         onOpHeld1("obj.wint_reward_box") { openRewardBox() }
+
+        onEvent<PlayerAteFoodEvent> {
+            if (healAmount >= MIN_FOOD_HEAL && manager.isInArena(player)) {
+                player.warmth =
+                    (player.warmth + FOOD_WARMTH).coerceAtMost(WintertodtManager.MAX_WARMTH)
+            }
+        }
     }
 
     private fun ProtectedAccess.enterArena() {
@@ -95,7 +108,21 @@ constructor(
         if (player.warmth <= 0) {
             player.warmth = WintertodtManager.MAX_WARMTH
         }
+        if (manager.warmPieces(player) < WintertodtManager.MAX_WARM_PIECES) {
+            mes(
+                "You feel the cold wind strike you as you enter; " +
+                    "perhaps you should find some warmer clothes."
+            )
+        }
         manager.sendStatus(player)
+    }
+
+    private fun ProtectedAccess.dinhDoor() {
+        if (player.coords.z >= WintertodtManager.ARENA_MIN_Z) {
+            telejump(CoordGrid(1630, 3963, 0))
+        } else {
+            telejump(CoordGrid(1630, 3970, 0))
+        }
     }
 
     private fun ProtectedAccess.exitArena() {
@@ -339,6 +366,8 @@ constructor(
 
     private companion object {
         const val POTION_WARMTH = 300
+        const val FOOD_WARMTH = 350
+        const val MIN_FOOD_HEAL = 4
 
         val POTIONS =
             listOf("obj.wint_potion4", "obj.wint_potion3", "obj.wint_potion2", "obj.wint_potion1")
