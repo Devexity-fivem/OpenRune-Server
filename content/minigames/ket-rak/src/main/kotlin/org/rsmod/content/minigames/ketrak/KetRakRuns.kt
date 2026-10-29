@@ -9,6 +9,7 @@ import dev.openrune.types.aconverted.SpotanimType
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import java.util.IdentityHashMap
+import org.rsmod.api.bosses.runtime.EncounterRegistry
 import org.rsmod.api.instances.InstanceAccess
 import org.rsmod.api.instances.InstanceArea
 import org.rsmod.api.instances.InstanceEnterTransition
@@ -69,6 +70,7 @@ constructor(
     private val worldQueues: WorldQueueList,
     private val worldRepo: WorldRepository,
     private val random: GameRandom,
+    private val encounters: EncounterRegistry,
 ) {
     private val active = HashMap<InstanceId, KetRakRun>()
     private val healerWaves = IdentityHashMap<Npc, WaveState>()
@@ -122,6 +124,7 @@ constructor(
         repeat(jadCount) { index ->
             spawn(sessionId, JAD, player.coords, index)?.let { jad ->
                 engage(jad, player)
+                encounters.of(jad).nextAttackTick = clock.cycle + index * ATTACK_STAGGER
                 run.npcs.add(jad)
                 spawned++
             }
@@ -203,6 +206,8 @@ constructor(
         val run = active[sessionId] ?: return
         spawn(sessionId, JAD, player.coords, run.kills)?.let { jad ->
             engage(jad, player)
+            encounters.of(jad).nextAttackTick =
+                clock.cycle + (run.kills % STAGGER_CYCLE) * ATTACK_STAGGER
             run.npcs.add(jad)
         }
     }
@@ -302,6 +307,8 @@ constructor(
         const val SPAWN_RADIUS_MAX = 20
         const val RING_SLOTS = 16
         const val ANGLE_STEP = 5
+        const val ATTACK_STAGGER = 2
+        const val STAGGER_CYCLE = 4
         const val JAD = "npc.jad_challenge_jad"
         const val HEALER = "npc.jad_challenge_healer"
         const val BLOCKED_MASK =

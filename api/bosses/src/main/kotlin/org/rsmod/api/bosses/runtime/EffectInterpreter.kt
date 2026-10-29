@@ -376,7 +376,7 @@ class EffectInterpreter internal constructor(
             }
             val landed =
                 t.finishNpcHit(npc, delay, hit.type.toEngine(), damage, deps.playerHitModifier, hit.penetration)
-            scheduleLanding(access, hit, t, damage, landed.damage, delay, clientDelay = 0)
+            scheduleLanding(access, hit, t, damage, landed.damage, delay, delay * CLIENT_CYCLES_PER_TICK)
         }
     }
 

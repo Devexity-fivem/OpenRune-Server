@@ -151,11 +151,15 @@ class TzTokJad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             val ranged =
                 ability("ranged") {
                     anim("seq.lordmagmus_smash")
-                    mapSpotanim("spotanim.tzhaar_rock_smash", at = CurrentTargetTile)
                     hit {
                         damage((0..RANGED_MAX).roll())
                         type(Ranged)
                         delay = BOULDER_DELAY
+                        spotanim(
+                            "spotanim.tzhaar_rock_smash",
+                            delay = BOULDER_DELAY * CLIENT_CYCLES_PER_TICK,
+                        )
+                        missSpotanim("spotanim.tzhaar_rock_smash")
                     }
                 }
 
@@ -202,6 +206,7 @@ class TzTokJad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val RANGED_MAX = 97
         private const val MAGIC_MAX = 95
         private const val BOULDER_DELAY = 4
+        private const val CLIENT_CYCLES_PER_TICK = 30
 
         private const val HEALER_THRESHOLD = 150
         private const val HEALER_DURATION = 99_999

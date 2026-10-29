@@ -79,11 +79,15 @@ class JalTokJad @Inject constructor(deps: BossDeps, private val runs: KetRakRuns
             val ranged =
                 ability("ranged") {
                     anim("seq.jaltokjad_attack_ranged")
-                    mapSpotanim("spotanim.tzhaar_rock_smash", at = CurrentTargetTile)
                     hit {
                         damage((0..MAX_HIT).roll())
                         type(Ranged)
                         delay = BOULDER_DELAY
+                        spotanim(
+                            "spotanim.tzhaar_rock_smash",
+                            delay = BOULDER_DELAY * CLIENT_CYCLES_PER_TICK,
+                        )
+                        missSpotanim("spotanim.tzhaar_rock_smash")
                     }
                 }
 
@@ -105,5 +109,6 @@ class JalTokJad @Inject constructor(deps: BossDeps, private val runs: KetRakRuns
         private const val MELEE_ATTACK_RATE = 4
         private const val MAX_HIT = 113
         private const val BOULDER_DELAY = 4
+        private const val CLIENT_CYCLES_PER_TICK = 30
     }
 }
