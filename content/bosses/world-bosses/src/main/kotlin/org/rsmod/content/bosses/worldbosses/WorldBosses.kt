@@ -135,10 +135,9 @@ internal fun blueMoonSpec(): BossSpec =
     }
 
 // Moons of Peril — Eclipse Moon: alternates Searing Rays and Clones after six
-// standard attacks. TODO: Searing Rays only summons the moon shield — the real
-// attack shoves the player behind it while light rays sweep the chamber, and
-// Clones should bind the player at the centre and fire 15 attacks in five
-// cycles of three that facing each clone parries.
+// standard attacks, both driven by MoonsExtensions: the shield spawn + shove
+// + sweeping rays for the former, five waves of three parry-able clones for
+// the latter.
 internal fun eclipseMoonSpec(): BossSpec =
     boss("npc.pmoon_boss_eclipse_moon", "npc.pmoon_boss_eclipse_moon_vis") {
         stats(attackRate = 6)
@@ -150,24 +149,9 @@ internal fun eclipseMoonSpec(): BossSpec =
             ability(
                 "special",
                 specialChooser(
-                    "rays" to
-                        summon(
-                            npc = "npc.pmoon_boss_eclipse_moon_shield",
-                            count = 1,
-                            duration = 30,
-                            owned = true,
-                        ),
+                    "rays" to external("pmoon.searing_rays"),
                     "clones" to
-                        sequence(
-                            Effect.Freeze(CLONE_BIND_TICKS),
-                            summon(
-                                npc = "npc.pmoon_boss_eclipse_clone",
-                                count = 3,
-                                mode = NpcMode.ApPlayer2,
-                                duration = 40,
-                                owned = true,
-                            ),
-                        ),
+                        sequence(Effect.Freeze(CLONE_BIND_TICKS), external("pmoon.clones")),
                 ),
             )
         phase("combat") {
