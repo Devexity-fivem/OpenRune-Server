@@ -305,3 +305,23 @@ How NPC chase actually works — reuse this for BA penance waves, NMZ rumble, Co
 Live-verified on Inferno (region 9807 copy): Talk-to TzHaar-Ket-Keh (11247) -> instance ->
 wave 1-3 Jal-Nib/Jal-MejRah spawn on reachable ring tiles, walk in, trade hits; vent door
 (loc 30266, bound via raw-id op1, city-side inert) exits to `CITY_EXIT` (2494,5115).
+
+### Menu/dialogue-resumed coroutines die inside instance enter transitions (Ket-Rak)
+
+- A `ProtectedAccess` coroutine that resumes from `menu()` never returns from
+  `withInstanceEnterTransition` — its trailing `delay()` loses protected access and the
+  coroutine dies silently *after* `telejump`/`finalizeEntry` ran. Player arrives in the
+  instance but no post-transition code (mes, spawns, timers) ever executes; no exception
+  is logged.
+- Fix (matches upstream `InstanceScript.onEnterPrelude` modules like Amoxliatl): schedule
+  post-transition startup on `WorldQueueList.add(ticks) { ... }` **before** calling the
+  transition, so it runs even if the coroutine never resumes. `enter()` becomes: create ->
+  queue startup -> withInstanceEnterTransition { telejump; finalizeEntry }.
+- Verified on TzHaar-Ket-Rak's Challenges: Talk-to `npc.jad_challenge_master` -> menu ->
+  challenge 1 spawns JalTok-Jad (id 10623, level 900, **size 5**) in a copied Fight Cave
+  arena (region 9551); kill -> "Challenge complete!" + authentic 80 TokKul; safe death
+  respawns beside Ket-Rak; Fight Cave's `wall_exit` op doubles as the generic exit because
+  `leave()` is not key-gated.
+- Large-footprint spawning: JalTok-Jads are size 5 — the shared ring spawn needs
+  `SPAWN_RADIUS_MAX >= ~24` near arena edges or multi-jad challenges run out of valid
+  5x5 footprints.
