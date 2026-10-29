@@ -40,6 +40,59 @@ class RanisDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
 }
 
+// Sins of the Father — Lowerniel Drakan: three health-gated phases that transmog
+// through combat_1 -> combat_2 -> final_combat. Melee jabs and blood magic
+// throughout; combo spin joins at phase two; telegraphed blood burst joins at
+// the final phase alongside a faster attack cadence.
+class LowernielDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+    override val spec: BossSpec =
+        boss(
+            "npc.myq6_lowerniel_combat_1",
+            "npc.myq6_lowerniel_combat_2",
+            "npc.myq6_lowerniel_combat_3",
+            "npc.myq6_lowerniel_final_combat",
+        ) {
+            stats(attackRate = 5)
+            val melee = ability("melee") {
+                anim("npc_lowerniel_drakan_melee_attack01")
+                hit { damage(0..27).roll(); type(Melee) }
+            }
+            val magic = ability("magic") {
+                anim("npc_lowerniel_drakan_magic_attack01")
+                projectile(
+                    spotanim = "spotanim.blood_blitz_travel",
+                    hit = Effect.Hit(damage = Roll(0..22), type = Magic),
+                )
+            }
+            val combo = ability("combo") {
+                anim("npc_lowerniel_drakan_combo_spin01")
+                hit { damage(0..18).roll(); type(Melee) }
+                hit { damage(0..18).roll(); type(Melee) }
+            }
+            phase("p1", entryHp = 1.0) {
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(magic, weight = 2)
+                }
+            }
+            phase("p2", entryHp = 0.66, transmog = "npc.myq6_lowerniel_combat_2") {
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(magic, weight = 2)
+                    +random(combo, weight = 2, requires = WithinMeleeRange)
+                }
+            }
+            phase("p3", entryHp = 0.33, transmog = "npc.myq6_lowerniel_final_combat") {
+                attackRate = 4
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(magic, weight = 3)
+                    +random(combo, weight = 2, requires = WithinMeleeRange)
+                }
+            }
+        }
+}
+
 // A Taste of Hope — the Abomination: melee up to ~14.
 class Abomination @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.myq4_abomination") {
