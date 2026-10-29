@@ -9,7 +9,7 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **23/23** · Bosses **164/169** · Raids **4/4** · Minigames **6/52**
+Skills **23/23** · Bosses **165/168** · Raids **4/4** · Minigames **6/52**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
@@ -43,7 +43,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 2,036 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
-### Bosses <sup>164/169</sup>
+### Bosses <sup>165/168</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
@@ -141,6 +141,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Koschei_the_deathless.png/48px-Koschei_the_deathless.png?37d97" height="20" alt=""> Koschei the deathless | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Koschei_the_deathless) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kraken.png/48px-Kraken.png?a4955" height="20" alt=""> [Kraken](content/bosses/kraken) | 110 loc | [wiki](https://oldschool.runescape.wiki/w/Kraken) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/48px-Kree%27arra.png?ba75c" height="20" alt=""> [Kree'arra](content/bosses/kreearra) | 229 loc | [wiki](https://oldschool.runescape.wiki/w/Kree'arra) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mad_Angel.webp/48px-Mad_Angel.webp?c7990" height="20" alt=""> [Mad Angel](content/bosses/mad-angel) | 1,122 loc | [wiki](https://oldschool.runescape.wiki/w/Mad_Angel) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Me.png/48px-Me.png?65f08" height="20" alt=""> Me | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Me) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Melzar_the_Mad.png/48px-Melzar_the_Mad.png?b3424" height="20" alt=""> Melzar the Mad | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Melzar_the_Mad) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Moons of Peril | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Moons_of_Peril) |
@@ -193,7 +194,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Treus_Dayth.png/48px-Treus_Dayth.png?9cace" height="20" alt=""> Treus Dayth | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Treus_Dayth) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tumeken%27s_Warden.png/48px-Tumeken%27s_Warden.png?c9f68" height="20" alt=""> Tumeken's Warden | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tumeken's_Warden) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzKal-Zuk.png/48px-TzKal-Zuk.png?2d222" height="20" alt=""> TzKal-Zuk | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/TzKal-Zuk) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzTok-Jad.png/48px-TzTok-Jad.png?df681" height="20" alt=""> [TzTok-Jad](content/bosses/tztokjad) | 218 loc | [wiki](https://oldschool.runescape.wiki/w/TzTok-Jad) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzTok-Jad.png/48px-TzTok-Jad.png?df681" height="20" alt=""> [TzTok-Jad](content/bosses/tztokjad) | 223 loc | [wiki](https://oldschool.runescape.wiki/w/TzTok-Jad) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ulfric.png/48px-Ulfric.png?59d75" height="20" alt=""> Ulfric | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Ulfric) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vanguard_%28magic%29.png/48px-Vanguard_%28magic%29.png?db160" height="20" alt=""> Vanguard | no module, code in content/other/pets | [wiki](https://oldschool.runescape.wiki/w/Vanguard) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vardorvis.png/48px-Vardorvis.png?48af8" height="20" alt=""> [Vardorvis](content/bosses/vardorvis) | 1,287 loc | [wiki](https://oldschool.runescape.wiki/w/Vardorvis) |
@@ -213,11 +214,11 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/48px-Zulrah_%28serpentine%29.png?29a54" height="20" alt=""> [Zulrah](content/bosses/zulrah) | 639 loc | [wiki](https://oldschool.runescape.wiki/w/Zulrah) |
 
 <details>
-<summary>🔴 <b>5 not started</b></summary>
+<summary>🔴 <b>3 not started</b></summary>
 
-**Nothing yet (5)**
+**Nothing yet (3)**
 
-[Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Mad Angel](https://oldschool.runescape.wiki/w/Mad_Angel) · [Maggot King](https://oldschool.runescape.wiki/w/Maggot_King) · [Wintertodt](https://oldschool.runescape.wiki/w/Wintertodt) · [Wrathmaw](https://oldschool.runescape.wiki/w/Wrathmaw)
+[Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Maggot King](https://oldschool.runescape.wiki/w/Maggot_King) · [Wintertodt](https://oldschool.runescape.wiki/w/Wintertodt)
 
 </details>
 
@@ -235,11 +236,11 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | | Feature | Status | |
 |---|---|---|---|
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Giants%27_Foundry.png/48px-Giants%27_Foundry.png?70b44" height="20" alt=""> [Giants' Foundry](content/minigames/giants-foundry) | 4,471 loc | [wiki](https://oldschool.runescape.wiki/w/Giants'_Foundry) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Inferno_entrance.png/48px-Inferno_entrance.png?daf3a" height="20" alt=""> [Inferno](content/minigames/inferno) | 520 loc | [wiki](https://oldschool.runescape.wiki/w/Inferno) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Inferno_entrance.png/48px-Inferno_entrance.png?daf3a" height="20" alt=""> [Inferno](content/minigames/inferno) | 514 loc | [wiki](https://oldschool.runescape.wiki/w/Inferno) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Nightmare_Zone.png/48px-Nightmare_Zone.png?e0725" height="20" alt=""> [Nightmare Zone](content/minigames/nightmare-zone) | 395 loc | [wiki](https://oldschool.runescape.wiki/w/Nightmare_Zone) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Gauntlet.png/48px-The_Gauntlet.png?1a926" height="20" alt=""> [The Gauntlet](content/minigames/gauntlet) | 3,514 loc | [wiki](https://oldschool.runescape.wiki/w/The_Gauntlet) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar_Fight_Cave.png/48px-TzHaar_Fight_Cave.png?f5437" height="20" alt=""> [TzHaar Fight Cave](content/minigames/fight-cave) | 495 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar_Fight_Cave) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar-Ket-Rak%27s_Challenges.png/48px-TzHaar-Ket-Rak%27s_Challenges.png?53c80" height="20" alt=""> [TzHaar-Ket-Rak's Challenges](content/minigames/ket-rak) | 368 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar-Ket-Rak's_Challenges) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar_Fight_Cave.png/48px-TzHaar_Fight_Cave.png?f5437" height="20" alt=""> [TzHaar Fight Cave](content/minigames/fight-cave) | 486 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar_Fight_Cave) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar-Ket-Rak%27s_Challenges.png/48px-TzHaar-Ket-Rak%27s_Challenges.png?53c80" height="20" alt=""> [TzHaar-Ket-Rak's Challenges](content/minigames/ket-rak) | 657 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar-Ket-Rak's_Challenges) |
 
 <details>
 <summary>🔴 <b>46 not started</b></summary>
@@ -337,10 +338,12 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/kreearra` | 2 | 229 | 0 | 0 | 2026-10-18 |
 | `bosses/kril` | 2 | 191 | 0 | 0 | 2026-10-18 |
 | `bosses/leviathan` | 8 | 1,397 | 0 | 0 | 2026-10-18 |
+| `bosses/mad-angel` | 3 | 1,116 | 1 | 0 | 2026-10-29 |
+| `bosses/mad-angel/pack` | 1 | 6 | 0 | 0 | 2026-10-29 |
 | `bosses/muspah` | 4 | 1,295 | 0 | 0 | 2026-10-18 |
 | `bosses/nex` | 3 | 1,242 | 1 | 0 | 2026-10-28 |
 | `bosses/obor` | 1 | 60 | 1 | 0 | 2026-10-26 |
-| `bosses/quest-bosses` | 7 | 1,199 | 0 | 0 | 2026-10-28 |
+| `bosses/quest-bosses` | 7 | 1,187 | 0 | 0 | 2026-10-29 |
 | `bosses/raid-bosses` | 1 | 290 | 0 | 0 | 2026-10-28 |
 | `bosses/sarachnis` | 1 | 132 | 1 | 0 | 2026-10-27 |
 | `bosses/scorpia` | 1 | 133 | 0 | 0 | 2026-10-25 |
@@ -349,7 +352,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/spindel` | 2 | 522 | 0 | 0 | 2026-10-18 |
 | `bosses/thermy` | 2 | 125 | 1 | 0 | 2026-10-26 |
 | `bosses/tormented-demon` | 2 | 531 | 0 | 0 | 2026-10-18 |
-| `bosses/tztokjad` | 1 | 218 | 1 | 0 | 2026-10-27 |
+| `bosses/tztokjad` | 1 | 223 | 1 | 0 | 2026-10-29 |
 | `bosses/vardorvis` | 7 | 1,287 | 0 | 0 | 2026-10-18 |
 | `bosses/vetion` | 1 | 233 | 1 | 0 | 2026-10-27 |
 | `bosses/vorkath` | 1 | 476 | 1 | 0 | 2026-10-27 |
@@ -357,7 +360,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/world-bosses` | 1 | 218 | 0 | 0 | 2026-10-28 |
 | `bosses/zilyana` | 2 | 164 | 0 | 0 | 2026-10-18 |
 | `bosses/zulrah` | 4 | 639 | 1 | 0 | 2026-10-27 |
-| `drops` | 254 | 14,621 | 0 | 0 | 2026-10-28 |
+| `drops` | 255 | 14,694 | 0 | 0 | 2026-10-29 |
 | `events/raging-echoes-league` | 2 | 49 | 0 | 0 | 2026-10-18 |
 | `events/shooting-stars` | 9 | 1,261 | 0 | 0 | 2026-10-18 |
 | `events/shooting-stars/pack` | 2 | 440 | 0 | 0 | 2026-10-18 |
@@ -388,13 +391,13 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `interfaces/spellbook` | 1 | 63 | 0 | 0 | 2026-10-18 |
 | `interfaces/worldmap` | 1 | 104 | 0 | 0 | 2026-10-18 |
 | `interfaces/xp-drops` | 1 | 44 | 0 | 0 | 2026-10-18 |
-| `minigames/fight-cave` | 3 | 495 | 0 | 0 | 2026-10-28 |
+| `minigames/fight-cave` | 3 | 486 | 0 | 0 | 2026-10-29 |
 | `minigames/gauntlet` | 35 | 3,514 | 2 | 0 | 2026-10-18 |
 | `minigames/giants-foundry` | 17 | 4,126 | 5 | 2 | 2026-10-27 |
 | `minigames/giants-foundry/pack` | 2 | 345 | 0 | 0 | 2026-10-27 |
-| `minigames/inferno` | 3 | 520 | 0 | 0 | 2026-10-28 |
-| `minigames/ket-rak` | 2 | 368 | 0 | 0 | 2026-10-28 |
-| `minigames/nightmare-zone` | 3 | 395 | 0 | 0 | 2026-10-28 |
+| `minigames/inferno` | 3 | 514 | 0 | 0 | 2026-10-29 |
+| `minigames/ket-rak` | 3 | 657 | 0 | 0 | 2026-10-29 |
+| `minigames/nightmare-zone` | 3 | 395 | 0 | 0 | 2026-10-29 |
 | `other/commands` | 5 | 1,601 | 0 | 0 | 2026-10-28 |
 | `other/consumables` | 40 | 8,629 | 5 | 0 | 2026-10-18 |
 | `other/dave/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |

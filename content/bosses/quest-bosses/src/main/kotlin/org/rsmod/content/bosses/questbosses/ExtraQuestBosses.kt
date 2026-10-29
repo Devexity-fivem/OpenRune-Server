@@ -19,46 +19,6 @@ class SlashBash @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 }
 
-// Royal Titans — Branda the Fire Queen: melee + fire magic up to ~30.
-class RoyalTitanFire @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.rt_fire_queen") {
-        stats(attackRate = 4)
-        val melee = ability("melee") {
-            anim("seq.demon_attack")
-            hit { damage(0..30).roll(); type(Melee) }
-        }
-        val magic = ability("magic") {
-            projectile(spotanim = "spotanim.fireblast_travel", hit = Effect.Hit(damage = Roll(0..28), type = Magic))
-        }
-        phase("combat") {
-            weightedSelectorRandom {
-                +random(melee, weight = 3, requires = WithinMeleeRange)
-                +random(magic, weight = 2)
-            }
-        }
-    }
-}
-
-// Royal Titans — Eldric the Ice King: melee + ice magic up to ~30.
-class RoyalTitanIce @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.rt_ice_king") {
-        stats(attackRate = 4)
-        val melee = ability("melee") {
-            anim("seq.demon_attack")
-            hit { damage(0..30).roll(); type(Melee) }
-        }
-        val magic = ability("magic") {
-            projectile(spotanim = "spotanim.spell_ice_barrage_impact", hit = Effect.Hit(damage = Roll(0..28), type = Magic))
-        }
-        phase("combat") {
-            weightedSelectorRandom {
-                +random(melee, weight = 3, requires = WithinMeleeRange)
-                +random(magic, weight = 2)
-            }
-        }
-    }
-}
-
 // The Nightmare (standard mode) — melee + magic, up to ~30.
 class NightmareStandard @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =

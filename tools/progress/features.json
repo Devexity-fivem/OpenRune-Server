@@ -196,7 +196,8 @@
         "Barrows brothers",
         "Boss slayer",
         "Bossing",
-        "Dagannoth Kings"
+        "Dagannoth Kings",
+        "Wrathmaw"
       ],
       "overrides": {
         "Ahrim the Blighted": {
@@ -305,11 +306,6 @@
         "Wintertodt": {
           "rscmPrefixes": [
             "wintertodt"
-          ]
-        },
-        "Wrathmaw": {
-          "rscmPrefixes": [
-            "wrathmaw"
           ]
         },
         "Lowerniel Drakan": {
