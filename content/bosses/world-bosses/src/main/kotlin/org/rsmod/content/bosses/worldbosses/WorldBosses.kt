@@ -14,10 +14,15 @@ import org.rsmod.api.bosses.spec.Selector
 // (max 4+8+20): accuracy rolls against melee defence per hit and a miss ends
 // the rest of the stack, so each stage chains through onHit. penetration(100)
 // ignores protection prayers, matching the typeless style. The lifesteal
-// percents are the Blood Moon's heal-per-hit (1x/2x/3x of damage dealt; the
-// third is clamped 30..50 in OSRS — a clamped heal needs an extension handler,
-// so the raw 3x is used for now).
-private fun moonTripleHit(lifesteal1: Int, lifesteal2: Int, lifesteal3: Int): Effect.Hit =
+// percents are the Blood Moon's heal-per-hit — 1x/2x/3x of damage dealt with
+// the third clamped to 30..50 in OSRS, modelled by lifestealMin/Max.
+private fun moonTripleHit(
+    lifesteal1: Int,
+    lifesteal2: Int,
+    lifesteal3: Int,
+    lifesteal3Min: Int = 0,
+    lifesteal3Max: Int = Int.MAX_VALUE,
+): Effect.Hit =
     Effect.Hit(
         damage = DamageExpr.Accuracy(on = (0..4).roll()),
         type = Melee,
@@ -35,6 +40,8 @@ private fun moonTripleHit(lifesteal1: Int, lifesteal2: Int, lifesteal3: Int): Ef
                         type = Melee,
                         penetration = 100,
                         lifesteal = lifesteal3,
+                        lifestealMin = lifesteal3Min,
+                        lifestealMax = lifesteal3Max,
                     ),
             ),
     )
@@ -56,7 +63,7 @@ internal fun bloodMoonSpec(): BossSpec =
         stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.pmoon_macuahuitl_crush")
-            include(moonTripleHit(100, 200, 300))
+            include(moonTripleHit(100, 200, 300, lifesteal3Min = 30, lifesteal3Max = 50))
         }
         val special =
             ability(

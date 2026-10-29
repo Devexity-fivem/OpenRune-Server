@@ -90,6 +90,9 @@ sealed interface Effect {
         val onHit: Effect? = null,
         val onHitEvenOnMiss: Boolean = false,
         val lifesteal: Int = 0,
+        /** Clamps the lifesteal heal; a nonzero [lifestealMin] heals even on a miss. */
+        val lifestealMin: Int = 0,
+        val lifestealMax: Int = Int.MAX_VALUE,
         /**
          * Show [spotanim] only when the target isn't praying against [type], even on a 0. Needs a
          * projectile with [Projectile.resolveOnImpact].

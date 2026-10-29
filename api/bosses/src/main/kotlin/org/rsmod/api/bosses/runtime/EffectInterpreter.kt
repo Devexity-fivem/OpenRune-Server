@@ -519,7 +519,7 @@ class EffectInterpreter internal constructor(
                 hit.spotanim?.let { t.spotanim(it, height = hit.spotanimHeight) }
             }
             if (!npc.isValidTarget()) return@PlayerHitModifier
-            val heal = damage * hit.lifesteal / 100
+            val heal = lifestealHeal(hit, damage)
             if (heal > 0) npc.heal(heal)
             onHit?.let { child(target = t).run(access, it) }
         }
@@ -540,7 +540,7 @@ class EffectInterpreter internal constructor(
     ) {
         showMissSpotanim(hit, t, rolled, clientDelay)
         val onHit = landingEffect(hit, rolled)
-        val heal = landed * hit.lifesteal / 100
+        val heal = lifestealHeal(hit, landed)
         if (onHit == null && heal <= 0) return
         deps.worldQueues.add(serverDelay) {
             if (!npc.isValidTarget()) return@add
@@ -548,6 +548,9 @@ class EffectInterpreter internal constructor(
             onHit?.let { run(access, it) }
         }
     }
+
+    private fun lifestealHeal(hit: Effect.Hit, damage: Int): Int =
+        if (hit.lifesteal > 0) (damage * hit.lifesteal / 100).coerceIn(hit.lifestealMin, hit.lifestealMax) else 0
 
     private fun landingEffect(hit: Effect.Hit, rolled: Int): Effect? =
         hit.onHit?.takeIf { hit.onHitEvenOnMiss || rolled > 0 }

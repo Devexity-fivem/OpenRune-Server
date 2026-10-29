@@ -90,6 +90,10 @@ class WorldBossesSpecTest {
             assertNull(hit3?.onHit, "$name triple-hit chain ends after third hit")
             assertEquals(lifesteal[1], hit2?.lifesteal)
             assertEquals(lifesteal[2], hit3?.lifesteal)
+            if (name == "blood") {
+                assertEquals(30, hit3?.lifestealMin, "blood third heal floors at 30")
+                assertEquals(50, hit3?.lifestealMax, "blood third heal caps at 50")
+            }
 
             val phase = spec.phases.getValue("combat")
             val forced = phase.forceAbilities.single { it.attackMin != null }
