@@ -45,7 +45,7 @@ class CountDraynor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     override val spec: BossSpec = boss("npc.count_draynor") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("vamp_claw")
+            anim("seq.vamp_claw")
             hit { damage(0..7).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -78,7 +78,7 @@ class MelzarTheMad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     override val spec: BossSpec = boss("npc.melzar_the_mad") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_unarmedpunch")
+            anim("seq.human_unarmedpunch")
             hit { damage(0..7).roll(); type(Melee) }
         }
         val magic = ability("magic") {
@@ -110,7 +110,7 @@ class SirMordred @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.sir_mordred") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_sword_slash")
+            anim("seq.human_sword_slash")
             hit { damage(0..12).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -122,7 +122,7 @@ class ArenaBouncer @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     override val spec: BossSpec = boss("npc.arena_bouncer") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("dog_attack")
+            anim("seq.dog_attack")
             hit { damage(0..11).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -134,7 +134,7 @@ class BlackKnightTitan @Inject constructor(deps: BossDeps) : BossPluginScript(de
     override val spec: BossSpec = boss("npc.black_knight_titan") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_sword_slash")
+            anim("seq.human_sword_slash")
             hit { damage(0..12).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -152,7 +152,7 @@ class TreeSpiritBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("human_unarmedpunch")
+                anim("seq.human_unarmedpunch")
                 hit { damage(0..14).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -164,7 +164,7 @@ class SirLeye @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.rd_combat_npc_room_3") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_sword_slash")
+            anim("seq.human_sword_slash")
             hit { damage(0..6).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }

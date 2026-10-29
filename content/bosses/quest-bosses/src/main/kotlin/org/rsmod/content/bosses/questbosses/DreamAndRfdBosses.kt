@@ -13,7 +13,7 @@ class MirrorOfPlayer @Inject constructor(deps: BossDeps) : BossPluginScript(deps
         boss("npc.quest_lunar_mirror_of_player", "npc.quest_lunar_mirror_of_player_female") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("human_unarmedpunch")
+                anim("seq.human_unarmedpunch")
                 hit { damage(0..10).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -37,7 +37,7 @@ class Everlasting @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.dream_everlasting") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("tentacle_monster_attack")
+            anim("seq.tentacle_monster_attack")
             hit { damage(0..15).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -49,7 +49,7 @@ class Untouchable @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.dream_untouchable") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("tentacle_monster_attack")
+            anim("seq.tentacle_monster_attack")
             hit { damage(0..17).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -61,7 +61,7 @@ class Illusive @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.dream_illusive") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("tentacle_monster_attack")
+            anim("seq.tentacle_monster_attack")
             hit { damage(0..13).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -74,7 +74,7 @@ class Tolna @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.soulbane_final_tolna1", "npc.soulbane_final_tolna2", "npc.soulbane_final_tolna3") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("tentacle_monster_attack")
+                anim("seq.tentacle_monster_attack")
                 hit { damage(0..18).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -119,7 +119,7 @@ class Karamel @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.hundred_minion3") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("tentacle_monster_attack")
+            anim("seq.tentacle_monster_attack")
             hit { damage(0..18).roll(); type(Melee) }
             freeze(6, chance = 1, outOf = 8)
         }
@@ -132,7 +132,7 @@ class Dessourt @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.hundred_minion4") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("vamp_claw")
+            anim("seq.vamp_claw")
             hit { damage(0..18).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -150,7 +150,7 @@ class GelatinnothMother @Inject constructor(deps: BossDeps) : BossPluginScript(d
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("tentacle_monster_attack")
+                anim("seq.tentacle_monster_attack")
                 hit { damage(0..18).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }

@@ -84,7 +84,7 @@ class GeneralKhazard @Inject constructor(deps: BossDeps) : BossPluginScript(deps
     override val spec: BossSpec = boss("npc.general_khazard_arena") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_sword_slash")
+            anim("seq.human_sword_slash")
             hit { damage(0..9).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -117,7 +117,7 @@ class Koschei @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.vikingexile_koschei_battle") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_unarmedpunch")
+            anim("seq.human_unarmedpunch")
             hit { damage(0..14).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }

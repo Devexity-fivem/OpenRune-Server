@@ -165,7 +165,7 @@ class PenanceQueen @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     override val spec: BossSpec = boss("npc.barbassault_pen_queen_new") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("tentacle_monster_attack")
+            anim("seq.tentacle_monster_attack")
             hit { damage(0..24).roll(); type(Melee) }
         }
         val magic = ability("magic") {
@@ -185,7 +185,7 @@ class TheMimic @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.trail_mimic_combat") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("tentacle_monster_attack")
+            anim("seq.tentacle_monster_attack")
             hit { damage(0..20).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }

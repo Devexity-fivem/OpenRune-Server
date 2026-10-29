@@ -12,7 +12,7 @@ class Gadderanks @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.burgh_gadderanks_attackable") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_unarmedpunch")
+            anim("seq.human_unarmedpunch")
             hit { damage(0..5).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -25,7 +25,7 @@ class RanisDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.myq3_ranis_drakan", "npc.myq3_ranis_drakan_grounded_vampire_state") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("vamp_claw")
+                anim("seq.vamp_claw")
                 hit { damage(0..15).roll(); type(Melee) }
             }
             val magic = ability("magic") {
@@ -54,18 +54,18 @@ class LowernielDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(dep
         ) {
             stats(attackRate = 5)
             val melee = ability("melee") {
-                anim("npc_lowerniel_drakan_melee_attack01")
+                anim("seq.npc_lowerniel_drakan_melee_attack01")
                 hit { damage(0..27).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                anim("npc_lowerniel_drakan_magic_attack01")
+                anim("seq.npc_lowerniel_drakan_magic_attack01")
                 projectile(
                     spotanim = "spotanim.blood_blitz_travel",
                     hit = Effect.Hit(damage = Roll(0..22), type = Magic),
                 )
             }
             val combo = ability("combo") {
-                anim("npc_lowerniel_drakan_combo_spin01")
+                anim("seq.npc_lowerniel_drakan_combo_spin01")
                 hit { damage(0..18).roll(); type(Melee) }
                 hit { damage(0..18).roll(); type(Melee) }
             }
@@ -151,7 +151,7 @@ class SlugPrince @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.slug2_the_slug_prince") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_unarmedpunch")
+            anim("seq.human_unarmedpunch")
             hit { damage(0..9).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -201,7 +201,7 @@ class Tarn @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.lotr_tran_razorlor", "npc.lotr_tran_razorlor_ghost", "npc.lotr_tran_razorlor_mutant") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("human_sword_slash")
+                anim("seq.human_sword_slash")
                 hit { damage(0..9).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }

@@ -13,7 +13,7 @@ class Damis @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.fd_damis_normal", "npc.fd_damis_tougher") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_unarmedpunch")
+            anim("seq.human_unarmedpunch")
             hit { damage(0..18).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -25,7 +25,7 @@ class Fareed @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.firediamond_firewarrior") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_sword_slash")
+            anim("seq.human_sword_slash")
             hit { damage(0..18).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -37,7 +37,7 @@ class Kamil @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.icediamond_icewarrior") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_sword_slash")
+            anim("seq.human_sword_slash")
             hit { damage(0..16).roll(); type(Melee) }
             freeze(8, chance = 1, outOf = 6)
         }
@@ -51,7 +51,7 @@ class Dessous @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.blooddiamond_vampirewarrior", "npc.blooddiamond_vampirewarrior_unkillable") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("vamp_claw")
+                anim("seq.vamp_claw")
                 hit { damage(0..16).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }

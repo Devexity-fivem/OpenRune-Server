@@ -75,7 +75,7 @@ class Salarin @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.salarin_the_twisted") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_sword_slash")
+            anim("seq.human_sword_slash")
             hit { damage(0..15).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -92,11 +92,11 @@ class DagannothMother @Inject constructor(deps: BossDeps) : BossPluginScript(dep
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("horror_dagannoth_attack")
+                anim("seq.horror_dagannoth_attack")
                 hit { damage(0..19).roll(); type(Melee) }
             }
             val ranged = ability("ranged") {
-                anim("horror_dagannoth_attack")
+                anim("seq.horror_dagannoth_attack")
                 projectile(spotanim = "spotanim.troll_rock_travel", hit = Effect.Hit(damage = Roll(0..14), type = Ranged))
             }
             phase("combat") {
@@ -113,7 +113,7 @@ class Glough @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.grandtree_glough_battle") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("human_unarmedpunch")
+            anim("seq.human_unarmedpunch")
             hit { damage(0..13).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -143,11 +143,11 @@ class Sigmund @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("human_sword_slash")
+                anim("seq.human_sword_slash")
                 hit { damage(0..11).roll(); type(Melee) }
             }
             val ranged = ability("ranged") {
-                anim("human_bow")
+                anim("seq.human_bow")
                 projectile(spotanim = "spotanim.rune_arrow_travel", hit = Effect.Hit(damage = Roll(0..9), type = Ranged))
             }
             val magic = ability("magic") {
@@ -226,7 +226,7 @@ class RevenantMaledictus @Inject constructor(deps: BossDeps) : BossPluginScript(
     override val spec: BossSpec = boss("npc.wild_cave_superior") {
         stats(attackRate = 5)
         val melee = ability("melee") {
-            anim("demon_attack")
+            anim("seq.demon_attack")
             hit { damage(0..30).roll(); type(Melee) }
         }
         val ranged = ability("ranged") {
