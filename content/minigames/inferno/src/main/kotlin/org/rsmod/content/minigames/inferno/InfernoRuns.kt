@@ -123,7 +123,9 @@ constructor(
         val run = active[sessionId] ?: return
         if (run.jadHealersSpawned) return
         run.jadHealersSpawned = true
-        val anchor = run.npcs.firstOrNull { it.type.internalName == JAD_NAME }?.coords ?: player.coords
+        val anchor =
+            run.npcs.firstOrNull { it.type.internalName == InfernoWaves.JALTOK_JAD }?.coords
+                ?: player.coords
         repeat(4) { index ->
             spawn(sessionId, InfernoWaves.JALTOK_JAD_HEALER, anchor, index, player)?.let {
                 run.npcs.add(it)
@@ -136,7 +138,9 @@ constructor(
         val run = active[sessionId] ?: return
         if (run.zukHealersSpawned) return
         run.zukHealersSpawned = true
-        val anchor = run.npcs.firstOrNull { it.type.internalName == ZUK_NAME }?.coords ?: player.coords
+        val anchor =
+            run.npcs.firstOrNull { it.type.internalName == InfernoWaves.TZKAL_ZUK }?.coords
+                ?: player.coords
         repeat(4) { index ->
             spawn(sessionId, InfernoWaves.ZUK_HEALER, anchor, index, player)?.let {
                 run.npcs.add(it)
@@ -237,8 +241,6 @@ constructor(
         const val SPAWN_RADIUS_MAX = 14
         const val RING_SLOTS = 16
         const val ANGLE_STEP = 5
-        const val JAD_NAME = "inferno_jad"
-        const val ZUK_NAME = "inferno_tzkalzuk_placeholder"
         const val BLOCKED_MASK =
             CollisionFlag.LOC or
                 CollisionFlag.BLOCK_WALK or

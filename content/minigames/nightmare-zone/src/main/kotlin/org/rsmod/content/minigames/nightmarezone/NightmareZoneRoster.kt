@@ -38,9 +38,9 @@ internal object NightmareZoneRoster {
 
     val RANGED =
         setOf(
-            "nzone_horror_dagganoth_ranged_normal",
-            "nzone_horror_dagganoth_water_normal",
-            "nzone_horror_dagganoth_air_normal",
-            "nzone_dream_untouchable_normal",
+            "npc.nzone_horror_dagganoth_ranged_normal",
+            "npc.nzone_horror_dagganoth_water_normal",
+            "npc.nzone_horror_dagganoth_air_normal",
+            "npc.nzone_dream_untouchable_normal",
         )
 }

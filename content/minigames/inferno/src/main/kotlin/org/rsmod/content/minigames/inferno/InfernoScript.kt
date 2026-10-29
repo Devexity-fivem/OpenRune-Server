@@ -9,6 +9,7 @@ import org.rsmod.api.instances.events.InstancePlayerLeaveEvent
 import org.rsmod.api.instances.events.instanceEventId
 import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onEvent
 import org.rsmod.api.player.events.interact.NpcEvents
@@ -65,13 +66,13 @@ class InfernoScript @Inject constructor(private val runs: InfernoRuns) : PluginS
             if (run.wave == InfernoWaves.TRIPLE_JAD_WAVE && !run.jadHealersSpawned) {
                 val hurt =
                     run.npcs.any {
-                        it.type.internalName == JAD_NAME &&
+                        it.type.internalName == InfernoWaves.JALTOK_JAD &&
                             it.hitpoints * 2 <= it.type.hitpoints
                     }
                 if (hurt) runs.spawnJadHealers(player, session.id)
             }
             if (run.wave == InfernoWaves.LAST_WAVE && !run.zukHealersSpawned) {
-                val zuk = run.npcs.firstOrNull { it.type.internalName == ZUK_NAME }
+                val zuk = run.npcs.firstOrNull { it.type.internalName == InfernoWaves.TZKAL_ZUK }
                 if (zuk != null && zuk.hitpoints * 2 <= zuk.type.hitpoints) {
                     runs.spawnZukHealers(player, session.id)
                 }
@@ -86,8 +87,6 @@ class InfernoScript @Inject constructor(private val runs: InfernoRuns) : PluginS
     }
 
     private companion object {
-        const val JAD_NAME = "inferno_jad"
-        const val ZUK_NAME = "inferno_tzkalzuk_placeholder"
         const val KET_KEH_ID = 11247
     }
 }
@@ -98,15 +97,16 @@ constructor(private val runs: InfernoRuns, private val objRepo: ObjRepository) :
     NpcDeathKillHook {
     override fun onKill(context: NpcDeathKillContext) {
         val run = runs.runFor(context.hero) ?: return
-        if (context.npc.type.internalName == ZUK_NAME) {
+        if (context.npc.type.internalName == InfernoWaves.TZKAL_ZUK) {
             run.completed = true
+            VarPlayerIntMapSetter.set(
+                context.hero,
+                "varp.total_zuk_kills",
+                context.hero.vars["varp.total_zuk_kills"] + 1,
+            )
             context.hero.invAddOrDrop(objRepo, "obj.infernal_cape")
             context.hero.mes("You have defeated TzKal-Zuk!")
         }
-    }
-
-    private companion object {
-        const val ZUK_NAME = "inferno_tzkalzuk_placeholder"
     }
 }
 

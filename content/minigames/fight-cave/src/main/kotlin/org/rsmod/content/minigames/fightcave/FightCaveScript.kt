@@ -47,7 +47,7 @@ class FightCaveScript @Inject constructor(private val runs: FightCaveRuns) : Plu
                 }
             }
             if (run.wave == FightCaveWaves.LAST_WAVE && !run.healersSpawned) {
-                val jad = run.npcs.firstOrNull { it.type.internalName == JAD_NAME }
+                val jad = run.npcs.firstOrNull { it.type.internalName == FightCaveWaves.TZTOK_JAD }
                 if (jad != null && jad.hitpoints * 2 <= jad.type.hitpoints) {
                     runs.spawnHealers(player, session.id)
                 }
@@ -60,10 +60,6 @@ class FightCaveScript @Inject constructor(private val runs: FightCaveRuns) : Plu
             runs.remove(instanceId)
         }
     }
-
-    private companion object {
-        const val JAD_NAME = "tzhaar_fightcave_swarm_boss"
-    }
 }
 
 internal class FightCaveKillHook
@@ -73,7 +69,7 @@ constructor(private val runs: FightCaveRuns, private val objRepo: ObjRepository)
     override fun onKill(context: NpcDeathKillContext) {
         val run = runs.runFor(context.hero) ?: return
         when (context.npc.type.internalName) {
-            TZ_KEK_NAME -> {
+            FightCaveWaves.TZ_KEK -> {
                 val session = runs.sessionFor(context.hero) ?: return
                 repeat(2) { index ->
                     runs.spawn(
@@ -88,17 +84,12 @@ constructor(private val runs: FightCaveRuns, private val objRepo: ObjRepository)
                         ?.let { run.npcs.add(it) }
                 }
             }
-            JAD_NAME -> {
+            FightCaveWaves.TZTOK_JAD -> {
                 run.completed = true
                 context.hero.invAddOrDrop(objRepo, "obj.firecape")
                 context.hero.mes("You have defeated TzTok-Jad!")
             }
         }
-    }
-
-    private companion object {
-        const val TZ_KEK_NAME = "tzhaar_fightcave_swarm_2a"
-        const val JAD_NAME = "tzhaar_fightcave_swarm_boss"
     }
 }
 

@@ -15601,7 +15601,7 @@ id = "npc.jad_challenge_jad"
 inherit = "npc.jad_challenge_jad"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
-"param.attackrate"=9
+"param.attackrate"=8
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
 

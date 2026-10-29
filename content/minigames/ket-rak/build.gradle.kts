@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.api.bosses)
     implementation(projects.api.combat.combatCommons)
     implementation(projects.api.death)
     implementation(projects.api.instances)

@@ -121,7 +121,9 @@ constructor(
         val run = active[sessionId] ?: return
         if (run.healersSpawned) return
         run.healersSpawned = true
-        val anchor = run.npcs.firstOrNull { it.type.internalName == JAD_NAME }?.coords ?: player.coords
+        val anchor =
+            run.npcs.firstOrNull { it.type.internalName == FightCaveWaves.TZTOK_JAD }?.coords
+                ?: player.coords
         repeat(4) { index ->
             spawn(sessionId, FightCaveWaves.YT_HURKOT, anchor, index, player)?.let {
                 run.npcs.add(it)
@@ -238,7 +240,6 @@ constructor(
         const val SPAWN_RADIUS_MAX = 14
         const val RING_SLOTS = 16
         const val ANGLE_STEP = 5
-        const val JAD_NAME = "tzhaar_fightcave_swarm_boss"
         const val BLOCKED_MASK =
             CollisionFlag.LOC or
                 CollisionFlag.BLOCK_WALK or
