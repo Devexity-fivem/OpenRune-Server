@@ -41680,10 +41680,25 @@ tradeable = false
 id = "obj.zalcano_imbued_ore"
 inherit = "obj.zalcano_imbued_ore"
 tradeable = false
+category = 24
+weaponCategory="Thrown"
 [item.params]
 "param.attack_range"=10
-"param.destroy_note_desc"="You can obtain more tephra by mining it in Zalcano's prison."
 "param.attackrate"=3
+"param.proj_type"="projanim.thrown"
+"param.proj_travel"="spotanim.zalcano_ore_throw"
+"param.proj_launch"="spotanim.zalcano_ore_throw"
+"param.equipment_sound"=2232
+"param.attack_anim_stance1"="seq.human_stake2_pvn"
+"param.attack_sound_stance1"=2706
+"param.attack_anim_stance2"="seq.human_stake2_pvn"
+"param.attack_sound_stance2"=2706
+"param.attack_anim_stance3"="seq.human_stake2_pvn"
+"param.attack_sound_stance3"=2706
+"param.attack_anim_stance4"="seq.human_stake2_pvn"
+"param.attack_sound_stance4"=2706
+"param.defend_anim"="seq.human_unarmedblock"
+"param.destroy_note_desc"="You can obtain more tephra by mining it in Zalcano's prison."
 
 
 [[item]]

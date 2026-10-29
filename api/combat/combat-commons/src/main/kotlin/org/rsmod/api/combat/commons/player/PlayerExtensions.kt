@@ -22,6 +22,10 @@ import org.rsmod.game.type.getOrNull
 
 private val ProtectedAccess.autoRetaliateDisabled by boolVarp("varp.option_nodef")
 
+private const val NPC_OP_SLOT_COUNT = 5
+
+private const val ATTACK_OP_NAME = "Attack"
+
 public fun Player.queueCombatRetaliate(source: Npc, delay: Int = 1) {
     strongQueue("queue.com_retaliate_npc", delay, source.uid)
 }
@@ -31,6 +35,15 @@ public fun ProtectedAccess.combatRetaliate(uid: NpcUid, flinchDelay: Int) {
         return
     }
     val source = findUid(uid) ?: return
+
+    // Sources may transmog into non-attackable forms (e.g. downed Zalcano) before
+    // the queued retaliate fires; engaging them would spam "can't attack" messages.
+    val hasAttackOp = (0 until NPC_OP_SLOT_COUNT).any { slot ->
+        source.visType.actions.getOpOrNull(slot) == ATTACK_OP_NAME
+    }
+    if (!hasAttackOp) {
+        return
+    }
 
     if (actionDelay < mapClock) {
         actionDelay = mapClock + flinchDelay

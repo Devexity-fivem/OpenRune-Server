@@ -5286,3 +5286,16 @@ vertices = [
     [3328, 10240],
     [3264, 10240],
 ]
+
+[[area]]
+name = "Zalcano Arena Multiway"
+area_id = "area.multiway"
+levels = [0]
+
+[[area.polygons]]
+vertices = [
+    [3016, 6032],
+    [3016, 6064],
+    [3048, 6064],
+    [3048, 6032],
+]

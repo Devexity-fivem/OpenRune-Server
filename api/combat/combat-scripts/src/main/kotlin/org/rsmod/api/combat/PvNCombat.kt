@@ -31,7 +31,6 @@ import org.rsmod.api.weapons.WeaponRegistry
 import org.rsmod.api.weapons.attack
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
-import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.type.getInvObj
 import org.rsmod.game.type.getOrNull
 
@@ -330,7 +329,11 @@ constructor(
             return false
         }
 
-        val hasAttackOp = npc.visType.hasOp(InteractionOp.Op2.slot)
+        // Attackable npcs carry an "Attack" op, but not always in op2: Zalcano, for example,
+        // exposes Attack as its op1. Requiring op2 specifically would reject those npcs.
+        val hasAttackOp = (0 until NPC_OP_COUNT).any { slot ->
+            npc.visType.actions.getOpOrNull(slot) == ATTACK_OP_TEXT
+        }
         if (!hasAttackOp) {
             mes("You can't attack this npc.")
             return false

@@ -152,6 +152,9 @@ class ItemServerCodec(
             dummyitem = customData.dummyitem
             contentGroup = customData.contentGroup
             weaponCategory = customData.weaponCategory
+            if (customData.category != -1) {
+                category = customData.category
+            }
             transformlink = customData.transformlink
             transformtemplate = customData.transformtemplate
         }

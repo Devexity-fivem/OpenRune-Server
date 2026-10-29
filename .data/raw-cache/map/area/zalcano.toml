@@ -1,0 +1,12 @@
+[[area]]
+name = "Zalcano Arena"
+area_id = "area.zalcano_arena"
+levels = [0]
+
+[[area.polygons]]
+vertices = [
+    [3016, 6032],
+    [3016, 6064],
+    [3048, 6064],
+    [3048, 6032],
+]
