@@ -935,3 +935,9 @@ isServerOnly = true
 id = "varp.ocellus_censer"
 scope = "Temp"
 transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.bork_burn"
+scope = "Temp"
+transmit = "Never"

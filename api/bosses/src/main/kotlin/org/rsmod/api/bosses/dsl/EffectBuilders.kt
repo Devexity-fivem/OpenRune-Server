@@ -43,6 +43,16 @@ fun camReset(target: TargetExpr = TargetExpr.CurrentTarget): Effect = Effect.Cam
 fun mapSpotanim(spot: String, at: TargetExpr.Single, height: Int = 0, delay: Int = 0): Effect =
     Effect.MapSpotanim(spot, at, height, delay)
 
+fun mapSpotanim(spot: String, at: TargetExpr.Single, delay: VarExpr, height: Int = 0): Effect =
+    Effect.MapSpotanim(spot, at, height, delayExpr = delay)
+
+fun manhattan(a: TargetExpr.Single, b: TargetExpr.Single): VarExpr = VarExpr.Manhattan(a, b)
+
+fun playersInExcept(area: Area, except: TargetExpr.Single): TargetExpr.Multi =
+    TargetExpr.PlayersInExcept(area, except)
+
+fun tileInFootprint(tile: TargetExpr.Single): Condition = Condition.TileInFootprint(tile)
+
 fun message(text: String, target: TargetExpr = TargetExpr.CurrentTarget): Effect =
     Effect.Message(text, target)
 fun sequence(vararg e: Effect): Effect = Effect.Sequence(e.toList())
@@ -230,6 +240,12 @@ fun customTiles(
     tiles: (npc: Npc, target: Player, random: GameRandom) -> List<CoordGrid>,
 ): TileSet = TileSet.Custom(area, tiles)
 
+fun customTilesAt(
+    area: Area,
+    at: TargetExpr.Single,
+    tiles: (npc: Npc, at: CoordGrid, random: GameRandom) -> List<CoordGrid>,
+): TileSet = TileSet.CustomAt(area, at, tiles)
+
 fun takeTiles(tiles: TileSet, count: Int): TileSet = TileSet.Take(tiles, count)
 
 operator fun TileSet.plus(other: TileSet): TileSet = TileSet.Plus(this, other)
@@ -257,6 +273,8 @@ fun bound(name: String): TileSet = TileSet.Bound(name)
 fun randomOf(name: String): TargetExpr.Single = TargetExpr.RandomOfBound(name)
 
 fun tilesEmpty(name: String): Condition = Condition.TilesEmpty(name)
+
+fun tilesInFootprint(name: String): Condition = Condition.TilesInFootprint(name)
 
 fun hitStyle(type: HitType): Condition = Condition.HitStyle(type)
 

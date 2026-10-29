@@ -154,7 +154,8 @@ class EffectInterpreter internal constructor(
             is Effect.MapSpotanim -> {
                 val coord = resolveTile(effect.at)
                 val spot = SpotanimType(effect.spot.asRSCM(RSCMType.SPOTANIM))
-                deps.worldRepo.spotanimMap(spot, coord, effect.height, effect.delay)
+                val delay = effect.delayExpr?.let(::evaluateVar) ?: effect.delay
+                deps.worldRepo.spotanimMap(spot, coord, effect.height, delay)
             }
             is Effect.Broadcast -> {
                 val radius = effect.radius
@@ -455,6 +456,11 @@ class EffectInterpreter internal constructor(
             is VarExpr.Min -> minOf(evaluateVar(expr.a), evaluateVar(expr.b))
             is VarExpr.Max -> maxOf(evaluateVar(expr.a), evaluateVar(expr.b))
             is VarExpr.BearingTo -> Angles.bearing(resolveTile(expr.from), resolveTile(expr.to))
+            is VarExpr.Manhattan -> {
+                val a = resolveTile(expr.a)
+                val b = resolveTile(expr.b)
+                abs(a.x - b.x) + abs(a.z - b.z)
+            }
         }
 
     private fun showHeadbar(effect: Effect.Headbar) {
@@ -913,6 +919,10 @@ class EffectInterpreter internal constructor(
                 val box = resolveArea(set.area)
                 set.tiles(npc, target, deps.random).filter { isFree(box, it) }.distinct()
             }
+            is TileSet.CustomAt -> {
+                val box = resolveArea(set.area)
+                set.tiles(npc, resolveTile(set.at), deps.random).filter { isFree(box, it) }.distinct()
+            }
             is TileSet.Plus -> (resolveTiles(set.a) + resolveTiles(set.b)).distinct()
             is TileSet.Minus -> {
                 val excluded = resolveTiles(set.b).toSet()
@@ -1018,6 +1028,13 @@ class EffectInterpreter internal constructor(
             is TargetExpr.PlayersIn -> {
                 val area = resolveArea(expr.area)
                 deps.playerList.filter { it.isValidTarget() && area.contains(it.coords) }
+            }
+            is TargetExpr.PlayersInExcept -> {
+                val area = resolveArea(expr.area)
+                val all = deps.playerList.filter { it.isValidTarget() && area.contains(it.coords) }
+                val except = resolveSingle(expr.except)
+                val others = all.filter { it !== except }
+                others.ifEmpty { all }
             }
             is TargetExpr.PlayersOn -> {
                 val tile = resolveTile(expr.tile)

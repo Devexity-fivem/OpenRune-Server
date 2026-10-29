@@ -58,6 +58,9 @@ sealed interface TargetExpr {
 
     data class PlayersIn(val area: Area) : Multi
 
+    /** The players in [area] other than the one [except] resolves to; everyone in it if that leaves none. */
+    data class PlayersInExcept(val area: Area, val except: Single) : Multi
+
     data class PlayersOn(val tile: Single) : Multi
 
     data class AllInRadius(val radius: Int, val of: Single = Self) : Multi

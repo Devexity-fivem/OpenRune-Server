@@ -2,6 +2,8 @@ package org.rsmod.content.raids.tfa
 
 import org.rsmod.api.death.NpcAttackValidateHook
 import org.rsmod.api.npc.hit.NpcHitpointsFloorHook
+import org.rsmod.content.raids.tfa.raid.encounter.bork.BorkAttackHook
+import org.rsmod.content.raids.tfa.raid.encounter.bork.BorkHpFloor
 import org.rsmod.content.raids.tfa.raid.encounter.dreadnoth.DreadnothAttackHook
 import org.rsmod.content.raids.tfa.raid.encounter.dreadnoth.DreadnothHpFloor
 import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianAttackHook
@@ -15,8 +17,10 @@ class TfaModule : PluginModule() {
         addSetBinding<NpcHitpointsFloorHook>(OcellusShieldFloor::class.java)
         addSetBinding<NpcHitpointsFloorHook>(GuardianHpFloor::class.java)
         addSetBinding<NpcHitpointsFloorHook>(DreadnothHpFloor::class.java)
+        addSetBinding<NpcHitpointsFloorHook>(BorkHpFloor::class.java)
         addSetBinding<NpcAttackValidateHook>(OcellusAttackHook::class.java)
         addSetBinding<NpcAttackValidateHook>(GuardianAttackHook::class.java)
         addSetBinding<NpcAttackValidateHook>(DreadnothAttackHook::class.java)
+        addSetBinding<NpcAttackValidateHook>(BorkAttackHook::class.java)
     }
 }

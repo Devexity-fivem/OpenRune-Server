@@ -23,6 +23,9 @@ sealed interface VarExpr {
     data class Min(val a: VarExpr, val b: VarExpr) : VarExpr
     data class Max(val a: VarExpr, val b: VarExpr) : VarExpr
 
+    /** Manhattan distance in tiles between [a] and [b]. */
+    data class Manhattan(val a: TargetExpr.Single, val b: TargetExpr.Single) : VarExpr
+
     /** Jagex bearing (0..2047) from [from] to [to]. */
     data class BearingTo(val to: TargetExpr.Single, val from: TargetExpr.Single = TargetExpr.Centre) : VarExpr
 }

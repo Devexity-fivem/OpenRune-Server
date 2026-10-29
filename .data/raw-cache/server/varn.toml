@@ -300,3 +300,42 @@ id = "varn.dreadnoth_spawn_budget"
 
 [[varn]]
 id = "varn.dreadnoth_done"
+
+[[varn]]
+id = "varn.bork_hp_max"
+
+[[varn]]
+id = "varn.bork_smork_max"
+
+[[varn]]
+id = "varn.bork_smork_pct"
+
+[[varn]]
+id = "varn.bork_tempo"
+
+[[varn]]
+id = "varn.bork_dazed"
+
+[[varn]]
+id = "varn.bork_armour"
+
+[[varn]]
+id = "varn.bork_magic_armour"
+
+[[varn]]
+id = "varn.bork_dead"
+
+[[varn]]
+id = "varn.bork_removed"
+
+[[varn]]
+id = "varn.bork_smork_dead"
+
+[[varn]]
+id = "varn.bork_smork_removed"
+
+[[varn]]
+id = "varn.bork_stomp_side"
+
+[[varn]]
+id = "varn.bork_done"

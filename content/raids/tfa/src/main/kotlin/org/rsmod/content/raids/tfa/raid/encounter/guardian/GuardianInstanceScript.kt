@@ -7,6 +7,7 @@ import org.rsmod.api.instances.events.InstancePlayerLeaveUnboundEvent
 import org.rsmod.api.instances.events.instanceEventId
 import org.rsmod.api.script.onEvent
 import org.rsmod.content.raids.tfa.party.TfaLobby
+import org.rsmod.content.raids.tfa.raid.encounter.bork.BorkEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.dreadnoth.DreadnothEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusEncounter
 import org.rsmod.plugin.scripts.PluginScript
@@ -30,7 +31,13 @@ constructor(private val encounter: GuardianEncounter, private val lobby: TfaLobb
     }
 
     private companion object {
-        val ROOM_KEYS = setOf(GuardianEncounter.KEY, OcellusEncounter.KEY, DreadnothEncounter.KEY)
+        val ROOM_KEYS =
+            setOf(
+                GuardianEncounter.KEY,
+                OcellusEncounter.KEY,
+                DreadnothEncounter.KEY,
+                BorkEncounter.KEY,
+            )
         const val NPC_VIEW_DISTANCE = 48
     }
 }

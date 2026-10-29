@@ -338,6 +338,23 @@ class BossEncounter(
                 target != null &&
                     abs(Angles.delta(Angles.bearing(npc.centreTile, target.coords), wanted)) <= condition.halfArc
             }
+            is Condition.TileInFootprint -> {
+                val at =
+                    tiles?.tile(condition.tile)
+                        ?: error("TileInFootprint evaluated outside an effect.")
+                at.level == npc.coords.level &&
+                    at.x in npc.coords.x until npc.coords.x + npc.size &&
+                    at.z in npc.coords.z until npc.coords.z + npc.size
+            }
+            is Condition.TilesInFootprint -> {
+                val name = condition.name
+                val scope = checkNotNull(tiles) { "tilesInFootprint(\"$name\") evaluated outside an effect." }
+                scope.set(name).any {
+                    it.level == npc.coords.level &&
+                        it.x in npc.coords.x until npc.coords.x + npc.size &&
+                        it.z in npc.coords.z until npc.coords.z + npc.size
+                }
+            }
             is Condition.TilesEmpty -> {
                 val name = condition.name
                 val scope = checkNotNull(tiles) { "tilesEmpty(\"$name\") evaluated outside an effect." }

@@ -31,6 +31,13 @@ sealed interface TileSet {
         val tiles: (npc: Npc, target: Player, random: GameRandom) -> List<CoordGrid>,
     ) : TileSet
 
+    /** Tiles computed in Kotlin around [at] (e.g. `ImpactTile`); the ones not free inside [area] are dropped. */
+    data class CustomAt(
+        val area: Area,
+        val at: TargetExpr.Single,
+        val tiles: (npc: Npc, at: CoordGrid, random: GameRandom) -> List<CoordGrid>,
+    ) : TileSet
+
     /** Every tile of [a] and [b], each once. */
     data class Plus(val a: TileSet, val b: TileSet) : TileSet
 

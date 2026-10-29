@@ -15,6 +15,8 @@ import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.content.raids.party.RaidParty
 import org.rsmod.content.raids.tfa.party.TfaLobby
 import org.rsmod.content.raids.tfa.party.TfaPartySettings
+import org.rsmod.content.raids.tfa.raid.encounter.bork.BorkEncounter
+import org.rsmod.content.raids.tfa.raid.encounter.dreadnoth.DreadnothEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusEncounter
 import org.rsmod.events.EventBus
@@ -30,6 +32,8 @@ constructor(
     private val manager: InstanceManager,
     private val encounter: GuardianEncounter,
     private val ocellus: OcellusEncounter,
+    private val dreadnoth: DreadnothEncounter,
+    private val bork: BorkEncounter,
     private val worldQueues: WorldQueueList,
     private val eventBus: EventBus,
 ) {
@@ -54,7 +58,7 @@ constructor(
             visible.remove(left)
             closeFor(left)
         }
-        val fight: TfaFight? = encounter.of(id) ?: ocellus.of(id)
+        val fight: TfaFight? = encounter.of(id) ?: ocellus.of(id) ?: dreadnoth.of(id) ?: bork.of(id)
         for (member in inside) {
             if (visible.add(member)) open(member, party)
             sendStates(member, party, inside)

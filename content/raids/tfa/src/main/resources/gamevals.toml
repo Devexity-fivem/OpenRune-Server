@@ -25,10 +25,24 @@ dreadnoth_split = 64443
 dreadnoth_waves_done = 64444
 dreadnoth_spawn_budget = 64445
 dreadnoth_done = 64446
+bork_hp_max = 64447
+bork_smork_max = 64448
+bork_smork_pct = 64449
+bork_tempo = 64450
+bork_dazed = 64451
+bork_armour = 64452
+bork_magic_armour = 64453
+bork_dead = 64454
+bork_removed = 64455
+bork_smork_dead = 64456
+bork_smork_removed = 64457
+bork_stomp_side = 64458
+bork_done = 64459
 
 [gamevals.dbtable]
 tfa_guardian_scaling = 62000
 tfa_dreadnoth_scaling = 62001
+tfa_bork_scaling = 62002
 
 [gamevals.dbrow]
 tfa_guardian_scaling_2 = 50000
@@ -45,10 +59,18 @@ tfa_dreadnoth_scaling_5 = 50013
 tfa_dreadnoth_scaling_6 = 50014
 tfa_dreadnoth_scaling_7 = 50015
 tfa_dreadnoth_scaling_8 = 50016
+tfa_bork_scaling_2 = 50020
+tfa_bork_scaling_3 = 50021
+tfa_bork_scaling_4 = 50022
+tfa_bork_scaling_5 = 50023
+tfa_bork_scaling_6 = 50024
+tfa_bork_scaling_7 = 50025
+tfa_bork_scaling_8 = 50026
 
 [gamevals.varp]
 ocellus_spin = 64150
 ocellus_censer = 64151
+bork_burn = 64152
 
 [gamevals.headbar]
 dreadnoth_health = 66
@@ -97,6 +119,26 @@ ocellus_soul_split_heal = 5281
 tfa_dreadnoth_slam = 12361
 tfa_dreadnoth_spit = 12362
 tfa_dreadnoth_tile = 12387
+tfa_bork_gong = 10051
+tfa_bork_start = 12769
+tfa_smork_napalm_cast = 12240
+tfa_smork_napalm_splash = 12239
+tfa_smork_ball_cast = 12248
+tfa_bork_daze_1 = 3201
+tfa_bork_daze_2 = 12273
+tfa_bork_daze_3 = 12758
+tfa_bork_daze_4 = 12249
+tfa_smork_voice_1 = 12747
+tfa_smork_voice_2 = 12748
+tfa_smork_voice_3 = 12750
+tfa_smork_voice_4 = 12751
+tfa_smork_voice_5 = 12752
+tfa_smork_voice_6 = 12753
+tfa_smork_voice_7 = 12754
+tfa_smork_voice_8 = 12755
+tfa_smork_voice_9 = 12756
+tfa_smork_last_line = 12761
+tfa_smork_tower_death = 12251
 
 [gamevals.area]
 tfa_lobby = 30020

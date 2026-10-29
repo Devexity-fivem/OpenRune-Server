@@ -50,7 +50,13 @@ sealed interface Effect {
         val delay: Int = 0,
     ) : Effect
     data class Spotanim(val spot: String, val height: Int = 0, val delay: Int = 0, val slot: Int = 0) : Effect
-    data class MapSpotanim(val spot: String, val at: TargetExpr.Single, val height: Int = 0, val delay: Int = 0) : Effect
+    data class MapSpotanim(
+        val spot: String,
+        val at: TargetExpr.Single,
+        val height: Int = 0,
+        val delay: Int = 0,
+        val delayExpr: VarExpr? = null,
+    ) : Effect
 
     /** Fades the caster from [from] to [to] transparency (0 opaque, 255 invisible) over client cycles. */
     data class Transparency(val startCycle: Int, val endCycle: Int, val from: Int, val to: Int) : Effect

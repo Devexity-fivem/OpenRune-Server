@@ -169,6 +169,7 @@ object SpecValidator {
                 is Condition.VarnIn -> varn(condition.varn, scope)
                 is Condition.VarnExpired -> varn(condition.varn, scope)
                 is Condition.TilesEmpty -> boundSet(condition.name, scope, "tilesEmpty")
+                is Condition.TilesInFootprint -> boundSet(condition.name, scope, "tilesInFootprint")
                 is Condition.PhaseTicksAtLeast ->
                     if (condition.ticks < 0) {
                         error("${scope.prefix}phaseTicksAtLeast ticks '${condition.ticks}' must not be negative.")
@@ -184,6 +185,7 @@ object SpecValidator {
                     }
                 is Condition.TargetInArc -> varn(condition.bearingVarn, scope)
                 is Condition.TargetWithin -> target(condition.of, scope, "TargetWithin")
+                is Condition.TileInFootprint -> target(condition.tile, scope, "TileInFootprint")
                 is Condition.Not -> condition(condition.c, scope)
                 is Condition.And -> {
                     condition(condition.a, scope)
@@ -255,6 +257,10 @@ object SpecValidator {
                     target(expr.to, scope, "bearingTo")
                     target(expr.from, scope, "bearingTo")
                 }
+                is VarExpr.Manhattan -> {
+                    target(expr.a, scope, "manhattan")
+                    target(expr.b, scope, "manhattan")
+                }
             }
         }
 
@@ -301,6 +307,8 @@ object SpecValidator {
             when (expr) {
                 is TargetExpr.PlayersOn -> tilesIn(expr.tile)
                 is TargetExpr.PlayersIn -> tilesIn(expr.area.sw) + tilesIn(expr.area.ne)
+                is TargetExpr.PlayersInExcept ->
+                    tilesIn(expr.area.sw) + tilesIn(expr.area.ne) + tilesIn(expr.except)
                 is TargetExpr.AllInRadius -> tilesIn(expr.of)
                 is TargetExpr.TopN -> tilesIn(expr.by)
                 is TargetExpr.RandomWalkableTile -> listOf(expr) + tilesIn(expr.of)
@@ -326,6 +334,10 @@ object SpecValidator {
                     tiles.tiles.forEach { target(it, scope, what) }
                 }
                 is TileSet.Custom -> area(tiles.area, scope, what)
+                is TileSet.CustomAt -> {
+                    area(tiles.area, scope, what)
+                    target(tiles.at, scope, what)
+                }
                 is TileSet.Plus -> {
                     tileSet(tiles.a, scope)
                     tileSet(tiles.b, scope)
@@ -446,7 +458,10 @@ object SpecValidator {
                 is Effect.Message -> target(effect.target, scope, name)
                 is Effect.SoundTo -> target(effect.target, scope, name)
                 is Effect.Sound -> effect.at?.let { target(it, scope, name) }
-                is Effect.MapSpotanim -> target(effect.at, scope, name)
+                is Effect.MapSpotanim -> {
+                    target(effect.at, scope, name)
+                    effect.delayExpr?.let { varExpr(it, scope) }
+                }
                 is Effect.CamShake -> effect.target?.let { target(it, scope, name) }
                 is Effect.CamReset -> target(effect.target, scope, name)
                 is Effect.Debris -> target(effect.center, scope, name)

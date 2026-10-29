@@ -17210,3 +17210,35 @@ huntRange = 40
 id = "npc.tfa_jelly_minion"
 inherit = "npc.tfa_jelly_minion"
 blockWalk = "None"
+
+[[npc]]
+id = "npc.tfa_bork"
+inherit = "npc.tfa_bork"
+maxRange = 30
+[npc.params]
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=40
+"param.freeze_resistance"=40
+"param.poison_immunity"=1
+"param.venom_immunity"=2
+"param.cannon_immunity"=1
+
+[[npc]]
+id = "npc.tfa_smork"
+inherit = "npc.tfa_smork"
+maxRange = 30
+[npc.params]
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=85
+"param.freeze_resistance"=40
+"param.poison_immunity"=1
+"param.venom_immunity"=2
+"param.cannon_immunity"=1
+
+[[npc]]
+id = "npc.tfa_bork_smork_hp_ui_handler"
+inherit = "npc.tfa_bork_smork_hp_ui_handler"
+[npc.params]
+"param.boss_hp_bar_colour_back"=13107200
+"param.boss_hp_bar_colour_sliding"=36864
+"param.boss_hp_bar_colour_remaining"=51200
