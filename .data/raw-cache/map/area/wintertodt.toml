@@ -1,0 +1,12 @@
+[[area]]
+name = "Wintertodt Prison"
+area_id = "area.wintertodt_prison"
+levels = [0]
+
+[[area.polygons]]
+vertices = [
+    [1600, 3968],
+    [1600, 4032],
+    [1664, 4032],
+    [1664, 3968],
+]

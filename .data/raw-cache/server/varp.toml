@@ -948,3 +948,9 @@ isServerOnly = true
 id = "varp.maggot_king_best_time"
 scope = "Perm"
 transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.wintertodt_points"
+scope = "Perm"
+transmit = "Never"
