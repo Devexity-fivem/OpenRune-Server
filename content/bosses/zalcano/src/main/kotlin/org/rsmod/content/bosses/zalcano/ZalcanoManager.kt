@@ -102,6 +102,7 @@ constructor(
             }
         }
         boss = null
+        despawnGolems()
     }
 
     private fun spawnRocks() {
@@ -138,8 +139,9 @@ constructor(
 
     private fun tickShielded(cycle: Int) {
         val npc = boss ?: return
-        if (!npc.isSlotAssigned) {
+        if (!npc.isSlotAssigned || npc.hitpoints <= 0) {
             boss = null
+            despawnGolems()
             return
         }
         if (npc.visType.id != ZALCANO_ID) {
@@ -159,10 +161,11 @@ constructor(
 
     private fun tickDowned(cycle: Int) {
         val npc = boss
-        if (npc == null || !npc.isSlotAssigned) {
+        if (npc == null || !npc.isSlotAssigned || npc.hitpoints <= 0) {
             boss = null
             phase = Phase.SHIELDED
             shield = MAX_SHIELD
+            despawnGolems()
             return
         }
         if (npc.visType.id == ZALCANO_ID) {
@@ -288,6 +291,18 @@ constructor(
         }
     }
 
+    private fun despawnGolems() {
+        val found = buildList {
+            for (zone in arenaZones()) {
+                for (npc in npcRepo.findAll(zone)) {
+                    if (npc.type.id == GOLEM_ID && npc.isSlotAssigned) add(npc)
+                }
+            }
+        }
+        for (npc in found) npcRepo.del(npc, Int.MAX_VALUE)
+        golems.clear()
+    }
+
     private fun tickGolems(cycle: Int) {
         if (golems.isEmpty()) return
         if (cycle - lastGolemCycle < GOLEM_HIT_INTERVAL) return
@@ -381,6 +396,7 @@ constructor(
 
         val ZALCANO_ID = "npc.zalcano".asRSCM(RSCMType.NPC)
         val ZALCANO_WEAK_ID = "npc.zalcano_weak".asRSCM(RSCMType.NPC)
+        val GOLEM_ID = "npc.zalcano_golem".asRSCM(RSCMType.NPC)
 
         val SPOT_ROCKFALL = "spotanim.zalcano_rock_fall".asRSCM(RSCMType.SPOTANIM)
         val SPOT_PENTAGRAM_BURNING = "spotanim.zalcano_pentagram_burning".asRSCM(RSCMType.SPOTANIM)
