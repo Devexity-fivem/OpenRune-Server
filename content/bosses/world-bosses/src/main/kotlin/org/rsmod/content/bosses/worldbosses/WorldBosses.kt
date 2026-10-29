@@ -46,12 +46,11 @@ private fun specialChooser(vararg branches: Pair<String, Effect>): Effect =
     )
 
 // Moons of Peril — Blood Moon: after six standard attacks she alternates Blood
-// Rain (telegraphed blood pools) and Blood Jaguar (a pack of jaguars). TODO:
-// Blood Rain should hide her while pools form via loc.pmoon_boss_blood_pool;
-// the jaguar special should lay a pool square, park the player at Eyatlalli's
-// glyph, and heal her 3x for pool/jaguar damage taken. The _vis statue stays
-// in the spec: the spawned entity keeps type 13011 after transmog, so encounter
-// registration and respawn hooks resolve through it.
+// Rain and Blood Jaguar. Both spawn loc.pmoon_boss_blood_pool hazards through
+// MoonsExtensions; jaguar-phase pools also heal her 3x for the damage they deal
+// (the jaguar adds' own damage-to-heal redirect is still an approximation). The
+// _vis statue stays in the spec: the spawned entity keeps type 13011 after
+// transmog, so encounter registration and respawn hooks resolve through it.
 internal fun bloodMoonSpec(): BossSpec =
     boss("npc.pmoon_boss_blood_moon", "npc.pmoon_boss_blood_moon_vis") {
         stats(attackRate = 6)
@@ -66,21 +65,19 @@ internal fun bloodMoonSpec(): BossSpec =
                     "rain" to
                         sequence(
                             anim("seq.pmoon_macuahuitl_crush"),
-                            debris(
-                                telegraph = "spotanim.spell_blood_barrage_impact",
-                                damage = (0..15).roll(),
-                                windup = 3,
-                                count = 4..6,
-                            ),
+                            external("pmoon.blood_pools"),
                         ),
                     "jaguar" to
-                        summon(
-                            npc = "npc.pmoon_boss_jaguar",
-                            count = 4,
-                            radius = 6,
-                            mode = NpcMode.ApPlayer2,
-                            duration = 40,
-                            owned = true,
+                        sequence(
+                            summon(
+                                npc = "npc.pmoon_boss_jaguar",
+                                count = 4,
+                                radius = 6,
+                                mode = NpcMode.ApPlayer2,
+                                duration = 40,
+                                owned = true,
+                            ),
+                            external("pmoon.jaguar_pools"),
                         ),
                 ),
             )
@@ -91,10 +88,10 @@ internal fun bloodMoonSpec(): BossSpec =
     }
 
 // Moons of Peril — Blue Moon: alternates Weapon Freeze and Frost Storm after
-// six standard attacks. TODO: Weapon Freeze only binds the player — the real
-// attack disarms the weapon into an ice block that must be punched free while
-// icicles fall; Frost Storm should extinguish the braziers and heal her 5x10
-// while they stay unlit, with the storms roaming rather than homing.
+// six standard attacks. Weapon Freeze binds the player and disarms the weapon
+// into loc.pmoon_boss_ice_block (MoonsExtensions); Frost Storm spawns the
+// roaming storms and extinguishes the braziers, healing her while they stay
+// unlit until the player relights them.
 internal fun blueMoonSpec(): BossSpec =
     boss("npc.pmoon_boss_blue_moon", "npc.pmoon_boss_blue_moon_vis") {
         stats(attackRate = 6)
@@ -109,6 +106,7 @@ internal fun blueMoonSpec(): BossSpec =
                     "freeze" to
                         sequence(
                             Effect.Freeze(WEAPON_FREEZE_TICKS),
+                            external("pmoon.weapon_freeze"),
                             summon(
                                 npc = "npc.pmoon_boss_icicle_1",
                                 count = 2,
@@ -126,7 +124,7 @@ internal fun blueMoonSpec(): BossSpec =
                                 duration = 30,
                                 owned = true,
                             ),
-                            healSelf(FROST_STORM_HEAL),
+                            external("pmoon.frost_storm"),
                         ),
                 ),
             )
@@ -179,7 +177,6 @@ internal fun eclipseMoonSpec(): BossSpec =
     }
 
 private const val WEAPON_FREEZE_TICKS = 8
-private const val FROST_STORM_HEAL = 10
 private const val CLONE_BIND_TICKS = 3
 
 class BloodMoon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {

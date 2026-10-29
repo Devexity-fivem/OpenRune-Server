@@ -27,7 +27,7 @@ class WorldBossesSpecTest {
         }
 
         private val SYMBOL_REGEX =
-            Regex("\"(npc|seq|spotanim|projanim|synth|headbar|hitmark)\\.([a-z_0-9]+)\"")
+            Regex("\"(npc|seq|spotanim|projanim|synth|headbar|hitmark|loc)\\.([a-z_0-9]+)\"")
 
         private fun moduleSymbols(): Map<RSCMType, Set<String>> {
             val dir = File("src/main/kotlin")
