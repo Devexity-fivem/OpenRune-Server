@@ -7,40 +7,45 @@ import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Effect
 
-// Moons of Peril — Blood Moon: melee up to ~30.
+// Moons of Peril — Blood Moon: 6-tick attack speed; triple-hit combo and
+// blood-pool/jaguar specials not yet modelled. The _vis statue stays in the
+// spec: the spawned entity keeps type 13011 after transmog, so encounter
+// registration and respawn hooks resolve through it.
 class BloodMoon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
         boss("npc.pmoon_boss_blood_moon", "npc.pmoon_boss_blood_moon_vis") {
-            stats(attackRate = 4)
+            stats(attackRate = 6)
             val melee = ability("melee") {
                 anim("seq.demon_attack")
-                hit { damage(0..30).roll(); type(Melee) }
+                hit { damage(0..32).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
         }
 }
 
-// Moons of Peril — Blue Moon: melee up to ~28.
+// Moons of Peril — Blue Moon: 6-tick attack speed; weapon-freeze and
+// frost-storm specials not yet modelled.
 class BlueMoon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
         boss("npc.pmoon_boss_blue_moon", "npc.pmoon_boss_blue_moon_vis") {
-            stats(attackRate = 4)
+            stats(attackRate = 6)
             val melee = ability("melee") {
                 anim("seq.demon_attack")
-                hit { damage(0..28).roll(); type(Melee) }
+                hit { damage(0..32).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
         }
 }
 
-// Moons of Peril — Eclipse Moon: melee up to ~30.
+// Moons of Peril — Eclipse Moon: 6-tick attack speed; searing-rays and
+// clone specials not yet modelled.
 class EclipseMoon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
         boss("npc.pmoon_boss_eclipse_moon", "npc.pmoon_boss_eclipse_moon_vis") {
-            stats(attackRate = 4)
+            stats(attackRate = 6)
             val melee = ability("melee") {
                 anim("seq.demon_attack")
-                hit { damage(0..30).roll(); type(Melee) }
+                hit { damage(0..32).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
         }

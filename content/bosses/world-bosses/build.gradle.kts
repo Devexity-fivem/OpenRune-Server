@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
     implementation(projects.api.bosses)
+    implementation(projects.api.combat.combatManager)
     implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.pluginCommons)

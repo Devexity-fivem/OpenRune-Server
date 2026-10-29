@@ -5,6 +5,7 @@ import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import java.io.File
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
@@ -35,6 +36,28 @@ class WorldBossesSpecTest {
                 }
             }
             return byType
+        }
+    }
+
+    @Test
+    fun `moons vis props are 1hp statues and real forms are hide_npc multinpcs`() {
+        val vis =
+            mapOf(
+                "npc.pmoon_boss_blood_moon" to "npc.pmoon_boss_blood_moon_vis",
+                "npc.pmoon_boss_blue_moon" to "npc.pmoon_boss_blue_moon_vis",
+                "npc.pmoon_boss_eclipse_moon" to "npc.pmoon_boss_eclipse_moon_vis",
+            )
+        val hideNpc = "varbit.pmoon_boss_hide_npc".asRSCM(RSCMType.VARBIT)
+        for ((real, statue) in vis) {
+            val realType =
+                checkNotNull(ServerCacheManager.getNpc(real.asRSCM(RSCMType.NPC))) { real }
+            val statueType =
+                checkNotNull(ServerCacheManager.getNpc(statue.asRSCM(RSCMType.NPC))) { statue }
+            assertEquals(1, statueType.hitpoints, "$statue should be a 1hp prop")
+            assertEquals(-1, statueType.multiVarBit, "$statue should not be a multinpc")
+            assertEquals(500, realType.hitpoints, "$real combat hp")
+            assertEquals(hideNpc, realType.multiVarBit, "$real transform selector")
+            assertEquals(statueType.id, realType.multiNpc[0], "$real should render $statue at rest")
         }
     }
 
