@@ -9,7 +9,7 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **23/23** · Bosses **165/168** · Raids **4/4** · Minigames **6/52**
+Skills **23/23** · Bosses **167/178** · Raids **4/4** · Minigames **6/52**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
@@ -24,7 +24,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Defence_icon.png?ca0cd" height="20" alt=""> Defence | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Defence) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Ranged_icon.png?01b0e" height="20" alt=""> Ranged | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Ranged) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Hitpoints_icon.png?a4819" height="20" alt=""> Hitpoints | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Hitpoints) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Magic_icon.png?334cf" height="20" alt=""> [Magic](content/skills/magic) | 4,107 loc | [wiki](https://oldschool.runescape.wiki/w/Magic) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Magic_icon.png?334cf" height="20" alt=""> [Magic](content/skills/magic) | 4,111 loc | [wiki](https://oldschool.runescape.wiki/w/Magic) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Prayer_icon.png?7e70b" height="20" alt=""> [Prayer](content/skills/prayer) | 2,608 loc | [wiki](https://oldschool.runescape.wiki/w/Prayer) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Runecraft_icon.png?c278c" height="20" alt=""> [Runecraft](content/skills/runecrafting) | 2,610 loc | [wiki](https://oldschool.runescape.wiki/w/Runecraft) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Slayer_icon.png?cd34f" height="20" alt=""> [Slayer](content/skills/slayer) | 5,975 loc | [wiki](https://oldschool.runescape.wiki/w/Slayer) |
@@ -43,7 +43,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 2,036 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
-### Bosses <sup>165/168</sup>
+### Bosses <sup>167/178</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
@@ -71,7 +71,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Blue_Moon.png/48px-Blue_Moon.png?c3e72" height="20" alt=""> Blue Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blue_Moon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer.png/48px-Bouncer.png?4de03" height="20" alt=""> Bouncer | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer_%28ghost%29.png/48px-Bouncer_%28ghost%29.png?756db" height="20" alt=""> Bouncer (ghost) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer_(ghost)) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Branda_the_Fire_Queen.png/48px-Branda_the_Fire_Queen.png?0687c" height="20" alt=""> Branda the Fire Queen | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Branda_the_Fire_Queen) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Branda_the_Fire_Queen.png/48px-Branda_the_Fire_Queen.png?0687c" height="20" alt=""> Branda the Fire Queen | no module, code in content/bosses/royal-titans | [wiki](https://oldschool.runescape.wiki/w/Branda_the_Fire_Queen) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Brutus.png/48px-Brutus.png?eda9e" height="20" alt=""> [Brutus](content/bosses/brutus) | 1,411 loc | [wiki](https://oldschool.runescape.wiki/w/Brutus) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bryophyta.png/48px-Bryophyta.png?08bc8" height="20" alt=""> [Bryophyta](content/bosses/bryophyta) | 153 loc | [wiki](https://oldschool.runescape.wiki/w/Bryophyta) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Callisto.png/48px-Callisto.png?bfba7" height="20" alt=""> [Callisto](content/bosses/callisto) | 568 loc | [wiki](https://oldschool.runescape.wiki/w/Callisto) |
@@ -104,7 +104,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Duke_Sucellus.png/48px-Duke_Sucellus.png?d588a" height="20" alt=""> [Duke Sucellus](content/bosses/duke-sucellus) | 1,264 loc | [wiki](https://oldschool.runescape.wiki/w/Duke_Sucellus) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dusk.png/48px-Dusk.png?2d6f0" height="20" alt=""> Dusk | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Dusk) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Eclipse Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Eclipse_Moon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eldric_the_Ice_King.png/48px-Eldric_the_Ice_King.png?6bd48" height="20" alt=""> Eldric the Ice King | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Eldric_the_Ice_King) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eldric_the_Ice_King.png/48px-Eldric_the_Ice_King.png?6bd48" height="20" alt=""> Eldric the Ice King | no module, code in content/bosses/royal-titans | [wiki](https://oldschool.runescape.wiki/w/Eldric_the_Ice_King) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Elidinis%27_Warden.png/48px-Elidinis%27_Warden.png?c9f68" height="20" alt=""> Elidinis' Warden | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Elidinis'_Warden) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Elvarg.png/48px-Elvarg.png?336d5" height="20" alt=""> Elvarg | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Elvarg) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Evil_spirit.png/48px-Evil_spirit.png?40157" height="20" alt=""> Evil spirit | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Evil_spirit) |
@@ -142,6 +142,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kraken.png/48px-Kraken.png?a4955" height="20" alt=""> [Kraken](content/bosses/kraken) | 110 loc | [wiki](https://oldschool.runescape.wiki/w/Kraken) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/48px-Kree%27arra.png?ba75c" height="20" alt=""> [Kree'arra](content/bosses/kreearra) | 229 loc | [wiki](https://oldschool.runescape.wiki/w/Kree'arra) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mad_Angel.webp/48px-Mad_Angel.webp?c7990" height="20" alt=""> [Mad Angel](content/bosses/mad-angel) | 1,122 loc | [wiki](https://oldschool.runescape.wiki/w/Mad_Angel) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Maggot_King.png/48px-Maggot_King.png?a6790" height="20" alt=""> [Maggot King](content/bosses/maggot-king) | 1,480 loc | [wiki](https://oldschool.runescape.wiki/w/Maggot_King) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Me.png/48px-Me.png?65f08" height="20" alt=""> Me | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Me) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Melzar_the_Mad.png/48px-Melzar_the_Mad.png?b3424" height="20" alt=""> Melzar the Mad | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Melzar_the_Mad) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Moons of Peril | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Moons_of_Peril) |
@@ -156,7 +157,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Phantom_Muspah_%28ranged%29.png/48px-Phantom_Muspah_%28ranged%29.png?9cf6a" height="20" alt=""> [Phantom Muspah](content/bosses/muspah) | 1,295 loc | [wiki](https://oldschool.runescape.wiki/w/Phantom_Muspah) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/48px-The_Nightmare.png?0128a" height="20" alt=""> Phosani's Nightmare | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Phosani's_Nightmare) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Revenant_maledictus.png/48px-Revenant_maledictus.png?73c48" height="20" alt=""> Revenant maledictus | no module, code in content/areas/wilderness, content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Revenant_maledictus) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fighting_Royal_Titans.png/48px-Fighting_Royal_Titans.png?bfd16" height="20" alt=""> Royal Titans | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Royal_Titans) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fighting_Royal_Titans.png/48px-Fighting_Royal_Titans.png?bfd16" height="20" alt=""> [Royal Titans](content/bosses/royal-titans) | 3,558 loc | [wiki](https://oldschool.runescape.wiki/w/Royal_Titans) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Salarin_the_twisted.png/48px-Salarin_the_twisted.png?079fa" height="20" alt=""> Salarin the twisted | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Salarin_the_twisted) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Sarachnis.png/48px-Sarachnis.png?8f040" height="20" alt=""> [Sarachnis](content/bosses/sarachnis) | 132 loc | [wiki](https://oldschool.runescape.wiki/w/Sarachnis) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Scorpia.png/48px-Scorpia.png?517c9" height="20" alt=""> [Scorpia](content/bosses/scorpia) | 133 loc | [wiki](https://oldschool.runescape.wiki/w/Scorpia) |
@@ -206,6 +207,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vet%27ion.png/48px-Vet%27ion.png?8695f" height="20" alt=""> [Vet'ion](content/bosses/vetion) | 233 loc | [wiki](https://oldschool.runescape.wiki/w/Vet'ion) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vorkath.png/48px-Vorkath.png?1ce3f" height="20" alt=""> [Vorkath](content/bosses/vorkath) | 476 loc | [wiki](https://oldschool.runescape.wiki/w/Vorkath) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/White_golem.png/48px-White_golem.png?b3020" height="20" alt=""> White golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/White_golem) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Howling_Snow_Storm.gif/48px-Howling_Snow_Storm.gif?ec549" height="20" alt=""> [Wintertodt](content/bosses/wintertodt) | 860 loc | [wiki](https://oldschool.runescape.wiki/w/Wintertodt) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Xamphur_%28monster%2C_phantom_hands%29.png/48px-Xamphur_%28monster%2C_phantom_hands%29.png?de61a" height="20" alt=""> Xamphur | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Xamphur) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Xarpus_%28phase_1%29.png/48px-Xarpus_%28phase_1%29.png?81ca6" height="20" alt=""> Xarpus | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Xarpus) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Yama.png/48px-Yama.png?7653a" height="20" alt=""> Yama | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Yama) |
@@ -214,11 +216,11 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/48px-Zulrah_%28serpentine%29.png?29a54" height="20" alt=""> [Zulrah](content/bosses/zulrah) | 639 loc | [wiki](https://oldschool.runescape.wiki/w/Zulrah) |
 
 <details>
-<summary>🔴 <b>3 not started</b></summary>
+<summary>🔴 <b>11 not started</b></summary>
 
-**Nothing yet (3)**
+**Nothing yet (11)**
 
-[Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Maggot King](https://oldschool.runescape.wiki/w/Maggot_King) · [Wintertodt](https://oldschool.runescape.wiki/w/Wintertodt)
+[Archive Guardian](https://oldschool.runescape.wiki/w/Archive_Guardian) · [Bork](https://oldschool.runescape.wiki/w/Bork) · [Dagon'hai Elder](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) · [Dagon'hai Monk](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) · [Dreadnoth the Jellied](https://oldschool.runescape.wiki/w/Dreadnoth_the_Jellied) · [Ezekiel](https://oldschool.runescape.wiki/w/Ezekiel) · [Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Moia](https://oldschool.runescape.wiki/w/Moia) · [Ocellus](https://oldschool.runescape.wiki/w/Ocellus) · [The Smorks](https://oldschool.runescape.wiki/w/The_Smorks) · [Xarth](https://oldschool.runescape.wiki/w/Xarth)
 
 </details>
 
@@ -260,63 +262,65 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 |---|---:|---:|---:|---:|---|
 | `areas/city/al-kharid` | 8 | 499 | 1 | 0 | 2026-10-21 |
 | `areas/city/al-kharid/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `areas/city/ardougne` | 1 | 139 | 0 | 0 | 2026-10-18 |
-| `areas/city/barbarian-village` | 9 | 526 | 0 | 0 | 2026-10-18 |
-| `areas/city/barbarian-village/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
+| `areas/city/ardougne` | 1 | 139 | 0 | 0 | 2026-09-25 |
+| `areas/city/barbarian-village` | 9 | 526 | 0 | 0 | 2026-10-17 |
+| `areas/city/barbarian-village/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/city/desert` | 1 | 36 | 0 | 0 | 2026-10-22 |
 | `areas/city/desert/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/draynor` | 17 | 3,791 | 4 | 0 | 2026-10-25 |
-| `areas/city/draynor/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
+| `areas/city/draynor/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `areas/city/edgeville` | 4 | 374 | 0 | 0 | 2026-10-25 |
-| `areas/city/edgeville/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
+| `areas/city/edgeville/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/city/falador` | 9 | 1,729 | 0 | 1 | 2026-10-25 |
 | `areas/city/falador/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/karamja` | 1 | 36 | 0 | 0 | 2026-10-22 |
 | `areas/city/karamja/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/lumbridge` | 27 | 6,332 | 1 | 4 | 2026-10-28 |
-| `areas/city/lumbridge/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
+| `areas/city/lumbridge/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/city/port-sarim` | 13 | 1,975 | 0 | 0 | 2026-10-19 |
-| `areas/city/port-sarim/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `areas/city/prifddinas` | 1 | 82 | 0 | 0 | 2026-10-18 |
+| `areas/city/port-sarim/pack` | 1 | 6 | 0 | 0 | 2026-09-22 |
+| `areas/city/prifddinas` | 1 | 82 | 0 | 0 | 2026-08-18 |
 | `areas/city/rellekka` | 1 | 46 | 0 | 0 | 2026-10-22 |
 | `areas/city/rellekka/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/rimmington` | 6 | 766 | 0 | 0 | 2026-10-25 |
-| `areas/city/rimmington/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `areas/city/taverley` | 2 | 111 | 0 | 0 | 2026-10-18 |
+| `areas/city/rimmington/pack` | 1 | 6 | 0 | 0 | 2026-09-22 |
+| `areas/city/taverley` | 2 | 111 | 0 | 0 | 2026-10-15 |
 | `areas/city/varrock` | 10 | 948 | 1 | 2 | 2026-10-21 |
-| `areas/city/varrock/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
+| `areas/city/varrock/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/godwars` | 2 | 176 | 0 | 0 | 2026-10-27 |
-| `areas/misc/black-knights-fortress` | 1 | 45 | 0 | 0 | 2026-10-18 |
+| `areas/misc/black-knights-fortress` | 1 | 45 | 0 | 0 | 2026-10-15 |
 | `areas/misc/deaths-office` | 5 | 1,357 | 3 | 2 | 2026-10-27 |
 | `areas/misc/deaths-office/pack` | 2 | 79 | 0 | 0 | 2026-10-25 |
-| `areas/misc/dog_shelter` | 2 | 151 | 0 | 0 | 2026-10-18 |
-| `areas/misc/dwarven-mine` | 5 | 896 | 1 | 0 | 2026-10-18 |
-| `areas/misc/dwarven-mine/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
+| `areas/misc/dog_shelter` | 2 | 151 | 0 | 0 | 2026-09-25 |
+| `areas/misc/dwarven-mine` | 5 | 896 | 1 | 0 | 2026-10-15 |
+| `areas/misc/dwarven-mine/pack` | 1 | 6 | 0 | 0 | 2026-10-15 |
 | `areas/misc/goblin-village` | 4 | 253 | 0 | 0 | 2026-10-22 |
-| `areas/misc/goblin-village/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `areas/misc/mining-guild` | 8 | 714 | 0 | 0 | 2026-10-18 |
-| `areas/misc/monastery` | 3 | 370 | 1 | 0 | 2026-10-18 |
-| `areas/misc/motherlode-mine` | 13 | 1,402 | 0 | 0 | 2026-10-18 |
-| `areas/misc/motherlode-mine/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `areas/misc/multiways` | 2 | 36 | 0 | 0 | 2026-10-18 |
-| `areas/misc/stronghold_of_security` | 7 | 1,437 | 2 | 0 | 2026-10-18 |
-| `areas/misc/stronghold_of_security/pack` | 2 | 134 | 0 | 0 | 2026-10-18 |
+| `areas/misc/goblin-village/pack` | 1 | 6 | 0 | 0 | 2026-10-15 |
+| `areas/misc/lobbies` | 3 | 563 | 2 | 1 | 2026-10-29 |
+| `areas/misc/lobbies/pack` | 1 | 87 | 0 | 0 | 2026-10-29 |
+| `areas/misc/mining-guild` | 8 | 714 | 0 | 0 | 2026-09-17 |
+| `areas/misc/monastery` | 3 | 370 | 1 | 0 | 2026-10-15 |
+| `areas/misc/motherlode-mine` | 13 | 1,402 | 0 | 0 | 2026-09-17 |
+| `areas/misc/motherlode-mine/pack` | 1 | 6 | 0 | 0 | 2026-09-17 |
+| `areas/misc/multiways` | 2 | 36 | 0 | 0 | 2026-05-03 |
+| `areas/misc/stronghold_of_security` | 7 | 1,437 | 2 | 0 | 2026-10-06 |
+| `areas/misc/stronghold_of_security/pack` | 2 | 134 | 0 | 0 | 2026-10-06 |
 | `areas/misc/tutorial-island` | 5 | 1,203 | 1 | 0 | 2026-10-26 |
-| `areas/misc/ver_sinhaza` | 1 | 139 | 0 | 0 | 2026-10-18 |
-| `areas/misc/wizards_tower` | 4 | 1,123 | 0 | 0 | 2026-10-18 |
-| `areas/misc/wizards_tower/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
+| `areas/misc/ver_sinhaza` | 1 | 139 | 0 | 0 | 2026-09-25 |
+| `areas/misc/wizards_tower` | 4 | 1,123 | 0 | 0 | 2026-09-23 |
+| `areas/misc/wizards_tower/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `areas/misc/zanaris` | 1 | 36 | 0 | 0 | 2026-10-21 |
 | `areas/wilderness` | 22 | 1,594 | 0 | 0 | 2026-10-28 |
-| `areas/wilderness/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `areas/zeah` | 3 | 234 | 0 | 0 | 2026-10-18 |
+| `areas/wilderness/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
+| `areas/zeah` | 3 | 234 | 0 | 0 | 2026-08-18 |
 | `bosses/abyssal-sire` | 1 | 271 | 1 | 0 | 2026-10-27 |
 | `bosses/alchemical-hydra` | 1 | 271 | 1 | 0 | 2026-10-27 |
-| `bosses/amoxliatl` | 2 | 387 | 0 | 0 | 2026-10-18 |
+| `bosses/amoxliatl` | 2 | 387 | 0 | 0 | 2026-10-01 |
 | `bosses/araxxor` | 1 | 464 | 1 | 0 | 2026-10-27 |
-| `bosses/barrows` | 16 | 1,566 | 1 | 0 | 2026-10-18 |
+| `bosses/barrows` | 16 | 1,566 | 1 | 0 | 2026-10-09 |
 | `bosses/brutus` | 9 | 1,411 | 3 | 2 | 2026-10-19 |
 | `bosses/bryophyta` | 2 | 153 | 1 | 0 | 2026-10-27 |
-| `bosses/callisto` | 2 | 568 | 0 | 0 | 2026-10-18 |
+| `bosses/callisto` | 2 | 568 | 0 | 0 | 2026-09-30 |
 | `bosses/calvarion` | 1 | 234 | 1 | 0 | 2026-10-27 |
 | `bosses/cerberus` | 1 | 324 | 1 | 0 | 2026-10-27 |
 | `bosses/chaos-elemental` | 1 | 154 | 1 | 0 | 2026-10-25 |
@@ -324,46 +328,49 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/corporeal-beast` | 1 | 290 | 1 | 0 | 2026-10-26 |
 | `bosses/crazy-archaeologist` | 1 | 82 | 0 | 0 | 2026-10-25 |
 | `bosses/dagannoth-kings` | 1 | 179 | 1 | 0 | 2026-10-25 |
-| `bosses/demonic-gorilla` | 1 | 320 | 0 | 0 | 2026-10-18 |
+| `bosses/demonic-gorilla` | 1 | 320 | 0 | 0 | 2026-10-01 |
 | `bosses/deranged-archaeologist` | 1 | 76 | 0 | 0 | 2026-10-24 |
 | `bosses/doom-of-mokhaiotl` | 19 | 3,150 | 3 | 0 | 2026-10-27 |
 | `bosses/duke-sucellus` | 3 | 1,264 | 0 | 0 | 2026-10-27 |
 | `bosses/gemstone-crab` | 6 | 662 | 0 | 0 | 2026-10-28 |
 | `bosses/giant-mole` | 4 | 382 | 1 | 0 | 2026-10-25 |
-| `bosses/graardor` | 2 | 166 | 0 | 0 | 2026-10-18 |
+| `bosses/graardor` | 2 | 166 | 0 | 0 | 2026-09-30 |
 | `bosses/hespori` | 2 | 330 | 1 | 0 | 2026-10-27 |
 | `bosses/kalphite-queen` | 1 | 149 | 1 | 0 | 2026-10-27 |
-| `bosses/kbd` | 2 | 143 | 0 | 1 | 2026-10-18 |
+| `bosses/kbd` | 2 | 143 | 0 | 1 | 2026-09-30 |
 | `bosses/kraken` | 1 | 110 | 1 | 0 | 2026-10-27 |
-| `bosses/kreearra` | 2 | 229 | 0 | 0 | 2026-10-18 |
-| `bosses/kril` | 2 | 191 | 0 | 0 | 2026-10-18 |
-| `bosses/leviathan` | 8 | 1,397 | 0 | 0 | 2026-10-18 |
+| `bosses/kreearra` | 2 | 229 | 0 | 0 | 2026-09-30 |
+| `bosses/kril` | 2 | 191 | 0 | 0 | 2026-09-30 |
+| `bosses/leviathan` | 8 | 1,397 | 0 | 0 | 2026-09-30 |
 | `bosses/mad-angel` | 3 | 1,116 | 1 | 0 | 2026-10-29 |
 | `bosses/mad-angel/pack` | 1 | 6 | 0 | 0 | 2026-10-29 |
-| `bosses/muspah` | 4 | 1,295 | 0 | 0 | 2026-10-18 |
+| `bosses/maggot-king` | 6 | 1,480 | 0 | 0 | 2026-10-29 |
+| `bosses/muspah` | 4 | 1,295 | 0 | 0 | 2026-10-04 |
 | `bosses/nex` | 3 | 1,242 | 1 | 0 | 2026-10-28 |
 | `bosses/obor` | 1 | 60 | 1 | 0 | 2026-10-26 |
-| `bosses/quest-bosses` | 7 | 1,187 | 0 | 0 | 2026-10-29 |
+| `bosses/quest-bosses` | 7 | 1,200 | 0 | 0 | 2026-10-29 |
 | `bosses/raid-bosses` | 1 | 290 | 0 | 0 | 2026-10-28 |
+| `bosses/royal-titans` | 12 | 3,558 | 2 | 0 | 2026-10-29 |
 | `bosses/sarachnis` | 1 | 132 | 1 | 0 | 2026-10-27 |
 | `bosses/scorpia` | 1 | 133 | 0 | 0 | 2026-10-25 |
-| `bosses/scurrius` | 2 | 384 | 0 | 0 | 2026-10-18 |
+| `bosses/scurrius` | 2 | 384 | 0 | 0 | 2026-10-01 |
 | `bosses/skotizo` | 1 | 264 | 1 | 0 | 2026-10-27 |
-| `bosses/spindel` | 2 | 522 | 0 | 0 | 2026-10-18 |
+| `bosses/spindel` | 2 | 522 | 0 | 0 | 2026-09-30 |
 | `bosses/thermy` | 2 | 125 | 1 | 0 | 2026-10-26 |
-| `bosses/tormented-demon` | 2 | 531 | 0 | 0 | 2026-10-18 |
+| `bosses/tormented-demon` | 2 | 531 | 0 | 0 | 2026-10-01 |
 | `bosses/tztokjad` | 1 | 223 | 1 | 0 | 2026-10-29 |
-| `bosses/vardorvis` | 7 | 1,287 | 0 | 0 | 2026-10-18 |
+| `bosses/vardorvis` | 7 | 1,287 | 0 | 0 | 2026-10-01 |
 | `bosses/vetion` | 1 | 233 | 1 | 0 | 2026-10-27 |
 | `bosses/vorkath` | 1 | 476 | 1 | 0 | 2026-10-27 |
 | `bosses/whisperer` | 5 | 1,854 | 0 | 0 | 2026-10-27 |
+| `bosses/wintertodt` | 2 | 860 | 1 | 0 | 2026-10-29 |
 | `bosses/world-bosses` | 1 | 218 | 0 | 0 | 2026-10-28 |
-| `bosses/zilyana` | 2 | 164 | 0 | 0 | 2026-10-18 |
+| `bosses/zilyana` | 2 | 164 | 0 | 0 | 2026-09-30 |
 | `bosses/zulrah` | 4 | 639 | 1 | 0 | 2026-10-27 |
-| `drops` | 255 | 14,694 | 0 | 0 | 2026-10-29 |
-| `events/raging-echoes-league` | 2 | 49 | 0 | 0 | 2026-10-18 |
+| `drops` | 253 | 14,543 | 0 | 0 | 2026-10-29 |
+| `events/raging-echoes-league` | 2 | 49 | 0 | 0 | 2026-10-06 |
 | `events/shooting-stars` | 9 | 1,261 | 0 | 0 | 2026-10-18 |
-| `events/shooting-stars/pack` | 2 | 440 | 0 | 0 | 2026-10-18 |
+| `events/shooting-stars/pack` | 2 | 440 | 0 | 0 | 2026-08-21 |
 | `generic/generic-items` | 1 | 55 | 0 | 0 | 2026-10-19 |
 | `generic/generic-items/pack` | 2 | 140 | 0 | 0 | 2026-10-19 |
 | `generic/generic-locs` | 31 | 1,638 | 2 | 1 | 2026-10-27 |
@@ -372,74 +379,74 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `generic/generic-npcs/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `generic/killcount` | 1 | 36 | 0 | 0 | 2026-10-27 |
 | `interfaces/bank` | 15 | 2,320 | 3 | 1 | 2026-10-25 |
-| `interfaces/collection-log` | 4 | 543 | 0 | 0 | 2026-10-18 |
-| `interfaces/combat-tab` | 1 | 613 | 1 | 0 | 2026-10-18 |
-| `interfaces/deposit-box` | 6 | 459 | 0 | 1 | 2026-10-18 |
+| `interfaces/collection-log` | 4 | 543 | 0 | 0 | 2026-08-18 |
+| `interfaces/combat-tab` | 1 | 613 | 1 | 0 | 2026-06-21 |
+| `interfaces/deposit-box` | 6 | 459 | 0 | 1 | 2026-08-08 |
 | `interfaces/emotes` | 2 | 637 | 2 | 0 | 2026-10-22 |
 | `interfaces/equipment` | 3 | 682 | 0 | 0 | 2026-10-25 |
-| `interfaces/fade-overlay` | 1 | 20 | 0 | 0 | 2026-10-18 |
+| `interfaces/fade-overlay` | 1 | 20 | 0 | 0 | 2026-05-03 |
 | `interfaces/gameframe` | 7 | 550 | 0 | 0 | 2026-10-22 |
-| `interfaces/gameframe/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `interfaces/journal-tab` | 4 | 283 | 0 | 0 | 2026-10-18 |
-| `interfaces/logout-tab` | 1 | 30 | 0 | 0 | 2026-10-18 |
-| `interfaces/menu` | 1 | 23 | 0 | 1 | 2026-10-18 |
-| `interfaces/omnishop` | 2 | 266 | 0 | 0 | 2026-10-18 |
+| `interfaces/gameframe/pack` | 1 | 6 | 0 | 0 | 2026-10-14 |
+| `interfaces/journal-tab` | 4 | 283 | 0 | 0 | 2026-10-14 |
+| `interfaces/logout-tab` | 1 | 30 | 0 | 0 | 2026-05-03 |
+| `interfaces/menu` | 1 | 23 | 0 | 1 | 2026-05-03 |
+| `interfaces/omnishop` | 2 | 266 | 0 | 0 | 2026-09-23 |
 | `interfaces/prayer-tab` | 10 | 797 | 0 | 0 | 2026-10-21 |
 | `interfaces/settings` | 10 | 1,126 | 2 | 0 | 2026-10-25 |
 | `interfaces/settings/pack` | 2 | 222 | 0 | 0 | 2026-10-21 |
-| `interfaces/skill-guides` | 1 | 114 | 0 | 0 | 2026-10-18 |
-| `interfaces/spellbook` | 1 | 63 | 0 | 0 | 2026-10-18 |
-| `interfaces/worldmap` | 1 | 104 | 0 | 0 | 2026-10-18 |
-| `interfaces/xp-drops` | 1 | 44 | 0 | 0 | 2026-10-18 |
+| `interfaces/skill-guides` | 1 | 114 | 0 | 0 | 2026-07-04 |
+| `interfaces/spellbook` | 1 | 63 | 0 | 0 | 2026-10-14 |
+| `interfaces/worldmap` | 1 | 104 | 0 | 0 | 2026-07-04 |
+| `interfaces/xp-drops` | 1 | 44 | 0 | 0 | 2026-09-28 |
 | `minigames/fight-cave` | 3 | 486 | 0 | 0 | 2026-10-29 |
-| `minigames/gauntlet` | 35 | 3,514 | 2 | 0 | 2026-10-18 |
+| `minigames/gauntlet` | 35 | 3,514 | 2 | 0 | 2026-10-09 |
 | `minigames/giants-foundry` | 17 | 4,126 | 5 | 2 | 2026-10-27 |
 | `minigames/giants-foundry/pack` | 2 | 345 | 0 | 0 | 2026-10-27 |
 | `minigames/inferno` | 3 | 514 | 0 | 0 | 2026-10-29 |
 | `minigames/ket-rak` | 3 | 657 | 0 | 0 | 2026-10-29 |
 | `minigames/nightmare-zone` | 3 | 395 | 0 | 0 | 2026-10-29 |
 | `other/commands` | 5 | 1,601 | 0 | 0 | 2026-10-28 |
-| `other/consumables` | 40 | 8,629 | 5 | 0 | 2026-10-18 |
-| `other/dave/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `other/discord` | 2 | 80 | 0 | 0 | 2026-10-18 |
+| `other/consumables` | 40 | 8,629 | 5 | 0 | 2026-10-09 |
+| `other/dave/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
+| `other/discord` | 2 | 80 | 0 | 0 | 2026-07-01 |
 | `other/gravestones` | 8 | 934 | 2 | 2 | 2026-10-25 |
 | `other/gravestones/pack` | 1 | 6 | 0 | 0 | 2026-10-25 |
 | `other/ironman` | 5 | 403 | 0 | 0 | 2026-10-26 |
 | `other/login` | 1 | 184 | 0 | 0 | 2026-10-25 |
 | `other/mapclock` | 1 | 63 | 0 | 0 | 2026-10-22 |
 | `other/pets` | 100 | 7,853 | 0 | 0 | 2026-10-19 |
-| `other/pets/pack` | 7 | 1,292 | 0 | 0 | 2026-10-18 |
+| `other/pets/pack` | 7 | 1,292 | 0 | 0 | 2026-10-09 |
 | `other/plank-sack` | 4 | 164 | 0 | 0 | 2026-10-18 |
-| `other/sandstorm` | 2 | 364 | 0 | 0 | 2026-10-18 |
-| `other/sawmill` | 4 | 268 | 1 | 0 | 2026-10-18 |
-| `other/sawmill/pack` | 3 | 111 | 0 | 0 | 2026-10-18 |
-| `other/spawn` | 1 | 333 | 0 | 0 | 2026-10-18 |
-| `other/spawn/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `other/special-attacks` | 5 | 629 | 0 | 0 | 2026-10-18 |
+| `other/sandstorm` | 2 | 364 | 0 | 0 | 2026-08-18 |
+| `other/sawmill` | 4 | 268 | 1 | 0 | 2026-10-13 |
+| `other/sawmill/pack` | 3 | 111 | 0 | 0 | 2026-10-13 |
+| `other/spawn` | 1 | 333 | 0 | 0 | 2026-09-23 |
+| `other/spawn/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
+| `other/special-attacks` | 5 | 629 | 0 | 0 | 2026-10-05 |
 | `other/special-weapons` | 13 | 2,081 | 2 | 1 | 2026-10-25 |
-| `other/windmill` | 2 | 133 | 0 | 0 | 2026-10-18 |
-| `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
+| `other/windmill` | 2 | 133 | 0 | 0 | 2026-09-23 |
+| `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `quest` | 85 | 18,013 | 16 | 4 | 2026-10-27 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-10-25 |
 | `skills/agility` | 2 | 343 | 2 | 0 | 2026-10-25 |
 | `skills/agility/pack` | 1 | 6 | 0 | 0 | 2026-10-25 |
 | `skills/cooking` | 13 | 1,405 | 0 | 0 | 2026-10-19 |
-| `skills/crafting` | 30 | 3,684 | 0 | 0 | 2026-10-18 |
-| `skills/crafting/pack` | 2 | 2,699 | 0 | 0 | 2026-10-18 |
-| `skills/firemaking` | 6 | 589 | 0 | 0 | 2026-10-18 |
+| `skills/crafting` | 30 | 3,684 | 0 | 0 | 2026-09-23 |
+| `skills/crafting/pack` | 2 | 2,699 | 0 | 0 | 2026-09-22 |
+| `skills/firemaking` | 6 | 589 | 0 | 0 | 2026-08-08 |
 | `skills/fishing` | 15 | 1,493 | 2 | 0 | 2026-10-25 |
-| `skills/fishing/pack` | 3 | 206 | 0 | 0 | 2026-10-18 |
+| `skills/fishing/pack` | 3 | 206 | 0 | 0 | 2026-09-25 |
 | `skills/fletching` | 1 | 265 | 1 | 0 | 2026-10-28 |
 | `skills/fletching/pack` | 2 | 413 | 0 | 0 | 2026-10-28 |
-| `skills/herblore` | 11 | 1,246 | 0 | 0 | 2026-10-18 |
+| `skills/herblore` | 11 | 1,246 | 0 | 0 | 2026-10-05 |
 | `skills/hunter` | 4 | 1,466 | 1 | 0 | 2026-10-25 |
 | `skills/hunter/pack` | 2 | 570 | 0 | 0 | 2026-10-25 |
-| `skills/magic/alchemy` | 1 | 253 | 0 | 0 | 2026-10-18 |
-| `skills/magic/arceuus-spells` | 14 | 1,387 | 1 | 1 | 2026-10-18 |
+| `skills/magic/alchemy` | 1 | 253 | 0 | 0 | 2026-06-21 |
+| `skills/magic/arceuus-spells` | 14 | 1,387 | 1 | 1 | 2026-10-04 |
 | `skills/magic/rune-pouch` | 2 | 299 | 1 | 0 | 2026-10-21 |
-| `skills/magic/spell-attacks` | 8 | 1,505 | 3 | 0 | 2026-10-18 |
+| `skills/magic/spell-attacks` | 8 | 1,509 | 3 | 0 | 2026-10-29 |
 | `skills/magic/spell-teleports` | 2 | 626 | 2 | 1 | 2026-10-22 |
-| `skills/magic/spellbook-altars` | 1 | 37 | 0 | 0 | 2026-10-18 |
+| `skills/magic/spellbook-altars` | 1 | 37 | 0 | 0 | 2026-09-29 |
 | `skills/mining` | 11 | 1,053 | 0 | 0 | 2026-10-18 |
 | `skills/prayer` | 29 | 2,608 | 0 | 0 | 2026-10-25 |
 | `skills/runecrafting` | 24 | 2,604 | 0 | 0 | 2026-10-25 |
@@ -447,10 +454,10 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `skills/slayer` | 51 | 5,969 | 8 | 0 | 2026-10-25 |
 | `skills/slayer/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
 | `skills/smithing` | 15 | 2,118 | 1 | 1 | 2026-10-21 |
-| `skills/thieving` | 2 | 419 | 0 | 0 | 2026-10-18 |
+| `skills/thieving` | 2 | 419 | 0 | 0 | 2026-10-15 |
 | `skills/utils` | 2 | 355 | 0 | 0 | 2026-10-27 |
-| `skills/woodcutting` | 5 | 429 | 2 | 2 | 2026-10-18 |
-| `travel/canoe` | 6 | 1,122 | 1 | 2 | 2026-10-18 |
+| `skills/woodcutting` | 5 | 429 | 2 | 2 | 2026-10-09 |
+| `travel/canoe` | 6 | 1,122 | 1 | 2 | 2026-07-22 |
 
 ---
 
