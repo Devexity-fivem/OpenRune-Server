@@ -69,9 +69,9 @@ class WorldBossesSpecTest {
     fun `moons specs match wiki mechanics`() {
         val specs =
             mapOf(
-                "blood" to Triple(bloodMoonSpec(), listOf("rain", "jaguar"), 100),
-                "blue" to Triple(blueMoonSpec(), listOf("freeze", "storm"), 0),
-                "eclipse" to Triple(eclipseMoonSpec(), listOf("rays", "clones"), 0),
+                "blood" to Triple(bloodMoonSpec(), listOf("rain", "jaguar"), intArrayOf(100, 200, 300)),
+                "blue" to Triple(blueMoonSpec(), listOf("freeze", "storm"), intArrayOf(0, 0, 0)),
+                "eclipse" to Triple(eclipseMoonSpec(), listOf("rays", "clones"), intArrayOf(0, 0, 0)),
             )
         for ((name, entry) in specs) {
             val (spec, branches, lifesteal) = entry
@@ -80,7 +80,7 @@ class WorldBossesSpecTest {
             val melee = spec.abilities.getValue("melee") as Effect.Sequence
             val hit = melee.effects.filterIsInstance<Effect.Hit>().single()
             assertEquals(100, hit.penetration, "$name standard attack ignores prayers")
-            assertEquals(lifesteal, hit.lifesteal)
+            assertEquals(lifesteal[0], hit.lifesteal)
 
             val hit2 = hit.onHit as? Effect.Hit
             val hit3 = hit2?.onHit as? Effect.Hit
@@ -88,7 +88,8 @@ class WorldBossesSpecTest {
             assertEquals(0..8, ((hit2?.damage as DamageExpr.Accuracy).on as DamageExpr.Roll).range)
             assertEquals(0..20, ((hit3?.damage as DamageExpr.Accuracy).on as DamageExpr.Roll).range)
             assertNull(hit3?.onHit, "$name triple-hit chain ends after third hit")
-            assertEquals(lifesteal * 3, hit3?.lifesteal)
+            assertEquals(lifesteal[1], hit2?.lifesteal)
+            assertEquals(lifesteal[2], hit3?.lifesteal)
 
             val phase = spec.phases.getValue("combat")
             val forced = phase.forceAbilities.single { it.attackMin != null }

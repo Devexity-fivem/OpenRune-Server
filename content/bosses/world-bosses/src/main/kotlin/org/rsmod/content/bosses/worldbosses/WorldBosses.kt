@@ -13,27 +13,28 @@ import org.rsmod.api.bosses.spec.Selector
 // Moons of Peril — every moon's standard attack is a three-hit typeless slash
 // (max 4+8+20): accuracy rolls against melee defence per hit and a miss ends
 // the rest of the stack, so each stage chains through onHit. penetration(100)
-// ignores protection prayers, matching the typeless style. [lifesteal] is the
-// percent of landed damage healed per hit — only the Blood Moon self-heals,
-// 1x on the first two hits and 3x on the third.
-private fun moonTripleHit(lifesteal: Int): Effect.Hit =
+// ignores protection prayers, matching the typeless style. The lifesteal
+// percents are the Blood Moon's heal-per-hit (1x/2x/3x of damage dealt; the
+// third is clamped 30..50 in OSRS — a clamped heal needs an extension handler,
+// so the raw 3x is used for now).
+private fun moonTripleHit(lifesteal1: Int, lifesteal2: Int, lifesteal3: Int): Effect.Hit =
     Effect.Hit(
         damage = DamageExpr.Accuracy(on = (0..4).roll()),
         type = Melee,
         penetration = 100,
-        lifesteal = lifesteal,
+        lifesteal = lifesteal1,
         onHit =
             Effect.Hit(
                 damage = DamageExpr.Accuracy(on = (0..8).roll()),
                 type = Melee,
                 penetration = 100,
-                lifesteal = lifesteal,
+                lifesteal = lifesteal2,
                 onHit =
                     Effect.Hit(
                         damage = DamageExpr.Accuracy(on = (0..20).roll()),
                         type = Melee,
                         penetration = 100,
-                        lifesteal = lifesteal * 3,
+                        lifesteal = lifesteal3,
                     ),
             ),
     )
@@ -45,17 +46,18 @@ private fun specialChooser(vararg branches: Pair<String, Effect>): Effect =
     )
 
 // Moons of Peril — Blood Moon: after six standard attacks she alternates Blood
-// Rain (telegraphed blood pools) and Blood Jaguar. TODO: the jaguar currently
-// fights as an owned add — the real attack transmogs her into a dashing jaguar
-// that leaves blood-pool trails. The _vis statue stays in the spec: the spawned
-// entity keeps type 13011 after transmog, so encounter registration and respawn
-// hooks resolve through it.
+// Rain (telegraphed blood pools) and Blood Jaguar (a pack of jaguars). TODO:
+// Blood Rain should hide her while pools form via loc.pmoon_boss_blood_pool;
+// the jaguar special should lay a pool square, park the player at Eyatlalli's
+// glyph, and heal her 3x for pool/jaguar damage taken. The _vis statue stays
+// in the spec: the spawned entity keeps type 13011 after transmog, so encounter
+// registration and respawn hooks resolve through it.
 internal fun bloodMoonSpec(): BossSpec =
     boss("npc.pmoon_boss_blood_moon", "npc.pmoon_boss_blood_moon_vis") {
         stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.pmoon_macuahuitl_crush")
-            include(moonTripleHit(lifesteal = 100))
+            include(moonTripleHit(100, 200, 300))
         }
         val special =
             ability(
@@ -74,7 +76,8 @@ internal fun bloodMoonSpec(): BossSpec =
                     "jaguar" to
                         summon(
                             npc = "npc.pmoon_boss_jaguar",
-                            count = 1,
+                            count = 4,
+                            radius = 6,
                             mode = NpcMode.ApPlayer2,
                             duration = 40,
                             owned = true,
@@ -97,7 +100,7 @@ internal fun blueMoonSpec(): BossSpec =
         stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.pmoon_macuahuitl_crush")
-            include(moonTripleHit(lifesteal = 0))
+            include(moonTripleHit(0, 0, 0))
         }
         val special =
             ability(
@@ -143,7 +146,7 @@ internal fun eclipseMoonSpec(): BossSpec =
         stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.pmoon_macuahuitl_crush")
-            include(moonTripleHit(lifesteal = 0))
+            include(moonTripleHit(0, 0, 0))
         }
         val special =
             ability(
