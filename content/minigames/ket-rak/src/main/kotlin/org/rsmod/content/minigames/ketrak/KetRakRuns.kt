@@ -331,8 +331,8 @@ constructor(
                 destroyWhenEmpty = true,
                 area =
                     InstanceArea.copyRegions(
-                        regionIds = listOf(10063),
-                        enterCoord = RegionLocal(0, 39, 79, 38, 52),
+                        regionIds = listOf(9551),
+                        enterCoord = RegionLocal(0, 37, 79, 45, 54),
                         exitCoord = CITY_EXIT,
                     ),
                 settingsRowId = 0,

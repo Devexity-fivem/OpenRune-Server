@@ -201,7 +201,7 @@ class TzTokJad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         private const val MELEE_MAX = 97
         private const val RANGED_MAX = 97
         private const val MAGIC_MAX = 95
-        private const val BOULDER_DELAY = 60
+        private const val BOULDER_DELAY = 4
 
         private const val HEALER_THRESHOLD = 150
         private const val HEALER_DURATION = 99_999

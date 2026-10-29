@@ -96,7 +96,7 @@ constructor(
                 player.timer(KetRakRuns.EXIT_TIMER, 2)
                 return@onPlayerSoftTimer
             }
-            for (npc in run.npcs) {
+            for (npc in run.npcs.toList()) {
                 when (npc.type.internalName) {
                     JAD -> {
                         if (npc.mode != NpcMode.OpPlayer2 && npc.mode != NpcMode.ApPlayer2) {

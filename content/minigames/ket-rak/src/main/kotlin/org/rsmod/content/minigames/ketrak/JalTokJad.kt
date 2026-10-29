@@ -104,6 +104,6 @@ class JalTokJad @Inject constructor(deps: BossDeps, private val runs: KetRakRuns
         private const val ATTACK_RATE = 8
         private const val MELEE_ATTACK_RATE = 4
         private const val MAX_HIT = 113
-        private const val BOULDER_DELAY = 60
+        private const val BOULDER_DELAY = 4
     }
 }
