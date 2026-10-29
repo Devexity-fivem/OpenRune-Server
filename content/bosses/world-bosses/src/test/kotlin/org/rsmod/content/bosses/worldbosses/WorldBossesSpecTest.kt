@@ -6,11 +6,15 @@ import dev.openrune.rscm.RSCMType
 import java.io.File
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import org.junit.jupiter.api.parallel.ResourceLock
+import org.rsmod.api.bosses.spec.DamageExpr
+import org.rsmod.api.bosses.spec.Effect
+import org.rsmod.api.bosses.spec.Selector
 
 @Execution(ExecutionMode.SAME_THREAD)
 @ResourceLock("ServerCacheManager")
@@ -58,6 +62,43 @@ class WorldBossesSpecTest {
             assertEquals(500, realType.hitpoints, "$real combat hp")
             assertEquals(hideNpc, realType.multiVarBit, "$real transform selector")
             assertEquals(statueType.id, realType.multiNpc[0], "$real should render $statue at rest")
+        }
+    }
+
+    @Test
+    fun `moons specs match wiki mechanics`() {
+        val specs =
+            mapOf(
+                "blood" to Triple(bloodMoonSpec(), listOf("rain", "jaguar"), 100),
+                "blue" to Triple(blueMoonSpec(), listOf("freeze", "storm"), 0),
+                "eclipse" to Triple(eclipseMoonSpec(), listOf("rays", "clones"), 0),
+            )
+        for ((name, entry) in specs) {
+            val (spec, branches, lifesteal) = entry
+            assertEquals(6, spec.stats.attackRate, "$name attack speed should be 6 ticks")
+
+            val melee = spec.abilities.getValue("melee") as Effect.Sequence
+            val hit = melee.effects.filterIsInstance<Effect.Hit>().single()
+            assertEquals(100, hit.penetration, "$name standard attack ignores prayers")
+            assertEquals(lifesteal, hit.lifesteal)
+
+            val hit2 = hit.onHit as? Effect.Hit
+            val hit3 = hit2?.onHit as? Effect.Hit
+            assertEquals(0..4, ((hit.damage as DamageExpr.Accuracy).on as DamageExpr.Roll).range)
+            assertEquals(0..8, ((hit2?.damage as DamageExpr.Accuracy).on as DamageExpr.Roll).range)
+            assertEquals(0..20, ((hit3?.damage as DamageExpr.Accuracy).on as DamageExpr.Roll).range)
+            assertNull(hit3?.onHit, "$name triple-hit chain ends after third hit")
+            assertEquals(lifesteal * 3, hit3?.lifesteal)
+
+            val phase = spec.phases.getValue("combat")
+            val forced = phase.forceAbilities.single { it.attackMin != null }
+            assertEquals(6, forced.attackMin)
+            assertEquals(6, forced.attackMax)
+            assertEquals("special", forced.ability)
+
+            val special = spec.abilities.getValue("special") as Effect.Choose
+            assertEquals(branches, (special.selector as Selector.Rotation).sequence)
+            assertEquals(branches.toSet(), special.branches.keys)
         }
     }
 

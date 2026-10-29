@@ -1,54 +1,194 @@
 package org.rsmod.content.bosses.worldbosses
 
+import dev.openrune.types.NpcMode
 import jakarta.inject.Inject
 import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
+import org.rsmod.api.bosses.spec.DamageExpr
 import org.rsmod.api.bosses.spec.Effect
+import org.rsmod.api.bosses.spec.Selector
 
-// Moons of Peril — Blood Moon: 6-tick attack speed; triple-hit combo and
-// blood-pool/jaguar specials not yet modelled. The _vis statue stays in the
-// spec: the spawned entity keeps type 13011 after transmog, so encounter
-// registration and respawn hooks resolve through it.
+// Moons of Peril — every moon's standard attack is a three-hit typeless slash
+// (max 4+8+20): accuracy rolls against melee defence per hit and a miss ends
+// the rest of the stack, so each stage chains through onHit. penetration(100)
+// ignores protection prayers, matching the typeless style. [lifesteal] is the
+// percent of landed damage healed per hit — only the Blood Moon self-heals,
+// 1x on the first two hits and 3x on the third.
+private fun moonTripleHit(lifesteal: Int): Effect.Hit =
+    Effect.Hit(
+        damage = DamageExpr.Accuracy(on = (0..4).roll()),
+        type = Melee,
+        penetration = 100,
+        lifesteal = lifesteal,
+        onHit =
+            Effect.Hit(
+                damage = DamageExpr.Accuracy(on = (0..8).roll()),
+                type = Melee,
+                penetration = 100,
+                lifesteal = lifesteal,
+                onHit =
+                    Effect.Hit(
+                        damage = DamageExpr.Accuracy(on = (0..20).roll()),
+                        type = Melee,
+                        penetration = 100,
+                        lifesteal = lifesteal * 3,
+                    ),
+            ),
+    )
+
+private fun specialChooser(vararg branches: Pair<String, Effect>): Effect =
+    choose(
+        Selector.Rotation(branches.map { it.first }),
+        branches.toMap(),
+    )
+
+// Moons of Peril — Blood Moon: after six standard attacks she alternates Blood
+// Rain (telegraphed blood pools) and Blood Jaguar. TODO: the jaguar currently
+// fights as an owned add — the real attack transmogs her into a dashing jaguar
+// that leaves blood-pool trails. The _vis statue stays in the spec: the spawned
+// entity keeps type 13011 after transmog, so encounter registration and respawn
+// hooks resolve through it.
+internal fun bloodMoonSpec(): BossSpec =
+    boss("npc.pmoon_boss_blood_moon", "npc.pmoon_boss_blood_moon_vis") {
+        stats(attackRate = 6)
+        val melee = ability("melee") {
+            anim("seq.pmoon_macuahuitl_crush")
+            include(moonTripleHit(lifesteal = 100))
+        }
+        val special =
+            ability(
+                "special",
+                specialChooser(
+                    "rain" to
+                        sequence(
+                            anim("seq.pmoon_macuahuitl_crush"),
+                            debris(
+                                telegraph = "spotanim.spell_blood_barrage_impact",
+                                damage = (0..15).roll(),
+                                windup = 3,
+                                count = 4..6,
+                            ),
+                        ),
+                    "jaguar" to
+                        summon(
+                            npc = "npc.pmoon_boss_jaguar",
+                            count = 1,
+                            mode = NpcMode.ApPlayer2,
+                            duration = 40,
+                            owned = true,
+                        ),
+                ),
+            )
+        phase("combat") {
+            forceEveryAttacks(6, 6, special)
+            weightedSelectorRandom { +random(melee, weight = 1) }
+        }
+    }
+
+// Moons of Peril — Blue Moon: alternates Weapon Freeze and Frost Storm after
+// six standard attacks. TODO: Weapon Freeze only binds the player — the real
+// attack disarms the weapon into an ice block that must be punched free while
+// icicles fall; Frost Storm should extinguish the braziers and heal her 5x10
+// while they stay unlit, with the storms roaming rather than homing.
+internal fun blueMoonSpec(): BossSpec =
+    boss("npc.pmoon_boss_blue_moon", "npc.pmoon_boss_blue_moon_vis") {
+        stats(attackRate = 6)
+        val melee = ability("melee") {
+            anim("seq.pmoon_macuahuitl_crush")
+            include(moonTripleHit(lifesteal = 0))
+        }
+        val special =
+            ability(
+                "special",
+                specialChooser(
+                    "freeze" to
+                        sequence(
+                            Effect.Freeze(WEAPON_FREEZE_TICKS),
+                            summon(
+                                npc = "npc.pmoon_boss_icicle_1",
+                                count = 2,
+                                mode = NpcMode.ApPlayer2,
+                                duration = 40,
+                                owned = true,
+                            ),
+                        ),
+                    "storm" to
+                        sequence(
+                            summon(
+                                npc = "npc.pmoon_boss_winter_storm",
+                                count = 2,
+                                mode = NpcMode.ApPlayer2,
+                                duration = 30,
+                                owned = true,
+                            ),
+                            healSelf(FROST_STORM_HEAL),
+                        ),
+                ),
+            )
+        phase("combat") {
+            forceEveryAttacks(6, 6, special)
+            weightedSelectorRandom { +random(melee, weight = 1) }
+        }
+    }
+
+// Moons of Peril — Eclipse Moon: alternates Searing Rays and Clones after six
+// standard attacks. TODO: Searing Rays only summons the moon shield — the real
+// attack shoves the player behind it while light rays sweep the chamber, and
+// Clones should bind the player at the centre and fire 15 attacks in five
+// cycles of three that facing each clone parries.
+internal fun eclipseMoonSpec(): BossSpec =
+    boss("npc.pmoon_boss_eclipse_moon", "npc.pmoon_boss_eclipse_moon_vis") {
+        stats(attackRate = 6)
+        val melee = ability("melee") {
+            anim("seq.pmoon_macuahuitl_crush")
+            include(moonTripleHit(lifesteal = 0))
+        }
+        val special =
+            ability(
+                "special",
+                specialChooser(
+                    "rays" to
+                        summon(
+                            npc = "npc.pmoon_boss_eclipse_moon_shield",
+                            count = 1,
+                            duration = 30,
+                            owned = true,
+                        ),
+                    "clones" to
+                        sequence(
+                            Effect.Freeze(CLONE_BIND_TICKS),
+                            summon(
+                                npc = "npc.pmoon_boss_eclipse_clone",
+                                count = 3,
+                                mode = NpcMode.ApPlayer2,
+                                duration = 40,
+                                owned = true,
+                            ),
+                        ),
+                ),
+            )
+        phase("combat") {
+            forceEveryAttacks(6, 6, special)
+            weightedSelectorRandom { +random(melee, weight = 1) }
+        }
+    }
+
+private const val WEAPON_FREEZE_TICKS = 8
+private const val FROST_STORM_HEAL = 10
+private const val CLONE_BIND_TICKS = 3
+
 class BloodMoon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec =
-        boss("npc.pmoon_boss_blood_moon", "npc.pmoon_boss_blood_moon_vis") {
-            stats(attackRate = 6)
-            val melee = ability("melee") {
-                anim("seq.demon_attack")
-                hit { damage(0..32).roll(); type(Melee) }
-            }
-            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
-        }
+    override val spec: BossSpec = bloodMoonSpec()
 }
 
-// Moons of Peril — Blue Moon: 6-tick attack speed; weapon-freeze and
-// frost-storm specials not yet modelled.
 class BlueMoon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec =
-        boss("npc.pmoon_boss_blue_moon", "npc.pmoon_boss_blue_moon_vis") {
-            stats(attackRate = 6)
-            val melee = ability("melee") {
-                anim("seq.demon_attack")
-                hit { damage(0..32).roll(); type(Melee) }
-            }
-            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
-        }
+    override val spec: BossSpec = blueMoonSpec()
 }
 
-// Moons of Peril — Eclipse Moon: 6-tick attack speed; searing-rays and
-// clone specials not yet modelled.
 class EclipseMoon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec =
-        boss("npc.pmoon_boss_eclipse_moon", "npc.pmoon_boss_eclipse_moon_vis") {
-            stats(attackRate = 6)
-            val melee = ability("melee") {
-                anim("seq.demon_attack")
-                hit { damage(0..32).roll(); type(Melee) }
-            }
-            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
-        }
+    override val spec: BossSpec = eclipseMoonSpec()
 }
 
 // Grotesque Guardians — Dawn: melee gargoyle up to ~27.
