@@ -64,6 +64,40 @@ public object ToxinImmunity {
             key = venomUntil,
         ) > 0
 
+    /**
+     * Shortens an active poison immunity by [ticks] cycles (effects like bile pools that eat
+     * through an antipoison). A drained expiry re-arms the warning so it can fire again.
+     */
+    public fun drainImmunity(
+        player: Player,
+        ticks: Int,
+        clock: Int = player.currentMapClock,
+    ) {
+        if (ticks <= 0) {
+            return
+        }
+        val until = player.attr[poisonUntil] ?: return
+        if (until <= clock) {
+            return
+        }
+        val drained = until - ticks
+        if (drained <= clock) {
+            player.attr.remove(poisonUntil)
+            player.attr.remove(warnedPoisonUntil)
+        } else {
+            player.attr[poisonUntil] = drained
+            player.attr.remove(warnedPoisonUntil)
+        }
+        restartImmunityDisplay(
+            player = player,
+            clock = clock,
+        )
+        rearmTimer(
+            player = player,
+            clock = clock,
+        )
+    }
+
     public fun grantImmunity(
         player: Player,
         poisonDuration: Int,

@@ -409,5 +409,26 @@ object InstanceSettingsTable {
             columnRSCM(ENTER_OBJECT, "loc.royal_titans_entrance")
             columnRSCM(EXIT_OBJECT, "loc.royal_titans_exit")
         }
+
+        row("dbrow.instance_maggot_king") {
+            column(KEY, "maggot_king")
+            columnCoord(EXIT_COORD, CoordGrid(2679, 7852, 0))
+            columnCoord(ENTER_COORD, CoordGrid(2911, 8034, 0))
+            column(FEE, 0)
+            column(MAX_PLAYERS, 1)
+            column(TIME_LIMIT_MINUTES, 0)
+            column(GRACE_MINUTES, 10)
+            columnRSCM(BOSS_NPC, "npc.maggot_king")
+            column(BOSS_NAME, "Maggot King")
+            column(RECOMMENDED_COMBAT, 110, 126)
+            column(TEAM_SIZE, 1)
+            column(LOOT_MULTIPLIER, "x1.0")
+            column(
+                DESCRIPTION,
+                "An ur-maggot puppeteering a venator's corpse, nesting behind a wall of bones on Vampyrium.",
+            )
+            columnRSCM(ENTER_OBJECT, "loc.darkwood_tree_doorway01_4x3")
+            columnRSCM(EXIT_OBJECT, "loc.darkwood_tree_doorway01_exit")
+        }
     }
 }

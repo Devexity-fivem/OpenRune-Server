@@ -191,3 +191,5 @@ giants_foundry_reward_shop_items=4379
 giants_foundry_ore_pack_weights=64430
 giants_foundry_heat_steps=64431
 sleeping_giants_nails=64434
+pest_control_reward_objects=64421
+pest_control_refund_points=64422

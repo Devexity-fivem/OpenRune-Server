@@ -224,6 +224,30 @@ id = "varn.slayer_finishing_until"
 id = "varn.bryophyta_summon_cd"
 
 [[varn]]
+id = "varn.maggot_king_style"
+
+[[varn]]
+id = "varn.maggot_king_mode"
+
+[[varn]]
+id = "varn.maggot_king_at_wall"
+
+[[varn]]
+id = "varn.maggot_king_slam_tick"
+
+[[varn]]
+id = "varn.maggot_king_screeches"
+
+[[varn]]
+id = "varn.maggot_king_larva_side"
+
+[[varn]]
+id = "varn.maggot_king_larva_fly"
+
+[[varn]]
+id = "varn.maggot_king_looted"
+
+[[varn]]
 id = "varn.nex_curse"
 
 [[varn]]

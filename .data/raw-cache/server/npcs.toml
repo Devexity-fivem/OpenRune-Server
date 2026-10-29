@@ -28824,3 +28824,9 @@ id = "npc.vetion_2_single"
 inherit = "npc.vetion_2_single"
 [npc.params]
 "param.killcount_varp"="varp.total_calvarion_kills"
+[[npc]]
+id = "npc.maggot_king"
+inherit = "npc.maggot_king"
+[npc.params]
+"param.boss_hp_bar_mode"=2
+"param.killcount_varp"="varp.total_maggot_king_kills"
