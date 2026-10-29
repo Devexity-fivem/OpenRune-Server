@@ -192,17 +192,8 @@ class TheMimic @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 }
 
-// Zalcano: melee golem up to ~25 (skilling phases are shard-work, not combat).
-class Zalcano @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.zalcano", "npc.zalcano_weak", "npc.zalcano_golem") {
-        stats(attackRate = 5)
-        val melee = ability("melee") {
-            anim("seq.golem_attack")
-            hit { damage(0..25).roll(); type(Melee) }
-        }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
-    }
-}
+// Zalcano lives in content/bosses/zalcano — a dedicated spec here would double-register
+// its npc types' hit and AI combat hooks.
 
 // Tempoross — the sea spirit's enraged surface form hits up to ~20.
 class Tempoross @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
