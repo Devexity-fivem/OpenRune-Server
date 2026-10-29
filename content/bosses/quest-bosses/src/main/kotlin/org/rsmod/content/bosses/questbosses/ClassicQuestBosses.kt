@@ -159,18 +159,6 @@ class TreeSpiritBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps
         }
 }
 
-// Rag and Bone Man wish list: melee up to ~8.
-class MadAngel @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.mad_angel", "npc.mad_angel_quest") {
-        stats(attackRate = 4)
-        val melee = ability("melee") {
-            anim("human_unarmedpunch")
-            hit { damage(0..8).roll(); type(Melee) }
-        }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
-    }
-}
-
 // Recruitment Drive: melee knight that must be beaten without combat gear.
 class SirLeye @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.rd_combat_npc_room_3") {
