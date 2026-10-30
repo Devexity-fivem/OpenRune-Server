@@ -296,7 +296,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/misc/dwarven-mine/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
 | `areas/misc/goblin-village` | 4 | 253 | 0 | 0 | 2026-10-22 |
 | `areas/misc/goblin-village/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
-| `areas/misc/lobbies` | 5 | 872 | 3 | 1 | 2026-10-29 |
+| `areas/misc/lobbies` | 5 | 944 | 3 | 1 | 2026-10-30 |
 | `areas/misc/lobbies/pack` | 1 | 87 | 0 | 0 | 2026-10-29 |
 | `areas/misc/mining-guild` | 8 | 714 | 0 | 0 | 2026-10-18 |
 | `areas/misc/monastery` | 3 | 370 | 1 | 0 | 2026-10-18 |
@@ -349,7 +349,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/nex` | 3 | 1,242 | 1 | 0 | 2026-10-28 |
 | `bosses/obor` | 1 | 60 | 1 | 0 | 2026-10-26 |
 | `bosses/quest-bosses` | 8 | 1,266 | 1 | 0 | 2026-10-29 |
-| `bosses/raid-bosses` | 1 | 290 | 1 | 0 | 2026-10-29 |
+| `bosses/raid-bosses` | 1 | 427 | 1 | 0 | 2026-10-30 |
 | `bosses/royal-titans` | 12 | 3,558 | 2 | 0 | 2026-10-29 |
 | `bosses/sarachnis` | 1 | 132 | 1 | 0 | 2026-10-27 |
 | `bosses/scorpia` | 1 | 133 | 0 | 0 | 2026-10-25 |
@@ -364,7 +364,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/vorkath` | 1 | 476 | 1 | 0 | 2026-10-27 |
 | `bosses/whisperer` | 5 | 1,854 | 0 | 0 | 2026-10-27 |
 | `bosses/wintertodt` | 2 | 955 | 1 | 0 | 2026-10-29 |
-| `bosses/world-bosses` | 3 | 660 | 2 | 0 | 2026-10-29 |
+| `bosses/world-bosses` | 3 | 727 | 2 | 0 | 2026-10-30 |
 | `bosses/zalcano` | 2 | 556 | 0 | 0 | 2026-10-29 |
 | `bosses/zilyana` | 2 | 164 | 0 | 0 | 2026-10-18 |
 | `bosses/zulrah` | 4 | 639 | 1 | 0 | 2026-10-27 |
