@@ -2306,7 +2306,10 @@ id = "npc.godwars_ancient_hobgoblin"
 inherit = "npc.godwars_ancient_hobgoblin"
 category = 65517
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.hobgoblin_attack"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.npc_attack_type"="category.attacktype_crush"
 [[npc]]
 id = "npc.godwars_goblin1"
@@ -2331,7 +2334,10 @@ id = "npc.godwars_goblin3"
 inherit = "npc.godwars_goblin3"
 category = 65517
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.slice_surface_goblin_squat_attack_spear"
+"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
+"param.death_anim"="seq.godwars_goblin_update_banner_death"
+
 "param.npc_attack_type"="category.attacktype_crush"
 [[npc]]
 id = "npc.godwars_goblin4"
@@ -10107,8 +10113,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
+"param.death_anim"="seq.scorpion_update_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.smallscorpion_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.elemental_weakness_type"=3
@@ -11815,8 +11824,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
+"param.death_anim"="seq.scorpion_update_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.smallscorpion_attack"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
 "param.elemental_weakness_type"=3
@@ -11829,8 +11841,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
+"param.death_anim"="seq.scorpion_update_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.smallscorpion_attack"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
 "param.elemental_weakness_type"=3
@@ -12612,8 +12627,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
+"param.death_anim"="seq.scorpion_update_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.smallscorpion_attack"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
 "param.elemental_weakness_type"=3
@@ -12626,8 +12644,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
+"param.death_anim"="seq.scorpion_update_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.smallscorpion_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.elemental_weakness_type"=3
@@ -12655,8 +12676,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
+"param.death_anim"="seq.scorpion_update_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.smallscorpion_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=20
@@ -14088,9 +14112,10 @@ maxRange = 15
 id = "npc.cave_goblin_miner"
 inherit = "npc.cave_goblin_miner"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
@@ -14099,9 +14124,10 @@ inherit = "npc.cave_goblin_miner"
 id = "npc.cave_goblin_miner2"
 inherit = "npc.cave_goblin_miner2"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
@@ -14110,9 +14136,10 @@ inherit = "npc.cave_goblin_miner2"
 id = "npc.cave_goblin_miner3"
 inherit = "npc.cave_goblin_miner3"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
@@ -14121,9 +14148,10 @@ inherit = "npc.cave_goblin_miner3"
 id = "npc.cave_goblin_miner4"
 inherit = "npc.cave_goblin_miner4"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
@@ -14132,9 +14160,10 @@ inherit = "npc.cave_goblin_miner4"
 id = "npc.cave_goblin_guard1"
 inherit = "npc.cave_goblin_guard1"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.elemental_weakness_type"=3
@@ -14144,9 +14173,10 @@ inherit = "npc.cave_goblin_guard1"
 id = "npc.cave_goblin_guard2"
 inherit = "npc.cave_goblin_guard2"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.elemental_weakness_type"=3
@@ -14156,9 +14186,10 @@ inherit = "npc.cave_goblin_guard2"
 id = "npc.cave_goblin_miner_mining"
 inherit = "npc.cave_goblin_miner_mining"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
@@ -14167,9 +14198,10 @@ inherit = "npc.cave_goblin_miner_mining"
 id = "npc.cave_goblin_miner2_mining"
 inherit = "npc.cave_goblin_miner2_mining"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
@@ -14178,9 +14210,10 @@ inherit = "npc.cave_goblin_miner2_mining"
 id = "npc.cave_goblin_miner3_mining"
 inherit = "npc.cave_goblin_miner3_mining"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
@@ -14189,9 +14222,10 @@ inherit = "npc.cave_goblin_miner3_mining"
 id = "npc.cave_goblin_miner4_mining"
 inherit = "npc.cave_goblin_miner4_mining"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.dorgesh_goblin_club_attack"
+"param.defend_anim"="seq.dorgesh_goblin_spear_block"
 "param.death_anim"="seq.dorgesh_goblin_death"
-"param.defend_anim"="seq.dorgesh_goblin_unarmed_defend"
+
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
@@ -17622,6 +17656,10 @@ huntRange = 8
 maxRange = 15
 attackRange = 10
 [npc.params]
+"param.attack_anim"="seq.slice_surface_goblin_squat_unarmed_attack"
+"param.defend_anim"="seq.slice_surface_goblin_defend"
+"param.death_anim"="seq.slice_surface_goblin_death"
+
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
 
@@ -17644,6 +17682,10 @@ huntRange = 8
 maxRange = 15
 attackRange = 10
 [npc.params]
+"param.attack_anim"="seq.hobgoblin_attack"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
 
@@ -20733,7 +20775,10 @@ maxRange = 15
 id = "npc.varlamore_scorpion_savannah"
 inherit = "npc.varlamore_scorpion_savannah"
 [npc.params]
-"param.attack_anim"="seq.smallscorpion_attack"
+"param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
+"param.death_anim"="seq.scorpion_update_death"
+
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
 "param.elemental_weakness_type"=3
@@ -21392,6 +21437,10 @@ inherit = "npc.wild_cave_imp_deadman"
 id = "npc.wild_cave_goblin_deadman"
 inherit = "npc.wild_cave_goblin_deadman"
 [npc.params]
+"param.attack_anim"="seq.slice_surface_goblin_squat_unarmed_attack"
+"param.defend_anim"="seq.slice_surface_goblin_defend"
+"param.death_anim"="seq.slice_surface_goblin_death"
+
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
 
@@ -21519,6 +21568,10 @@ inherit = "npc.sailing_charting_drink_crate_monkfish_stout_effect_dead"
 id = "npc.wild_cave_hobgoblin_deadman"
 inherit = "npc.wild_cave_hobgoblin_deadman"
 [npc.params]
+"param.attack_anim"="seq.hobgoblin_attack"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
 
@@ -22943,9 +22996,11 @@ inherit = "npc.crystal_scorpion"
 maxRange = 20
 wanderRange = 10
 [npc.params]
-"param.dropped_remains"=-1
 "param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
 "param.death_anim"="seq.scorpion_update_death"
+
+"param.dropped_remains"=-1
 
 [[npc]]
 id = "npc.crystal_scorpion_hm"
@@ -22953,9 +23008,11 @@ inherit = "npc.crystal_scorpion_hm"
 maxRange = 20
 wanderRange = 10
 [npc.params]
-"param.dropped_remains"=-1
 "param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
 "param.death_anim"="seq.scorpion_update_death"
+
+"param.dropped_remains"=-1
 
 [[npc]]
 id = "npc.crystal_wolf"
@@ -26341,6 +26398,9 @@ id = "npc.goblin_greenarmour"
 inherit = "npc.goblin_greenarmour"
 [npc.params]
 "param.attack_anim"="seq.goblin_attack_armed"
+"param.defend_anim"="seq.goblin_block"
+"param.death_anim"="seq.goblin_death"
+
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -26348,6 +26408,9 @@ id = "npc.goblin_redarmour"
 inherit = "npc.goblin_redarmour"
 [npc.params]
 "param.attack_anim"="seq.goblin_attack_armed"
+"param.defend_anim"="seq.goblin_block"
+"param.death_anim"="seq.goblin_death"
+
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -26723,7 +26786,10 @@ inherit = "npc.goblin_armed_mcannon_5"
 id = "npc.champions_goblin"
 inherit = "npc.champions_goblin"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.slice_surface_goblin_squat_attack_spear"
+"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
+"param.death_anim"="seq.slice_surface_goblin_death_spear"
+
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -27940,7 +28006,10 @@ maxRange = 15
 id = "npc.poh_hobgoblin"
 inherit = "npc.poh_hobgoblin"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.hobgoblin_attack"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -27950,8 +28019,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.hobgoblin_attackunarmed"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.goblin_attack_armed"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -27961,8 +28033,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.hobgoblin_attack"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.goblin_attack_armed"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -27972,8 +28047,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.hobgoblin_attackunarmed"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.goblin_attack_armed"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -27983,8 +28061,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.hobgoblin_attackunarmed"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.goblin_attack_armed"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -27994,8 +28075,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.hobgoblin_attackunarmed"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.goblin_attack_armed"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -28005,8 +28089,11 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.hobgoblin_attack"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.goblin_attack_armed"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -28016,15 +28103,21 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
+"param.attack_anim"="seq.hobgoblin_attack"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.goblin_attack_armed"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.champions_hobgoblin"
 inherit = "npc.champions_hobgoblin"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.champions_hobgoblin_spear"
+"param.defend_anim"="seq.hobgoblin_block"
+"param.death_anim"="seq.hobgoblin_death"
+
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -30428,7 +30521,10 @@ inherit = "npc.arceuus_reanimated_giant"
 id = "npc.arceuus_reanimated_goblin"
 inherit = "npc.arceuus_reanimated_goblin"
 [npc.params]
-"param.attack_anim"="seq.goblin_attack_armed"
+"param.attack_anim"="seq.goblin_attack_unarmed"
+"param.defend_anim"="seq.goblin_block"
+"param.death_anim"="seq.goblin_death"
+
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -30464,7 +30560,10 @@ inherit = "npc.arceuus_reanimated_ogre"
 id = "npc.arceuus_reanimated_scorpion"
 inherit = "npc.arceuus_reanimated_scorpion"
 [npc.params]
-"param.attack_anim"="seq.smallscorpion_attack"
+"param.attack_anim"="seq.scorpion_update_attack_tail"
+"param.defend_anim"="seq.scorpion_update_defend"
+"param.death_anim"="seq.scorpion_update_death"
+
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -34138,7 +34237,10 @@ huntMode = 2
 huntRange = 8
 maxRange = 15
 attackRange = 10
-
+[npc.params]
+"param.attack_anim"="seq.small_scorpion_update_attack"
+"param.defend_anim"="seq.small_scorpion_update_defend"
+"param.death_anim"="seq.small_scorpion_update_death"
 [[npc]]
 id = "npc.shadeshadow_level6"
 inherit = "npc.shadeshadow_level6"
