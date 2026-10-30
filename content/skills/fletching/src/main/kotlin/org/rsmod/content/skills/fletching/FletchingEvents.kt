@@ -168,9 +168,19 @@ class FletchingEvents @Inject constructor(
         val remaining = task.remaining - made
         if (remaining > 0 && maxCraftable(inv, recipe) > 0) {
             anim(recipe.anim)
-            weakQueue("queue.fletching_craft", maxOf(recipe.ticks, MIN_REQUEUE_TICKS),
+            weakQueue("queue.fletching_craft", maxOf(repeatTicks(recipe), MIN_REQUEUE_TICKS),
                 task.copy(remaining = remaining))
         }
+    }
+
+    // The fletching knife speeds up repeat carving of standard-speed items (bows,
+    // stocks, shafts); special-speed carves like shields and battlestaves keep theirs.
+    private fun ProtectedAccess.repeatTicks(recipe: FletchingRecipe): Int {
+        if (recipe.kind == FletchingKind.CARVE && recipe.ticks == 3 &&
+            (inv.contains(FLETCHING_KNIFE) || FLETCHING_KNIFE in player.worn)) {
+            return 2
+        }
+        return recipe.ticks
     }
 
     /**
@@ -212,6 +222,7 @@ class FletchingEvents @Inject constructor(
     private companion object {
         const val STAT_FLETCHING = "stat.fletching"
         const val FEATHER = "obj.feather"
+        const val FLETCHING_KNIFE = "obj.fletching_knife"
 
         val FEATHERS = listOf(
             "obj.feather",

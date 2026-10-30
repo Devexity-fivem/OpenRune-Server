@@ -12,6 +12,7 @@ import org.rsmod.api.player.skilling.SkillingAwardResult
 import org.rsmod.api.player.skilling.awardSkillingProduct
 import org.rsmod.api.player.stat.agilityLvl
 import org.rsmod.api.player.stat.fishingLvl
+import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.player.stat.strengthLvl
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.script.onOpContentNpc1
@@ -46,6 +47,7 @@ constructor(
     private val rainbowFishId = "obj.hunting_raw_fish_special"
     private val rawSharkId = "obj.raw_shark"
     private val rawAnglerfishId = "obj.raw_anglerfish"
+    private val minnowId = "obj.minnow"
     private var cachedRows: List<FishRow>? = null
     private var typeById: Map<Int, ItemServerType>? = null
     private var cachedCookingXp: Map<String, Int>? = null
@@ -70,6 +72,7 @@ constructor(
                         strReq = r.strReq,
                         agiReq = r.agiReq,
                         baitOverride = if (r.fish.internalName == rainbowFishId) "obj.hunting_stripy_bird_feather" else null,
+                        unboostableReq = r.fish.internalName == minnowId,
                     )
                 }
                 .also { cachedRows = it }
@@ -178,7 +181,14 @@ constructor(
                 method
             }
 
-        val unlocked = FishingCatchLogic.unlocked(spot.spotId, active.methodId, player.fishingLvl, rows)
+        val unlocked =
+            FishingCatchLogic.unlocked(
+                spot.spotId,
+                active.methodId,
+                player.fishingLvl,
+                player.statBase("stat.fishing"),
+                rows,
+            )
         val bait = resolveBait(active)
         val hasBait = bait == null || invTotal(inv, bait) > 0
 
@@ -263,7 +273,11 @@ constructor(
         if (diabolicWorms && caught.fishId == rawAnglerfishId.asRSCM()) {
             xp *= DIABOLIC_WORMS_XP_MULTIPLIER
         }
-        val count = if (caught.countMax > 1) random.of(1, caught.countMax) else 1
+        val count = when {
+            caught.fishId == minnowId.asRSCM() -> minnowCount(player.fishingLvl)
+            caught.countMax > 1 -> random.of(1, caught.countMax)
+            else -> 1
+        }
         val product =
             SkillingProduct(
                 player = player,
@@ -487,6 +501,16 @@ constructor(
         private const val RADAS_BLESSING_4 = "obj.zeah_blessing_elite"
 
         private val SHARK_LURE_QUANTITIES = listOf(1, 3, 5)
+
+        // Minnows per catch scale with Fishing level: 10 at 82, +1 at 85/90/95/99.
+        private fun minnowCount(level: Int): Int =
+            when {
+                level >= 99 -> 14
+                level >= 95 -> 13
+                level >= 90 -> 12
+                level >= 85 -> 11
+                else -> 10
+            }
 
         private val FISHING_RODS =
             setOf(FISHING_ROD, FLY_FISHING_ROD, OILY_FISHING_ROD, BARBARIAN_ROD)

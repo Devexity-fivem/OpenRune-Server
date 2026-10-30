@@ -189,7 +189,7 @@ class WineEvents @Inject constructor() : PluginScript() {
         fermentAllUnfermented(
             unfermented = "obj.jug_unfermented_zamorak_wine",
             product = "obj.wine_of_zamorak",
-            noFailLevel = 75,
+            noFailLevel = 98,
         )
     }
 

@@ -14,4 +14,5 @@ data class FishRow(
     val strReq: Int = 0,
     val agiReq: Int = 0,
     val baitOverride: String? = null,
+    val unboostableReq: Boolean = false,
 )

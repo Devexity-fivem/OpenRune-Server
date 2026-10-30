@@ -48,7 +48,7 @@ constructor(private val repo: PrayerRepository, private val bonuses: WornBonuses
         drainCounter += drainEffect
 
         val cappedResistance = max(1, drainResistance)
-        val prayerPointCost = (drainCounter - 1) / cappedResistance
+        val prayerPointCost = drainCounter / cappedResistance
         if (prayerPointCost > 0) {
             drainCounter -= prayerPointCost * cappedResistance
 

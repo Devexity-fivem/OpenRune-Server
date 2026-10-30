@@ -71,7 +71,7 @@ class GildedAltarEvents @Inject constructor(
             task.altar.coords,
         )
 
-        statAdvance("stat.prayer", task.row.exp * 3.5)
+        statAdvance("stat.prayer", task.row.xp * 3.5)
 
         if (shouldConsumeBone(task).not()) {
             mes("The Dark Lord spares your sacrifice, but rewards you for your efforts.")

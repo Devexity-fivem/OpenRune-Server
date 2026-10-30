@@ -170,7 +170,7 @@ public class BurnLogEvents @Inject constructor(
 
         resetAnim()
         val xpModifier = xpMods.get(player, "stat.firemaking")
-        val xp = task.log.xp * task.method.xpMultiplier(task.log.input.internalName) * xpModifier
+        val xp = task.log.xp / 10.0 * task.method.xpMultiplier(task.log.input.internalName) * xpModifier
         statAdvance("stat.firemaking", xp)
         mes("The fire catches and the logs begin to burn.")
 

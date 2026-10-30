@@ -29,6 +29,9 @@ ecto_tokens=65499
 ecto_grinder_recipe=65498
 
 [gamevals.dbrow]
+burntjogrebones=63063
+strykewyrmbones=63064
+frostdragonbones=63065
 infernalashes=65535
 abyssalashes=65529
 maliciousashes=65528

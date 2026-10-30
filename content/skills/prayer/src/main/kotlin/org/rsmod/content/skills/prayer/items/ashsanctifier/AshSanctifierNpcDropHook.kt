@@ -7,6 +7,7 @@ import org.rsmod.api.death.NpcDeathDropHook
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.table.prayer.SkillPrayerRow
+import org.rsmod.content.skills.prayer.xp
 import org.rsmod.content.skills.prayer.items.ashsanctifier.AshSanctifierScript.Companion.ashSanctifierActivityEnabled
 import org.rsmod.content.skills.prayer.items.ashsanctifier.AshSanctifierScript.Companion.hasKourendKebosEliteDiaryComplete
 import org.rsmod.content.skills.prayer.items.ashsanctifier.AshSanctifierScript.Companion.hasKourendKebosHardDiaryComplete
@@ -43,7 +44,7 @@ class AshSanctifierNpcDropHook @Inject constructor() : NpcDeathDropHook {
 
         player.ashSanctifierCharges -= 1
 
-        val scatterXp = row.exp.toDouble()
+        val scatterXp = row.xp
         val prayerXp = if (player.hasKourendKebosEliteDiaryComplete()) {
             scatterXp
         } else {

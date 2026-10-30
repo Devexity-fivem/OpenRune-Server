@@ -40,7 +40,8 @@ constructor(
                 player.hunterLvl >= 80 -> 5
                 player.hunterLvl >= 60 -> 4
                 player.hunterLvl >= 40 -> 3
-                else -> 2
+                player.hunterLvl >= 20 -> 2
+                else -> 1
             }
         // An extra box trap may be set while hunting in the Wilderness.
         return if (kind == TrapKind.BOX && player.insideWilderness) base + 1 else base
@@ -445,6 +446,6 @@ constructor(
         const val TRAPPING_TICKS = 4
         const val FAILING_TICKS = 3
         const val PREY_RESPAWN_TICKS = 100
-        const val BAIT_BONUS = 0.10
+        const val BAIT_BONUS = 0.03
     }
 }

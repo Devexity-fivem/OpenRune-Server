@@ -129,7 +129,7 @@ object EctofuntusBonemeal {
             production {
                 input("obj.mm_small_ninja_monkey_bones")
                 statReq("stat.prayer", 1)
-                xp(20)
+                xp(64)
                 output("obj.pot_bonemeal_small_ninja_monkey")
             }
         }
@@ -137,7 +137,7 @@ object EctofuntusBonemeal {
             production {
                 input("obj.mm_medium_ninja_monkey_bones")
                 statReq("stat.prayer", 1)
-                xp(18)
+                xp(72)
                 output("obj.pot_bonemeal_medium_ninja_monkey")
             }
         }
@@ -169,7 +169,7 @@ object EctofuntusBonemeal {
             production {
                 input("obj.mm_large_zombie_monkey_bones")
                 statReq("stat.prayer", 1)
-                xp(18)
+                xp(20)
                 output("obj.pot_bonemeal_large_zombie_monkey")
             }
         }

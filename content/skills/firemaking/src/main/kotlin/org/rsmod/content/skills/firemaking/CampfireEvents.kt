@@ -131,7 +131,7 @@ class CampfireEvents @Inject constructor(
         extendCampfire(camp, task.log.foresterLogTicks)
 
         val xpModifier = xpMods.get(player, "stat.firemaking")
-        val xp = task.log.xp * xpModifier
+        val xp = task.log.xp / 10.0 * xpModifier
         statAdvance("stat.firemaking", xp)
         invDel(player.inv, task.log.input.internalName, 1)
 

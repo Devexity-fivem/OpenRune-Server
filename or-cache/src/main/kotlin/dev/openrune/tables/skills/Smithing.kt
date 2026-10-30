@@ -144,7 +144,7 @@ object Smithing {
         row("dbrow.blurite") {
             production {
                 input("obj.blurite_ore", 1)
-                statReq("stat.smithing", 13)
+                statReq("stat.smithing", 8)
                 xp(80)
                 output("obj.blurite_bar")
             }

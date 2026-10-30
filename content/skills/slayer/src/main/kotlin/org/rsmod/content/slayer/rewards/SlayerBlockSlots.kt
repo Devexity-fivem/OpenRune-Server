@@ -26,6 +26,6 @@ object SlayerBlockSlots {
     }
 
     private fun hasLumbridgeDraynorEliteDiary(player: Player): Boolean {
-        return true
+        return false
     }
 }

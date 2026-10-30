@@ -16915,8 +16915,11 @@ tradeable = false
 id = "obj.infernal_axe_empty"
 inherit = "obj.infernal_axe_empty"
 weaponCategory="Axe"
+contentGroup = 26
 tradeable = false
 [item.params]
+"param.skill_anim"="seq.human_woodcutting_dragon_axe"
+"param.levelrequire"=61
 "param.equipment_sound"=2229
 "param.attack_anim_stance1"="seq.human_axe_hack"
 "param.attack_sound_stance1"=2498

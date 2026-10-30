@@ -64,12 +64,12 @@ class PrayerBuryEvents : PluginScript() {
 
         val message = if (task.row.ashes) "You scatter the ashes." else "You bury the bones."
         mes(message)
-        statAdvance("stat.prayer", task.row.exp.toDouble())
+        statAdvance("stat.prayer", task.row.xp)
         publish(SkillingActionCompleteEvent(player = player, context =
             SkillingActionContext.Prayer(PrayerSkillAction.BuryComplete(
                 itemInternal = task.row.item.internalName,
                 ashes = task.row.ashes,
-                experienceGranted = task.row.exp.toDouble(),
+                experienceGranted = task.row.xp,
                 catacombsBonePrayerRestore = task.row.prayerRestore
             ))),
         )

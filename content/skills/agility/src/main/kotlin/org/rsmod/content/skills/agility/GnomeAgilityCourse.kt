@@ -215,12 +215,12 @@ class GnomeAgilityCourse @Inject constructor(
         const val PIPE_AP_RANGE = 1
         const val BARK_RANGE = 15
 
-        const val LOG_XP = 10.0
-        const val NET_XP = 10.0
-        const val BRANCH_XP = 6.5
-        const val ROPE_XP = 10.0
+        const val LOG_XP = 7.5
+        const val NET_XP = 7.5
+        const val BRANCH_XP = 5.0
+        const val ROPE_XP = 7.5
         const val PIPE_XP = 7.5
-        const val LAP_BONUS_XP = 50.0
+        const val LAP_BONUS_XP = 39.0
 
         const val OBSTACLE_LOG = 1
         const val OBSTACLE_NET_UP = 2

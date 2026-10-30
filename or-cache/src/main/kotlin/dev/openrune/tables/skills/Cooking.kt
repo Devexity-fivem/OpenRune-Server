@@ -12,6 +12,7 @@ object Cooking {
     const val COL_HIGH = 11
     const val COL_GAUNTLET = 12
     const val COL_COOK_TICKS = 13
+    const val COL_RANGE_ONLY = 14
 
     const val COL_VAT_OFFSET = 7
     const val COL_BARREL_OFFSET = 8
@@ -146,8 +147,9 @@ object Cooking {
             column("stop_burn_range", COL_STOP_BURN_RANGE, VarType.INT)
             column("low", COL_LOW, VarType.INT)
             column("high", COL_HIGH, VarType.INT)
-            column("supports_gauntlet", COL_GAUNTLET, VarType.BOOLEAN)
+            column("gauntlet_stop_burn", COL_GAUNTLET, VarType.INT)
             column("cook_ticks", COL_COOK_TICKS, VarType.INT)
+            column("range_only", COL_RANGE_ONLY, VarType.BOOLEAN)
         },
     ) {
         row("dbrow.cooking_shrimp") {
@@ -243,8 +245,8 @@ object Cooking {
                 category("Fish")
             }
             columnRSCM(COL_BURNT, "obj.burntfish3")
-            column(COL_STOP_BURN_FIRE, 52)
-            column(COL_STOP_BURN_RANGE, 52)
+            column(COL_STOP_BURN_FIRE, 51)
+            column(COL_STOP_BURN_RANGE, 49)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
         }
@@ -257,8 +259,8 @@ object Cooking {
                 category("Fish")
             }
             columnRSCM(COL_BURNT, "obj.burntfish3")
-            column(COL_STOP_BURN_FIRE, 64)
-            column(COL_STOP_BURN_RANGE, 64)
+            column(COL_STOP_BURN_FIRE, 54)
+            column(COL_STOP_BURN_RANGE, 54)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
         }
@@ -300,10 +302,10 @@ object Cooking {
             }
             columnRSCM(COL_BURNT, "obj.burnt_lobster")
             column(COL_STOP_BURN_FIRE, 74)
-            column(COL_STOP_BURN_RANGE, 68)
+            column(COL_STOP_BURN_RANGE, 74)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
-            column(COL_GAUNTLET, true)
+            column(COL_GAUNTLET, 64)
         }
         row("dbrow.cooking_bass") {
             production {
@@ -314,8 +316,8 @@ object Cooking {
                 category("Fish")
             }
             columnRSCM(COL_BURNT, "obj.burntfish5")
-            column(COL_STOP_BURN_FIRE, 80)
-            column(COL_STOP_BURN_RANGE, 80)
+            column(COL_STOP_BURN_FIRE, 79)
+            column(COL_STOP_BURN_RANGE, 79)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
         }
@@ -329,10 +331,10 @@ object Cooking {
             }
             columnRSCM(COL_BURNT, "obj.burnt_swordfish")
             column(COL_STOP_BURN_FIRE, 86)
-            column(COL_STOP_BURN_RANGE, 81)
+            column(COL_STOP_BURN_RANGE, 80)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
-            column(COL_GAUNTLET, true)
+            column(COL_GAUNTLET, 80)
         }
         row("dbrow.cooking_monkfish") {
             production {
@@ -347,7 +349,7 @@ object Cooking {
             column(COL_STOP_BURN_RANGE, 90)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
-            column(COL_GAUNTLET, true)
+            column(COL_GAUNTLET, 86)
         }
         row("dbrow.cooking_shark") {
             production {
@@ -358,11 +360,11 @@ object Cooking {
                 category("Fish")
             }
             columnRSCM(COL_BURNT, "obj.burnt_shark")
-            column(COL_STOP_BURN_FIRE, 99)
-            column(COL_STOP_BURN_RANGE, 94)
+            column(COL_STOP_BURN_FIRE, 120)
+            column(COL_STOP_BURN_RANGE, 120)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
-            column(COL_GAUNTLET, true)
+            column(COL_GAUNTLET, 94)
         }
         row("dbrow.cooking_manta_ray") {
             production {
@@ -373,11 +375,10 @@ object Cooking {
                 category("Fish")
             }
             columnRSCM(COL_BURNT, "obj.burnt_mantaray")
-            column(COL_STOP_BURN_FIRE, 99)
-            column(COL_STOP_BURN_RANGE, 99)
+            column(COL_STOP_BURN_FIRE, 120)
+            column(COL_STOP_BURN_RANGE, 120)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
-            column(COL_GAUNTLET, true)
         }
         row("dbrow.cooking_sea_turtle") {
             production {
@@ -388,11 +389,10 @@ object Cooking {
                 category("Fish")
             }
             columnRSCM(COL_BURNT, "obj.burnt_seaturtle")
-            column(COL_STOP_BURN_FIRE, 99)
-            column(COL_STOP_BURN_RANGE, 99)
+            column(COL_STOP_BURN_FIRE, 120)
+            column(COL_STOP_BURN_RANGE, 120)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
-            column(COL_GAUNTLET, true)
         }
         row("dbrow.cooking_dark_crab") {
             production {
@@ -403,11 +403,10 @@ object Cooking {
                 category("Fish")
             }
             columnRSCM(COL_BURNT, "obj.burnt_dark_crab")
-            column(COL_STOP_BURN_FIRE, 99)
-            column(COL_STOP_BURN_RANGE, 99)
+            column(COL_STOP_BURN_FIRE, 120)
+            column(COL_STOP_BURN_RANGE, 120)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
-            column(COL_GAUNTLET, true)
         }
         row("dbrow.cooking_anglerfish") {
             production {
@@ -418,11 +417,11 @@ object Cooking {
                 category("Fish")
             }
             columnRSCM(COL_BURNT, "obj.burnt_anglerfish")
-            column(COL_STOP_BURN_FIRE, 99)
-            column(COL_STOP_BURN_RANGE, 99)
+            column(COL_STOP_BURN_FIRE, 120)
+            column(COL_STOP_BURN_RANGE, 120)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
-            column(COL_GAUNTLET, true)
+            column(COL_GAUNTLET, 97)
         }
         row("dbrow.cooking_chicken") {
             production {
@@ -545,10 +544,11 @@ object Cooking {
                 category("Bread")
             }
             columnRSCM(COL_BURNT, "obj.burnt_bread")
-            column(COL_STOP_BURN_FIRE, 34)
-            column(COL_STOP_BURN_RANGE, 34)
+            column(COL_STOP_BURN_FIRE, 38)
+            column(COL_STOP_BURN_RANGE, 38)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_redberry_pie") {
             production {
@@ -559,10 +559,11 @@ object Cooking {
                 category("Pie")
             }
             columnRSCM(COL_BURNT, "obj.burnt_pie")
-            column(COL_STOP_BURN_FIRE, 50)
-            column(COL_STOP_BURN_RANGE, 50)
+            column(COL_STOP_BURN_FIRE, 45)
+            column(COL_STOP_BURN_RANGE, 45)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_meat_pie") {
             production {
@@ -573,10 +574,11 @@ object Cooking {
                 category("Pie")
             }
             columnRSCM(COL_BURNT, "obj.burnt_pie")
-            column(COL_STOP_BURN_FIRE, 50)
-            column(COL_STOP_BURN_RANGE, 50)
+            column(COL_STOP_BURN_FIRE, 54)
+            column(COL_STOP_BURN_RANGE, 54)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_apple_pie") {
             production {
@@ -587,10 +589,11 @@ object Cooking {
                 category("Pie")
             }
             columnRSCM(COL_BURNT, "obj.burnt_pie")
-            column(COL_STOP_BURN_FIRE, 50)
-            column(COL_STOP_BURN_RANGE, 50)
+            column(COL_STOP_BURN_FIRE, 63)
+            column(COL_STOP_BURN_RANGE, 63)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_pizza") {
             production {
@@ -605,6 +608,7 @@ object Cooking {
             column(COL_STOP_BURN_RANGE, 68)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_mud_pie") {
             production {
@@ -615,10 +619,11 @@ object Cooking {
                 category("Pie")
             }
             columnRSCM(COL_BURNT, "obj.burnt_pie")
-            column(COL_STOP_BURN_FIRE, 50)
-            column(COL_STOP_BURN_RANGE, 50)
+            column(COL_STOP_BURN_FIRE, 63)
+            column(COL_STOP_BURN_RANGE, 63)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_garden_pie") {
             production {
@@ -633,6 +638,7 @@ object Cooking {
             column(COL_STOP_BURN_RANGE, 68)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_fish_pie") {
             production {
@@ -643,10 +649,11 @@ object Cooking {
                 category("Pie")
             }
             columnRSCM(COL_BURNT, "obj.burnt_pie")
-            column(COL_STOP_BURN_FIRE, 80)
-            column(COL_STOP_BURN_RANGE, 80)
+            column(COL_STOP_BURN_FIRE, 74)
+            column(COL_STOP_BURN_RANGE, 74)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_botanical_pie") {
             production {
@@ -657,10 +664,11 @@ object Cooking {
                 category("Pie")
             }
             columnRSCM(COL_BURNT, "obj.burnt_pie")
-            column(COL_STOP_BURN_FIRE, 85)
-            column(COL_STOP_BURN_RANGE, 85)
+            column(COL_STOP_BURN_FIRE, 84)
+            column(COL_STOP_BURN_RANGE, 84)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_mushroom_pie") {
             production {
@@ -671,10 +679,11 @@ object Cooking {
                 category("Pie")
             }
             columnRSCM(COL_BURNT, "obj.burnt_pie")
-            column(COL_STOP_BURN_FIRE, 90)
-            column(COL_STOP_BURN_RANGE, 90)
+            column(COL_STOP_BURN_FIRE, 89)
+            column(COL_STOP_BURN_RANGE, 89)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_admiral_pie") {
             production {
@@ -689,6 +698,7 @@ object Cooking {
             column(COL_STOP_BURN_RANGE, 94)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_dragonfruit_pie") {
             production {
@@ -703,6 +713,7 @@ object Cooking {
             column(COL_STOP_BURN_RANGE, 97)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_wild_pie") {
             production {
@@ -717,6 +728,7 @@ object Cooking {
             column(COL_STOP_BURN_RANGE, 99)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_summer_pie") {
             production {
@@ -731,6 +743,7 @@ object Cooking {
             column(COL_STOP_BURN_RANGE, 99)
             column(COL_LOW, 50)
             column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
         }
         row("dbrow.cooking_stew") {
             production {
@@ -774,6 +787,7 @@ object Cooking {
             column(COL_STOP_BURN_RANGE, 74)
             column(COL_LOW, 38)
             column(COL_HIGH, 332)
+            column(COL_RANGE_ONLY, true)
         }
     }
 }

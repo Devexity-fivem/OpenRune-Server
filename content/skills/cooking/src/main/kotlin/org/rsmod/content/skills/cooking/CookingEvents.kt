@@ -32,8 +32,8 @@ class CookingEvents @Inject constructor(
 
     enum class RangeType(val burnReduction: Int) {
         STANDARD(0),
-        LUMBRIDGE(5),
-        HOSIDIUS(5),
+        LUMBRIDGE(4),
+        HOSIDIUS(4),
     }
 
     private val rangeTypeByContent = mapOf(
@@ -50,7 +50,7 @@ class CookingEvents @Inject constructor(
 
     override fun ScriptContext.startup() {
         val fireAndCamp = fires + campfires
-        foods.forEach { food ->
+        foods.filter { it.rangeOnly != true }.forEach { food ->
             fireAndCamp.forEach { loc ->
                 onOpLocU(loc, food.raw.internalName) {
                     cookFood(food, CookingSurface.Fire(loc))
@@ -88,26 +88,24 @@ class CookingEvents @Inject constructor(
         return false
     }
 
-    private fun ProtectedAccess.burnReduction(surface: CookingSurface, food: CookingFoodsRow): Int {
-        var reduction =
-            when (surface) {
-                is CookingSurface.Range -> surface.rangeType.burnReduction
-                is CookingSurface.Fire -> 0
-            }
-
-        if (food.supportsGauntlet == true && "obj.gauntlets_of_cooking" in player.worn) {
-            reduction += 6
+    private fun ProtectedAccess.burnReduction(surface: CookingSurface): Int =
+        when (surface) {
+            is CookingSurface.Range -> surface.rangeType.burnReduction
+            is CookingSurface.Fire -> 0
         }
-
-        return reduction
-    }
 
     private fun ProtectedAccess.isBurned(food: CookingFoodsRow, surface: CookingSurface): Boolean {
         if (hasCookingCape()) return false
 
-        val isRange = surface is CookingSurface.Range
-        val baseStop = if (isRange) food.stopBurnRange else food.stopBurnFire
-        val stopBurn = baseStop - burnReduction(surface, food)
+        val gauntletStop = food.gauntletStopBurn ?: 0
+        val gauntlets = gauntletStop > 0 && "obj.gauntlets_of_cooking" in player.worn
+        val baseStop =
+            when {
+                gauntlets -> gauntletStop
+                surface is CookingSurface.Range -> food.stopBurnRange
+                else -> food.stopBurnFire
+            }
+        val stopBurn = baseStop - burnReduction(surface)
 
         if (player.cookingLvl >= stopBurn) return false
         val (low, high) = food.low to food.high
@@ -128,7 +126,9 @@ class CookingEvents @Inject constructor(
     private suspend fun ProtectedAccess.openCookingMenu(surface: CookingSurface) {
         val cookable =
             foods.filter {
-                inv.contains(it.raw.internalName) && player.cookingLvl >= it.level
+                inv.contains(it.raw.internalName) &&
+                    player.cookingLvl >= it.level &&
+                    (surface !is CookingSurface.Fire || it.rangeOnly != true)
             }
 
         if (cookable.isEmpty()) {

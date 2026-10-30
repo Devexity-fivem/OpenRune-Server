@@ -3,7 +3,7 @@ package org.rsmod.content.skills.fishing.scripts
 import dev.openrune.util.Wearpos
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.stat.fishingLvl
+import org.rsmod.api.player.stat.baseFishingLvl
 import org.rsmod.api.script.onOpContentLoc1
 import org.rsmod.game.inv.isType
 import org.rsmod.map.CoordGrid
@@ -18,7 +18,7 @@ class MinnowRowboat : PluginScript() {
     }
 
     private suspend fun ProtectedAccess.toIsland() {
-        if (player.fishingLvl < 82) {
+        if (player.baseFishingLvl < 82) {
             mes("You need a Fishing level of 82 to fish on the island.")
             return
         }

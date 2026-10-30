@@ -25,7 +25,7 @@ object Firemaking {
             production {
                 input("obj.logs")
                 statReq("stat.firemaking", 1)
-                xp(40)
+                xp(400)
             }
             column(COL_FORESTER_INITIAL_TICKS, 102)
             column(COL_FORESTER_LOG_TICKS, 3)
@@ -35,7 +35,7 @@ object Firemaking {
             production {
                 input("obj.achey_tree_logs")
                 statReq("stat.firemaking", 1)
-                xp(40)
+                xp(400)
             }
             column(COL_FORESTER_INITIAL_TICKS, 102)
             column(COL_FORESTER_LOG_TICKS, 3)
@@ -45,7 +45,7 @@ object Firemaking {
             production {
                 input("obj.oak_logs")
                 statReq("stat.firemaking", 15)
-                xp(60)
+                xp(600)
             }
             column(COL_FORESTER_INITIAL_TICKS, 109)
             column(COL_FORESTER_LOG_TICKS, 10)
@@ -55,7 +55,7 @@ object Firemaking {
             production {
                 input("obj.willow_logs")
                 statReq("stat.firemaking", 30)
-                xp(90)
+                xp(900)
             }
             column(COL_FORESTER_INITIAL_TICKS, 116)
             column(COL_FORESTER_LOG_TICKS, 17)
@@ -65,7 +65,7 @@ object Firemaking {
             production {
                 input("obj.teak_logs")
                 statReq("stat.firemaking", 35)
-                xp(105)
+                xp(1050)
             }
             column(COL_FORESTER_INITIAL_TICKS, 118)
             column(COL_FORESTER_LOG_TICKS, 19)
@@ -75,7 +75,7 @@ object Firemaking {
             production {
                 input("obj.arctic_pine_log")
                 statReq("stat.firemaking", 42)
-                xp(125)
+                xp(1250)
             }
             column(COL_FORESTER_INITIAL_TICKS, 121)
             column(COL_FORESTER_LOG_TICKS, 22)
@@ -85,7 +85,7 @@ object Firemaking {
             production {
                 input("obj.maple_logs")
                 statReq("stat.firemaking", 45)
-                xp(135)
+                xp(1350)
             }
             column(COL_FORESTER_INITIAL_TICKS, 123)
             column(COL_FORESTER_LOG_TICKS, 24)
@@ -95,7 +95,7 @@ object Firemaking {
             production {
                 input("obj.mahogany_logs")
                 statReq("stat.firemaking", 50)
-                xp(157)
+                xp(1575)
             }
             column(COL_FORESTER_INITIAL_TICKS, 125)
             column(COL_FORESTER_LOG_TICKS, 26)
@@ -105,7 +105,7 @@ object Firemaking {
             production {
                 input("obj.yew_logs")
                 statReq("stat.firemaking", 60)
-                xp(202)
+                xp(2025)
             }
             column(COL_FORESTER_INITIAL_TICKS, 130)
             column(COL_FORESTER_LOG_TICKS, 31)
@@ -115,7 +115,7 @@ object Firemaking {
             production {
                 input("obj.blisterwood_logs")
                 statReq("stat.firemaking", 62)
-                xp(96)
+                xp(960)
             }
             column(COL_FORESTER_INITIAL_TICKS, 131)
             column(COL_FORESTER_LOG_TICKS, 32)
@@ -125,7 +125,7 @@ object Firemaking {
             production {
                 input("obj.magic_logs")
                 statReq("stat.firemaking", 75)
-                xp(305)
+                xp(3038)
             }
             column(COL_FORESTER_INITIAL_TICKS, 137)
             column(COL_FORESTER_LOG_TICKS, 38)
@@ -135,7 +135,7 @@ object Firemaking {
             production {
                 input("obj.ironwood_logs")
                 statReq("stat.firemaking", 80)
-                xp(220)
+                xp(2205)
             }
             column(COL_FORESTER_INITIAL_TICKS, 144)
             column(COL_FORESTER_LOG_TICKS, 45)
@@ -145,7 +145,7 @@ object Firemaking {
             production {
                 input("obj.redwood_logs")
                 statReq("stat.firemaking", 90)
-                xp(350)
+                xp(3500)
             }
             column(COL_FORESTER_INITIAL_TICKS, 144)
             column(COL_FORESTER_LOG_TICKS, 45)
@@ -155,7 +155,7 @@ object Firemaking {
             production {
                 input("obj.rosewood_logs")
                 statReq("stat.firemaking", 92)
-                xp(268)
+                xp(2680)
             }
             column(COL_FORESTER_INITIAL_TICKS, 144)
             column(COL_FORESTER_LOG_TICKS, 45)
@@ -165,7 +165,7 @@ object Firemaking {
             production {
                 input("obj.blue_logs")
                 statReq("stat.firemaking", 1)
-                xp(50)
+                xp(500)
             }
             column(COL_FORESTER_INITIAL_TICKS, 102)
             column(COL_FORESTER_LOG_TICKS, 3)
@@ -174,7 +174,7 @@ object Firemaking {
             production {
                 input("obj.green_logs")
                 statReq("stat.firemaking", 1)
-                xp(50)
+                xp(500)
             }
             column(COL_FORESTER_INITIAL_TICKS, 102)
             column(COL_FORESTER_LOG_TICKS, 3)
@@ -183,7 +183,7 @@ object Firemaking {
             production {
                 input("obj.trail_logs_purple")
                 statReq("stat.firemaking", 1)
-                xp(50)
+                xp(500)
             }
             column(COL_FORESTER_INITIAL_TICKS, 102)
             column(COL_FORESTER_LOG_TICKS, 3)
@@ -192,7 +192,7 @@ object Firemaking {
             production {
                 input("obj.red_logs")
                 statReq("stat.firemaking", 1)
-                xp(50)
+                xp(500)
             }
             column(COL_FORESTER_INITIAL_TICKS, 102)
             column(COL_FORESTER_LOG_TICKS, 3)
@@ -201,7 +201,7 @@ object Firemaking {
             production {
                 input("obj.trail_logs_white")
                 statReq("stat.firemaking", 1)
-                xp(50)
+                xp(500)
             }
             column(COL_FORESTER_INITIAL_TICKS, 102)
             column(COL_FORESTER_LOG_TICKS, 3)

@@ -20,7 +20,6 @@ import org.rsmod.api.player.righthand
 import org.rsmod.api.player.skilling.SkillingAwardResult
 import org.rsmod.api.player.skilling.awardSkillingProduct
 import org.rsmod.api.player.stat.miningLvl
-import org.rsmod.api.player.stat.smithingLvl
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onOpContentLoc1
 import org.rsmod.api.script.onOpContentLoc2
@@ -253,12 +252,8 @@ constructor(
         }
     }
 
-    private fun ProtectedAccess.rollOreSuccess(data: MiningRocksRow): Boolean {
-        val gloryBoost = data.isGemRock && player.wearingChargedGlory()
-        val low = if (gloryBoost) data.successRateLow * 3 else data.successRateLow
-        val high = if (gloryBoost) data.successRateHigh * 3 else data.successRateHigh
-        return statRandom("stat.mining", low, high, invisibleLvls)
-    }
+    private fun ProtectedAccess.rollOreSuccess(data: MiningRocksRow): Boolean =
+        statRandom("stat.mining", data.successRateLow, data.successRateHigh, invisibleLvls)
 
     private fun ProtectedAccess.depleteRock(rock: BoundLocInfo, data: MiningRocksRow) {
         val empty = data.emptyRockObject ?: return
@@ -372,8 +367,6 @@ constructor(
     private fun ProtectedAccess.mesPickaxeMissing() {
         mes("You need a pickaxe to mine this rock.")
         when {
-            player.hasBlockedInfernalPickaxe() ->
-                mes("You need a Smithing level of 85 to use the infernal pickaxe.")
             player.hasBlockedCrystalPickaxe() ->
                 mes("You need to complete Song of the Elves to use this pickaxe.")
             else -> mes("You do not have a pickaxe which you have the Mining level to use.")
@@ -391,7 +384,6 @@ constructor(
     companion object {
         private const val ORE_OBTAINED_SOUND = 3600
         private const val PROSPECT_DELAY = 4
-        private const val INFERNAL_SMITHING_REQ = 85
         private const val SONG_OF_THE_ELVES = "quest_songoftheelves"
 
         private val MINED_ORE_COUNT_ATTR = AttributeKey<MutableMap<CoordGrid, Int>>()
@@ -458,16 +450,12 @@ constructor(
                 return false
             }
             return when (internalName) {
-                "obj.infernal_pickaxe" -> player.smithingLvl >= INFERNAL_SMITHING_REQ
                 "obj.crystal_pickaxe",
                 "obj.crystal_pickaxe_inactive", ->
                     QuestRequirements.hasCompleted(player, SONG_OF_THE_ELVES)
                 else -> true
             }
         }
-
-        private fun Player.hasBlockedInfernalPickaxe(): Boolean =
-            ownsPickaxe("obj.infernal_pickaxe") && smithingLvl < INFERNAL_SMITHING_REQ
 
         private fun Player.hasBlockedCrystalPickaxe(): Boolean =
             (ownsPickaxe("obj.crystal_pickaxe") || ownsPickaxe("obj.crystal_pickaxe_inactive")) &&

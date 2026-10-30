@@ -15,7 +15,7 @@ enum class Rune(
         id = "obj.airrune",
         essence = listOf("obj.blankrune", "obj.blankrune_high"),
         level = 1,
-        xp = 5,
+        xp = 50,
         dbId = "dbrow.runecrafting_rune_air",
         extract = "obj.scar_extract_warped"
     ),
@@ -23,7 +23,7 @@ enum class Rune(
         id = "obj.mindrune",
         essence = listOf("obj.blankrune", "obj.blankrune_high"),
         level = 2,
-        xp = 5,
+        xp = 55,
         dbId = "dbrow.runecrafting_rune_mind",
         extract = "obj.scar_extract_warped"
     ),
@@ -31,7 +31,7 @@ enum class Rune(
         id = "obj.waterrune",
         essence = listOf("obj.blankrune", "obj.blankrune_high"),
         level = 5,
-        xp = 6,
+        xp = 60,
         dbId = "dbrow.runecrafting_rune_water",
         extract = "obj.scar_extract_warped"
     ),
@@ -39,7 +39,7 @@ enum class Rune(
         id = "obj.earthrune",
         essence = listOf("obj.blankrune", "obj.blankrune_high"),
         level = 9,
-        xp = 6,
+        xp = 65,
         dbId = "dbrow.runecrafting_rune_earth",
         extract = "obj.scar_extract_warped"
     ),
@@ -47,7 +47,7 @@ enum class Rune(
         id = "obj.firerune",
         essence = listOf("obj.blankrune", "obj.blankrune_high"),
         level = 14,
-        xp = 7,
+        xp = 70,
         dbId = "dbrow.runecrafting_rune_fire",
         extract = "obj.scar_extract_warped"
     ),
@@ -55,7 +55,7 @@ enum class Rune(
         id = "obj.bodyrune",
         essence = listOf("obj.blankrune", "obj.blankrune_high"),
         level = 20,
-        xp = 7,
+        xp = 75,
         dbId = "dbrow.runecrafting_rune_body",
         extract = "obj.scar_extract_warped"
     ),
@@ -63,7 +63,7 @@ enum class Rune(
         id = "obj.cosmicrune",
         essence = listOf("obj.blankrune_high"),
         level = 27,
-        xp = 8,
+        xp = 80,
         dbId = "dbrow.runecrafting_rune_cosmic",
         extract = "obj.scar_extract_twisted"
     ),
@@ -71,7 +71,7 @@ enum class Rune(
         id = "obj.chaosrune",
         essence = listOf("obj.blankrune_high"),
         level = 35,
-        xp = 8,
+        xp = 85,
         dbId = "dbrow.runecrafting_rune_chaos",
         extract = "obj.scar_extract_twisted"
     ),
@@ -79,7 +79,7 @@ enum class Rune(
         id = "obj.sunfirerune",
         essence = listOf("obj.blankrune_high"),
         level = 33,
-        xp = 9,
+        xp = 90,
         dbId = "dbrow.runecrafting_rune_sunfire",
         extract = "obj.scar_extract_twisted"
     ),
@@ -87,7 +87,7 @@ enum class Rune(
         id = "obj.astralrune",
         essence = listOf("obj.blankrune_high"),
         level = 40,
-        xp = 9,
+        xp = 87,
         dbId = "dbrow.runecrafting_rune_astral",
         extract = "obj.scar_extract_mangled"
     ),
@@ -95,7 +95,7 @@ enum class Rune(
         id = "obj.naturerune",
         essence = listOf("obj.blankrune_high"),
         level = 44,
-        xp = 9,
+        xp = 90,
         dbId = "dbrow.runecrafting_rune_nature",
         extract = "obj.scar_extract_mangled"
     ),
@@ -103,7 +103,7 @@ enum class Rune(
         id = "obj.lawrune",
         essence = listOf("obj.blankrune_high"),
         level = 54,
-        xp = 9,
+        xp = 95,
         dbId = "dbrow.runecrafting_rune_law",
         extract = "obj.scar_extract_mangled"
     ),
@@ -111,7 +111,7 @@ enum class Rune(
         id = "obj.deathrune",
         essence = listOf("obj.blankrune_high"),
         level = 65,
-        xp = 10,
+        xp = 100,
         dbId = "dbrow.runecrafting_rune_death",
         extract = "obj.scar_extract_mangled"
     ),
@@ -119,7 +119,7 @@ enum class Rune(
         id = "obj.bloodrune",
         essence = listOf("obj.blankrune_high"),
         level = 77,
-        xp = 10,
+        xp = 105,
         dbId = "dbrow.runecrafting_rune_blood",
         extract = "obj.scar_extract_scarred"
     ),
@@ -127,7 +127,7 @@ enum class Rune(
         id = "obj.bloodrune",
         essence = listOf("obj.bigblankrune"),
         level = 77,
-        xp = 24,
+        xp = 238,
         dbId = "dbrow.runecrafting_rune_blood_dark",
         extract = "obj.scar_extract_scarred"
     ),
@@ -135,7 +135,7 @@ enum class Rune(
         id = "obj.soulrune",
         essence = listOf("obj.bigblankrune"),
         level = 90,
-        xp = 30,
+        xp = 297,
         dbId = "dbrow.runecrafting_rune_soul",
         extract = "obj.scar_extract_scarred"
     ),
@@ -143,7 +143,7 @@ enum class Rune(
         id = "obj.aetherrune",
         essence = listOf("obj.gotr_guardian_essence"),
         level = 90,
-        xp = 20,
+        xp = 200,
         dbId = "dbrow.runecrafting_rune_aether",
         extract = "obj.scar_extract_scarred"
     ),
@@ -151,7 +151,7 @@ enum class Rune(
         id = "obj.wrathrune",
         essence = listOf("obj.blankrune_high"),
         level = 95,
-        xp = 8,
+        xp = 80,
         dbId = "dbrow.runecrafting_rune_wrath",
         extract = "obj.scar_extract_scarred"
     );

@@ -95,7 +95,7 @@ object RunecraftAction {
         finishEssenceCraft(
             rune,
             daeyaltEssCount,
-            baseProduced * rune.xp * xpMultiplier,
+            daeyaltEssCount * rune.xp / 10.0 * xpMultiplier,
             xpMods,
             ouraniaAltar,
             produced,
@@ -147,7 +147,7 @@ object RunecraftAction {
         val baseGuardian = guardianEssCount * baseMultiplier
         val baseDark = darkEssCount * baseMultiplier
         val baseRune = runeEssCount * baseMultiplier
-        val totalXp = (basePure + baseGuardian + baseDark + baseRune) * rune.xp
+        val totalXp = totalEssence * rune.xp / 10.0
         val xpMultiplier = if (ouraniaAltar) OURANIA_XP_MULTIPLIER else 1.0
         val produced =
             applyBonus(basePure) +
@@ -275,7 +275,7 @@ object RunecraftAction {
             val rune = rollOuraniaRune(level)
             val multiplier = getBonusMultiplier(rune.output.internalName, level).toInt()
             val produced = applyBonus(multiplier)
-            totalXp += rune.xp * xpMultiplier * multiplier
+            totalXp += rune.xp / 10.0 * xpMultiplier
             invAdd(inv, rune.output.internalName, produced)
         }
 
@@ -362,7 +362,6 @@ object RunecraftAction {
             RunecraftingRunesRow.all().filter { row ->
                 val output = row.output.internalName
                 output !in ouraniaExcludedRunes &&
-                    row.statReq.first().t1 <= level &&
                     PURE_ESSENCE in row.input.map { it.internalName }
             }
         return eligible.randomOrNull() ?: RunecraftingRunesRow.all().first { it.output.internalName == "obj.airrune" }
@@ -373,7 +372,6 @@ object RunecraftAction {
             "obj.sunfirerune",
             "obj.wrathrune",
             "obj.aetherrune",
-            "obj.soulrune",
         )
 
     fun getBonusMultiplier(rune: String, level: Int): Double =
@@ -387,6 +385,7 @@ object RunecraftAction {
             "obj.cosmicrune" -> floor(level / 59.0) + 1
             "obj.chaosrune" -> floor(level / 74.0) + 1
             "obj.naturerune" -> floor(level / 91.0) + 1
+            "obj.astralrune" -> if (level >= 82) 2.0 else 1.0
             else -> 1.0
         }
 

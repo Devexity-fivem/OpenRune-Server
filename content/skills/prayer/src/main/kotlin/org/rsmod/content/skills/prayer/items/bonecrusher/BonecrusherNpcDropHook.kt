@@ -16,6 +16,7 @@ import org.rsmod.api.death.NpcDeathDropHook
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.player.stat.statBoost
 import org.rsmod.api.table.prayer.SkillPrayerRow
+import org.rsmod.content.skills.prayer.xp
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Player
 import org.rsmod.game.inv.InvObj
@@ -52,7 +53,7 @@ constructor(
             return false
         }
 
-        val prayerXp = row.exp.toDouble() / 2
+        val prayerXp = row.xp / 2
         player.statAdvance("stat.prayer", prayerXp)
 
         eventBus.publish(SkillingActionCompleteEvent(player = player, context =

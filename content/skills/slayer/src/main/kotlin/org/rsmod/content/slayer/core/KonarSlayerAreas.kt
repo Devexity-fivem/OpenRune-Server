@@ -42,9 +42,8 @@ object KonarSlayerAreas {
         }
     }
 
-    fun meetsAreaQuestRequirement(area: SlayerAreaRow, player: Player): Boolean {
-        return true
-    }
+    fun meetsAreaQuestRequirement(area: SlayerAreaRow, player: Player): Boolean =
+        area.restrictedContent == null || area.restrictedContent == 0
 
     fun isWildernessSlayerArea(area: SlayerAreaRow): Boolean {
         return area.areaNameInHelper.equals("Wilderness", ignoreCase = true) ||

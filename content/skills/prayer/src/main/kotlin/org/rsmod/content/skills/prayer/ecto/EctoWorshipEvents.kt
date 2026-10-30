@@ -33,11 +33,10 @@ class EctoWorshipEvents : PluginScript() {
 
         anim("seq.ahoy_prayer")
 
-        val shouldConsumeInputs = player.shouldConsume()
-        if (shouldConsumeInputs) {
-            invDel(inv, "obj.bucket_ectoplasm", 1)
+        invDel(inv, "obj.bucket_ectoplasm", 1)
+        invAdd(inv, "obj.bucket_empty", 1)
+        if (player.shouldConsume()) {
             invDel(inv, recipe.bonemeal, 1)
-            invAdd(inv, "obj.bucket_empty", 1)
             invAdd(inv, "obj.pot_empty", 1)
         }
 

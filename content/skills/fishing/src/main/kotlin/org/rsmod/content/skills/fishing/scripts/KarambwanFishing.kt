@@ -83,7 +83,7 @@ constructor(
 
         if (caught) {
             invReplace(inv, LOADED_VESSEL, 1, EMPTY_VESSEL)
-            val xp = 50.0 * xpMods.get(player, "stat.fishing")
+            val xp = 105.0 * xpMods.get(player, "stat.fishing")
             val product =
                 SkillingProduct(
                     player = player,

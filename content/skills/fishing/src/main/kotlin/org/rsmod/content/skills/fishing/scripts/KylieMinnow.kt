@@ -52,9 +52,10 @@ class KylieMinnow : PluginScript() {
         if (requested <= 0) return
 
         var given = 0
+        val notedShark = ocCert(RAW_SHARK).internalName
         while (given < requested && access.invTotal(access.inv, MINNOW) >= 40) {
             access.invDel(access.inv, MINNOW, 40)
-            val result = access.invAdd(access.inv, RAW_SHARK, 1)
+            val result = access.invAdd(access.inv, notedShark, 1)
             if (result.failure) {
                 access.invAdd(access.inv, MINNOW, 40)
                 break

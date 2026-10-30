@@ -8,8 +8,10 @@ enum class Gate {
 }
 
 object FishingCatchLogic {
-    fun unlocked(spot: Int, method: Int, level: Int, rows: List<FishRow>): List<FishRow> =
-        rows.filter { it.spot == spot && it.method == method && level >= it.level }.sortedByDescending { it.level }
+    fun unlocked(spot: Int, method: Int, level: Int, baseLevel: Int, rows: List<FishRow>): List<FishRow> =
+        rows.filter {
+            it.spot == spot && it.method == method && (if (it.unboostableReq) baseLevel else level) >= it.level
+        }.sortedByDescending { it.level }
 
     fun rollCatch(unlocked: List<FishRow>, roll: (row: FishRow) -> Boolean): FishRow? =
         unlocked.firstOrNull { roll(it) }

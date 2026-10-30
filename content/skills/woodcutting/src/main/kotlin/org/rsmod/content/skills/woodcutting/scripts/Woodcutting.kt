@@ -259,8 +259,6 @@ constructor(
     private fun ProtectedAccess.mesAxeMissing() {
         mes("You need an axe to chop down this tree.")
         when {
-            player.hasBlockedInfernalAxe() ->
-                mes("You need a Firemaking level of 85 to use the infernal axe.")
             player.hasBlockedCrystalAxe() ->
                 mes("You need to complete Song of the Elves to use this axe.")
             else -> mes("You do not have an axe which you have the woodcutting level to use.")
@@ -268,7 +266,6 @@ constructor(
     }
 
     companion object {
-        private const val INFERNAL_FIREMAKING_REQ = 85
         private const val SONG_OF_THE_ELVES = "quest_songoftheelves"
 
         private val TREE_YIELD_COUNT_ATTR = AttributeKey<MutableMap<CoordGrid, Int>>()
@@ -330,16 +327,12 @@ constructor(
                 return false
             }
             return when (internalName) {
-                "obj.infernal_axe" -> player.firemakingLvl >= INFERNAL_FIREMAKING_REQ
                 "obj.crystal_axe",
                 "obj.crystal_axe_inactive", ->
                     QuestRequirements.hasCompleted(player, SONG_OF_THE_ELVES)
                 else -> true
             }
         }
-
-        private fun Player.hasBlockedInfernalAxe(): Boolean =
-            ownsAxe("obj.infernal_axe") && firemakingLvl < INFERNAL_FIREMAKING_REQ
 
         private fun Player.hasBlockedCrystalAxe(): Boolean =
             (ownsAxe("obj.crystal_axe") || ownsAxe("obj.crystal_axe_inactive")) &&

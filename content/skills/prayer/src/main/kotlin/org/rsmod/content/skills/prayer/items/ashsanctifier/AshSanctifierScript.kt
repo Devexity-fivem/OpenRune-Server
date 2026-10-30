@@ -97,8 +97,9 @@ public class AshSanctifierScript @Inject constructor() : PluginScript() {
     }
 
     companion object {
-        fun Player.hasKourendKebosHardDiaryComplete(): Boolean = true
-        fun Player.hasKourendKebosEliteDiaryComplete(): Boolean = true
+        // Diaries are not implemented; OSRS gates the sanctifier behind them, so it stays inert.
+        fun Player.hasKourendKebosHardDiaryComplete(): Boolean = false
+        fun Player.hasKourendKebosEliteDiaryComplete(): Boolean = false
         var Player.ashSanctifierActivityEnabled by boolVarBit("varbit.ash_sanctifier_activity_enabled")
     }
 

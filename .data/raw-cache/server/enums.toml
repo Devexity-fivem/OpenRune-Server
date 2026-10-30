@@ -613,6 +613,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 15729390
 "obj.3a_axe" = 15729390
 "obj.infernal_axe" = 15729390
+"obj.infernal_axe_empty" = 15729390
 "obj.trailblazer_axe" = 15729390
 "obj.crystal_axe" = 16384800
 
@@ -635,6 +636,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 7864695
 "obj.3a_axe" = 7864695
 "obj.infernal_axe" = 7864695
+"obj.infernal_axe_empty" = 7864695
 "obj.trailblazer_axe" = 7864695
 "obj.crystal_axe" = 7864695
 
@@ -657,6 +659,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 3932347
 "obj.3a_axe" = 3932347
 "obj.infernal_axe" = 3932347
+"obj.infernal_axe_empty" = 3932347
 "obj.trailblazer_axe" = 3932347
 "obj.crystal_axe" = 3932347
 
@@ -679,6 +682,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 3932350
 "obj.3a_axe" = 3932350
 "obj.infernal_axe" = 3932350
+"obj.infernal_axe_empty" = 3932350
 "obj.trailblazer_axe" = 3932350
 "obj.crystal_axe" = 3932360
 
@@ -701,6 +705,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 1966173
 "obj.3a_axe" = 1966173
 "obj.infernal_axe" = 1966173
+"obj.infernal_axe_empty" = 1966173
 "obj.trailblazer_axe" = 1966173
 "obj.crystal_axe" = 1966173
 
@@ -723,6 +728,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 1376368
 "obj.3a_axe" = 1376368
 "obj.infernal_axe" = 1376368
+"obj.infernal_axe_empty" = 1376368
 "obj.trailblazer_axe" = 1376368
 "obj.crystal_axe" = 1376368
 
@@ -745,6 +751,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 2228318
 "obj.3a_axe" = 2228318
 "obj.infernal_axe" = 2228318
+"obj.infernal_axe_empty" = 2228318
 "obj.trailblazer_axe" = 2228318
 "obj.crystal_axe" = 2359393
 
@@ -767,6 +774,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 983087
 "obj.3a_axe" = 983087
 "obj.infernal_axe" = 983087
+"obj.infernal_axe_empty" = 983087
 "obj.trailblazer_axe" = 983087
 "obj.crystal_axe" = 983087
 
@@ -789,6 +797,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 458774
 "obj.3a_axe" = 458774
 "obj.infernal_axe" = 458774
+"obj.infernal_axe_empty" = 458774
 "obj.trailblazer_axe" = 458774
 "obj.crystal_axe" = 458774
 
@@ -811,6 +820,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 458782
 "obj.3a_axe" = 458782
 "obj.infernal_axe" = 458782
+"obj.infernal_axe_empty" = 458782
 "obj.trailblazer_axe" = 458782
 "obj.crystal_axe" = 524323
 
@@ -833,6 +843,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 4391013
 "obj.3a_axe" = 4391013
 "obj.infernal_axe" = 4391013
+"obj.infernal_axe_empty" = 4391013
 "obj.trailblazer_axe" = 4391013
 "obj.crystal_axe" = 4391013
 
@@ -855,6 +866,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 7340382
 "obj.3a_axe" = 7340382
 "obj.infernal_axe" = 7340382
+"obj.infernal_axe_empty" = 7340382
 "obj.trailblazer_axe" = 7340382
 "obj.crystal_axe" = 7340382
 
@@ -877,6 +889,7 @@ valueType = "INT"
 "obj.trailblazer_axe_no_infernal" = 7340382
 "obj.3a_axe" = 7340382
 "obj.infernal_axe" = 7340382
+"obj.infernal_axe_empty" = 7340382
 "obj.trailblazer_axe" = 7340382
 "obj.crystal_axe" = 7340382
 
@@ -899,6 +912,7 @@ valueType = "SEQ"
 "obj.trailblazer_axe_no_infernal" = "seq.human_canoeing_carve_trailblazer_axe_no_infernal"
 "obj.3a_axe" = "seq.human_canoeing_carve_3a_axe"
 "obj.infernal_axe" = "seq.human_canoeing_carve_infernal_axe"
+"obj.infernal_axe_empty" = "seq.human_canoeing_carve_infernal_axe"
 "obj.trailblazer_axe" = "seq.human_canoeing_carve_league_trailblazer_axe"
 "obj.crystal_axe" = "seq.human_canoeing_carve_crystal_axe"
 

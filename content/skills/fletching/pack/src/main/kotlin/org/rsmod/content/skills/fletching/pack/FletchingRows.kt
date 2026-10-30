@@ -50,22 +50,22 @@ internal fun ProductionTableScope.fletchRow(
 private fun ProductionTableScope.carveRows() {
     // arrow shafts: first craft lands after 2 ticks, repeats every 3
     fletchRow("shafts_logs", KIND_CARVE, 1, 50, listOf("obj.logs" to 1), "obj.arrow_shaft", 15,
-        tool = "obj.knife", firstTicks = 2)
+        tool = "obj.knife")
     fletchRow("shafts_oak", KIND_CARVE, 15, 100, listOf("obj.oak_logs" to 1), "obj.arrow_shaft", 30,
-        tool = "obj.knife", firstTicks = 2)
+        tool = "obj.knife")
     fletchRow("shafts_willow", KIND_CARVE, 30, 150, listOf("obj.willow_logs" to 1), "obj.arrow_shaft", 45,
-        tool = "obj.knife", firstTicks = 2)
+        tool = "obj.knife")
     fletchRow("shafts_maple", KIND_CARVE, 45, 200, listOf("obj.maple_logs" to 1), "obj.arrow_shaft", 60,
-        tool = "obj.knife", firstTicks = 2)
+        tool = "obj.knife")
     fletchRow("shafts_yew", KIND_CARVE, 60, 250, listOf("obj.yew_logs" to 1), "obj.arrow_shaft", 75,
-        tool = "obj.knife", firstTicks = 2)
+        tool = "obj.knife")
     fletchRow("shafts_magic", KIND_CARVE, 75, 300, listOf("obj.magic_logs" to 1), "obj.arrow_shaft", 90,
-        tool = "obj.knife", firstTicks = 2)
+        tool = "obj.knife")
     fletchRow("shafts_redwood", KIND_CARVE, 90, 350, listOf("obj.redwood_logs" to 1), "obj.arrow_shaft", 105,
-        tool = "obj.knife", firstTicks = 2)
+        tool = "obj.knife")
 
     fletchRow("javelin_shafts", KIND_CARVE, 3, 50, listOf("obj.logs" to 1), "obj.javelin_shaft", 15,
-        tool = "obj.knife", firstTicks = 2)
+        tool = "obj.knife")
 
     fletchRow("shortbow_u", KIND_CARVE, 5, 50, listOf("obj.logs" to 1), "obj.unstrung_shortbow", tool = "obj.knife")
     fletchRow("longbow_u", KIND_CARVE, 10, 100, listOf("obj.logs" to 1), "obj.unstrung_longbow", tool = "obj.knife")
@@ -92,14 +92,14 @@ private fun ProductionTableScope.carveRows() {
     fletchRow("stock_yew", KIND_CARVE, 69, 500, listOf("obj.yew_logs" to 1), "obj.xbows_crossbow_stock_yew", tool = "obj.knife")
     fletchRow("stock_magic", KIND_CARVE, 78, 700, listOf("obj.magic_logs" to 1), "obj.xbows_crossbow_stock_magic", tool = "obj.knife")
 
-    fletchRow("shield_oak", KIND_CARVE, 27, 500, listOf("obj.oak_logs" to 2), "obj.oak_shield", tool = "obj.knife")
-    fletchRow("shield_willow", KIND_CARVE, 42, 830, listOf("obj.willow_logs" to 2), "obj.willow_shield", tool = "obj.knife")
-    fletchRow("shield_maple", KIND_CARVE, 57, 1165, listOf("obj.maple_logs" to 2), "obj.maple_shield", tool = "obj.knife")
-    fletchRow("shield_yew", KIND_CARVE, 72, 1500, listOf("obj.yew_logs" to 2), "obj.yew_shield", tool = "obj.knife")
-    fletchRow("shield_magic", KIND_CARVE, 87, 1830, listOf("obj.magic_logs" to 2), "obj.magic_shield", tool = "obj.knife")
-    fletchRow("shield_redwood", KIND_CARVE, 92, 2160, listOf("obj.redwood_logs" to 2), "obj.redwood_shield", tool = "obj.knife")
+    fletchRow("shield_oak", KIND_CARVE, 27, 500, listOf("obj.oak_logs" to 2), "obj.oak_shield", tool = "obj.knife", ticks = 7)
+    fletchRow("shield_willow", KIND_CARVE, 42, 830, listOf("obj.willow_logs" to 2), "obj.willow_shield", tool = "obj.knife", ticks = 7)
+    fletchRow("shield_maple", KIND_CARVE, 57, 1165, listOf("obj.maple_logs" to 2), "obj.maple_shield", tool = "obj.knife", ticks = 7)
+    fletchRow("shield_yew", KIND_CARVE, 72, 1500, listOf("obj.yew_logs" to 2), "obj.yew_shield", tool = "obj.knife", ticks = 7)
+    fletchRow("shield_magic", KIND_CARVE, 87, 1830, listOf("obj.magic_logs" to 2), "obj.magic_shield", tool = "obj.knife", ticks = 7)
+    fletchRow("shield_redwood", KIND_CARVE, 92, 2160, listOf("obj.redwood_logs" to 2), "obj.redwood_shield", tool = "obj.knife", ticks = 7)
 
-    fletchRow("battlestaff", KIND_CARVE, 40, 800, listOf("obj.celastrus_wood" to 1), "obj.battlestaff", tool = "obj.knife")
+    fletchRow("battlestaff", KIND_CARVE, 40, 800, listOf("obj.celastrus_wood" to 1), "obj.battlestaff", tool = "obj.knife", ticks = 4)
     fletchRow("redwood_hiking_staff", KIND_CARVE, 90, 105, listOf("obj.redwood_logs" to 1), "obj.redwood_hiking_staff", tool = "obj.knife")
     fletchRow("ogre_shafts", KIND_CARVE, 5, 64, listOf("obj.achey_tree_logs" to 1), "obj.ogre_arrow_shaft", 4,
         tool = "obj.knife", anim = "seq.human_ogre_fletching")
@@ -116,35 +116,35 @@ private fun ProductionTableScope.carveRows() {
 
 private fun ProductionTableScope.stringRows() {
     val s = "obj.bow_string"
-    fletchRow("string_shortbow", KIND_STRING, 5, 50, listOf("obj.unstrung_shortbow" to 1, s to 1), "obj.shortbow")
-    fletchRow("string_longbow", KIND_STRING, 10, 100, listOf("obj.unstrung_longbow" to 1, s to 1), "obj.longbow")
-    fletchRow("string_oak_shortbow", KIND_STRING, 20, 165, listOf("obj.unstrung_oak_shortbow" to 1, s to 1), "obj.oak_shortbow")
-    fletchRow("string_oak_longbow", KIND_STRING, 25, 250, listOf("obj.unstrung_oak_longbow" to 1, s to 1), "obj.oak_longbow")
+    fletchRow("string_shortbow", KIND_STRING, 5, 50, listOf("obj.unstrung_shortbow" to 1, s to 1), "obj.shortbow", ticks = 2)
+    fletchRow("string_longbow", KIND_STRING, 10, 100, listOf("obj.unstrung_longbow" to 1, s to 1), "obj.longbow", ticks = 2)
+    fletchRow("string_oak_shortbow", KIND_STRING, 20, 165, listOf("obj.unstrung_oak_shortbow" to 1, s to 1), "obj.oak_shortbow", ticks = 2)
+    fletchRow("string_oak_longbow", KIND_STRING, 25, 250, listOf("obj.unstrung_oak_longbow" to 1, s to 1), "obj.oak_longbow", ticks = 2)
     fletchRow("string_zogre_bow", KIND_STRING, 30, 450, listOf("obj.unstrung_zogre_bow" to 1, s to 1), "obj.zogre_bow",
-        anim = "seq.human_ogre_fletching")
-    fletchRow("string_willow_shortbow", KIND_STRING, 35, 333, listOf("obj.unstrung_willow_shortbow" to 1, s to 1), "obj.willow_shortbow")
-    fletchRow("string_willow_longbow", KIND_STRING, 40, 415, listOf("obj.unstrung_willow_longbow" to 1, s to 1), "obj.willow_longbow")
-    fletchRow("string_maple_shortbow", KIND_STRING, 50, 500, listOf("obj.unstrung_maple_shortbow" to 1, s to 1), "obj.maple_shortbow")
-    fletchRow("string_maple_longbow", KIND_STRING, 55, 583, listOf("obj.unstrung_maple_longbow" to 1, s to 1), "obj.maple_longbow")
-    fletchRow("string_yew_shortbow", KIND_STRING, 65, 675, listOf("obj.unstrung_yew_shortbow" to 1, s to 1), "obj.yew_shortbow")
-    fletchRow("string_yew_longbow", KIND_STRING, 70, 750, listOf("obj.unstrung_yew_longbow" to 1, s to 1), "obj.yew_longbow")
-    fletchRow("string_magic_shortbow", KIND_STRING, 80, 833, listOf("obj.unstrung_magic_shortbow" to 1, s to 1), "obj.magic_shortbow")
-    fletchRow("string_magic_longbow", KIND_STRING, 85, 915, listOf("obj.unstrung_magic_longbow" to 1, s to 1), "obj.magic_longbow")
+        anim = "seq.human_ogre_fletching", ticks = 2)
+    fletchRow("string_willow_shortbow", KIND_STRING, 35, 333, listOf("obj.unstrung_willow_shortbow" to 1, s to 1), "obj.willow_shortbow", ticks = 2)
+    fletchRow("string_willow_longbow", KIND_STRING, 40, 415, listOf("obj.unstrung_willow_longbow" to 1, s to 1), "obj.willow_longbow", ticks = 2)
+    fletchRow("string_maple_shortbow", KIND_STRING, 50, 500, listOf("obj.unstrung_maple_shortbow" to 1, s to 1), "obj.maple_shortbow", ticks = 2)
+    fletchRow("string_maple_longbow", KIND_STRING, 55, 583, listOf("obj.unstrung_maple_longbow" to 1, s to 1), "obj.maple_longbow", ticks = 2)
+    fletchRow("string_yew_shortbow", KIND_STRING, 65, 675, listOf("obj.unstrung_yew_shortbow" to 1, s to 1), "obj.yew_shortbow", ticks = 2)
+    fletchRow("string_yew_longbow", KIND_STRING, 70, 750, listOf("obj.unstrung_yew_longbow" to 1, s to 1), "obj.yew_longbow", ticks = 2)
+    fletchRow("string_magic_shortbow", KIND_STRING, 80, 833, listOf("obj.unstrung_magic_shortbow" to 1, s to 1), "obj.magic_shortbow", ticks = 2)
+    fletchRow("string_magic_longbow", KIND_STRING, 85, 915, listOf("obj.unstrung_magic_longbow" to 1, s to 1), "obj.magic_longbow", ticks = 2)
 
     val cs = "obj.xbows_crossbow_string"
-    fletchRow("string_xbow_bronze", KIND_STRING, 9, 60, listOf("obj.xbows_crossbow_unstrung_bronze" to 1, cs to 1), "obj.xbows_crossbow_bronze")
-    fletchRow("string_xbow_blurite", KIND_STRING, 24, 160, listOf("obj.xbows_crossbow_unstrung_blurite" to 1, cs to 1), "obj.xbows_crossbow_blurite")
-    fletchRow("string_xbow_iron", KIND_STRING, 39, 220, listOf("obj.xbows_crossbow_unstrung_iron" to 1, cs to 1), "obj.xbows_crossbow_iron")
-    fletchRow("string_xbow_steel", KIND_STRING, 46, 270, listOf("obj.xbows_crossbow_unstrung_steel" to 1, cs to 1), "obj.xbows_crossbow_steel")
-    fletchRow("string_xbow_mithril", KIND_STRING, 54, 320, listOf("obj.xbows_crossbow_unstrung_mithril" to 1, cs to 1), "obj.xbows_crossbow_mithril")
-    fletchRow("string_xbow_adamant", KIND_STRING, 61, 410, listOf("obj.xbows_crossbow_unstrung_adamantite" to 1, cs to 1), "obj.xbows_crossbow_adamantite")
-    fletchRow("string_xbow_runite", KIND_STRING, 69, 500, listOf("obj.xbows_crossbow_unstrung_runite" to 1, cs to 1), "obj.xbows_crossbow_runite")
-    fletchRow("string_xbow_dragon", KIND_STRING, 78, 700, listOf("obj.xbows_crossbow_unstrung_dragon" to 1, cs to 1), "obj.xbows_crossbow_dragon")
+    fletchRow("string_xbow_bronze", KIND_STRING, 9, 60, listOf("obj.xbows_crossbow_unstrung_bronze" to 1, cs to 1), "obj.xbows_crossbow_bronze", ticks = 2)
+    fletchRow("string_xbow_blurite", KIND_STRING, 24, 160, listOf("obj.xbows_crossbow_unstrung_blurite" to 1, cs to 1), "obj.xbows_crossbow_blurite", ticks = 2)
+    fletchRow("string_xbow_iron", KIND_STRING, 39, 220, listOf("obj.xbows_crossbow_unstrung_iron" to 1, cs to 1), "obj.xbows_crossbow_iron", ticks = 2)
+    fletchRow("string_xbow_steel", KIND_STRING, 46, 270, listOf("obj.xbows_crossbow_unstrung_steel" to 1, cs to 1), "obj.xbows_crossbow_steel", ticks = 2)
+    fletchRow("string_xbow_mithril", KIND_STRING, 54, 320, listOf("obj.xbows_crossbow_unstrung_mithril" to 1, cs to 1), "obj.xbows_crossbow_mithril", ticks = 2)
+    fletchRow("string_xbow_adamant", KIND_STRING, 61, 410, listOf("obj.xbows_crossbow_unstrung_adamantite" to 1, cs to 1), "obj.xbows_crossbow_adamantite", ticks = 2)
+    fletchRow("string_xbow_runite", KIND_STRING, 69, 500, listOf("obj.xbows_crossbow_unstrung_runite" to 1, cs to 1), "obj.xbows_crossbow_runite", ticks = 2)
+    fletchRow("string_xbow_dragon", KIND_STRING, 78, 700, listOf("obj.xbows_crossbow_unstrung_dragon" to 1, cs to 1), "obj.xbows_crossbow_dragon", ticks = 2)
 
     fletchRow("string_ballista_light", KIND_STRING, 47, 3000,
-        listOf("obj.ballista_unstrung_light" to 1, "obj.ballista_rope" to 1), "obj.light_ballista")
+        listOf("obj.ballista_unstrung_light" to 1, "obj.ballista_rope" to 1), "obj.light_ballista", ticks = 2)
     fletchRow("string_ballista_heavy", KIND_STRING, 72, 6000,
-        listOf("obj.ballista_unstrung_heavy" to 1, "obj.ballista_rope" to 1), "obj.heavy_ballista")
+        listOf("obj.ballista_unstrung_heavy" to 1, "obj.ballista_rope" to 1), "obj.heavy_ballista", ticks = 2)
 }
 
 private fun ProductionTableScope.assembleRows() {
@@ -337,7 +337,7 @@ private fun ProductionTableScope.attachRows() {
 private fun ProductionTableScope.chiselRows() {
     fun gemRow(name: String, level: Int, xp: Int, gem: String, tips: String, count: Int = 12) =
         fletchRow(name, KIND_CHISEL, level, xp, listOf(gem to 1), tips, count,
-            tool = "obj.chisel", ticks = 2, anim = "seq.human_cutting")
+            tool = "obj.chisel", ticks = 5, anim = "seq.human_cutting")
     gemRow("tips_opal", 11, 15, "obj.opal", "obj.opal_bolttips")
     gemRow("tips_jade", 26, 20, "obj.jade", "obj.xbows_bolt_tips_jade")
     gemRow("tips_pearl", 41, 32, "obj.smalloysterpearls", "obj.pearl_bolttips", 6)
@@ -348,6 +348,15 @@ private fun ProductionTableScope.chiselRows() {
     gemRow("tips_diamond", 65, 70, "obj.diamond", "obj.xbows_bolt_tips_diamond")
     gemRow("tips_dragonstone", 71, 82, "obj.dragonstone", "obj.xbows_bolt_tips_dragonstone")
     gemRow("tips_onyx", 73, 94, "obj.onyx", "obj.xbows_bolt_tips_onyx", 24)
+
+    fletchRow("amethyst_bolt_tips", KIND_CHISEL, 83, 600, listOf("obj.amethyst" to 1),
+        "obj.xbows_bolt_tips_amethyst", 15, tool = "obj.chisel", ticks = 5, anim = "seq.human_cutting")
+    fletchRow("amethyst_arrow_tips", KIND_CHISEL, 85, 600, listOf("obj.amethyst" to 1),
+        "obj.amethyst_arrowheads", 15, tool = "obj.chisel", ticks = 5, anim = "seq.human_cutting")
+    fletchRow("amethyst_javelin_heads", KIND_CHISEL, 87, 600, listOf("obj.amethyst" to 1),
+        "obj.amethyst_javelin_head", 5, tool = "obj.chisel", ticks = 5, anim = "seq.human_cutting")
+    fletchRow("amethyst_dart_tips", KIND_CHISEL, 89, 600, listOf("obj.amethyst" to 1),
+        "obj.amethyst_dart_tip", 8, tool = "obj.chisel", ticks = 5, anim = "seq.human_cutting")
 
     val chiselAnim = "seq.human_fletching_huntingbolts_chisel"
     fletchRow("wolfbone_tips", KIND_CHISEL, 5, 25, listOf("obj.wolf_bones" to 1), "obj.wolfbone_arrowheads", 4,
