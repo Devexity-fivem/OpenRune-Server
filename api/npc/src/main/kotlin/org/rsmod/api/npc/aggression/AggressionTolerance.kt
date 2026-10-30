@@ -6,6 +6,7 @@ import dev.openrune.types.NpcServerType
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import java.util.concurrent.ConcurrentHashMap
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.player.vars.intVarp
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
@@ -24,7 +25,8 @@ public class AggressionTolerance @Inject constructor(private val mapClock: MapCl
         enrolled += internal.asRSCM(RSCMType.NPC)
     }
 
-    public fun appliesTo(npc: Npc): Boolean = npc.type.id in enrolled
+    public fun appliesTo(npc: Npc): Boolean =
+        npc.type.id in enrolled || npc.type.paramOrNull(params.aggression_tolerant) == 1
 
     public fun isTolerant(npc: Npc, player: Player): Boolean {
         if (!appliesTo(npc)) {

@@ -107,6 +107,7 @@ object BaseParams {
     val venom_immunity: ParamInt = param("venom_immunity")
     val burn_immunity: ParamInt = param("burn_immunity")
     val freeze_resistance: ParamInt = param("freeze_resistance")
+    val aggression_tolerant: ParamInt = param("aggression_tolerant")
     val slayer_experience: ParamInt = param("slayer_experience")
     val slayer_task_id: ParamInt = param("slayer_task_id")
     val slayer_task_ids: ParamStr = param("slayer_task_ids")

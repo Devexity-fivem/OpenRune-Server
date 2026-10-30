@@ -4,6 +4,7 @@ import dev.openrune.ServerCacheManager
 import dev.openrune.types.NpcServerType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
@@ -80,6 +81,46 @@ class ServerCacheOverlayVerificationTest {
         assertEquals(65602, param(def, PARAM_KC_VARP))
     }
 
+    @Test
+    fun `hellhound is tolerant melee aggressive`() {
+        val def = npc(104)
+        assertEquals(1, def.huntMode)
+        assertEquals(5, def.huntRange)
+        assertEquals(15, def.maxRange)
+        assertEquals(1, param(def, PARAM_AGGRESSION_TOLERANT))
+    }
+
+    @Test
+    fun `green dragon is wilderness aggressive without tolerance`() {
+        val def = npc(260)
+        assertEquals(2, def.huntMode)
+        assertEquals(8, def.huntRange)
+        assertEquals(10, def.attackRange)
+        assertEquals(15, def.maxRange)
+        assertNull(param(def, PARAM_AGGRESSION_TOLERANT))
+    }
+
+    @Test
+    fun `chaos druid is tolerant ranged aggressive`() {
+        val def = npc(520)
+        assertEquals(2, def.huntMode)
+        assertEquals(1, param(def, PARAM_AGGRESSION_TOLERANT))
+    }
+
+    @Test
+    fun `chaos fanatic is aggressive but never tolerant in wilderness`() {
+        val def = npc(6619)
+        assertEquals(2, def.huntMode)
+        assertNull(param(def, PARAM_AGGRESSION_TOLERANT))
+    }
+
+    @Test
+    fun `aggressive black knight variant hunts while passive variant does not`() {
+        assertEquals(1, npc(517).huntMode)
+        assertEquals(1, param(npc(517), PARAM_AGGRESSION_TOLERANT))
+        assertNull(npc(516).huntMode)
+    }
+
     companion object {
         private const val PARAM_ATTACK_TYPE = 65407
         private const val PARAM_ATTACK_ANIM = 65500
@@ -90,6 +131,7 @@ class ServerCacheOverlayVerificationTest {
         private const val PARAM_WEAKNESS_TYPE = 65404
         private const val PARAM_WEAKNESS_PERCENT = 65405
         private const val PARAM_DEMON = 65432
+        private const val PARAM_AGGRESSION_TOLERANT = 65560
 
         @JvmStatic
         @BeforeAll

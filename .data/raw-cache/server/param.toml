@@ -909,3 +909,10 @@ isServerOnly = true
 type = "INT"
 defaultInt = 0
 isMembers = true
+
+[[params]]
+id = "param.aggression_tolerant"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
