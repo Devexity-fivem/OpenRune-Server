@@ -40,6 +40,9 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         onIfOverlayButton("component.magic_spellbook:string_jewel") {
             cast(STRING_JEWEL_OBJ, { hasUnstrungAmulets() }, { stringJewellery() })
         }
+        onIfOverlayButton("component.magic_spellbook:recharge_dragonstone") {
+            cast(RECHARGE_OBJ, { hasRechargeTargets() }, { rechargeDragonstone() })
+        }
     }
 
     private suspend fun ProtectedAccess.cast(
@@ -188,6 +191,49 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         spotanim(STRING_JEWEL_SPOTANIM)
     }
 
+    private fun ProtectedAccess.hasRechargeTargets(): Boolean {
+        if (player.vars["varbit.fremennik_diary_hard_complete"] != 1) {
+            mes("You need to have completed the hard Fremennik Diary to cast this spell.")
+            return false
+        }
+        if (rechargeTargets().isNotEmpty()) {
+            return true
+        }
+        mes("You don't have any dragonstone jewellery to recharge.")
+        return false
+    }
+
+    private fun ProtectedAccess.rechargeTargets(): List<String> {
+        val targets = GLORY_RECHARGE.keys.filter { inv.contains(it) }
+        if (QuestRequirements.hasCompleted(player, "legendsquest")) {
+            return targets +
+                COMBAT_BRACELET_RECHARGE.keys.filter { inv.contains(it) } +
+                SKILLS_NECKLACE_RECHARGE.keys.filter { inv.contains(it) }
+        }
+        return targets
+    }
+
+    private fun ProtectedAccess.rechargeDragonstone() {
+        val legends = QuestRequirements.hasCompleted(player, "legendsquest")
+        for ((from, to) in GLORY_RECHARGE) {
+            rechargeAll(from, to)
+        }
+        if (legends) {
+            for ((from, to) in COMBAT_BRACELET_RECHARGE + SKILLS_NECKLACE_RECHARGE) {
+                rechargeAll(from, to)
+            }
+        }
+        spotanim(RECHARGE_SPOTANIM)
+    }
+
+    private fun ProtectedAccess.rechargeAll(from: String, to: String) {
+        val count = inv.count(from)
+        if (count == 0 || invDel(inv, from, count).failure) {
+            return
+        }
+        invAdd(inv, to, count)
+    }
+
     private fun ProtectedAccess.isPoisoned(): Boolean {
         if (PlayerPoison.isPoisoned(player)) {
             return true
@@ -213,12 +259,14 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         const val HUNTER_KIT_OBJ = "obj.71_hunter_kit"
         const val CURE_ME_OBJ = "obj.71_cure_me"
         const val STRING_JEWEL_OBJ = "obj.80_string_jewelry"
+        const val RECHARGE_OBJ = "obj.lunar_enchant_dragonstone"
 
         const val HUMIDIFY_SPOTANIM = "spotanim.dream_humidify_spell_spotanim"
         const val BAKE_PIE_SPOTANIM = "spotanim.quest_lunar_spellbook_bake_pie_spot_anim"
         const val CURE_ME_SPOTANIM = "spotanim.quest_lunar_spellbook_cure_poison_spot_anim"
         const val STRING_JEWEL_SPOTANIM =
             "spotanim.3quest_lunar_spellbook_string_jewelery_spot_anim"
+        const val RECHARGE_SPOTANIM = "spotanim.0quest_lunar_dreamland_pushing_water_spotanim"
 
         const val MAX_SPIN_FLAX = 5
         const val GIANT_SEAWEED_ASH = 6
@@ -237,6 +285,41 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
                 "obj.unstrung_opal_amulet" to "obj.strung_opal_amulet",
                 "obj.unstrung_jade_amulet" to "obj.strung_jade_amulet",
                 "obj.unstrung_topaz_amulet" to "obj.strung_topaz_amulet",
+            )
+
+        val GLORY_RECHARGE =
+            mapOf(
+                "obj.amulet_of_glory" to "obj.amulet_of_glory_4",
+                "obj.amulet_of_glory_1" to "obj.amulet_of_glory_4",
+                "obj.amulet_of_glory_2" to "obj.amulet_of_glory_4",
+                "obj.amulet_of_glory_3" to "obj.amulet_of_glory_4",
+                "obj.amulet_of_glory_5" to "obj.amulet_of_glory_4",
+                "obj.amulet_of_glory_6" to "obj.amulet_of_glory_4",
+                "obj.trail_amulet_of_glory" to "obj.trail_amulet_of_glory_4",
+                "obj.trail_amulet_of_glory_1" to "obj.trail_amulet_of_glory_4",
+                "obj.trail_amulet_of_glory_2" to "obj.trail_amulet_of_glory_4",
+                "obj.trail_amulet_of_glory_3" to "obj.trail_amulet_of_glory_4",
+                "obj.trail_amulet_of_glory_5" to "obj.trail_amulet_of_glory_4",
+            )
+
+        val COMBAT_BRACELET_RECHARGE =
+            mapOf(
+                "obj.jewl_bracelet_of_combat" to "obj.jewl_bracelet_of_combat_4",
+                "obj.jewl_bracelet_of_combat_1" to "obj.jewl_bracelet_of_combat_4",
+                "obj.jewl_bracelet_of_combat_2" to "obj.jewl_bracelet_of_combat_4",
+                "obj.jewl_bracelet_of_combat_3" to "obj.jewl_bracelet_of_combat_4",
+                "obj.jewl_bracelet_of_combat_5" to "obj.jewl_bracelet_of_combat_4",
+                "obj.jewl_bracelet_of_combat_6" to "obj.jewl_bracelet_of_combat_4",
+            )
+
+        val SKILLS_NECKLACE_RECHARGE =
+            mapOf(
+                "obj.jewl_necklace_of_skills" to "obj.jewl_necklace_of_skills_4",
+                "obj.jewl_necklace_of_skills_1" to "obj.jewl_necklace_of_skills_4",
+                "obj.jewl_necklace_of_skills_2" to "obj.jewl_necklace_of_skills_4",
+                "obj.jewl_necklace_of_skills_3" to "obj.jewl_necklace_of_skills_4",
+                "obj.jewl_necklace_of_skills_5" to "obj.jewl_necklace_of_skills_4",
+                "obj.jewl_necklace_of_skills_6" to "obj.jewl_necklace_of_skills_4",
             )
 
         val HUMIDIFY_VESSELS =
