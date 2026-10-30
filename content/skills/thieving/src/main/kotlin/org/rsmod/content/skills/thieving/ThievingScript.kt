@@ -12,6 +12,7 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.advanced.onWearposChange
+import org.rsmod.api.script.onPlayerTimer
 import org.rsmod.api.script.onOpHeld1
 import org.rsmod.api.script.onOpHeld2
 import org.rsmod.api.script.onOpLoc2
@@ -56,6 +57,7 @@ constructor(
                 player.dodgyNecklaceCharges = DODGY_CHARGES
             }
         }
+        onPlayerTimer(STUN_TIMER) { player.frozen = false }
     }
 
     private suspend fun ProtectedAccess.stealFromStall(loc: BoundLocInfo, stall: Stall) {
@@ -153,10 +155,7 @@ constructor(
         anim(PICKPOCKET_SEQ)
         soundSynth(PICK_SYNTH)
         if (pouch != null) {
-            invAdd(inv, pouch.obj)
-            if (doubleLoot) {
-                invAdd(inv, COINS, random.of(pouch.coinsMin, pouch.coinsMax))
-            }
+            invAdd(inv, pouch.obj, if (doubleLoot) 2 else 1)
         }
         val loot = target.loot?.roll(random)
         if (loot != null) {
@@ -214,7 +213,7 @@ constructor(
     private fun ProtectedAccess.stun() {
         player.frozen = true
         player.routeDestination.clear()
-        player.timer(FREEZE_TIMER, STUN_TICKS)
+        player.timer(STUN_TIMER, STUN_TICKS)
     }
 
     private fun ProtectedAccess.wearing(obj: String, wearpos: Wearpos): Boolean =
@@ -261,7 +260,7 @@ constructor(
         const val STUN_BLOCK_SEQ = "seq.human_unarmedblock"
         const val STUN_SYNTH = "synth.thieving_stunned"
         const val STUN_TICKS = 9
-        const val FREEZE_TIMER = "timer.combat_freeze"
+        const val STUN_TIMER = "timer.thieving_stunned"
         const val MAX_POUCHES = 28
         const val COINS = "obj.coins"
         const val DODGY_NECKLACE = "obj.dodgy_necklace"

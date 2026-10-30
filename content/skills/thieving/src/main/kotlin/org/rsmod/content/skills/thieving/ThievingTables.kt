@@ -45,7 +45,7 @@ internal class Pickpocket(
     val lowercaseName: Boolean = false,
     val pocketName: String? = null,
     val quest: String? = null,
-    val attemptDelay: Int = 1,
+    val attemptDelay: Int = 2,
 )
 
 internal object ThievingTables {
