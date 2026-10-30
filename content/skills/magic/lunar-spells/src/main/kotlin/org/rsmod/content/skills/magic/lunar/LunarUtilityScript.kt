@@ -223,7 +223,7 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         const val MAX_SPIN_FLAX = 5
         const val GIANT_SEAWEED_ASH = 6
         const val SUPERGLASS_BONUS_TENTHS = 13
-        const val STRING_CRAFT_XP = 4
+        const val STRING_CRAFT_XP = 4.0
 
         val AMULETS =
             mapOf(
