@@ -676,3 +676,24 @@ id = "varbit.gauntlet_spoken_to_bryn"
 varp = "varp.gauntlet_flags"
 startBit = 0
 endBit = 0
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.lunar_vengeance_active"
+varp = "varp.generic_temp_state_65516"
+startBit = 10
+endBit = 10
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.lunar_vengeance_cooldown"
+varp = "varp.generic_temp_state_65516"
+startBit = 11
+endBit = 11
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.lunar_dreaming"
+varp = "varp.generic_temp_state_65516"
+startBit = 12
+endBit = 12
