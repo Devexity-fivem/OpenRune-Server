@@ -1122,40 +1122,6 @@ object Crafting {
                 column(COL_ANIM, "seq.human_zenytecutting")
             }
         }
-        section("Amethyst", category = "Cut") {
-            row("dbrow.crafting_amethyst_bolt_tips") {
-                production {
-                    input("obj.amethyst")
-                    statReq("stat.crafting", 83)
-                    xp(600)
-                    output("obj.xbows_bolt_tips_amethyst", 15)
-                }
-            }
-            row("dbrow.crafting_amethyst_arrowtips") {
-                production {
-                    input("obj.amethyst")
-                    statReq("stat.crafting", 85)
-                    xp(600)
-                    output("obj.amethyst_arrowheads", 15)
-                }
-            }
-            row("dbrow.crafting_amethyst_javelin_heads") {
-                production {
-                    input("obj.amethyst")
-                    statReq("stat.crafting", 87)
-                    xp(600)
-                    output("obj.amethyst_javelin_head", 5)
-                }
-            }
-            row("dbrow.crafting_amethyst_dart_tips") {
-                production {
-                    input("obj.amethyst")
-                    statReq("stat.crafting", 89)
-                    xp(600)
-                    output("obj.amethyst_dart_tip", 8)
-                }
-            }
-        }
         section("Limestone", category = "Cut") {
             row("dbrow.crafting_limestone_brick") {
                 production {
