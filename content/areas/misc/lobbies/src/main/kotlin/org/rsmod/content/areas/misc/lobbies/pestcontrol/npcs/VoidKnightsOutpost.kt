@@ -1,14 +1,16 @@
 package org.rsmod.content.areas.misc.lobbies.pestcontrol.npcs
 
+import jakarta.inject.Inject
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
+import org.rsmod.content.areas.misc.lobbies.pestcontrol.PestControlGame
 import org.rsmod.content.areas.misc.lobbies.pestcontrol.openPestControlRewards
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
 // TODO(content): Correct mesanims. The dialogue is from the wiki transcript.
-class VoidKnightsOutpost : PluginScript() {
+class VoidKnightsOutpost @Inject constructor(private val game: PestControlGame) : PluginScript() {
     override fun ScriptContext.startup() {
         for (knight in VOID_KNIGHTS) {
             onOpNpc1(knight) { startDialogue(it.npc) { voidKnight() } }
@@ -17,12 +19,14 @@ class VoidKnightsOutpost : PluginScript() {
         for (squire in OUTPOST_SQUIRES) {
             onOpNpc1(squire) { startDialogue(it.npc) { outpostSquire() } }
         }
-        onOpNpc1("npc.pest_squire_lander") { startDialogue(it.npc) { landerSquire("novice", 40) } }
+        onOpNpc1("npc.pest_squire_lander") {
+            startDialogue(it.npc) { landerSquire(PestControlGame.Tier.Novice) }
+        }
         onOpNpc1("npc.pest_squire_lander_2") {
-            startDialogue(it.npc) { landerSquire("intermediate", 70) }
+            startDialogue(it.npc) { landerSquire(PestControlGame.Tier.Intermediate) }
         }
         onOpNpc1("npc.pest_squire_lander_3") {
-            startDialogue(it.npc) { landerSquire("veteran", 100) }
+            startDialogue(it.npc) { landerSquire(PestControlGame.Tier.Veteran) }
         }
         onOpNpc1("npc.pest_voidknight_elite") { startDialogue(it.npc) { eliteVoidKnight() } }
         onOpNpc1("npc.pest_squire_blacksmith") { startDialogue(it.npc) { squireSmith() } }
@@ -84,9 +88,32 @@ class VoidKnightsOutpost : PluginScript() {
     // TODO(content): [system:pest_control] lander overheads "Come on, we need more recruits!"
     //  and "We're about to launch!"
     // TODO(content): [system:treasure_trails] elite clue step on the veteran squire
-    private suspend fun Dialogue.landerSquire(lander: String, combatLevel: Int) {
+    private suspend fun Dialogue.landerSquire(tier: PestControlGame.Tier) {
+        val lander = tier.name.lowercase()
         chatNpc(happy, "Hi, how can I help you?")
-        when (choice3("Who are you?", 1, "What's going on here?", 2, "I'm fine thanks.", 3)) {
+        when (
+            choice4(
+                "Who are you?", 1,
+                "What's going on here?", 2,
+                "I'd like to board the lander.", 3,
+                "I'm fine thanks.", 4,
+            )
+        ) {
+            3 -> {
+                if (player.combatLevel < tier.combatLevel) {
+                    chatNpc(
+                        neutral,
+                        "You'll need a combat level of ${tier.combatLevel} to board this lander.",
+                    )
+                } else if (game.join(player, tier)) {
+                    chatNpc(happy, "Hop aboard then. We'll launch as soon as we're ready.")
+                } else {
+                    chatNpc(
+                        neutral,
+                        "The $lander lander is already out fighting. Try again shortly.",
+                    )
+                }
+            }
             1 -> squireWhoAreYou()
             2 -> {
                 chatPlayer(quiz, "What's going on here?")
@@ -111,10 +138,10 @@ class VoidKnightsOutpost : PluginScript() {
                     neutral,
                     "full. If you'd be willing to help us then just wait in the lander and " +
                         "we'll launch it as soon as it's ready. However you will need a combat " +
-                        "level of $combatLevel to use this lander.",
+                        "level of ${tier.combatLevel} to use this lander.",
                 )
             }
-            3 -> chatPlayer(neutral, "I'm fine thanks.")
+            4 -> chatPlayer(neutral, "I'm fine thanks.")
         }
     }
 
