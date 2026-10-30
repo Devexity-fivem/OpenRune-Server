@@ -75,17 +75,17 @@ constructor(
         if (!player.vengeanceActive || hit.type == HitType.Typeless || hit.damage <= 0) {
             return
         }
-        player.vengeanceActive = false
-        val reflected = hit.damage * REFLECT_PERCENT / 100
-        if (reflected <= 0) {
-            return
-        }
+        val reflected = (hit.damage * REFLECT_PERCENT / 100).coerceAtLeast(1)
         if (hit.isFromNpc) {
             val npc = hit.resolveNpcSource(npcList) ?: return
-            npc.queueHit(player, 0, HitType.Typeless, reflected, npcHitModifier)
+            player.vengeanceActive = false
+            player.say(PROC_SAY)
+            npc.queueHit(player, 1, HitType.Typeless, reflected, npcHitModifier)
         } else if (hit.isFromPlayer) {
             val attacker = hit.resolvePlayerSource(playerList) ?: return
-            attacker.queueHit(player, 0, HitType.Typeless, reflected, playerHitModifier)
+            player.vengeanceActive = false
+            player.say(PROC_SAY)
+            attacker.queueHit(player, 1, HitType.Typeless, reflected, playerHitModifier)
         }
     }
 
@@ -97,5 +97,6 @@ constructor(
         const val COOLDOWN_QUEUE = "queue.lunar_vengeance_cooldown"
         const val COOLDOWN_TICKS = 50
         const val REFLECT_PERCENT = 75
+        const val PROC_SAY = "Taste vengeance!"
     }
 }
