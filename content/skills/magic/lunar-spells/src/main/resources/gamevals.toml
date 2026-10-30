@@ -1,0 +1,6 @@
+[gamevals.varbit]
+lunar_vengeance_active = 64216
+lunar_vengeance_cooldown = 64217
+
+[gamevals.queue]
+lunar_vengeance_cooldown = 65512

@@ -7,6 +7,7 @@ dependencies {
     implementation(projects.api.config)
     implementation(projects.api.generated)
     implementation(projects.api.mechanics.toxins)
+    implementation(projects.api.npc)
     implementation(projects.api.player)
     implementation(projects.api.playerOutput)
     implementation(projects.api.pluginCommons)
