@@ -7,6 +7,7 @@ ward_of_arceuus_active = 64211
 death_charge_charges = 64212
 corruption_marked = 64213
 corruption_fast = 64214
+arceuus_thrall_recast = 64215
 
 [gamevals.queue]
 mark_of_darkness_expire = 65525
@@ -19,6 +20,7 @@ shadow_veil_expire = 65518
 shadow_veil_cooldown = 65517
 vile_vigour_cooldown = 65516
 arceuus_offering_cooldown = 65514
+thrall_recast = 65513
 
 [gamevals.timer]
 corruption = 65520

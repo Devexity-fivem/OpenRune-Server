@@ -665,6 +665,13 @@ endBit = 8
 
 [[varbit]]
 isServerOnly = true
+id = "varbit.arceuus_thrall_recast"
+varp = "varp.generic_temp_state_65516"
+startBit = 9
+endBit = 9
+
+[[varbit]]
+isServerOnly = true
 id = "varbit.gauntlet_spoken_to_bryn"
 varp = "varp.gauntlet_flags"
 startBit = 0
