@@ -63,7 +63,7 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         if (!player.dreaming) {
             return
         }
-        if (player.routeDestination.isNotEmpty() || player.hasMovedThisCycle) {
+        if (player.isBusy2 || player.hasMovedThisCycle) {
             wake()
             return
         }

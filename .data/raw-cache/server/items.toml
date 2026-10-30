@@ -3235,6 +3235,7 @@ inherit = "obj.69_tele_moonclan"
 id = "obj.70_tele_moonclan_group"
 inherit = "obj.70_tele_moonclan_group"
 [item.params]
+"param.spell_telecoord"=34639691
 "param.spell_castxp"=670
 
 
@@ -3272,6 +3273,7 @@ inherit = "obj.72_tele_waterbirth"
 id = "obj.73_tele_waterbirth_group"
 inherit = "obj.73_tele_waterbirth_group"
 [item.params]
+"param.spell_telecoord"=41717420
 "param.spell_castxp"=720
 
 
@@ -3301,6 +3303,7 @@ inherit = "obj.75_tele_barb_outpost"
 id = "obj.76_tele_barb_outpost_group"
 inherit = "obj.76_tele_barb_outpost_group"
 [item.params]
+"param.spell_telecoord"=41668081
 "param.spell_castxp"=770
 
 
@@ -3337,6 +3340,7 @@ inherit = "obj.78_tele_port_khazard"
 id = "obj.79_tele_port_khazard_group"
 inherit = "obj.79_tele_port_khazard_group"
 [item.params]
+"param.spell_telecoord"=43191391
 "param.spell_castxp"=810
 
 
@@ -3394,6 +3398,7 @@ inherit = "obj.85_tele_fish_guild"
 id = "obj.86_tele_fish_guild_group"
 inherit = "obj.86_tele_fish_guild_group"
 [item.params]
+"param.spell_telecoord"=42782015
 "param.spell_castxp"=900
 
 
@@ -3416,6 +3421,7 @@ inherit = "obj.87_tele_catherby"
 id = "obj.88_tele_catherby_group"
 inherit = "obj.88_tele_catherby_group"
 [item.params]
+"param.spell_telecoord"=45895033
 "param.spell_castxp"=930
 
 
@@ -3438,6 +3444,7 @@ inherit = "obj.89_tele_ghorrock"
 id = "obj.90_tele_ghorrock_group"
 inherit = "obj.90_tele_ghorrock_group"
 [item.params]
+"param.spell_telecoord"=48729954
 "param.spell_castxp"=990
 
 
