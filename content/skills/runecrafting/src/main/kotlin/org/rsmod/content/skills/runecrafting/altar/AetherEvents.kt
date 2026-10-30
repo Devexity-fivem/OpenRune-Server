@@ -14,5 +14,8 @@ class AetherEvents @Inject constructor(
         onOpLocU("loc.archeus_altar_soul", "obj.cosmic_soul_catalyst") {
             craftAether(xpMods)
         }
+        onOpLocU("loc.cosmic_altar", "obj.soulrune") {
+            craftAether(xpMods)
+        }
     }
 }

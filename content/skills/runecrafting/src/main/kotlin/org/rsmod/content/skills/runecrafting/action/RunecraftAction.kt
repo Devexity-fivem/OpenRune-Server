@@ -347,9 +347,6 @@ object RunecraftAction {
 
         preCraft()
 
-        if (invDel(inv, "obj.cosmic_soul_catalyst", 1).failure) {
-            return
-        }
         if (invDel(inv, GUARDIAN_ESSENCE, craftCount).failure) {
             return
         }
@@ -357,13 +354,27 @@ object RunecraftAction {
             return
         }
 
-        var totalRunes = applyBonus(craftCount)
-        if (invDel(inv, "obj.scar_extract_scarred", 1).completed() > 0) {
-            totalRunes += runecraftingExtract["obj.scar_extract_scarred"] ?: 0
+        val wearingBinding = player.isWearing()
+        val successes =
+            if (wearingBinding) {
+                craftCount
+            } else {
+                (1..craftCount).count { random.of(100) < 50 }
+            }
+
+        var produced = applyBonus(successes)
+        if (successes > 0 && invDel(inv, "obj.scar_extract_scarred", 1).completed() > 0) {
+            produced += runecraftingExtract["obj.scar_extract_scarred"] ?: 0
         }
 
-        invAdd(inv, aetherRune.output.internalName, totalRunes)
-        advanceRunecraftingXp(craftCount * aetherRune.xp / 10.0, xpMods)
+        val totalRunes = invDel(inv, "obj.cosmic_soul_catalyst", produced).completed()
+        if (totalRunes > 0) {
+            invAdd(inv, aetherRune.output.internalName, totalRunes)
+            advanceRunecraftingXp(totalRunes * aetherRune.xp / 10.0, xpMods)
+        }
+        if (wearingBinding) {
+            consumeChargeAfterCombo()
+        }
     }
 
     private fun rollOuraniaRune(level: Int): RunecraftingRunesRow {
