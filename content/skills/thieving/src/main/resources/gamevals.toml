@@ -1,2 +1,5 @@
 [gamevals.synth]
 thieving_stunned = 2727
+
+[gamevals.varbit]
+dodgy_necklace_charges = 63000

@@ -3,6 +3,7 @@ package org.rsmod.content.skills.thieving
 import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.util.Wearpos
 import jakarta.inject.Inject
 import org.rsmod.api.npc.interact.AiPlayerInteractions
 import org.rsmod.api.npc.opPlayer2
@@ -10,11 +11,14 @@ import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
+import org.rsmod.api.script.advanced.onWearposChange
 import org.rsmod.api.script.onOpHeld1
 import org.rsmod.api.script.onOpHeld2
 import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpNpc3
+import org.rsmod.content.quest.manager.QuestRequirements
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.inv.isType
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
@@ -42,6 +46,15 @@ constructor(
             val pouch = target.pouch ?: continue
             onOpHeld1(pouch.obj) { openPouches(pouch, all = true) }
             onOpHeld2(pouch.obj) { openPouches(pouch, all = false) }
+        }
+        onWearposChange {
+            if (wearpos != Wearpos.Front) {
+                return@onWearposChange
+            }
+            val equipped = player.worn[wearpos.slot] ?: return@onWearposChange
+            if (equipped.isType(DODGY_NECKLACE) && player.dodgyNecklaceCharges <= 0) {
+                player.dodgyNecklaceCharges = DODGY_CHARGES
+            }
         }
     }
 
@@ -114,6 +127,10 @@ constructor(
             mes("You need to be level ${target.level} to pickpocket $owner.")
             return
         }
+        if (target.quest != null && !QuestRequirements.hasCompleted(player, target.quest)) {
+            mes("You need to have completed the required quest to pickpocket $owner.")
+            return
+        }
         val pouch = target.pouch
         if (pouch != null && inv.count(pouch.obj) >= MAX_POUCHES) {
             mes("You need to empty your coin pouches before you can continue pickpocketing.")
@@ -125,22 +142,33 @@ constructor(
         }
         faceEntitySquare(npc)
         mes("You attempt to pick $owner's pocket.", ChatType.Spam)
-        delay(1)
-        if (!statRandom(THIEVING, target.lowChance, target.highChance, invisibleBoost = 0)) {
+        delay(target.attemptDelay)
+        val capeBonus = wearingPickpocketCape() && random.of(100) < 10
+        if (!capeBonus && !statRandom(THIEVING, target.lowChance, target.highChance, invisibleBoost = 0)) {
             failPickpocket(npc, target, owner)
             return
         }
+        val doubleLoot = wearingRogueSet()
         mes("You pick $owner's pocket.", ChatType.Spam)
         anim(PICKPOCKET_SEQ)
         soundSynth(PICK_SYNTH)
         if (pouch != null) {
             invAdd(inv, pouch.obj)
+            if (doubleLoot) {
+                invAdd(inv, COINS, random.of(pouch.coinsMin, pouch.coinsMax))
+            }
         }
         val loot = target.loot?.roll(random)
         if (loot != null) {
             val count = random.of(loot.min, loot.max)
             invAdd(inv, loot.obj, count)
             mes("You steal ${describe(loot.obj, count)}.", ChatType.Spam)
+            if (doubleLoot) {
+                invAdd(inv, loot.obj, count)
+            }
+        }
+        if (doubleLoot) {
+            mes("Your rogue equipment allows you to steal twice as much loot.", ChatType.Spam)
         }
         statAdvance(THIEVING, target.xp)
     }
@@ -148,13 +176,25 @@ constructor(
     private fun ProtectedAccess.openPouches(pouch: CoinPouch, all: Boolean) {
         val count = if (all) inv.count(pouch.obj) else 1
         if (count == 0 || invDel(inv, pouch.obj, count).failure) return
-        invAdd(inv, COINS, count * pouch.coins)
+        var coins = 0
+        repeat(count) { coins += random.of(pouch.coinsMin, pouch.coinsMax) }
+        invAdd(inv, COINS, coins)
         val message = if (count > 1) "You open all of the pouches." else "You open the coin pouch."
         mes(message, ChatType.Spam)
     }
 
     private suspend fun ProtectedAccess.failPickpocket(npc: Npc, target: Pickpocket, owner: String) {
         mes("You fail to pick $owner's pocket.", ChatType.Spam)
+        if (wearingDodgyNecklace() && random.of(100) < DODGY_CHANCE) {
+            player.dodgyNecklaceCharges--
+            if (player.dodgyNecklaceCharges <= 0) {
+                invDel(player.worn, DODGY_NECKLACE, 1)
+                mes("Your dodgy necklace protects you, but it then disintegrates.", ChatType.Spam)
+            } else {
+                mes("Your dodgy necklace protects you.", ChatType.Spam)
+            }
+            return
+        }
         if (player.vars[SHADOW_VEIL_ACTIVE] == 1 && random.of(100) < SHADOW_VEIL_CHANCE) {
             mes("Your attempt to steal goes unnoticed.", ChatType.Spam)
             return
@@ -166,7 +206,7 @@ constructor(
         spotanim(STUN_SPOTANIM, height = STUN_SPOTANIM_HEIGHT)
         anim(STUN_BLOCK_SEQ)
         soundSynth(STUN_SYNTH)
-        queueHit(delay = 1, type = HitType.Typeless, damage = target.stunDamage)
+        queueHit(delay = 1, type = HitType.Typeless, damage = random.of(target.stunDamage, target.stunDamageMax))
         delay(1)
         mes("You've been stunned!", ChatType.Spam)
     }
@@ -176,6 +216,22 @@ constructor(
         player.routeDestination.clear()
         player.timer(FREEZE_TIMER, STUN_TICKS)
     }
+
+    private fun ProtectedAccess.wearing(obj: String, wearpos: Wearpos): Boolean =
+        player.worn[wearpos.slot]?.isType(obj) == true
+
+    private fun ProtectedAccess.wearingPickpocketCape(): Boolean =
+        wearing(THIEVING_CAPE, Wearpos.Back) || wearing(MAX_CAPE, Wearpos.Back)
+
+    private fun ProtectedAccess.wearingDodgyNecklace(): Boolean =
+        wearing(DODGY_NECKLACE, Wearpos.Front)
+
+    private fun ProtectedAccess.wearingRogueSet(): Boolean =
+        wearing(ROGUE_HELM, Wearpos.Hat) &&
+            wearing(ROGUE_BODY, Wearpos.Torso) &&
+            wearing(ROGUE_LEGS, Wearpos.Legs) &&
+            wearing(ROGUE_GLOVES, Wearpos.Hands) &&
+            wearing(ROGUE_BOOTS, Wearpos.Feet)
 
     private fun pocketOwner(npc: Npc, target: Pickpocket): String {
         target.pocketName?.let { return it }
@@ -208,5 +264,15 @@ constructor(
         const val FREEZE_TIMER = "timer.combat_freeze"
         const val MAX_POUCHES = 28
         const val COINS = "obj.coins"
+        const val DODGY_NECKLACE = "obj.dodgy_necklace"
+        const val DODGY_CHARGES = 10
+        const val DODGY_CHANCE = 25
+        const val THIEVING_CAPE = "obj.skillcape_thieving"
+        const val MAX_CAPE = "obj.max_cape"
+        const val ROGUE_HELM = "obj.roguesden_helm"
+        const val ROGUE_BODY = "obj.roguesden_body"
+        const val ROGUE_LEGS = "obj.roguesden_legs"
+        const val ROGUE_GLOVES = "obj.roguesden_gloves"
+        const val ROGUE_BOOTS = "obj.roguesden_boots"
     }
 }

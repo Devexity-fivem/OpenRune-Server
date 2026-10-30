@@ -147,6 +147,13 @@ endBit = 30
 
 [[varbit]]
 isServerOnly = true
+id = "varbit.dodgy_necklace_charges"
+varp = "varp.generic_storage_65531"
+startBit = 15
+endBit = 18
+
+[[varbit]]
+isServerOnly = true
 id = "varbit.bank_tab_main"
 varp = "varp.bank_serverside_vars"
 startBit = 0

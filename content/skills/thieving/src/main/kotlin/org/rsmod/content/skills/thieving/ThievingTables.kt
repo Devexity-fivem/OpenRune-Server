@@ -29,7 +29,7 @@ internal class Stall(
     val loot: LootTable,
 )
 
-internal class CoinPouch(val obj: String, val coins: Int)
+internal class CoinPouch(val obj: String, val coinsMin: Int, val coinsMax: Int = coinsMin)
 
 internal class Pickpocket(
     val npcs: List<String>,
@@ -39,10 +39,13 @@ internal class Pickpocket(
     val highChance: Int,
     val stunDamage: Int,
     val caughtShout: String,
+    val stunDamageMax: Int = stunDamage,
     val loot: LootTable? = null,
     val pouch: CoinPouch? = null,
     val lowercaseName: Boolean = false,
     val pocketName: String? = null,
+    val quest: String? = null,
+    val attemptDelay: Int = 1,
 )
 
 internal object ThievingTables {
@@ -80,7 +83,84 @@ internal object ThievingTables {
             )
         )
 
+    private val vegetableStallLoot =
+        LootTable(
+            listOf(
+                30 to Loot("obj.onion"),
+                25 to Loot("obj.cabbage"),
+                20 to Loot("obj.potato"),
+                15 to Loot("obj.tomato"),
+                10 to Loot("obj.garlic"),
+            )
+        )
+
+    private val bakeryStallLoot =
+        LootTable(
+            listOf(
+                50 to Loot("obj.bread"),
+                30 to Loot("obj.cake"),
+                20 to Loot("obj.chocolate_slice"),
+            )
+        )
+
+    private val fruitStallLoot =
+        LootTable(
+            listOf(
+                20 to Loot("obj.cooking_apple"),
+                15 to Loot("obj.banana"),
+                10 to Loot("obj.strawberry"),
+                10 to Loot("obj.redberries"),
+                10 to Loot("obj.jangerberries"),
+                8 to Loot("obj.lime"),
+                8 to Loot("obj.lemon"),
+                7 to Loot("obj.pineapple"),
+                6 to Loot("obj.papaya"),
+                4 to Loot("obj.golovanova_top"),
+                2 to Loot("obj.didyouknow_strange_fruit"),
+            )
+        )
+
+    private val furStallLoot =
+        LootTable(
+            listOf(
+                85 to Loot("obj.fur"),
+                15 to Loot("obj.grey_wolf_fur"),
+            )
+        )
+
+    private val fishStallLoot =
+        LootTable(
+            listOf(
+                55 to Loot("obj.raw_salmon"),
+                30 to Loot("obj.raw_tuna"),
+                15 to Loot("obj.raw_lobster"),
+            )
+        )
+
+    private val silverStallLoot =
+        LootTable(
+            listOf(
+                60 to Loot("obj.silver_ore"),
+                30 to Loot("obj.silver_bar"),
+                10 to Loot("obj.tiara"),
+            )
+        )
+
+    private val gemStallLoot =
+        LootTable(
+            listOf(
+                50 to Loot("obj.uncut_sapphire"),
+                30 to Loot("obj.uncut_emerald"),
+                15 to Loot("obj.uncut_ruby"),
+                5 to Loot("obj.uncut_diamond"),
+            )
+        )
+
     private val draynorGuards = listOf("npc.farming_market_guard")
+    private val ardougneGuards = listOf("npc.ardougne_guard", "npc.guard1")
+    private val kourendGuards = listOf("npc.guard1")
+    private val varlamoreGuards = listOf("npc.guard1")
+    private val keldagrimGuards = listOf("npc.guard1")
 
     val stalls: List<Stall> =
         listOf(
@@ -89,7 +169,7 @@ internal object ThievingTables {
                 emptyLoc = null,
                 level = 27,
                 xp = 10.0,
-                restockTicks = 5,
+                restockTicks = 4,
                 owners = listOf("npc.seed_merchant"),
                 guards = draynorGuards,
                 attemptMessage = "You attempt to steal some seeds from the seed merchant's stall.",
@@ -105,6 +185,237 @@ internal object ThievingTables {
                 guards = draynorGuards,
                 attemptMessage = "You attempt to steal something from the wine merchant's stall.",
                 loot = wineStallLoot,
+            ),
+            Stall(
+                loc = "loc.hos_stall_veg",
+                emptyLoc = null,
+                level = 2,
+                xp = 10.0,
+                restockTicks = 2,
+                owners = emptyList(),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal some vegetables from the stall.",
+                loot = vegetableStallLoot,
+            ),
+            Stall(
+                loc = "loc.fortis_market_stall",
+                emptyLoc = null,
+                level = 5,
+                xp = 16.0,
+                restockTicks = 4,
+                owners = listOf("npc.baker_merchant", "npc.baker_merchant_ardougne", "npc.baker_merchant_ardougne2"),
+                guards = varlamoreGuards,
+                attemptMessage = "You attempt to steal some baked goods from the stall.",
+                loot = bakeryStallLoot,
+            ),
+            Stall(
+                loc = "loc.keldagrim_bread_stall",
+                emptyLoc = null,
+                level = 5,
+                xp = 16.0,
+                restockTicks = 4,
+                owners = listOf("npc.baker_merchant"),
+                guards = keldagrimGuards,
+                attemptMessage = "You attempt to steal some baked goods from the stall.",
+                loot = bakeryStallLoot,
+            ),
+            Stall(
+                loc = "loc.aldarin_market_stall_veg",
+                emptyLoc = null,
+                level = 2,
+                xp = 10.0,
+                restockTicks = 2,
+                owners = emptyList(),
+                guards = varlamoreGuards,
+                attemptMessage = "You attempt to steal some vegetables from the stall.",
+                loot = vegetableStallLoot,
+            ),
+            Stall(
+                loc = "loc.tea_stall",
+                emptyLoc = null,
+                level = 5,
+                xp = 16.0,
+                restockTicks = 4,
+                owners = listOf("npc.tea_seller"),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal a cup of tea from the stall.",
+                loot = LootTable(listOf(1 to Loot("obj.cup_of_tea"))),
+            ),
+            Stall(
+                loc = "loc.silkthiefstall",
+                emptyLoc = "loc.silkthiefstall_noop",
+                level = 20,
+                xp = 24.0,
+                restockTicks = 8,
+                owners = listOf("npc.silk_merchant", "npc.silk_merchant_ardougne", "npc.silk_trader"),
+                guards = ardougneGuards,
+                attemptMessage = "You attempt to steal some silk from the stall.",
+                loot = LootTable(listOf(1 to Loot("obj.silk"))),
+            ),
+            Stall(
+                loc = "loc.shayzien_silk_stall",
+                emptyLoc = null,
+                level = 20,
+                xp = 24.0,
+                restockTicks = 8,
+                owners = listOf("npc.silk_trader"),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal some silk from the stall.",
+                loot = LootTable(listOf(1 to Loot("obj.silk"))),
+            ),
+            Stall(
+                loc = "loc.prif_marketstall_silk",
+                emptyLoc = null,
+                level = 20,
+                xp = 24.0,
+                restockTicks = 8,
+                owners = emptyList(),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal some silk from the stall.",
+                loot = LootTable(listOf(1 to Loot("obj.silk"))),
+            ),
+            Stall(
+                loc = "loc.fortis_market_stall_silk",
+                emptyLoc = null,
+                level = 20,
+                xp = 24.0,
+                restockTicks = 8,
+                owners = listOf("npc.silk_trader"),
+                guards = varlamoreGuards,
+                attemptMessage = "You attempt to steal some silk from the stall.",
+                loot = LootTable(listOf(1 to Loot("obj.silk"))),
+            ),
+            Stall(
+                loc = "loc.hos_fruit_stall",
+                emptyLoc = null,
+                level = 25,
+                xp = 28.5,
+                restockTicks = 2,
+                owners = emptyList(),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal some fruit from the stall.",
+                loot = fruitStallLoot,
+            ),
+            Stall(
+                loc = "loc.hos_fruit_stall_01",
+                emptyLoc = null,
+                level = 25,
+                xp = 28.5,
+                restockTicks = 2,
+                owners = emptyList(),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal some fruit from the stall.",
+                loot = fruitStallLoot,
+            ),
+            Stall(
+                loc = "loc.hos_fruit_stall_02",
+                emptyLoc = null,
+                level = 25,
+                xp = 28.5,
+                restockTicks = 2,
+                owners = emptyList(),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal some fruit from the stall.",
+                loot = fruitStallLoot,
+            ),
+            Stall(
+                loc = "loc.fortis_market_stall_fur",
+                emptyLoc = null,
+                level = 35,
+                xp = 45.0,
+                restockTicks = 12,
+                owners = listOf("npc.fur_merchant", "npc.fur_merchant_ardougne"),
+                guards = varlamoreGuards,
+                attemptMessage = "You attempt to steal some fur from the stall.",
+                loot = furStallLoot,
+            ),
+            Stall(
+                loc = "loc.fish_stall_warrens",
+                emptyLoc = null,
+                level = 42,
+                xp = 42.0,
+                restockTicks = 12,
+                owners = listOf("npc.piscarilius_fish_trader", "npc.piscarilius_fish_trader_0"),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal some fish from the stall.",
+                loot = fishStallLoot,
+            ),
+            Stall(
+                loc = "loc.keldagrim_silver_stall",
+                emptyLoc = null,
+                level = 50,
+                xp = 205.0,
+                restockTicks = 32,
+                owners = listOf("npc.dwarf_city_silver_trader1", "npc.dwarf_city_silver_trader2"),
+                guards = keldagrimGuards,
+                attemptMessage = "You attempt to steal some silver from the stall.",
+                loot = silverStallLoot,
+            ),
+            Stall(
+                loc = "loc.fortis_market_stall_spice",
+                emptyLoc = null,
+                level = 65,
+                xp = 81.0,
+                restockTicks = 12,
+                owners = listOf("npc.spice_merchant", "npc.spice_merchant_ardougne"),
+                guards = varlamoreGuards,
+                attemptMessage = "You attempt to steal some spice from the stall.",
+                loot = LootTable(listOf(1 to Loot("obj.spicespot"))),
+            ),
+            Stall(
+                loc = "loc.prif_marketstall_spice",
+                emptyLoc = null,
+                level = 65,
+                xp = 81.0,
+                restockTicks = 12,
+                owners = listOf("npc.spice_merchant"),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal some spice from the stall.",
+                loot = LootTable(listOf(1 to Loot("obj.spicespot"))),
+            ),
+            Stall(
+                loc = "loc.keldagrim_gem_stall",
+                emptyLoc = null,
+                level = 75,
+                xp = 408.0,
+                restockTicks = 100,
+                owners = emptyList(),
+                guards = keldagrimGuards,
+                attemptMessage = "You attempt to steal a gem from the stall.",
+                loot = gemStallLoot,
+            ),
+            Stall(
+                loc = "loc.prif_marketstall_gem",
+                emptyLoc = null,
+                level = 75,
+                xp = 408.0,
+                restockTicks = 100,
+                owners = emptyList(),
+                guards = kourendGuards,
+                attemptMessage = "You attempt to steal a gem from the stall.",
+                loot = gemStallLoot,
+            ),
+            Stall(
+                loc = "loc.fortis_market_stall_gems",
+                emptyLoc = null,
+                level = 75,
+                xp = 408.0,
+                restockTicks = 100,
+                owners = emptyList(),
+                guards = varlamoreGuards,
+                attemptMessage = "You attempt to steal a gem from the stall.",
+                loot = gemStallLoot,
+            ),
+            Stall(
+                loc = "loc.aldarin_market_stall_gems",
+                emptyLoc = null,
+                level = 75,
+                xp = 408.0,
+                restockTicks = 100,
+                owners = emptyList(),
+                guards = varlamoreGuards,
+                attemptMessage = "You attempt to steal a gem from the stall.",
+                loot = gemStallLoot,
             ),
         )
 
@@ -159,6 +470,20 @@ internal object ThievingTables {
             )
         )
 
+    private val digsiteWorkmanLoot =
+        LootTable(
+            listOf(
+                1 to Loot("obj.cup_of_tea"),
+            )
+        )
+
+    private val villagerLoot =
+        LootTable(
+            listOf(
+                1 to Loot("obj.coins", 1, 7),
+            )
+        )
+
     val pickpockets: List<Pickpocket> =
         listOf(
             Pickpocket(
@@ -177,29 +502,329 @@ internal object ThievingTables {
                 highChance = 240,
                 stunDamage = 1,
                 caughtShout = "What do you think you're doing?",
-                pouch = CoinPouch("obj.pickpocket_coin_pouch_citizen", coins = 3),
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_citizen", 3),
                 lowercaseName = true,
             ),
             Pickpocket(
-                npcs = listOf("npc.al_kharid_warrior"),
+                npcs =
+                    listOf(
+                        "npc.farmer1",
+                        "npc.farmer2",
+                        "npc.farmer3",
+                        "npc.farmer1_f",
+                        "npc.farmer2_f",
+                        "npc.farmer3_f",
+                    ),
+                level = 10,
+                xp = 14.5,
+                lowChance = 40,
+                highChance = 240,
+                stunDamage = 1,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_farmer", 9),
+                lowercaseName = true,
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.pickpocket_guide_fham",
+                        "npc.pickpocket_guide_mham",
+                    ),
+                level = 15,
+                xp = 22.2,
+                lowChance = 90,
+                highChance = 240,
+                stunDamage = 1,
+                caughtShout = "What do you think you're doing?",
+                stunDamageMax = 3,
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_ham", 1, 21),
+                lowercaseName = true,
+                pocketName = "the H.A.M. member",
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.al_kharid_warrior",
+                        "npc.pickpocket_guide_warrior",
+                        "npc.warrior_woman",
+                    ),
                 level = 25,
                 xp = 26.0,
-                lowChance = 130,
+                lowChance = 70,
                 highChance = 240,
                 stunDamage = 2,
                 caughtShout = "What do you think you're doing?",
-                pouch = CoinPouch("obj.pickpocket_coin_pouch_warrior", coins = 18),
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_warrior", 18),
                 pocketName = "the warrior",
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.digworkman1",
+                        "npc.digworkman2",
+                        "npc.qip_digsite_digworkman_03",
+                        "npc.qip_digsite_digworkman_04",
+                    ),
+                level = 25,
+                xp = 10.4,
+                lowChance = 70,
+                highChance = 240,
+                stunDamage = 1,
+                caughtShout = "What do you think you're doing?",
+                loot = digsiteWorkmanLoot,
+                lowercaseName = true,
+                pocketName = "the workman",
+                attemptDelay = 3,
+            ),
+            Pickpocket(
+                npcs = listOf("npc.pickpocket_guide_villager"),
+                level = 30,
+                xp = 8.0,
+                lowChance = 110,
+                highChance = 240,
+                stunDamage = 2,
+                caughtShout = "What do you think you're doing?",
+                loot = villagerLoot,
+                lowercaseName = true,
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.pickpocket_guide_rogue",
+                        "npc.rogue",
+                    ),
+                level = 32,
+                xp = 36.5,
+                lowChance = 42,
+                highChance = 240,
+                stunDamage = 2,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_rogue", 25, 40),
+                lowercaseName = true,
+            ),
+            Pickpocket(
+                npcs = listOf("npc.pickpocket_guide_dorgesh"),
+                level = 36,
+                xp = 40.0,
+                lowChance = 100,
+                highChance = 240,
+                stunDamage = 1,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_cavegoblin", 10, 50),
+                lowercaseName = true,
+                pocketName = "the cave goblin",
             ),
             Pickpocket(
                 npcs = listOf("npc.master_farmer_1", "npc.martin_the_master_farmer"),
                 level = 38,
                 xp = 43.0,
-                lowChance = 90,
+                lowChance = 42,
                 highChance = 240,
                 stunDamage = 3,
                 caughtShout = "Cor blimey mate, what are ye doing in me pockets?",
                 loot = masterFarmerLoot,
-            )
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.pickpocket_guide_guard",
+                        "npc.guard1",
+                        "npc.ardougne_guard",
+                    ),
+                level = 40,
+                xp = 46.8,
+                lowChance = 20,
+                highChance = 240,
+                stunDamage = 2,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_guard", 30),
+                lowercaseName = true,
+            ),
+            Pickpocket(
+                npcs = listOf("npc.pickpocket_guide_fremennik_citizen"),
+                level = 45,
+                xp = 65.0,
+                lowChance = 30,
+                highChance = 240,
+                stunDamage = 2,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_fremennik", 40),
+                lowercaseName = true,
+                pocketName = "the Fremennik citizen",
+                quest = "quest_fremenniktrials",
+            ),
+            Pickpocket(
+                npcs = listOf("npc.feud_bandit_toughguy"),
+                level = 45,
+                xp = 65.0,
+                lowChance = 30,
+                highChance = 240,
+                stunDamage = 5,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_bandit", 40),
+                lowercaseName = true,
+                pocketName = "the bandit",
+            ),
+            Pickpocket(
+                npcs = listOf("npc.pickpocket_guide_wealthy_citizen"),
+                level = 50,
+                xp = 96.0,
+                lowChance = 25,
+                highChance = 240,
+                stunDamage = 3,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_varlamore_wealthy", 85),
+                lowercaseName = true,
+                pocketName = "the wealthy citizen",
+                quest = "quest_childrenofthesun",
+            ),
+            Pickpocket(
+                npcs = listOf("npc.pickpocket_guide_desert_bandit"),
+                level = 53,
+                xp = 79.4,
+                lowChance = 20,
+                highChance = 240,
+                stunDamage = 3,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_desertbandit", 30),
+                lowercaseName = true,
+                pocketName = "the desert bandit",
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.pickpocket_guide_knight",
+                        "npc.knight_of_ardougne",
+                        "npc.knight_of_ardougne2",
+                        "npc.knight_of_ardougne_west",
+                        "npc.knight_of_ardougne_f_west",
+                    ),
+                level = 55,
+                xp = 84.3,
+                lowChance = 20,
+                highChance = 240,
+                stunDamage = 3,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_knight", 50),
+                lowercaseName = true,
+                pocketName = "the knight",
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.pickpocket_guide_pirate",
+                        "npc.pirate1",
+                        "npc.pirate2",
+                        "npc.pirate_aggressive",
+                    ),
+                level = 60,
+                xp = 72.0,
+                lowChance = 25,
+                highChance = 240,
+                stunDamage = 3,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_pirate", 72),
+                lowercaseName = true,
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.pickpocket_guide_watchman",
+                        "npc.yanille_watchman",
+                    ),
+                level = 65,
+                xp = 137.5,
+                lowChance = 20,
+                highChance = 240,
+                stunDamage = 3,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_watchman", 60),
+                lowercaseName = true,
+                pocketName = "the watchman",
+            ),
+            Pickpocket(
+                npcs = listOf("npc.thug"),
+                level = 65,
+                xp = 137.5,
+                lowChance = 20,
+                highChance = 240,
+                stunDamage = 5,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_menaphite", 60),
+                lowercaseName = true,
+                pocketName = "the Menaphite thug",
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.pickpocket_guide_paladin",
+                        "npc.paladin",
+                        "npc.paladin2",
+                        "npc.ardougne_paladin2",
+                        "npc.paladin_west",
+                        "npc.paladin_f",
+                    ),
+                level = 70,
+                xp = 131.8,
+                lowChance = 18,
+                highChance = 240,
+                stunDamage = 3,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_paladin", 80),
+                lowercaseName = true,
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.pickpocket_guide_gnome",
+                        "npc.gnome",
+                    ),
+                level = 75,
+                xp = 133.3,
+                lowChance = 15,
+                highChance = 240,
+                stunDamage = 1,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_gnome", 300),
+                lowercaseName = true,
+            ),
+            Pickpocket(
+                npcs =
+                    listOf(
+                        "npc.pickpocket_guide_hero",
+                        "npc.hero",
+                    ),
+                level = 80,
+                xp = 163.3,
+                lowChance = 15,
+                highChance = 240,
+                stunDamage = 3,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_hero", 200, 300),
+                lowercaseName = true,
+            ),
+            Pickpocket(
+                npcs = listOf("npc.pickpocket_guide_vyre"),
+                level = 82,
+                xp = 306.9,
+                lowChance = 12,
+                highChance = 240,
+                stunDamage = 5,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_vyre", 230, 315),
+                lowercaseName = true,
+            ),
+            Pickpocket(
+                npcs = listOf("npc.pickpocket_guide_woodelf"),
+                level = 85,
+                xp = 353.3,
+                lowChance = 12,
+                highChance = 240,
+                stunDamage = 5,
+                caughtShout = "What do you think you're doing?",
+                pouch = CoinPouch("obj.pickpocket_coin_pouch_elf", 280, 350),
+                lowercaseName = true,
+                pocketName = "the elf",
+            ),
         )
 }
