@@ -26,10 +26,14 @@ import org.rsmod.api.server.config.ServerConfig
 import org.rsmod.api.spells.MagicSpellRegistry
 import org.rsmod.api.utils.time.epochMinute
 import org.rsmod.content.quest.manager.QuestRequirements
+import org.rsmod.game.entity.PlayerList
+import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.inv.isType
+import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
+import org.rsmod.routefinder.collision.CollisionFlagMap
 
 class SpellTeleportScript
 @Inject
@@ -39,6 +43,8 @@ constructor(
     private val teleportValidator: PlayerTeleportValidator,
     private val areaChecker: AreaChecker,
     private val config: ServerConfig,
+    private val playerList: PlayerList,
+    private val collision: CollisionFlagMap,
 ) : PluginScript() {
     override fun ScriptContext.startup() {
         for (teleport in SpellTeleport.entries) {
@@ -109,6 +115,25 @@ constructor(
         val endAnim = task.teleport.style.endAnim
         if (endAnim != null) anim(endAnim) else resetAnim()
         statAdvance("stat.magic", spell.castXp)
+        if (task.teleport.group) {
+            teleportGroup(CoordGrid(task.destination), task.teleport.style)
+        }
+    }
+
+    private fun ProtectedAccess.teleportGroup(destination: CoordGrid, style: TeleportStyle) {
+        for (other in playerList) {
+            if (other == player) continue
+            if (other.coords.level != player.coords.level) continue
+            if (other.coords.chebyshevDistance(player.coords) > GROUP_RANGE) continue
+            if (other.vars[AcceptAid] != 1) continue
+            if (teleportValidator.validate(other, TeleportType.Standard, areaChecker) != null) {
+                continue
+            }
+            if (!collision.isZoneValid(destination)) continue
+            PathingEntityCommon.telejump(other, collision, destination)
+            other.spotanim(style.spotanim, height = style.spotanimHeight)
+            other.mes("${player.username} teleports you.", ChatType.Engine)
+        }
     }
 
     private fun ProtectedAccess.landingSquare(centre: CoordGrid, radius: Int): CoordGrid {
@@ -272,6 +297,7 @@ constructor(
         val style: TeleportStyle = TeleportStyle.Standard,
         val landingRadius: Int = LandingRadius,
         val homeTeleport: Boolean = false,
+        val group: Boolean = false,
     ) {
         Home(
             "obj.48_home_teleport",
@@ -418,6 +444,111 @@ constructor(
             requiredQuest = "quest_monkeymadness1",
             lockedMessage = "You need to complete Monkey Madness I to cast this spell.",
             style = TeleportStyle.Arceuus,
+        ),
+        LunarHome(
+            "obj.01_lunar_home_tele",
+            CoordGrid(2094, 3913, 0),
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            landingRadius = 0,
+            homeTeleport = true,
+        ),
+        Moonclan(
+            "obj.69_tele_moonclan",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+        ),
+        MoonclanGroup(
+            "obj.70_tele_moonclan_group",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+            group = true,
+        ),
+        OuraniaAltar(
+            "obj.71_tele_zmialtar",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+        ),
+        Waterbirth(
+            "obj.72_tele_waterbirth",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+        ),
+        WaterbirthGroup(
+            "obj.73_tele_waterbirth_group",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+            group = true,
+        ),
+        BarbarianOutpost(
+            "obj.75_tele_barb_outpost",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+        ),
+        BarbarianOutpostGroup(
+            "obj.76_tele_barb_outpost_group",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+            group = true,
+        ),
+        PortKhazard(
+            "obj.78_tele_port_khazard",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+        ),
+        PortKhazardGroup(
+            "obj.79_tele_port_khazard_group",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+            group = true,
+        ),
+        FishingGuild(
+            "obj.85_tele_fish_guild",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+        ),
+        FishingGuildGroup(
+            "obj.86_tele_fish_guild_group",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+            group = true,
+        ),
+        Catherby(
+            "obj.87_tele_catherby",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+        ),
+        CatherbyGroup(
+            "obj.88_tele_catherby_group",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+            group = true,
+        ),
+        IcePlateau(
+            "obj.89_tele_ghorrock",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+        ),
+        IcePlateauGroup(
+            "obj.90_tele_ghorrock_group",
+            requiredQuest = "quest_lunardiplomacy",
+            lockedMessage = "You need to complete Lunar Diplomacy to cast this spell.",
+            style = TeleportStyle.Lunar,
+            group = true,
         );
 
         fun option(op: IfButtonOp): TeleportOption {
@@ -478,6 +609,12 @@ constructor(
             spotanim = "spotanim.arceuus_teleport_spotanim",
             spotanimHeight = 0,
         ),
+        Lunar(
+            startAnim = "seq.lunar_teleport",
+            endAnim = null,
+            spotanim = "spotanim.lunar_teleport_spotanim",
+            spotanimHeight = 0,
+        ),
     }
 
     private companion object {
@@ -495,6 +632,8 @@ constructor(
         private const val SameTickQueue = 1
         private const val CancelAnimWalkTrigger = "walktrigger.emote_cancelanim"
         private const val Busy = "varbit.busy"
+        private const val AcceptAid = "varbit.option_acceptaid"
+        private const val GROUP_RANGE = 1
 
         // UNVERIFIED: radius for Ancient and Arceuus teleports but Paddewwa, Draynor Manor (guess)
         private const val LandingRadius = 2
