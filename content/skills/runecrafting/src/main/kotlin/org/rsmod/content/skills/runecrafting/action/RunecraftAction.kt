@@ -15,6 +15,7 @@ import org.rsmod.content.skills.runecrafting.items.BloodEssence
 import org.rsmod.content.skills.runecrafting.items.BloodEssence.applyBloodRuneBonus
 import org.rsmod.content.skills.runecrafting.items.RaimentsOfTheEye.applyBonus
 import org.rsmod.content.skills.runecrafting.magic.MagicImbue.isActive
+import org.rsmod.content.skills.runecrafting.magicImbueActive
 
 object RunecraftAction {
     private const val RUNECRAFT_WAIT_CYCLE = 3
@@ -427,7 +428,7 @@ object RunecraftAction {
             return
         }
 
-        val usingMagicImbue = player.vars["varbit.lunar_magic_imbue"] == 1
+        val usingMagicImbue = player.magicImbueActive > 0
         if (!usingMagicImbue && invDel(inv, talisman.internalName, 1).failure) {
             return
         }

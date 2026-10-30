@@ -8,12 +8,9 @@ import org.rsmod.api.combat.manager.MagicRuneManager
 import org.rsmod.api.combat.manager.MagicRuneManager.Companion.isFailure
 import org.rsmod.api.mechanics.toxins.impl.PlayerPoison
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.player.vars.boolVarBit
 import org.rsmod.api.script.onIfOverlayButton
-import org.rsmod.api.script.onPlayerQueue
 import org.rsmod.api.spells.MagicSpellRegistry
 import org.rsmod.content.quest.manager.QuestRequirements
-import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -21,8 +18,6 @@ class LunarUtilityScript
 @Inject
 constructor(private val spells: MagicSpellRegistry, private val runes: MagicRuneManager) :
     PluginScript() {
-    private var Player.magicImbue by boolVarBit("varbit.lunar_magic_imbue")
-
     override fun ScriptContext.startup() {
         onIfOverlayButton("component.magic_spellbook:humidify") {
             cast(HUMIDIFY_OBJ, { hasHumidifyTargets() }, { humidify() })
@@ -48,10 +43,6 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         onIfOverlayButton("component.magic_spellbook:recharge_dragonstone") {
             cast(RECHARGE_OBJ, { hasRechargeTargets() }, { rechargeDragonstone() })
         }
-        onIfOverlayButton("component.magic_spellbook:magic_imbue") {
-            cast(MAGIC_IMBUE_OBJ, { true }, { magicImbue() })
-        }
-        onPlayerQueue(MAGIC_IMBUE_QUEUE) { player.magicImbue = false }
     }
 
     private suspend fun ProtectedAccess.cast(
@@ -243,12 +234,6 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         invAdd(inv, to, count)
     }
 
-    private fun ProtectedAccess.magicImbue() {
-        player.magicImbue = true
-        queue(MAGIC_IMBUE_QUEUE, MAGIC_IMBUE_TICKS)
-        spotanim(MAGIC_IMBUE_SPOTANIM)
-    }
-
     private fun ProtectedAccess.isPoisoned(): Boolean {
         if (PlayerPoison.isPoisoned(player)) {
             return true
@@ -275,9 +260,6 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         const val CURE_ME_OBJ = "obj.71_cure_me"
         const val STRING_JEWEL_OBJ = "obj.80_string_jewelry"
         const val RECHARGE_OBJ = "obj.lunar_enchant_dragonstone"
-        const val MAGIC_IMBUE_OBJ = "obj.82_magic_imbue"
-        const val MAGIC_IMBUE_QUEUE = "queue.lunar_magic_imbue"
-        const val MAGIC_IMBUE_TICKS = 21
 
         const val HUMIDIFY_SPOTANIM = "spotanim.dream_humidify_spell_spotanim"
         const val BAKE_PIE_SPOTANIM = "spotanim.quest_lunar_spellbook_bake_pie_spot_anim"
@@ -285,7 +267,6 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         const val STRING_JEWEL_SPOTANIM =
             "spotanim.3quest_lunar_spellbook_string_jewelery_spot_anim"
         const val RECHARGE_SPOTANIM = "spotanim.0quest_lunar_dreamland_pushing_water_spotanim"
-        const val MAGIC_IMBUE_SPOTANIM = "spotanim.quest_lunar_spellbook_magic_embue_spot_anim"
 
         const val MAX_SPIN_FLAX = 5
         const val GIANT_SEAWEED_ASH = 6
