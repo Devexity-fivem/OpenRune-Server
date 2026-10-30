@@ -13993,6 +13993,7 @@ inherit = "npc.kourend_zombie4"
 [[npc]]
 id = "npc.olm_head"
 inherit = "npc.olm_head"
+hitpoints = 800
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
@@ -22682,12 +22683,14 @@ inherit = "npc.vetion_hellhound_snr_singles"
 [[npc]]
 id = "npc.olm_hand_left"
 inherit = "npc.olm_hand_left"
+hitpoints = 400
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.olm_hand_right"
 inherit = "npc.olm_hand_right"
+hitpoints = 400
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 
@@ -26840,6 +26843,7 @@ inherit = "npc.nzone_fairy_tanglefoot_normal"
 [[npc]]
 id = "npc.raids_tekton_walking_standard"
 inherit = "npc.raids_tekton_walking_standard"
+hitpoints = 450
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=6
@@ -26847,6 +26851,7 @@ inherit = "npc.raids_tekton_walking_standard"
 [[npc]]
 id = "npc.raids_tekton_fighting_standard"
 inherit = "npc.raids_tekton_fighting_standard"
+hitpoints = 450
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=6
@@ -26854,6 +26859,7 @@ inherit = "npc.raids_tekton_fighting_standard"
 [[npc]]
 id = "npc.raids_tekton_hammering"
 inherit = "npc.raids_tekton_hammering"
+hitpoints = 450
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=6
@@ -27798,6 +27804,7 @@ inherit = "npc.darkm_juvinate_02_held"
 [[npc]]
 id = "npc.raids_vanguard_walking"
 inherit = "npc.raids_vanguard_walking"
+hitpoints = 180
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -27806,6 +27813,7 @@ inherit = "npc.raids_vanguard_walking"
 [[npc]]
 id = "npc.raids_vanguard_melee"
 inherit = "npc.raids_vanguard_melee"
+hitpoints = 180
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -27814,6 +27822,7 @@ inherit = "npc.raids_vanguard_melee"
 [[npc]]
 id = "npc.raids_vanguard_ranged"
 inherit = "npc.raids_vanguard_ranged"
+hitpoints = 180
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -27822,6 +27831,7 @@ inherit = "npc.raids_vanguard_ranged"
 [[npc]]
 id = "npc.raids_vanguard_magic"
 inherit = "npc.raids_vanguard_magic"
+hitpoints = 180
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -27830,6 +27840,7 @@ inherit = "npc.raids_vanguard_magic"
 [[npc]]
 id = "npc.raids_vasanistirio_walking"
 inherit = "npc.raids_vasanistirio_walking"
+hitpoints = 225
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=3
@@ -27837,6 +27848,7 @@ inherit = "npc.raids_vasanistirio_walking"
 [[npc]]
 id = "npc.raids_vasanistirio_healing"
 inherit = "npc.raids_vasanistirio_healing"
+hitpoints = 225
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=3
@@ -27850,6 +27862,7 @@ inherit = "npc.canafis_woman10"
 [[npc]]
 id = "npc.raids_vespula_vespine_flying"
 inherit = "npc.raids_vespula_vespine_flying"
+hitpoints = 20
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_stab"
@@ -27858,6 +27871,7 @@ inherit = "npc.raids_vespula_vespine_flying"
 [[npc]]
 id = "npc.raids_vespula_vespine_walking"
 inherit = "npc.raids_vespula_vespine_walking"
+hitpoints = 20
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_stab"
@@ -27866,6 +27880,7 @@ inherit = "npc.raids_vespula_vespine_walking"
 [[npc]]
 id = "npc.raids_vespula_flying"
 inherit = "npc.raids_vespula_flying"
+hitpoints = 200
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=3
@@ -27873,6 +27888,7 @@ inherit = "npc.raids_vespula_flying"
 [[npc]]
 id = "npc.raids_vespula_enraged"
 inherit = "npc.raids_vespula_enraged"
+hitpoints = 200
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=3
@@ -27880,6 +27896,7 @@ inherit = "npc.raids_vespula_enraged"
 [[npc]]
 id = "npc.raids_vespula_walking"
 inherit = "npc.raids_vespula_walking"
+hitpoints = 200
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=3
@@ -28830,3 +28847,32 @@ inherit = "npc.maggot_king"
 [npc.params]
 "param.boss_hp_bar_mode"=2
 "param.killcount_varp"="varp.total_maggot_king_kills"
+
+[[npc]]
+id = "npc.raids_tekton_walking_enraged"
+inherit = "npc.raids_tekton_walking_enraged"
+hitpoints = 600
+[npc.params]
+"param.npc_attack_type"="category.attacktype_crush"
+
+[[npc]]
+id = "npc.raids_tekton_fighting_enraged"
+inherit = "npc.raids_tekton_fighting_enraged"
+hitpoints = 600
+[npc.params]
+"param.npc_attack_type"="category.attacktype_crush"
+
+[[npc]]
+id = "npc.raids_dogodile"
+inherit = "npc.raids_dogodile"
+hitpoints = 250
+
+[[npc]]
+id = "npc.raids_dogodile_junior"
+inherit = "npc.raids_dogodile_junior"
+hitpoints = 135
+
+[[npc]]
+id = "npc.raids_dogodile_submerged"
+inherit = "npc.raids_dogodile_submerged"
+hitpoints = 250
