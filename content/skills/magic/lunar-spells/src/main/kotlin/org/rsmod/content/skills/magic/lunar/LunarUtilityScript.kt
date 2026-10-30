@@ -37,6 +37,9 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         onIfOverlayButton("component.magic_spellbook:cure_me") {
             cast(CURE_ME_OBJ, { isPoisoned() }, { cureMe() })
         }
+        onIfOverlayButton("component.magic_spellbook:string_jewel") {
+            cast(STRING_JEWEL_OBJ, { hasUnstrungAmulets() }, { stringJewellery() })
+        }
     }
 
     private suspend fun ProtectedAccess.cast(
@@ -165,6 +168,26 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         }
     }
 
+    private fun ProtectedAccess.hasUnstrungAmulets(): Boolean {
+        if (AMULETS.keys.any { inv.contains(it) }) {
+            return true
+        }
+        mes("You don't have any unstrung amulets to string.")
+        return false
+    }
+
+    private fun ProtectedAccess.stringJewellery() {
+        for ((from, to) in AMULETS) {
+            val count = inv.count(from)
+            if (count == 0 || invDel(inv, from, count).failure) {
+                continue
+            }
+            invAdd(inv, to, count)
+            statAdvance("stat.crafting", STRING_CRAFT_XP * count)
+        }
+        spotanim(STRING_JEWEL_SPOTANIM)
+    }
+
     private fun ProtectedAccess.isPoisoned(): Boolean {
         if (PlayerPoison.isPoisoned(player)) {
             return true
@@ -189,14 +212,32 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         const val SUPERGLASS_OBJ = "obj.77_superglass"
         const val HUNTER_KIT_OBJ = "obj.71_hunter_kit"
         const val CURE_ME_OBJ = "obj.71_cure_me"
+        const val STRING_JEWEL_OBJ = "obj.80_string_jewelry"
 
         const val HUMIDIFY_SPOTANIM = "spotanim.dream_humidify_spell_spotanim"
         const val BAKE_PIE_SPOTANIM = "spotanim.quest_lunar_spellbook_bake_pie_spot_anim"
         const val CURE_ME_SPOTANIM = "spotanim.quest_lunar_spellbook_cure_poison_spot_anim"
+        const val STRING_JEWEL_SPOTANIM =
+            "spotanim.3quest_lunar_spellbook_string_jewelery_spot_anim"
 
         const val MAX_SPIN_FLAX = 5
         const val GIANT_SEAWEED_ASH = 6
         const val SUPERGLASS_BONUS_TENTHS = 13
+        const val STRING_CRAFT_XP = 4
+
+        val AMULETS =
+            mapOf(
+                "obj.unstrung_gold_amulet" to "obj.strung_gold_amulet",
+                "obj.unstrung_sapphire_amulet" to "obj.strung_sapphire_amulet",
+                "obj.unstrung_emerald_amulet" to "obj.strung_emerald_amulet",
+                "obj.unstrung_ruby_amulet" to "obj.strung_ruby_amulet",
+                "obj.unstrung_diamond_amulet" to "obj.strung_diamond_amulet",
+                "obj.unstrung_dragonstone_amulet" to "obj.strung_dragonstone_amulet",
+                "obj.unstrung_onyx_amulet" to "obj.strung_onyx_amulet",
+                "obj.unstrung_opal_amulet" to "obj.strung_opal_amulet",
+                "obj.unstrung_jade_amulet" to "obj.strung_jade_amulet",
+                "obj.unstrung_topaz_amulet" to "obj.strung_topaz_amulet",
+            )
 
         val HUMIDIFY_VESSELS =
             mapOf(
