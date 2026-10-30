@@ -5,6 +5,7 @@ import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import java.io.File
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
@@ -35,6 +36,38 @@ class QuestBossesSpecTest {
             }
             return byType
         }
+    }
+
+    @Test
+    fun `drakan combat families carry real stats and the afterimage decoy stays a prop`() {
+        val ranis =
+            listOf(
+                "npc.myq4_ranis_vampyre_combat",
+                "npc.myq4_ranis_vampyre_flying_combat",
+                "npc.myq4_ranis_vampyre_combat_enrage",
+            )
+        for (symbol in ranis) {
+            val type =
+                checkNotNull(ServerCacheManager.getNpc(symbol.asRSCM(RSCMType.NPC))) { symbol }
+            assertEquals(400, type.hitpoints, "$symbol fight hp")
+        }
+        val lowerniel =
+            listOf(
+                "npc.myq6_lowerniel_combat_1",
+                "npc.myq6_lowerniel_combat_2",
+                "npc.myq6_lowerniel_combat_3",
+                "npc.myq6_lowerniel_final_combat",
+            )
+        for (symbol in lowerniel) {
+            val type =
+                checkNotNull(ServerCacheManager.getNpc(symbol.asRSCM(RSCMType.NPC))) { symbol }
+            assertEquals(3000, type.hitpoints, "$symbol fight hp")
+        }
+        val decoy =
+            checkNotNull(
+                ServerCacheManager.getNpc("npc.myq6_lowerniel_hurt".asRSCM(RSCMType.NPC))
+            )
+        assertEquals(1, decoy.hitpoints, "afterimage decoy must stay a 1hp prop")
     }
 
     @Test

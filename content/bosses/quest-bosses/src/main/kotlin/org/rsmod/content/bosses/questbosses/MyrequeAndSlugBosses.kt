@@ -19,10 +19,18 @@ class Gadderanks @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 }
 
-// Sins of the Father — Ranis Drakan: melee up to ~15 plus a vampyre bolt.
+// A Taste of Hope — Ranis Drakan: the 400hp vampyre combat family (ground
+// melee, then flight, then enrage at health gates). The 1hp myq3_* forms are
+// quest props kept registered so they resolve through the same spec.
 class RanisDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
-        boss("npc.myq3_ranis_drakan", "npc.myq3_ranis_drakan_grounded_vampire_state") {
+        boss(
+            "npc.myq4_ranis_vampyre_combat",
+            "npc.myq4_ranis_vampyre_flying_combat",
+            "npc.myq4_ranis_vampyre_combat_enrage",
+            "npc.myq3_ranis_drakan",
+            "npc.myq3_ranis_drakan_grounded_vampire_state",
+        ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.vamp_claw")
@@ -31,10 +39,27 @@ class RanisDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             val magic = ability("magic") {
                 projectile(spotanim = "spotanim.blood_blitz_travel", hit = Effect.Hit(damage = Roll(0..12), type = Magic))
             }
-            phase("combat") {
+            val bomb = ability("bomb") {
+                projectile(spotanim = "spotanim.blood_barrage_travel", hit = Effect.Hit(damage = Roll(0..18), type = Magic))
+            }
+            phase("p1", entryHp = 1.0) {
                 weightedSelectorRandom {
                     +random(melee, weight = 3, requires = WithinMeleeRange)
                     +random(magic, weight = 2)
+                }
+            }
+            phase("p2", entryHp = 0.66, transmog = "npc.myq4_ranis_vampyre_flying_combat") {
+                weightedSelectorRandom {
+                    +random(magic, weight = 3)
+                    +random(bomb, weight = 2)
+                }
+            }
+            phase("p3", entryHp = 0.33, transmog = "npc.myq4_ranis_vampyre_combat_enrage") {
+                attackRate = 3
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(magic, weight = 3)
+                    +random(bomb, weight = 2)
                 }
             }
         }
@@ -69,6 +94,7 @@ class LowernielDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(dep
                 hit { damage(0..18).roll(); type(Melee) }
                 hit { damage(0..18).roll(); type(Melee) }
             }
+            val images = ability("afterimage") { include(external("drakan.afterimages")) }
             phase("p1", entryHp = 1.0) {
                 weightedSelectorRandom {
                     +random(melee, weight = 3, requires = WithinMeleeRange)
@@ -80,6 +106,7 @@ class LowernielDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(dep
                     +random(melee, weight = 3, requires = WithinMeleeRange)
                     +random(magic, weight = 2)
                     +random(combo, weight = 2, requires = WithinMeleeRange)
+                    +random(images, weight = 1)
                 }
             }
             phase("p3", entryHp = 0.33, transmog = "npc.myq6_lowerniel_final_combat") {
@@ -88,6 +115,7 @@ class LowernielDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(dep
                     +random(melee, weight = 3, requires = WithinMeleeRange)
                     +random(magic, weight = 3)
                     +random(combo, weight = 2, requires = WithinMeleeRange)
+                    +random(images, weight = 1)
                 }
             }
         }
