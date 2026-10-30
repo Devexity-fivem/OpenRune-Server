@@ -26,6 +26,9 @@ sealed interface VarExpr {
     /** Manhattan distance in tiles between [a] and [b]. */
     data class Manhattan(val a: TargetExpr.Single, val b: TargetExpr.Single) : VarExpr
 
+    /** Chebyshev distance in tiles from [tile] to the caster's footprint; 0 inside it. */
+    data class DistanceToFootprint(val tile: TargetExpr.Single) : VarExpr
+
     /** Jagex bearing (0..2047) from [from] to [to]. */
     data class BearingTo(val to: TargetExpr.Single, val from: TargetExpr.Single = TargetExpr.Centre) : VarExpr
 }

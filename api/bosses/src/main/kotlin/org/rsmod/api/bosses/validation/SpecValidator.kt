@@ -253,6 +253,7 @@ object SpecValidator {
                     }
                 is VarExpr.Hp,
                 is VarExpr.BaseHp -> {}
+                is VarExpr.DistanceToFootprint -> target(expr.tile, scope, "distanceToFootprint")
                 is VarExpr.BearingTo -> {
                     target(expr.to, scope, "bearingTo")
                     target(expr.from, scope, "bearingTo")
@@ -315,6 +316,7 @@ object SpecValidator {
                 is TargetExpr.Offset -> listOf(expr) + tilesIn(expr.of)
                 is TargetExpr.Toward -> listOf(expr) + tilesIn(expr.from) + tilesIn(expr.to)
                 is TargetExpr.RandomPlayer -> tilesIn(expr.area.sw) + tilesIn(expr.area.ne)
+                is TargetExpr.NearestPlayer -> tilesIn(expr.area.sw) + tilesIn(expr.area.ne)
                 is TargetExpr.Single -> listOf(expr)
                 is TargetExpr.FacingQuadrant -> emptyList()
             }

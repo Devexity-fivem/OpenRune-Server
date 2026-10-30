@@ -57,6 +57,7 @@ internal fun Npc.resolveTile(
         resolveTile(inner, target, bindings, random, randomWalkable, playerOf)
     return when (expr) {
         is TargetExpr.Focus,
+        is TargetExpr.NearestPlayer,
         is TargetExpr.RandomPlayer -> (playerOf?.invoke(expr) ?: target).coords
         is TargetExpr.CurrentTarget,
         is TargetExpr.CurrentTargetTile,

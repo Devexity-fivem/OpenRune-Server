@@ -10,6 +10,7 @@ import org.rsmod.content.raids.tfa.party.TfaLobby
 import org.rsmod.content.raids.tfa.raid.encounter.bork.BorkEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.dreadnoth.DreadnothEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusEncounter
+import org.rsmod.content.raids.tfa.raid.encounter.xarth.XarthEncounter
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -37,6 +38,7 @@ constructor(private val encounter: GuardianEncounter, private val lobby: TfaLobb
                 OcellusEncounter.KEY,
                 DreadnothEncounter.KEY,
                 BorkEncounter.KEY,
+                XarthEncounter.KEY,
             )
         const val NPC_VIEW_DISTANCE = 48
     }

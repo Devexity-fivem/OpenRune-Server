@@ -339,3 +339,36 @@ id = "varn.bork_stomp_side"
 
 [[varn]]
 id = "varn.bork_done"
+
+[[varn]]
+id = "varn.xarth_hp_max"
+
+[[varn]]
+id = "varn.xarth_wave"
+
+[[varn]]
+id = "varn.xarth_first_heap"
+
+[[varn]]
+id = "varn.xarth_heaps"
+
+[[varn]]
+id = "varn.xarth_slot"
+
+[[varn]]
+id = "varn.xarth_magics"
+
+[[varn]]
+id = "varn.xarth_healed"
+
+[[varn]]
+id = "varn.xarth_heal_pending"
+
+[[varn]]
+id = "varn.xarth_last_hit"
+
+[[varn]]
+id = "varn.xarth_dead"
+
+[[varn]]
+id = "varn.xarth_done"

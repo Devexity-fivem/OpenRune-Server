@@ -941,3 +941,21 @@ isServerOnly = true
 id = "varp.bork_burn"
 scope = "Temp"
 transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.xarth_burn"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.xarth_bleed"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.xarth_bound"
+scope = "Temp"
+transmit = "Never"

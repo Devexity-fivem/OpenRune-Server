@@ -48,6 +48,10 @@ fun mapSpotanim(spot: String, at: TargetExpr.Single, delay: VarExpr, height: Int
 
 fun manhattan(a: TargetExpr.Single, b: TargetExpr.Single): VarExpr = VarExpr.Manhattan(a, b)
 
+fun distanceToFootprint(tile: TargetExpr.Single): VarExpr = VarExpr.DistanceToFootprint(tile)
+
+fun nearestPlayer(area: Area): TargetExpr.Single = TargetExpr.NearestPlayer(area)
+
 fun playersInExcept(area: Area, except: TargetExpr.Single): TargetExpr.Multi =
     TargetExpr.PlayersInExcept(area, except)
 

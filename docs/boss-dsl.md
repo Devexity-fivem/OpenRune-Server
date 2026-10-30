@@ -1796,6 +1796,7 @@ Incoming hits for how the hit context is built.
 | `Min(a, b)` | `a atMost b`, `a atMost 5` | `minOf(a, b)` |
 | `Max(a, b)` | `a atLeast b`, `a atLeast 0` | `maxOf(a, b)` |
 | `BearingTo(to, from = Centre)` | `bearingTo(to, from = Centre)` | `Angles.bearing(from, to)`, 0..2047 |
+| `DistanceToFootprint(tile)` | `distanceToFootprint(tile)` | Chebyshev distance in tiles from `tile` to the caster's footprint; 0 inside it |
 
 `BearingTo` resolves both tiles through the shared resolver with the effect's bindings, so
 `bearingTo(tile("aim"))` works inside `withTile("aim", …)`.
@@ -2636,7 +2637,9 @@ Additions made for the Archive Guardian. All are additive; bosses that don't use
 - **Focus player**: `setFocus(randomPlayer(area))` stores one player on the encounter; `Focus` is a
   `TargetExpr.Single` that resolves to it and re-rolls from the same area when the player is gone.
   `setFocus` also retargets the boss's combat interaction (`apPlayer2`) to the new focus, so the combat
-  tick's target is the focus. `clearFocus()` drops the focus but leaves the interaction on its last target. `messageParty(area, self, others)` messages everyone in the area, `self` for
+  tick's target is the focus. `clearFocus()` drops the focus but leaves the interaction on its last target.
+  `nearestPlayer(area)` is a `TargetExpr.Single` for the valid player in the area closest to the
+  caster's footprint (ties go to the lowest player slot); it composes with `onEach` and `faceTarget()`. `messageParty(area, self, others)` messages everyone in the area, `self` for
   the focus player, `others` (with `{name}`) for the rest. `song(id, area)` plays a midi song.
 - **`exactMove(to, baseCycles, perTile)`**: slides the caster to a tile with the exact-move update; takes
   `baseCycles + perTile * distance` client cycles. The engine clears an npc's interaction on any

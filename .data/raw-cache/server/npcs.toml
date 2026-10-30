@@ -17242,3 +17242,33 @@ inherit = "npc.tfa_bork_smork_hp_ui_handler"
 "param.boss_hp_bar_colour_back"=13107200
 "param.boss_hp_bar_colour_sliding"=36864
 "param.boss_hp_bar_colour_remaining"=51200
+
+[[npc]]
+id = "npc.tfa_xarth"
+inherit = "npc.tfa_xarth"
+maxRange = 30
+[npc.params]
+"param.demon"=1
+"param.demonbane_resistant"=1
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=85
+"param.poison_immunity"=1
+"param.venom_immunity"=2
+"param.cannon_immunity"=1
+"param.boss_hp_bar_colour_back"=13107200
+"param.boss_hp_bar_colour_sliding"=36864
+"param.boss_hp_bar_colour_remaining"=51200
+
+[[npc]]
+id = "npc.tfa_xarth_corpse"
+inherit = "npc.tfa_xarth_corpse"
+[npc.params]
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=40
+
+[[npc]]
+id = "npc.tfa_xarth_corpse_doused"
+inherit = "npc.tfa_xarth_corpse_doused"
+[npc.params]
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=100

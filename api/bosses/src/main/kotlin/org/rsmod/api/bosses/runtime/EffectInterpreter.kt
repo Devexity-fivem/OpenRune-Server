@@ -455,6 +455,7 @@ class EffectInterpreter internal constructor(
             is VarExpr.Plus -> evaluateVar(expr.a) + evaluateVar(expr.b)
             is VarExpr.Min -> minOf(evaluateVar(expr.a), evaluateVar(expr.b))
             is VarExpr.Max -> maxOf(evaluateVar(expr.a), evaluateVar(expr.b))
+            is VarExpr.DistanceToFootprint -> footprintDistance(npc, resolveTile(expr.tile))
             is VarExpr.BearingTo -> Angles.bearing(resolveTile(expr.from), resolveTile(expr.to))
             is VarExpr.Manhattan -> {
                 val a = resolveTile(expr.a)
@@ -990,7 +991,17 @@ class EffectInterpreter internal constructor(
             is TargetExpr.RandomOfBound -> null
             is TargetExpr.Focus -> focusPlayer()
             is TargetExpr.RandomPlayer -> randomPlayerIn(expr.area)
+            is TargetExpr.NearestPlayer -> nearestPlayerIn(expr.area)
         }
+    }
+
+    private fun nearestPlayerIn(area: Area): Player? {
+        val box = resolveArea(area)
+        return deps.playerList
+            .filter { it.isValidTarget() && box.contains(it.coords) }
+            .minWithOrNull(
+                compareBy<Player> { footprintDistance(npc, it.coords) }.thenBy { it.slotId }
+            )
     }
 
     private fun resolveTile(expr: TargetExpr.Single): CoordGrid =
