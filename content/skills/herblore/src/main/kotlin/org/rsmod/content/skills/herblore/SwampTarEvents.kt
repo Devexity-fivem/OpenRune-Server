@@ -78,7 +78,7 @@ class SwampTarEvents : PluginScript() {
             return
         }
 
-        statAdvance("stat.herblore", recipe.xp.toDouble())
+        statAdvance("stat.herblore", recipe.xp / 10.0)
         val herbName = recipe.herb.name.lowercase()
         mes("You add the $herbName to the swamp tar.")
 

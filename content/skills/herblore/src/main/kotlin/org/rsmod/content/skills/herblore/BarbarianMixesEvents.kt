@@ -146,7 +146,7 @@ class BarbarianMixesEvents : PluginScript() {
         }
 
         if (mix.xp > 0) {
-            statAdvance("stat.herblore", mix.xp.toDouble())
+            statAdvance("stat.herblore", mix.xp / 10.0)
         }
 
         val mixName = mix.barbarianMix.name
