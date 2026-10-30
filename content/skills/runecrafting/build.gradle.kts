@@ -14,6 +14,7 @@ dependencies {
     implementation(projects.api.scriptAdvanced)
     implementation(projects.api.spells)
     implementation(projects.api.stats.xpmod)
+    implementation(projects.content.quest)
     implementation(projects.content.skills.utils)
 }
 

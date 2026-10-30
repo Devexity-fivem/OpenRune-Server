@@ -12,6 +12,7 @@ import org.rsmod.content.skills.runecrafting.items.BloodEssence
 import org.rsmod.content.skills.runecrafting.items.BloodEssence.applyBloodRuneBonus
 import org.rsmod.content.skills.runecrafting.items.BindingNecklace.consumeChargeAfterCombo
 import org.rsmod.content.skills.runecrafting.items.BindingNecklace.isWearing
+import org.rsmod.content.quest.manager.QuestRequirements
 import org.rsmod.content.skills.runecrafting.items.RaimentsOfTheEye.applyBonus
 import org.rsmod.content.skills.runecrafting.magic.MagicImbue.isActive
 
@@ -177,7 +178,7 @@ object RunecraftAction {
         val baseMultiplier = getBonusMultiplier(rune.output.internalName, level).toInt()
         var totalRunes = producedRunes ?: applyBonus(essenceConsumed * baseMultiplier)
 
-        if (inv.contains(rune.extract.internalName)) {
+        if (invDel(inv, rune.extract.internalName, 1).completed() > 0) {
             totalRunes += runecraftingExtract[rune.extract.internalName] ?: 0
         }
 
@@ -200,6 +201,14 @@ object RunecraftAction {
             mesbox(
                 "You need Runecrafting level ${rune.statReq.first().t1} to craft ${rune.output.name.lowercase()}s.",
             )
+            return false
+        }
+
+        if (
+            rune.output.internalName == "obj.astralrune" &&
+            !QuestRequirements.hasCompleted(player, "quest_lunardiplomacy")
+        ) {
+            mesbox("You need to complete Lunar Diplomacy to craft astral runes.")
             return false
         }
 
@@ -349,12 +358,12 @@ object RunecraftAction {
         }
 
         var totalRunes = applyBonus(craftCount)
-        if (inv.contains("obj.scar_extract_scarred")) {
+        if (invDel(inv, "obj.scar_extract_scarred", 1).completed() > 0) {
             totalRunes += runecraftingExtract["obj.scar_extract_scarred"] ?: 0
         }
 
         invAdd(inv, aetherRune.output.internalName, totalRunes)
-        advanceRunecraftingXp(craftCount * aetherRune.xp.toDouble(), xpMods)
+        advanceRunecraftingXp(craftCount * aetherRune.xp / 10.0, xpMods)
     }
 
     private fun rollOuraniaRune(level: Int): RunecraftingRunesRow {
@@ -428,7 +437,7 @@ object RunecraftAction {
                 (1..removedCount).count { random.of(100) < 50 }
             }
 
-        if (inv.contains("obj.scar_extract_twisted")) {
+        if (invDel(inv, "obj.scar_extract_twisted", 1).completed() > 0) {
             finalCount += runecraftingExtract["obj.scar_extract_twisted"] ?: 0
         }
 
