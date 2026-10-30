@@ -1,6 +1,10 @@
 [gamevals.varbit]
 lunar_vengeance_active = 64216
 lunar_vengeance_cooldown = 64217
+lunar_dreaming = 64218
 
 [gamevals.queue]
 lunar_vengeance_cooldown = 65512
+
+[gamevals.timer]
+lunar_dream = 65519
