@@ -121,7 +121,7 @@ constructor(
 
     private fun ProtectedAccess.cure(target: Player) {
         PlayerPoison.clear(target)
-        target.spotanim(CURE_SPOTANIM)
+        target.spotanim(CURE_OTHER_SPOTANIM)
     }
 
     private fun ProtectedAccess.cureGroup() {
@@ -133,7 +133,7 @@ constructor(
         for (ally in nearbyAllies()) {
             if (PlayerPoison.isPoisoned(ally)) {
                 PlayerPoison.clear(ally)
-                ally.spotanim(CURE_SPOTANIM)
+                ally.spotanim(CURE_GROUP_SPOTANIM)
                 cured++
             }
         }
@@ -179,7 +179,7 @@ constructor(
         player.statSub("stat.hitpoints", share * allies.size, 0)
         for (ally in allies) {
             ally.statHeal("stat.hitpoints", share, 0)
-            ally.spotanim(HEAL_SPOTANIM)
+            ally.spotanim(HEAL_GROUP_SPOTANIM)
         }
     }
 
@@ -234,10 +234,15 @@ constructor(
         const val CURE_GROUP_OBJ = "obj.74_cure_group"
         const val HEAL_GROUP_OBJ = "obj.95_heal_group"
 
-        const val CURE_SPOTANIM = "spotanim.quest_lunar_spellbook_cure_poison_spot_anim"
+        const val CURE_OTHER_SPOTANIM =
+            "spotanim.quest_lunar_spellbook_energy_cure_spot_anim"
+        const val CURE_GROUP_SPOTANIM =
+            "spotanim.quest_lunar_spellbook_cure_group_spot_anim"
         const val HEAL_SPOTANIM = "spotanim.quest_lunar_spellbook_energy_heal_spot_anim"
+        const val HEAL_GROUP_SPOTANIM =
+            "spotanim.quest_lunar_spellbook_heal_group_spot_anim"
         const val ENERGY_SPOTANIM = "spotanim.quest_lunar_spellbook_energy_exchange_spot_anim"
         const val VENGEANCE_OTHER_SPOTANIM =
-            "spotanim.3quest_lunar_spellbook_vengeance_other_spot_anim"
+            "spotanim.quest_lunar_spellbook_vengeance_other_spot_anim"
     }
 }

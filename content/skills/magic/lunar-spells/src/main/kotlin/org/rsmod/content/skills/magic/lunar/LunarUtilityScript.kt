@@ -265,8 +265,8 @@ constructor(private val spells: MagicSpellRegistry, private val runes: MagicRune
         const val BAKE_PIE_SPOTANIM = "spotanim.quest_lunar_spellbook_bake_pie_spot_anim"
         const val CURE_ME_SPOTANIM = "spotanim.quest_lunar_spellbook_cure_poison_spot_anim"
         const val STRING_JEWEL_SPOTANIM =
-            "spotanim.3quest_lunar_spellbook_string_jewelery_spot_anim"
-        const val RECHARGE_SPOTANIM = "spotanim.0quest_lunar_dreamland_pushing_water_spotanim"
+            "spotanim.quest_lunar_spellbook_string_jewelery_spot_anim"
+        const val RECHARGE_SPOTANIM = "spotanim.quest_lunar_dreamland_pushing_water_spotanim"
 
         const val MAX_SPIN_FLAX = 5
         const val GIANT_SEAWEED_ASH = 6
