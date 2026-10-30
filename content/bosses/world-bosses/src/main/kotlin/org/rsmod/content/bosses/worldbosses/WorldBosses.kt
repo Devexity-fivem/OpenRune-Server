@@ -188,10 +188,22 @@ class Dawn @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.gargboss_dawn_spawn", "npc.gargboss_dawn_phase1", "npc.gargboss_dawn_phase3") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("seq.demon_attack")
+                anim("seq.gargoyle_marble_attack")
                 hit { damage(0..27).roll(); type(Melee) }
             }
-            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+            val ranged = ability("ranged") {
+                anim("seq.gargoyle_marble_attack_ranged")
+                projectile(
+                    spotanim = "spotanim.gargboss_standard_ranged_projectile",
+                    hit = Effect.Hit(damage = Roll(0..25), type = Ranged),
+                )
+            }
+            phase("combat") {
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(ranged, weight = 2)
+                }
+            }
         }
 }
 
@@ -205,7 +217,7 @@ class Dusk @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("seq.demon_attack")
+                anim("seq.gargoyle_marble_attack")
                 hit { damage(0..30).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -223,11 +235,15 @@ class NightmareBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("seq.demon_attack")
+                anim("seq.nightmare_attack_melee")
                 hit { damage(0..25).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                projectile(spotanim = "spotanim.spell_blood_barrage_impact", hit = Effect.Hit(damage = Roll(0..20), type = Magic))
+                anim("seq.nightmare_attack_magic")
+                projectile(
+                    spotanim = "spotanim.nightmare_magic_travel",
+                    hit = Effect.Hit(damage = Roll(0..20), type = Magic),
+                )
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -244,11 +260,12 @@ class YamaBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.yama", "npc.yama_throne_occupied", "npc.voice_of_yama_3op") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("seq.demon_attack")
+                anim("seq.npc_yama01_melee01")
                 hit { damage(0..30).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                projectile(spotanim = "spotanim.fireblast_travel", hit = Effect.Hit(damage = Roll(0..26), type = Magic))
+                anim("seq.npc_yama01_magic01")
+                projectile(spotanim = "spotanim.vfx_npc_yama_magic_fire_spotanim01", hit = Effect.Hit(damage = Roll(0..26), type = Magic))
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -277,10 +294,30 @@ class Hueycoatl @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.huey_head", "npc.huey_head_enraged", "npc.huey_head_invulnerable") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("seq.demon_attack")
+                anim("seq.huey_attack_melee")
                 hit { damage(0..25).roll(); type(Melee) }
             }
-            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+            val ranged = ability("ranged") {
+                anim("seq.huey_attack_range")
+                projectile(
+                    spotanim = "spotanim.vfx_huey_attack_ranged_projanim_01",
+                    hit = Effect.Hit(damage = Roll(0..22), type = Ranged),
+                )
+            }
+            val magic = ability("magic") {
+                anim("seq.huey_attack_magic")
+                projectile(
+                    spotanim = "spotanim.vfx_huey_attack_magic_projanim_01",
+                    hit = Effect.Hit(damage = Roll(0..22), type = Magic),
+                )
+            }
+            phase("combat") {
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(ranged, weight = 2)
+                    +random(magic, weight = 2)
+                }
+            }
         }
 }
 
@@ -289,10 +326,22 @@ class ShellbaneGryphon @Inject constructor(deps: BossDeps) : BossPluginScript(de
     override val spec: BossSpec = boss("npc.gryphon_boss") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.bird_attack")
+            anim("seq.gryphon_boss_melee_attack01")
             hit { damage(0..22).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val ranged = ability("ranged") {
+            anim("seq.gryphon_boss_ranged01")
+            projectile(
+                spotanim = "spotanim.gryphon_ranged_projectile",
+                hit = Effect.Hit(damage = Roll(0..18), type = Ranged),
+            )
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange)
+                +random(ranged, weight = 2)
+            }
+        }
     }
 }
 
@@ -301,11 +350,15 @@ class PenanceQueen @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     override val spec: BossSpec = boss("npc.barbassault_pen_queen_new") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.tentacle_monster_attack")
+            anim("seq.barbassault_penance_queen_attack")
             hit { damage(0..24).roll(); type(Melee) }
         }
         val magic = ability("magic") {
-            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..18), type = Magic))
+            anim("seq.barbassault_penance_queen_rangeattack")
+            projectile(
+                spotanim = "spotanim.barbassault_penance_ranger_attack_travel",
+                hit = Effect.Hit(damage = Roll(0..18), type = Magic),
+            )
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -321,7 +374,7 @@ class TheMimic @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.trail_mimic_combat") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.tentacle_monster_attack")
+            anim("seq.mimic_melee")
             hit { damage(0..20).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -337,7 +390,11 @@ class Tempoross @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.tempoross_boss_ready", "npc.tempoross_boss_whirlpool", "npc.tempoross_boss_enraged") {
             stats(attackRate = 5)
             val magic = ability("magic") {
-                projectile(spotanim = "spotanim.water_wave_travel", hit = Effect.Hit(damage = Roll(0..20), type = Magic))
+                anim("seq.tempoross_torrent")
+                projectile(
+                    spotanim = "spotanim.tempoross_torrent_projectile",
+                    hit = Effect.Hit(damage = Roll(0..20), type = Magic),
+                )
             }
             phase("combat") { weightedSelectorRandom { +random(magic, weight = 1) } }
         }

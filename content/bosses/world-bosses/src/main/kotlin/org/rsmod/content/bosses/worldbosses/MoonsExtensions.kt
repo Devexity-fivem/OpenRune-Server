@@ -1,5 +1,8 @@
 package org.rsmod.content.bosses.worldbosses
 
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
+import dev.openrune.types.aconverted.SpotanimType
 import dev.openrune.util.Wearpos
 import jakarta.inject.Inject
 import org.rsmod.api.bosses.runtime.BossDeps
@@ -54,6 +57,7 @@ class MoonsExtensions @Inject constructor(
             deps.worldQueues.add(index * POOL_STAGGER) {
                 if (!npc.isSlotAssigned || npc.hitpoints <= 0) return@add
                 val tile = freePoolTile(centre, taken)
+                mapFx("spotanim.pmoon_boss_floor_symbol_spawn_spot", tile)
                 deps.locRepo.add(
                     tile,
                     "loc.pmoon_boss_blood_pool",
@@ -102,6 +106,7 @@ class MoonsExtensions @Inject constructor(
         val weapon = player.worn[Wearpos.RightHand.slot] ?: return
         player.worn[Wearpos.RightHand.slot] = null
         frozenWeapons[player] = weapon
+        mapFx("spotanim.pmoon_boss_disarm", player.coords, height = 96)
         deps.locRepo.add(
             player.coords,
             "loc.pmoon_boss_ice_block",
@@ -202,6 +207,7 @@ class MoonsExtensions @Inject constructor(
 
     private fun cloneFire(clone: Npc, player: Player, npc: Npc) {
         if (!clone.isSlotAssigned) return
+        mapFx("spotanim.pmoon_boss_fake_eclipse_magic", player.coords)
         val parried = player.faceEntity.isNpc && player.faceEntity.npcSlot == clone.slotId
         if (parried) {
             npc.queueHit(player, delay = 0, HitType.Typeless, CLONE_REFLECT, npcHitModifier)
@@ -214,6 +220,10 @@ class MoonsExtensions @Inject constructor(
                 deps.playerHitModifier,
             )
         }
+    }
+
+    private fun mapFx(spot: String, coord: CoordGrid, height: Int = 0) {
+        deps.worldRepo.spotanimMap(SpotanimType(spot.asRSCM(RSCMType.SPOTANIM)), coord, height)
     }
 
     private fun lightBrazier(loc: BoundLocInfo) {

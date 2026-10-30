@@ -20589,30 +20589,35 @@ id = "npc.pest_brawler_1"
 inherit = "npc.pest_brawler_1"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.m_gorilla_attack"
 
 [[npc]]
 id = "npc.pest_brawler_2"
 inherit = "npc.pest_brawler_2"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.m_gorilla_attack"
 
 [[npc]]
 id = "npc.pest_brawler_3"
 inherit = "npc.pest_brawler_3"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.m_gorilla_attack"
 
 [[npc]]
 id = "npc.pest_brawler_4"
 inherit = "npc.pest_brawler_4"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.m_gorilla_attack"
 
 [[npc]]
 id = "npc.pest_brawler_5"
 inherit = "npc.pest_brawler_5"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.m_gorilla_attack"
 
 [[npc]]
 id = "npc.misc_man_5"
@@ -21213,62 +21218,102 @@ inherit = "npc.slayer_nechryael_spawn"
 [[npc]]
 id = "npc.pest_defiler_1a"
 inherit = "npc.pest_defiler_1a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.pest_defiler_1b"
 inherit = "npc.pest_defiler_1b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.pest_defiler_2a"
 inherit = "npc.pest_defiler_2a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.pest_defiler_2b"
 inherit = "npc.pest_defiler_2b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.pest_defiler_3a"
 inherit = "npc.pest_defiler_3a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.pest_defiler_3b"
 inherit = "npc.pest_defiler_3b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.pest_defiler_4a"
 inherit = "npc.pest_defiler_4a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.pest_defiler_4b"
 inherit = "npc.pest_defiler_4b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.pest_defiler_5a"
 inherit = "npc.pest_defiler_5a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.pest_defiler_5b"
 inherit = "npc.pest_defiler_5b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.pest_spiral_attack_on_player"
+"param.proj_type"="projanim.thrown"
 
 [[npc]]
 id = "npc.delrith"
@@ -25878,30 +25923,35 @@ id = "npc.pest_ravager_1"
 inherit = "npc.pest_ravager_1"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_jaws_attack"
 
 [[npc]]
 id = "npc.pest_ravager_2"
 inherit = "npc.pest_ravager_2"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_jaws_attack"
 
 [[npc]]
 id = "npc.pest_ravager_3"
 inherit = "npc.pest_ravager_3"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_jaws_attack"
 
 [[npc]]
 id = "npc.pest_ravager_4"
 inherit = "npc.pest_ravager_4"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_jaws_attack"
 
 [[npc]]
 id = "npc.pest_ravager_5"
 inherit = "npc.pest_ravager_5"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_jaws_attack"
 
 [[npc]]
 id = "npc.arceuus_reanimated_bear"
@@ -26119,60 +26169,70 @@ id = "npc.pest_shifter_1a"
 inherit = "npc.pest_shifter_1a"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.pest_shifter_1b"
 inherit = "npc.pest_shifter_1b"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.pest_shifter_2a"
 inherit = "npc.pest_shifter_2a"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.pest_shifter_2b"
 inherit = "npc.pest_shifter_2b"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.pest_shifter_3a"
 inherit = "npc.pest_shifter_3a"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.pest_shifter_3b"
 inherit = "npc.pest_shifter_3b"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.pest_shifter_4a"
 inherit = "npc.pest_shifter_4a"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.pest_shifter_4b"
 inherit = "npc.pest_shifter_4b"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.pest_shifter_5a"
 inherit = "npc.pest_shifter_5a"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.pest_shifter_5b"
 inherit = "npc.pest_shifter_5b"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_shifter_teleportattack"
 
 [[npc]]
 id = "npc.shipyardworker1"
@@ -26668,6 +26728,7 @@ id = "npc.pest_spinner_1"
 inherit = "npc.pest_spinner_1"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_spinner_sparks"
 "param.attackrate"=5
 
 [[npc]]
@@ -26675,6 +26736,7 @@ id = "npc.pest_spinner_2"
 inherit = "npc.pest_spinner_2"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_spinner_sparks"
 "param.attackrate"=5
 
 [[npc]]
@@ -26682,6 +26744,7 @@ id = "npc.pest_spinner_3"
 inherit = "npc.pest_spinner_3"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_spinner_sparks"
 "param.attackrate"=5
 
 [[npc]]
@@ -26689,6 +26752,7 @@ id = "npc.pest_spinner_4"
 inherit = "npc.pest_spinner_4"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_spinner_sparks"
 "param.attackrate"=5
 
 [[npc]]
@@ -26696,6 +26760,7 @@ id = "npc.pest_spinner_5"
 inherit = "npc.pest_spinner_5"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.pest_spinner_sparks"
 "param.attackrate"=5
 
 [[npc]]
@@ -26722,6 +26787,7 @@ id = "npc.pest_splatter_1"
 inherit = "npc.pest_splatter_1"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_larvae_jaws_attack"
 "param.attackrate"=5
 
 [[npc]]
@@ -26729,6 +26795,7 @@ id = "npc.pest_splatter_2"
 inherit = "npc.pest_splatter_2"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_larvae_jaws_attack"
 "param.attackrate"=5
 
 [[npc]]
@@ -26736,6 +26803,7 @@ id = "npc.pest_splatter_3"
 inherit = "npc.pest_splatter_3"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_larvae_jaws_attack"
 "param.attackrate"=5
 
 [[npc]]
@@ -26743,6 +26811,7 @@ id = "npc.pest_splatter_4"
 inherit = "npc.pest_splatter_4"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_larvae_jaws_attack"
 "param.attackrate"=5
 
 [[npc]]
@@ -26750,6 +26819,7 @@ id = "npc.pest_splatter_5"
 inherit = "npc.pest_splatter_5"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
+"param.attack_anim"="seq.kalphite_update_larvae_jaws_attack"
 "param.attackrate"=5
 
 [[npc]]
@@ -27298,62 +27368,102 @@ inherit = "npc.thug"
 [[npc]]
 id = "npc.pest_torcher_1a"
 inherit = "npc.pest_torcher_1a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.pest_torcher_1b"
 inherit = "npc.pest_torcher_1b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.pest_torcher_2a"
 inherit = "npc.pest_torcher_2a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.pest_torcher_2b"
 inherit = "npc.pest_torcher_2b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.pest_torcher_3a"
 inherit = "npc.pest_torcher_3a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.pest_torcher_3b"
 inherit = "npc.pest_torcher_3b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.pest_torcher_4a"
 inherit = "npc.pest_torcher_4a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.pest_torcher_4b"
 inherit = "npc.pest_torcher_4b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.pest_torcher_5a"
 inherit = "npc.pest_torcher_5a"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.pest_torcher_5b"
 inherit = "npc.pest_torcher_5b"
+attackRange = 6
 [npc.params]
-"param.npc_attack_type"="category.attacktype_crush"
+"param.npc_attack_type"="category.attacktype_magic"
+"param.attack_anim"="seq.kalphite_ranged_attack"
+"param.proj_travel"="spotanim.firebolt_travel"
+"param.proj_type"="projanim.magic_spell"
 
 [[npc]]
 id = "npc.mm2_tortured_gorilla_lab"

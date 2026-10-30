@@ -4,13 +4,19 @@ import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.types.aconverted.SpotanimType
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import kotlin.math.abs
+import org.rsmod.api.player.hit.modifier.PlayerHitModifier
+import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.npc.NpcRepository
+import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.game.MapClock
+import org.rsmod.game.hit.HitType
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.util.PathingEntityCommon
@@ -30,6 +36,8 @@ constructor(
     private val mapClock: MapClock,
     private val npcRepo: NpcRepository,
     private val random: GameRandom,
+    private val worldRepo: WorldRepository,
+    private val playerHitModifier: PlayerHitModifier,
 ) {
     enum class Tier(
         val lander: String,
@@ -125,7 +133,8 @@ constructor(
     }
 
     private fun tickGame(tier: Tier, slot: Slot) {
-        slot.pests.removeAll { !it.isSlotAssigned || it.hitpoints <= 0 }
+        tickPestDeaths(slot)
+        tickSpinners(slot)
         dropShield(slot, tier)
         spawnWave(slot, tier)
         tickKnight(slot)
@@ -193,6 +202,63 @@ constructor(
         return pool[random.of(pool.size)]
     }
 
+    // Splatters detonate when they die, hurting anyone standing next to them.
+    private fun tickPestDeaths(slot: Slot) {
+        val dead = slot.pests.filter { !it.isSlotAssigned || it.hitpoints <= 0 }
+        slot.pests.removeAll(dead.toSet())
+        for (pest in dead) {
+            val name =
+                try {
+                    RSCM.getReverseMapping(RSCMType.NPC, pest.visType.id)
+                } catch (e: Exception) {
+                    continue
+                }
+            if (!name.contains("splatter")) continue
+            worldRepo.spotanimMap(
+                SpotanimType("spotanim.pest_spinner_explode_spotanim".asRSCM(RSCMType.SPOTANIM)),
+                pest.coords,
+            )
+            for (player in slot.participants) {
+                if (
+                    player.hitpoints > 0 &&
+                        player.coords.chebyshevDistance(pest.coords) <= SPLATTER_REACH
+                ) {
+                    player.queueHit(
+                        pest,
+                        delay = 0,
+                        HitType.Typeless,
+                        SPLATTER_MIN_HIT + random.of(SPLATTER_HIT_SPAN),
+                        playerHitModifier,
+                    )
+                }
+            }
+        }
+    }
+
+    // Spinners repair the closest damaged live portal in reach.
+    private fun tickSpinners(slot: Slot) {
+        if (mapClock.cycle % SPINNER_HEAL_PERIOD != 0) return
+        for (pest in slot.pests) {
+            if (!pest.isSlotAssigned || pest.hitpoints <= 0) continue
+            val name =
+                try {
+                    RSCM.getReverseMapping(RSCMType.NPC, pest.visType.id)
+                } catch (e: Exception) {
+                    continue
+                }
+            if (!name.contains("spinner")) continue
+            val portal =
+                slot.portals.firstOrNull {
+                    it.isSlotAssigned &&
+                        it.hitpoints > 0 &&
+                        it.hitpoints < it.visType.hitpoints &&
+                        !it.isShielded() &&
+                        it.coords.chebyshevDistance(pest.coords) <= SPINNER_REACH
+                } ?: continue
+            portal.hitpoints = minOf(portal.visType.hitpoints, portal.hitpoints + SPINNER_HEAL)
+        }
+    }
+
     // Every second tick each pest adjacent to the knight chips a point of his
     // health — the stand-in for the pests' own knight attack AI.
     private fun tickKnight(slot: Slot) {
@@ -251,6 +317,12 @@ constructor(
         private const val MAX_PESTS = 40
         private const val KNIGHT_HIT_PERIOD = 2
         private const val KNIGHT_REACH = 2
+        private const val SPLATTER_REACH = 2
+        private const val SPLATTER_MIN_HIT = 1
+        private const val SPLATTER_HIT_SPAN = 6
+        private const val SPINNER_HEAL_PERIOD = 4
+        private const val SPINNER_REACH = 6
+        private const val SPINNER_HEAL = 5
         private const val KNIGHT = "npc.pest_voidknight_control1"
 
         private val ISLAND_LAND = CoordGrid(2656, 2615, 0)
