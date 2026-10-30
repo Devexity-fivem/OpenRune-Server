@@ -7,12 +7,12 @@ import org.rsmod.api.player.stat.baseRunecraftingLvl
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.table.ComboruneRecipeRow
 import org.rsmod.api.table.runecrafting.RunecraftingRunesRow
+import org.rsmod.content.quest.manager.QuestRequirements
 import org.rsmod.content.skills.runecrafting.essencepouch.EssencePouch
-import org.rsmod.content.skills.runecrafting.items.BloodEssence
-import org.rsmod.content.skills.runecrafting.items.BloodEssence.applyBloodRuneBonus
 import org.rsmod.content.skills.runecrafting.items.BindingNecklace.consumeChargeAfterCombo
 import org.rsmod.content.skills.runecrafting.items.BindingNecklace.isWearing
-import org.rsmod.content.quest.manager.QuestRequirements
+import org.rsmod.content.skills.runecrafting.items.BloodEssence
+import org.rsmod.content.skills.runecrafting.items.BloodEssence.applyBloodRuneBonus
 import org.rsmod.content.skills.runecrafting.items.RaimentsOfTheEye.applyBonus
 import org.rsmod.content.skills.runecrafting.magic.MagicImbue.isActive
 
@@ -427,7 +427,7 @@ object RunecraftAction {
             return
         }
 
-        val usingMagicImbue = player.isActive()
+        val usingMagicImbue = player.vars["varbit.lunar_magic_imbue"] == 1
         if (!usingMagicImbue && invDel(inv, talisman.internalName, 1).failure) {
             return
         }
