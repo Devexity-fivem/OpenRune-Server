@@ -6,6 +6,7 @@ import org.rsmod.api.script.onOpHeldU
 import org.rsmod.api.script.onOpLocCategoryU
 import org.rsmod.api.script.onPlayerQueueWithArgs
 import org.rsmod.api.table.smithing.SmithingCannonBallsRow
+import org.rsmod.content.quest.manager.QuestRequirements
 import org.rsmod.content.skills.Material
 import org.rsmod.content.skills.SkillMultiConfig
 import org.rsmod.content.skills.SkillMultiEntry
@@ -18,6 +19,10 @@ import org.rsmod.plugin.scripts.ScriptContext
 class CannonBallScript : PluginScript() {
 
     private val moulds = arrayOf("obj.ammo_mould", "obj.double_ammo_mould")
+
+    private companion object {
+        const val DWARF_CANNON_QUEST = "quest_dwarfcannon"
+    }
     private val allCannonBalls = SmithingCannonBallsRow.all()
 
     override fun ScriptContext.startup() {
@@ -118,6 +123,11 @@ class CannonBallScript : PluginScript() {
     }
 
     private suspend fun ProtectedAccess.canSmelt(ball: SmithingCannonBallsRow): Boolean {
+        if (!QuestRequirements.hasCompleted(player, DWARF_CANNON_QUEST)) {
+            mesbox("You need to have completed the Dwarf Cannon quest to make cannonballs.")
+            return false
+        }
+
         if (!hasAmmoMould()) {
             mesbox("You need a mould to do this.")
             return false

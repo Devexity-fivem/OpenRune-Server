@@ -41,7 +41,7 @@ class TiaraEvents @Inject constructor(
             createSpecialTiara(
                 "obj.catalytic_talisman",
                 "obj.tiara_catalytic",
-                xp = 52,
+                xp = 60,
                 xpMods = xpMods,
             )
         }

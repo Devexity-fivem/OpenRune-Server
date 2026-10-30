@@ -3,6 +3,7 @@ package org.rsmod.content.skills.smithing
 import org.rsmod.api.player.events.interact.HeldUEvents
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.content.skills.smithing.util.SmithingUtils.hasHammer
+import org.rsmod.content.skills.smithing.util.SmithingUtils.requireSmithingLevel
 import org.rsmod.api.script.onOpHeldU
 import org.rsmod.api.script.onOpLocCategoryU
 import org.rsmod.plugin.scripts.PluginScript
@@ -97,6 +98,10 @@ class GodSwordScript : PluginScript() {
     }
 
     private suspend fun ProtectedAccess.forgeBlade() {
+        if (!requireSmithingLevel(this, 80, "forge the godsword blade")) {
+            return
+        }
+
         val counts = bladePartInternals.associateWith { inv.count(it) }
 
         val (toConsume, result) =

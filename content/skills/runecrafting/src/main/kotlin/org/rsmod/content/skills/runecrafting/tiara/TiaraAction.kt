@@ -27,7 +27,7 @@ object TiaraAction {
 
         if (removedTiara && removedTalisman) {
             if (invAdd(inv, def.item.internalName, 1).success) {
-                advanceRunecraftingXp(def.xp.toDouble(), xpMods)
+                advanceRunecraftingXp(def.xp / 10.0, xpMods)
                 mes("You bind the power of the talisman into your tiara.")
             }
         }

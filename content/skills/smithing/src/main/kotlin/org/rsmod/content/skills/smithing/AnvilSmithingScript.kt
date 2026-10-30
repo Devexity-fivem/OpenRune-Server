@@ -208,6 +208,12 @@ constructor(private val xpMods: XpModifiers, private val dorics: DoricsQuest) : 
     }
 
     private fun ProtectedAccess.performSmith(meta: SmithingProductMeta) {
+        if (inv.freeSpace() <= 0 && !inv.contains(meta.product.internalName)) {
+            mes("You don't have enough inventory space to smith.")
+            resetAnim()
+            return
+        }
+
         val barRemoved =
             invDel(inv, meta.bar.output.internalName, meta.barCount, strict = true).success
         if (!barRemoved) {

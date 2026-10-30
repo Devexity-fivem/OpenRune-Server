@@ -26,7 +26,6 @@ object EssencePouch {
         DAEYALT_ESSENCE,
         GUARDIAN_ESSENCE,
         RUNE_ESSENCE,
-        DARK_ESSENCE_FRAGMENT
     )
 
     enum class Tier(
@@ -371,7 +370,7 @@ object EssencePouch {
         }
     }
 
-    private fun colossalFirstDecayThreshold(baseCapacity: Int): Int = 8 * baseCapacity
+    private fun colossalFirstDecayThreshold(baseCapacity: Int): Int = 320
 
     private var Player.smallEssencePouch by intVarBit("varbit.small_essence_pouch")
     private var Player.mediumEssencePouch by intVarBit("varbit.medium_essence_pouch")
