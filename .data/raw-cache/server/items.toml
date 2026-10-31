@@ -1,6 +1,7 @@
 [[item]]
 id = "obj.coins"
 inherit = "obj.coins"
+wearpos = 3
 [item.params]
 "param.shop_sale_restricted"=1
 
@@ -49812,6 +49813,7 @@ tradeable = false
 [[item]]
 id = "obj.trail_slidingpuzzleb16"
 inherit = "obj.trail_slidingpuzzleb16"
+wearpos = 3
 dummyitem = 2
 tradeable = false
 
@@ -50032,6 +50034,7 @@ tradeable = false
 [[item]]
 id = "obj.reinitialisation_06"
 inherit = "obj.reinitialisation_06"
+wearpos = 3
 dummyitem = 2
 tradeable = false
 
@@ -50927,6 +50930,7 @@ tradeable = false
 [[item]]
 id = "obj.trail_slidingpuzzled20"
 inherit = "obj.trail_slidingpuzzled20"
+wearpos = 3
 dummyitem = 2
 tradeable = false
 
@@ -51250,6 +51254,7 @@ tradeable = false
 [[item]]
 id = "obj.barrows_karil_weapon_broken"
 inherit = "obj.barrows_karil_weapon_broken"
+wearpos = 3
 weaponCategory="Crossbow"
 [item.params]
 "param.proj_type"="projanim.bolt"
@@ -51547,6 +51552,7 @@ tradeable = false
 [[item]]
 id = "obj.trailblazer_reloaded_harpoon_empty"
 inherit = "obj.trailblazer_reloaded_harpoon_empty"
+wearpos = 3
 weaponCategory="StabSword"
 tradeable = false
 [item.params]
@@ -51749,6 +51755,7 @@ tradeable = false
 [[item]]
 id = "obj.hunting_crossbow_sunlight"
 inherit = "obj.hunting_crossbow_sunlight"
+wearpos = 3
 weaponCategory="Crossbow"
 [item.params]
 "param.proj_type"="projanim.bolt"
@@ -52037,6 +52044,7 @@ tradeable = false
 [[item]]
 id = "obj.gold_ore"
 inherit = "obj.gold_ore"
+wearpos = 3
 contentGroup = "content.ore"
 [item.params]
 "param.respawn_time"=500
@@ -52505,6 +52513,7 @@ tradeable = false
 [[item]]
 id = "obj.reinitialisation_03"
 inherit = "obj.reinitialisation_03"
+wearpos = 3
 dummyitem = 2
 tradeable = false
 

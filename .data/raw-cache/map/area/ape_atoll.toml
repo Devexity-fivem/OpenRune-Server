@@ -1,0 +1,28 @@
+[[area]]
+name = "Ape Atoll"
+area_id = "area.ape_atoll"
+levels = [0, 1, 2, 3]
+
+[[area.polygons]]
+vertices = [
+    [2690, 2690],
+    [2940, 2690],
+    [2940, 2935],
+    [2690, 2935],
+]
+
+[[area.polygons]]
+vertices = [
+    [2680, 9080],
+    [2910, 9080],
+    [2910, 9230],
+    [2680, 9230],
+]
+
+[[area.polygons]]
+vertices = [
+    [2594, 3272],
+    [2611, 3272],
+    [2611, 3285],
+    [2594, 3285],
+]
