@@ -65,6 +65,79 @@ object SlayerRequirements {
 
     private const val TUROTH = 36
     private const val KURASK = 45
+    private const val VAMPYRES = 34
+
+    private val VYREWATCH_NPCS =
+        arrayOf(
+            "npc.myq4_vyrewatch_1",
+            "npc.myq4_vyrewatch_2",
+            "npc.myq4_vyrewatch_3",
+            "npc.myq4_vyrewatch_4",
+            "npc.myq5_vyrewatch_1",
+            "npc.myq5_vyrewatch_2",
+            "npc.vyrewatch_elite_1",
+            "npc.vyrewatch_elite_2",
+            "npc.vyrewatch_elite_3",
+            "npc.vyrewatch_elite_4",
+            "npc.vyrewatch_elite_5",
+            "npc.vyrewatch_elite_6",
+            "npc.vyrewatch_elite_7",
+            "npc.vyrewatch_elite_8",
+            "npc.myq5_vyrewatch_elite_1",
+            "npc.myq5_vyrewatch_elite_2",
+            "npc.myq5_vyrewatch_elite_3",
+            "npc.myq5_vyrewatch_elite_4",
+            "npc.myq5_vyrewatch_elite_5",
+            "npc.myq5_vyrewatch_elite_6",
+            "npc.slepe_vyrewatch_female_1",
+            "npc.slepe_vyrewatch_female_2",
+            "npc.slepe_vyrewatch_female_3",
+            "npc.slepe_vyrewatch_female_4",
+            "npc.slepe_vyrewatch_male_1",
+            "npc.slepe_vyrewatch_male_2",
+            "npc.slepe_vyrewatch_male_3",
+            "npc.slepe_vyrewatch_male_4",
+            "npc.darkm_vyrewatch_female_1",
+            "npc.darkm_vyrewatch_female_2",
+            "npc.darkm_vyrewatch_female_3",
+            "npc.darkm_vyrewatch_female_4",
+            "npc.darkm_vyrewatch_male_1",
+            "npc.darkm_vyrewatch_male_2",
+            "npc.darkm_vyrewatch_male_3",
+            "npc.darkm_vyrewatch_male_4",
+            "npc.sang_myq3_female_walk_vyrewatch_1",
+            "npc.sang_myq3_female_walk_vyrewatch_2",
+            "npc.sang_myq3_female_walk_vyrewatch_3",
+            "npc.sang_myq3_female_walk_vyrewatch_4",
+            "npc.sang_myq3_male_walk_vyrewatch_1",
+            "npc.sang_myq3_male_walk_vyrewatch_2",
+            "npc.sang_myq3_male_walk_vyrewatch_3",
+            "npc.sang_myq3_male_walk_vyrewatch_4",
+            "npc.tobquest_vyrewatch_female_1",
+            "npc.tobquest_vyrewatch_female_2",
+            "npc.tobquest_vyrewatch_male_1",
+            "npc.tobquest_vyrewatch_male_2",
+            "npc.myq6_vyrewatch_1",
+            "npc.myq6_vyrewatch_2",
+            "npc.myq6_vyrewatch_3",
+            "npc.myq6_vyrewatch_4",
+            "npc.myq6_vyrewatch_5",
+            "npc.myq6_vyrewatch_elite",
+            "npc.myq6_vyrewatch_elite_1_postquest",
+            "npc.myq6_vyrewatch_elite_1_postquest_vis",
+            "npc.myq6_vyrewatch_elite_2",
+            "npc.myq6_vyrewatch_elite_2_postquest",
+            "npc.myq6_vyrewatch_elite_2_postquest_vis",
+            "npc.myq6_defending_ivan_vyrewatch_1",
+            "npc.myq6_defending_ivan_vyrewatch_2",
+            "npc.myq6_defending_ivan_vyrewatch_3",
+            "npc.myq6_defending_ivan_vyrewatch_4",
+            "npc.myq6_defending_ivan_vyrewatch_5",
+            "npc.myq6_defending_ivan_vyrewatch_elite_1",
+            "npc.myq6_defending_ivan_vyrewatch_elite_2",
+            "npc.myq6_defending_ivan_vyrewatch_elite_3",
+            "npc.myq6_defending_ivan_vyrewatch_elite_4",
+        )
 
     fun gear(bossKey: (String) -> Int) =
         dbTable("dbtable.slayer_gear", serverOnly = true) {
@@ -235,6 +308,15 @@ object SlayerRequirements {
                 columnRSCM(WEAPON_GROUP, "content.slayer_leaf_weapon")
                 columnRSCM(WEAPON_AMMO, "enum.slayer_leafy_ammo")
                 columnRSCM(WEAPON_SPELLS, "enum.slayer_leafy_spells")
+            }
+
+            row("dbrow.slayer_weapon_vyre_1") {
+                column(WEAPON_TASKS, VAMPYRES)
+                column(WEAPON_VARIANT, 1)
+                columnRSCM(WEAPON_NPCS, *VYREWATCH_NPCS)
+                columnRSCM(WEAPON_GROUP, "content.vyre_weapon")
+                columnRSCM(WEAPON_AMMO, "enum.vyre_ammo")
+                columnRSCM(WEAPON_SPELLS, "enum.vyre_spells")
             }
         }
 

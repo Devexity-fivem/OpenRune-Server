@@ -9,6 +9,7 @@ slayer_weapon_rules=60513
 slayer_helmet=65510
 slayer_mirror_shield=65511
 slayer_leaf_weapon=65512
+vyre_weapon=64000
 
 [gamevals.enum]
 slayer_toggleable_rewards=65475
@@ -25,6 +26,8 @@ slayer_finisher_desert_lizard_items=65339
 slayer_finisher_zygomite_items=65340
 slayer_leafy_ammo=65341
 slayer_leafy_spells=65342
+vyre_ammo=65343
+vyre_spells=65344
 slayer_task_tips=65535
 
 [gamevals.param]
@@ -112,3 +115,4 @@ slayer_finisher_51_1=60247
 slayer_finisher_68_1=60248
 slayer_finisher_74_1=60249
 slayer_weapon_36_1=60250
+slayer_weapon_vyre_1=60428

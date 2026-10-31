@@ -177,3 +177,20 @@ valueType = "BOOLEAN"
 [enum.values]
 "obj.50_magic_dart" = true
 "obj.50_slayer_dart" = true
+
+[[enum]]
+isServerOnly = true
+id = "enum.vyre_ammo"
+keyType = "OBJ"
+valueType = "BOOLEAN"
+
+[enum.values]
+"obj.blisterwood_stake" = true
+
+[[enum]]
+isServerOnly = true
+id = "enum.vyre_spells"
+keyType = "OBJ"
+valueType = "BOOLEAN"
+
+[enum.values]

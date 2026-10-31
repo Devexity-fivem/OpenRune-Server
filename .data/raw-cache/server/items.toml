@@ -12292,6 +12292,7 @@ weaponCategory="SlashSword"
 [[item]]
 id = "obj.burgh_rod_command_final_10"
 inherit = "obj.burgh_rod_command_final_10"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -12316,6 +12317,7 @@ tradeable = false
 [[item]]
 id = "obj.burgh_rod_command_final_9"
 inherit = "obj.burgh_rod_command_final_9"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -12340,6 +12342,7 @@ tradeable = false
 [[item]]
 id = "obj.burgh_rod_command_final_8"
 inherit = "obj.burgh_rod_command_final_8"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -12364,6 +12367,7 @@ tradeable = false
 [[item]]
 id = "obj.burgh_rod_command_final_7"
 inherit = "obj.burgh_rod_command_final_7"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -12388,6 +12392,7 @@ tradeable = false
 [[item]]
 id = "obj.burgh_rod_command_final_6"
 inherit = "obj.burgh_rod_command_final_6"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -12412,6 +12417,7 @@ tradeable = false
 [[item]]
 id = "obj.burgh_rod_command_final_5"
 inherit = "obj.burgh_rod_command_final_5"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -12436,6 +12442,7 @@ tradeable = false
 [[item]]
 id = "obj.burgh_rod_command_final_4"
 inherit = "obj.burgh_rod_command_final_4"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -12460,6 +12467,7 @@ tradeable = false
 [[item]]
 id = "obj.burgh_rod_command_final_3"
 inherit = "obj.burgh_rod_command_final_3"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -12484,6 +12492,7 @@ tradeable = false
 [[item]]
 id = "obj.burgh_rod_command_final_2"
 inherit = "obj.burgh_rod_command_final_2"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -12508,6 +12517,7 @@ tradeable = false
 [[item]]
 id = "obj.burgh_rod_command_final_1"
 inherit = "obj.burgh_rod_command_final_1"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -18853,6 +18863,7 @@ tradeable = false
 [[item]]
 id = "obj.ivandis_flail"
 inherit = "obj.ivandis_flail"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -21266,6 +21277,7 @@ tradeable = false
 [[item]]
 id = "obj.blisterwood_sickle"
 inherit = "obj.blisterwood_sickle"
+contentGroup = "content.vyre_weapon"
 weaponCategory="SlashSword"
 tradeable = false
 [item.params]
@@ -21285,6 +21297,7 @@ tradeable = false
 [[item]]
 id = "obj.blisterwood_flail"
 inherit = "obj.blisterwood_flail"
+contentGroup = "content.vyre_weapon"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
@@ -53365,6 +53378,7 @@ inherit = "obj.trail_saradomin_vambraces"
 [[item]]
 id = "obj.sunspear"
 inherit = "obj.sunspear"
+contentGroup = "content.vyre_weapon"
 [item.params]
 "param.godwars_faction"=1
 
@@ -54362,3 +54376,18 @@ inherit = "obj.mourning_mourner_cloak"
 [item.params]
 "param.mourner_gear"=1
 
+
+[[item]]
+id = "obj.blisterwood_sickle_enhanced"
+inherit = "obj.blisterwood_sickle_enhanced"
+contentGroup = "content.vyre_weapon"
+
+[[item]]
+id = "obj.blisterwood_stake"
+inherit = "obj.blisterwood_stake"
+contentGroup = "content.vyre_weapon"
+
+[[item]]
+id = "obj.hallowed_flail"
+inherit = "obj.hallowed_flail"
+contentGroup = "content.vyre_weapon"
