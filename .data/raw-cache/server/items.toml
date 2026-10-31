@@ -7788,6 +7788,7 @@ inherit = "obj.ogre_bow"
 weaponCategory="Bow"
 tradeable = false
 [item.params]
+"param.required_ammo"="category.ogre_arrows"
 "param.proj_type"="projanim.arrow"
 "param.equipment_sound"=2244
 "param.attackrate"=8
@@ -9184,6 +9185,7 @@ id = "obj.zogre_bow"
 inherit = "obj.zogre_bow"
 weaponCategory="Bow"
 [item.params]
+"param.required_ammo"="category.ogre_arrows"
 "param.proj_type"="projanim.arrow"
 "param.equipment_sound"=2244
 "param.attackrate"=5

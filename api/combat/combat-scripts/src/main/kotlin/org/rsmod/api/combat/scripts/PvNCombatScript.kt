@@ -1,7 +1,9 @@
 package org.rsmod.api.combat.scripts
 
+import dev.openrune.types.NpcServerType
 import jakarta.inject.Inject
 import org.rsmod.api.combat.ACTIVE_COMBAT_DELAY
+import org.rsmod.api.combat.ATTACK_OP_TEXT
 import org.rsmod.api.combat.PvNCombat
 import org.rsmod.api.combat.commons.magic.MagicSpell
 import org.rsmod.api.combat.commons.styles.AttackStyle
@@ -14,17 +16,28 @@ import org.rsmod.api.combat.player.resolveAutocastSpell
 import org.rsmod.api.combat.player.resolveCombatAttack
 import org.rsmod.api.combat.weapon.styles.AttackStyles
 import org.rsmod.api.combat.weapon.types.AttackTypes
+import org.rsmod.api.config.Constants
 import org.rsmod.api.death.NpcAttackValidateHook
 import org.rsmod.api.death.NpcAttackValidateResult
 import org.rsmod.api.npc.owner.isSpawnOwnedBy
+import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.righthand
+import org.rsmod.api.script.advanced.onDefaultApNpc1
 import org.rsmod.api.script.advanced.onDefaultApNpc2
+import org.rsmod.api.script.advanced.onDefaultApNpc3
+import org.rsmod.api.script.advanced.onDefaultApNpc4
+import org.rsmod.api.script.advanced.onDefaultApNpc5
+import org.rsmod.api.script.advanced.onDefaultOpNpc1
 import org.rsmod.api.script.advanced.onDefaultOpNpc2
+import org.rsmod.api.script.advanced.onDefaultOpNpc3
+import org.rsmod.api.script.advanced.onDefaultOpNpc4
+import org.rsmod.api.script.advanced.onDefaultOpNpc5
 import org.rsmod.api.script.onApNpcT
 import org.rsmod.api.spells.MagicSpellRegistry
 import org.rsmod.api.spells.autocast.AutocastWeapons
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.interact.InteractionOp
 import org.rsmod.game.type.getOrNull
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -41,12 +54,42 @@ constructor(
     private val attackValidateHooks: Set<NpcAttackValidateHook>,
 ) : PluginScript() {
     override fun ScriptContext.startup() {
+        // Attackable npcs do not always expose "Attack" as their op2 (e.g. Zalcano exposes it
+        // as op1, chompy and jubbly birds as op5), so every unbound op slot is routed through a
+        // text check on the clicked slot before combat is attempted.
+        onDefaultApNpc1 { attemptAttackAp(it.npc, InteractionOp.Op1) }
         onDefaultApNpc2 { attemptCombatAp(it.npc) }
+        onDefaultApNpc3 { attemptAttackAp(it.npc, InteractionOp.Op3) }
+        onDefaultApNpc4 { attemptAttackAp(it.npc, InteractionOp.Op4) }
+        onDefaultApNpc5 { attemptAttackAp(it.npc, InteractionOp.Op5) }
+        onDefaultOpNpc1 { attemptAttackOp(it.npc, InteractionOp.Op1) }
         onDefaultOpNpc2 { attemptCombatOp(it.npc) }
+        onDefaultOpNpc3 { attemptAttackOp(it.npc, InteractionOp.Op3) }
+        onDefaultOpNpc4 { attemptAttackOp(it.npc, InteractionOp.Op4) }
+        onDefaultOpNpc5 { attemptAttackOp(it.npc, InteractionOp.Op5) }
         for (spell in spells.combatSpells()) {
             onApNpcT(spell.component) { attemptCombatSpell(it.npc, spell) }
         }
     }
+
+    private suspend fun ProtectedAccess.attemptAttackAp(target: Npc, op: InteractionOp) {
+        if (target.visType.isAttackOp(op)) {
+            attemptCombatAp(target)
+        } else {
+            apRange(-1)
+        }
+    }
+
+    private suspend fun ProtectedAccess.attemptAttackOp(target: Npc, op: InteractionOp) {
+        if (target.visType.isAttackOp(op)) {
+            attemptCombatOp(target)
+        } else {
+            mes(Constants.dm_default, ChatType.Engine)
+        }
+    }
+
+    private fun NpcServerType.isAttackOp(op: InteractionOp): Boolean =
+        actions.getOpOrNull(op.slot - 1) == ATTACK_OP_TEXT
 
     private suspend fun ProtectedAccess.attemptCombatAp(target: Npc) {
         val type = types.get(player)
