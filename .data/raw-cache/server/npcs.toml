@@ -13152,6 +13152,17 @@ inherit = "npc.champions_skeleton"
 "param.elemental_weakness_percent"=35
 
 [[npc]]
+id = "npc.regicide_darkelf"
+inherit = "npc.regicide_darkelf"
+huntMode = 1
+huntRange = 5
+[npc.params]
+"param.aggression_tolerant"=1
+"param.attack_anim"="seq.human_sword_slash"
+"param.npc_attack_type"="category.attacktype_slash"
+
+[[npc]]
+[[npc]]
 id = "npc.regicide_rabbit"
 inherit = "npc.regicide_rabbit"
 [npc.params]
@@ -14654,7 +14665,10 @@ inherit = "npc.zq_mainzombie3"
 [[npc]]
 id = "npc.zamorakghost"
 inherit = "npc.zamorakghost"
+huntMode = 1
+huntRange = 5
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.ghost_update_tendrill_attack"
 "param.death_anim"="seq.ghost_update_tendrill_death"
 "param.defend_anim"="seq.ghost_update_tendrill_defend"
@@ -14665,7 +14679,10 @@ inherit = "npc.zamorakghost"
 [[npc]]
 id = "npc.grave_scorpion"
 inherit = "npc.grave_scorpion"
+huntMode = 1
+huntRange = 5
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.small_scorpion_update_attack"
 "param.death_anim"="seq.small_scorpion_update_death"
 "param.defend_anim"="seq.small_scorpion_update_defend"
@@ -24358,7 +24375,10 @@ maxRange = 15
 [[npc]]
 id = "npc.jail_black_knight"
 inherit = "npc.jail_black_knight"
+huntMode = 1
+huntRange = 5
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
@@ -28766,35 +28786,50 @@ inherit = "npc.khazard_commander"
 [[npc]]
 id = "npc.arena_guard1"
 inherit = "npc.arena_guard1"
+huntMode = 1
+huntRange = 5
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 
 [[npc]]
 id = "npc.arena_guard4"
 inherit = "npc.arena_guard4"
+huntMode = 1
+huntRange = 5
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 
 [[npc]]
 id = "npc.arena_guard5"
 inherit = "npc.arena_guard5"
+huntMode = 1
+huntRange = 5
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 
 [[npc]]
 id = "npc.arena_guard6"
 inherit = "npc.arena_guard6"
+huntMode = 1
+huntRange = 5
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 
 [[npc]]
 id = "npc.arena_guard7"
 inherit = "npc.arena_guard7"
+huntMode = 1
+huntRange = 5
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 
@@ -29297,6 +29332,17 @@ inherit = "npc.al_kharid_man"
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
+[[npc]]
+id = "npc.al_kharid_warrior"
+inherit = "npc.al_kharid_warrior"
+huntMode = 1
+huntRange = 5
+[npc.params]
+"param.attack_anim"="seq.human_sword_slash"
+"param.npc_attack_type"="category.attacktype_slash"
+"param.aggression_tolerant"=1
+
+[[npc]]
 [[npc]]
 id = "npc.falador_man2"
 inherit = "npc.falador_man2"
@@ -31099,7 +31145,10 @@ inherit = "npc.rogue"
 [[npc]]
 id = "npc.wilderness_rogue"
 inherit = "npc.wilderness_rogue"
+huntMode = 1
+huntRange = 5
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_stab"
 
