@@ -359,3 +359,54 @@ These spawned combat-flagged NPCs lack `defend_anim` and/or `death_anim` because
 | `swampcrab_inactive` | defend+death | dormant rock form — waking is scripted; combat anims belong on the active variant |
 | `duck`, `duck_female`, `duckling`, `duck_update_ducklings` | defend | no duck/duckling block seq exists in cache |
 | `macro_shade` | death | shade set has `shade_rise`/`shade_sink`/`shade_heaven`; kill-anim for the random-event variant is ambiguous — left unfilled rather than guess |
+
+## Phase 4 — Bork + Smork Brothers duo encounter (content/bosses/bork)
+
+### Implementation
+- `BorkEncounter` — private instance (`InstanceArea.copyRegions` of the Chasm of Tears
+  guardian floor, region 12948 level 2, entry `RegionLocal(2,50,148,24,47)`), spawned
+  programmatically: Bork (`npc.tfa_bork`, 1500 HP) + the Smork Brothers' cannon cart
+  (`npc.tfa_smork`, 250 HP, `movementLocked`). World entrance placed via
+  `locRepo.add` (`loc.sotfa_cave_entrance_op` at 3223,9516,2); instance exit placed on
+  spawn (`loc.sotfa_cave_exit_op`).
+- `Bork` — `BossPluginScript` spec: `beat` (ring of tiles immediately around Bork's
+  footprint) and `big_beat` (3-deep ring, used when the target stands outside melee
+  range) as crush-accuracy `tileAoE`s; `forceEveryAttacks(8,10)` drives the
+  `"Bork smash <name>!"` tank retarget via `external("bork.retarget")` →
+  `AiPlayerInteractions.opTrigger(Op2)`.
+- Smork volleys: alternating ranged (`npc_smork_range_attack_projanim01`) and magic
+  (`npc_smork_mage_attack_projanim01` + `npc_smork_mage_hit_spotanim01`) cannon shots at
+  every player who is not Bork's current tank, plus alternating specials every 14
+  ticks — incendiary (`npc_smork_napalm_attack_projanim01` → 3 lingering
+  `napalm_splat` tiles dealing 6–7/tick, also damages Bork 25–30 if the blast catches
+  his footprint) and heavy cannonball (50/50: stuns Bork for 12 cycles via
+  `npc_bork_12_cycle_stun01` lifting his flat reduction, or a triple stomp covered by
+  `npc_bork_enraged_stomp_attack01` hitting every tile except the cart's 1-tile
+  shadow).
+- Flat armour: `onModifyHit` subtracts 8 + 2·(missing-HP quarters) from melee/ranged
+  hits and 2·quarters from magic hits; during the 12-cycle stun melee hits are floored
+  at 1 (wiki: "always land"). Capped at the max quarter tier once the Smorks die.
+- Enrages: Smorks dead → Bork stomps every ~10 ticks for the rest of the fight;
+  Bork dead (`onLethal`) → Smorks volley every 3 ticks at +8 max hit.
+- `npcs.toml`: `tfa_bork` huntMode 1/huntRange 14/maxRange 20 + gong-melee attack,
+  `npc_bork_death01` death, crush attack type; `tfa_smork` pinned static
+  (`moveRestrict=Blocked`, `defaultMode=None`, `wanderRange=0`).
+
+### Verified
+- `gradlew :content:bosses:bork:compileKotlin` clean; `buildCache` packs server `npc`
+  config clean; server boots — plugin module registers with no spec/gameval errors.
+- Cache evidence: full `npc_bork_*` and `npc_smork_*` seq + `*_spotanim01` +
+  `*_projanim01` families present in `.data/gamevals-binary/gamevals.dat`;
+  `sotfa_cave_entrance_op`/`sotfa_cave_exit_op` are the real archive cave loc symbols
+  (`tfa_cave_*` does not exist — first attempt crashed on `Missing mapping`, corrected).
+
+### Unverified / inferred (needs live test once client is stable)
+- Damage numbers are inferred where the Wiki does not publish them: beat ~0–28,
+  big-beat ~0–42, stomp ~0–55, volleys ~0–15/0–18 (+8 enraged), incendiary ~0–30,
+  oil 6–7, Bork-burn 25–30, special cadence every ~14 ticks, 50% stun odds.
+- Smork HP 250 and Bork HP 1500 assumed from Wiki boss data; Bork's defence as flat
+  reduction is implemented per Wiki description but exact per-quarter values inferred.
+- Live MCP test not yet performed: client crash-looped after RSProx respawned it
+  (devtools plugin unreachable); retry when the client is manually restarted.
+- Bork/Smork drop tables not yet bound; archive music (`music_tfa_boss_bork`) and the
+  HP-bar UI (`tfa_bork_smork_hp_ui_handler`) not wired.
