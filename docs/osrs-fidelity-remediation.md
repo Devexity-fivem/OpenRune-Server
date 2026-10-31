@@ -410,3 +410,43 @@ These spawned combat-flagged NPCs lack `defend_anim` and/or `death_anim` because
   (devtools plugin unreachable); retry when the client is manually restarted.
 - Bork/Smork drop tables not yet bound; archive music (`music_tfa_boss_bork`) and the
   HP-bar UI (`tfa_bork_smork_hp_ui_handler`) not wired.
+
+## Phase 4b — RESUME STATE: Archive Guardian implementation notes (next boss)
+
+The Fractured Archive is a pseudo-linear raid (8 bosses, 5/run): Archive Guardian
+always 1st -> choice of two doors per wing (2nd: Ezekiel OR Bork+Smorks) -> ... ->
+Ocellus always last. No per-boss drops; all loot is the post-Ocellus reward chest
+(items: Archivist's folio, Horn of Bran, Zorya's tome, Rondache, Ascension
+crossbows, Obligator, Orion pet, 4 elemental spell fragments; lobby has loot
+wheelbarrow fallback). Raid lobby in Chasm of Tears, 1-8 players.
+
+Bork module (`content/bosses/bork`) is the template — copy its structure:
+BorkEncounter.kt (InstanceManager, region-copy arena via InstanceArea.copyRegions,
+programmatic locs) + Bork.kt (BossPluginScript DSL spec) + BorkArena.kt (geometry).
+
+Cache symbols confirmed in gamevals.dat (rev 241):
+- NPCs: `npc.archive_guardian`, `npc.archive_guardian_combat`,
+  `npc.archive_guardian_tentacle`, `npc.archive_guardian_mushroom_spawn`
+- Seqs: `npc_archive_guardian_spawn01`, `spawn_idle01`, `idle01`,
+  `melee_attack01`, `range_attack01` (+`range_projanim01`, `range_spotanim01`,
+  `range_hitanim01`), `special_attack01` (+`special_attack_spotanim01`),
+  `swoosh_attack01`, `enraged_phase01` (+`_spotanim01`), `death01`,
+  `death_pose01`, `ground_to_flying01`, `idle_to_ground01`, `ground_idle01`
+- Mechanics to research on https://oldschool.runescape.wiki/w/Archive_Guardian :
+  flying/ground phase transitions (ground_to_flying / idle_to_ground seqs),
+  tentacle NPC, mushroom spawns, enrage phase. Multi-NPC phases like Bork's.
+
+Pending before Archive Guardian work:
+- Wiki mechanics research (attack rotation, phases, special, tentacle role).
+- Arena: same region-copy pattern; Archive Guardian room region id TBD — reuse
+  Chasm of Tears floor (region 12948 lvl 2) if no better baked room.
+- Live verification still blocked: RSProx/RuneLite client crash-loops after
+  respawn; `osrs-dev-tools` MCP unreachable. Fix = manually restart the game
+  client (not via MCP `respawn_client`), then `mcp_list_tools` should recover.
+- `npcs.toml` incremental pack warning ("Block npcs.toml (npc) was found by the
+  scanner but not in the decoded file") recurs on client-side repack; server-side
+  packs clean. Suspected incremental-scanner quirk, unverified.
+- 458 spawned attackable NPCs still lack drop-table bindings (batch task,
+  GenDropTables.py exists in repo root).
+- After each boss: regenerate PROGRESS.md via tools/progress/content-progress.mjs,
+  commit + push.
