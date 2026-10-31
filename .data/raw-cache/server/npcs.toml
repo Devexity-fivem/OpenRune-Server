@@ -9932,7 +9932,11 @@ maxRange = 15
 [[npc]]
 id = "npc.kalphite_worker_strongholdcave"
 inherit = "npc.kalphite_worker_strongholdcave"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.kalphite_attack_claws"
 "param.death_anim"="seq.kalphite_update_death"
 "param.defend_anim"="seq.kalphite_update_defend"
@@ -28257,7 +28261,11 @@ inherit = "npc.poh_guarddog"
 [[npc]]
 id = "npc.hosidius_guarddog"
 inherit = "npc.hosidius_guarddog"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.dog_update_small_dog_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 
@@ -29614,7 +29622,6 @@ attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
 "param.aggro_unless_greegree"=1
-"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.m_monkey_death"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -29629,7 +29636,6 @@ attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
 "param.aggro_unless_greegree"=1
-"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.m_monkey_death"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -29644,7 +29650,6 @@ attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
 "param.aggro_unless_greegree"=1
-"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.m_monkey_death"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -32654,7 +32659,12 @@ attackRange = 6
 [[npc]]
 id = "npc.mm2_tortured_gorilla_lab"
 inherit = "npc.mm2_tortured_gorilla_lab"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.demonic_gorilla_death"
 "param.defend_anim"="seq.demonic_gorilla_defend"
@@ -32664,7 +32674,12 @@ inherit = "npc.mm2_tortured_gorilla_lab"
 [[npc]]
 id = "npc.mm2_tortured_gorilla_stronghold"
 inherit = "npc.mm2_tortured_gorilla_stronghold"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.demonic_gorilla_death"
 "param.defend_anim"="seq.demonic_gorilla_defend"
@@ -32679,7 +32694,6 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.aggro_unless_greegree"=1
 "param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.demonic_gorilla_death"
@@ -32695,7 +32709,6 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.aggro_unless_greegree"=1
 "param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.demonic_gorilla_death"
@@ -34930,7 +34943,6 @@ attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
 "param.aggro_unless_greegree"=1
-"param.aggro_unless_quest"="monkey_madness_ii"
 
 
 [[npc]]

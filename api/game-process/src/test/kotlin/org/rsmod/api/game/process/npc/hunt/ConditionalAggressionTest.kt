@@ -80,6 +80,49 @@ class ConditionalAggressionTest {
     }
 
     @Test
+    fun `monkey archers gate on greegree only`() {
+        for (id in intArrayOf(5272, 5274, 5273, 6813)) {
+            val def = ServerCacheManager.getNpcs()[id]
+            assertNotNull(def, "npc $id")
+            assertEquals(8, def?.huntMode, "npc $id huntMode")
+            assertEquals(1, def?.paramsRaw?.get(PARAM_AGGRO_UNLESS_GREEGREE), "npc $id greegree")
+            assertTrue(
+                def?.paramsRaw?.get(PARAM_AGGRO_UNLESS_QUEST) == null,
+                "npc $id must not quest-gate archer aggro",
+            )
+        }
+    }
+
+    @Test
+    fun `mm2 gorillas gate on quest completion only`() {
+        for (id in intArrayOf(7095, 7097, 7150, 7151)) {
+            val def = ServerCacheManager.getNpcs()[id]
+            assertNotNull(def, "npc $id")
+            assertEquals(6, def?.huntMode, "npc $id huntMode")
+            assertEquals(
+                "monkey_madness_ii",
+                def?.paramsRaw?.get(PARAM_AGGRO_UNLESS_QUEST),
+                "npc $id quest",
+            )
+            assertTrue(
+                def?.paramsRaw?.get(PARAM_AGGRO_UNLESS_GREEGREE) == null,
+                "npc $id must not greegree-gate gorilla aggro",
+            )
+        }
+    }
+
+    @Test
+    fun `stronghold kalphite worker and hosidius guard dog hunt`() {
+        val worker = ServerCacheManager.getNpcs()[956]
+        assertNotNull(worker)
+        assertEquals(1, worker?.huntMode)
+        assertEquals(5, worker?.huntRange)
+        val dog = ServerCacheManager.getNpcs()[7209]
+        assertNotNull(dog)
+        assertEquals(1, dog?.huntMode)
+    }
+
+    @Test
     fun `quest monkey guard hunts unconditionally and elder guards stay passive`() {
         val questGuard = ServerCacheManager.getNpcs()[5271]
         assertNotNull(questGuard)
