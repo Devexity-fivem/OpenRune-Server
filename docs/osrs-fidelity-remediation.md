@@ -213,6 +213,28 @@ Variant binds: `tbwt_beast`→the_shaikahan, `wilderness_ent`→ent, `weaponsmas
   barrows_spider/barrows_giantspider (Crypt/Giant crypt spider: NO DROP SECTIONS).
 
 Boot-verified: "Server ready in 22.4s" — all 710 tables + Kotlin binds load clean.
+
+### npcs.toml incremental pack warning — root-caused, cosmetic
+
+`Packing Configs: failed to pack npcs.toml (npc); it will be repacked next build`
++ `IllegalStateException: Block npcs.toml (npc) was found by the scanner but not
+in the decoded file` (dev.openrune.cache.tools.incremental.IncrementalBuild:82,
+upstream `dev.or2:tools:3.0.7` jar — not repo code).
+
+Cause: the client-cache `PackConfig` scans `.data/raw-cache/` including
+`server/npcs.toml`. The incremental manifest keys decoded blocks by NUMERIC id
+(`RawBlock.getId`), but all 3,645 `[[npc]]` blocks use symbolic `id = "npc.X"`
+— so the file's decoded map is empty every run and the scanner/decoded check
+always trips. Every other `server/*.toml` either carries `isServerOnly = true`
+(bas, enums — excluded from the client scan) or isn't a client packType
+(hunt, items, shops), so npcs.toml is the only offender.
+
+Impact: none — the file still packs successfully each build (progress shows
+`Packing Configs 2/2 npcs.toml (npc)` completing, and all server npc defs
+including merged TFA npcs render + fight correctly in the live client).
+The warning is upstream-library bookkeeping noise; fix requires a change in
+`dev.or2:tools` (symbol-aware manifest keys) or disabling incremental builds
+(slower). Left documented, not suppressed.
 Static: 0 weight-sum violations, 0 unresolved objs, 0 duplicate bindings.
 
 ## Fight Cave build plan (staged, verified)
