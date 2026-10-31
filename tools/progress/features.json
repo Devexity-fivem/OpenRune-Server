@@ -362,6 +362,21 @@
           "rscmPrefixes": [
             "inferno_"
           ]
+        },
+        "Impetuous Impulses": {
+          "rscmPrefixes": [
+            "ii_"
+          ]
+        },
+        "Pest Control": {
+          "rscmPrefixes": [
+            "pest_"
+          ]
+        },
+        "Fortis Colosseum": {
+          "rscmPrefixes": [
+            "colosseum_"
+          ]
         }
       }
     }
