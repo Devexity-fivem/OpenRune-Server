@@ -2187,8 +2187,13 @@ defaultMode = "Wander"
 [[npc]]
 id = "npc.godwars_spiritual_bandos_mage"
 inherit = "npc.godwars_spiritual_bandos_mage"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.ork_update_double_grip_attack"
 "param.death_anim"="seq.ork_update_death"
 "param.defend_anim"="seq.ork_update_defend"
@@ -2201,8 +2206,13 @@ category = 65517
 [[npc]]
 id = "npc.godwars_spiritual_bandos_ranger"
 inherit = "npc.godwars_spiritual_bandos_ranger"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.ork_update_double_grip_attack"
 "param.death_anim"="seq.ork_update_death"
 "param.defend_anim"="seq.ork_update_defend"
@@ -2215,8 +2225,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_spiritual_bandos_warrior"
 inherit = "npc.godwars_spiritual_bandos_warrior"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.ork_update_double_grip_attack"
 "param.death_anim"="seq.ork_update_death"
 "param.defend_anim"="seq.ork_update_defend"
@@ -2230,8 +2244,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_ancient_ork1"
 inherit = "npc.godwars_ancient_ork1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
@@ -2240,8 +2258,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_ancient_ork2"
 inherit = "npc.godwars_ancient_ork2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
@@ -2250,8 +2272,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_ancient_ork3"
 inherit = "npc.godwars_ancient_ork3"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
@@ -2260,8 +2286,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_ancient_ork4"
 inherit = "npc.godwars_ancient_ork4"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
@@ -2270,20 +2300,32 @@ category = 65517
 [[npc]]
 id = "npc.godwars_ancient_cyclops"
 inherit = "npc.godwars_ancient_cyclops"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 [[npc]]
 id = "npc.godwars_ancient_cyclops2"
 inherit = "npc.godwars_ancient_cyclops2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 [[npc]]
 id = "npc.godwars_ancient_jogre"
 inherit = "npc.godwars_ancient_jogre"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.champions_jogre_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=6
@@ -2293,8 +2335,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_ancient_ogre"
 inherit = "npc.godwars_ancient_ogre"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.ogre_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=7
@@ -2304,8 +2350,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_ancient_hobgoblin"
 inherit = "npc.godwars_ancient_hobgoblin"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.hobgoblin_attack"
 "param.defend_anim"="seq.hobgoblin_block"
 "param.death_anim"="seq.hobgoblin_death"
@@ -2314,8 +2364,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_goblin1"
 inherit = "npc.godwars_goblin1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.slice_surface_goblin_squat_unarmed_attack"
 "param.death_anim"="seq.slice_surface_goblin_death"
 "param.defend_anim"="seq.slice_surface_goblin_defend"
@@ -2323,8 +2377,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_goblin2"
 inherit = "npc.godwars_goblin2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.slice_surface_goblin_squat_unarmed_attack"
 "param.death_anim"="seq.slice_surface_goblin_death"
 "param.defend_anim"="seq.slice_surface_goblin_defend"
@@ -2342,8 +2400,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_goblin4"
 inherit = "npc.godwars_goblin4"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.slice_surface_goblin_squat_unarmed_attack"
 "param.death_anim"="seq.slice_surface_goblin_death"
 "param.defend_anim"="seq.slice_surface_goblin_defend"
@@ -2351,8 +2413,12 @@ category = 65517
 [[npc]]
 id = "npc.godwars_goblin5"
 inherit = "npc.godwars_goblin5"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.slice_surface_goblin_squat_unarmed_attack"
 "param.death_anim"="seq.slice_surface_goblin_death"
 "param.defend_anim"="seq.slice_surface_goblin_defend"
@@ -2360,8 +2426,13 @@ category = 65517
 [[npc]]
 id = "npc.godwars_spiritual_armadyl_mage"
 inherit = "npc.godwars_spiritual_armadyl_mage"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.death_anim"="seq.godwars_armadyl_death"
 "param.defend_anim"="seq.godwars_armadyl_defend"
@@ -2372,8 +2443,13 @@ category = 65518
 [[npc]]
 id = "npc.godwars_spiritual_armadyl_ranger"
 inherit = "npc.godwars_spiritual_armadyl_ranger"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.death_anim"="seq.godwars_armadyl_death"
 "param.defend_anim"="seq.godwars_armadyl_defend"
@@ -2386,8 +2462,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_spiritual_armadyl_warrior"
 inherit = "npc.godwars_spiritual_armadyl_warrior"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.death_anim"="seq.godwars_armadyl_death"
 "param.defend_anim"="seq.godwars_armadyl_defend"
@@ -2401,8 +2481,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_female_armor01_blue"
 inherit = "npc.godwars_armadyl_female_armor01_blue"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2410,8 +2494,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_female_armor01_green"
 inherit = "npc.godwars_armadyl_female_armor01_green"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2419,8 +2507,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_female_armor01_red"
 inherit = "npc.godwars_armadyl_female_armor01_red"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2428,8 +2520,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_female_armor02_blue"
 inherit = "npc.godwars_armadyl_female_armor02_blue"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2437,8 +2533,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_female_armor02_green"
 inherit = "npc.godwars_armadyl_female_armor02_green"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2446,8 +2546,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_female_armor02_red"
 inherit = "npc.godwars_armadyl_female_armor02_red"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2455,8 +2559,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_female_armor03_blue"
 inherit = "npc.godwars_armadyl_female_armor03_blue"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2464,8 +2572,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_male_armor01_blue"
 inherit = "npc.godwars_armadyl_male_armor01_blue"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2473,8 +2585,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_male_armor01_green"
 inherit = "npc.godwars_armadyl_male_armor01_green"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2482,8 +2598,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_male_armor01_red"
 inherit = "npc.godwars_armadyl_male_armor01_red"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2491,8 +2611,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_male_armor02_blue"
 inherit = "npc.godwars_armadyl_male_armor02_blue"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2500,8 +2624,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_male_armor02_green"
 inherit = "npc.godwars_armadyl_male_armor02_green"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2509,8 +2637,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_male_armor02_red"
 inherit = "npc.godwars_armadyl_male_armor02_red"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2518,8 +2650,12 @@ category = 65518
 [[npc]]
 id = "npc.godwars_armadyl_male_armor03_green"
 inherit = "npc.godwars_armadyl_male_armor03_green"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65518
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=45
@@ -2536,8 +2672,13 @@ category = 65518
 [[npc]]
 id = "npc.godwars_spiritual_saradomin_mage"
 inherit = "npc.godwars_spiritual_saradomin_mage"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 category = 65519
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
@@ -2548,8 +2689,13 @@ category = 65519
 [[npc]]
 id = "npc.godwars_spiritual_saradomin_ranger"
 inherit = "npc.godwars_spiritual_saradomin_ranger"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 category = 65519
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
@@ -2560,8 +2706,12 @@ category = 65519
 [[npc]]
 id = "npc.godwars_spiritual_saradomin_warrior"
 inherit = "npc.godwars_spiritual_saradomin_warrior"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65519
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
@@ -2573,31 +2723,48 @@ category = 65519
 [[npc]]
 id = "npc.godwars_saradomin_knight_1"
 inherit = "npc.godwars_saradomin_knight_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65519
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=6
 [[npc]]
 id = "npc.godwars_saradomin_knight_2"
 inherit = "npc.godwars_saradomin_knight_2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65519
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=6
 [[npc]]
 id = "npc.godwars_ancient_saradomin_wizard"
 inherit = "npc.godwars_ancient_saradomin_wizard"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65519
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 [[npc]]
 id = "npc.godwars_spiritual_zamorak_mage"
 inherit = "npc.godwars_spiritual_zamorak_mage"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 category = 65520
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
@@ -2608,8 +2775,13 @@ category = 65520
 [[npc]]
 id = "npc.godwars_spiritual_zamorak_ranger"
 inherit = "npc.godwars_spiritual_zamorak_ranger"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 category = 65520
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
@@ -2620,8 +2792,12 @@ category = 65520
 [[npc]]
 id = "npc.godwars_spiritual_zamorak_warrior"
 inherit = "npc.godwars_spiritual_zamorak_warrior"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65520
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
@@ -2642,14 +2818,22 @@ category = 65520
 [[npc]]
 id = "npc.godwars_gorak"
 inherit = "npc.godwars_gorak"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65520
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 [[npc]]
 id = "npc.godwars_icefiend_1"
 inherit = "npc.godwars_icefiend_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65520
 [npc.params]
+"param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=6
 "param.demon"=1
@@ -2661,8 +2845,13 @@ category = 65520
 [[npc]]
 id = "npc.godwars_pyrefiend_1"
 inherit = "npc.godwars_pyrefiend_1"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 category = 65520
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_caststrike"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
@@ -2672,8 +2861,12 @@ category = 65520
 [[npc]]
 id = "npc.godwars_ancient_hellhound"
 inherit = "npc.godwars_ancient_hellhound"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65520
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.dog_update_hellhound_godwars_attack"
 "param.death_anim"="seq.dog_update_hellhound_godwars_death"
 "param.defend_anim"="seq.dog_update_wolf_defend"
@@ -2696,13 +2889,22 @@ category = 65520
 [[npc]]
 id = "npc.godwars_ancient_vampire"
 inherit = "npc.godwars_ancient_vampire"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65520
+[npc.params]
+"param.aggression_tolerant"=1
 
 [[npc]]
 id = "npc.godwars_ancient_werewolf1"
 inherit = "npc.godwars_ancient_werewolf1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65520
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.werewolf_update_attack"
 "param.death_anim"="seq.werewolf_update_death"
 "param.defend_anim"="seq.werewolf_update_defend"
@@ -2711,8 +2913,12 @@ category = 65520
 [[npc]]
 id = "npc.godwars_ancient_werewolf2"
 inherit = "npc.godwars_ancient_werewolf2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 category = 65520
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.werewolf_update_attack"
 "param.death_anim"="seq.werewolf_update_death"
 "param.defend_anim"="seq.werewolf_update_defend"
@@ -3139,7 +3345,13 @@ attackRange = 10
 [[npc]]
 id = "npc.nex_prison_mage"
 inherit = "npc.nex_prison_mage"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 [npc.params]
+"param.aggro_faction"=16
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
@@ -3150,7 +3362,13 @@ inherit = "npc.nex_prison_mage"
 [[npc]]
 id = "npc.nex_prison_ranger"
 inherit = "npc.nex_prison_ranger"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
 [npc.params]
+"param.aggro_faction"=16
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
@@ -3161,7 +3379,12 @@ inherit = "npc.nex_prison_ranger"
 [[npc]]
 id = "npc.nex_prison_warrior"
 inherit = "npc.nex_prison_warrior"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_faction"=16
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.defend_anim"="seq.dh_sword_update_defend"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -4798,56 +5021,88 @@ inherit = "npc.vmq3_ruins_frost_nagua"
 [[npc]]
 id = "npc.vyrewatch_elite_1"
 inherit = "npc.vyrewatch_elite_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.killcount_varp"="varp.kc_vyrewatch_sentinel"
 "param.killcount_notify"=false
 
 [[npc]]
 id = "npc.vyrewatch_elite_2"
 inherit = "npc.vyrewatch_elite_2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.killcount_varp"="varp.kc_vyrewatch_sentinel"
 "param.killcount_notify"=false
 
 [[npc]]
 id = "npc.vyrewatch_elite_3"
 inherit = "npc.vyrewatch_elite_3"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.killcount_varp"="varp.kc_vyrewatch_sentinel"
 "param.killcount_notify"=false
 
 [[npc]]
 id = "npc.vyrewatch_elite_4"
 inherit = "npc.vyrewatch_elite_4"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.killcount_varp"="varp.kc_vyrewatch_sentinel"
 "param.killcount_notify"=false
 
 [[npc]]
 id = "npc.vyrewatch_elite_5"
 inherit = "npc.vyrewatch_elite_5"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.killcount_varp"="varp.kc_vyrewatch_sentinel"
 "param.killcount_notify"=false
 
 [[npc]]
 id = "npc.vyrewatch_elite_6"
 inherit = "npc.vyrewatch_elite_6"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.killcount_varp"="varp.kc_vyrewatch_sentinel"
 "param.killcount_notify"=false
 
 [[npc]]
 id = "npc.vyrewatch_elite_7"
 inherit = "npc.vyrewatch_elite_7"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.killcount_varp"="varp.kc_vyrewatch_sentinel"
 "param.killcount_notify"=false
 
 [[npc]]
 id = "npc.vyrewatch_elite_8"
 inherit = "npc.vyrewatch_elite_8"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.killcount_varp"="varp.kc_vyrewatch_sentinel"
 "param.killcount_notify"=false
 
@@ -5008,7 +5263,12 @@ wanderRange = 0
 [[npc]]
 id = "npc.mm2_demon_gorilla_1_melee"
 inherit = "npc.mm2_demon_gorilla_1_melee"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.demon_attack"
 "param.defend_anim"="seq.demonic_gorilla_defend"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -5023,7 +5283,12 @@ inherit = "npc.mm2_demon_gorilla_1_melee"
 [[npc]]
 id = "npc.mm2_demon_gorilla_1_ranged"
 inherit = "npc.mm2_demon_gorilla_1_ranged"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.demon_attack"
 "param.defend_anim"="seq.demonic_gorilla_defend"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -5038,7 +5303,12 @@ inherit = "npc.mm2_demon_gorilla_1_ranged"
 [[npc]]
 id = "npc.mm2_demon_gorilla_1_magic"
 inherit = "npc.mm2_demon_gorilla_1_magic"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.demon_attack"
 "param.defend_anim"="seq.demonic_gorilla_defend"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -5053,7 +5323,12 @@ inherit = "npc.mm2_demon_gorilla_1_magic"
 [[npc]]
 id = "npc.mm2_demon_gorilla_2_melee"
 inherit = "npc.mm2_demon_gorilla_2_melee"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.demon_attack"
 "param.defend_anim"="seq.demonic_gorilla_defend"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -5068,7 +5343,12 @@ inherit = "npc.mm2_demon_gorilla_2_melee"
 [[npc]]
 id = "npc.mm2_demon_gorilla_2_ranged"
 inherit = "npc.mm2_demon_gorilla_2_ranged"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.demon_attack"
 "param.defend_anim"="seq.demonic_gorilla_defend"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -5083,7 +5363,12 @@ inherit = "npc.mm2_demon_gorilla_2_ranged"
 [[npc]]
 id = "npc.mm2_demon_gorilla_2_magic"
 inherit = "npc.mm2_demon_gorilla_2_magic"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.demon_attack"
 "param.defend_anim"="seq.demonic_gorilla_defend"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -10645,7 +10930,11 @@ inherit = "npc.chickenquest_baby_black_dragon"
 [[npc]]
 id = "npc.baby_black_dragon_strongholdcave"
 inherit = "npc.baby_black_dragon_strongholdcave"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.dragon_attack"
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=1
@@ -14015,7 +14304,13 @@ maxRange = 15
 [[npc]]
 id = "npc.mm_warehouse_spider"
 inherit = "npc.mm_warehouse_spider"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.small_spider_update_attack"
 "param.death_anim"="seq.small_spider_update_death"
 "param.defend_anim"="seq.small_spider_update_defend"
@@ -14058,7 +14353,13 @@ maxRange = 15
 [[npc]]
 id = "npc.mm_jungle_spider"
 inherit = "npc.mm_jungle_spider"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.spider_update_attack"
 "param.death_anim"="seq.spider_update_death"
 "param.defend_anim"="seq.spider_update_defend"
@@ -22550,7 +22851,12 @@ inherit = "npc.nzone_grandtree_blackdemon_hard"
 [[npc]]
 id = "npc.nex_prison_blood_reaver"
 inherit = "npc.nex_prison_blood_reaver"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_faction"=16
+"param.aggression_tolerant"=1
 "param.demon"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attack_anim"="seq.blood_reaver_attack"
@@ -23837,8 +24143,12 @@ inherit = "npc.nzone_brain_barrel_chest_normal"
 [[npc]]
 id = "npc.zamorak_mage"
 inherit = "npc.zamorak_mage"
+huntMode = 2
+huntRange = 8
+maxRange = 15
 attackRange = 10
 [npc.params]
+"param.aggro_unless_obj"="obj.zamorak_cape"
 "param.attack_anim"="seq.bat_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
@@ -23848,8 +24158,12 @@ attackRange = 10
 [[npc]]
 id = "npc.saradomin_mage"
 inherit = "npc.saradomin_mage"
+huntMode = 2
+huntRange = 8
+maxRange = 15
 attackRange = 10
 [npc.params]
+"param.aggro_unless_obj"="obj.saradomin_cape"
 "param.attack_anim"="seq.bat_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
@@ -23859,8 +24173,12 @@ attackRange = 10
 [[npc]]
 id = "npc.guthix_mage"
 inherit = "npc.guthix_mage"
+huntMode = 2
+huntRange = 8
+maxRange = 15
 attackRange = 10
 [npc.params]
+"param.aggro_unless_obj"="obj.guthix_cape"
 "param.attack_anim"="seq.bat_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
@@ -27065,70 +27383,120 @@ inherit = "npc.dttd_ham_guard_5_postquest"
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_guard_1"
 inherit = "npc.tourtrap_qip_desert_mining_guard_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_guard_2"
 inherit = "npc.tourtrap_qip_desert_mining_guard_2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_guard_3"
 inherit = "npc.tourtrap_qip_desert_mining_guard_3"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_guard_4"
 inherit = "npc.tourtrap_qip_desert_mining_guard_4"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_guard_5"
 inherit = "npc.tourtrap_qip_desert_mining_guard_5"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_guard_6"
 inherit = "npc.tourtrap_qip_desert_mining_guard_6"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_guard_still_1"
 inherit = "npc.tourtrap_qip_desert_mining_guard_still_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_guard_still_2"
 inherit = "npc.tourtrap_qip_desert_mining_guard_still_2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_guard_still_3"
 inherit = "npc.tourtrap_qip_desert_mining_guard_still_3"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_rowdy_desert_mining_guard_1"
 inherit = "npc.tourtrap_qip_rowdy_desert_mining_guard_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_armed"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
@@ -27860,7 +28228,11 @@ maxRange = 15
 [[npc]]
 id = "npc.guarddog"
 inherit = "npc.guarddog"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.dog_update_small_dog_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 
@@ -28133,7 +28505,11 @@ inherit = "npc.poh_giantspider"
 [[npc]]
 id = "npc.fris_trollf"
 inherit = "npc.fris_trollf"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.troll_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 
@@ -29074,28 +29450,48 @@ inherit = "npc.feud_egyptian_doorman_2"
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_merc_1"
 inherit = "npc.tourtrap_qip_desert_mining_merc_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_weapon"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_merc_2"
 inherit = "npc.tourtrap_qip_desert_mining_merc_2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_weapon"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_merc_3"
 inherit = "npc.tourtrap_qip_desert_mining_merc_3"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_weapon"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.tourtrap_qip_desert_mining_merc_4"
 inherit = "npc.tourtrap_qip_desert_mining_merc_4"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_if_weapon"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
@@ -29200,7 +29596,14 @@ inherit = "npc.monkey"
 [[npc]]
 id = "npc.mm_monkey_archer"
 inherit = "npc.mm_monkey_archer"
+huntMode = 8
+huntRange = 8
+maxRange = 15
+attackRange = 10
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.m_monkey_death"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -29208,7 +29611,14 @@ inherit = "npc.mm_monkey_archer"
 [[npc]]
 id = "npc.mm_ravine_archer"
 inherit = "npc.mm_ravine_archer"
+huntMode = 8
+huntRange = 8
+maxRange = 15
+attackRange = 10
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.m_monkey_death"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -29216,7 +29626,14 @@ inherit = "npc.mm_ravine_archer"
 [[npc]]
 id = "npc.mm_posted_archer"
 inherit = "npc.mm_posted_archer"
+huntMode = 8
+huntRange = 8
+maxRange = 15
+attackRange = 10
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.m_monkey_death"
 "param.npc_attack_type"="category.attacktype_crush"
@@ -29232,7 +29649,13 @@ inherit = "npc.mm_monkey_guard"
 [[npc]]
 id = "npc.mm_religious_guard"
 inherit = "npc.mm_religious_guard"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.m_gorilla_guard_attack"
 "param.death_anim"="seq.m_gorilla_death"
 "param.defend_anim"="seq.m_gorilla_block"
@@ -29241,7 +29664,13 @@ inherit = "npc.mm_religious_guard"
 [[npc]]
 id = "npc.mm_religious_trapdoor_guard"
 inherit = "npc.mm_religious_trapdoor_guard"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.m_gorilla_guard_attack"
 "param.death_anim"="seq.m_gorilla_death"
 "param.defend_anim"="seq.m_gorilla_block"
@@ -31282,7 +31711,13 @@ inherit = "npc.feud_desert_snake"
 [[npc]]
 id = "npc.mm_jungle_snake"
 inherit = "npc.mm_jungle_snake"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.snake_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 
@@ -32224,7 +32659,13 @@ inherit = "npc.mm2_tortured_gorilla_stronghold"
 [[npc]]
 id = "npc.mm2_tortured_gorilla_1"
 inherit = "npc.mm2_tortured_gorilla_1"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.demonic_gorilla_death"
 "param.defend_anim"="seq.demonic_gorilla_defend"
@@ -32234,7 +32675,13 @@ inherit = "npc.mm2_tortured_gorilla_1"
 [[npc]]
 id = "npc.mm2_tortured_gorilla_2"
 inherit = "npc.mm2_tortured_gorilla_2"
+huntMode = 6
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.demonic_gorilla_death"
 "param.defend_anim"="seq.demonic_gorilla_defend"
@@ -32973,112 +33420,176 @@ inherit = "npc.myq4_vyrewatch_4"
 [[npc]]
 id = "npc.slepe_vyrewatch_female_1"
 inherit = "npc.slepe_vyrewatch_female_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.slepe_vyrewatch_female_2"
 inherit = "npc.slepe_vyrewatch_female_2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.slepe_vyrewatch_female_3"
 inherit = "npc.slepe_vyrewatch_female_3"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.slepe_vyrewatch_female_4"
 inherit = "npc.slepe_vyrewatch_female_4"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.slepe_vyrewatch_male_1"
 inherit = "npc.slepe_vyrewatch_male_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.slepe_vyrewatch_male_2"
 inherit = "npc.slepe_vyrewatch_male_2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.slepe_vyrewatch_male_3"
 inherit = "npc.slepe_vyrewatch_male_3"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.slepe_vyrewatch_male_4"
 inherit = "npc.slepe_vyrewatch_male_4"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.darkm_vyrewatch_female_1"
 inherit = "npc.darkm_vyrewatch_female_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.darkm_vyrewatch_female_2"
 inherit = "npc.darkm_vyrewatch_female_2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.darkm_vyrewatch_female_3"
 inherit = "npc.darkm_vyrewatch_female_3"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.darkm_vyrewatch_female_4"
 inherit = "npc.darkm_vyrewatch_female_4"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.darkm_vyrewatch_male_1"
 inherit = "npc.darkm_vyrewatch_male_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.darkm_vyrewatch_male_2"
 inherit = "npc.darkm_vyrewatch_male_2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.darkm_vyrewatch_male_3"
 inherit = "npc.darkm_vyrewatch_male_3"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
 [[npc]]
 id = "npc.darkm_vyrewatch_male_4"
 inherit = "npc.darkm_vyrewatch_male_4"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggro_unless_vyre_gear"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=2
 
@@ -34393,3 +34904,47 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
+
+[[npc]]
+id = "npc.mm2_monkey_archer"
+inherit = "npc.mm2_monkey_archer"
+huntMode = 8
+huntRange = 8
+maxRange = 15
+attackRange = 10
+[npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_greegree"=1
+"param.aggro_unless_quest"="monkey_madness_ii"
+
+
+[[npc]]
+id = "npc.fourdiamonds_sword_bandit_1"
+inherit = "npc.fourdiamonds_sword_bandit_1"
+huntMode = 1
+huntRange = 5
+maxRange = 15
+[npc.params]
+"param.aggro_if_goditem"=3
+
+
+[[npc]]
+id = "npc.fourdiamonds_sword_bandit_free"
+inherit = "npc.fourdiamonds_sword_bandit_free"
+huntMode = 1
+huntRange = 5
+maxRange = 15
+[npc.params]
+"param.aggro_if_goditem"=3
+
+
+[[npc]]
+id = "npc.mourner_hideout_guard"
+inherit = "npc.mourner_hideout_guard"
+huntMode = 1
+huntRange = 5
+maxRange = 15
+[npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_mourner_gear"=1
+

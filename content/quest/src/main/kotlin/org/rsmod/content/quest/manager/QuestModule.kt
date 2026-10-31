@@ -2,6 +2,7 @@ package org.rsmod.content.quest.manager
 
 import org.rsmod.api.combat.commons.magic.SpellQuestRequirement
 import org.rsmod.api.death.NpcDeathKillHook
+import org.rsmod.api.npc.aggression.AggressionGate
 import org.rsmod.api.player.hook.SpadeDigHook
 import org.rsmod.content.generic.locs.bookcases.BookcaseSearchHook
 import org.rsmod.content.quest.area.baxtorianfalls.waterfall.TouristCentreBookcases
@@ -26,6 +27,7 @@ public class QuestModule : PluginModule() {
         bindInstance<IdesOfMilkQuest>()
         bindInstance<KnightsSwordQuest>()
         addSetBinding<SpellQuestRequirement>(PolicySpellQuestRequirement::class.java)
+        addSetBinding<AggressionGate>(QuestAggressionGate::class.java)
         addSetBinding<BookcaseSearchHook>(TouristCentreBookcases::class.java)
         addSetBinding<SpadeDigHook>(XMarksTheSpotQuest::class.java)
         addSetBinding<NpcDeathKillHook>(WitchsPotionRatTail::class.java)

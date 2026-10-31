@@ -19,6 +19,7 @@ dependencies {
     implementation(projects.api.route)
     implementation(projects.engine.annotations)
     implementation(projects.engine.coroutine)
+    implementation(projects.engine.plugin)
     implementation(projects.engine.events)
     implementation(projects.engine.game)
     implementation(projects.engine.map)

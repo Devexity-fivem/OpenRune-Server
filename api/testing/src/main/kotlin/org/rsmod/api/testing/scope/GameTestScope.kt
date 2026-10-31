@@ -44,6 +44,7 @@ import org.rsmod.api.net.rsprot.handlers.MoveGameClickHandler
 import org.rsmod.api.net.rsprot.handlers.OpLocHandler
 import org.rsmod.api.net.rsprot.handlers.OpNpcHandler
 import org.rsmod.api.net.rsprot.handlers.ResumePCountDialogHandler
+import org.rsmod.api.npc.aggression.AggressionGate
 import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.hit.NpcDamageContributor
 import org.rsmod.api.npc.hit.NpcHitpointsFloorHook
@@ -921,6 +922,7 @@ constructor(
             bind(InstantPlayerHitProcessor::class.java).to(DamageOnlyPlayerHitProcessor::class.java)
 
             Multibinder.newSetBinder(binder(), CharacterDataStage.Pipeline::class.java)
+            Multibinder.newSetBinder(binder(), AggressionGate::class.java)
         }
 
         private fun installModules() {

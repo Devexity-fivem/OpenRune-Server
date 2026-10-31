@@ -7,6 +7,7 @@ import dev.openrune.types.hunt.HuntType
 import jakarta.inject.Inject
 import org.rsmod.api.config.constants
 import org.rsmod.api.hunt.Hunt
+import org.rsmod.api.npc.aggression.AggressionGate
 import org.rsmod.api.npc.aggression.AggressionTolerance
 import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.random.CoreRandom
@@ -24,6 +25,7 @@ constructor(
     private val mapClock: MapClock,
     private val hunt: Hunt,
     private val tolerance: AggressionTolerance,
+    private val gates: Set<AggressionGate>,
 ) {
     public fun process(npc: Npc) {
         if (!npc.isValidTarget() || npc.isDelayed) {
@@ -169,6 +171,10 @@ constructor(
                 if (!checkInvParam.evaluate(count)) {
                     continue
                 }
+            }
+
+            if (gates.any { !it.permitsAggression(this, player) }) {
+                continue
             }
 
             count++

@@ -2285,6 +2285,7 @@ inherit = "obj.wild_cave_accursed_charged_recol"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.charged_variant"="obj.wild_cave_accursed_charged_recol"
 "param.uncharged_variant"="obj.wild_cave_accursed_uncharged_recol"
 "param.additional_spell_autocast1"=3310
@@ -2310,6 +2311,7 @@ id = "obj.sotd"
 inherit = "obj.sotd"
 weaponCategory="BladedStaff"
 [item.params]
+"param.godwars_faction"=2
 "param.additional_spell_autocast3"=3310
 "param.additional_spell_autocast1"=3293
 "param.additional_spell_autocast2"=4176
@@ -2336,6 +2338,7 @@ inherit = "obj.toxic_sotd_charged"
 weaponCategory="BladedStaff"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.additional_spell_autocast3"=3310
 "param.additional_spell_autocast1"=3293
 "param.additional_spell_autocast2"=4176
@@ -2361,6 +2364,7 @@ id = "obj.staff_of_light"
 inherit = "obj.staff_of_light"
 weaponCategory="BladedStaff"
 [item.params]
+"param.godwars_faction"=3
 "param.additional_spell_autocast3"=3311
 "param.additional_spell_autocast1"=3293
 "param.additional_spell_autocast2"=4176
@@ -2386,6 +2390,7 @@ id = "obj.staff_of_balance"
 inherit = "obj.staff_of_balance"
 weaponCategory="BladedStaff"
 [item.params]
+"param.godwars_faction"=2
 "param.additional_spell_autocast3"=3309
 "param.additional_spell_autocast1"=3293
 "param.additional_spell_autocast2"=4176
@@ -7603,6 +7608,7 @@ inherit = "obj.saradomin_staff"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2247
 "param.attack_anim_stance1"="seq.human_blunt_pound"
 "param.attack_sound_stance1"=2555
@@ -7637,6 +7643,7 @@ inherit = "obj.zamorak_staff"
 weaponCategory="Staff"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2247
 "param.attack_anim_stance1"="seq.human_blunt_pound"
 "param.attack_sound_stance1"=2555
@@ -9021,6 +9028,7 @@ id = "obj.staff_of_zaros"
 inherit = "obj.staff_of_zaros"
 weaponCategory="Staff"
 [item.params]
+"param.godwars_faction"=16
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -11700,6 +11708,7 @@ id = "obj.makinghistory_saradomin_polestaff"
 inherit = "obj.makinghistory_saradomin_polestaff"
 weaponCategory="Polestaff"
 [item.params]
+"param.godwars_faction"=1
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -11723,6 +11732,7 @@ id = "obj.makinghistory_zamorak_polestaff"
 inherit = "obj.makinghistory_zamorak_polestaff"
 weaponCategory="Polestaff"
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -13724,6 +13734,7 @@ id = "obj.trail_saradomin_staff"
 inherit = "obj.trail_saradomin_staff"
 weaponCategory="Staff"
 [item.params]
+"param.godwars_faction"=1
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -13768,6 +13779,7 @@ id = "obj.trail_zamorak_staff"
 inherit = "obj.trail_zamorak_staff"
 weaponCategory="Staff"
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -13954,6 +13966,7 @@ id = "obj.ancient_goblin_mace"
 inherit = "obj.ancient_goblin_mace"
 weaponCategory="Spiked"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2246
 "param.attack_anim_stance1"="seq.human_blunt_pound"
 "param.attack_sound_stance1"=2508
@@ -15241,6 +15254,7 @@ id = "obj.acb"
 inherit = "obj.acb"
 weaponCategory="Crossbow"
 [item.params]
+"param.godwars_faction"=8
 "param.proj_type"="projanim.bolt"
 "param.bas_running"="seq.xbows_human_run"
 "param.equipment_sound"=2244
@@ -15309,6 +15323,7 @@ id = "obj.ags"
 inherit = "obj.ags"
 weaponCategory="TwoHandedSword"
 [item.params]
+"param.godwars_faction"=8
 "param.bas_walk_l"="seq.dh_sword_update_walk_left"
 "param.bas_walk_r"="seq.dh_sword_update_walk_right"
 "param.bas_running"="seq.dh_sword_update_run"
@@ -15334,6 +15349,7 @@ id = "obj.bgs"
 inherit = "obj.bgs"
 weaponCategory="TwoHandedSword"
 [item.params]
+"param.godwars_faction"=4
 "param.bas_walk_l"="seq.dh_sword_update_walk_left"
 "param.bas_walk_r"="seq.dh_sword_update_walk_right"
 "param.bas_running"="seq.dh_sword_update_run"
@@ -15359,6 +15375,7 @@ id = "obj.sgs"
 inherit = "obj.sgs"
 weaponCategory="TwoHandedSword"
 [item.params]
+"param.godwars_faction"=1
 "param.bas_walk_l"="seq.dh_sword_update_walk_left"
 "param.bas_walk_r"="seq.dh_sword_update_walk_right"
 "param.bas_running"="seq.dh_sword_update_run"
@@ -15384,6 +15401,7 @@ id = "obj.zgs"
 inherit = "obj.zgs"
 weaponCategory="TwoHandedSword"
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.dh_sword_update_walk_left"
 "param.bas_walk_r"="seq.dh_sword_update_walk_right"
 "param.bas_running"="seq.dh_sword_update_run"
@@ -15409,6 +15427,7 @@ id = "obj.zamorak_spear"
 inherit = "obj.zamorak_spear"
 weaponCategory="Spear"
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.human_zamorakspear_walkleft"
 "param.bas_walk_r"="seq.human_zamorakspear_walkright"
 "param.bas_running"="seq.human_zamorakspear_run"
@@ -15433,6 +15452,7 @@ id = "obj.saradomin_sword"
 inherit = "obj.saradomin_sword"
 weaponCategory="TwoHandedSword"
 [item.params]
+"param.godwars_faction"=1
 "param.bas_walk_l"="seq.dh_sword_update_walk_left"
 "param.bas_walk_r"="seq.dh_sword_update_walk_right"
 "param.bas_running"="seq.dh_sword_update_run"
@@ -15457,6 +15477,7 @@ id = "obj.zamorak_hasta"
 inherit = "obj.zamorak_hasta"
 weaponCategory="Spear"
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -15703,6 +15724,7 @@ id = "obj.trail_ancient_staff"
 inherit = "obj.trail_ancient_staff"
 weaponCategory="Staff"
 [item.params]
+"param.godwars_faction"=16
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -15725,6 +15747,7 @@ id = "obj.trail_armadyl_staff"
 inherit = "obj.trail_armadyl_staff"
 weaponCategory="Staff"
 [item.params]
+"param.godwars_faction"=8
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -15747,6 +15770,7 @@ id = "obj.trail_bandos_staff"
 inherit = "obj.trail_bandos_staff"
 weaponCategory="Staff"
 [item.params]
+"param.godwars_faction"=4
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -16219,6 +16243,7 @@ inherit = "obj.blessed_saradomin_sword_degraded"
 weaponCategory="TwoHandedSword"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.bas_walk_l"="seq.dh_sword_update_walk_left"
 "param.bas_walk_r"="seq.dh_sword_update_walk_right"
 "param.bas_running"="seq.dh_sword_update_run"
@@ -16314,6 +16339,7 @@ id = "obj.toxic_sotd"
 inherit = "obj.toxic_sotd"
 weaponCategory="BladedStaff"
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_halberdrunning"
@@ -18955,6 +18981,7 @@ id = "obj.wild_cave_chainmace_uncharged"
 inherit = "obj.wild_cave_chainmace_uncharged"
 weaponCategory="Spiked"
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.wild_cave_chainmace_walk"
 "param.bas_walk_r"="seq.wild_cave_chainmace_walk"
 "param.bas_running"="seq.wild_cave_chainmace_run"
@@ -18998,6 +19025,7 @@ id = "obj.wild_cave_bow_uncharged"
 inherit = "obj.wild_cave_bow_uncharged"
 weaponCategory="Bow"
 [item.params]
+"param.godwars_faction"=8
 "param.proj_type"="projanim.arrow"
 "param.statreq1_skill"="stat.ranged"
 "param.equipment_sound"=2244
@@ -19037,6 +19065,7 @@ id = "obj.wild_cave_sceptre_uncharged"
 inherit = "obj.wild_cave_sceptre_uncharged"
 weaponCategory="PoweredStaff"
 [item.params]
+"param.godwars_faction"=2
 "param.charged_variant"="obj.wild_cave_sceptre_charged"
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
@@ -19479,6 +19508,7 @@ id = "obj.dragonhunter_lance"
 inherit = "obj.dragonhunter_lance"
 weaponCategory="Spear"
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
 "param.bas_running"="seq.human_dh_weapon_run"
@@ -19603,6 +19633,7 @@ inherit = "obj.rune_scimitar_saradomin"
 weaponCategory="SlashSword"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2248
 "param.attack_anim_stance1"="seq.human_sword_slash"
 "param.attack_sound_stance1"=2500
@@ -19620,6 +19651,7 @@ inherit = "obj.rune_scimitar_zamorak"
 weaponCategory="SlashSword"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2248
 "param.attack_anim_stance1"="seq.human_sword_slash"
 "param.attack_sound_stance1"=2500
@@ -21010,6 +21042,7 @@ id = "obj.inquisitors_mace"
 inherit = "obj.inquisitors_mace"
 weaponCategory="Spiked"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2246
 "param.attack_anim_stance1"="seq.human_inquisitors_mace_crush"
 "param.attack_sound_stance1"=2508
@@ -21863,6 +21896,7 @@ inherit = "obj.sanguinesti_staff_or"
 weaponCategory="PoweredStaff"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.charged_variant"="obj.sanguinesti_staff_or"
 "param.uncharged_variant"="obj.sanguinesti_staff_uncharged_or"
 "param.bas_walk_l"="seq.human_halberdwalk_l"
@@ -21889,6 +21923,7 @@ inherit = "obj.sanguinesti_staff_uncharged_or"
 weaponCategory="PoweredStaff"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.charged_variant"="obj.sanguinesti_staff_or"
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
@@ -21914,6 +21949,7 @@ inherit = "obj.ghrazi_rapier_or"
 weaponCategory="StabSword"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2248
 "param.attack_anim_stance1"="seq.ghrazi_rapier_attack"
 "param.attack_sound_stance1"=2549
@@ -21933,6 +21969,7 @@ inherit = "obj.scythe_of_vitur_or"
 weaponCategory="Scythe"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2247
 "param.attack_anim_stance1"="seq.scythe_of_vitur_attack"
 "param.attack_sound_stance1"=2524
@@ -21953,6 +21990,7 @@ inherit = "obj.scythe_of_vitur_uncharged_or"
 weaponCategory="Scythe"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2247
 "param.attack_anim_stance1"="seq.scythe_of_vitur_attack"
 "param.attack_sound_stance1"=2524
@@ -22423,6 +22461,7 @@ id = "obj.ancient_godsword"
 inherit = "obj.ancient_godsword"
 weaponCategory="TwoHandedSword"
 [item.params]
+"param.godwars_faction"=16
 "param.bas_walk_l"="seq.dh_sword_update_walk_left"
 "param.bas_walk_r"="seq.dh_sword_update_walk_right"
 "param.bas_running"="seq.dh_sword_update_run"
@@ -22464,6 +22503,7 @@ id = "obj.zaryte_xbow"
 inherit = "obj.zaryte_xbow"
 weaponCategory="Crossbow"
 [item.params]
+"param.godwars_faction"=16
 "param.proj_type"="projanim.bolt"
 "param.bas_running"="seq.xbows_human_run"
 "param.equipment_sound"=2244
@@ -22946,6 +22986,7 @@ inherit = "obj.venator_bow"
 weaponCategory="Bow"
 tradeable = false
 [item.params]
+"param.godwars_faction"=16
 "param.uncharged_variant"=27612
 "param.bas_walk_l"="seq.human_weapon_bow_venator01_stepleft"
 "param.proj_type"="projanim.arrow"
@@ -22974,6 +23015,7 @@ id = "obj.venator_bow_uncharged"
 inherit = "obj.venator_bow_uncharged"
 weaponCategory="Bow"
 [item.params]
+"param.godwars_faction"=16
 "param.charged_variant"=27610
 "param.bas_walk_l"="seq.human_weapon_bow_venator01_stepleft"
 "param.proj_type"="projanim.arrow"
@@ -23002,6 +23044,7 @@ id = "obj.wild_cave_webweaver_uncharged"
 inherit = "obj.wild_cave_webweaver_uncharged"
 weaponCategory="Bow"
 [item.params]
+"param.godwars_faction"=8
 "param.proj_type"="projanim.arrow"
 "param.statreq1_skill"="stat.ranged"
 "param.equipment_sound"=2244
@@ -23022,6 +23065,7 @@ inherit = "obj.wild_cave_webweaver_charged"
 weaponCategory="Bow"
 tradeable = false
 [item.params]
+"param.godwars_faction"=8
 "param.proj_type"="projanim.arrow"
 "param.statreq1_skill"="stat.ranged"
 "param.equipment_sound"=2244
@@ -23041,6 +23085,7 @@ id = "obj.wild_cave_ursine_uncharged"
 inherit = "obj.wild_cave_ursine_uncharged"
 weaponCategory="Spiked"
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.wild_cave_chainmace_walk"
 "param.bas_walk_r"="seq.wild_cave_chainmace_walk"
 "param.bas_running"="seq.wild_cave_chainmace_run"
@@ -23063,6 +23108,7 @@ inherit = "obj.wild_cave_ursine_charged"
 weaponCategory="Spiked"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.bas_walk_l"="seq.wild_cave_chainmace_walk"
 "param.bas_walk_r"="seq.wild_cave_chainmace_walk"
 "param.bas_running"="seq.wild_cave_chainmace_run"
@@ -23084,6 +23130,7 @@ id = "obj.wild_cave_accursed_uncharged"
 inherit = "obj.wild_cave_accursed_uncharged"
 weaponCategory="PoweredStaff"
 [item.params]
+"param.godwars_faction"=2
 "param.charged_variant"="obj.wild_cave_accursed_charged"
 "param.bas_walk_l"="seq.human_halberdwalk_l"
 "param.bas_walk_r"="seq.human_halberdwalk_r"
@@ -23108,6 +23155,7 @@ inherit = "obj.wild_cave_accursed_charged"
 weaponCategory="PoweredStaff"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.charged_variant"="obj.wild_cave_accursed_charged"
 "param.uncharged_variant"="obj.wild_cave_accursed_uncharged"
 "param.bas_walk_l"="seq.human_halberdwalk_l"
@@ -24994,6 +25042,7 @@ inherit = "obj.rune_kiteshield_trim"
 id = "obj.rune_platebody_zamorak"
 inherit = "obj.rune_platebody_zamorak"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2234
 "param.metallic_interference"=true
 
@@ -25002,6 +25051,7 @@ inherit = "obj.rune_platebody_zamorak"
 id = "obj.rune_platelegs_zamorak"
 inherit = "obj.rune_platelegs_zamorak"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2242
 
 
@@ -25009,6 +25059,7 @@ inherit = "obj.rune_platelegs_zamorak"
 id = "obj.rune_full_helm_zamorak"
 inherit = "obj.rune_full_helm_zamorak"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2240
 
 
@@ -25016,6 +25067,7 @@ inherit = "obj.rune_full_helm_zamorak"
 id = "obj.rune_kiteshield_zamorak"
 inherit = "obj.rune_kiteshield_zamorak"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2245
 
 
@@ -25023,6 +25075,7 @@ inherit = "obj.rune_kiteshield_zamorak"
 id = "obj.rune_platebody_saradomin"
 inherit = "obj.rune_platebody_saradomin"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2234
 "param.metallic_interference"=true
 
@@ -25031,6 +25084,7 @@ inherit = "obj.rune_platebody_saradomin"
 id = "obj.rune_platelegs_saradomin"
 inherit = "obj.rune_platelegs_saradomin"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2242
 
 
@@ -25038,6 +25092,7 @@ inherit = "obj.rune_platelegs_saradomin"
 id = "obj.rune_full_helm_saradomin"
 inherit = "obj.rune_full_helm_saradomin"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2240
 
 
@@ -25045,6 +25100,7 @@ inherit = "obj.rune_full_helm_saradomin"
 id = "obj.rune_kiteshield_saradomin"
 inherit = "obj.rune_kiteshield_saradomin"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2245
 
 
@@ -25287,6 +25343,7 @@ inherit = "obj.rune_plateskirt_trim"
 id = "obj.rune_plateskirt_zamorak"
 inherit = "obj.rune_plateskirt_zamorak"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2242
 
 
@@ -25294,6 +25351,7 @@ inherit = "obj.rune_plateskirt_zamorak"
 id = "obj.rune_plateskirt_saradomin"
 inherit = "obj.rune_plateskirt_saradomin"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2242
 
 
@@ -26753,6 +26811,7 @@ id = "obj.mourning_mourner_gloves"
 inherit = "obj.mourning_mourner_gloves"
 tradeable = false
 [item.params]
+"param.mourner_gear"=1
 "param.equipment_sound"=2236
 
 
@@ -26761,6 +26820,7 @@ id = "obj.mourning_mourner_boots"
 inherit = "obj.mourning_mourner_boots"
 tradeable = false
 [item.params]
+"param.mourner_gear"=1
 "param.equipment_sound"=2237
 
 
@@ -27752,6 +27812,7 @@ id = "obj.poh_helmet_saradomin_rune"
 inherit = "obj.poh_helmet_saradomin_rune"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2240
 
 
@@ -27776,6 +27837,7 @@ id = "obj.poh_helmet_zamorak_rune"
 inherit = "obj.poh_helmet_zamorak_rune"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2240
 
 
@@ -28008,6 +28070,7 @@ id = "obj.poh_shield_saradomin_rune"
 inherit = "obj.poh_shield_saradomin_rune"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2245
 
 
@@ -28032,6 +28095,7 @@ id = "obj.poh_shield_zamorak_rune"
 inherit = "obj.poh_shield_zamorak_rune"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2245
 
 
@@ -28956,6 +29020,7 @@ inherit = "obj.trail_fighter_shield"
 id = "obj.trail_zamorak_chest"
 inherit = "obj.trail_zamorak_chest"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2241
 
 
@@ -28963,6 +29028,7 @@ inherit = "obj.trail_zamorak_chest"
 id = "obj.trail_zamorak_chaps"
 inherit = "obj.trail_zamorak_chaps"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2241
 
 
@@ -28970,6 +29036,7 @@ inherit = "obj.trail_zamorak_chaps"
 id = "obj.trail_zamorak_coif"
 inherit = "obj.trail_zamorak_coif"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2241
 
 
@@ -28998,6 +29065,7 @@ inherit = "obj.trail_guthix_coif"
 id = "obj.trail_saradomin_chest"
 inherit = "obj.trail_saradomin_chest"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2241
 
 
@@ -29005,6 +29073,7 @@ inherit = "obj.trail_saradomin_chest"
 id = "obj.trail_saradomin_chaps"
 inherit = "obj.trail_saradomin_chaps"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2241
 
 
@@ -29012,6 +29081,7 @@ inherit = "obj.trail_saradomin_chaps"
 id = "obj.trail_saradomin_coif"
 inherit = "obj.trail_saradomin_coif"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2241
 
 
@@ -29440,6 +29510,7 @@ inherit = "obj.nzone_crystal_shield_100"
 id = "obj.armadyl_helmet"
 inherit = "obj.armadyl_helmet"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2240
 
 
@@ -29447,6 +29518,7 @@ inherit = "obj.armadyl_helmet"
 id = "obj.armadyl_chestplate"
 inherit = "obj.armadyl_chestplate"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2234
 
 
@@ -29454,6 +29526,7 @@ inherit = "obj.armadyl_chestplate"
 id = "obj.armadyl_skirt"
 inherit = "obj.armadyl_skirt"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2242
 
 
@@ -29461,6 +29534,7 @@ inherit = "obj.armadyl_skirt"
 id = "obj.bandos_chestplate"
 inherit = "obj.bandos_chestplate"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2234
 
 
@@ -29468,6 +29542,7 @@ inherit = "obj.bandos_chestplate"
 id = "obj.bandos_skirt"
 inherit = "obj.bandos_skirt"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2242
 
 
@@ -29475,6 +29550,7 @@ inherit = "obj.bandos_skirt"
 id = "obj.bandos_boots"
 inherit = "obj.bandos_boots"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2237
 
 
@@ -29947,6 +30023,7 @@ weaponCategory="TwoHandedSword"
 id = "obj.rune_platebody_ancient"
 inherit = "obj.rune_platebody_ancient"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2234
 
 
@@ -29954,6 +30031,7 @@ inherit = "obj.rune_platebody_ancient"
 id = "obj.rune_platelegs_ancient"
 inherit = "obj.rune_platelegs_ancient"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2242
 
 
@@ -29961,6 +30039,7 @@ inherit = "obj.rune_platelegs_ancient"
 id = "obj.rune_plateskirt_ancient"
 inherit = "obj.rune_plateskirt_ancient"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2242
 
 
@@ -29968,6 +30047,7 @@ inherit = "obj.rune_plateskirt_ancient"
 id = "obj.rune_full_helm_ancient"
 inherit = "obj.rune_full_helm_ancient"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2240
 
 
@@ -29975,6 +30055,7 @@ inherit = "obj.rune_full_helm_ancient"
 id = "obj.rune_kiteshield_ancient"
 inherit = "obj.rune_kiteshield_ancient"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2245
 
 
@@ -29982,6 +30063,7 @@ inherit = "obj.rune_kiteshield_ancient"
 id = "obj.rune_platebody_armadyl"
 inherit = "obj.rune_platebody_armadyl"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2234
 
 
@@ -29989,6 +30071,7 @@ inherit = "obj.rune_platebody_armadyl"
 id = "obj.rune_platelegs_armadyl"
 inherit = "obj.rune_platelegs_armadyl"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2242
 
 
@@ -29996,6 +30079,7 @@ inherit = "obj.rune_platelegs_armadyl"
 id = "obj.rune_plateskirt_armadyl"
 inherit = "obj.rune_plateskirt_armadyl"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2242
 
 
@@ -30003,6 +30087,7 @@ inherit = "obj.rune_plateskirt_armadyl"
 id = "obj.rune_full_helm_armadyl"
 inherit = "obj.rune_full_helm_armadyl"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2240
 
 
@@ -30010,6 +30095,7 @@ inherit = "obj.rune_full_helm_armadyl"
 id = "obj.rune_kiteshield_armadyl"
 inherit = "obj.rune_kiteshield_armadyl"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2245
 
 
@@ -30017,6 +30103,7 @@ inherit = "obj.rune_kiteshield_armadyl"
 id = "obj.rune_platebody_bandos"
 inherit = "obj.rune_platebody_bandos"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2234
 
 
@@ -30024,6 +30111,7 @@ inherit = "obj.rune_platebody_bandos"
 id = "obj.rune_platelegs_bandos"
 inherit = "obj.rune_platelegs_bandos"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2242
 
 
@@ -30031,6 +30119,7 @@ inherit = "obj.rune_platelegs_bandos"
 id = "obj.rune_plateskirt_bandos"
 inherit = "obj.rune_plateskirt_bandos"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2242
 
 
@@ -30038,6 +30127,7 @@ inherit = "obj.rune_plateskirt_bandos"
 id = "obj.rune_full_helm_bandos"
 inherit = "obj.rune_full_helm_bandos"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2240
 
 
@@ -30045,6 +30135,7 @@ inherit = "obj.rune_full_helm_bandos"
 id = "obj.rune_kiteshield_bandos"
 inherit = "obj.rune_kiteshield_bandos"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2245
 
 
@@ -30052,6 +30143,7 @@ inherit = "obj.rune_kiteshield_bandos"
 id = "obj.trail_ancient_chest"
 inherit = "obj.trail_ancient_chest"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2241
 
 
@@ -30059,6 +30151,7 @@ inherit = "obj.trail_ancient_chest"
 id = "obj.trail_ancient_chaps"
 inherit = "obj.trail_ancient_chaps"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2241
 
 
@@ -30066,6 +30159,7 @@ inherit = "obj.trail_ancient_chaps"
 id = "obj.trail_ancient_coif"
 inherit = "obj.trail_ancient_coif"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2241
 
 
@@ -30073,6 +30167,7 @@ inherit = "obj.trail_ancient_coif"
 id = "obj.trail_bandos_chest"
 inherit = "obj.trail_bandos_chest"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2241
 
 
@@ -30080,6 +30175,7 @@ inherit = "obj.trail_bandos_chest"
 id = "obj.trail_bandos_chaps"
 inherit = "obj.trail_bandos_chaps"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2241
 
 
@@ -30087,6 +30183,7 @@ inherit = "obj.trail_bandos_chaps"
 id = "obj.trail_bandos_coif"
 inherit = "obj.trail_bandos_coif"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2241
 
 
@@ -30094,6 +30191,7 @@ inherit = "obj.trail_bandos_coif"
 id = "obj.trail_armadyl_chest"
 inherit = "obj.trail_armadyl_chest"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2241
 
 
@@ -30101,6 +30199,7 @@ inherit = "obj.trail_armadyl_chest"
 id = "obj.trail_armadyl_chaps"
 inherit = "obj.trail_armadyl_chaps"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2241
 
 
@@ -30108,6 +30207,7 @@ inherit = "obj.trail_armadyl_chaps"
 id = "obj.trail_armadyl_coif"
 inherit = "obj.trail_armadyl_coif"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2241
 
 
@@ -30913,6 +31013,7 @@ tradeable = false
 id = "obj.blessed_boots_ancient"
 inherit = "obj.blessed_boots_ancient"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2241
 
 
@@ -30920,6 +31021,7 @@ inherit = "obj.blessed_boots_ancient"
 id = "obj.blessed_boots_bandos"
 inherit = "obj.blessed_boots_bandos"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2241
 
 
@@ -30934,6 +31036,7 @@ inherit = "obj.blessed_boots_guthix"
 id = "obj.blessed_boots_armadyl"
 inherit = "obj.blessed_boots_armadyl"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2241
 
 
@@ -30941,6 +31044,7 @@ inherit = "obj.blessed_boots_armadyl"
 id = "obj.blessed_boots_saradomin"
 inherit = "obj.blessed_boots_saradomin"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2241
 
 
@@ -30948,6 +31052,7 @@ inherit = "obj.blessed_boots_saradomin"
 id = "obj.blessed_boots_zamorak"
 inherit = "obj.blessed_boots_zamorak"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2241
 
 
@@ -31025,6 +31130,7 @@ inherit = "obj.ankou_hands"
 id = "obj.robe_darkness_hands"
 inherit = "obj.robe_darkness_hands"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2236
 
 
@@ -31032,6 +31138,7 @@ inherit = "obj.robe_darkness_hands"
 id = "obj.robe_darkness_feet"
 inherit = "obj.robe_darkness_feet"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2237
 
 
@@ -31652,6 +31759,7 @@ tradeable = false
 id = "obj.guardian_boots"
 inherit = "obj.guardian_boots"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2237
 
 
@@ -32452,6 +32560,7 @@ inherit = "obj.boots_of_brimstone"
 id = "obj.devout_boots"
 inherit = "obj.devout_boots"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2237
 
 
@@ -32548,6 +32657,7 @@ inherit = "obj.blessed_dhide_shield_guthix"
 id = "obj.blessed_dhide_shield_saradomin"
 inherit = "obj.blessed_dhide_shield_saradomin"
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2241
 
 
@@ -32555,6 +32665,7 @@ inherit = "obj.blessed_dhide_shield_saradomin"
 id = "obj.blessed_dhide_shield_zamorak"
 inherit = "obj.blessed_dhide_shield_zamorak"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2241
 
 
@@ -32562,6 +32673,7 @@ inherit = "obj.blessed_dhide_shield_zamorak"
 id = "obj.blessed_dhide_shield_ancient"
 inherit = "obj.blessed_dhide_shield_ancient"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2241
 
 
@@ -32569,6 +32681,7 @@ inherit = "obj.blessed_dhide_shield_ancient"
 id = "obj.blessed_dhide_shield_armadyl"
 inherit = "obj.blessed_dhide_shield_armadyl"
 [item.params]
+"param.godwars_faction"=8
 "param.equipment_sound"=2241
 
 
@@ -32576,6 +32689,7 @@ inherit = "obj.blessed_dhide_shield_armadyl"
 id = "obj.blessed_dhide_shield_bandos"
 inherit = "obj.blessed_dhide_shield_bandos"
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2241
 
 
@@ -33343,6 +33457,7 @@ inherit = "obj.twisted_relic_hunter_boots_t1"
 id = "obj.inquisitors_helm"
 inherit = "obj.inquisitors_helm"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2240
 
 
@@ -33350,6 +33465,7 @@ inherit = "obj.inquisitors_helm"
 id = "obj.inquisitors_body"
 inherit = "obj.inquisitors_body"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2234
 
 
@@ -33357,6 +33473,7 @@ inherit = "obj.inquisitors_body"
 id = "obj.inquisitors_skirt"
 inherit = "obj.inquisitors_skirt"
 [item.params]
+"param.godwars_faction"=2
 "param.equipment_sound"=2242
 
 
@@ -33402,6 +33519,7 @@ inherit = "obj.hallowed_hammer"
 weaponCategory="Blunt"
 tradeable = false
 [item.params]
+"param.godwars_faction"=1
 "param.equipment_sound"=2233
 
 
@@ -34066,6 +34184,7 @@ tradeable = false
 id = "obj.ancient_ceremonial_gloves"
 inherit = "obj.ancient_ceremonial_gloves"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2236
 
 
@@ -34073,6 +34192,7 @@ inherit = "obj.ancient_ceremonial_gloves"
 id = "obj.ancient_ceremonial_boots"
 inherit = "obj.ancient_ceremonial_boots"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2237
 
 
@@ -34080,6 +34200,7 @@ inherit = "obj.ancient_ceremonial_boots"
 id = "obj.zaryte_vambraces"
 inherit = "obj.zaryte_vambraces"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2241
 
 
@@ -34087,6 +34208,7 @@ inherit = "obj.zaryte_vambraces"
 id = "obj.torva_helm"
 inherit = "obj.torva_helm"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2240
 
 
@@ -34094,6 +34216,7 @@ inherit = "obj.torva_helm"
 id = "obj.torva_chest"
 inherit = "obj.torva_chest"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2234
 
 
@@ -34101,6 +34224,7 @@ inherit = "obj.torva_chest"
 id = "obj.torva_legs"
 inherit = "obj.torva_legs"
 [item.params]
+"param.godwars_faction"=16
 "param.equipment_sound"=2242
 
 
@@ -35507,6 +35631,7 @@ id = "obj.echo_boots"
 inherit = "obj.echo_boots"
 tradeable = false
 [item.params]
+"param.godwars_faction"=4
 "param.equipment_sound"=2237
 
 
@@ -48044,6 +48169,7 @@ id = "obj.wgs_dark_squall_hood"
 inherit = "obj.wgs_dark_squall_hood"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.destroy_note_desc"="Silif in the White Knights' Castle might be able to give you another."
 
 
@@ -48052,6 +48178,7 @@ id = "obj.wgs_dark_squall_robe_top"
 inherit = "obj.wgs_dark_squall_robe_top"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.destroy_note_desc"="Silif in the White Knights' Castle might be able to give you another."
 
 
@@ -48060,6 +48187,7 @@ id = "obj.wgs_dark_squall_robe_bottom"
 inherit = "obj.wgs_dark_squall_robe_bottom"
 tradeable = false
 [item.params]
+"param.godwars_faction"=2
 "param.destroy_note_desc"="Silif in the White Knights' Castle might be able to give you another."
 
 
@@ -49619,6 +49747,7 @@ id = "obj.wild_cave_accursed_uncharged_recol"
 inherit = "obj.wild_cave_accursed_uncharged_recol"
 weaponCategory="Staff"
 [item.params]
+"param.godwars_faction"=2
 "param.charged_variant"="obj.wild_cave_accursed_charged_recol"
 "param.attackrate"=5
 
@@ -49677,7 +49806,8 @@ tradeable = false
 id = "obj.mm_monkey_greegree_for_normal_monkey"
 inherit = "obj.mm_monkey_greegree_for_normal_monkey"
 tradeable = false
-
+[item.params]
+"param.greegree"=1
 
 [[item]]
 id = "obj.trail_slidingpuzzleb16"
@@ -49896,7 +50026,8 @@ tradeable = false
 id = "obj.mm_monkey_greegree_for_normal_gorilla"
 inherit = "obj.mm_monkey_greegree_for_normal_gorilla"
 tradeable = false
-
+[item.params]
+"param.greegree"=1
 
 [[item]]
 id = "obj.reinitialisation_06"
@@ -50047,6 +50178,7 @@ id = "obj.wild_cave_sceptre_uncharged_recol"
 inherit = "obj.wild_cave_sceptre_uncharged_recol"
 weaponCategory="Staff"
 [item.params]
+"param.godwars_faction"=2
 "param.charged_variant"="obj.wild_cave_sceptre_charged_recol"
 "param.attackrate"=5
 
@@ -50453,7 +50585,8 @@ id = "obj.ancient_sceptre_trouver"
 inherit = "obj.ancient_sceptre_trouver"
 weaponCategory="Staff"
 tradeable = false
-
+[item.params]
+"param.godwars_faction"=16
 
 [[item]]
 id = "obj.trailblazer_reloaded_pickaxe_no_infernal"
@@ -50788,7 +50921,8 @@ weaponCategory="Banner"
 id = "obj.mm_monkey_greegree_for_large_zombie_monkey"
 inherit = "obj.mm_monkey_greegree_for_large_zombie_monkey"
 tradeable = false
-
+[item.params]
+"param.greegree"=1
 
 [[item]]
 id = "obj.trail_slidingpuzzled20"
@@ -50906,6 +51040,7 @@ inherit = "obj.deadman_ags"
 weaponCategory="TwoHandedSword"
 tradeable = false
 [item.params]
+"param.godwars_faction"=8
 "param.attackrate"=6
 
 
@@ -51109,7 +51244,8 @@ weaponCategory="Thrown"
 id = "obj.mm_monkey_greegree_for_ancient_monkey_skull"
 inherit = "obj.mm_monkey_greegree_for_ancient_monkey_skull"
 tradeable = false
-
+[item.params]
+"param.greegree"=1
 
 [[item]]
 id = "obj.barrows_karil_weapon_broken"
@@ -51228,7 +51364,8 @@ id = "obj.ancient_sceptre"
 inherit = "obj.ancient_sceptre"
 weaponCategory="Staff"
 tradeable = false
-
+[item.params]
+"param.godwars_faction"=16
 
 [[item]]
 id = "obj.reinitialisation_09"
@@ -51404,7 +51541,8 @@ tradeable = false
 id = "obj.mm2_kruk_greegree"
 inherit = "obj.mm2_kruk_greegree"
 tradeable = false
-
+[item.params]
+"param.greegree"=1
 
 [[item]]
 id = "obj.trailblazer_reloaded_harpoon_empty"
@@ -51605,7 +51743,8 @@ inherit = "obj.amulet_mould"
 id = "obj.mm_monkey_greegree_for_medium_ninja_monkey"
 inherit = "obj.mm_monkey_greegree_for_medium_ninja_monkey"
 tradeable = false
-
+[item.params]
+"param.greegree"=1
 
 [[item]]
 id = "obj.hunting_crossbow_sunlight"
@@ -51892,7 +52031,8 @@ weaponCategory="PoweredStaff"
 id = "obj.mm_monkey_greegree_for_small_ninja_monkey"
 inherit = "obj.mm_monkey_greegree_for_small_ninja_monkey"
 tradeable = false
-
+[item.params]
+"param.greegree"=1
 
 [[item]]
 id = "obj.gold_ore"
@@ -52335,6 +52475,7 @@ tradeable = false
 id = "obj.justiciar_chestguard"
 inherit = "obj.justiciar_chestguard"
 [item.params]
+"param.godwars_faction"=1
 "param.metallic_interference"=true
 
 
@@ -52358,7 +52499,8 @@ tradeable = false
 id = "obj.mm_monkey_greegree_for_bearded_gorilla"
 inherit = "obj.mm_monkey_greegree_for_bearded_gorilla"
 tradeable = false
-
+[item.params]
+"param.greegree"=1
 
 [[item]]
 id = "obj.reinitialisation_03"
@@ -52549,7 +52691,8 @@ tradeable = false
 id = "obj.mm_monkey_greegree_for_small_zombie_monkey"
 inherit = "obj.mm_monkey_greegree_for_small_zombie_monkey"
 tradeable = false
-
+[item.params]
+"param.greegree"=1
 
 [[item]]
 id = "obj.clanwars_oddskull_skull"
@@ -52934,11 +53077,15 @@ contentGroup = "content.max_cape"
 id = "obj.skillcape_max_saradomin"
 inherit = "obj.skillcape_max_saradomin"
 contentGroup = "content.max_cape"
+[item.params]
+"param.godwars_faction"=1
 
 [[item]]
 id = "obj.skillcape_max_zamorak"
 inherit = "obj.skillcape_max_zamorak"
 contentGroup = "content.max_cape"
+[item.params]
+"param.godwars_faction"=2
 
 [[item]]
 id = "obj.skillcape_max_guthix"
@@ -52959,11 +53106,15 @@ contentGroup = "content.max_cape"
 id = "obj.skillcape_max_saradomin2"
 inherit = "obj.skillcape_max_saradomin2"
 contentGroup = "content.max_cape"
+[item.params]
+"param.godwars_faction"=1
 
 [[item]]
 id = "obj.skillcape_max_zamorak2"
 inherit = "obj.skillcape_max_zamorak2"
 contentGroup = "content.max_cape"
+[item.params]
+"param.godwars_faction"=2
 
 [[item]]
 id = "obj.skillcape_max_guthix2"
@@ -52984,11 +53135,15 @@ contentGroup = "content.max_cape"
 id = "obj.skillcape_max_saradomin2_trouver"
 inherit = "obj.skillcape_max_saradomin2_trouver"
 contentGroup = "content.max_cape"
+[item.params]
+"param.godwars_faction"=1
 
 [[item]]
 id = "obj.skillcape_max_zamorak2_trouver"
 inherit = "obj.skillcape_max_zamorak2_trouver"
 contentGroup = "content.max_cape"
+[item.params]
+"param.godwars_faction"=2
 
 [[item]]
 id = "obj.skillcape_max_guthix2_trouver"
@@ -53099,3 +53254,1102 @@ weaponCategory="PoweredStaff"
 "param.attack_anim_stance1"="seq.human_eye_of_ayak_normal"
 "param.attack_anim_stance2"="seq.human_eye_of_ayak_normal"
 "param.attack_anim_stance4"="seq.human_eye_of_ayak_normal"
+
+[[item]]
+id = "obj.ring_of_endurance"
+inherit = "obj.ring_of_endurance"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.ring_of_endurance_nocharges"
+inherit = "obj.ring_of_endurance_nocharges"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.hallowed_ring"
+inherit = "obj.hallowed_ring"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.holy_wraps"
+inherit = "obj.holy_wraps"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.holy_moleys"
+inherit = "obj.holy_moleys"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.trail_saradomin_cloak"
+inherit = "obj.trail_saradomin_cloak"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.trail_saradomin_mitre"
+inherit = "obj.trail_saradomin_mitre"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.justiciar_leg_guards"
+inherit = "obj.justiciar_leg_guards"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.trail_saradomin_robe_t"
+inherit = "obj.trail_saradomin_robe_t"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.skillcape_max_saradomin2_broken"
+inherit = "obj.skillcape_max_saradomin2_broken"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.deadman_ma2_saradomin_cape"
+inherit = "obj.deadman_ma2_saradomin_cape"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.blessing_saradomin"
+inherit = "obj.blessing_saradomin"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.hallowed_grapple"
+inherit = "obj.hallowed_grapple"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.trail_saradomin_vambraces"
+inherit = "obj.trail_saradomin_vambraces"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.sunspear"
+inherit = "obj.sunspear"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.monkrobetop"
+inherit = "obj.monkrobetop"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.monkrobebottom"
+inherit = "obj.monkrobebottom"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.saradominbook_complete"
+inherit = "obj.saradominbook_complete"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.holy_sandals"
+inherit = "obj.holy_sandals"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.blessedstar"
+inherit = "obj.blessedstar"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.saradomin_cape"
+inherit = "obj.saradomin_cape"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.ma2_saradomin_cape_broken"
+inherit = "obj.ma2_saradomin_cape_broken"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.ma2_saradomin_cape_trouver"
+inherit = "obj.ma2_saradomin_cape_trouver"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.ma2_saradomin_cape"
+inherit = "obj.ma2_saradomin_cape"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.trail_saradomin_scarf"
+inherit = "obj.trail_saradomin_scarf"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.hallowed_symbol"
+inherit = "obj.hallowed_symbol"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.trail_saradomin_robe_l"
+inherit = "obj.trail_saradomin_robe_l"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.skillcape_max_hood_saradomin2"
+inherit = "obj.skillcape_max_hood_saradomin2"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.rondache"
+inherit = "obj.rondache"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.justiciar_faceguard"
+inherit = "obj.justiciar_faceguard"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.castlewars_saradomin_halo_broken"
+inherit = "obj.castlewars_saradomin_halo_broken"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.castlewars_saradomin_halo_trouver"
+inherit = "obj.castlewars_saradomin_halo_trouver"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.castlewars_saradomin_halo"
+inherit = "obj.castlewars_saradomin_halo"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.skillcape_max_hood_saradomin"
+inherit = "obj.skillcape_max_hood_saradomin"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.hallowed_focus"
+inherit = "obj.hallowed_focus"
+[item.params]
+"param.godwars_faction"=1
+
+
+[[item]]
+id = "obj.elite_black_full_helm"
+inherit = "obj.elite_black_full_helm"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.elderchaos_top"
+inherit = "obj.elderchaos_top"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.dagonhai_robe_top"
+inherit = "obj.dagonhai_robe_top"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.trail_zamorak_scarf"
+inherit = "obj.trail_zamorak_scarf"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.castlewars_zamorak_halo_broken"
+inherit = "obj.castlewars_zamorak_halo_broken"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.castlewars_zamorak_halo_trouver"
+inherit = "obj.castlewars_zamorak_halo_trouver"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.castlewars_zamorak_halo"
+inherit = "obj.castlewars_zamorak_halo"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.dagonhai_robe_bottom"
+inherit = "obj.dagonhai_robe_bottom"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.elderchaos_hood"
+inherit = "obj.elderchaos_hood"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.trail_zamorak_cloak"
+inherit = "obj.trail_zamorak_cloak"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.blessedsnake"
+inherit = "obj.blessedsnake"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.trail_zamorak_vambraces"
+inherit = "obj.trail_zamorak_vambraces"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.trail_zamorak_mitre"
+inherit = "obj.trail_zamorak_mitre"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.zamorak_cape"
+inherit = "obj.zamorak_cape"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.skillcape_max_hood_zamorak"
+inherit = "obj.skillcape_max_hood_zamorak"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.elite_black_platebody"
+inherit = "obj.elite_black_platebody"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.elderchaos_bottom"
+inherit = "obj.elderchaos_bottom"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.oathplate_helm"
+inherit = "obj.oathplate_helm"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.zamorakbook_complete"
+inherit = "obj.zamorakbook_complete"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.zamrobetop"
+inherit = "obj.zamrobetop"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.oathplate_chest"
+inherit = "obj.oathplate_chest"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.oathplate_legs"
+inherit = "obj.oathplate_legs"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.ma2_zamorak_cape_broken"
+inherit = "obj.ma2_zamorak_cape_broken"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.ma2_zamorak_cape_trouver"
+inherit = "obj.ma2_zamorak_cape_trouver"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.ma2_zamorak_cape"
+inherit = "obj.ma2_zamorak_cape"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.dagonhai_hat"
+inherit = "obj.dagonhai_hat"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.trail_zamorak_robe_t"
+inherit = "obj.trail_zamorak_robe_t"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.trail_zamorak_robe_l"
+inherit = "obj.trail_zamorak_robe_l"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.zamrobebottom"
+inherit = "obj.zamrobebottom"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.elite_black_platelegs"
+inherit = "obj.elite_black_platelegs"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.blessing_zamorak"
+inherit = "obj.blessing_zamorak"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.skillcape_max_hood_zamorak2"
+inherit = "obj.skillcape_max_hood_zamorak2"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.deadman_ma2_zamorak_cape"
+inherit = "obj.deadman_ma2_zamorak_cape"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.skillcape_max_zamorak2_broken"
+inherit = "obj.skillcape_max_zamorak2_broken"
+[item.params]
+"param.godwars_faction"=2
+
+
+[[item]]
+id = "obj.trail_bandos_mitre"
+inherit = "obj.trail_bandos_mitre"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.trail_bandos_vambraces"
+inherit = "obj.trail_bandos_vambraces"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.blessing_bandos"
+inherit = "obj.blessing_bandos"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.trail_bandos_scarf"
+inherit = "obj.trail_bandos_scarf"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.bandosbook_complete"
+inherit = "obj.bandosbook_complete"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.trail_bandos_robe_t"
+inherit = "obj.trail_bandos_robe_t"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.trail_bandos_cloak"
+inherit = "obj.trail_bandos_cloak"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.bandos_halo_broken"
+inherit = "obj.bandos_halo_broken"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.bandos_halo_trouver"
+inherit = "obj.bandos_halo_trouver"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.bandos_halo"
+inherit = "obj.bandos_halo"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.trail_bandos_robe_l"
+inherit = "obj.trail_bandos_robe_l"
+[item.params]
+"param.godwars_faction"=4
+
+
+[[item]]
+id = "obj.trail_armadyl_scarf"
+inherit = "obj.trail_armadyl_scarf"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.trail_armadyl_robe_l"
+inherit = "obj.trail_armadyl_robe_l"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.trail_armadyl_mitre"
+inherit = "obj.trail_armadyl_mitre"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.trail_armadyl_vambraces"
+inherit = "obj.trail_armadyl_vambraces"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.blessing_armadyl"
+inherit = "obj.blessing_armadyl"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.trail_armadyl_robe_t"
+inherit = "obj.trail_armadyl_robe_t"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.ikov_pendantofarmardyl"
+inherit = "obj.ikov_pendantofarmardyl"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.trail_armadyl_cloak"
+inherit = "obj.trail_armadyl_cloak"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.armadyl_halo_broken"
+inherit = "obj.armadyl_halo_broken"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.armadyl_halo_trouver"
+inherit = "obj.armadyl_halo_trouver"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.armadyl_halo"
+inherit = "obj.armadyl_halo"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.armadylbook_complete"
+inherit = "obj.armadylbook_complete"
+[item.params]
+"param.godwars_faction"=8
+
+
+[[item]]
+id = "obj.ancient_sceptre_trouver_mangled"
+inherit = "obj.ancient_sceptre_trouver_mangled"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.ancient_sceptre_trouver_broken"
+inherit = "obj.ancient_sceptre_trouver_broken"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.ancient_ceremonial_legs"
+inherit = "obj.ancient_ceremonial_legs"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.skillcape_max_zaros"
+inherit = "obj.skillcape_max_zaros"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.skillcape_max_zaros_broken"
+inherit = "obj.skillcape_max_zaros_broken"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.trail_ancient_robe_l"
+inherit = "obj.trail_ancient_robe_l"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.zarosbook_complete"
+inherit = "obj.zarosbook_complete"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.trail_ancient_vambraces"
+inherit = "obj.trail_ancient_vambraces"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.skillcape_max_hood_zaros"
+inherit = "obj.skillcape_max_hood_zaros"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.ma2_zaros_cape_broken"
+inherit = "obj.ma2_zaros_cape_broken"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.ma2_zaros_cape_trouver"
+inherit = "obj.ma2_zaros_cape_trouver"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.ma2_zaros_cape"
+inherit = "obj.ma2_zaros_cape"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.zaros_halo_broken"
+inherit = "obj.zaros_halo_broken"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.zaros_halo_trouver"
+inherit = "obj.zaros_halo_trouver"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.zaros_halo"
+inherit = "obj.zaros_halo"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.ancient_ceremonial_top"
+inherit = "obj.ancient_ceremonial_top"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.deadman_ma2_zaros_cape"
+inherit = "obj.deadman_ma2_zaros_cape"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.trail_ancient_mitre"
+inherit = "obj.trail_ancient_mitre"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.virtus_top"
+inherit = "obj.virtus_top"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.broken_torva_helm"
+inherit = "obj.broken_torva_helm"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.virtus_legs"
+inherit = "obj.virtus_legs"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.ancient_ceremonial_mask"
+inherit = "obj.ancient_ceremonial_mask"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.robe_darkness_head"
+inherit = "obj.robe_darkness_head"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.blessing_zaros"
+inherit = "obj.blessing_zaros"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.robe_darkness_top"
+inherit = "obj.robe_darkness_top"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.trail_ancient_scarf"
+inherit = "obj.trail_ancient_scarf"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.robe_darkness_legs"
+inherit = "obj.robe_darkness_legs"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.virtus_mask"
+inherit = "obj.virtus_mask"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.trail_ancient_robe_t"
+inherit = "obj.trail_ancient_robe_t"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.broken_torva_chest"
+inherit = "obj.broken_torva_chest"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.trail_ancient_cloak"
+inherit = "obj.trail_ancient_cloak"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.broken_torva_legs"
+inherit = "obj.broken_torva_legs"
+[item.params]
+"param.godwars_faction"=16
+
+
+[[item]]
+id = "obj.vyre_legs"
+inherit = "obj.vyre_legs"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyre_shoes"
+inherit = "obj.vyre_shoes"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyre_torso"
+inherit = "obj.vyre_torso"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs"
+inherit = "obj.vyrelord_legs"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_1"
+inherit = "obj.vyrelord_legs_1"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_10"
+inherit = "obj.vyrelord_legs_10"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_11"
+inherit = "obj.vyrelord_legs_11"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_12"
+inherit = "obj.vyrelord_legs_12"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_2"
+inherit = "obj.vyrelord_legs_2"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_3"
+inherit = "obj.vyrelord_legs_3"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_4"
+inherit = "obj.vyrelord_legs_4"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_5"
+inherit = "obj.vyrelord_legs_5"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_6"
+inherit = "obj.vyrelord_legs_6"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_7"
+inherit = "obj.vyrelord_legs_7"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_8"
+inherit = "obj.vyrelord_legs_8"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_legs_9"
+inherit = "obj.vyrelord_legs_9"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_shoes"
+inherit = "obj.vyrelord_shoes"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso"
+inherit = "obj.vyrelord_torso"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_1"
+inherit = "obj.vyrelord_torso_1"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_10"
+inherit = "obj.vyrelord_torso_10"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_11"
+inherit = "obj.vyrelord_torso_11"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_12"
+inherit = "obj.vyrelord_torso_12"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_2"
+inherit = "obj.vyrelord_torso_2"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_3"
+inherit = "obj.vyrelord_torso_3"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_4"
+inherit = "obj.vyrelord_torso_4"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_5"
+inherit = "obj.vyrelord_torso_5"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_6"
+inherit = "obj.vyrelord_torso_6"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_7"
+inherit = "obj.vyrelord_torso_7"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_8"
+inherit = "obj.vyrelord_torso_8"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.vyrelord_torso_9"
+inherit = "obj.vyrelord_torso_9"
+[item.params]
+"param.vyre_noble"=1
+
+
+[[item]]
+id = "obj.mourning_mourner_top"
+inherit = "obj.mourning_mourner_top"
+[item.params]
+"param.mourner_gear"=1
+
+
+[[item]]
+id = "obj.mourning_mourner_legs"
+inherit = "obj.mourning_mourner_legs"
+[item.params]
+"param.mourner_gear"=1
+
+
+[[item]]
+id = "obj.mourning_mourner_cloak"
+inherit = "obj.mourning_mourner_cloak"
+[item.params]
+"param.mourner_gear"=1
+

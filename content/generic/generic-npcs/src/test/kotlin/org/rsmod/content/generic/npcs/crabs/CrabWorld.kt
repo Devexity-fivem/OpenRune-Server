@@ -78,7 +78,7 @@ class CrabWorld {
     private val hunt =
         Hunt(RayCastValidator(collision), players, npcs, ObjRegistry(updates), locs)
     private val random = DefaultGameRandom(1L)
-    private val playerHunt = NpcPlayerHuntProcessor(random, clock, hunt, tolerance)
+    private val playerHunt = NpcPlayerHuntProcessor(random, clock, hunt, tolerance, emptySet())
     private val npcHunt =
         NpcHuntProcessor(
             random,

@@ -916,3 +916,92 @@ isServerOnly = true
 type = "INT"
 defaultInt = 0
 isMembers = true
+
+[[params]]
+id = "param.godwars_faction"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.aggro_faction"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.aggro_if_goditem"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.aggro_unless_greegree"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.aggro_unless_vyre_gear"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.aggro_unless_mourner_gear"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.aggro_if_weapon"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.aggro_if_armed"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.aggro_unless_obj"
+isServerOnly = true
+type = "NAMEDOBJ"
+isMembers = true
+
+[[params]]
+id = "param.aggro_unless_quest"
+isServerOnly = true
+type = "STRING"
+isMembers = true
+
+[[params]]
+id = "param.greegree"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.vyre_noble"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.mourner_gear"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true

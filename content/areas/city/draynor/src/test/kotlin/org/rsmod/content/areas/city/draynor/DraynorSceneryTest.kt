@@ -178,7 +178,7 @@ class DraynorSceneryTest {
         }
         val hunting = NpcPlayerHuntProcessor(
             random, clock, Hunt(RayCastValidator(collision), players, npcs, ObjRegistry(updates), locRegistry),
-            AggressionTolerance(clock),
+            AggressionTolerance(clock), emptySet(),
         )
 
         init {
