@@ -65,7 +65,7 @@ class ConditionalAggressionTest {
 
     @Test
     fun `ape atoll guards carry greegree and quest gates`() {
-        for (id in intArrayOf(5271, 5277, 5278)) {
+        for (id in intArrayOf(5275, 5276)) {
             val def = ServerCacheManager.getNpcs()[id]
             assertNotNull(def, "npc $id")
             assertEquals(6, def?.huntMode, "npc $id huntMode")
@@ -76,6 +76,18 @@ class ConditionalAggressionTest {
                 def?.paramsRaw?.get(PARAM_AGGRO_UNLESS_QUEST),
                 "npc $id quest",
             )
+        }
+    }
+
+    @Test
+    fun `quest monkey guard hunts unconditionally and elder guards stay passive`() {
+        val questGuard = ServerCacheManager.getNpcs()[5271]
+        assertNotNull(questGuard)
+        assertEquals(6, questGuard?.huntMode)
+        assertTrue(questGuard?.paramsRaw?.get(PARAM_AGGRO_UNLESS_GREEGREE) == null)
+        for (id in intArrayOf(5277, 5278)) {
+            val def = ServerCacheManager.getNpcs()[id]
+            assertTrue(def?.paramsRaw?.get(PARAM_AGGRO_UNLESS_GREEGREE) == null, "npc $id")
         }
     }
 
@@ -122,7 +134,7 @@ class ConditionalAggressionTest {
 
     @Test
     fun `greegree gate blocks ape atoll aggression`() {
-        val guard = npc(5271)
+        val guard = npc(5275)
         assertTrue(gate.permitsAggression(guard, player()))
         assertFalse(gate.permitsAggression(guard, player(Wearpos.RightHand.slot to 4031)))
     }

@@ -29657,33 +29657,9 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.aggro_unless_greegree"=1
-"param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.monkey_attack"
 "param.death_anim"="seq.m_monkey_death"
 "param.npc_attack_type"="category.attacktype_crush"
-
-[[npc]]
-id = "npc.mm_elder_guard_1"
-inherit = "npc.mm_elder_guard_1"
-huntMode = 6
-huntRange = 5
-maxRange = 15
-[npc.params]
-"param.aggression_tolerant"=1
-"param.aggro_unless_greegree"=1
-"param.aggro_unless_quest"="monkey_madness_ii"
-
-[[npc]]
-id = "npc.mm_elder_guard_2"
-inherit = "npc.mm_elder_guard_2"
-huntMode = 6
-huntRange = 5
-maxRange = 15
-[npc.params]
-"param.aggression_tolerant"=1
-"param.aggro_unless_greegree"=1
-"param.aggro_unless_quest"="monkey_madness_ii"
 
 [[npc]]
 id = "npc.mm_religious_guard"
