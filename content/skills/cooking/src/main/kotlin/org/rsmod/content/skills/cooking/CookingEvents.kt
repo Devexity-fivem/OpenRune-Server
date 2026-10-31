@@ -1,12 +1,15 @@
 package org.rsmod.content.skills.cooking
 
+import dev.openrune.ServerCacheManager
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
 import jakarta.inject.Inject
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.cookingLvl
 import org.rsmod.api.script.onOpContentLoc1
 import org.rsmod.api.script.onOpContentMixedLocU
 import org.rsmod.api.script.onOpLoc1
-import org.rsmod.api.script.onOpLocU
+import org.rsmod.api.script.onOpLocCategoryU
 import org.rsmod.api.script.onPlayerQueueWithArgs
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.table.FiremakingColoredLogsRow
@@ -15,6 +18,7 @@ import org.rsmod.content.quest.manager.QuestRequirements
 import org.rsmod.content.skills.Material
 import org.rsmod.content.skills.SkillMultiConfig
 import org.rsmod.content.skills.SkillMultiEntry
+import org.rsmod.content.skills.SkillingActionType
 import org.rsmod.content.skills.openSkillMulti
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -29,6 +33,12 @@ class CookingEvents @Inject constructor(
 
     private val fires = listOf("loc.fire") + coloredLogRows.map { it.fireObject.internalName }
     private val campfires = listOf("loc.forestry_fire") + coloredLogRows.map { it.campfireObject.internalName }
+
+    private val nonCategoryFires =
+        (fires + campfires).filter { symbol ->
+            ServerCacheManager.getObject(symbol.asRSCM(RSCMType.LOC))?.category !=
+                COOKING_FIRE_CATEGORY
+        }
 
     enum class RangeType(val burnReduction: Int) {
         STANDARD(0),
@@ -49,11 +59,13 @@ class CookingEvents @Inject constructor(
     }
 
     override fun ScriptContext.startup() {
-        val fireAndCamp = fires + campfires
         foods.filter { it.rangeOnly != true }.forEach { food ->
-            fireAndCamp.forEach { loc ->
+            onOpLocCategoryU("category.cooking_fire", food.raw.internalName) {
+                cookUsedFood(food, CookingSurface.Fire(it.type.internalName))
+            }
+            nonCategoryFires.forEach { loc ->
                 onOpLocU(loc, food.raw.internalName) {
-                    cookFood(food, CookingSurface.Fire(loc))
+                    cookUsedFood(food, CookingSurface.Fire(loc))
                 }
             }
         }
@@ -61,15 +73,13 @@ class CookingEvents @Inject constructor(
             foods.forEach { food ->
                 onOpContentMixedLocU(content, food.raw.internalName) {
                     val surface = CookingSurface.Range(rangeType, it.type.internalName)
-                    if (canUseRange(surface)) cookFood(food, surface)
+                    if (canUseRange(surface)) cookUsedFood(food, surface)
                 }
             }
         }
 
-        fires.forEach { loc ->
-            onOpLoc1(loc) {
-                openCookingMenu(CookingSurface.Fire(it.type.internalName))
-            }
+        onOpLoc1("loc.fire_cook") {
+            openCookingMenu(CookingSurface.Fire(it.type.internalName))
         }
         rangeTypeByContent.forEach { (content, rangeType) ->
             onOpContentLoc1(content) {
@@ -123,14 +133,22 @@ class CookingEvents @Inject constructor(
             is CookingSurface.Fire -> "seq.human_firecooking"
         }
 
-    private suspend fun ProtectedAccess.openCookingMenu(surface: CookingSurface) {
-        val cookable =
-            foods.filter {
-                inv.contains(it.raw.internalName) &&
-                    player.cookingLvl >= it.level &&
-                    (surface !is CookingSurface.Fire || it.rangeOnly != true)
-            }
+    private suspend fun ProtectedAccess.cookUsedFood(food: CookingFoodsRow, surface: CookingSurface) {
+        if (player.cookingLvl < food.level) {
+            mes("You need a Cooking level of ${food.level} to cook ${food.raw.name}.")
+            return
+        }
+        openCookingMenu(surface, listOf(food))
+    }
 
+    private suspend fun ProtectedAccess.openCookingMenu(
+        surface: CookingSurface,
+        cookable: List<CookingFoodsRow> = foods.filter {
+            inv.contains(it.raw.internalName) &&
+                player.cookingLvl >= it.level &&
+                (surface !is CookingSurface.Fire || it.rangeOnly != true)
+        },
+    ) {
         if (cookable.isEmpty()) {
             if (surface is CookingSurface.Range) {
                 mesbox("You haven't got anything to cook.")
@@ -148,10 +166,11 @@ class CookingEvents @Inject constructor(
         if (cookable.size == 1) {
             val food = cookable.first()
             openSkillMulti(SkillMultiConfig(
+                actionType = SkillingActionType.COOK,
                 verb = "cook",
-                entries = listOf(SkillMultiEntry(food.cooked.internalName, listOf(
-                    Material(food.raw.internalName),
-                ))),
+                entries = listOf(SkillMultiEntry(food.raw.internalName)),
+                padLabels = true,
+                eventsEndAtMaxCount = true,
             )) { selection ->
                 cookFood(food, surface, selection.amount)
             }
@@ -159,12 +178,15 @@ class CookingEvents @Inject constructor(
         }
 
         openSkillMulti(SkillMultiConfig(
+            actionType = SkillingActionType.COOK,
             verb = "cook",
             entries = cookable.map { food ->
                 SkillMultiEntry(food.cooked.internalName, listOf(
                     Material(food.raw.internalName),
                 ))
             },
+            padLabels = true,
+            eventsEndAtMaxCount = true,
         )) { selection ->
             val food = cookable.firstOrNull {
                 it.cooked.internalName == selection.entry.internal
@@ -178,7 +200,7 @@ class CookingEvents @Inject constructor(
         applyCook(food, surface)
     }
 
-    private fun ProtectedAccess.cookFood(food: CookingFoodsRow, surface: CookingSurface, amount: Int = 1) {
+    private fun ProtectedAccess.cookFood(food: CookingFoodsRow, surface: CookingSurface, amount: Int) {
         if (player.cookingLvl < food.level) {
             mes("You need a Cooking level of ${food.level} to cook ${food.raw.name}.")
             return
@@ -230,6 +252,7 @@ class CookingEvents @Inject constructor(
     )
 
     private companion object {
+        const val COOKING_FIRE_CATEGORY = 152
         const val DEFAULT_COOK_TICKS = 4
 
         // A queue added mid-processing is decremented on the same tick, so delay 1 re-fires instantly.
