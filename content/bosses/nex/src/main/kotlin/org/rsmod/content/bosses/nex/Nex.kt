@@ -36,12 +36,14 @@ import org.rsmod.game.entity.npc.NpcStateEvents
 import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocShape
+import org.rsmod.game.map.collision.get
 import org.rsmod.game.map.collision.isWalkBlocked
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.routefinder.LineValidator
+import org.rsmod.routefinder.flag.CollisionFlag
 
 /**
  * Nex (npc.nex) in her instanced Ancient Prison chamber. Five HP-gated phases —
@@ -806,7 +808,7 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
             }
         }
         return candidates
-            .filter { !deps.collision.isWalkBlocked(it) }
+            .filter { !occupied(it) }
             .filter {
                 lineValidator.hasLineOfWalk(near.level, near.x, near.z, it.x, it.z)
             }
@@ -817,11 +819,15 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
         if (!deps.collision.isZoneValid(origin)) return false
         for (dx in 0 until nex.size) {
             for (dz in 0 until nex.size) {
-                if (deps.collision.isWalkBlocked(origin.translate(dx, dz))) return false
+                if (occupied(origin.translate(dx, dz))) return false
             }
         }
         return true
     }
+
+    private fun occupied(coords: CoordGrid): Boolean =
+        deps.collision.isWalkBlocked(coords) ||
+            deps.collision[coords] and CollisionFlag.LOC != 0
 
     private fun reviveDeadMages(nex: Npc) {
         for (mage in deps.npcRepo.findAll(ZoneKey.from(nex.coords), CHAMBER_ZONE_RADIUS)) {
