@@ -9,7 +9,7 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **23/23** · Bosses **168/178** · Raids **4/4** · Minigames **10/52**
+Skills **23/23** · Bosses **173/178** · Raids **4/4** · Minigames **10/52**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
@@ -43,7 +43,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 3,238 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
-### Bosses <sup>168/178</sup>
+### Bosses <sup>173/178</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
@@ -55,6 +55,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Alchemical_Hydra_%28serpentine%29.png/48px-Alchemical_Hydra_%28serpentine%29.png?925dd" height="20" alt=""> [Alchemical Hydra](content/bosses/alchemical-hydra) | 271 loc | [wiki](https://oldschool.runescape.wiki/w/Alchemical_Hydra) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Amoxliatl.png/48px-Amoxliatl.png?01b12" height="20" alt=""> [Amoxliatl](content/bosses/amoxliatl) | 387 loc | [wiki](https://oldschool.runescape.wiki/w/Amoxliatl) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Araxxor.png/48px-Araxxor.png?35d2e" height="20" alt=""> [Araxxor](content/bosses/araxxor) | 464 loc | [wiki](https://oldschool.runescape.wiki/w/Araxxor) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Archive_Guardian.png/48px-Archive_Guardian.png?c881d" height="20" alt=""> Archive Guardian | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Archive_Guardian) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Arrg.png/48px-Arrg.png?2e0cb" height="20" alt=""> Arrg | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arrg) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Artio.png/48px-Artio.png?bfba7" height="20" alt=""> Artio | no module, code in content/bosses/callisto | [wiki](https://oldschool.runescape.wiki/w/Artio) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Arzinian_Avatar_of_Magic.png/48px-Arzinian_Avatar_of_Magic.png?3ca7b" height="20" alt=""> Arzinian Avatar of Magic | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arzinian_Avatar_of_Magic) |
@@ -69,7 +70,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Black_golem.png/48px-Black_golem.png?18834" height="20" alt=""> Black golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_golem) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Blood_Moon.png/48px-Blood_Moon.png?c3e72" height="20" alt=""> Blood Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blood_Moon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Blue_Moon.png/48px-Blue_Moon.png?c3e72" height="20" alt=""> Blue Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blue_Moon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bork.png/48px-Bork.png?67f06" height="20" alt=""> [Bork](content/bosses/bork) | 689 loc | [wiki](https://oldschool.runescape.wiki/w/Bork) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bork.png/48px-Bork.png?67f06" height="20" alt=""> Bork | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Bork) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer.png/48px-Bouncer.png?4de03" height="20" alt=""> Bouncer | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer_%28ghost%29.png/48px-Bouncer_%28ghost%29.png?756db" height="20" alt=""> Bouncer (ghost) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer_(ghost)) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Branda_the_Fire_Queen.png/48px-Branda_the_Fire_Queen.png?0687c" height="20" alt=""> Branda the Fire Queen | no module, code in content/bosses/royal-titans | [wiki](https://oldschool.runescape.wiki/w/Branda_the_Fire_Queen) |
@@ -102,6 +103,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dessous.png/48px-Dessous.png?bd2c8" height="20" alt=""> Dessous | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dessous) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dharok_the_Wretched.png/48px-Dharok_the_Wretched.png?33092" height="20" alt=""> Dharok the Wretched | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Dharok_the_Wretched) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Doom_of_Mokhaiotl.png/48px-Doom_of_Mokhaiotl.png?e5edb" height="20" alt=""> [Doom of Mokhaiotl](content/bosses/doom-of-mokhaiotl) | 3,150 loc | [wiki](https://oldschool.runescape.wiki/w/Doom_of_Mokhaiotl) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dreadnoth_the_Jellied.png/48px-Dreadnoth_the_Jellied.png?bc5b7" height="20" alt=""> Dreadnoth the Jellied | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Dreadnoth_the_Jellied) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Duke_Sucellus.png/48px-Duke_Sucellus.png?d588a" height="20" alt=""> [Duke Sucellus](content/bosses/duke-sucellus) | 1,264 loc | [wiki](https://oldschool.runescape.wiki/w/Duke_Sucellus) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dusk.png/48px-Dusk.png?2d6f0" height="20" alt=""> Dusk | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Dusk) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Eclipse Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Eclipse_Moon) |
@@ -153,6 +155,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Nezikchened.png/48px-Nezikchened.png?8ee94" height="20" alt=""> Nezikchened | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Nezikchened) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Nylocas_Vasilias_%28melee%29.png/48px-Nylocas_Vasilias_%28melee%29.png?52075" height="20" alt=""> Nylocas Vasilias | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Nylocas_Vasilias) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Obor.png/48px-Obor.png?08bc8" height="20" alt=""> [Obor](content/bosses/obor) | 60 loc | [wiki](https://oldschool.runescape.wiki/w/Obor) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ocellus.png/48px-Ocellus.png?6fd2f" height="20" alt=""> Ocellus | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Ocellus) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Penance_Queen.png/48px-Penance_Queen.png?56343" height="20" alt=""> Penance Queen | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Penance_Queen) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Pestilent_Bloat.png/48px-Pestilent_Bloat.png?b1ab7" height="20" alt=""> Pestilent Bloat | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Pestilent_Bloat) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Phantom_Muspah_%28ranged%29.png/48px-Phantom_Muspah_%28ranged%29.png?9cf6a" height="20" alt=""> [Phantom Muspah](content/bosses/muspah) | 1,295 loc | [wiki](https://oldschool.runescape.wiki/w/Phantom_Muspah) |
@@ -187,6 +190,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Maiden_of_Sugadinti.png/48px-The_Maiden_of_Sugadinti.png?c69d5" height="20" alt=""> The Maiden of Sugadinti | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Maiden_of_Sugadinti) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Mimic.png/48px-The_Mimic.png?b45f4" height="20" alt=""> The Mimic | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Mimic) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/48px-The_Nightmare.png?0128a" height="20" alt=""> The Nightmare | no module, code in content/other/pets, content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Nightmare) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Smorks.png/48px-The_Smorks.png?bc5b7" height="20" alt=""> The Smorks | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/The_Smorks) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Untouchable.png/48px-The_Untouchable.png?dc69e" height="20" alt=""> The Untouchable | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Untouchable) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Whisperer.png/48px-The_Whisperer.png?aedab" height="20" alt=""> [The Whisperer](content/bosses/whisperer) | 1,854 loc | [wiki](https://oldschool.runescape.wiki/w/The_Whisperer) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Thermonuclear_smoke_devil.png/48px-Thermonuclear_smoke_devil.png?de858" height="20" alt=""> Thermonuclear smoke devil | no module, code in content/bosses/thermy | [wiki](https://oldschool.runescape.wiki/w/Thermonuclear_smoke_devil) |
@@ -211,17 +215,18 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Howling_Snow_Storm.gif/48px-Howling_Snow_Storm.gif?ec549" height="20" alt=""> [Wintertodt](content/bosses/wintertodt) | 955 loc | [wiki](https://oldschool.runescape.wiki/w/Wintertodt) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Xamphur_%28monster%2C_phantom_hands%29.png/48px-Xamphur_%28monster%2C_phantom_hands%29.png?de61a" height="20" alt=""> Xamphur | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Xamphur) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Xarpus_%28phase_1%29.png/48px-Xarpus_%28phase_1%29.png?81ca6" height="20" alt=""> Xarpus | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Xarpus) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Xarth.png/48px-Xarth.png?bc5b7" height="20" alt=""> Xarth | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Xarth) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Yama.png/48px-Yama.png?7653a" height="20" alt=""> Yama | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Yama) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zalcano_%28weakened%29.png/48px-Zalcano_%28weakened%29.png?fa423" height="20" alt=""> [Zalcano](content/bosses/zalcano) | 556 loc | [wiki](https://oldschool.runescape.wiki/w/Zalcano) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zebak.png/48px-Zebak.png?23978" height="20" alt=""> Zebak | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Zebak) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/48px-Zulrah_%28serpentine%29.png?29a54" height="20" alt=""> [Zulrah](content/bosses/zulrah) | 639 loc | [wiki](https://oldschool.runescape.wiki/w/Zulrah) |
 
 <details>
-<summary>🔴 <b>10 not started</b></summary>
+<summary>🔴 <b>5 not started</b></summary>
 
-**Nothing yet (10)**
+**Nothing yet (5)**
 
-[Archive Guardian](https://oldschool.runescape.wiki/w/Archive_Guardian) · [Dagon'hai Elder](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) · [Dagon'hai Monk](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) · [Dreadnoth the Jellied](https://oldschool.runescape.wiki/w/Dreadnoth_the_Jellied) · [Ezekiel](https://oldschool.runescape.wiki/w/Ezekiel) · [Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Moia](https://oldschool.runescape.wiki/w/Moia) · [Ocellus](https://oldschool.runescape.wiki/w/Ocellus) · [The Smorks](https://oldschool.runescape.wiki/w/The_Smorks) · [Xarth](https://oldschool.runescape.wiki/w/Xarth)
+[Dagon'hai Elder](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) · [Dagon'hai Monk](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) · [Ezekiel](https://oldschool.runescape.wiki/w/Ezekiel) · [Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Moia](https://oldschool.runescape.wiki/w/Moia)
 
 </details>
 
@@ -230,7 +235,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | | Feature | Status | |
 |---|---|---|---|
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Chambers_of_Xeric_logo.png/48px-Chambers_of_Xeric_logo.png?34a98" height="20" alt=""> Chambers of Xeric | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Chambers_of_Xeric) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Fractured_Archive_logo.png/48px-The_Fractured_Archive_logo.png?2eb86" height="20" alt=""> The Fractured Archive | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Fractured_Archive) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Fractured_Archive_logo.png/48px-The_Fractured_Archive_logo.png?2eb86" height="20" alt=""> The Fractured Archive | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/The_Fractured_Archive) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Theatre_of_Blood_logo.png/48px-Theatre_of_Blood_logo.png?e6e68" height="20" alt=""> Theatre of Blood | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Theatre_of_Blood) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tombs_of_Amascut.png/48px-Tombs_of_Amascut.png?f9992" height="20" alt=""> Tombs of Amascut | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tombs_of_Amascut) |
 
@@ -268,11 +273,11 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/al-kharid` | 9 | 546 | 1 | 0 | 2026-10-30 |
 | `areas/city/al-kharid/pack` | 1 | 6 | 0 | 0 | 2026-10-18 |
 | `areas/city/ardougne` | 1 | 139 | 0 | 0 | 2026-09-25 |
-| `areas/city/barbarian-village` | 9 | 526 | 0 | 0 | 2026-10-17 |
+| `areas/city/barbarian-village` | 9 | 526 | 0 | 0 | 2026-10-21 |
 | `areas/city/barbarian-village/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/city/desert` | 1 | 36 | 0 | 0 | 2026-10-22 |
 | `areas/city/desert/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
-| `areas/city/draynor` | 17 | 3,791 | 4 | 0 | 2026-10-30 |
+| `areas/city/draynor` | 17 | 3,791 | 4 | 0 | 2026-10-31 |
 | `areas/city/draynor/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `areas/city/edgeville` | 4 | 374 | 0 | 0 | 2026-10-25 |
 | `areas/city/edgeville/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
@@ -323,8 +328,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/alchemical-hydra` | 1 | 271 | 1 | 0 | 2026-10-27 |
 | `bosses/amoxliatl` | 2 | 387 | 0 | 0 | 2026-10-01 |
 | `bosses/araxxor` | 1 | 464 | 1 | 0 | 2026-10-27 |
-| `bosses/barrows` | 16 | 1,566 | 1 | 0 | 2026-10-09 |
-| `bosses/bork` | 3 | 689 | 0 | 0 | 2026-10-31 |
+| `bosses/barrows` | 16 | 1,566 | 1 | 0 | 2026-10-21 |
 | `bosses/brutus` | 9 | 1,411 | 3 | 2 | 2026-10-19 |
 | `bosses/bryophyta` | 2 | 153 | 1 | 0 | 2026-10-27 |
 | `bosses/callisto` | 2 | 568 | 0 | 0 | 2026-09-30 |
@@ -362,7 +366,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/scorpia` | 1 | 133 | 0 | 0 | 2026-10-25 |
 | `bosses/scurrius` | 2 | 384 | 0 | 0 | 2026-10-01 |
 | `bosses/skotizo` | 1 | 264 | 1 | 0 | 2026-10-27 |
-| `bosses/spindel` | 2 | 522 | 0 | 0 | 2026-09-30 |
+| `bosses/spindel` | 2 | 522 | 0 | 0 | 2026-10-21 |
 | `bosses/thermy` | 2 | 125 | 1 | 0 | 2026-10-26 |
 | `bosses/tormented-demon` | 2 | 531 | 0 | 0 | 2026-10-01 |
 | `bosses/tztokjad` | 1 | 223 | 1 | 0 | 2026-10-29 |
@@ -375,7 +379,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/zalcano` | 2 | 556 | 0 | 0 | 2026-10-29 |
 | `bosses/zilyana` | 2 | 164 | 0 | 0 | 2026-09-30 |
 | `bosses/zulrah` | 4 | 639 | 1 | 0 | 2026-10-27 |
-| `drops` | 253 | 14,543 | 0 | 0 | 2026-10-29 |
+| `drops` | 253 | 14,543 | 0 | 0 | 2026-10-31 |
 | `events/raging-echoes-league` | 2 | 49 | 0 | 0 | 2026-10-06 |
 | `events/shooting-stars` | 9 | 1,261 | 0 | 0 | 2026-10-18 |
 | `events/shooting-stars/pack` | 2 | 440 | 0 | 0 | 2026-08-21 |
@@ -383,7 +387,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `generic/generic-items/pack` | 2 | 140 | 0 | 0 | 2026-10-30 |
 | `generic/generic-locs` | 31 | 1,638 | 2 | 1 | 2026-10-27 |
 | `generic/generic-locs/pack` | 1 | 6 | 0 | 0 | 2026-10-21 |
-| `generic/generic-npcs` | 10 | 1,672 | 3 | 3 | 2026-10-30 |
+| `generic/generic-npcs` | 10 | 1,672 | 3 | 3 | 2026-10-31 |
 | `generic/generic-npcs/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `generic/killcount` | 1 | 36 | 0 | 0 | 2026-10-27 |
 | `interfaces/bank` | 15 | 2,320 | 3 | 1 | 2026-10-25 |
@@ -437,6 +441,9 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `quest` | 86 | 18,032 | 16 | 4 | 2026-10-30 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-10-25 |
+| `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
+| `raids/tfa` | 85 | 12,453 | 5 | 0 | 2026-10-31 |
+| `raids/tfa/pack` | 5 | 130 | 0 | 0 | 2026-10-30 |
 | `skills/agility` | 2 | 343 | 2 | 0 | 2026-10-30 |
 | `skills/agility/pack` | 1 | 6 | 0 | 0 | 2026-10-25 |
 | `skills/cooking` | 13 | 1,429 | 0 | 0 | 2026-10-31 |
@@ -465,7 +472,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `skills/slayer` | 52 | 6,006 | 8 | 0 | 2026-10-30 |
 | `skills/slayer/pack` | 1 | 6 | 0 | 0 | 2026-10-30 |
 | `skills/smithing` | 15 | 2,139 | 1 | 1 | 2026-10-30 |
-| `skills/thieving` | 3 | 1,333 | 0 | 0 | 2026-10-30 |
+| `skills/thieving` | 3 | 1,333 | 0 | 0 | 2026-10-31 |
 | `skills/utils` | 2 | 355 | 0 | 0 | 2026-10-27 |
 | `skills/woodcutting` | 5 | 422 | 2 | 2 | 2026-10-30 |
 | `travel/canoe` | 6 | 1,122 | 1 | 2 | 2026-07-22 |

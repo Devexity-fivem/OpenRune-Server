@@ -77,19 +77,33 @@ function gitLastCommit(dir) {
  */
 function loadNpcs() {
   const file = P('osrs-dumps', 'dump.npc')
-  if (!fs.existsSync(file)) return { symbols: [], byName: new Map() }
   const symbols = []
   const byName = new Map()
-  let current = null
-  for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
-    const sym = line.match(/^\[([a-z0-9_]+)\]$/)
-    if (sym) { current = sym[1]; symbols.push(current); continue }
-    const name = line.match(/^name=(.+)$/)
-    if (!name || !current) continue
-    const key = name[1].trim().toLowerCase()
-    if (!byName.has(key)) byName.set(key, [])
-    byName.get(key).push(current)
-    current = null
+  if (fs.existsSync(file)) {
+    let current = null
+    for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
+      const sym = line.match(/^\[([a-z0-9_]+)\]$/)
+      if (sym) { current = sym[1]; symbols.push(current); continue }
+      const name = line.match(/^name=(.+)$/)
+      if (!name || !current) continue
+      const key = name[1].trim().toLowerCase()
+      if (!byName.has(key)) byName.set(key, [])
+      byName.get(key).push(current)
+      current = null
+    }
+  }
+  // Server-side npcs.toml declares cache symbols the dump predates (e.g. new
+  // raid npcs). Symbol-only; no display-name fallback for these.
+  const toml = P('.data', 'raw-cache', 'server', 'npcs.toml')
+  if (fs.existsSync(toml)) {
+    const seen = new Set(symbols)
+    for (const line of fs.readFileSync(toml, 'utf8').split(/\r?\n/)) {
+      const id = line.match(/^id = "npc\.([a-z0-9_]+)"/)
+      if (id && !seen.has(id[1])) {
+        seen.add(id[1])
+        symbols.push(id[1])
+      }
+    }
   }
   return { symbols, byName }
 }

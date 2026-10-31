@@ -450,3 +450,44 @@ Pending before Archive Guardian work:
   GenDropTables.py exists in repo root).
 - After each boss: regenerate PROGRESS.md via tools/progress/content-progress.mjs,
   commit + push.
+
+## Phase 5 — TFA raid merge (athoren/feat/tfa-2) + live verification
+
+### Merged (61 commits, 186 files, ~15.6k LOC)
+- `content/raids/tfa/` — full raid: lobby + party system (TfaLobby, TfaPartyScript,
+  raid-entry loc), TfaFight orchestrator + TfaRaidHud, 5 encounters
+  (Guardian, Bork+Smorks, Dreadnoth, Xarth, Ocellus — each with Arena/Fight/Boss/
+  Encounter/Hooks/InstanceScript/Cheats), reward vault (TfaVault + TfaChestDropTables
+  + TfaUniqueClaim), pack module with team-scaling dbtables (62000-62003)
+- `content/raids/party/` — generic raid party registry/tested module
+- `api/bosses/` — DSL extensions (summon.behaviour, external triggers, more effects)
+- Engine: NpcApproach enum, scriptedMovement, interactsWhenUnderTarget, visType,
+  NpcInfoProtocol +setBaseAnimationSet/setCombatLevel/setTransparency, ScriptedProjAnim
+- Dev cheats: `::tfalobby`, `::tfa<boss>` teleport, `::<boss> start|hp|...` controls
+- Conflicts resolved: gameval rscm unions, npcs.toml (their richer tfa defs over our
+  standalone), EffectInterpreter (both summon hooks), ZoneUpdateTransformer (our
+  Obj.copy + their ScriptedProjAdd), BossDeps param dedupe (kept upstream
+  `playerInteractions` + `interactions` alias), TFA varns renumbered 64420->64500
+  (collided with maggot-king)
+- Removed content/bosses/bork — superseded by raids/tfa encounter
+
+### Live-verified (MCP, world 255, account `devin ai`)
+- Bork instance (`::tfabork`): teleported to instance region 41217, Bork lvl 871 +
+  The Smorks lvl 640 spawned (matches Wiki)
+- Fight (`::bork start`): Bork hunts + targets player; gong-melee attack
+  `anim 14542 = npc_bork_gong_melee01` on 7-tick cadence (ticks 630,637);
+  idle 14540 = npc_bork_idle01; walk 14539 = npc_bork_walk01
+- Smorks: alternating cannon volleys (2 projectile ids) + `14554 =
+  npc_smork_cannon_attack01` anim; 17-damage hitsplat landed on player
+- Death flow: player killed by Bork+volleys -> Lumbridge respawn, instance torn down
+- Guardian instance (`::tfaguardian` + `::guardian start`): spawn plays
+  `14755 = npc_archive_guardian_spawn01` + spotanim 4206, transitions to
+  `14757 = npc_archive_guardian_spawn_idle01`, hunts player; inert sentries +
+  4 choice doors (Enter/Quick-enter) present in room
+- Untested live: Dreadnoth, Xarth, Ocellus encounters; party/lobby UI; vault loot;
+  full raid completion path (Guardian -> doors -> Ocellus)
+
+### Not in the branch
+- Ezekiel + Moia encounters (raid's other 2 optional bosses) — still unimplemented
+- The Fractured Archive miniquest + While Guthix Sleeps requirement gating
+- Ascension rock mine in lobby (check if implemented elsewhere)
