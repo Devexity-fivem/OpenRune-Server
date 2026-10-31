@@ -484,8 +484,24 @@ Pending before Archive Guardian work:
   `14755 = npc_archive_guardian_spawn01` + spotanim 4206, transitions to
   `14757 = npc_archive_guardian_spawn_idle01`, hunts player; inert sentries +
   4 choice doors (Enter/Quick-enter) present in room
-- Untested live: Dreadnoth, Xarth, Ocellus encounters; party/lobby UI; vault loot;
-  full raid completion path (Guardian -> doors -> Ocellus)
+- Dreadnoth (`::tfadreadnoth` + `::dreadnoth start`): instance opens, lvl 888
+  spawns dormant; on approach hunts player — `dreadnoth_idle01`(14776) idle,
+  `dreadnoth_slide01`(14778) sliding walk; hits landed both ways
+- Xarth (`::tfaxarth` + `::xarth start`): instance opens, lvl 912 + corpse-heaps
+  spawn; `ready` starts the fight (`Challenge started: Xarth.`), debug shows
+  phase=p1 wave=1 heaps=4 slot cycling — wave/corpse mechanics tick correctly
+- Ocellus (`::tfaocellus`, walk past antechamber, `::ocellus start`): Hooded
+  Figure transforms into Ocellus lvl 1121 (same npc index), `14806 =
+  npc_ocellus_phase1_basic_projectile_start` + `14805 = phase1_walk` observed;
+  phase-1 fight engages, damage both ways at 96% boss hp; 4 god censers present
+- Lobby (`::tfalobby` -> 4130,5555 real map): Archive Door, Grouping Board,
+  Bank Chest, Alliance records, Strategy board — all match Wiki lobby
+- Party flow: Grouping Board Inspect -> `tfa_lobby` overlay (975) renders
+  No-Party roster; Archive Door Enter -> "not in a raiding party" gate ->
+  "Form or join a party" -> `tfa_partylist` (977) opens with authentic steel
+  frame + sortable columns
+- Still untested live: vault loot (needs a full kill chain), party of 2+
+  scaling, Ezekiel/Moia (not implemented), full Guardian->doors->Ocellus run
 
 ### Not in the branch
 - Ezekiel + Moia encounters (raid's other 2 optional bosses) — still unimplemented
