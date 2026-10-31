@@ -67,6 +67,24 @@ hunter_falconry_speedy2 = 63062
 
 [gamevals.varp]
 hunter_falconry_invested = 63057
+ii_tracker_1 = 63063
+ii_tracker_2 = 63064
+ii_tracker_3 = 63065
+ii_tracker_4 = 63066
+ii_tracker_5 = 63067
+ii_tracker_6 = 63068
+ii_tracker_7 = 63069
+ii_tracker_8 = 63070
+ii_tracker_9 = 63071
+ii_tracker_10 = 63072
+ii_tracker_11 = 63073
+ii_tracker_12 = 63074
+ii_daily_jars_stamp = 63075
+ii_stored_net_magic = 63076
 
 [gamevals.varbit]
 hunter_falconry_invested = 63057
+ii_stored_net_magic = 63076
+
+[gamevals.queue]
+ii_defender = 64455

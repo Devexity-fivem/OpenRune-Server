@@ -8,3 +8,79 @@ id = "varbit.hunter_falconry_invested"
 varp = "varp.hunter_falconry_invested"
 startBit = 0
 endBit = 0
+
+[[varp]]
+id = "varp.ii_tracker_1"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_2"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_3"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_4"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_5"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_6"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_7"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_8"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_9"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_10"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_11"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_tracker_12"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_daily_jars_stamp"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.ii_stored_net_magic"
+scope = "Perm"
+transmit = "Never"
+
+[[varbit]]
+id = "varbit.ii_stored_net_magic"
+varp = "varp.ii_stored_net_magic"
+startBit = 0
+endBit = 0

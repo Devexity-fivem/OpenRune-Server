@@ -79,6 +79,7 @@ constructor(
     private val dropRegistry: DropTableRegistry,
     private val implingSpawns: ImplingSpawnManager,
     private val falconry: FalconryManager,
+    private val puro: PuroPuroManager,
     private val eventBus: EventBus,
     private val unequipOp: WornUnequipOp,
 ) : PluginScript() {
@@ -375,31 +376,30 @@ constructor(
     }
 
     fun ProtectedAccess.catchImpling(npc: Npc, prey: ImplingPrey) {
-        val inPuro = npc.type.internalName.endsWith("_maze")
-        val normalNet = BUTTERFLY_NET in player.worn
-        val magicNet = MAGIC_NET in player.worn
-        val netted = normalNet || magicNet
-        if (inPuro && !netted && !inv.contains(BUTTERFLY_NET) && !inv.contains(MAGIC_NET)) {
-            mes("You need a butterfly net to catch implings here.")
+        val owner = puro.ownerOf(npc)
+        if (owner != null && owner != player) {
+            mes("You may only catch implings that you freed yourself.")
             return
         }
-        val required = if (netted || inPuro) prey.level else prey.level + IMPLING_BAREHANDED_BONUS
+        val inPuro = npc.type.internalName.endsWith("_maze")
+        val netted = BUTTERFLY_NET in player.worn || MAGIC_NET in player.worn
+        val required = if (netted) prey.level else prey.level + IMPLING_BAREHANDED_BONUS
         if (player.hunterLvl < required) {
-            val how = if (netted || inPuro) "" else " barehanded"
+            val how = if (netted) "" else " barehanded"
             mes("You need a Hunter level of at least $required to catch an impling$how.")
             return
         }
-        val requiresJar = netted || inPuro
-        if (requiresJar && !inv.contains(IMPLING_JAR)) {
+        if ((netted || inPuro) && !inv.contains(IMPLING_JAR)) {
             mes("You need an empty impling jar to catch an impling.")
             return
         }
-        val jarred = requiresJar
+        val jarred = netted || inPuro
         anim(IMPLING_CATCH_SEQ)
-        val boosted = magicNet || (!netted && !inPuro)
+        val boosted = MAGIC_NET in player.worn || !netted
         if (Random.nextDouble() < implingCatchChance(player.hunterLvl, boosted)) {
             npc.anim(IMPLING_CAUGHT_SEQ)
-            npcRepo.del(npc, prey.respawn)
+            npcRepo.del(npc, if (owner != null) Int.MAX_VALUE else prey.respawn)
+            puro.forget(npc)
             if (jarred) {
                 invDel(inv, IMPLING_JAR, 1)
                 player.invAddOrDrop(objRepo, prey.jarred)
@@ -410,6 +410,7 @@ constructor(
             }
             val xpTenths = if (inPuro) prey.xpPuroTenths else prey.xpGielinorTenths
             statAdvance(STAT_HUNTER, xpTenths / 10.0 * xpMods.get(player, STAT_HUNTER))
+            puro.bumpTracker(player, implings.indexOf(prey), inPuro)
         } else {
             npc.anim(IMPLING_DODGE_SEQ)
             mes("The impling evades your attempt.")
