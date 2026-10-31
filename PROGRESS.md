@@ -9,7 +9,7 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **23/23** · Bosses **167/178** · Raids **4/4** · Minigames **10/52**
+Skills **23/23** · Bosses **168/178** · Raids **4/4** · Minigames **10/52**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
@@ -43,7 +43,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 3,238 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
-### Bosses <sup>167/178</sup>
+### Bosses <sup>168/178</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
@@ -69,6 +69,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Black_golem.png/48px-Black_golem.png?18834" height="20" alt=""> Black golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_golem) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Blood_Moon.png/48px-Blood_Moon.png?c3e72" height="20" alt=""> Blood Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blood_Moon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Blue_Moon.png/48px-Blue_Moon.png?c3e72" height="20" alt=""> Blue Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blue_Moon) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bork.png/48px-Bork.png?67f06" height="20" alt=""> [Bork](content/bosses/bork) | 689 loc | [wiki](https://oldschool.runescape.wiki/w/Bork) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer.png/48px-Bouncer.png?4de03" height="20" alt=""> Bouncer | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer_%28ghost%29.png/48px-Bouncer_%28ghost%29.png?756db" height="20" alt=""> Bouncer (ghost) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer_(ghost)) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Branda_the_Fire_Queen.png/48px-Branda_the_Fire_Queen.png?0687c" height="20" alt=""> Branda the Fire Queen | no module, code in content/bosses/royal-titans | [wiki](https://oldschool.runescape.wiki/w/Branda_the_Fire_Queen) |
@@ -216,11 +217,11 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/48px-Zulrah_%28serpentine%29.png?29a54" height="20" alt=""> [Zulrah](content/bosses/zulrah) | 639 loc | [wiki](https://oldschool.runescape.wiki/w/Zulrah) |
 
 <details>
-<summary>🔴 <b>11 not started</b></summary>
+<summary>🔴 <b>10 not started</b></summary>
 
-**Nothing yet (11)**
+**Nothing yet (10)**
 
-[Archive Guardian](https://oldschool.runescape.wiki/w/Archive_Guardian) · [Bork](https://oldschool.runescape.wiki/w/Bork) · [Dagon'hai Elder](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) · [Dagon'hai Monk](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) · [Dreadnoth the Jellied](https://oldschool.runescape.wiki/w/Dreadnoth_the_Jellied) · [Ezekiel](https://oldschool.runescape.wiki/w/Ezekiel) · [Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Moia](https://oldschool.runescape.wiki/w/Moia) · [Ocellus](https://oldschool.runescape.wiki/w/Ocellus) · [The Smorks](https://oldschool.runescape.wiki/w/The_Smorks) · [Xarth](https://oldschool.runescape.wiki/w/Xarth)
+[Archive Guardian](https://oldschool.runescape.wiki/w/Archive_Guardian) · [Dagon'hai Elder](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) · [Dagon'hai Monk](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) · [Dreadnoth the Jellied](https://oldschool.runescape.wiki/w/Dreadnoth_the_Jellied) · [Ezekiel](https://oldschool.runescape.wiki/w/Ezekiel) · [Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Moia](https://oldschool.runescape.wiki/w/Moia) · [Ocellus](https://oldschool.runescape.wiki/w/Ocellus) · [The Smorks](https://oldschool.runescape.wiki/w/The_Smorks) · [Xarth](https://oldschool.runescape.wiki/w/Xarth)
 
 </details>
 
@@ -323,6 +324,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/amoxliatl` | 2 | 387 | 0 | 0 | 2026-10-01 |
 | `bosses/araxxor` | 1 | 464 | 1 | 0 | 2026-10-27 |
 | `bosses/barrows` | 16 | 1,566 | 1 | 0 | 2026-10-09 |
+| `bosses/bork` | 3 | 689 | 0 | 0 | 2026-10-31 |
 | `bosses/brutus` | 9 | 1,411 | 3 | 2 | 2026-10-19 |
 | `bosses/bryophyta` | 2 | 153 | 1 | 0 | 2026-10-27 |
 | `bosses/callisto` | 2 | 568 | 0 | 0 | 2026-09-30 |
