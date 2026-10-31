@@ -10928,7 +10928,11 @@ inherit = "npc.fairy2_dryhadguardian_6"
 [[npc]]
 id = "npc.chickenquest_baby_black_dragon"
 inherit = "npc.chickenquest_baby_black_dragon"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.dragon_attack"
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=1
