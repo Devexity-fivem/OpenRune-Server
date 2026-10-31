@@ -36871,3 +36871,20 @@ maxRange = 15
 "param.attack_anim"="seq.human_sword_slash"
 "param.defend_anim"="seq.human_unarmed_def"
 "param.death_anim"="seq.human_death"
+[[npc]]
+id = "npc.tfa_bork"
+inherit = "npc.tfa_bork"
+huntMode = 1
+huntRange = 14
+maxRange = 20
+moveRestrict = "Normal"
+[npc.params]
+"param.attack_anim"="seq.npc_bork_gong_melee01"
+"param.death_anim"="seq.npc_bork_death01"
+"param.npc_attack_type"="category.attacktype_crush"
+[[npc]]
+id = "npc.tfa_smork"
+inherit = "npc.tfa_smork"
+moveRestrict = "Blocked"
+defaultMode = "None"
+wanderRange = 0
