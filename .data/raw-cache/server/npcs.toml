@@ -12028,7 +12028,8 @@ inherit = "npc.tzhaar_mej1"
 "param.attackrate"=5
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalakxil_attack_magic"
+"param.death_anim"="seq.jalakxil_death"
 [[npc]]
 id = "npc.tzhaar_mej2"
 inherit = "npc.tzhaar_mej2"
@@ -12037,7 +12038,8 @@ inherit = "npc.tzhaar_mej2"
 "param.attackrate"=5
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalakxil_attack_magic"
+"param.death_anim"="seq.jalakxil_death"
 [[npc]]
 id = "npc.tzhaar_mej3"
 inherit = "npc.tzhaar_mej3"
@@ -12046,7 +12048,8 @@ inherit = "npc.tzhaar_mej3"
 "param.attackrate"=5
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalakxil_attack_magic"
+"param.death_anim"="seq.jalakxil_death"
 [[npc]]
 id = "npc.tzhaar_mej4"
 inherit = "npc.tzhaar_mej4"
@@ -12055,7 +12058,8 @@ inherit = "npc.tzhaar_mej4"
 "param.attackrate"=5
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalakxil_attack_magic"
+"param.death_anim"="seq.jalakxil_death"
 [[npc]]
 id = "npc.tzhaar_mej5"
 inherit = "npc.tzhaar_mej5"
@@ -12064,7 +12068,8 @@ inherit = "npc.tzhaar_mej5"
 "param.attackrate"=5
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalakxil_attack_magic"
+"param.death_anim"="seq.jalakxil_death"
 [[npc]]
 id = "npc.tzhaar_mej6"
 inherit = "npc.tzhaar_mej6"
@@ -12073,7 +12078,8 @@ inherit = "npc.tzhaar_mej6"
 "param.attackrate"=5
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalakxil_attack_magic"
+"param.death_anim"="seq.jalakxil_death"
 [[npc]]
 id = "npc.tzhaar_mej7"
 inherit = "npc.tzhaar_mej7"
@@ -12082,7 +12088,8 @@ inherit = "npc.tzhaar_mej7"
 "param.attackrate"=5
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalakxil_attack_magic"
+"param.death_anim"="seq.jalakxil_death"
 [[npc]]
 id = "npc.tzhaar_hur1"
 inherit = "npc.tzhaar_hur1"
@@ -12144,7 +12151,9 @@ inherit = "npc.tzhaar_xil1"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalxil_attack_ranged"
+"param.defend_anim"="seq.jalxil_defend"
+"param.death_anim"="seq.jalxil_death"
 [[npc]]
 id = "npc.tzhaar_xil2"
 inherit = "npc.tzhaar_xil2"
@@ -12152,7 +12161,9 @@ inherit = "npc.tzhaar_xil2"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalxil_attack_ranged"
+"param.defend_anim"="seq.jalxil_defend"
+"param.death_anim"="seq.jalxil_death"
 [[npc]]
 id = "npc.tzhaar_xil3"
 inherit = "npc.tzhaar_xil3"
@@ -12160,7 +12171,9 @@ inherit = "npc.tzhaar_xil3"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalxil_attack_ranged"
+"param.defend_anim"="seq.jalxil_defend"
+"param.death_anim"="seq.jalxil_death"
 [[npc]]
 id = "npc.tzhaar_xil4"
 inherit = "npc.tzhaar_xil4"
@@ -12168,7 +12181,9 @@ inherit = "npc.tzhaar_xil4"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalxil_attack_ranged"
+"param.defend_anim"="seq.jalxil_defend"
+"param.death_anim"="seq.jalxil_death"
 [[npc]]
 id = "npc.tzhaar_xil5"
 inherit = "npc.tzhaar_xil5"
@@ -12176,7 +12191,9 @@ inherit = "npc.tzhaar_xil5"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalxil_attack_ranged"
+"param.defend_anim"="seq.jalxil_defend"
+"param.death_anim"="seq.jalxil_death"
 [[npc]]
 id = "npc.tzhaar_xil6"
 inherit = "npc.tzhaar_xil6"
@@ -12184,7 +12201,9 @@ inherit = "npc.tzhaar_xil6"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalxil_attack_ranged"
+"param.defend_anim"="seq.jalxil_defend"
+"param.death_anim"="seq.jalxil_death"
 [[npc]]
 id = "npc.tzhaar_ket1"
 inherit = "npc.tzhaar_ket1"
@@ -12192,7 +12211,9 @@ inherit = "npc.tzhaar_ket1"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalimkot_attack"
+"param.defend_anim"="seq.jalimkot_defend"
+"param.death_anim"="seq.jalimkot_death"
 [[npc]]
 id = "npc.tzhaar_ket2"
 inherit = "npc.tzhaar_ket2"
@@ -12200,7 +12221,9 @@ inherit = "npc.tzhaar_ket2"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalimkot_attack"
+"param.defend_anim"="seq.jalimkot_defend"
+"param.death_anim"="seq.jalimkot_death"
 [[npc]]
 id = "npc.tzhaar_ket3"
 inherit = "npc.tzhaar_ket3"
@@ -12208,7 +12231,9 @@ inherit = "npc.tzhaar_ket3"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalimkot_attack"
+"param.defend_anim"="seq.jalimkot_defend"
+"param.death_anim"="seq.jalimkot_death"
 [[npc]]
 id = "npc.tzhaar_ket4"
 inherit = "npc.tzhaar_ket4"
@@ -12216,7 +12241,9 @@ inherit = "npc.tzhaar_ket4"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalimkot_attack"
+"param.defend_anim"="seq.jalimkot_defend"
+"param.death_anim"="seq.jalimkot_death"
 [[npc]]
 id = "npc.tzhaar_ket5"
 inherit = "npc.tzhaar_ket5"
@@ -12224,7 +12251,9 @@ inherit = "npc.tzhaar_ket5"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalimkot_attack"
+"param.defend_anim"="seq.jalimkot_defend"
+"param.death_anim"="seq.jalimkot_death"
 [[npc]]
 id = "npc.tzhaar_ket6"
 inherit = "npc.tzhaar_ket6"
@@ -12232,7 +12261,9 @@ inherit = "npc.tzhaar_ket6"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalimkot_attack"
+"param.defend_anim"="seq.jalimkot_defend"
+"param.death_anim"="seq.jalimkot_death"
 [[npc]]
 id = "npc.tzhaar_ket7"
 inherit = "npc.tzhaar_ket7"
@@ -12240,7 +12271,9 @@ inherit = "npc.tzhaar_ket7"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalimkot_attack"
+"param.defend_anim"="seq.jalimkot_defend"
+"param.death_anim"="seq.jalimkot_death"
 [[npc]]
 id = "npc.tzhaar_fightpit_swarm_1a"
 inherit = "npc.tzhaar_fightpit_swarm_1a"
@@ -12884,7 +12917,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=25
-
+"param.defend_anim"="seq.snail_defend"
+"param.death_anim"="seq.snail_death"
 [[npc]]
 id = "npc.mmsnailround_red+black"
 inherit = "npc.mmsnailround_red+black"
@@ -12911,7 +12945,8 @@ attackRange = 10
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=25
-
+"param.defend_anim"="seq.snail_defend"
+"param.death_anim"="seq.snail_death"
 [[npc]]
 id = "npc.mmsnailround_blue"
 inherit = "npc.mmsnailround_blue"
@@ -12926,7 +12961,8 @@ attackRange = 10
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=25
-
+"param.defend_anim"="seq.snail_defend"
+"param.death_anim"="seq.snail_death"
 [[npc]]
 id = "npc.mmsnailround_orange"
 inherit = "npc.mmsnailround_orange"
@@ -12941,7 +12977,8 @@ attackRange = 10
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=30
-
+"param.defend_anim"="seq.snail_defend"
+"param.death_anim"="seq.snail_death"
 [[npc]]
 id = "npc.mmsnailpoint_swamp"
 inherit = "npc.mmsnailpoint_swamp"
@@ -12955,7 +12992,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=25
-
+"param.defend_anim"="seq.snail_defend"
+"param.death_anim"="seq.snail_death"
 [[npc]]
 id = "npc.mmsnailpoint_red+black"
 inherit = "npc.mmsnailpoint_red+black"
@@ -12982,7 +13020,8 @@ attackRange = 10
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=25
-
+"param.defend_anim"="seq.snail_defend"
+"param.death_anim"="seq.snail_death"
 [[npc]]
 id = "npc.mmsnailpoint_blue"
 inherit = "npc.mmsnailpoint_blue"
@@ -12997,7 +13036,8 @@ attackRange = 10
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=25
-
+"param.defend_anim"="seq.snail_defend"
+"param.death_anim"="seq.snail_death"
 [[npc]]
 id = "npc.small_bat"
 inherit = "npc.small_bat"
@@ -14719,7 +14759,9 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=25
-
+"param.attack_anim"="seq.demon_attack"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.skeleton_hellhound"
 inherit = "npc.skeleton_hellhound"
@@ -16158,7 +16200,8 @@ inherit = "npc.mole_giant"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.total_mole_kills"
-
+"param.defend_anim"="seq.mole_defend"
+"param.death_anim"="seq.mole_death"
 [[npc]]
 id = "npc.fris_troll_king_true"
 inherit = "npc.fris_troll_king_true"
@@ -17324,7 +17367,7 @@ inherit = "npc.macro_shade"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=40
-
+"param.defend_anim"="seq.shade_block"
 [[npc]]
 id = "npc.macro_zombie"
 inherit = "npc.macro_zombie"
@@ -17385,7 +17428,9 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.npc_ent_attack_01"
+"param.defend_anim"="seq.npc_ent_defend_01"
+"param.death_anim"="seq.npc_ent_death_01"
 [[npc]]
 id = "npc.kourend_black_demon_1"
 inherit = "npc.kourend_black_demon_1"
@@ -17888,7 +17933,9 @@ inherit = "npc.tzhaar_ket_strong"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-
+"param.attack_anim"="seq.jalimkot_attack"
+"param.defend_anim"="seq.jalimkot_defend"
+"param.death_anim"="seq.jalimkot_death"
 [[npc]]
 id = "npc.tzhaar_hur_city1"
 inherit = "npc.tzhaar_hur_city1"
@@ -23609,7 +23656,9 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.demon"=1
-
+"param.attack_anim"="seq.demon_attack"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.holthion"
 inherit = "npc.holthion"
@@ -23627,7 +23676,9 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
 "param.demon"=1
-
+"param.attack_anim"="seq.demon_attack"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.othainian"
 inherit = "npc.othainian"
