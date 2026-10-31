@@ -285,6 +285,7 @@ constructor(
             return
         }
         when (mode) {
+            NpcMode.PlayerEscape -> playerEscape(target)
             NpcMode.OpPlayer1 -> opPlayer1(target, playerInteractions)
             NpcMode.OpPlayer2 -> opPlayer2(target, playerInteractions)
             NpcMode.OpPlayer3 -> opPlayer3(target, playerInteractions)

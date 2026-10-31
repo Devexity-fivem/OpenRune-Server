@@ -31,10 +31,10 @@ findNewMode = "ApPlayer2"
 id = "stalk.cowardly"
 type = "Player"
 checkVis = "LineOfSight"
-checkNotTooStrong = "OutsideWilderness"
 checkNotCombat = 65522
 checkNotCombatSelf = 1
-findNewMode = "OpPlayer2"
+findKeepHunting = true
+findNewMode = "PlayerEscape"
 
 [[hunt]]
 id = "stalk.notbusy_melee"

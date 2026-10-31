@@ -2390,6 +2390,9 @@ category = 65517
 [[npc]]
 id = "npc.godwars_goblin3"
 inherit = "npc.godwars_goblin3"
+huntMode = 3
+huntRange = 5
+maxRange = 15
 category = 65517
 [npc.params]
 "param.attack_anim"="seq.slice_surface_goblin_squat_attack_spear"
@@ -9913,7 +9916,11 @@ inherit = "npc.ghast_vis"
 [[npc]]
 id = "npc.kalphite_worker"
 inherit = "npc.kalphite_worker"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.kalphite_attack_claws"
 "param.death_anim"="seq.kalphite_update_death"
 "param.defend_anim"="seq.kalphite_update_defend"
