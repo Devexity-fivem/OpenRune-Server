@@ -119,13 +119,7 @@ internal object ThievingTables {
             )
         )
 
-    private val furStallLoot =
-        LootTable(
-            listOf(
-                85 to Loot("obj.fur"),
-                15 to Loot("obj.grey_wolf_fur"),
-            )
-        )
+    private val furStallLoot = LootTable(listOf(1 to Loot("obj.grey_wolf_fur")))
 
     private val fishStallLoot =
         LootTable(
@@ -139,24 +133,36 @@ internal object ThievingTables {
     private val silverStallLoot =
         LootTable(
             listOf(
-                60 to Loot("obj.silver_ore"),
-                30 to Loot("obj.silver_bar"),
-                10 to Loot("obj.tiara"),
+                80 to Loot("obj.silver_ore"),
+                15 to Loot("obj.silver_bar"),
+                5 to Loot("obj.tiara"),
             )
         )
 
     private val gemStallLoot =
         LootTable(
             listOf(
-                50 to Loot("obj.uncut_sapphire"),
-                30 to Loot("obj.uncut_emerald"),
-                15 to Loot("obj.uncut_ruby"),
-                5 to Loot("obj.uncut_diamond"),
+                105 to Loot("obj.uncut_sapphire"),
+                17 to Loot("obj.uncut_emerald"),
+                5 to Loot("obj.uncut_ruby"),
+                1 to Loot("obj.uncut_diamond"),
             )
         )
 
     private val draynorGuards = listOf("npc.farming_market_guard")
-    private val ardougneGuards = listOf("npc.ardougne_guard", "npc.guard1")
+    private val ardougneGuards =
+        listOf(
+            "npc.ardougne_guard",
+            "npc.guard1",
+            "npc.knight_of_ardougne",
+            "npc.knight_of_ardougne2",
+            "npc.paladin",
+            "npc.paladin2",
+            "npc.ardougne_paladin2",
+            "npc.hero",
+            "npc.hero_f",
+            "npc.hero_variant01",
+        )
     private val kourendGuards = listOf("npc.guard1")
     private val varlamoreGuards = listOf("npc.guard1")
     private val keldagrimGuards = listOf("npc.guard1")
@@ -250,6 +256,61 @@ internal object ThievingTables {
                 guards = ardougneGuards,
                 attemptMessage = "You attempt to steal some silk from the stall.",
                 loot = LootTable(listOf(1 to Loot("obj.silk"))),
+            ),
+            Stall(
+                loc = "loc.cakethiefstall",
+                emptyLoc = null,
+                level = 5,
+                xp = 16.0,
+                restockTicks = 4,
+                owners = listOf("npc.baker_merchant_ardougne", "npc.baker_merchant_ardougne2"),
+                guards = ardougneGuards,
+                attemptMessage = "You attempt to steal some baked goods from the stall.",
+                loot = bakeryStallLoot,
+            ),
+            Stall(
+                loc = "loc.furthiefstall",
+                emptyLoc = null,
+                level = 35,
+                xp = 45.0,
+                restockTicks = 12,
+                owners = listOf("npc.fur_merchant", "npc.fur_merchant_ardougne"),
+                guards = ardougneGuards,
+                attemptMessage = "You attempt to steal some fur from the stall.",
+                loot = furStallLoot,
+            ),
+            Stall(
+                loc = "loc.silverthiefstall",
+                emptyLoc = "loc.silverthiefstall_noop",
+                level = 50,
+                xp = 205.0,
+                restockTicks = 32,
+                owners = listOf("npc.silver_merchant_ardougne"),
+                guards = ardougneGuards,
+                attemptMessage = "You attempt to steal some silver from the stall.",
+                loot = silverStallLoot,
+            ),
+            Stall(
+                loc = "loc.spicethiefstall",
+                emptyLoc = null,
+                level = 65,
+                xp = 92.0,
+                restockTicks = 10,
+                owners = listOf("npc.spice_merchant", "npc.spice_merchant_ardougne"),
+                guards = ardougneGuards,
+                attemptMessage = "You attempt to steal some spice from the stall.",
+                loot = LootTable(listOf(1 to Loot("obj.spicespot"))),
+            ),
+            Stall(
+                loc = "loc.gemthiefstall",
+                emptyLoc = "loc.gemthiefstall_noop",
+                level = 75,
+                xp = 408.0,
+                restockTicks = 100,
+                owners = listOf("npc.gem_merchant", "npc.gem_merchant_ardougne"),
+                guards = ardougneGuards,
+                attemptMessage = "You attempt to steal a gem from the stall.",
+                loot = gemStallLoot,
             ),
             Stall(
                 loc = "loc.shayzien_silk_stall",
@@ -354,8 +415,8 @@ internal object ThievingTables {
                 loc = "loc.fortis_market_stall_spice",
                 emptyLoc = null,
                 level = 65,
-                xp = 81.0,
-                restockTicks = 12,
+                xp = 92.0,
+                restockTicks = 10,
                 owners = listOf("npc.spice_merchant", "npc.spice_merchant_ardougne"),
                 guards = varlamoreGuards,
                 attemptMessage = "You attempt to steal some spice from the stall.",
@@ -365,8 +426,8 @@ internal object ThievingTables {
                 loc = "loc.prif_marketstall_spice",
                 emptyLoc = null,
                 level = 65,
-                xp = 81.0,
-                restockTicks = 12,
+                xp = 92.0,
+                restockTicks = 10,
                 owners = listOf("npc.spice_merchant"),
                 guards = kourendGuards,
                 attemptMessage = "You attempt to steal some spice from the stall.",
