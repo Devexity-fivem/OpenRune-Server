@@ -98,10 +98,13 @@ constructor(private val mapClock: MapClock, private val npcRepo: NpcRepository) 
     fun affinityLeft(player: Player): Int = player.vars[AFFINITY_VARBIT]
 
     fun grantAffinity(player: Player) {
-        VarPlayerIntMapSetter.set(player, AFFINITY_VARBIT, AFFINITY_TICKS)
+        VarPlayerIntMapSetter.set(player, AFFINITY_VARBIT, AFFINITY_TICKS / AFFINITY_UNIT_TICKS)
     }
 
     fun tickAffinity(player: Player) {
+        if (mapClock.cycle % AFFINITY_UNIT_TICKS != 0) {
+            return
+        }
         val left = player.vars[AFFINITY_VARBIT]
         if (left > 0) {
             VarPlayerIntMapSetter.set(player, AFFINITY_VARBIT, left - 1)
@@ -129,6 +132,7 @@ constructor(private val mapClock: MapClock, private val npcRepo: NpcRepository) 
 
         const val AFFINITY_VARBIT = "varbit.ii_affinity_time_left"
         const val AFFINITY_TICKS = 3000
+        const val AFFINITY_UNIT_TICKS = 12
         const val AFFINITY_TICK_REDUCTION = 3
         const val ROTATE_TICKS = 1500
 
