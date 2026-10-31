@@ -325,3 +325,37 @@ wave 1-3 Jal-Nib/Jal-MejRah spawn on reachable ring tiles, walk in, trade hits; 
 - Large-footprint spawning: JalTok-Jads are size 5 — the shared ring spawn needs
   `SPAWN_RADIUS_MAX >= ~24` near arena edges or multi-jad challenges run out of valid
   5x5 footprints.
+
+## Phase 3 — NPC combat animation coverage
+
+### Scope and method
+- Source of truth: `param.attack_anim` / `param.defend_anim` / `param.death_anim` in `.data/raw-cache/server/npcs.toml`, resolved against the rev-241 `seq` gameval table (15,157 entries parsed from `.data/gamevals-binary/gamevals.dat`). Every `seq.*` reference written was validated to resolve before packing.
+- Donor pass: copied complete anim triplets from populated same-family NPCs to unpopulated same-family NPCs (656 fills).
+- Rule passes: family-specific canonical sets for TzHaar city (`thzaar_unarmed/armed/ring/staff/magic_attack`, `thzaar_parry`, `thzaar_death`/`thzaar_staff_death`), dragons (`dragon_attack/block/death`), wyverns, vampires, zombies, skeletons, dwarves, dagannoths, hydra stages, Araxxor (`npc_araxxor_01_*`), Callisto, Venenatis, Cerberus, Zalcano, Sarachnis, Corporeal Beast, Abyssal Sire, slayer creatures (`monalisk_*`, `suqka_*`, `lore_*`), humanoid fallbacks (`human_sword_slash`/`human_unarmed_def`/`human_death`), gnomes, mummies, minotaurs, golems, and many quest/minigame NPCs.
+- Result: ~2,400 spawned combat NPCs now carry anim params; invalid refs fixed during validation (`seq.duckblocker`, `seq.drake_death`→`seq.drake_death_01`, `seq.deathwing` removed).
+
+### Live verification (MCP, world 255, account `devin ai`)
+- Black dragon (npc 252): hunt→aggro→attack `dragon_attack`=80, block `dragon_block`=89 on being hit, death `dragon_death`=92 on kill (`isDead` frame captured), stand `dragon_ready`=90. Drops verified: dragon bones + black dragonhide + addy darts + ruby bolts (e).
+- Green dragon (npc 260): kill produced coins + dragon bones + green dragonhide.
+- Iorwerth Archer (npc 3428): ranged-attack verified — `human_bow`=426 animation with real arrow projectile (proj 9) fired from distance 4; auto-retaliate kill + drops.
+
+### Remaining gaps — intentional / cache-limited (21 NPCs)
+These spawned combat-flagged NPCs lack `defend_anim` and/or `death_anim` because **no corresponding seq exists in the rev-241 cache** or the NPC is a scripted/inactive form:
+
+| NPC | Missing | Reason |
+|-----|---------|--------|
+| `araxxor` | defend | no `npc_araxxor_01_block/defend` seq exists — Araxxor does not flinch |
+| `araxyte_normal` | defend | no araxyte defend seq exists |
+| `amoxliatl` | defend | `amoxliatl_*` set has attack/death/idle/walk only |
+| `chaoselemental` | defend | `chaoselemental_*` set has no block seq |
+| `drake` | defend | `drake_*` set has melee/ranged/death/ready/walk only |
+| `hydra`, `hydraboss` | defend | `hydra_stage_*`/`hydra_lesser_*` sets have no block seq (hydraboss death filled with `hydra_death`) |
+| `elder_custodian_stalker`, `mature_custodian_stalker` | defend | `npc_custodian_stalker0[2-5]_*` sets have attack/death/stomp/howl, no defend |
+| `sourhog` | defend | `sourhog_*` set has attack/death/idle/walk only |
+| `gim_boar` | defend | `npc_boar_combat_*` set has melee/death/idle/walk only |
+| `pmoon_sulphur_nagua` | defend | `frost_nagua_slayer_*` set has basic/death/spawn/special only |
+| `pmoon_boss_blue_moon_vis`, `pmoon_boss_eclipse_moon_vis` | defend+death | `_vis` display variants — anims are scripted on the real boss NPCs |
+| `abyssalsire_sire_stasis_sleeping` | defend | sleeping/untargetable stasis form; `sire_sleeping`/`sire_waking` exist for the scripted wake |
+| `swampcrab_inactive` | defend+death | dormant rock form — waking is scripted; combat anims belong on the active variant |
+| `duck`, `duck_female`, `duckling`, `duck_update_ducklings` | defend | no duck/duckling block seq exists in cache |
+| `macro_shade` | death | shade set has `shade_rise`/`shade_sink`/`shade_heaven`; kill-anim for the random-event variant is ambiguous — left unfilled rather than guess |

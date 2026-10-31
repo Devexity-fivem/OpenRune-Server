@@ -3139,7 +3139,7 @@ attackRange = 8
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.total_hydraboss_kills"
-
+"param.death_anim"="seq.hydra_death"
 [[npc]]
 id = "npc.hydraboss_2"
 inherit = "npc.hydraboss_2"
@@ -13136,7 +13136,8 @@ attackRange = 10
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=30
-
+"param.defend_anim"="seq.snail_defend"
+"param.death_anim"="seq.snail_death"
 [[npc]]
 id = "npc.mmsnailround_yellow"
 inherit = "npc.mmsnailround_yellow"
@@ -13211,7 +13212,8 @@ attackRange = 10
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=30
-
+"param.defend_anim"="seq.snail_defend"
+"param.death_anim"="seq.snail_death"
 [[npc]]
 id = "npc.mmsnailpoint_yellow"
 inherit = "npc.mmsnailpoint_yellow"
@@ -24927,6 +24929,7 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attack_anim"="seq.shade_attack"
 "param.defend_anim"="seq.shade_block"
+"param.death_anim"="seq.shadeshadow_sink"
 [[npc]]
 id = "npc.templetrek_shade_2"
 inherit = "npc.templetrek_shade_2"
@@ -27214,6 +27217,7 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attack_anim"="seq.shade_attack"
 "param.defend_anim"="seq.shade_block"
+"param.death_anim"="seq.shadeshadow_sink"
 [[npc]]
 id = "npc.grandtree_foreman"
 inherit = "npc.grandtree_foreman"
@@ -30565,6 +30569,7 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attack_anim"="seq.shade_attack"
 "param.defend_anim"="seq.shade_block"
+"param.death_anim"="seq.shadeshadow_sink"
 [[npc]]
 id = "npc.brut_barbarian7"
 inherit = "npc.brut_barbarian7"
@@ -32026,6 +32031,7 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attack_anim"="seq.shade_attack"
 "param.defend_anim"="seq.shade_block"
+"param.death_anim"="seq.shadeshadow_sink"
 [[npc]]
 id = "npc.pirate1"
 inherit = "npc.pirate1"
@@ -32593,6 +32599,7 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attack_anim"="seq.shade_attack"
 "param.defend_anim"="seq.shade_block"
+"param.death_anim"="seq.shadeshadow_sink"
 [[npc]]
 id = "npc.templetrek_shade_1"
 inherit = "npc.templetrek_shade_1"
@@ -32632,6 +32639,7 @@ inherit = "npc.rooster"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attack_anim"="seq.roosterattack"
 "param.death_anim"="seq.roosterdeath"
+"param.defend_anim"="seq.roosterparry"
 [[npc]]
 id = "npc.misc_rooster"
 inherit = "npc.misc_rooster"
@@ -36637,6 +36645,7 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.shade_attack"
 "param.defend_anim"="seq.shade_block"
+"param.death_anim"="seq.shadeshadow_sink"
 [[npc]]
 id = "npc.shantay_guard"
 inherit = "npc.shantay_guard"
