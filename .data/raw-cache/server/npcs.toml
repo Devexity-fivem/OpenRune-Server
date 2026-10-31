@@ -13154,14 +13154,28 @@ inherit = "npc.champions_skeleton"
 [[npc]]
 id = "npc.regicide_darkelf"
 inherit = "npc.regicide_darkelf"
+huntMode = 2
+huntRange = 8
+maxRange = 15
+attackRange = 10
+[npc.params]
+"param.aggression_tolerant"=1
+"param.attack_anim"="seq.human_bow"
+"param.npc_attack_type"="category.attacktype_standard"
+"param.proj_travel"="spotanim.iron_arrow_travel"
+"param.proj_type"="projanim.arrow"
+
+[[npc]]
+[[npc]]
+id = "npc.regicide_darkelf2"
+inherit = "npc.regicide_darkelf2"
 huntMode = 1
 huntRange = 5
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_sword_slash"
-"param.npc_attack_type"="category.attacktype_slash"
+"param.attack_anim"="seq.human_spear_lunge"
+"param.npc_attack_type"="category.attacktype_stab"
 
-[[npc]]
 [[npc]]
 id = "npc.regicide_rabbit"
 inherit = "npc.regicide_rabbit"
