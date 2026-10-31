@@ -500,8 +500,17 @@ Pending before Archive Guardian work:
   No-Party roster; Archive Door Enter -> "not in a raiding party" gate ->
   "Form or join a party" -> `tfa_partylist` (977) opens with authentic steel
   frame + sortable columns
-- Still untested live: vault loot (needs a full kill chain), party of 2+
-  scaling, Ezekiel/Moia (not implemented), full Guardian->doors->Ocellus run
+- Ocellus death/exit verified: player death -> instance teardown -> Lumbridge
+  respawn with restored stats ("Oh dear, you are dead!"). Phase kill on the
+  phase-1 form dropped a ground-item (Ruby dragon bolts (e)) and spawned the
+  next phase (npc 16675 lvl 1601) + The Blade minion (16676) — multi-phase
+  chain works. `::ocellus p3` jumps to phase 3 (npc 16677) which attacks
+  directly (pose 14860)
+- Vault loot + unique claim covered by unit tests (TfaVaultLootScaleTest,
+  TfaUniqueClaimTest); live vault open needs a full legit kill chain —
+  not yet verified end-to-end in game
+- Still untested live: vault chest open in-game, party of 2+ scaling,
+  Ezekiel/Moia (not implemented), full Guardian->doors->Ocellus run
 
 ### Not in the branch
 - Ezekiel + Moia encounters (raid's other 2 optional bosses) — still unimplemented
