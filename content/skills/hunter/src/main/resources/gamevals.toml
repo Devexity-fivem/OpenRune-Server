@@ -80,11 +80,9 @@ ii_tracker_10 = 63072
 ii_tracker_11 = 63073
 ii_tracker_12 = 63074
 ii_daily_jars_stamp = 63075
-ii_stored_net_magic = 63076
 
 [gamevals.varbit]
 hunter_falconry_invested = 63057
-ii_stored_net_magic = 63076
 
 [gamevals.queue]
 ii_defender = 64455

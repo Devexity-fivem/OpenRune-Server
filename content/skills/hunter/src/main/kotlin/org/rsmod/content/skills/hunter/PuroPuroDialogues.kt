@@ -276,7 +276,7 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
         const val AERYKA = "npc.ii_fairy"
         const val LOST_IMPLING = "npc.ii_lost_impling"
 
-        const val ELNOCK_VARBIT = "varbit.ii_elnock"
+        const val ELNOCK_VARBIT = "varbit.ii_elnock_var"
         const val FREE_STUFF_VARBIT = "varbit.ii_elnock_given_freestuff"
         const val DAILY_JARS_VARBIT = "varbit.ii_daily_jars_purchased"
         const val STRENGTH_XP_OFF_VARBIT = "varbit.ii_strength_xp_off"

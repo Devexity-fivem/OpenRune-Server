@@ -7,7 +7,8 @@ import jakarta.inject.Inject
 import org.rsmod.api.invtx.invAddOrDrop
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.obj.ObjRepository
-import org.rsmod.api.script.onIfModalSubOpMenu
+import dev.openrune.types.aconverted.interf.IfButtonOp
+import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onOpHeld1
 import org.rsmod.api.script.onOpHeld3
 import org.rsmod.api.script.onOpHeld4
@@ -30,19 +31,25 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
         onOpNpc4(ELNOCK) { openStorage() }
         onOpNpc5(ELNOCK) { quickWithdraw() }
 
-        onIfModalSubOpMenu(EXCHANGE_ROWS) { selectExchange(it.comsub) }
-        onIfModalSubOpMenu(EXCHANGE_CONFIRM) { confirmExchange() }
+        onIfModalButton(EXCHANGE_ROWS) { selectExchange(it.comsub) }
+        onIfModalButton(EXCHANGE_CONFIRM) { confirmExchange() }
 
         for ((component, slot) in STORAGE_MAIN_ROWS) {
-            onIfModalSubOpMenu(component) { storageOp(it.subop, slot, withdraw = true) }
+            onIfModalButton(component) { storageOp(it.op, slot, withdraw = true) }
         }
-        onIfModalSubOpMenu(STORAGE_WITHDRAW_ALL) { storageOp(it.subop, -1, withdraw = true) }
+        onIfModalButton(STORAGE_WITHDRAW_ALL) {
+            if (it.op == IfButtonOp.Op1) withdrawAll()
+        }
         for ((component, slot) in STORAGE_SIDE_ROWS) {
-            onIfModalSubOpMenu(component) { storageOp(it.subop, slot, withdraw = false) }
+            onIfModalButton(component) { storageOp(it.op, slot, withdraw = false) }
         }
-        onIfModalSubOpMenu(STORAGE_STORE_ALL) { storageOp(it.subop, -1, withdraw = false) }
-        for ((component, qty) in STORAGE_QTY) {
-            onIfModalSubOpMenu(component) { vars[QTY_VARBIT] = qty }
+        onIfModalButton(STORAGE_STORE_ALL) {
+            if (it.op == IfButtonOp.Op1) storeAll()
+        }
+        for ((component, mode) in STORAGE_QTY) {
+            onIfModalButton(component) {
+                if (it.op == IfButtonOp.Op1) vars[QTY_VARBIT] = mode
+            }
         }
 
         onOpHeld3(BUTTERFLY_NET) { openTracker() }
@@ -56,9 +63,10 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
 
     private fun ProtectedAccess.openExchange(npc: Npc) {
         faceEntitySquare(npc)
+        vars[ELNEX_VARBIT] = 0
         ifOpenMainModal(EXCHANGE_INTERFACE)
-        ifSetEvents(EXCHANGE_ROWS, 0..11, IfEvent.Op1)
-        ifSetEvents(EXCHANGE_CONFIRM, 0..2, IfEvent.Op1)
+        ifSetEvents(EXCHANGE_ROWS, 0..19, IfEvent.Op1)
+        ifSetEvents(EXCHANGE_CONFIRM, ALL_SUBS, IfEvent.Op1)
     }
 
     private fun ProtectedAccess.selectExchange(comsub: Int) {
@@ -93,7 +101,7 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
         for ((component, _) in STORAGE_MAIN_ROWS) {
             ifSetEvents(
                 component,
-                0..4,
+                ALL_SUBS,
                 IfEvent.Op1,
                 IfEvent.Op2,
                 IfEvent.Op3,
@@ -102,11 +110,11 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
                 IfEvent.Op10,
             )
         }
-        ifSetEvents(STORAGE_WITHDRAW_ALL, 0..1, IfEvent.Op1, IfEvent.Op10)
+        ifSetEvents(STORAGE_WITHDRAW_ALL, ALL_SUBS, IfEvent.Op1, IfEvent.Op10)
         for ((component, _) in STORAGE_SIDE_ROWS) {
             ifSetEvents(
                 component,
-                0..4,
+                ALL_SUBS,
                 IfEvent.Op1,
                 IfEvent.Op2,
                 IfEvent.Op3,
@@ -114,26 +122,23 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
                 IfEvent.Op10,
             )
         }
-        ifSetEvents(STORAGE_STORE_ALL, 0..1, IfEvent.Op1, IfEvent.Op10)
+        ifSetEvents(STORAGE_STORE_ALL, ALL_SUBS, IfEvent.Op1, IfEvent.Op10)
         for ((component, _) in STORAGE_QTY) {
-            ifSetEvents(component, 0..4, IfEvent.Op1)
+            ifSetEvents(component, ALL_SUBS, IfEvent.Op1)
         }
         vars[QTY_VARBIT] = 0
     }
 
-    private suspend fun ProtectedAccess.storageOp(subop: Int, slot: Int, withdraw: Boolean) {
+    private suspend fun ProtectedAccess.storageOp(op: IfButtonOp, slot: Int, withdraw: Boolean) {
+        if (op.slot !in 1..4) return
+        val single = if (withdraw) slot != SLOT_JAR else carriedCount(slot) <= 1
         val amount =
-            when (subop) {
-                1 -> 1
-                2 -> 5
-                3 -> countDialog()
-                4 -> Int.MAX_VALUE
-                else -> return
+            when (val action = resolveAction(op.slot, single)) {
+                QTY_X -> countDialog()
+                QTY_ALL -> Int.MAX_VALUE
+                else -> action
             }
-        if (slot == -1) {
-            if (withdraw) withdrawAll() else storeAll()
-            return
-        }
+        if (amount <= 0) return
         if (withdraw) {
             withdrawStored(slot, amount)
         } else {
@@ -141,13 +146,27 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
         }
     }
 
+    private fun ProtectedAccess.resolveAction(opSlot: Int, single: Boolean): Int {
+        if (single) return 1
+        val selected = QTY_SELECTED[vars[QTY_VARBIT].coerceIn(0, 3)]
+        if (opSlot == 1) return selected
+        return QTY_FALLBACK.filter { it != selected }.getOrElse(opSlot - 2) { 0 }
+    }
+
+    private fun ProtectedAccess.carriedCount(slot: Int): Int =
+        when (slot) {
+            SLOT_NET -> inv.count(BUTTERFLY_NET) + inv.count(MAGIC_NET)
+            SLOT_REPELLENT -> inv.count(IMP_REPELLENT)
+            else -> inv.count(IMPLING_JAR)
+        }
+
     private fun ProtectedAccess.withdrawStored(slot: Int, amount: Int) {
         when (slot) {
             SLOT_NET -> {
-                if (vars[STORED_NET_VARBIT] == 0) return
+                val stored = vars[STORED_NET_VARBIT]
+                if (stored == 0) return
                 vars[STORED_NET_VARBIT] = 0
-                val net = if (vars[STORED_NET_MAGIC_VARBIT] == 1) MAGIC_NET else BUTTERFLY_NET
-                vars[STORED_NET_MAGIC_VARBIT] = 0
+                val net = if (stored == 2) MAGIC_NET else BUTTERFLY_NET
                 player.invAddOrDrop(objRepo, net, 1)
             }
             SLOT_REPELLENT -> {
@@ -167,7 +186,6 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
                 player.invAddOrDrop(objRepo, IMPLING_JAR, take)
             }
         }
-        refreshStorage()
     }
 
     private fun ProtectedAccess.storeCarried(slot: Int, amount: Int) {
@@ -185,12 +203,11 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
                 }
                 if (magic) {
                     invDel(inv, MAGIC_NET, 1)
-                    vars[STORED_NET_MAGIC_VARBIT] = 1
+                    vars[STORED_NET_VARBIT] = 2
                 } else {
                     invDel(inv, BUTTERFLY_NET, 1)
-                    vars[STORED_NET_MAGIC_VARBIT] = 0
+                    vars[STORED_NET_VARBIT] = 1
                 }
-                vars[STORED_NET_VARBIT] = 1
             }
             SLOT_REPELLENT -> {
                 if (vars[STORED_REPELLENT_VARBIT] != 0) {
@@ -221,7 +238,6 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
                 vars[STORED_JARS_VARBIT] = stored + put
             }
         }
-        refreshStorage()
     }
 
     private fun ProtectedAccess.withdrawAll() {
@@ -238,11 +254,6 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
 
     private fun ProtectedAccess.quickWithdraw() {
         withdrawAll()
-    }
-
-    private fun ProtectedAccess.refreshStorage() {
-        vars[REFRESH_VARP_1] = vars[REFRESH_VARP_1] + 1
-        vars[REFRESH_VARP_2] = vars[REFRESH_VARP_2] + 1
     }
 
     private fun ProtectedAccess.openTracker() {
@@ -303,11 +314,8 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
         const val QTY_VARBIT = "varbit.ii_elnock_storage_selectedquantity"
 
         const val STORED_NET_VARBIT = "varbit.ii_stored_net"
-        const val STORED_NET_MAGIC_VARBIT = "varbit.ii_stored_net_magic"
         const val STORED_REPELLENT_VARBIT = "varbit.ii_stored_repellent"
         const val STORED_JARS_VARBIT = "varbit.ii_stored_impling_jars"
-        const val REFRESH_VARP_1 = "varp.ii_player"
-        const val REFRESH_VARP_2 = "varp.ii_player2"
 
         const val TRACKER_INTERFACE = "interface.ii_tracker"
         const val TRACKER_BUILD_SCRIPT = 1327
@@ -316,6 +324,8 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
         const val SLOT_NET = 0
         const val SLOT_REPELLENT = 1
         const val SLOT_JAR = 2
+
+        val ALL_SUBS = -1..-1
 
         const val BUTTERFLY_NET = "obj.hunting_butterfly_net"
         const val MAGIC_NET = "obj.ii_magic_butterfly_net"
@@ -345,11 +355,17 @@ constructor(private val objRepo: ObjRepository, private val puro: PuroPuroManage
             )
         val STORAGE_QTY =
             listOf(
-                "component.ii_elnock_storage:quantity_1" to 1,
-                "component.ii_elnock_storage:quantity_5" to 5,
-                "component.ii_elnock_storage:quantity_x" to -1,
-                "component.ii_elnock_storage:quantity_all" to Int.MAX_VALUE,
+                "component.ii_elnock_storage:quantity_1" to 0,
+                "component.ii_elnock_storage:quantity_5" to 1,
+                "component.ii_elnock_storage:quantity_all" to 2,
+                "component.ii_elnock_storage:quantity_x" to 3,
             )
+
+        const val QTY_X = -1
+        const val QTY_ALL = -2
+
+        val QTY_SELECTED = intArrayOf(1, 5, QTY_ALL, QTY_X)
+        val QTY_FALLBACK = listOf(1, 5, QTY_X, QTY_ALL)
 
         val JARRED_IMPLINGS = (1..12).map { "obj.ii_captured_impling_$it" }
 

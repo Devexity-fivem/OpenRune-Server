@@ -55,7 +55,9 @@ constructor(
         for (loc in PUSH_WHEAT) {
             onOpLoc5(loc) { pushThrough(it.loc) }
         }
-        onOpLoc1(CROP_CIRCLE_LOC) { enterCircle() }
+        for (loc in CROP_CIRCLE_LOCS) {
+            onOpLoc1(loc) { enterCircle() }
+        }
         onOpLoc1(EXIT_PORTAL) { exitPortal() }
         onOpLoc2(EXIT_PORTAL) {
             mes(
@@ -246,8 +248,9 @@ constructor(
     }
 
     companion object {
-        const val CROP_CIRCLE_LOC = "loc.ii_crop_circle"
-        const val EXIT_PORTAL = "loc.ii_portal"
+        val CROP_CIRCLE_LOCS =
+            listOf("loc.ii_magic_wheat_m", "loc.ii_magic_wheat_m_zanaris")
+        const val EXIT_PORTAL = "loc.ii_rocks_floor_hard_02"
         const val CIRCLE_ENTERED_VARBIT = "varbit.ii_crop_circle_entered"
         const val DAILY_JARS_VARBIT = "varbit.ii_daily_jars_purchased"
         const val DAILY_JARS_STAMP_VARP = "varp.ii_daily_jars_stamp"

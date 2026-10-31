@@ -73,14 +73,3 @@ transmit = "Never"
 id = "varp.ii_daily_jars_stamp"
 scope = "Perm"
 transmit = "Never"
-
-[[varp]]
-id = "varp.ii_stored_net_magic"
-scope = "Perm"
-transmit = "Never"
-
-[[varbit]]
-id = "varbit.ii_stored_net_magic"
-varp = "varp.ii_stored_net_magic"
-startBit = 0
-endBit = 0
