@@ -214,6 +214,36 @@ Variant binds: `tbwt_beast`→the_shaikahan, `wilderness_ent`→ent, `weaponsmas
 
 Boot-verified: "Server ready in 22.4s" — all 710 tables + Kotlin binds load clean.
 
+### Ezekiel + Moia — implementation checkpoint (NOT YET BUILT)
+
+The two remaining TFA bosses are absent from `athoren/feat/tfa-2`; all cache
+assets exist and are confirmed:
+
+- Ezekiel seqs: `npc_ezekiel_idle01/walk01/melee01/magic01/special01/heal01/
+  weaken01/idle_to_weaken01/weaken_to_idle01/death01/death_sword01/finale01/
+  finale_loop01/finale_death01`; spotanims `ezekiel_heal_glow_vfx01`,
+  `ezekiel_heal_spotanim_vfx01`, `ezekiel_magic_attack_impact_vfx01`,
+  `ezekiel_special_crack_vfx01`; sword idles; music `music_tfa_boss_ezekiel`;
+  pet `ezekielpet`/`ezekiel_pet_unlocked`; roomdata
+  `1tfa_roomdata_ezekiel_encounter_entry_config`
+- Moia seqs: `moia_idle01/dagger_attack01/projectile_attack01/chant01/
+  teleport01/death01`; projanims `npc_moia_mage_attack_projanim01`,
+  `npc_moia_range_attack_projanim01`, `npc_moia_infect_projanim01`;
+  spotanims `moia_minion_empower_*`, `moia_teleport_*_spotanim`,
+  `npc_moia_infect_attack_spotanim01`; minion `moia_minion_*`
+  (attack/idle/walk/death/empower); dagger/dagger_magic/dagger_spin;
+  music `music_tfa_boss_moia`; pet `moiapet`
+- Per-phase anim sets exist (`ezekielNN_*`, `moiaNN_*` families — god-empowered
+  variants matching the 4-censer god theme).
+
+Implementation path: mirror `raid/encounter/ocellus` (same module, BossDsl +
+varn state + `NpcApproach` + `scriptedMovement`); entry hooks belong in
+`TfaRaidEntryScript` alongside the other five; hp-scaling rows belong in a new
+`tfa_ezekiel_scaling`/`tfa_moia_scaling` dbtable (copy `tfa_guardian_scaling`
+in the tfa pack). Research the Wiki raid page for Ezekiel's sword/weaken/
+finale phase mechanics and Moia's infect/minion-empower cycle before coding —
+no implementation exists anywhere to copy from.
+
 ### npcs.toml incremental pack warning — root-caused, cosmetic
 
 `Packing Configs: failed to pack npcs.toml (npc); it will be repacked next build`
