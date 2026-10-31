@@ -65,7 +65,7 @@ constructor(
         val enter: CoordGrid,
         val bork: Npc,
         val smorks: Npc,
-        val smorkMaxHp: Int,
+        var smorkMaxHp: Int,
     ) {
         var stunnedUntil = -1
         var smorkAttackCounter = 0
@@ -86,7 +86,10 @@ constructor(
                 access.mes("You step through the archive portal.")
                 manager.finalizeEntry(player, result.session, mapClock.cycle)
             }
-            is InstanceManager.Result.Joined -> access.telejump(result.enter)
+            is InstanceManager.Result.Joined -> {
+                rescale(result.session)
+                access.telejump(result.enter)
+            }
             is InstanceManager.Result.Failed -> access.mes(result.reason)
         }
     }
@@ -98,10 +101,10 @@ constructor(
         val smorks = Npc(smorkType, BorkArena.smorkTile(enter))
         bork.copyStats(borkType)
         smorks.copyStats(smorkType)
-        bork.baseHitpointsLvl = BORK_HP
-        bork.hitpoints = BORK_HP
-        smorks.baseHitpointsLvl = SMORK_HP
-        smorks.hitpoints = SMORK_HP
+        bork.baseHitpointsLvl = BORK_HP[1]
+        bork.hitpoints = BORK_HP[1]
+        smorks.baseHitpointsLvl = SMORK_HP[1]
+        smorks.hitpoints = SMORK_HP[1]
         smorks.movementLocked = true
         npcRepo.add(bork, Int.MAX_VALUE)
         npcRepo.add(smorks, Int.MAX_VALUE)
@@ -114,9 +117,26 @@ constructor(
             LocAngle.West,
             LocShape.CentrepieceStraight,
         )
-        val run = Run(session, enter, bork, smorks, SMORK_HP)
+        val run = Run(session, enter, bork, smorks, SMORK_HP[1])
         runs[bork] = run
         return run
+    }
+
+    /** Wiki HP table: both entities scale with team size once the fight starts. */
+    private fun rescale(session: InstanceSession) {
+        val run = runs.values.firstOrNull { it.session === session } ?: return
+        val size = session.occupants.size.coerceIn(1, BORK_HP.size - 1)
+        scaleTo(run.bork, BORK_HP[size])
+        scaleTo(run.smorks, SMORK_HP[size])
+        run.smorkMaxHp = SMORK_HP[size]
+    }
+
+    private fun scaleTo(npc: Npc, maxHp: Int) {
+        if (npc.baseHitpointsLvl == maxHp) {
+            return
+        }
+        npc.hitpoints += maxHp - npc.baseHitpointsLvl
+        npc.baseHitpointsLvl = maxHp
     }
 
     private fun runOf(npc: Npc): Run? =
@@ -442,11 +462,11 @@ constructor(
 
         const val BORK_SYMBOL = "npc.tfa_bork"
         const val SMORK_SYMBOL = "npc.tfa_smork"
-        const val ENTRANCE_LOC_SYMBOL = "loc.tfa_cave_entrance_op"
-        const val EXIT_LOC_SYMBOL = "loc.tfa_cave_exit_op"
+        const val ENTRANCE_LOC_SYMBOL = "loc.sotfa_cave_entrance_op"
+        const val EXIT_LOC_SYMBOL = "loc.sotfa_cave_exit_op"
 
-        const val BORK_HP = 1500
-        const val SMORK_HP = 250
+        val BORK_HP = intArrayOf(0, 1500, 1500, 2180, 2810, 3440, 4070, 4700)
+        val SMORK_HP = intArrayOf(0, 600, 600, 870, 1120, 1370, 1630, 1880)
 
         const val BORK_ATTACK_RATE = 7
         const val SMORK_ATTACK_RATE = 7
