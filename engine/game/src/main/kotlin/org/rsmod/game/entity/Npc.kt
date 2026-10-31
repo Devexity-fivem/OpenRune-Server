@@ -13,6 +13,7 @@ import dev.openrune.types.NpcServerType
 import dev.openrune.util.BlockWalk
 import org.rsmod.annotations.InternalApi
 import org.rsmod.game.damage.DamageContributions
+import org.rsmod.game.entity.npc.NpcApproach
 import org.rsmod.game.entity.npc.NpcInfoProtocol
 import org.rsmod.game.entity.npc.NpcUid
 import org.rsmod.game.entity.npc.OpVisibility
@@ -106,6 +107,23 @@ public class Npc(
     public var isDying: Boolean = false
 
     /**
+     * Whether scripts own this Npc's movement and facing. Its ai interactions (e.g. combat) still
+     * trigger from wherever it stands, but never route it toward or face the target, abort its
+     * current route, step it out from under the target, or end because it moved; and it keeps
+     * walking its own route on cycles an interaction triggers.
+     */
+    public var scriptedMovement: Boolean = false
+
+    /** See [NpcApproach]. Only applies to ap-range interactions, and not under [scriptedMovement]. */
+    public var approach: NpcApproach = NpcApproach.StopInRange
+
+    /**
+     * Whether this Npc keeps interacting (e.g. attacking) with a target standing on top of it,
+     * instead of stepping out from under it and holding its interaction until the overlap clears.
+     */
+    public var interactsWhenUnderTarget: Boolean = false
+
+    /**
      * Used for temporarily overwriting a Npc's ap-range, i.e. the distance at which it can
      * perform a ranged attack.
      */
@@ -181,7 +199,8 @@ public class Npc(
     public var actionDelay: Int = -1
 
     /**
-     * A persistent idle/stand animation override.
+     * A persistent idle/stand animation override, applied to the client as the npc's base
+     * animation set.
      */
     public var idleSequence: EntitySeq = EntitySeq.NULL
         private set
@@ -207,18 +226,18 @@ public class Npc(
         get() = type.id
 
     public val name: String
-        get() = type.name
+        get() = visType.name
 
     public var moveRestrict: MoveRestrict = type.moveRestrict
 
     public val blockWalk: BlockWalk
-        get() = type.blockWalk
+        get() = visType.blockWalk
 
     public val wanderRange: Int
-        get() = type.wanderRange
+        get() = visType.wanderRange
 
     public val defaultMode: NpcMode
-        get() = type.defaultMode
+        get() = visType.defaultMode
 
     public val visType: NpcServerType
         get() = transmog ?: type
@@ -335,8 +354,8 @@ public class Npc(
         huntLoc = null
         huntNpc = NpcUid.NULL
         huntPlayer = PlayerUid.NULL
-        huntRange = type.huntRange
-        huntMode = type.huntMode
+        huntRange = visType.huntRange
+        huntMode = visType.huntMode
     }
 
     @InternalApi
@@ -344,7 +363,7 @@ public class Npc(
         clearInteraction()
         resetFaceEntity()
         resetHunt()
-        aiTimer = type.timer
+        aiTimer = visType.timer
     }
 
     @InternalApi
@@ -395,18 +414,27 @@ public class Npc(
     }
 
     /**
-     * Sets a persistent idle animation [seq] that the engine keeps displayed while the npc is
-     * stationary and not animating. See [idleSequence].
+     * Sets the npc's walk and ready animations to [seq] through the base animation set, so the
+     * client loops it by itself between other animations. See [idleSequence].
      */
     public fun setIdleAnim(seq: String) {
-        idleSequence = EntitySeq(seq.asRSCM(RSCMType.SEQ), delay = 0, priority = 0)
+        val id = seq.asRSCM(RSCMType.SEQ)
+        idleSequence = EntitySeq(id, delay = 0, priority = 0)
+        infoProtocol.setBaseAnimationSet(walkAnim = id, readyAnim = id)
     }
 
-    /** Clears the persistent idle animation, reverting the npc to its cache `standAnim`. */
+    /**
+     * Reverts the npc to its cache base animations. A sequence already queued this tick is left
+     * alone so an exit animation can play before or after the clear; otherwise the looping
+     * sequence is cancelled.
+     */
     public fun clearIdleAnim() {
-        val wasSet = idleSequence != EntitySeq.NULL
+        if (idleSequence == EntitySeq.NULL) {
+            return
+        }
         idleSequence = EntitySeq.NULL
-        if (wasSet) {
+        infoProtocol.resetBaseAnimationSet()
+        if (pendingSequence == EntitySeq.NULL) {
             resetAnim()
         }
     }
@@ -438,6 +466,10 @@ public class Npc(
 
     public fun setHeadIcon(slot: Int, graphic: Int, index: Int) {
         infoProtocol.setHeadIcon(slot, graphic, index)
+    }
+
+    public fun setCombatLevel(level: Int) {
+        infoProtocol.setCombatLevel(level)
     }
 
     public fun clearHeadIcon(slot: Int) {
@@ -666,27 +698,26 @@ public class Npc(
         visType.param(headbar)
 
     /**
-     * Returns the param value associated with [param] from the **base** npc [type], or `null` if
-     * the type does not have a value associated with [param] and [param] does not have a non-null
-     * `default` value.
+     * Returns the param value associated with [param] from the **current** npc [visType], or
+     * `null` if the type does not have a value associated with [param] and [param] does not have a
+     * non-null `default` value.
      *
-     * If you wish to retrieve the param value for the current (transmog) type, use [visType] to
-     * retrieve it.
+     * If you wish to retrieve the param value for the base type, use [type] to retrieve it.
      */
-    public fun <T : Any> paramOrNull(param: TypedParamType<T>): T? = type.paramOrNull(param)
+    public fun <T : Any> paramOrNull(param: TypedParamType<T>): T? = visType.paramOrNull(param)
 
     /**
-     * Returns the param value associated with [param] from the **base** npc [type].
+     * Returns the param value associated with [param] from the **current** npc [visType].
      *
-     * If you wish to retrieve the param value for the current (transmog) type, use [visType] to
-     * retrieve it.
+     * If you wish to retrieve the param value for the base type, use [type] to retrieve it.
      *
      * @throws IllegalStateException if the type does not have a value associated with [param] and
      *   [param] does not have a non-null `default` value.
      */
-    public fun <T : Any> param(param: TypedParamType<T>): T = type.param(param)
+    public fun <T : Any> param(param: TypedParamType<T>): T = visType.param(param)
 
-    public fun isContentType(content: String): Boolean = type.contentGroup == content.asRSCM(RSCMType.CONTENT)
+    public fun isContentType(content: String): Boolean =
+        visType.contentGroup == content.asRSCM(RSCMType.CONTENT)
 
     override fun toString(): String = "Npc(uid=$uid, slot=$slotId, coords=$coords, type=$type)"
 }

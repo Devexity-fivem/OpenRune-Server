@@ -18,7 +18,7 @@ constructor(private val playerList: PlayerList, private val interactions: AiPlay
             return
         }
         npc.clearIdleCycles()
-        npc.facePlayer(target)
+        npc.faceTarget(target)
         interactions.interactOp(npc, target, op)
     }
 
@@ -29,8 +29,14 @@ constructor(private val playerList: PlayerList, private val interactions: AiPlay
             return
         }
         npc.clearIdleCycles()
-        npc.facePlayer(target)
+        npc.faceTarget(target)
         interactions.interactAp(npc, target, op)
+    }
+
+    private fun Npc.faceTarget(target: Player) {
+        if (!scriptedMovement) {
+            facePlayer(target)
+        }
     }
 
     private fun Npc.resolveTarget(): Player? {

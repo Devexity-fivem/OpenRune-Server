@@ -1039,7 +1039,7 @@ no neighbour is free. Usually wrapped in `onEach(playersOn(tile), knockback(...)
 | Builder | Effect | Runtime |
 |---|---|---|
 | `anim(seq, delay = 0)` | `Anim` | `npc.anim(seq, delay)` on the caster; `delay` in client cycles. |
-| `idleAnim(seq)` / `clearIdleAnim()` | `IdleAnim(seq?)` | Sets or clears the caster's idle anim. `transitionTo` and automatic phase changes overwrite it with the phase's `idleAnim`. |
+| `idleAnim(seq)` / `clearIdleAnim()` | `IdleAnim(seq?)` | Sets or clears the caster's walk/ready pose through the client base animation set (as OSRS does), so the loop is sent once and survives other anims; send the loop `anim` yourself if the real fight does. Clearing with an `anim` already queued that tick keeps that anim; otherwise it sends a reset. `transitionTo` and automatic phase changes overwrite it with the phase's `idleAnim`. |
 | `resetAnim()` | `ResetAnim` | Stops the caster's current anim. |
 | `spotanim(spot, height = 0, delay = 0)` | `Spotanim` | Plays on the **caster**, not the target. For the target use the hit's `spotanim(...)`; for a tile use `mapSpotanim`. |
 | `mapSpotanim(spot, at, height = 0, delay = 0)` | `MapSpotanim` | Map (tile) spotanim at the resolved `at`. Top-level only. |
@@ -1465,6 +1465,7 @@ effect)` (binds the list under a name).
 | `Nearest(tiles, area, searchRadius)` | `nearestFreeTiles(tiles, area, searchRadius)` | For each anchor: the anchor if free, otherwise the first free tile on rings `1..searchRadius` around it; anchors with none are dropped |
 | `Custom(area, tiles)` | `customTiles(area) { npc, target, random -> … }` | The lambda's tiles, filtered to free ones, de-duplicated |
 | `Plus(a, b)` | `a + b` | `a` then `b`, de-duplicated |
+| `Take(tiles, count)` | `takeTiles(tiles, count)` | A random subset of at most `count` tiles of `tiles` |
 | `Bound(name)` | `bound(name)` | The set bound by an enclosing `withTiles(name, …)`, as-is |
 
 A tile is **free** (`EffectInterpreter.isFree`) when all of these hold:
@@ -1795,6 +1796,7 @@ Incoming hits for how the hit context is built.
 | `Min(a, b)` | `a atMost b`, `a atMost 5` | `minOf(a, b)` |
 | `Max(a, b)` | `a atLeast b`, `a atLeast 0` | `maxOf(a, b)` |
 | `BearingTo(to, from = Centre)` | `bearingTo(to, from = Centre)` | `Angles.bearing(from, to)`, 0..2047 |
+| `DistanceToFootprint(tile)` | `distanceToFootprint(tile)` | Chebyshev distance in tiles from `tile` to the caster's footprint; 0 inside it |
 
 `BearingTo` resolves both tiles through the shared resolver with the effect's bindings, so
 `bearingTo(tile("aim"))` works inside `withTile("aim", …)`.
@@ -2621,3 +2623,81 @@ What happens at runtime:
   drops the encounter (and anything it still owns) and resets the npc's scripted overrides; the
   next fight starts clean in `combat`.
 
+
+## Focus, hp, locs and acting as another npc
+
+Additions made for the Archive Guardian. All are additive; bosses that don't use them are unchanged.
+
+- **`every(ticks, effect, firstAfter = n)`** (spec and phase timers): the first fire is `n` ticks after
+  the timer starts (phase entry for a phase timer), then every `ticks`.
+- **Hit spotanim slot**: `hit { spotanim(spot, slot = 2) }` plays the graphic in that spotanim slot.
+- **Hitpoints**: `setHp(current, base = null)` resets the caster's stats to its visible type's, then sets
+  the (optionally new max) hitpoints, clamped to `1..base`. `damageSelf(amount)` takes hitpoints off
+  with a hitsplat, never below 1. `Hp`, `BaseHp` and `a - b` are `VarExpr`s.
+- **Focus player**: `setFocus(randomPlayer(area))` stores one player on the encounter; `Focus` is a
+  `TargetExpr.Single` that resolves to it and re-rolls from the same area when the player is gone.
+  `setFocus` also retargets the boss's combat interaction (`apPlayer2`) to the new focus, so the combat
+  tick's target is the focus. `clearFocus()` drops the focus but leaves the interaction on its last target.
+  `nearestPlayer(area)` is a `TargetExpr.Single` for the valid player in the area closest to the
+  caster's footprint (ties go to the lowest player slot); it composes with `onEach` and `faceTarget()`. `messageParty(area, self, others)` messages everyone in the area, `self` for
+  the focus player, `others` (with `{name}`) for the rest. `song(id, area)` plays a midi song.
+- **`exactMove(to, baseCycles, perTile)`**: slides the caster to a tile with the exact-move update; takes
+  `baseCycles + perTile * distance` client cycles. The engine clears an npc's interaction on any
+  teleport, so the effect re-engages the player the boss was interacting with (`apPlayer2`) after
+  the move; without it the boss goes silent until something else re-targets it.
+- **Owned locs and tags**: `replaceLoc(at, loc)` swaps an owned loc (tags survive), `removeLoc(at)` frees
+  the tile. `tagTile` / `untagTile` mark tiles with a string tag; `taggedTiles(tag)` and
+  `ownedLocs(loc)` are tile sets (not filtered by freeness, so `taggedTiles(a) - taggedTiles(b)` works).
+- **Acting as another npc**: `asNpc(ownedNpcs(type) | nearestOwned(type, of, radius) |
+  customNpcs { boss, target, owned -> ... }, effect)` runs
+  `effect` with the owned npc as caster (anim, spotanim, hit source, `Self`, `Centre`, `setHp`), while
+  varns, phase and the encounter stay the boss's. It has its own ability run, so the boss's `interrupt()`
+  does not cancel it; `interrupt()` and `transitionTo` are not allowed inside. `summon(behaviour = e)`
+  runs `e` as each spawned npc. `despawnSelf()` removes the caster. Kotlin-spawned npcs join an
+  encounter with `BossDeps.adoptOwnedNpc(owner, npc)`, and `BossDeps.runAbilityAs(owner, caster, target,
+  ability)` runs an ability as one of them.
+
+Additions made for Dreadnoth. All are additive.
+
+- **`takeTiles(set, n)`** (`TileSet.Take`): a uniformly random subset of at most `n` tiles of `set`, drawn
+  from the injected `GameRandom` after `set` resolves, so `takeTiles(a - b, 1)` is one tile in `a` and not
+  in `b`. `n` must be at least 1; a set smaller than `n` comes back whole.
+- **`healSelf(amount: VarExpr)`**: heals the caster by an expression (e.g. `varn("varn.x") + varn("varn.y")`),
+  clamped to its max, with the heal hitsplat. A zero or negative result heals nothing.
+- **`HitDamage`** (`VarExpr.HitDamage`): the damage a hit landed on its player after prayer, valid only
+  inside that hit's `onHit` (the validator rejects it elsewhere). For a direct hit `onHit` runs one tick
+  later with the landed damage; for a `resolveOnImpact` projectile it runs on the impact tick. Use it to
+  accumulate damage into a varn and `healSelf` from it once the hits have landed.
+- **`onHit(effect, immediately = true)`**: runs the hit's `onHit` on the tick the hit is queued instead of the
+  one after. Direct hits show on the tick they are queued; the default `onHit` runs a tick later, so use this
+  when a follow-up (e.g. a heal from `HitDamage`) must land on the same tick as the hitsplat.
+- **`projectile(impactLead = n)`**: runs `onImpact` `n` ticks earlier than the queue's natural landing. A
+  projectile's hit shows one tick before its `onImpact` effects; `impactLead = 1` lines them up.
+- **`spawnLoc(randomAngle = true)`**: rolls the loc's rotation from 0..3.
+- **`exactMove(teleport = true)`**: sends the move as a teleport instead of a jump.
+- **`retire()`** (`Effect.Retire`): takes the caster out of combat for good (`NpcMode.None`, interaction
+  cleared, `ignoreCombatInteractions = true`): it stops attacking and hunting and can't be targeted. Meant
+  for dying bosses and adds, inside `asNpc` or on the boss.
+
+## Approach: attacking from range while closing to melee
+
+`phase(name, approach = NpcApproach.ChaseToMelee)` keeps the engine routing the boss toward its target
+after the combat tick fires, instead of stopping where it fired (`StopInRange`, the default), and the
+boss is not dropped for having moved. The tick still fires from anywhere inside the npc's attack range,
+so a spec can swing when `WithinMeleeRange` and cast otherwise:
+
+```kotlin
+phase("fight", approach = NpcApproach.ChaseToMelee) { ... }
+ability("attack", whenever(WithinMeleeRange, swing, otherwise = spell))
+```
+
+The engine still owns routing, facing and stepping out from under the target (unlike
+`scriptedMovement`). Use `lockMovement()` / `unlockMovement()` around an attack animation to stop the
+boss walking during it; note that a phase with `lockMovement = true` keeps the lock on regardless.
+`approach` is per phase and resets with the phase, like the other movement settings.
+
+By default the engine steps a boss away from a target standing on top of it ("Red-X") and holds the
+combat tick until the overlap clears. Set `interactUnderTarget = true` on a phase to keep the combat
+tick running with the target underneath, e.g. a boss with a stomp or a `forceWhen(underBody, ...)`
+ability. It is per phase and resets with the phase. `scriptedMovement` already skips the step-away,
+but still needs this flag for the combat tick to fire while the target is under it.

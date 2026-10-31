@@ -15,11 +15,11 @@ public fun RSPrerollTableBuilder<Player, DropRollItem>.brimstoneKeyRoll(konarTas
             shouldInclude { player, otherArgs ->
                 val npc = otherArgs[KillRollContext.npc] ?: return@shouldInclude false
                 val areaChecker = otherArgs[KillRollContext.areaChecker] ?: return@shouldInclude false
-                player.shouldDropBrimstoneKey(npc, areaChecker) && npc.type.combatLevel > 0
+                player.shouldDropBrimstoneKey(npc, areaChecker) && npc.visType.combatLevel > 0
             }
             selectResult { _, otherArgs ->
                 val npc = otherArgs[KillRollContext.npc] ?: return@selectResult RollResult.Nothing()
-                val denominator = brimstoneRarityDenominator(npc.type.combatLevel, konarTaskBonus)
+                val denominator = brimstoneRarityDenominator(npc.visType.combatLevel, konarTaskBonus)
                 if (Random.nextInt(denominator) != 0) {
                     return@selectResult RollResult.Nothing()
                 }

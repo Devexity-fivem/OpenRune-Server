@@ -157,10 +157,10 @@ constructor(
         for (npc in npcs) {
             val check = mode.checkNpc
             if (check != null) {
-                if (check.npc != null && check.npc != npc.id) {
+                if (check.npc != null && check.npc != npc.visType.id) {
                     continue
                 }
-                if (check.category != null && check.npc != npc.type.category) {
+                if (check.category != null && check.category != npc.visType.category) {
                     continue
                 }
             }

@@ -1,5 +1,7 @@
 package org.rsmod.api.bosses.spec
 
+import org.rsmod.game.entity.npc.NpcApproach
+
 data class BossSpec(
     val npcTypes: List<String>,
     val stats: BossStats,
@@ -19,6 +21,23 @@ data class PhaseSpec(
     val entryHp: Double? = null,
     val transmog: String? = null,
     val lockMovement: Boolean = false,
+    /**
+     * Hands the npc's movement and facing to the spec while in this phase: it stays engaged with
+     * its target (so the combat loop keeps ticking) but never chases or turns to face it. Pair with
+     * [Effect.WalkTo] for scripted routes.
+     */
+    val scriptedMovement: Boolean = false,
+    /**
+     * What the engine's routing does once the combat tick fires in this phase. [NpcApproach.ChaseToMelee]
+     * lets the boss attack from range while still closing to melee; pair it with abilities that
+     * choose by `WithinMeleeRange` and `lockMovement()` for the length of an attack animation.
+     */
+    val approach: NpcApproach = NpcApproach.StopInRange,
+    /**
+     * Keeps the combat loop ticking while a player stands on top of the boss, instead of the
+     * engine stepping it away and holding its interaction until the overlap clears.
+     */
+    val interactUnderTarget: Boolean = false,
     /**
      * Per-phase attack-rate default (ticks between ability uses). When set, it overrides
      * [BossStats.attackRate] while this phase is active. A per-encounter
@@ -52,7 +71,13 @@ data class PhaseSpec(
  * falls while [org.rsmod.api.bosses.runtime.BossEncounter.busyUntil] holds (an effect is mid-wait)
  * is skipped, and the timer waits its next interval.
  */
-data class TimerSpec(val ticks: IntRange, val effect: Effect, val skipWhileBusy: Boolean = false)
+data class TimerSpec(
+    val ticks: IntRange,
+    val effect: Effect,
+    val skipWhileBusy: Boolean = false,
+    /** Ticks to the first fire, when it differs from the regular [ticks] interval. */
+    val firstAfter: Int? = null,
+)
 
 data class ForcedAbility(
     val period: Int,

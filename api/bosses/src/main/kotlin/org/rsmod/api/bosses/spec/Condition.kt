@@ -35,6 +35,12 @@ sealed interface Condition {
      * [bearingVarn] turned by [offset] (e.g. `offset = 1024` for "behind" that bearing).
      */
     data class TargetInArc(val bearingVarn: String, val offset: Int, val halfArc: Int) : Condition
+    /** The tile (e.g. `CurrentTile`, `ImpactTile`) lies inside the caster's footprint. */
+    data class TileInFootprint(val tile: TargetExpr.Single) : Condition
+
+    /** At least one tile of the [TileSet.Bound] set [name] lies inside the caster's footprint. */
+    data class TilesInFootprint(val name: String) : Condition
+
     data class Custom(val test: (npc: Npc, target: Player?) -> Boolean) : Condition
     data object Always : Condition
     data object WithinMeleeRange : Condition

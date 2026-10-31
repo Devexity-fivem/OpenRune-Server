@@ -74,7 +74,7 @@ constructor(
         npc.delay(WAKE_DELAY)
         val mode = checkNotNull(ServerCacheManager.getHunt(disguise.huntMode))
         npc.setHuntMode(mode)
-        npc.setHunt(npc.type.huntRange)
+        npc.setHunt(npc.visType.huntRange)
     }
 
     @OptIn(InternalApi::class)

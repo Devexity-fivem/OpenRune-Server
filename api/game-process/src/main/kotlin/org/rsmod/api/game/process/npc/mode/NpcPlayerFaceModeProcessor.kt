@@ -7,7 +7,7 @@ import org.rsmod.game.entity.PlayerList
 
 public class NpcPlayerFaceModeProcessor @Inject constructor(private val playerList: PlayerList) {
     private val Npc.maxRange: Int
-        get() = type.maxRange
+        get() = visType.maxRange
 
     public fun process(npc: Npc) {
         val interacting = npc.facingTarget(playerList)

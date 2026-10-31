@@ -267,3 +267,156 @@ id = "varn.nex_blood_special"
 
 [[varn]]
 id = "varn.nex_ice_special"
+
+[[varn]]
+id = "varn.ocellus_arrived_at"
+
+[[varn]]
+id = "varn.ocellus_volley_style"
+
+[[varn]]
+id = "varn.ocellus_corner"
+
+[[varn]]
+id = "varn.ocellus_centre_side"
+
+[[varn]]
+id = "varn.ocellus_threshold"
+
+[[varn]]
+id = "varn.ocellus_active_tendrils"
+
+[[varn]]
+id = "varn.ocellus_meter"
+
+[[varn]]
+id = "varn.ocellus_barrage_waves"
+
+[[varn]]
+id = "varn.ocellus_special_cycles"
+
+[[varn]]
+id = "varn.forced_max_hit_styles"
+
+[[varn]]
+id = "varn.ocellus_curse"
+
+[[varn]]
+id = "varn.ocellus_rift_next"
+
+[[varn]]
+id = "varn.ocellus_rift_busy"
+
+[[varn]]
+id = "varn.guardian_shield_max"
+
+[[varn]]
+id = "varn.guardian_ground_max"
+
+[[varn]]
+id = "varn.guardian_health"
+
+[[varn]]
+id = "varn.guardian_landings"
+
+[[varn]]
+id = "varn.guardian_battery_hp"
+
+[[varn]]
+id = "varn.guardian_battery_hit"
+
+[[varn]]
+id = "varn.guardian_enraged"
+
+[[varn]]
+id = "varn.dreadnoth_hp_max"
+
+[[varn]]
+id = "varn.dreadnoth_absorbed"
+
+[[varn]]
+id = "varn.dreadnoth_dealt"
+
+[[varn]]
+id = "varn.dreadnoth_split"
+
+[[varn]]
+id = "varn.dreadnoth_waves_done"
+
+[[varn]]
+id = "varn.dreadnoth_spawn_budget"
+
+[[varn]]
+id = "varn.dreadnoth_done"
+
+[[varn]]
+id = "varn.bork_hp_max"
+
+[[varn]]
+id = "varn.bork_smork_max"
+
+[[varn]]
+id = "varn.bork_smork_pct"
+
+[[varn]]
+id = "varn.bork_tempo"
+
+[[varn]]
+id = "varn.bork_dazed"
+
+[[varn]]
+id = "varn.bork_armour"
+
+[[varn]]
+id = "varn.bork_magic_armour"
+
+[[varn]]
+id = "varn.bork_dead"
+
+[[varn]]
+id = "varn.bork_removed"
+
+[[varn]]
+id = "varn.bork_smork_dead"
+
+[[varn]]
+id = "varn.bork_smork_removed"
+
+[[varn]]
+id = "varn.bork_stomp_side"
+
+[[varn]]
+id = "varn.bork_done"
+
+[[varn]]
+id = "varn.xarth_hp_max"
+
+[[varn]]
+id = "varn.xarth_wave"
+
+[[varn]]
+id = "varn.xarth_first_heap"
+
+[[varn]]
+id = "varn.xarth_heaps"
+
+[[varn]]
+id = "varn.xarth_slot"
+
+[[varn]]
+id = "varn.xarth_magics"
+
+[[varn]]
+id = "varn.xarth_healed"
+
+[[varn]]
+id = "varn.xarth_heal_pending"
+
+[[varn]]
+id = "varn.xarth_last_hit"
+
+[[varn]]
+id = "varn.xarth_dead"
+
+[[varn]]
+id = "varn.xarth_done"

@@ -1,6 +1,7 @@
 package org.rsmod.api.bosses.runtime
 
 import jakarta.inject.Singleton
+import java.util.IdentityHashMap
 import org.rsmod.api.npc.access.StandardNpcAccess
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
@@ -27,6 +28,19 @@ class BossExtensionContext(
 @Singleton
 class BossExtensionRegistry {
     private val handlers = mutableMapOf<String, (BossExtensionContext) -> Unit>()
+    private val scopes = IdentityHashMap<Npc, BossExtensionRegistry>()
+
+    /**
+     * Routes [npc]'s extension calls to [scope] first, so a boss with per-instance state can register
+     * its handlers on a registry of its own while the spec stays shared.
+     */
+    fun bind(npc: Npc, scope: BossExtensionRegistry) {
+        scopes[npc] = scope
+    }
+
+    fun unbind(npc: Npc) {
+        scopes.remove(npc)
+    }
 
     fun register(name: String, handler: BossExtensionHandler) {
         handlers[name] = { handler.invoke(it.access, it.npc, it.target, it.params) }
@@ -44,7 +58,8 @@ class BossExtensionRegistry {
         params: Any?,
         tile: CoordGrid? = null,
     ) {
-        val handler = handlers[name] ?: error("No boss extension registered: $name")
+        val handler =
+            scopes[npc]?.handlers?.get(name) ?: handlers[name] ?: error("No boss extension registered: $name")
         handler(BossExtensionContext(access, npc, target, params, tile))
     }
 

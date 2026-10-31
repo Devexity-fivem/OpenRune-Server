@@ -37,6 +37,7 @@ import org.rsmod.api.player.hit.modify
 import org.rsmod.api.player.hit.queueHit
 import org.rsmod.api.player.hit.queueImpactHit
 import org.rsmod.api.player.isValidTarget
+import org.rsmod.api.player.midiSong
 import org.rsmod.api.player.output.Camera
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.soundSynth
@@ -46,7 +47,9 @@ import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.util.EntityExactMove
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.interact.InteractionPlayer
 import org.rsmod.game.headbar.Headbar as EngineHeadbar
+import org.rsmod.game.hit.Hitmark
 import org.rsmod.game.map.collision.isWalkBlocked
 import org.rsmod.game.proj.ProjAnim
 import org.rsmod.map.CoordGrid
@@ -63,6 +66,7 @@ class EffectInterpreter internal constructor(
     private val deps: BossDeps,
     private val abilityRun: AbilityRun,
     private val bindings: TileBindings,
+    private val hitDamage: Int = 0,
 ) {
     constructor(
         npc: Npc,
@@ -75,15 +79,64 @@ class EffectInterpreter internal constructor(
     private fun child(
         target: Player = this.target,
         bindings: TileBindings = this.bindings,
-    ): EffectInterpreter = EffectInterpreter(npc, target, spec, encounter, deps, abilityRun, bindings)
+        hitDamage: Int = this.hitDamage,
+    ): EffectInterpreter =
+        EffectInterpreter(npc, target, spec, encounter, deps, abilityRun, bindings, hitDamage)
+
+    private fun asNpc(other: Npc): EffectInterpreter =
+        EffectInterpreter(other, target, spec, encounter, deps, AbilityRun(encounter.epoch), bindings, hitDamage)
+
+    private val actingAsBoss: Boolean
+        get() = npc === encounter.npc
 
     private fun tileScope(target: Player): TileScope =
         object : TileScope {
             override fun tile(expr: TargetExpr.Single): CoordGrid =
-                npc.resolveTile(expr, target, bindings, deps.random, ::randomWalkableTile)
+                npc.resolveTile(expr, target, bindings, deps.random, ::randomWalkableTile, ::playerOf)
 
             override fun set(name: String): List<CoordGrid> = bindings.set(name)
         }
+
+    private fun playerOf(expr: TargetExpr.Single): Player? = resolveSingle(expr)
+
+    private fun focusPlayer(): Player? {
+        val stored = encounter.focus
+        if (stored != null && stored.isValidTarget()) return stored
+        val area = encounter.focusArea ?: return null
+        return randomPlayerIn(area)?.also { encounter.focus = it }
+    }
+
+    private fun randomPlayerIn(area: Area): Player? {
+        val box = resolveArea(area)
+        val candidates = deps.playerList.filter { it.isValidTarget() && box.contains(it.coords) }
+        return if (candidates.isEmpty()) null else candidates[deps.random.of(candidates.size)]
+    }
+
+    private fun resolveNpcs(expr: NpcExpr): List<Npc> =
+        when (expr) {
+            is NpcExpr.Owned -> {
+                val type = expr.npcType?.asRSCM(RSCMType.NPC)
+                encounter.ownedNpcList().filter { type == null || it.visType.id == type }
+            }
+            is NpcExpr.NearestOwned -> {
+                val type = expr.npcType.asRSCM(RSCMType.NPC)
+                val from = resolveTile(expr.of)
+                encounter
+                    .ownedNpcList()
+                    .filter { it.visType.id == type }
+                    .filter { footprintDistance(it, from) <= expr.radius }
+                    .minByOrNull { footprintDistance(it, from) }
+                    ?.let(::listOf)
+                    .orEmpty()
+            }
+            is NpcExpr.Custom -> expr.select(encounter.npc, target, encounter.ownedNpcList())
+        }
+
+    private fun footprintDistance(other: Npc, from: CoordGrid): Int {
+        val dx = maxOf(other.coords.x - from.x, from.x - (other.coords.x + other.size - 1), 0)
+        val dz = maxOf(other.coords.z - from.z, from.z - (other.coords.z + other.size - 1), 0)
+        return maxOf(dx, dz)
+    }
 
     private val interrupted: Boolean
         get() = encounter.epoch != abilityRun.epoch
@@ -111,7 +164,8 @@ class EffectInterpreter internal constructor(
             is Effect.MapSpotanim -> {
                 val coord = resolveTile(effect.at)
                 val spot = SpotanimType(effect.spot.asRSCM(RSCMType.SPOTANIM))
-                deps.worldRepo.spotanimMap(spot, coord, effect.height, effect.delay)
+                val delay = effect.delayExpr?.let(::evaluateVar) ?: effect.delay
+                deps.worldRepo.spotanimMap(spot, coord, effect.height, delay)
             }
             is Effect.Broadcast -> {
                 val radius = effect.radius
@@ -159,11 +213,30 @@ class EffectInterpreter internal constructor(
             is Effect.ClearHeadIcon -> npc.clearHeadIcon(effect.slot)
             is Effect.LockMovement ->
                 npc.movementLocked = effect.locked || encounter.currentPhase?.lockMovement == true
-            is Effect.HealSelf -> npc.heal(effect.amount, showHitsplat = true)
+            is Effect.HealSelf -> {
+                val amount = evaluateVar(effect.amount)
+                if (amount > 0) npc.heal(amount, showHitsplat = true)
+            }
+            is Effect.Retire -> {
+                npc.mode = NpcMode.None
+                npc.clearInteraction()
+                npc.ignoreCombatInteractions = true
+                deps.encounterRegistry.ofOrNull(npc)?.invulnerable = true
+            }
 
             is Effect.Teleport -> {
                 if (npc.isValidTarget()) {
                     PathingEntityCommon.telejump(npc, deps.collision, resolveTile(effect.to))
+                }
+            }
+            is Effect.WalkTo -> {
+                if (npc.isValidTarget()) {
+                    val dest = resolveTile(effect.to)
+                    bossLogger.debug { "${npc.bossTag} walking to $dest from ${npc.coords}" }
+                    npc.walk(dest) {
+                        bossLogger.debug { "${npc.bossTag} arrived at ${npc.coords} (interrupted=$interrupted)" }
+                        if (npc.isValidTarget() && !interrupted) run(access, effect.onArrival)
+                    }
                 }
             }
             is Effect.FaceTarget -> {
@@ -174,12 +247,21 @@ class EffectInterpreter internal constructor(
             }
             is Effect.FaceTile -> {
                 if (npc.isValidTarget()) {
-                    npc.faceSquare(resolveTile(effect.at))
+                    npc.faceSquare(resolveTile(effect.at), instant = effect.instant)
                     npc.resetFaceEntity()
                 }
             }
+            is Effect.Transparency ->
+                npc.infoProtocol.setTransparency(
+                    effect.startCycle,
+                    effect.endCycle,
+                    effect.from,
+                    effect.to,
+                    useStartTransparency = true,
+                )
 
             is Effect.Run -> {
+                bossLogger.debug { "${npc.bossTag} run: ${effect.ability}" }
                 val ability = spec.abilities[effect.ability]
                 if (ability != null) run(access, ability, onComplete) else onComplete()
                 return
@@ -188,8 +270,9 @@ class EffectInterpreter internal constructor(
                 encounter.transitionTo(effect.phase, deps.mapClock.cycle)
             }
             is Effect.External -> {
+                bossLogger.debug { "${npc.bossTag} external: ${effect.handler}" }
                 val tile = effect.at?.let(::resolveTile)
-                deps.extensionRegistry.invoke(effect.handler, access, npc, target, effect.params, tile)
+                deps.extensionRegistry.invoke(effect.handler, access, encounter.npc, target, effect.params, tile)
             }
 
             is Effect.Sequence -> {
@@ -232,9 +315,9 @@ class EffectInterpreter internal constructor(
                 return
             }
 
-            is Effect.SetVarn -> npc.vars[effect.varn] = evaluateVar(effect.value)
+            is Effect.SetVarn -> encounter.npc.vars[effect.varn] = evaluateVar(effect.value)
             is Effect.Switch -> {
-                val next = effect.cases[npc.vars[effect.varn]] ?: effect.otherwise
+                val next = effect.cases[encounter.npc.vars[effect.varn]] ?: effect.otherwise
                 run(access, next, onComplete)
                 return
             }
@@ -274,22 +357,121 @@ class EffectInterpreter internal constructor(
                 }
             }
             is Effect.SpawnLoc -> {
-                deps.spawnOwnedLoc(npc, resolveTile(effect.at), effect.loc, effect.angle, effect.blockPlayersOnly)
+                deps.spawnOwnedLoc(
+                    encounter,
+                    resolveTile(effect.at),
+                    effect.loc,
+                    if (effect.randomAngle) deps.random.of(LOC_ANGLES) else effect.angle,
+                    effect.blockPlayersOnly,
+                )
             }
             is Effect.Knockback -> knockback(effect)
+
+            is Effect.SetHp -> {
+                npc.copyStats(npc.visType)
+                val base = effect.base?.let(::evaluateVar) ?: npc.baseHitpointsLvl
+                npc.baseHitpointsLvl = base
+                npc.hitpoints = evaluateVar(effect.current).coerceIn(1, base.coerceAtLeast(1))
+            }
+            is Effect.DamageSelf -> damageSelf(evaluateVar(effect.amount))
+            is Effect.SetFocus -> {
+                val who = effect.who
+                if (who is TargetExpr.RandomPlayer) encounter.focusArea = who.area
+                encounter.focus = resolveSingle(who)
+                val focus = encounter.focus
+                if (actingAsBoss && focus != null) npc.apPlayer2(focus, deps.interactions)
+            }
+            is Effect.ClearFocus -> encounter.focus = null
+            is Effect.MessageParty -> messageParty(effect)
+            is Effect.Song -> {
+                val box = resolveArea(effect.area)
+                for (p in deps.playerList) {
+                    if (p.isValidTarget() && box.contains(p.coords)) p.midiSong(effect.id)
+                }
+            }
+            is Effect.ExactMove -> {
+                if (npc.isValidTarget()) {
+                    val start = npc.coords
+                    val end = resolveTile(effect.to)
+                    val cycles = effect.baseCycles + effect.perTile * start.chebyshevDistance(end)
+                    val engaged = (npc.interaction as? InteractionPlayer)?.target
+                    PathingEntityCommon.exactMove(
+                        npc,
+                        start,
+                        end,
+                        delay1 = 0,
+                        delay2 = cycles,
+                        dir = Angles.bearing(start, end),
+                        collision = deps.collision,
+                        viaTeleport = effect.teleport,
+                    )
+                    if (engaged != null && engaged.isValidTarget()) {
+                        npc.apPlayer2(engaged, deps.interactions)
+                    }
+                }
+            }
+            is Effect.ReplaceLoc -> deps.replaceOwnedLoc(encounter, resolveTile(effect.at), effect.loc)
+            is Effect.RemoveLoc -> deps.removeOwnedLoc(encounter, resolveTile(effect.at))
+            is Effect.TagTile -> encounter.tag(resolveTile(effect.at), effect.tag)
+            is Effect.UntagTile -> encounter.untag(resolveTile(effect.at), effect.tag)
+            is Effect.AsNpc -> {
+                val npcs = resolveNpcs(effect.who)
+                if (npcs.isEmpty()) {
+                    onComplete()
+                    return
+                }
+                var remaining = npcs.size
+                for (other in npcs) {
+                    asNpc(other).run(access, effect.effect) {
+                        remaining--
+                        if (remaining == 0) onComplete()
+                    }
+                }
+                return
+            }
+            is Effect.DespawnSelf -> if (npc.isSlotAssigned) deps.npcRepo.del(npc, Int.MAX_VALUE)
         }
         onComplete()
+    }
+
+    private fun damageSelf(amount: Int) {
+        val dealt = amount.coerceAtMost(npc.hitpoints)
+        if (dealt <= 0) return
+        npc.hitpoints = (npc.hitpoints - dealt).coerceAtLeast(1)
+        val hitmark = "hitmark.regular_damage_lit".asRSCM(RSCMType.HITMARK)
+        npc.showHitmark(
+            Hitmark.fromNoSource(self = hitmark, source = hitmark, public = hitmark, damage = dealt, delay = 0)
+        )
+    }
+
+    private fun messageParty(effect: Effect.MessageParty) {
+        val focus = focusPlayer()
+        val box = resolveArea(effect.area)
+        for (p in deps.playerList) {
+            if (!p.isValidTarget() || !box.contains(p.coords)) continue
+            p.mes(if (p === focus) effect.self else effect.others.replace("{name}", focus?.displayName.orEmpty()))
+        }
     }
 
     private fun evaluateVar(expr: VarExpr): Int =
         when (expr) {
             is VarExpr.Const -> expr.value
             is VarExpr.Now -> deps.mapClock.cycle
-            is VarExpr.Varn -> npc.vars[expr.varn]
+            is VarExpr.Varn -> encounter.npc.vars[expr.varn]
+            is VarExpr.HitDamage -> hitDamage
+            is VarExpr.Hp -> npc.hitpoints
+            is VarExpr.BaseHp -> npc.baseHitpointsLvl
+            is VarExpr.Minus -> evaluateVar(expr.a) - evaluateVar(expr.b)
             is VarExpr.Plus -> evaluateVar(expr.a) + evaluateVar(expr.b)
             is VarExpr.Min -> minOf(evaluateVar(expr.a), evaluateVar(expr.b))
             is VarExpr.Max -> maxOf(evaluateVar(expr.a), evaluateVar(expr.b))
+            is VarExpr.DistanceToFootprint -> footprintDistance(npc, resolveTile(expr.tile))
             is VarExpr.BearingTo -> Angles.bearing(resolveTile(expr.from), resolveTile(expr.to))
+            is VarExpr.Manhattan -> {
+                val a = resolveTile(expr.a)
+                val b = resolveTile(expr.b)
+                abs(a.x - b.x) + abs(a.z - b.z)
+            }
         }
 
     private fun showHeadbar(effect: Effect.Headbar) {
@@ -304,7 +486,7 @@ class EffectInterpreter internal constructor(
 
     private fun scheduleWait(ticks: Int, onComplete: () -> Unit) {
         require(ticks > 0) { "`ticks` must be greater than 0. (ticks=$ticks)" }
-        deps.suppressAttacks(npc, ticks)
+        if (actingAsBoss) deps.suppressAttacks(npc, ticks)
         deps.worldQueues.add(ticks) { if (npc.isValidTarget() && !interrupted) onComplete() }
     }
 
@@ -368,7 +550,9 @@ class EffectInterpreter internal constructor(
         for (t in targets) {
             val damage = rollDamage(hit, t)
             if (damage > 0) {
-                hit.spotanim?.let { t.spotanim(it, delay = hit.spotanimDelay ?: 0, height = hit.spotanimHeight) }
+                hit.spotanim?.let {
+                    t.spotanim(it, delay = hit.spotanimDelay ?: 0, height = hit.spotanimHeight, slot = hit.spotanimSlot)
+                }
             }
             if (hit.hazard) {
                 t.queueHit(npc, delay, hit.type.toEngine(), damage, deps.playerHitModifier)
@@ -468,7 +652,7 @@ class EffectInterpreter internal constructor(
         }
 
         proj.onImpact?.let { onImpact ->
-            deps.worldQueues.add(ticks) {
+            deps.worldQueues.add((ticks - proj.impactLead).coerceAtLeast(1)) {
                 child(bindings = bindings.copy(impactTile = destCoord)).run(access, onImpact)
             }
         }
@@ -478,7 +662,9 @@ class EffectInterpreter internal constructor(
         val damage = rollDamage(hit, player)
         if (damage > 0 && !hit.spotanimUnlessPraying) {
             val delay = hit.spotanimDelay ?: projAnim.clientCycles
-            hit.spotanim?.let { player.spotanim(it, delay = delay, height = hit.spotanimHeight) }
+            hit.spotanim?.let {
+                player.spotanim(it, delay = delay, height = hit.spotanimHeight, slot = hit.spotanimSlot)
+            }
         }
         if (proj.resolveOnImpact) {
             val conditionalPenetration = hit.penetrationWhen != null
@@ -516,12 +702,12 @@ class EffectInterpreter internal constructor(
             deps.playerHitModifier.modify(this, t)
             t.combatPlayDefendAnim()
             if (hit.spotanimUnlessPraying && !praying) {
-                hit.spotanim?.let { t.spotanim(it, height = hit.spotanimHeight) }
+                hit.spotanim?.let { t.spotanim(it, height = hit.spotanimHeight, slot = hit.spotanimSlot) }
             }
             if (!npc.isValidTarget()) return@PlayerHitModifier
             val heal = lifestealHeal(hit, damage)
             if (heal > 0) npc.heal(heal)
-            onHit?.let { child(target = t).run(access, it) }
+            onHit?.let { child(target = t, hitDamage = damage).run(access, it) }
         }
     }
 
@@ -542,10 +728,16 @@ class EffectInterpreter internal constructor(
         val onHit = landingEffect(hit, rolled)
         val heal = lifestealHeal(hit, landed)
         if (onHit == null && heal <= 0) return
+        if (hit.onHitNow) {
+            if (!npc.isValidTarget()) return
+            if (heal > 0) npc.heal(heal)
+            onHit?.let { child(hitDamage = landed).run(access, it) }
+            return
+        }
         deps.worldQueues.add(serverDelay) {
             if (!npc.isValidTarget()) return@add
             if (heal > 0) npc.heal(heal)
-            onHit?.let { run(access, it) }
+            onHit?.let { child(hitDamage = landed).run(access, it) }
         }
     }
 
@@ -654,6 +846,7 @@ class EffectInterpreter internal constructor(
             spawned.mode = mode
             deps.npcRepo.add(spawned, summon.duration)
             if (summon.owned) encounter.addOwnedNpc(spawned)
+            summon.behaviour?.let { asNpc(spawned).run(access, it) }
             // Player-targeting modes need an interaction bound, not just the mode
             // flag; without one the mode processor resets the npc to wander.
             if (target.isValidTarget()) {
@@ -770,12 +963,19 @@ class EffectInterpreter internal constructor(
                 val box = resolveArea(set.area)
                 set.tiles(npc, target, deps.random).filter { isFree(box, it) }.distinct()
             }
+            is TileSet.CustomAt -> {
+                val box = resolveArea(set.area)
+                set.tiles(npc, resolveTile(set.at), deps.random).filter { isFree(box, it) }.distinct()
+            }
             is TileSet.Plus -> (resolveTiles(set.a) + resolveTiles(set.b)).distinct()
             is TileSet.Minus -> {
                 val excluded = resolveTiles(set.b).toSet()
                 resolveTiles(set.a).filter { it !in excluded }
             }
+            is TileSet.Take -> takeRandom(resolveTiles(set.tiles), set.count, deps.random)
             is TileSet.Bound -> bindings.set(set.name)
+            is TileSet.OwnedLocs -> encounter.ownedLocTiles(set.loc)
+            is TileSet.Tagged -> encounter.taggedTiles(set.tag)
         }
     }
 
@@ -832,11 +1032,23 @@ class EffectInterpreter internal constructor(
             is TargetExpr.Custom -> null
             is TargetExpr.Bound -> null
             is TargetExpr.RandomOfBound -> null
+            is TargetExpr.Focus -> focusPlayer()
+            is TargetExpr.RandomPlayer -> randomPlayerIn(expr.area)
+            is TargetExpr.NearestPlayer -> nearestPlayerIn(expr.area)
         }
     }
 
+    private fun nearestPlayerIn(area: Area): Player? {
+        val box = resolveArea(area)
+        return deps.playerList
+            .filter { it.isValidTarget() && box.contains(it.coords) }
+            .minWithOrNull(
+                compareBy<Player> { footprintDistance(npc, it.coords) }.thenBy { it.slotId }
+            )
+    }
+
     private fun resolveTile(expr: TargetExpr.Single): CoordGrid =
-        npc.resolveTile(expr, target, bindings, deps.random, ::randomWalkableTile)
+        npc.resolveTile(expr, target, bindings, deps.random, ::randomWalkableTile, ::playerOf)
 
     private fun randomWalkableTile(center: CoordGrid, radius: Int): CoordGrid? {
         val candidates = mutableListOf<CoordGrid>()
@@ -870,6 +1082,13 @@ class EffectInterpreter internal constructor(
             is TargetExpr.PlayersIn -> {
                 val area = resolveArea(expr.area)
                 deps.playerList.filter { it.isValidTarget() && area.contains(it.coords) }
+            }
+            is TargetExpr.PlayersInExcept -> {
+                val area = resolveArea(expr.area)
+                val all = deps.playerList.filter { it.isValidTarget() && area.contains(it.coords) }
+                val except = resolveSingle(expr.except)
+                val others = all.filter { it !== except }
+                others.ifEmpty { all }
             }
             is TargetExpr.PlayersOn -> {
                 val tile = resolveTile(expr.tile)
@@ -974,6 +1193,7 @@ class EffectInterpreter internal constructor(
     private companion object {
         // UNVERIFIED: the range (the client's view distance; live only shows the target leaving).
         private const val SOUND_TO_RANGE = 15
+        private const val LOC_ANGLES = 4
 
         private val KNOCKBACK_DIRECTIONS =
             listOf(0 to 1, 1 to 0, 0 to -1, -1 to 0, 1 to 1, 1 to -1, -1 to -1, -1 to 1)

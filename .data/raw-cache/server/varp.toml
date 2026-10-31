@@ -932,8 +932,20 @@ transmit = "Never"
 
 [[varp]]
 isServerOnly = true
+id = "varp.ocellus_spin"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
 id = "varp.royal_titans_best_time"
 scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.ocellus_censer"
+scope = "Temp"
 transmit = "Never"
 
 [[varp]]
@@ -944,8 +956,20 @@ transmit = "Never"
 
 [[varp]]
 isServerOnly = true
+id = "varp.bork_burn"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
 id = "varp.maggot_king_deaths"
 scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.xarth_burn"
+scope = "Temp"
 transmit = "Never"
 
 [[varp]]
@@ -956,6 +980,18 @@ transmit = "Never"
 
 [[varp]]
 isServerOnly = true
+id = "varp.xarth_bleed"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
 id = "varp.wintertodt_points"
 scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.xarth_bound"
+scope = "Temp"
 transmit = "Never"

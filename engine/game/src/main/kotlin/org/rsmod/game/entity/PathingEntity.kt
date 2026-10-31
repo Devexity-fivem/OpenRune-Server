@@ -124,6 +124,7 @@ public sealed class PathingEntity {
     public var lastFaceEntity: Int = Int.MIN_VALUE
 
     public var pendingFaceAngle: EntityFaceAngle = EntityFaceAngle.NULL
+    public var pendingFaceInstant: Boolean = false
 
     public var pendingFaceSquare: CoordGrid = CoordGrid.NULL
     public var pendingFaceWidth: Int = 1
@@ -292,12 +293,18 @@ public sealed class PathingEntity {
 
     /**
      * Sets the [pendingFaceSquare] for [target] to face as soon as this [PathingEntity] is not
-     * moving, whenever that may be.
+     * moving, whenever that may be. With [instant], npcs snap to the angle instead of turning.
      */
-    public fun faceSquare(target: CoordGrid, targetWidth: Int = 1, targetLength: Int = 1) {
+    public fun faceSquare(
+        target: CoordGrid,
+        targetWidth: Int = 1,
+        targetLength: Int = 1,
+        instant: Boolean = false,
+    ) {
         pendingFaceSquare = target
         pendingFaceWidth = targetWidth
         pendingFaceLength = targetLength
+        pendingFaceInstant = instant
     }
 
     /** @see [faceSquare] */

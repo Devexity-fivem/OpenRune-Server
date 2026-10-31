@@ -50,7 +50,16 @@ sealed interface Effect {
         val delay: Int = 0,
     ) : Effect
     data class Spotanim(val spot: String, val height: Int = 0, val delay: Int = 0, val slot: Int = 0) : Effect
-    data class MapSpotanim(val spot: String, val at: TargetExpr.Single, val height: Int = 0, val delay: Int = 0) : Effect
+    data class MapSpotanim(
+        val spot: String,
+        val at: TargetExpr.Single,
+        val height: Int = 0,
+        val delay: Int = 0,
+        val delayExpr: VarExpr? = null,
+    ) : Effect
+
+    /** Fades the caster from [from] to [to] transparency (0 opaque, 255 invisible) over client cycles. */
+    data class Transparency(val startCycle: Int, val endCycle: Int, val from: Int, val to: Int) : Effect
     data class Broadcast(val text: String, val radius: Int = 15) : Effect
 
     /**
@@ -84,6 +93,7 @@ sealed interface Effect {
         val spotanim: String? = null,
         val spotanimHeight: Int = 0,
         val spotanimDelay: Int? = null,
+        val spotanimSlot: Int = 0,
         /** Percentage (0-100) of a protection prayer's block this hit ignores. */
         val penetration: Int = 0,
         val missSpotanim: String? = null,
@@ -105,6 +115,8 @@ sealed interface Effect {
         val penetrationWhen: Condition? = null,
         /** Environmental damage (falling rocks etc.): no retaliation and no defend anim. */
         val hazard: Boolean = false,
+        /** Runs [onHit] on the tick the hit is queued instead of the one after. */
+        val onHitNow: Boolean = false,
     ) : Effect
 
     data class Projectile(
@@ -130,6 +142,8 @@ sealed interface Effect {
         /** Launch tile, without an entity anchor; the caster itself when null. */
         val from: TargetExpr.Single? = null,
         val impactRounding: ImpactRounding = ImpactRounding.Down,
+        /** Ticks earlier than the queue's natural landing that [onImpact] runs, to line up with the hit. */
+        val impactLead: Int = 0,
     ) : Effect
 
     data class TileAoE(
@@ -177,6 +191,8 @@ sealed interface Effect {
         val onSummonParams: Any? = null,
         /** Owned by the encounter: removed when the boss is deleted or respawns. */
         val owned: Boolean = false,
+        /** Run as each spawned npc (see [AsNpc]) right after it is added to the world. */
+        val behaviour: Effect? = null,
     ) : Effect
 
     data class Transmog(val to: String, val durationTicks: Int) : Effect
@@ -206,11 +222,24 @@ sealed interface Effect {
     data class LockMovement(val locked: Boolean) : Effect
 
     /** Heals the caster by [amount], capped at its max hp, with a heal hitsplat. */
-    data class HealSelf(val amount: Int) : Effect
+    data class HealSelf(val amount: VarExpr) : Effect
+
+    /**
+     * Takes the caster out of combat for good: no more attacks or hunting, it can no longer
+     * retaliate, and hits already in flight deal no damage.
+     */
+    data object Retire : Effect
 
     data class Teleport(val to: TargetExpr.Single) : Effect
+
+    /**
+     * Walks the caster to [to] without holding up the ability, like [After], and runs [onArrival]
+     * once the route completes. An [Interrupt] in the meantime drops [onArrival]. Combat chases
+     * override the route unless the phase has [PhaseSpec.scriptedMovement].
+     */
+    data class WalkTo(val to: TargetExpr.Single, val onArrival: Effect = NoOp) : Effect
     data object FaceTarget : Effect
-    data class FaceTile(val at: TargetExpr.Single) : Effect
+    data class FaceTile(val at: TargetExpr.Single, val instant: Boolean = false) : Effect
 
     data class Poison(val damage: Int, val chance: Int = 1, val outOf: Int = 1) : Effect
     data class Freeze(val ticks: Int, val chance: Int = 1, val outOf: Int = 1) : Effect
@@ -287,10 +316,72 @@ sealed interface Effect {
         val at: TargetExpr.Single,
         val angle: Int = 0,
         val blockPlayersOnly: Boolean = false,
+        /** Rolls the loc's rotation from 0..3 instead of using [angle]. */
+        val randomAngle: Boolean = false,
     ) : Effect
 
     /** Shoves the target one tile to a random free neighbour inside [within], playing [anim]. */
     data class Knockback(val anim: String, val within: Area) : Effect
+
+    /**
+     * Sets the caster's hitpoints to [current], first resetting its stats to its visible type's.
+     * With [base], that is also the new max; [current] is clamped to the max and to at least 1.
+     */
+    data class SetHp(val current: VarExpr, val base: VarExpr? = null) : Effect
+
+    /** Takes [amount] hitpoints off the caster with a hitsplat, never below 1. */
+    data class DamageSelf(val amount: VarExpr) : Effect
+
+    /**
+     * Stores the player [who] resolves to as the encounter's [TargetExpr.Focus]. With a
+     * [TargetExpr.RandomPlayer], its area is also where the focus re-rolls from once it is gone.
+     * The boss's combat interaction is retargeted to the focus, so the combat tick's target is
+     * always the focus.
+     */
+    data class SetFocus(val who: TargetExpr.Single) : Effect
+
+    data object ClearFocus : Effect
+
+    /**
+     * Messages every valid player inside [area]: [self] for the focus player, [others] for the
+     * rest, with `{name}` replaced by the focus player's display name.
+     */
+    data class MessageParty(val area: Area, val self: String, val others: String) : Effect
+
+    /** Plays midi song [id] to every valid player inside [area]. */
+    data class Song(val id: Int, val area: Area) : Effect
+
+    /**
+     * Slides the caster to [to] with the exact-move update, taking `baseCycles + perTile *
+     * distance` client cycles.
+     */
+    data class ExactMove(
+        val to: TargetExpr.Single,
+        val baseCycles: Int,
+        val perTile: Int = 0,
+        /** Sends the move as a teleport rather than a jump. */
+        val teleport: Boolean = false,
+    ) : Effect
+
+    /** Swaps the owned loc on [at] for [loc], keeping the tile owned. */
+    data class ReplaceLoc(val at: TargetExpr.Single, val loc: String) : Effect
+
+    /** Removes the owned loc on [at] and frees the tile. */
+    data class RemoveLoc(val at: TargetExpr.Single) : Effect
+
+    data class TagTile(val at: TargetExpr.Single, val tag: String) : Effect
+
+    data class UntagTile(val at: TargetExpr.Single, val tag: String) : Effect
+
+    /**
+     * Runs [effect] as each npc [who] resolves to: animations, spotanims, hit source, `Self` and
+     * `Centre` are theirs, while varns, phase and the encounter stay the boss's. It gets its own
+     * ability run, so the boss's [Interrupt] does not cancel it.
+     */
+    data class AsNpc(val who: NpcExpr, val effect: Effect) : Effect
+
+    /** Removes the caster from the world; only meaningful inside [AsNpc]. */
+    data object DespawnSelf : Effect
 }
 
 enum class HitType {

@@ -26,9 +26,8 @@ constructor(private val eventBus: EventBus, private val playerList: PlayerList) 
                 hasOpTrigger = opTrigger,
                 hasApTrigger = false,
             )
-        val routeRequest = RouteRequestPathingEntity(target.avatar)
         npc.interaction = interaction
-        npc.routeRequest = routeRequest
+        npc.routeToTarget(target)
     }
 
     public fun interactAp(npc: Npc, target: Player, op: InteractionOp) {
@@ -41,9 +40,14 @@ constructor(private val eventBus: EventBus, private val playerList: PlayerList) 
                 hasApTrigger = true,
                 startApRange = apRange,
             )
-        val routeRequest = RouteRequestPathingEntity(target.avatar)
         npc.interaction = interaction
-        npc.routeRequest = routeRequest
+        npc.routeToTarget(target)
+    }
+
+    private fun Npc.routeToTarget(target: Player) {
+        if (!scriptedMovement) {
+            routeRequest = RouteRequestPathingEntity(target.avatar)
+        }
     }
 
     public fun opTrigger(npc: Npc, target: Player, op: InteractionOp): OpEvent? {

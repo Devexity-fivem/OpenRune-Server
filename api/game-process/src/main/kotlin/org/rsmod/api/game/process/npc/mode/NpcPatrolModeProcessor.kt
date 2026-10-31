@@ -9,7 +9,7 @@ import org.rsmod.routefinder.collision.CollisionFlagMap
 
 public class NpcPatrolModeProcessor @Inject constructor(private val collision: CollisionFlagMap) {
     public fun process(npc: Npc) {
-        val patrol = npc.type.patrol ?: return
+        val patrol = npc.visType.patrol ?: return
         npc.updateIdleCycles()
         npc.patrol(patrol)
     }

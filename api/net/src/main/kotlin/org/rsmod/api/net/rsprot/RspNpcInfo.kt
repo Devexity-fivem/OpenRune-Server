@@ -17,6 +17,14 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
         rspAvatar.extendedInfo.setSpotAnim(slot, spotanim, delay, height)
     }
 
+    override fun setBaseAnimationSet(walkAnim: Int, readyAnim: Int) {
+        rspAvatar.extendedInfo.setBaseAnimationSet(walkAnim = walkAnim, readyAnim = readyAnim)
+    }
+
+    override fun resetBaseAnimationSet() {
+        rspAvatar.extendedInfo.resetBaseAnimationSet()
+    }
+
     override fun setSay(text: String) {
         rspAvatar.extendedInfo.setSay(text)
     }
@@ -87,6 +95,26 @@ class RspNpcInfo(val rspAvatar: NpcAvatar) : NpcInfoProtocol {
 
     override fun setHeadIcon(slot: Int, graphic: Int, index: Int) {
         rspAvatar.extendedInfo.setHeadIconChange(slot, graphic, index)
+    }
+
+    override fun setCombatLevel(level: Int) {
+        rspAvatar.extendedInfo.setCombatLevelChange(level)
+    }
+
+    override fun setTransparency(
+        startTime: Int,
+        endTime: Int,
+        startTransparency: Int,
+        endTransparency: Int,
+        useStartTransparency: Boolean,
+    ) {
+        rspAvatar.extendedInfo.setTransparency(
+            startTime,
+            endTime,
+            startTransparency,
+            endTransparency,
+            useStartTransparency,
+        )
     }
 
     override fun exactMove(

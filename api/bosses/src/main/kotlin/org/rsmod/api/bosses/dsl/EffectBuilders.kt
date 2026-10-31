@@ -43,6 +43,20 @@ fun camReset(target: TargetExpr = TargetExpr.CurrentTarget): Effect = Effect.Cam
 fun mapSpotanim(spot: String, at: TargetExpr.Single, height: Int = 0, delay: Int = 0): Effect =
     Effect.MapSpotanim(spot, at, height, delay)
 
+fun mapSpotanim(spot: String, at: TargetExpr.Single, delay: VarExpr, height: Int = 0): Effect =
+    Effect.MapSpotanim(spot, at, height, delayExpr = delay)
+
+fun manhattan(a: TargetExpr.Single, b: TargetExpr.Single): VarExpr = VarExpr.Manhattan(a, b)
+
+fun distanceToFootprint(tile: TargetExpr.Single): VarExpr = VarExpr.DistanceToFootprint(tile)
+
+fun nearestPlayer(area: Area): TargetExpr.Single = TargetExpr.NearestPlayer(area)
+
+fun playersInExcept(area: Area, except: TargetExpr.Single): TargetExpr.Multi =
+    TargetExpr.PlayersInExcept(area, except)
+
+fun tileInFootprint(tile: TargetExpr.Single): Condition = Condition.TileInFootprint(tile)
+
 fun message(text: String, target: TargetExpr = TargetExpr.CurrentTarget): Effect =
     Effect.Message(text, target)
 fun sequence(vararg e: Effect): Effect = Effect.Sequence(e.toList())
@@ -110,6 +124,7 @@ fun projectile(
     onImpact: Effect? = null,
     from: TargetExpr.Single? = null,
     impactRounding: ImpactRounding = ImpactRounding.Down,
+    impactLead: Int = 0,
 ): Effect =
     Effect.Projectile(
         spotanim,
@@ -123,6 +138,7 @@ fun projectile(
         onImpact,
         from,
         impactRounding,
+        impactLead,
     )
 
 fun tileAoE(
@@ -155,7 +171,9 @@ fun summon(
     onSummon: String? = null,
     onSummonParams: Any? = null,
     owned: Boolean = false,
-): Effect = Effect.Summon(npc, count, radius, centeredOn, mode, duration, onSummon, onSummonParams, owned)
+    behaviour: Effect? = null,
+): Effect =
+    Effect.Summon(npc, count, radius, centeredOn, mode, duration, onSummon, onSummonParams, owned, behaviour)
 
 fun varn(name: String): VarExpr = VarExpr.Varn(name)
 
@@ -204,7 +222,13 @@ fun lockMovement(): Effect = Effect.LockMovement(true)
 
 fun unlockMovement(): Effect = Effect.LockMovement(false)
 
-fun healSelf(amount: Int): Effect = Effect.HealSelf(amount)
+fun healSelf(amount: Int): Effect = Effect.HealSelf(VarExpr.Const(amount))
+
+fun healSelf(amount: VarExpr): Effect = Effect.HealSelf(amount)
+
+fun retire(): Effect = Effect.Retire
+
+val HitDamage: VarExpr = VarExpr.HitDamage
 
 fun area(sw: TargetExpr.Single, ne: TargetExpr.Single): Area = Area(sw, ne)
 
@@ -219,6 +243,14 @@ fun customTiles(
     area: Area,
     tiles: (npc: Npc, target: Player, random: GameRandom) -> List<CoordGrid>,
 ): TileSet = TileSet.Custom(area, tiles)
+
+fun customTilesAt(
+    area: Area,
+    at: TargetExpr.Single,
+    tiles: (npc: Npc, at: CoordGrid, random: GameRandom) -> List<CoordGrid>,
+): TileSet = TileSet.CustomAt(area, at, tiles)
+
+fun takeTiles(tiles: TileSet, count: Int): TileSet = TileSet.Take(tiles, count)
 
 operator fun TileSet.plus(other: TileSet): TileSet = TileSet.Plus(this, other)
 
@@ -246,6 +278,8 @@ fun randomOf(name: String): TargetExpr.Single = TargetExpr.RandomOfBound(name)
 
 fun tilesEmpty(name: String): Condition = Condition.TilesEmpty(name)
 
+fun tilesInFootprint(name: String): Condition = Condition.TilesInFootprint(name)
+
 fun hitStyle(type: HitType): Condition = Condition.HitStyle(type)
 
 fun hitDemonbane(): Condition = Condition.HitDemonbane
@@ -255,8 +289,13 @@ fun hitDamageAtLeast(damage: Int): Condition = Condition.HitDamageAtLeast(damage
 fun after(ticks: Int, effect: Effect, requireAlive: Boolean = true): Effect =
     Effect.After(ticks, effect, requireAlive)
 
-fun spawnLoc(loc: String, at: TargetExpr.Single, angle: Int = 0, blockPlayersOnly: Boolean = false): Effect =
-    Effect.SpawnLoc(loc, at, angle, blockPlayersOnly)
+fun spawnLoc(
+    loc: String,
+    at: TargetExpr.Single,
+    angle: Int = 0,
+    blockPlayersOnly: Boolean = false,
+    randomAngle: Boolean = false,
+): Effect = Effect.SpawnLoc(loc, at, angle, blockPlayersOnly, randomAngle)
 
 fun knockback(anim: String, within: Area): Effect = Effect.Knockback(anim, within)
 
@@ -325,9 +364,14 @@ fun spawnTile(dx: Int = 0, dz: Int = 0): TargetExpr.Single = TargetExpr.SpawnTil
 
 fun teleport(to: TargetExpr.Single): Effect = Effect.Teleport(to)
 
+fun walkTo(to: TargetExpr.Single, onArrival: Effect = Effect.NoOp): Effect = Effect.WalkTo(to, onArrival)
+
 fun faceTarget(): Effect = Effect.FaceTarget
 
-fun faceTile(at: TargetExpr.Single): Effect = Effect.FaceTile(at)
+fun faceTile(at: TargetExpr.Single, instant: Boolean = false): Effect = Effect.FaceTile(at, instant)
+
+fun transparency(startCycle: Int, endCycle: Int, from: Int, to: Int): Effect =
+    Effect.Transparency(startCycle, endCycle, from, to)
 
 fun randomWalkableTile(radius: Int, of: TargetExpr.Single = TargetExpr.Self): TargetExpr =
     TargetExpr.RandomWalkableTile(radius, of)
@@ -433,3 +477,53 @@ val Dragonfire: HitType = HitType.Dragonfire
 val DragonfireMetal: HitType = HitType.DragonfireMetal
 val WyvernIce: HitType = HitType.WyvernIce
 val Typeless: HitType = HitType.Typeless
+
+fun setHp(current: VarExpr, base: VarExpr? = null): Effect = Effect.SetHp(current, base)
+
+fun damageSelf(amount: VarExpr): Effect = Effect.DamageSelf(amount)
+
+val Hp: VarExpr = VarExpr.Hp
+
+val BaseHp: VarExpr = VarExpr.BaseHp
+
+operator fun VarExpr.minus(other: VarExpr): VarExpr = VarExpr.Minus(this, other)
+
+fun randomPlayer(area: Area): TargetExpr.Single = TargetExpr.RandomPlayer(area)
+
+val Focus: TargetExpr.Single = TargetExpr.Focus
+
+fun setFocus(who: TargetExpr.Single): Effect = Effect.SetFocus(who)
+
+fun clearFocus(): Effect = Effect.ClearFocus
+
+fun messageParty(area: Area, self: String, others: String): Effect =
+    Effect.MessageParty(area, self, others)
+
+fun song(id: Int, area: Area): Effect = Effect.Song(id, area)
+
+fun exactMove(to: TargetExpr.Single, baseCycles: Int, perTile: Int = 0, teleport: Boolean = false): Effect =
+    Effect.ExactMove(to, baseCycles, perTile, teleport)
+
+fun replaceLoc(at: TargetExpr.Single, loc: String): Effect = Effect.ReplaceLoc(at, loc)
+
+fun removeLoc(at: TargetExpr.Single): Effect = Effect.RemoveLoc(at)
+
+fun tagTile(at: TargetExpr.Single, tag: String): Effect = Effect.TagTile(at, tag)
+
+fun untagTile(at: TargetExpr.Single, tag: String): Effect = Effect.UntagTile(at, tag)
+
+fun ownedLocs(loc: String): TileSet = TileSet.OwnedLocs(loc)
+
+fun taggedTiles(tag: String): TileSet = TileSet.Tagged(tag)
+
+fun asNpc(who: NpcExpr, effect: Effect): Effect = Effect.AsNpc(who, effect)
+
+fun ownedNpcs(npcType: String? = null): NpcExpr = NpcExpr.Owned(npcType)
+
+fun nearestOwned(npcType: String, of: TargetExpr.Single, radius: Int): NpcExpr =
+    NpcExpr.NearestOwned(npcType, of, radius)
+
+fun customNpcs(select: (boss: Npc, target: Player, owned: List<Npc>) -> List<Npc>): NpcExpr =
+    NpcExpr.Custom(select)
+
+fun despawnSelf(): Effect = Effect.DespawnSelf

@@ -101,6 +101,19 @@ public class BossHpBarScript @Inject constructor(
         openScripts(player)
     }
 
+    /**
+     * Redraws an open bar the way Jagex does on every change, which the extra bar (e.g. a charge
+     * meter) needs since the client doesn't redraw it when its varbits change. [extraColours]
+     * sets the extra bar's colours; they must be sent between the open and the extra redraw.
+     */
+    public fun onRefresh(player: Player, npc: Npc, extraColours: Player.() -> Unit = {}) {
+        if (player.bossHudDisabled) return
+        applyColours(player, npc)
+        runHudOpen(player)
+        player.extraColours()
+        player.runClientScript(10152, 0)
+    }
+
     public fun onRecolour(player: Player, npc: Npc) {
         if (player.bossHudDisabled) return
         applyColours(player, npc, DEFAULT_REMAINING_COLOR)
@@ -174,7 +187,10 @@ public class BossHpBarScript @Inject constructor(
     private fun openScripts(player: Player) {
         player.runClientScript(2887, commonComponents, 255)
         player.runClientScript(2102, commonComponents, 1)
+        runHudOpen(player)
+    }
 
+    private fun runHudOpen(player: Player) {
         player.runClientScript(
             2376,
             "component.hpbar_hud:universe".asRSCM(),

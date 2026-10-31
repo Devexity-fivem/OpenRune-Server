@@ -31,4 +31,23 @@ class BossDeps @Inject constructor(
     val accuracy: AccuracyFormulae,
     val maxHit: MaxHitFormulae,
     val playerHitModifier: PlayerHitModifier,
-)
+    val interactions: AiPlayerInteractions,
+) {
+    fun withExtensions(registry: BossExtensionRegistry): BossDeps =
+        BossDeps(
+            random,
+            worldRepo,
+            npcRepo,
+            locRepo,
+            playerList,
+            mapClock,
+            worldQueues,
+            collision,
+            encounterRegistry,
+            registry,
+            accuracy,
+            maxHit,
+            playerHitModifier,
+            interactions,
+        )
+}

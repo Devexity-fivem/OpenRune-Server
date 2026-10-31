@@ -23710,6 +23710,49 @@ maxRange = 40
 "param.boss_hp_bar_colour_remaining"=53416
 
 [[npc]]
+id = "npc.tfa_ocellus_p2"
+inherit = "npc.tfa_ocellus_p2"
+attackRange = 20
+maxRange = 40
+huntMode = 2
+huntRange = 40
+
+[[npc]]
+id = "npc.tfa_ocellus_p3"
+inherit = "npc.tfa_ocellus_p3"
+attackRange = 20
+maxRange = 40
+huntMode = 2
+huntRange = 40
+[npc.params]
+"param.death_anim"="seq.npc_ocellus_phase3_death"
+"param.headbar"="headbar.health_100"
+
+[[npc]]
+id = "npc.tfa_ocellus_p3_bombportal_basic"
+inherit = "npc.tfa_ocellus_p3_bombportal_basic"
+[npc.params]
+"param.death_anim"="seq.vfx_ocellus_voidflare_default_despawn"
+"param.headbar"="headbar.health_40"
+"param.dropped_remains"=-1
+
+[[npc]]
+id = "npc.tfa_ocellus_p3_bombportal_buff"
+inherit = "npc.tfa_ocellus_p3_bombportal_buff"
+[npc.params]
+"param.death_anim"="seq.vfx_ocellus_voidflare_buff_despawn"
+"param.headbar"="headbar.health_40"
+"param.dropped_remains"=-1
+
+[[npc]]
+id = "npc.tfa_ocellus_p3_bombportal_heal"
+inherit = "npc.tfa_ocellus_p3_bombportal_heal"
+[npc.params]
+"param.death_anim"="seq.vfx_ocellus_voidflare_heal_despawn"
+"param.headbar"="headbar.health_40"
+"param.dropped_remains"=-1
+
+[[npc]]
 id = "npc.dom_boss_burrowed"
 inherit = "npc.dom_boss_burrowed"
 huntMode = 8
@@ -36871,20 +36914,130 @@ maxRange = 15
 "param.attack_anim"="seq.human_sword_slash"
 "param.defend_anim"="seq.human_unarmed_def"
 "param.death_anim"="seq.human_death"
+id = "npc.tfa_ocellus_p1"
+inherit = "npc.tfa_ocellus_p1"
+moveRestrict = "PassThru"
+attackRange = 20
+maxRange = 40
+huntMode = 2
+huntRange = 40
+[npc.params]
+"param.headbar"="headbar.shield_100"
+"param.hitmark_lit"="hitmark.shield_damage_lit"
+"param.hitmark_tint"="hitmark.shield_damage_tint"
+"param.hitmark_max"="hitmark.shield_damage_max"
+"param.boss_hp_bar_colour_back"=8224
+"param.boss_hp_bar_colour_sliding"=39032
+"param.boss_hp_bar_colour_remaining"=53416
+
+[[npc]]
+id = "npc.tfa_guardian_start"
+inherit = "npc.tfa_guardian_start"
+maxRange = 30
+
+[[npc]]
+id = "npc.tfa_guardian"
+inherit = "npc.tfa_guardian"
+maxRange = 30
+huntMode = 2
+huntRange = 40
+[npc.params]
+"param.boss_hp_bar_colour_back"=8224
+"param.boss_hp_bar_colour_sliding"=39032
+"param.boss_hp_bar_colour_remaining"=53416
+
+[[npc]]
+id = "npc.tfa_guardian_unshielded"
+inherit = "npc.tfa_guardian_unshielded"
+maxRange = 30
+huntMode = 2
+huntRange = 40
+[npc.params]
+"param.boss_hp_bar_colour_back"=13107200
+"param.boss_hp_bar_colour_sliding"=36864
+"param.boss_hp_bar_colour_remaining"=51200
+
+[[npc]]
+id = "npc.tfa_jelly_boss"
+inherit = "npc.tfa_jelly_boss"
+blockWalk = "None"
+maxRange = 30
+huntMode = 2
+huntRange = 40
+[npc.params]
+"param.demon"=1
+"param.demonbane_resistant"=1
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=85
+"param.headbar"="headbar.dreadnoth_health"
+"param.freeze_resistance"=40
+"param.poison_immunity"=1
+"param.venom_immunity"=2
+"param.cannon_immunity"=1
+
+[[npc]]
+id = "npc.tfa_jelly_minion"
+inherit = "npc.tfa_jelly_minion"
+blockWalk = "None"
+
 [[npc]]
 id = "npc.tfa_bork"
 inherit = "npc.tfa_bork"
-huntMode = 1
-huntRange = 14
-maxRange = 20
-moveRestrict = "Normal"
+maxRange = 30
 [npc.params]
-"param.attack_anim"="seq.npc_bork_gong_melee01"
-"param.death_anim"="seq.npc_bork_death01"
-"param.npc_attack_type"="category.attacktype_crush"
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=40
+"param.freeze_resistance"=40
+"param.poison_immunity"=1
+"param.venom_immunity"=2
+"param.cannon_immunity"=1
+
 [[npc]]
 id = "npc.tfa_smork"
 inherit = "npc.tfa_smork"
-moveRestrict = "Blocked"
-defaultMode = "None"
-wanderRange = 0
+maxRange = 30
+[npc.params]
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=85
+"param.freeze_resistance"=40
+"param.poison_immunity"=1
+"param.venom_immunity"=2
+"param.cannon_immunity"=1
+
+[[npc]]
+id = "npc.tfa_bork_smork_hp_ui_handler"
+inherit = "npc.tfa_bork_smork_hp_ui_handler"
+[npc.params]
+"param.boss_hp_bar_colour_back"=13107200
+"param.boss_hp_bar_colour_sliding"=36864
+"param.boss_hp_bar_colour_remaining"=51200
+
+[[npc]]
+id = "npc.tfa_xarth"
+inherit = "npc.tfa_xarth"
+maxRange = 30
+[npc.params]
+"param.demon"=1
+"param.demonbane_resistant"=1
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=85
+"param.poison_immunity"=1
+"param.venom_immunity"=2
+"param.cannon_immunity"=1
+"param.boss_hp_bar_colour_back"=13107200
+"param.boss_hp_bar_colour_sliding"=36864
+"param.boss_hp_bar_colour_remaining"=51200
+
+[[npc]]
+id = "npc.tfa_xarth_corpse"
+inherit = "npc.tfa_xarth_corpse"
+[npc.params]
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=40
+
+[[npc]]
+id = "npc.tfa_xarth_corpse_doused"
+inherit = "npc.tfa_xarth_corpse_doused"
+[npc.params]
+"param.elemental_weakness_type"=3
+"param.elemental_weakness_percent"=100

@@ -32,6 +32,21 @@ sealed interface TargetExpr {
 
     data class Bound(val name: String) : Single
 
+    /** A random valid player inside [area]; null (no target) when there is none. */
+    data class RandomPlayer(val area: Area) : Single
+
+    /**
+     * The valid player inside [area] closest to the caster's footprint, ties going to the lowest
+     * player slot; null (no target) when there is none.
+     */
+    data class NearestPlayer(val area: Area) : Single
+
+    /**
+     * The encounter's stored focus player ([Effect.SetFocus]). Re-rolled from the area given at
+     * [Effect.SetFocus] when the stored player is gone or invalid.
+     */
+    data object Focus : Single
+
     /** Re-rolled on every resolve; throws on an empty set, so check [Condition.TilesEmpty] first. */
     data class RandomOfBound(val name: String) : Single
 
@@ -48,6 +63,9 @@ sealed interface TargetExpr {
     data object CurrentTile : Single
 
     data class PlayersIn(val area: Area) : Multi
+
+    /** The players in [area] other than the one [except] resolves to; everyone in it if that leaves none. */
+    data class PlayersInExcept(val area: Area, val except: Single) : Multi
 
     data class PlayersOn(val tile: Single) : Multi
 

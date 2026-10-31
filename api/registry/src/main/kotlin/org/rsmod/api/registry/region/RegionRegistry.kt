@@ -477,7 +477,7 @@ constructor(
         // we allow them to stay in a zone that will soon be "invalidated." While this should not
         // cause issues currently, it's worth noting in case future systems enforce stricter
         // validation for npcs in invalid zones.
-        if (npc.type.isFollower) {
+        if (npc.visType.isFollower) {
             return
         }
         val delete = npcRegistry.del(npc)

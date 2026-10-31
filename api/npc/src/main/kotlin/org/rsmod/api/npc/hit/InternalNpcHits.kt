@@ -116,7 +116,7 @@ internal object InternalNpcHits {
                 hitmark.tint != null -> hitmark.tint?.asRSCM(RSCMType.HITMARK)
                 else -> hitmark.lit.asRSCM(RSCMType.HITMARK)
             }
-        val zeroDamageHitmarks = if (hitmark.isRegularDamage()) hitmark_groups.zero_damage else null
+        val zeroDamageHitmarks = if (hitmark.hasZeroDamageVariant()) hitmark_groups.zero_damage else null
         return HitBuilder(
             type = type,
             damage = damage,
@@ -138,8 +138,9 @@ internal object InternalNpcHits {
         )
     }
 
-    private fun HitmarkTypeGroup.isRegularDamage(): Boolean =
-        isAssociatedWith(hitmark_groups.regular_damage)
+    private fun HitmarkTypeGroup.hasZeroDamageVariant(): Boolean =
+        isAssociatedWith(hitmark_groups.regular_damage) ||
+            isAssociatedWith(hitmark_groups.shield_damage)
 
     private fun Player.currentMaxHit(): Int = vars["varp.com_maxhit"]
 

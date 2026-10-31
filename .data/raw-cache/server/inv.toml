@@ -81,3 +81,9 @@ inherit = "inv.dom_lootpile_during"
 scope = "Temp"
 stack = "Always"
 protect = false
+
+[[inventory]]
+isServerOnly = true
+id = "inv.tfa_chests"
+inherit = "inv.tfa_chests"
+protect = false
