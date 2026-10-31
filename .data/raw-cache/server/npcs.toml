@@ -10010,7 +10010,11 @@ maxRange = 15
 [[npc]]
 id = "npc.kalphite_worker_chamber"
 inherit = "npc.kalphite_worker_chamber"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.kalphite_attack_claws"
 "param.death_anim"="seq.kalphite_update_death"
 "param.defend_anim"="seq.kalphite_update_defend"
@@ -11548,7 +11552,11 @@ maxRange = 15
 [[npc]]
 id = "npc.ogre"
 inherit = "npc.ogre"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.ogre_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=7
@@ -11558,7 +11566,11 @@ inherit = "npc.ogre"
 [[npc]]
 id = "npc.ogre2"
 inherit = "npc.ogre2"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
 "param.attack_anim"="seq.ogre_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=7
@@ -29869,7 +29881,12 @@ inherit = "npc.mourning_overpass_mourner_vis"
 [[npc]]
 id = "npc.mourner_hideout_guard_vis"
 inherit = "npc.mourner_hideout_guard_vis"
+huntMode = 1
+huntRange = 5
+maxRange = 15
 [npc.params]
+"param.aggression_tolerant"=1
+"param.aggro_unless_mourner_gear"=1
 "param.npc_attack_type"="category.attacktype_stab"
 
 [[npc]]

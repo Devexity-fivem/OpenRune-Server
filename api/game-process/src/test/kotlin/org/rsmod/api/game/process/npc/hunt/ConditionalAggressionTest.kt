@@ -123,6 +123,33 @@ class ConditionalAggressionTest {
     }
 
     @Test
+    fun `chamber kalphite worker and wild ogres hunt`() {
+        for (id in intArrayOf(961, 2095, 2096)) {
+            val def = ServerCacheManager.getNpcs()[id]
+            assertNotNull(def, "npc $id")
+            assertEquals(1, def?.huntMode, "npc $id huntMode")
+            assertEquals(5, def?.huntRange, "npc $id huntRange")
+            assertEquals(15, def?.maxRange, "npc $id maxRange")
+            assertEquals(1, def?.paramsRaw?.get(PARAM_AGGRESSION_TOLERANT), "npc $id tolerant")
+        }
+    }
+
+    @Test
+    fun `mourner hideout guard gates on mourner gear`() {
+        val guard = npc(9017)
+        assertTrue(gate.permitsAggression(guard, player()))
+        val disguised =
+            player(
+                Wearpos.Torso.slot to 6065,
+                Wearpos.Legs.slot to 6067,
+                Wearpos.Feet.slot to 6069,
+                Wearpos.Hands.slot to 6068,
+                Wearpos.Back.slot to 6070,
+            )
+        assertFalse(gate.permitsAggression(guard, disguised))
+    }
+
+    @Test
     fun `quest monkey guard hunts unconditionally and elder guards stay passive`() {
         val questGuard = ServerCacheManager.getNpcs()[5271]
         assertNotNull(questGuard)
