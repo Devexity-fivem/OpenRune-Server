@@ -789,5 +789,65 @@ object Cooking {
             column(COL_HIGH, 332)
             column(COL_RANGE_ONLY, true)
         }
+        row("dbrow.cooking_servery_meat") {
+            production {
+                input("obj.hosidius_servery_raw_meat")
+                statReq("stat.cooking", 1)
+                xp(0)
+                output("obj.hosidius_servery_cooked_meat")
+                category("Servery")
+            }
+            columnRSCM(COL_BURNT, "obj.burnt_meat")
+            column(COL_STOP_BURN_FIRE, 1)
+            column(COL_STOP_BURN_RANGE, 1)
+            column(COL_LOW, 256)
+            column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
+        }
+        row("dbrow.cooking_servery_pie") {
+            production {
+                input("obj.hosidius_servery_uncooked_meat_pie")
+                statReq("stat.cooking", 20)
+                xp(0)
+                output("obj.hosidius_servery_meat_pie")
+                category("Servery")
+            }
+            columnRSCM(COL_BURNT, "obj.burnt_pie")
+            column(COL_STOP_BURN_FIRE, 1)
+            column(COL_STOP_BURN_RANGE, 1)
+            column(COL_LOW, 256)
+            column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
+        }
+        row("dbrow.cooking_servery_stew") {
+            production {
+                input("obj.hosidius_servery_uncooked_stew")
+                statReq("stat.cooking", 25)
+                xp(0)
+                output("obj.hosidius_servery_stew")
+                category("Servery")
+            }
+            columnRSCM(COL_BURNT, "obj.burnt_stew")
+            column(COL_STOP_BURN_FIRE, 1)
+            column(COL_STOP_BURN_RANGE, 1)
+            column(COL_LOW, 256)
+            column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
+        }
+        row("dbrow.cooking_servery_pizza") {
+            production {
+                input("obj.hosidius_servery_uncooked_pizza")
+                statReq("stat.cooking", 65)
+                xp(0)
+                output("obj.hosidius_servery_plain_pizza")
+                category("Servery")
+            }
+            columnRSCM(COL_BURNT, "obj.burnt_pizza")
+            column(COL_STOP_BURN_FIRE, 1)
+            column(COL_STOP_BURN_RANGE, 1)
+            column(COL_LOW, 256)
+            column(COL_HIGH, 256)
+            column(COL_RANGE_ONLY, true)
+        }
     }
 }

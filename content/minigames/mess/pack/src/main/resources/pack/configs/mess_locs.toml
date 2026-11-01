@@ -1,0 +1,9 @@
+[[object]]
+id = "loc.iznot_clay_range"
+inherit = "loc.iznot_clay_range"
+contentGroup = "content.cooking_range_hosidius"
+
+[[object]]
+id = "loc.rimmington_sink"
+inherit = "loc.rimmington_sink"
+contentGroup = "content.water_source"

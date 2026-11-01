@@ -1,0 +1,8 @@
+[gamevals.area]
+mess_hall = 30030
+
+[gamevals.dbrow]
+cooking_servery_meat = 63844
+cooking_servery_pie = 63845
+cooking_servery_stew = 63846
+cooking_servery_pizza = 63847

@@ -1,0 +1,5 @@
+[[inventory]]
+isServerOnly = true
+id = "inv.skill_guide_cooking_wine"
+inherit = "inv.skill_guide_cooking_wine"
+stack = "Never"

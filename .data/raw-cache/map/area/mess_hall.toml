@@ -1,0 +1,12 @@
+[[area]]
+name = "Mess"
+area_id = "area.mess_hall"
+levels = [0]
+
+[[area.polygons]]
+vertices = [
+    [1634, 3613],
+    [1634, 3636],
+    [1670, 3636],
+    [1670, 3613],
+]
