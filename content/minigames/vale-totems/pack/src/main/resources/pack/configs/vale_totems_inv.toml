@@ -1,0 +1,40 @@
+[[inventory]]
+isServerOnly = true
+id = "inv.deadmanlose_dummy"
+inherit = "inv.deadmanlose_dummy"
+name = "Vale Research Exchange"
+
+scope = "Shared"
+stack = "Always"
+
+sellMultiplier = 1000
+buyMultiplier = 250
+delta = 0
+
+size = 4
+
+protect = false
+runWeight = false
+restock = true
+allStock = false
+placeholders = false
+
+[[inventory.stock]]
+obj = "obj.bowstring_spool"
+count = 100
+restockCycles = 1
+
+[[inventory.stock]]
+obj = "obj.fletching_knife"
+count = 100
+restockCycles = 1
+
+[[inventory.stock]]
+obj = "obj.greenman_mask"
+count = 100
+restockCycles = 1
+
+[[inventory.stock]]
+obj = "obj.ent_branch"
+count = 100
+restockCycles = 1

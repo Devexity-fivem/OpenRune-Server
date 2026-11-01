@@ -1,0 +1,39 @@
+[[enum]]
+isServerOnly = true
+id = "enum.vale_totems_decoration_wood"
+keyType = "OBJ"
+valueType = "INT"
+
+[enum.values]
+"obj.oak_shortbow" = 1
+"obj.unstrung_oak_shortbow" = 1
+"obj.oak_longbow" = 1
+"obj.unstrung_oak_longbow" = 1
+"obj.oak_shield" = 1
+"obj.xbows_crossbow_stock_oak" = 1
+"obj.willow_shortbow" = 2
+"obj.unstrung_willow_shortbow" = 2
+"obj.willow_longbow" = 2
+"obj.unstrung_willow_longbow" = 2
+"obj.willow_shield" = 2
+"obj.xbows_crossbow_stock_willow" = 2
+"obj.maple_shortbow" = 3
+"obj.unstrung_maple_shortbow" = 3
+"obj.maple_longbow" = 3
+"obj.unstrung_maple_longbow" = 3
+"obj.maple_shield" = 3
+"obj.xbows_crossbow_stock_maple" = 3
+"obj.yew_shortbow" = 4
+"obj.unstrung_yew_shortbow" = 4
+"obj.yew_longbow" = 4
+"obj.unstrung_yew_longbow" = 4
+"obj.yew_shield" = 4
+"obj.xbows_crossbow_stock_yew" = 4
+"obj.magic_shortbow" = 5
+"obj.unstrung_magic_shortbow" = 5
+"obj.magic_longbow" = 5
+"obj.unstrung_magic_longbow" = 5
+"obj.magic_shield" = 5
+"obj.xbows_crossbow_stock_magic" = 5
+"obj.redwood_hiking_staff" = 6
+"obj.redwood_shield" = 6

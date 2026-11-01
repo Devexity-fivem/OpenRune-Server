@@ -1,0 +1,32 @@
+[gamevals.varbit]
+vale_research_points = 63900
+
+[gamevals.currency]
+vale_research_points = 65532
+
+[gamevals.dbtable]
+vale_totems_woods = 62004
+vale_totems_sites = 62005
+
+[gamevals.dbrow]
+vale_totems_wood_oak = 63848
+vale_totems_wood_willow = 63849
+vale_totems_wood_maple = 63850
+vale_totems_wood_yew = 63851
+vale_totems_wood_magic = 63852
+vale_totems_wood_redwood = 63853
+vale_totems_site_1 = 63854
+vale_totems_site_2 = 63855
+vale_totems_site_3 = 63856
+vale_totems_site_4 = 63857
+vale_totems_site_5 = 63858
+vale_totems_site_6 = 63859
+vale_totems_site_7 = 63860
+vale_totems_site_8 = 63861
+shop_currency_vale_research = 63862
+
+[gamevals.enum]
+vale_totems_decoration_wood = 64476
+
+[gamevals.timer]
+ent_totems_visit = 427

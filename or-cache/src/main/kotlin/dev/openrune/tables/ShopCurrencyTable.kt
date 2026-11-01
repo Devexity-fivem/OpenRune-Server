@@ -45,5 +45,12 @@ object ShopCurrencyTable {
             column(PLURAL_NAME, "unidentified minerals")
             columnRSCM(OBJ, "obj.mguild_minerals")
         }
+
+        row("dbrow.shop_currency_vale_research") {
+            column(KEY, "currency.vale_research_points")
+            column(SINGULAR_NAME, "Vale research point")
+            column(PLURAL_NAME, "Vale research points")
+            columnRSCM(VARBIT, "varbit.vale_research_points")
+        }
     }
 }

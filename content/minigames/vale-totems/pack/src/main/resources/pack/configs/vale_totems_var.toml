@@ -1,0 +1,6 @@
+[[varbit]]
+isServerOnly = true
+id = "varbit.vale_research_points"
+varp = "varp.ent_totems_research_points"
+startBit = 0
+endBit = 30
