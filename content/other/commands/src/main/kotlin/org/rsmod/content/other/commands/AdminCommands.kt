@@ -148,6 +148,9 @@ constructor(
         onCommand("dbrow", "Dump dbrow column values", ::dbRow) {
             invalidArgs = "Use as ::dbrow rowIdOrSymbol"
         }
+        onCommand("enum", "Dump enum key/value pairs", ::enumDump) {
+            invalidArgs = "Use as ::enum enumIdOrSymbol"
+        }
         onCommand("locdel", "Remove loc", ::locDel) { invalidArgs = "Use as ::locdel duration" }
         onCommand("objectdel", "Remove loc", ::locDel) {
             invalidArgs = "Use as ::objectdel duration"
@@ -641,6 +644,32 @@ constructor(
                 val text = "$colId[${col.types.joinToString(",")}]=${col.values?.joinToString(",") ?: "-"}"
                 player.mes(text.take(240))
             }
+        }
+
+    private fun enumDump(cheat: Cheat) =
+        with(cheat) {
+            val enumId =
+                if (args[0].toIntOrNull() != null) {
+                    args[0].toInt()
+                } else {
+                    "enum.${args[0]}".asRSCM() and 0xFFFF
+                }
+            val type = ServerCacheManager.getEnum(enumId)
+            if (type == null) {
+                player.mes("That enum does not exist: $enumId")
+                return
+            }
+            player.mes("Enum $enumId key=${type.keyType} val=${type.valueType} size=${type.values.size}")
+            var line = ""
+            for ((k, v) in type.values.entries.sortedBy { it.key.toString().toIntOrNull() ?: Int.MAX_VALUE }) {
+                val pair = "$k=$v "
+                if (line.length + pair.length > 220) {
+                    player.mes(line)
+                    line = ""
+                }
+                line += pair
+            }
+            if (line.isNotEmpty()) player.mes(line)
         }
 
     private fun locDel(cheat: Cheat) =

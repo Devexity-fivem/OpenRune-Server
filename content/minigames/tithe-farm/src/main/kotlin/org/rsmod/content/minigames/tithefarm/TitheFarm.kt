@@ -528,7 +528,7 @@ constructor(
         const val FERT_TICKS = 50
         const val TICK_INTERVAL = 1
         const val SACK_LIMIT = 100
-        const val BONUS_FROM = 75
+        const val BONUS_FROM = 100
         const val SACK_BONUS = 2
         const val POINTS_CAP = 16000
         const val CAN_CHARGES_MAX = 1000
