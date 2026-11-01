@@ -441,3 +441,33 @@ id = "varn.ezekiel_dead"
 
 [[varn]]
 id = "varn.ezekiel_done"
+
+[[varn]]
+id = "varn.moia_hp_max"
+
+[[varn]]
+id = "varn.moia_side"
+
+[[varn]]
+id = "varn.moia_tp_cd"
+
+[[varn]]
+id = "varn.moia_cough_cd"
+
+[[varn]]
+id = "varn.moia_enraged"
+
+[[varn]]
+id = "varn.moia_dead"
+
+[[varn]]
+id = "varn.moia_done"
+
+[[varn]]
+id = "varn.moia_slot"
+
+[[varn]]
+id = "varn.moia_infected"
+
+[[varn]]
+id = "varn.moia_enrage_round"

@@ -37041,3 +37041,21 @@ inherit = "npc.tfa_xarth_corpse_doused"
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=100
+
+[[npc]]
+id = "npc.tfa_moia"
+inherit = "npc.tfa_moia"
+maxRange = 30
+
+[[npc]]
+id = "npc.tfa_moia_minion"
+inherit = "npc.tfa_moia_minion"
+maxRange = 30
+
+[[npc]]
+id = "npc.tfa_ezekiel"
+inherit = "npc.tfa_ezekiel"
+
+[[npc]]
+id = "npc.tfa_ezekiel_sword"
+inherit = "npc.tfa_ezekiel_sword"

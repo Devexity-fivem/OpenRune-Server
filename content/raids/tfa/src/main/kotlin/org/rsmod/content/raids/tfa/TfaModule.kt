@@ -10,6 +10,8 @@ import org.rsmod.content.raids.tfa.raid.encounter.ezekiel.EzekielAttackHook
 import org.rsmod.content.raids.tfa.raid.encounter.ezekiel.EzekielHpFloor
 import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianAttackHook
 import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianHpFloor
+import org.rsmod.content.raids.tfa.raid.encounter.moia.MoiaAttackHook
+import org.rsmod.content.raids.tfa.raid.encounter.moia.MoiaHpFloor
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusAttackHook
 import org.rsmod.content.raids.tfa.raid.encounter.ocellus.OcellusShieldFloor
 import org.rsmod.content.raids.tfa.raid.encounter.xarth.XarthAttackHook
@@ -24,11 +26,13 @@ class TfaModule : PluginModule() {
         addSetBinding<NpcHitpointsFloorHook>(BorkHpFloor::class.java)
         addSetBinding<NpcHitpointsFloorHook>(XarthHpFloor::class.java)
         addSetBinding<NpcHitpointsFloorHook>(EzekielHpFloor::class.java)
+        addSetBinding<NpcHitpointsFloorHook>(MoiaHpFloor::class.java)
         addSetBinding<NpcAttackValidateHook>(OcellusAttackHook::class.java)
         addSetBinding<NpcAttackValidateHook>(GuardianAttackHook::class.java)
         addSetBinding<NpcAttackValidateHook>(DreadnothAttackHook::class.java)
         addSetBinding<NpcAttackValidateHook>(BorkAttackHook::class.java)
         addSetBinding<NpcAttackValidateHook>(XarthAttackHook::class.java)
         addSetBinding<NpcAttackValidateHook>(EzekielAttackHook::class.java)
+        addSetBinding<NpcAttackValidateHook>(MoiaAttackHook::class.java)
     }
 }

@@ -9,7 +9,7 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **23/23** · Bosses **173/178** · Raids **4/4** · Minigames **13/52**
+Skills **23/23** · Bosses **175/178** · Raids **4/4** · Minigames **13/52**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
@@ -43,7 +43,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 3,238 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
-### Bosses <sup>173/178</sup>
+### Bosses <sup>175/178</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
@@ -111,6 +111,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Elidinis%27_Warden.png/48px-Elidinis%27_Warden.png?c9f68" height="20" alt=""> Elidinis' Warden | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Elidinis'_Warden) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Elvarg.png/48px-Elvarg.png?336d5" height="20" alt=""> Elvarg | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Elvarg) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Evil_spirit.png/48px-Evil_spirit.png?40157" height="20" alt=""> Evil spirit | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Evil_spirit) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ezekiel.png/48px-Ezekiel.png?bc5b7" height="20" alt=""> Ezekiel | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Ezekiel) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fareed.png/48px-Fareed.png?537e7" height="20" alt=""> Fareed | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Fareed) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Flambeed.png/48px-Flambeed.png?7ad3e" height="20" alt=""> Flambeed | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Flambeed) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Gadderanks.png/48px-Gadderanks.png?63d5a" height="20" alt=""> Gadderanks | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Gadderanks) |
@@ -148,6 +149,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Maggot_King.png/48px-Maggot_King.png?a6790" height="20" alt=""> [Maggot King](content/bosses/maggot-king) | 1,480 loc | [wiki](https://oldschool.runescape.wiki/w/Maggot_King) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Me.png/48px-Me.png?65f08" height="20" alt=""> Me | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Me) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Melzar_the_Mad.png/48px-Melzar_the_Mad.png?b3424" height="20" alt=""> Melzar the Mad | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Melzar_the_Mad) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Moia.png/48px-Moia.png?bc5b7" height="20" alt=""> Moia | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Moia) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Moons of Peril | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Moons_of_Peril) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Moss_Guardian.png/48px-Moss_Guardian.png?a1e47" height="20" alt=""> Moss Guardian | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Moss_Guardian) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Muttadile.png/48px-Muttadile.png?55798" height="20" alt=""> Muttadile | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Muttadile) |
@@ -222,11 +224,11 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/48px-Zulrah_%28serpentine%29.png?29a54" height="20" alt=""> [Zulrah](content/bosses/zulrah) | 639 loc | [wiki](https://oldschool.runescape.wiki/w/Zulrah) |
 
 <details>
-<summary>🔴 <b>5 not started</b></summary>
+<summary>🔴 <b>3 not started</b></summary>
 
-**Nothing yet (5)**
+**Nothing yet (3)**
 
-[Dagon'hai Elder](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) · [Dagon'hai Monk](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) · [Ezekiel](https://oldschool.runescape.wiki/w/Ezekiel) · [Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) · [Moia](https://oldschool.runescape.wiki/w/Moia)
+[Dagon'hai Elder](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) · [Dagon'hai Monk](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) · [Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan)
 
 </details>
 
@@ -424,8 +426,8 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `minigames/mess/pack` | 1 | 6 | 0 | 0 | 2026-10-31 |
 | `minigames/nightmare-zone` | 3 | 395 | 0 | 0 | 2026-10-29 |
 | `minigames/tears-of-guthix` | 1 | 407 | 1 | 0 | 2026-10-31 |
-| `minigames/vale-totems` | 1 | 784 | 1 | 0 | — |
-| `minigames/vale-totems/pack` | 1 | 140 | 0 | 0 | — |
+| `minigames/vale-totems` | 1 | 784 | 1 | 0 | 2026-11-01 |
+| `minigames/vale-totems/pack` | 1 | 140 | 0 | 0 | 2026-11-01 |
 | `other/commands` | 5 | 1,601 | 0 | 0 | 2026-10-28 |
 | `other/consumables` | 40 | 8,638 | 5 | 0 | 2026-10-29 |
 | `other/dave/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
@@ -450,8 +452,8 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `quest` | 86 | 18,032 | 16 | 4 | 2026-10-30 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-10-25 |
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
-| `raids/tfa` | 85 | 12,453 | 5 | 0 | 2026-10-31 |
-| `raids/tfa/pack` | 5 | 130 | 0 | 0 | 2026-10-30 |
+| `raids/tfa` | 101 | 14,987 | 7 | 0 | 2026-11-01 |
+| `raids/tfa/pack` | 7 | 174 | 0 | 0 | 2026-11-01 |
 | `skills/agility` | 2 | 343 | 2 | 0 | 2026-10-30 |
 | `skills/agility/pack` | 1 | 6 | 0 | 0 | 2026-10-25 |
 | `skills/cooking` | 13 | 1,429 | 0 | 0 | 2026-10-31 |

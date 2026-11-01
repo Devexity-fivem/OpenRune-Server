@@ -11,5 +11,6 @@ class TfaPluginPack : PluginPack() {
             BorkScalingTable.scaling(),
             XarthScalingTable.scaling(),
             EzekielScalingTable.scaling(),
+            MoiaScalingTable.scaling(),
         )
 }

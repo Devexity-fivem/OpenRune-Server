@@ -351,6 +351,16 @@
                         "ocellus",
                         "tfa_ocellus"
                     ]
+                },
+                "Ezekiel": {
+                    "rscmPrefixes": [
+                        "tfa_ezekiel"
+                    ]
+                },
+                "Moia": {
+                    "rscmPrefixes": [
+                        "tfa_moia"
+                    ]
                 }
             }
         },

@@ -56,6 +56,16 @@ ezekiel_stunned= 64555
 ezekiel_pattern= 64556
 ezekiel_dead= 64557
 ezekiel_done= 64558
+moia_hp_max= 64560
+moia_side= 64561
+moia_tp_cd= 64562
+moia_cough_cd= 64563
+moia_enraged= 64564
+moia_dead= 64565
+moia_done= 64566
+moia_slot= 64567
+moia_infected= 64568
+moia_enrage_round= 64569
 
 [gamevals.dbtable]
 tfa_guardian_scaling = 62000
@@ -63,6 +73,7 @@ tfa_dreadnoth_scaling = 62001
 tfa_bork_scaling = 62002
 tfa_xarth_scaling = 62003
 tfa_ezekiel_scaling = 62006
+tfa_moia_scaling = 62007
 
 [gamevals.dbrow]
 tfa_guardian_scaling_2 = 50000
@@ -100,6 +111,13 @@ tfa_ezekiel_scaling_5 = 50043
 tfa_ezekiel_scaling_6 = 50044
 tfa_ezekiel_scaling_7 = 50045
 tfa_ezekiel_scaling_8 = 50046
+tfa_moia_scaling_2 = 50050
+tfa_moia_scaling_3 = 50051
+tfa_moia_scaling_4 = 50052
+tfa_moia_scaling_5 = 50053
+tfa_moia_scaling_6 = 50054
+tfa_moia_scaling_7 = 50055
+tfa_moia_scaling_8 = 50056
 
 [gamevals.varp]
 ocellus_spin = 64150
