@@ -9,7 +9,7 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **23/23** · Bosses **178/178** · Raids **4/4** · Minigames **13/46**
+Skills **23/23** · Bosses **178/178** · Raids **4/4** · Minigames **14/46**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
@@ -235,7 +235,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Theatre_of_Blood_logo.png/48px-Theatre_of_Blood_logo.png?e6e68" height="20" alt=""> Theatre of Blood | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Theatre_of_Blood) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tombs_of_Amascut.png/48px-Tombs_of_Amascut.png?f9992" height="20" alt=""> Tombs of Amascut | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tombs_of_Amascut) |
 
-### Minigames <sup>13/46</sup>
+### Minigames <sup>14/46</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
@@ -249,16 +249,17 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Pyramid_Plunder.png/48px-Pyramid_Plunder.png?4aa28" height="20" alt=""> [Pyramid Plunder](content/minigames/pyramid-plunder) | 605 loc | [wiki](https://oldschool.runescape.wiki/w/Pyramid_Plunder) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tears_of_Guthix_%28minigame%29.png/48px-Tears_of_Guthix_%28minigame%29.png?0ec80" height="20" alt=""> [Tears of Guthix (minigame)](content/minigames/tears-of-guthix) | 407 loc | [wiki](https://oldschool.runescape.wiki/w/Tears_of_Guthix_(minigame)) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Gauntlet.png/48px-The_Gauntlet.png?1a926" height="20" alt=""> [The Gauntlet](content/minigames/gauntlet) | 3,514 loc | [wiki](https://oldschool.runescape.wiki/w/The_Gauntlet) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tithe_Farm_entrance.png/48px-Tithe_Farm_entrance.png?23239" height="20" alt=""> [Tithe Farm](content/minigames/tithe-farm) | 623 loc | [wiki](https://oldschool.runescape.wiki/w/Tithe_Farm) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar_Fight_Cave.png/48px-TzHaar_Fight_Cave.png?f5437" height="20" alt=""> [TzHaar Fight Cave](content/minigames/fight-cave) | 486 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar_Fight_Cave) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar-Ket-Rak%27s_Challenges.png/48px-TzHaar-Ket-Rak%27s_Challenges.png?53c80" height="20" alt=""> [TzHaar-Ket-Rak's Challenges](content/minigames/ket-rak) | 657 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar-Ket-Rak's_Challenges) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vale_Totems_%28minigame%29.png/48px-Vale_Totems_%28minigame%29.png?91627" height="20" alt=""> [Vale Totems](content/minigames/vale-totems) | 924 loc | [wiki](https://oldschool.runescape.wiki/w/Vale_Totems) |
 
 <details>
-<summary>🔴 <b>33 not started</b></summary>
+<summary>🔴 <b>32 not started</b></summary>
 
-**Nothing yet (33)**
+**Nothing yet (32)**
 
-[Barbarian Assault](https://oldschool.runescape.wiki/w/Barbarian_Assault) · [Barracuda Trials](https://oldschool.runescape.wiki/w/Barracuda_Trials) · [Blast Furnace](https://oldschool.runescape.wiki/w/Blast_Furnace) · [Bounty Hunter](https://oldschool.runescape.wiki/w/Bounty_Hunter) · [Brimhaven Agility Arena](https://oldschool.runescape.wiki/w/Brimhaven_Agility_Arena) · [Burthorpe Games Room](https://oldschool.runescape.wiki/w/Burthorpe_Games_Room) · [Castle Wars](https://oldschool.runescape.wiki/w/Castle_Wars) · [Clan Wars](https://oldschool.runescape.wiki/w/Clan_Wars) · [Duel Arena](https://oldschool.runescape.wiki/w/Duel_Arena) · [Emir's Arena](https://oldschool.runescape.wiki/w/Emir's_Arena) · [Fishing Trawler](https://oldschool.runescape.wiki/w/Fishing_Trawler) · [Games Zone](https://oldschool.runescape.wiki/w/Games_Zone) · [Gnome Ball](https://oldschool.runescape.wiki/w/Gnome_Ball) · [Gnome Restaurant](https://oldschool.runescape.wiki/w/Gnome_Restaurant) · [Guardians of the Rift](https://oldschool.runescape.wiki/w/Guardians_of_the_Rift) · [Hallowed Sepulchre](https://oldschool.runescape.wiki/w/Hallowed_Sepulchre) · [Intelligence Gathering](https://oldschool.runescape.wiki/w/Intelligence_Gathering) · [Last Man Standing](https://oldschool.runescape.wiki/w/Last_Man_Standing) · [Mage Arena](https://oldschool.runescape.wiki/w/Mage_Arena) · [Mage Training Arena](https://oldschool.runescape.wiki/w/Mage_Training_Arena) · [Mahogany Homes](https://oldschool.runescape.wiki/w/Mahogany_Homes) · [Mastering Mixology](https://oldschool.runescape.wiki/w/Mastering_Mixology) · [Rat Pits](https://oldschool.runescape.wiki/w/Rat_Pits) · [Rogues' Den](https://oldschool.runescape.wiki/w/Rogues'_Den) · [Shades of Mort'ton (minigame)](https://oldschool.runescape.wiki/w/Shades_of_Mort'ton_(minigame)) · [Sorceress's Garden](https://oldschool.runescape.wiki/w/Sorceress's_Garden) · [Soul Wars](https://oldschool.runescape.wiki/w/Soul_Wars) · [Tai Bwo Wannai Cleanup](https://oldschool.runescape.wiki/w/Tai_Bwo_Wannai_Cleanup) · [Temple Trekking](https://oldschool.runescape.wiki/w/Temple_Trekking) · [Tithe Farm](https://oldschool.runescape.wiki/w/Tithe_Farm) · [Trouble Brewing](https://oldschool.runescape.wiki/w/Trouble_Brewing) · [TzHaar Fight Pit](https://oldschool.runescape.wiki/w/TzHaar_Fight_Pit) · [Volcanic Mine](https://oldschool.runescape.wiki/w/Volcanic_Mine)
+[Barbarian Assault](https://oldschool.runescape.wiki/w/Barbarian_Assault) · [Barracuda Trials](https://oldschool.runescape.wiki/w/Barracuda_Trials) · [Blast Furnace](https://oldschool.runescape.wiki/w/Blast_Furnace) · [Bounty Hunter](https://oldschool.runescape.wiki/w/Bounty_Hunter) · [Brimhaven Agility Arena](https://oldschool.runescape.wiki/w/Brimhaven_Agility_Arena) · [Burthorpe Games Room](https://oldschool.runescape.wiki/w/Burthorpe_Games_Room) · [Castle Wars](https://oldschool.runescape.wiki/w/Castle_Wars) · [Clan Wars](https://oldschool.runescape.wiki/w/Clan_Wars) · [Duel Arena](https://oldschool.runescape.wiki/w/Duel_Arena) · [Emir's Arena](https://oldschool.runescape.wiki/w/Emir's_Arena) · [Fishing Trawler](https://oldschool.runescape.wiki/w/Fishing_Trawler) · [Games Zone](https://oldschool.runescape.wiki/w/Games_Zone) · [Gnome Ball](https://oldschool.runescape.wiki/w/Gnome_Ball) · [Gnome Restaurant](https://oldschool.runescape.wiki/w/Gnome_Restaurant) · [Guardians of the Rift](https://oldschool.runescape.wiki/w/Guardians_of_the_Rift) · [Hallowed Sepulchre](https://oldschool.runescape.wiki/w/Hallowed_Sepulchre) · [Intelligence Gathering](https://oldschool.runescape.wiki/w/Intelligence_Gathering) · [Last Man Standing](https://oldschool.runescape.wiki/w/Last_Man_Standing) · [Mage Arena](https://oldschool.runescape.wiki/w/Mage_Arena) · [Mage Training Arena](https://oldschool.runescape.wiki/w/Mage_Training_Arena) · [Mahogany Homes](https://oldschool.runescape.wiki/w/Mahogany_Homes) · [Mastering Mixology](https://oldschool.runescape.wiki/w/Mastering_Mixology) · [Rat Pits](https://oldschool.runescape.wiki/w/Rat_Pits) · [Rogues' Den](https://oldschool.runescape.wiki/w/Rogues'_Den) · [Shades of Mort'ton (minigame)](https://oldschool.runescape.wiki/w/Shades_of_Mort'ton_(minigame)) · [Sorceress's Garden](https://oldschool.runescape.wiki/w/Sorceress's_Garden) · [Soul Wars](https://oldschool.runescape.wiki/w/Soul_Wars) · [Tai Bwo Wannai Cleanup](https://oldschool.runescape.wiki/w/Tai_Bwo_Wannai_Cleanup) · [Temple Trekking](https://oldschool.runescape.wiki/w/Temple_Trekking) · [Trouble Brewing](https://oldschool.runescape.wiki/w/Trouble_Brewing) · [TzHaar Fight Pit](https://oldschool.runescape.wiki/w/TzHaar_Fight_Pit) · [Volcanic Mine](https://oldschool.runescape.wiki/w/Volcanic_Mine)
 
 </details>
 
@@ -401,7 +402,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `interfaces/journal-tab` | 4 | 283 | 0 | 0 | 2026-10-14 |
 | `interfaces/logout-tab` | 1 | 30 | 0 | 0 | 2026-05-03 |
 | `interfaces/menu` | 1 | 23 | 0 | 1 | 2026-05-03 |
-| `interfaces/omnishop` | 2 | 266 | 0 | 0 | 2026-09-23 |
+| `interfaces/omnishop` | 2 | 338 | 0 | 0 | 2026-09-23 |
 | `interfaces/prayer-tab` | 10 | 797 | 0 | 0 | 2026-10-30 |
 | `interfaces/settings` | 10 | 1,126 | 2 | 0 | 2026-10-25 |
 | `interfaces/settings/pack` | 2 | 222 | 0 | 0 | 2026-10-21 |
@@ -419,11 +420,12 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `minigames/mess` | 1 | 259 | 1 | 0 | 2026-10-31 |
 | `minigames/mess/pack` | 1 | 6 | 0 | 0 | 2026-10-31 |
 | `minigames/nightmare-zone` | 3 | 395 | 0 | 0 | 2026-10-29 |
-| `minigames/pyramid-plunder` | 1 | 605 | 0 | 0 | — |
+| `minigames/pyramid-plunder` | 1 | 605 | 0 | 0 | 2026-11-01 |
 | `minigames/tears-of-guthix` | 1 | 407 | 1 | 0 | 2026-10-31 |
+| `minigames/tithe-farm` | 2 | 623 | 0 | 0 | — |
 | `minigames/vale-totems` | 1 | 784 | 1 | 0 | 2026-11-01 |
 | `minigames/vale-totems/pack` | 1 | 140 | 0 | 0 | 2026-11-01 |
-| `other/commands` | 5 | 1,625 | 0 | 0 | 2026-10-28 |
+| `other/commands` | 5 | 1,648 | 0 | 0 | 2026-11-01 |
 | `other/consumables` | 40 | 8,638 | 5 | 0 | 2026-10-29 |
 | `other/dave/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `other/discord` | 2 | 80 | 0 | 0 | 2026-07-01 |

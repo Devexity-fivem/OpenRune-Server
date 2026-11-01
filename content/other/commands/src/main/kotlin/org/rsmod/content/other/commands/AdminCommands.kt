@@ -145,6 +145,9 @@ constructor(
         onCommand("loctype", "Dump loc type multiloc/var data", ::locType) {
             invalidArgs = "Use as ::loctype locDebugNameOrId"
         }
+        onCommand("dbrow", "Dump dbrow column values", ::dbRow) {
+            invalidArgs = "Use as ::dbrow rowIdOrSymbol"
+        }
         onCommand("locdel", "Remove loc", ::locDel) { invalidArgs = "Use as ::locdel duration" }
         onCommand("objectdel", "Remove loc", ::locDel) {
             invalidArgs = "Use as ::objectdel duration"
@@ -618,6 +621,26 @@ constructor(
                     "mdef=${type.multiDefault} multi=${type.multiLoc.joinToString(",")} " +
                     "acts=${type.actions} w=${type.width}x${type.length}"
             )
+        }
+
+    private fun dbRow(cheat: Cheat) =
+        with(cheat) {
+            val rowId =
+                if (args[0].toIntOrNull() != null) {
+                    args[0].toInt()
+                } else {
+                    "dbrow.${args[0]}".asRSCM() and 0xFFFF
+                }
+            val row = ServerCacheManager.getDbrow(rowId)
+            if (row == null) {
+                player.mes("That dbrow does not exist: $rowId")
+                return
+            }
+            player.mes("DbRow $rowId table=${row.tableId}:")
+            for ((colId, col) in row.definedColumns()) {
+                val text = "$colId[${col.types.joinToString(",")}]=${col.values?.joinToString(",") ?: "-"}"
+                player.mes(text.take(240))
+            }
         }
 
     private fun locDel(cheat: Cheat) =

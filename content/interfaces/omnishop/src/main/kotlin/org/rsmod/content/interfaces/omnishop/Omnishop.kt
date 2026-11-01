@@ -84,12 +84,61 @@ internal class OmnishopCurrency(val row: Int) {
             ?.firstOrNull() as? String ?: "currency"
 }
 
-internal class OmnishopStock(private val shop: RawDbRow, private val stock: RawDbRow) {
+/** Balance and charge hooks for currencies not backed by inventory objs (e.g. varbit points). */
+public interface OmnishopCurrencyAdapter {
+    public fun ProtectedAccess.count(currencyRow: Int): Int
+
+    public fun ProtectedAccess.charge(currencyRow: Int, amount: Int)
+}
+
+public object OmnishopCurrencyAdapters {
+    private val adapters = mutableMapOf<Int, OmnishopCurrencyAdapter>()
+
+    public fun register(currencyRow: String, adapter: OmnishopCurrencyAdapter) {
+        adapters[currencyRow.asRSCM(RSCMType.DBROW)] = adapter
+    }
+
+    internal fun adapterFor(rowId: Int): OmnishopCurrencyAdapter? = adapters[rowId]
+}
+
+/** Purchase fulfilment override for stock rows that grant a service rather than an obj. */
+public interface OmnishopFulfillment {
+    public fun ProtectedAccess.fulfill(quantity: Int): Boolean
+}
+
+public object OmnishopFulfillments {
+    private val handlers = mutableMapOf<Int, OmnishopFulfillment>()
+
+    public fun register(stockRow: String, handler: OmnishopFulfillment) {
+        handlers[stockRow.asRSCM(RSCMType.DBROW)] = handler
+    }
+
+    internal fun find(rowId: Int): OmnishopFulfillment? = handlers[rowId]
+}
+
+internal class OmnishopStock(
+    private val shop: RawDbRow,
+    private val stock: RawDbRow,
+    val stockRowId: Int,
+) {
     val obj: ItemServerType =
         ServerCacheManager.getItem(stock.int(STOCK_OBJ) ?: -1) ?: error("Omnishop stock has no obj")
 
+    val alternateObj: ItemServerType?
+        get() = stock.int(STOCK_ALTOBJ)?.let { ServerCacheManager.getItem(it) }
+
     val multiplier: Int
         get() = stock.int(STOCK_MULTIPLIER)?.takeIf { it > 0 } ?: 1
+
+    val maxPurchase: Int
+        get() = stock.int(STOCK_MAX_PURCHASE)?.takeIf { it > 0 } ?: Int.MAX_VALUE
+
+    fun objFor(player: Player): ItemServerType =
+        if (player.appearance.bodyType != BODYTYPE_MALE && alternateObj != null) {
+            alternateObj!!
+        } else {
+            obj
+        }
 
     val buyable: Boolean
         get() = stock.bool(STOCK_BUYABLE) ?: true
@@ -120,12 +169,14 @@ internal class OmnishopStock(private val shop: RawDbRow, private val stock: RawD
         fun find(shopRow: Int, index: Int): OmnishopStock? {
             val shop = runCatching { RawDbRow(shopRow) }.getOrNull() ?: return null
             val stockRow = shop.ints(SHOP_STOCK).getOrNull(index) ?: return null
-            return runCatching { OmnishopStock(shop, RawDbRow(stockRow)) }.getOrNull()
+            return runCatching { OmnishopStock(shop, RawDbRow(stockRow), stockRow) }.getOrNull()
         }
 
         fun all(shopRow: Int): List<OmnishopStock> {
             val shop = runCatching { RawDbRow(shopRow) }.getOrNull() ?: return emptyList()
-            return shop.ints(SHOP_STOCK).mapNotNull { runCatching { OmnishopStock(shop, RawDbRow(it)) }.getOrNull() }
+            return shop.ints(SHOP_STOCK).mapNotNull {
+                runCatching { OmnishopStock(shop, RawDbRow(it), it) }.getOrNull()
+            }
         }
     }
 }
@@ -140,6 +191,8 @@ private const val SHOP_STOCK = "dbcol.omnishop_shop_data:omnishop_shop_stock"
 private const val SHOP_MOD_BUY = "dbcol.omnishop_shop_data:omnishop_shop_cost_mod_buy"
 private const val SHOP_MOD_SELL = "dbcol.omnishop_shop_data:omnishop_shop_cost_mod_sell"
 private const val STOCK_OBJ = "dbcol.omnishop_stock_data:omnishop_stock_obj"
+private const val STOCK_ALTOBJ = "dbcol.omnishop_stock_data:omnishop_stock_alternateobj"
+private const val STOCK_MAX_PURCHASE = "dbcol.omnishop_stock_data:omnishop_stock_max_purchase"
 private const val STOCK_COST = "dbcol.omnishop_stock_data:omnishop_stock_cost"
 private const val STOCK_MOD_BUY = "dbcol.omnishop_stock_data:omnishop_stock_cost_mod_buy"
 private const val STOCK_MOD_SELL = "dbcol.omnishop_stock_data:omnishop_stock_cost_mod_sell"
@@ -148,3 +201,4 @@ private const val STOCK_BUYABLE = "dbcol.omnishop_stock_data:omnishop_stock_buya
 private const val STOCK_SELLABLE = "dbcol.omnishop_stock_data:omnishop_stock_sellable"
 private const val CURRENCY_OBJ = "dbcol.omnishop_currency_data:omnishop_currency_obj"
 private const val CURRENCY_PLURAL = "dbcol.omnishop_currency_data:omnishop_currency_name_plural"
+private const val BODYTYPE_MALE = 0

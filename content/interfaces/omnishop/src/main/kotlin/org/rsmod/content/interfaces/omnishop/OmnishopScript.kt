@@ -58,9 +58,20 @@ class OmnishopScript : PluginScript() {
             }
             quantity = minOf(quantity, affordable)
         }
-        if (!stock.obj.stackable) {
+        val fulfillment = OmnishopFulfillments.find(stock.stockRowId)
+        if (fulfillment != null) {
+            if (with(fulfillment) { fulfill(1) }) {
+                for ((currency, price) in costs) {
+                    removeCurrency(currency, price)
+                }
+            }
+            return
+        }
+        val obj = stock.objFor(player)
+        quantity = minOf(quantity, stock.maxPurchase / stock.multiplier)
+        if (!obj.stackable) {
             quantity = minOf(quantity, inv.freeSpace() / stock.multiplier)
-        } else if (inv.count(stock.obj.internalName) == 0 && inv.isFull()) {
+        } else if (inv.count(obj.internalName) == 0 && inv.isFull()) {
             quantity = 0
         }
         if (quantity <= 0) {
@@ -70,7 +81,7 @@ class OmnishopScript : PluginScript() {
         for ((currency, price) in costs) {
             removeCurrency(currency, price * quantity)
         }
-        invAdd(inv, stock.obj.internalName, quantity * stock.multiplier)
+        invAdd(inv, obj.internalName, quantity * stock.multiplier)
     }
 
     private fun ProtectedAccess.sell(obj: ItemServerType, requested: Int) {
@@ -90,9 +101,16 @@ class OmnishopScript : PluginScript() {
     }
 
     private fun ProtectedAccess.currencyCount(currency: OmnishopCurrency): Int =
-        currency.objs.sumOf { inv.count(it.internalName) }
+        OmnishopCurrencyAdapters.adapterFor(currency.row)?.let { adapter ->
+            adapter.run { count(currency.row) }
+        }
+            ?: currency.objs.sumOf { inv.count(it.internalName) }
 
     private fun ProtectedAccess.removeCurrency(currency: OmnishopCurrency, amount: Int) {
+        OmnishopCurrencyAdapters.adapterFor(currency.row)?.let { adapter ->
+            adapter.run { charge(currency.row, amount) }
+            return
+        }
         var remaining = amount
         for (obj in currency.objs) {
             if (remaining == 0) return
