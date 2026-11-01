@@ -1,5 +1,6 @@
 plugins {
     id("base-conventions")
+    id("game-cache-test-conventions")
 }
 
 dependencies {
@@ -18,4 +19,5 @@ dependencies {
     implementation(projects.content.raids.party)
     implementation(projects.content.interfaces.collectionLog)
     implementation(libs.kotlin.inline.logger)
+    testImplementation(libs.fastutil)
 }

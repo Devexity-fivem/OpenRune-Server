@@ -420,3 +420,24 @@ id = "varn.xarth_dead"
 
 [[varn]]
 id = "varn.xarth_done"
+
+[[varn]]
+id = "varn.ezekiel_hp_max"
+
+[[varn]]
+id = "varn.ezekiel_melee"
+
+[[varn]]
+id = "varn.ezekiel_charge"
+
+[[varn]]
+id = "varn.ezekiel_stunned"
+
+[[varn]]
+id = "varn.ezekiel_pattern"
+
+[[varn]]
+id = "varn.ezekiel_dead"
+
+[[varn]]
+id = "varn.ezekiel_done"
