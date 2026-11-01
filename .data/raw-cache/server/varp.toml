@@ -995,3 +995,20 @@ isServerOnly = true
 id = "varp.xarth_bound"
 scope = "Temp"
 transmit = "Never"
+[[varp]]
+isServerOnly = true
+id = "varp.tog_last_played_day"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.tog_last_played_xp"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.tog_last_played_qp"
+scope = "Perm"
+transmit = "Never"
