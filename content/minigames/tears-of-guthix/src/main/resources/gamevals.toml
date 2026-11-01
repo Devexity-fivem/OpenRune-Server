@@ -2,3 +2,6 @@
 tog_last_played_day = 64432
 tog_last_played_xp = 64433
 tog_last_played_qp = 64434
+
+[gamevals.timer]
+tog_collect = 426

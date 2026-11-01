@@ -13,9 +13,13 @@ import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
+import org.rsmod.api.script.onPlayerLogin
+import org.rsmod.api.script.onPlayerTimer
 import org.rsmod.api.utils.time.runeday
 import org.rsmod.content.quest.manager.QuestRequirements
+import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.timerAt
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
@@ -24,9 +28,10 @@ import org.rsmod.plugin.scripts.ScriptContext
 class TearsOfGuthix
 @Inject
 constructor(
-    private val protectedAccess: ProtectedAccessLauncher,
     private val locRepo: LocRepository,
     private val random: GameRandom,
+    private val protectedAccess: ProtectedAccessLauncher,
+    private val worldClock: MapClock,
 ) : PluginScript() {
 
     private val streams = mutableListOf<Stream>()
@@ -36,6 +41,25 @@ constructor(
         onOpLoc1(JUNA_1OP) { junaTalk() }
         onOpLoc1(JUNA_2OPS) { junaTalk() }
         onOpLoc2(JUNA_2OPS) { junaStory() }
+        onPlayerLogin { ejectStaleSession(player) }
+        onPlayerTimer(COLLECT_TIMER) { collectTick() }
+    }
+
+    private fun ejectStaleSession(player: Player) {
+        val inside = player.coords.level == PLANE &&
+            player.coords.x in ROOM_X0..ROOM_X1 &&
+            player.coords.z in ROOM_Z0..ROOM_Z1
+        if (!inside && player.vars[VB_COLLECTING] == 0) {
+            return
+        }
+        protectedAccess.launch(player) {
+            player.clearTimer(COLLECT_TIMER)
+            vars[VB_COLLECTING] = 0
+            vars[VB_COUNTDOWN] = 0
+            if (inside) {
+                teleport(EXIT)
+            }
+        }
     }
 
     private suspend fun ProtectedAccess.junaTalk() {
@@ -81,6 +105,7 @@ constructor(
                 }
             }
             Gate.Eligible -> {
+                var ready = false
                 startDialogue {
                     chatNpcSpecific(
                         "Juna",
@@ -96,7 +121,11 @@ constructor(
                     )
                     if (choice2("Tell a story.", true, "Not now.", false, title = "Tell Juna a story?")) {
                         beginStory()
+                        ready = true
                     }
+                }
+                if (ready) {
+                    enter()
                 }
             }
         }
@@ -111,7 +140,10 @@ constructor(
         }
         when (eligibility()) {
             is Gate.Cooldown, is Gate.NoProgress -> junaTalk()
-            Gate.Eligible -> startDialogue { beginStory() }
+            Gate.Eligible -> {
+                startDialogue { beginStory() }
+                enter()
+            }
         }
     }
 
@@ -137,7 +169,6 @@ constructor(
             neutral,
             "Go now. You may stay for a time equal to the|quests you have completed.",
         )
-        protectedAccess.launch(player) { enter() }
     }
 
     private fun ProtectedAccess.grantBowl() {
@@ -159,19 +190,20 @@ constructor(
         ifOpenOverlay(SIDEPANEL)
         discoverWalls()
         startStreams()
-        collectLoop(qp)
+        player.timerAt(COLLECT_TIMER, worldClock.cycle, 1)
     }
 
-    private suspend fun ProtectedAccess.collectLoop(remaining: Int) {
-        var left = remaining
-        while (left > 0 && vars[VB_COLLECTING] == 1 && inside(player.coords)) {
-            delay(1)
-            left--
-            vars[VB_COUNTDOWN] = left
-            tickStreams()
-            tickCollection()
+    private suspend fun ProtectedAccess.collectTick() {
+        val left = vars[VB_COUNTDOWN] - 1
+        if (left <= 0 || vars[VB_COLLECTING] != 1 || !inside(player.coords)) {
+            player.clearTimer(COLLECT_TIMER)
+            finish()
+            return
         }
-        finish()
+        vars[VB_COUNTDOWN] = left
+        tickStreams()
+        tickCollection()
+        player.timerAt(COLLECT_TIMER, worldClock.cycle, 1)
     }
 
     private fun tickStreams() {
@@ -224,6 +256,7 @@ constructor(
 
     private suspend fun ProtectedAccess.finish() {
         val tears = vars[VB_TEARS]
+        player.clearTimer(COLLECT_TIMER)
         vars[VB_COLLECTING] = 0
         vars[VB_COUNTDOWN] = 0
         ifCloseSub(SIDEPANEL)
@@ -271,7 +304,7 @@ constructor(
                     if (!name.startsWith("tog_weeping")) {
                         continue
                     }
-                    walls.add(Wall(loc, if (name.endsWith("_r")) "r" else "l"))
+                    walls.add(Wall(loc, if (loc.angleId == 1) "r" else "l"))
                 }
             }
         }
@@ -281,7 +314,7 @@ constructor(
         if (streams.isNotEmpty() || walls.size < STREAM_COUNT) {
             return
         }
-        val order = walls.sortedBy { random.of(0, Int.MAX_VALUE) }
+        val order = walls.sortedBy { random.of(0, Int.MAX_VALUE - 1) }
         val kinds = listOf("good", "good", "good", "bad", "bad", "bad")
         for (i in 0 until STREAM_COUNT) {
             val wall = order[i]
@@ -303,7 +336,7 @@ constructor(
             ?: "stat.hitpoints"
 
     private fun ProtectedAccess.skillUnlocked(stat: String): Boolean = when (stat) {
-        "stat.runecraft" -> QuestRequirements.hasCompleted(player, "quest_runemysteries")
+        "stat.runecrafting" -> QuestRequirements.hasCompleted(player, "quest_runemysteries")
         "stat.herblore" -> QuestRequirements.hasCompleted(player, "quest_druidicritual")
         else -> true
     }
@@ -339,6 +372,7 @@ constructor(
         private const val VB_COUNTDOWN = "varbit.tog_countdown"
         private const val VB_QP_BEFORE_RETURN = "varbit.tog_qp_before_return"
         private const val VARP_QP = "varp.qp"
+        private const val COLLECT_TIMER = "timer.tog_collect"
 
         private const val VP_LAST_DAY = "varp.tog_last_played_day"
         private const val VP_LAST_XP = "varp.tog_last_played_xp"
@@ -350,22 +384,22 @@ constructor(
         private const val XP_PER_TEAR = 60
         private const val XP_REQUIRED = 100_000
         private const val COOLDOWN_DAYS = 7
-        private const val PLANE = 1
+        private const val PLANE = 2
 
-        private val ENTRY = CoordGrid(1, 50, 148, 51, 43)
-        private val EXIT = CoordGrid(1, 50, 148, 52, 45)
+        private val ENTRY = CoordGrid(2, 50, 148, 56, 45)
+        private val EXIT = CoordGrid(2, 50, 148, 52, 45)
 
-        private const val ROOM_X0 = 3216
+        private const val ROOM_X0 = 3254
         private const val ROOM_X1 = 3263
-        private const val ROOM_Z0 = 9472
-        private const val ROOM_Z1 = 9535
+        private const val ROOM_Z0 = 9512
+        private const val ROOM_Z1 = 9521
 
         private val SKILLS = listOf(
             "stat.attack", "stat.hitpoints", "stat.mining", "stat.strength",
             "stat.agility", "stat.smithing", "stat.defence", "stat.herblore",
             "stat.fishing", "stat.ranged", "stat.thieving", "stat.cooking",
             "stat.prayer", "stat.crafting", "stat.firemaking", "stat.magic",
-            "stat.fletching", "stat.woodcutting", "stat.runecraft", "stat.slayer",
+            "stat.fletching", "stat.woodcutting", "stat.runecrafting", "stat.slayer",
             "stat.farming", "stat.construction", "stat.hunter",
         )
     }

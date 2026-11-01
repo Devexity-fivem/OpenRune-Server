@@ -1,5 +1,6 @@
 plugins {
     id("base-conventions")
+    id("game-cache-test-conventions")
 }
 
 dependencies {
@@ -11,4 +12,5 @@ dependencies {
     implementation(projects.api.invtx)
     implementation(projects.api.utils.utilsTime)
     implementation(projects.content.quest)
+    testImplementation(libs.fastutil)
 }
