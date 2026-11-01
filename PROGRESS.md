@@ -9,7 +9,7 @@ wiki, only that it exists.
 
 🟢 added · 🔴 not added
 
-Skills **23/23** · Bosses **175/178** · Raids **4/4** · Minigames **12/46**
+Skills **23/23** · Bosses **178/178** · Raids **4/4** · Minigames **12/46**
 
 These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
 quests, drops and travel are real work that no category above points at, so check
@@ -43,7 +43,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 3,238 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
-### Bosses <sup>175/178</sup>
+### Bosses <sup>178/178</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
@@ -94,6 +94,8 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_Rex.png/48px-Dagannoth_Rex.png?a99a9" height="20" alt=""> Dagannoth Rex | no module, code in content/bosses/dagannoth-kings | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_Rex) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_Supreme.png/48px-Dagannoth_Supreme.png?81f00" height="20" alt=""> Dagannoth Supreme | no module, code in content/bosses/dagannoth-kings | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_Supreme) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_mother_white.png/48px-Dagannoth_mother_white.png?945b1" height="20" alt=""> Dagannoth mother | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_mother) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagon%27hai_Elder.png/48px-Dagon%27hai_Elder.png?bc5b7" height="20" alt=""> Dagon'hai Elder | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagon%27hai_Monk_%28staff%29.png/48px-Dagon%27hai_Monk_%28staff%29.png?bc5b7" height="20" alt=""> Dagon'hai Monk | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Damis_first_form.png/48px-Damis_first_form.png?ee7b6" height="20" alt=""> Damis | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Damis) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dawn.png/48px-Dawn.png?8b8ea" height="20" alt=""> Dawn | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Dawn) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Delrith.png/48px-Delrith.png?ceece" height="20" alt=""> Delrith | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Delrith) |
@@ -145,6 +147,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Koschei_the_deathless.png/48px-Koschei_the_deathless.png?37d97" height="20" alt=""> Koschei the deathless | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Koschei_the_deathless) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kraken.png/48px-Kraken.png?a4955" height="20" alt=""> [Kraken](content/bosses/kraken) | 110 loc | [wiki](https://oldschool.runescape.wiki/w/Kraken) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/48px-Kree%27arra.png?ba75c" height="20" alt=""> [Kree'arra](content/bosses/kreearra) | 229 loc | [wiki](https://oldschool.runescape.wiki/w/Kree'arra) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Lowerniel_Drakan.png/48px-Lowerniel_Drakan.png?b887a" height="20" alt=""> Lowerniel Drakan | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mad_Angel.webp/48px-Mad_Angel.webp?c7990" height="20" alt=""> [Mad Angel](content/bosses/mad-angel) | 1,122 loc | [wiki](https://oldschool.runescape.wiki/w/Mad_Angel) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Maggot_King.png/48px-Maggot_King.png?a6790" height="20" alt=""> [Maggot King](content/bosses/maggot-king) | 1,480 loc | [wiki](https://oldschool.runescape.wiki/w/Maggot_King) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Me.png/48px-Me.png?65f08" height="20" alt=""> Me | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Me) |
@@ -222,15 +225,6 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zalcano_%28weakened%29.png/48px-Zalcano_%28weakened%29.png?fa423" height="20" alt=""> [Zalcano](content/bosses/zalcano) | 556 loc | [wiki](https://oldschool.runescape.wiki/w/Zalcano) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zebak.png/48px-Zebak.png?23978" height="20" alt=""> Zebak | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Zebak) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/48px-Zulrah_%28serpentine%29.png?29a54" height="20" alt=""> [Zulrah](content/bosses/zulrah) | 639 loc | [wiki](https://oldschool.runescape.wiki/w/Zulrah) |
-
-<details>
-<summary>🔴 <b>3 not started</b></summary>
-
-**Nothing yet (3)**
-
-[Dagon'hai Elder](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) · [Dagon'hai Monk](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) · [Lowerniel Drakan](https://oldschool.runescape.wiki/w/Lowerniel_Drakan)
-
-</details>
 
 ### Raids <sup>4/4</sup>
 
@@ -451,8 +445,8 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `quest` | 86 | 18,032 | 16 | 4 | 2026-10-30 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-10-25 |
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
-| `raids/tfa` | 101 | 14,997 | 7 | 0 | 2026-11-01 |
-| `raids/tfa/pack` | 7 | 174 | 0 | 0 | 2026-11-01 |
+| `raids/tfa` | 111 | 16,903 | 8 | 0 | 2026-11-01 |
+| `raids/tfa/pack` | 8 | 196 | 0 | 0 | 2026-11-01 |
 | `skills/agility` | 2 | 343 | 2 | 0 | 2026-10-30 |
 | `skills/agility/pack` | 1 | 6 | 0 | 0 | 2026-10-25 |
 | `skills/cooking` | 13 | 1,429 | 0 | 0 | 2026-10-31 |

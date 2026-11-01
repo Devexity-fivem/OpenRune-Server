@@ -37059,3 +37059,61 @@ inherit = "npc.tfa_ezekiel"
 [[npc]]
 id = "npc.tfa_ezekiel_sword"
 inherit = "npc.tfa_ezekiel_sword"
+
+[[npc]]
+id = "npc.myq6_lowerniel_combat_1"
+inherit = "npc.myq6_lowerniel_combat_1"
+
+[[npc]]
+id = "npc.myq6_lowerniel_combat_2"
+inherit = "npc.myq6_lowerniel_combat_2"
+
+[[npc]]
+id = "npc.myq6_lowerniel_combat_3"
+inherit = "npc.myq6_lowerniel_combat_3"
+
+[[npc]]
+id = "npc.myq6_lowerniel_final_combat"
+inherit = "npc.myq6_lowerniel_final_combat"
+[[npc]]
+id = "npc.tfa_dagonhai_leader"
+inherit = "npc.tfa_dagonhai_leader"
+maxRange = 30
+
+[[npc]]
+id = "npc.tfa_dagonhai_leader_unshielded"
+inherit = "npc.tfa_dagonhai_leader_unshielded"
+maxRange = 30
+
+[[npc]]
+id = "npc.tfa_dagonhai_minion_1"
+inherit = "npc.tfa_dagonhai_minion_1"
+maxRange = 30
+
+[[npc]]
+id = "npc.tfa_dagonhai_minion_1_unshielded"
+inherit = "npc.tfa_dagonhai_minion_1_unshielded"
+maxRange = 30
+
+[[npc]]
+id = "npc.tfa_dagonhai_minion_2"
+inherit = "npc.tfa_dagonhai_minion_2"
+maxRange = 30
+
+[[npc]]
+id = "npc.tfa_dagonhai_minion_2_unshielded"
+inherit = "npc.tfa_dagonhai_minion_2_unshielded"
+maxRange = 30
+
+[[npc]]
+id = "npc.tfa_dagonhai_focus"
+inherit = "npc.tfa_dagonhai_focus"
+
+[[npc]]
+id = "npc.tfa_dagonhai_rift"
+inherit = "npc.tfa_dagonhai_rift"
+
+[[npc]]
+id = "npc.tfa_dagonhai_demon"
+inherit = "npc.tfa_dagonhai_demon"
+maxRange = 30

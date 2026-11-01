@@ -66,6 +66,13 @@ moia_done= 64566
 moia_slot= 64567
 moia_infected= 64568
 moia_enrage_round= 64569
+dagon_hp_max= 64570
+dagon_dead= 64571
+dagon_done= 64572
+dagon_final= 64573
+dagon_elem= 64574
+dagon_slot= 64575
+dagon_phase= 64576
 
 [gamevals.dbtable]
 tfa_guardian_scaling = 62000
@@ -74,6 +81,7 @@ tfa_bork_scaling = 62002
 tfa_xarth_scaling = 62003
 tfa_ezekiel_scaling = 62006
 tfa_moia_scaling = 62007
+tfa_dagonhai_scaling = 62008
 
 [gamevals.dbrow]
 tfa_guardian_scaling_2 = 50000
@@ -118,6 +126,13 @@ tfa_moia_scaling_5 = 50053
 tfa_moia_scaling_6 = 50054
 tfa_moia_scaling_7 = 50055
 tfa_moia_scaling_8 = 50056
+tfa_dagonhai_scaling_2 = 50060
+tfa_dagonhai_scaling_3 = 50061
+tfa_dagonhai_scaling_4 = 50062
+tfa_dagonhai_scaling_5 = 50063
+tfa_dagonhai_scaling_6 = 50064
+tfa_dagonhai_scaling_7 = 50065
+tfa_dagonhai_scaling_8 = 50066
 
 [gamevals.varp]
 ocellus_spin = 64150

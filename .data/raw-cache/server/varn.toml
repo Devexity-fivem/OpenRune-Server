@@ -471,3 +471,24 @@ id = "varn.moia_infected"
 
 [[varn]]
 id = "varn.moia_enrage_round"
+
+[[varn]]
+id = "varn.dagon_hp_max"
+
+[[varn]]
+id = "varn.dagon_dead"
+
+[[varn]]
+id = "varn.dagon_done"
+
+[[varn]]
+id = "varn.dagon_final"
+
+[[varn]]
+id = "varn.dagon_elem"
+
+[[varn]]
+id = "varn.dagon_slot"
+
+[[varn]]
+id = "varn.dagon_phase"

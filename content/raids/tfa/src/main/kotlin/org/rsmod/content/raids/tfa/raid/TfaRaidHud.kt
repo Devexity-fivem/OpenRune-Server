@@ -16,6 +16,7 @@ import org.rsmod.content.raids.party.RaidParty
 import org.rsmod.content.raids.tfa.party.TfaLobby
 import org.rsmod.content.raids.tfa.party.TfaPartySettings
 import org.rsmod.content.raids.tfa.raid.encounter.bork.BorkEncounter
+import org.rsmod.content.raids.tfa.raid.encounter.dagonhai.DagonhaiEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.dreadnoth.DreadnothEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.ezekiel.EzekielEncounter
 import org.rsmod.content.raids.tfa.raid.encounter.guardian.GuardianEncounter
@@ -40,6 +41,7 @@ constructor(
     private val xarth: XarthEncounter,
     private val ezekiel: EzekielEncounter,
     private val moia: MoiaEncounter,
+    private val dagonhai: DagonhaiEncounter,
     private val worldQueues: WorldQueueList,
     private val eventBus: EventBus,
 ) {
@@ -72,6 +74,7 @@ constructor(
                 ?: xarth.of(id)
                 ?: ezekiel.of(id)
                 ?: moia.of(id)
+                ?: dagonhai.of(id)
         for (member in inside) {
             if (visible.add(member)) open(member, party)
             sendStates(member, party, inside)

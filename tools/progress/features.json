@@ -312,7 +312,8 @@
                 "Lowerniel Drakan": {
                     "rscmPrefixes": [
                         "lowerniel",
-                        "myq5_drakan"
+                        "myq5_drakan",
+                        "myq6_lowerniel"
                     ]
                 },
                 "Bork": {
@@ -360,6 +361,18 @@
                 "Moia": {
                     "rscmPrefixes": [
                         "tfa_moia"
+                    ]
+                },
+                "Dagon'hai Elder": {
+                    "rscmPrefixes": [
+                        "tfa_dagonhai_leader",
+                        "dagonhai"
+                    ]
+                },
+                "Dagon'hai Monk": {
+                    "rscmPrefixes": [
+                        "tfa_dagonhai_minion",
+                        "dagonhai"
                     ]
                 }
             }
