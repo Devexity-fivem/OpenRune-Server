@@ -142,6 +142,9 @@ constructor(
         onCommand("locadd", "Spawn loc", ::locAdd) {
             invalidArgs = "Use as ::locadd duration locDebugNameOrId (ex: 100 bookcase)"
         }
+        onCommand("loctype", "Dump loc type multiloc/var data", ::locType) {
+            invalidArgs = "Use as ::loctype locDebugNameOrId"
+        }
         onCommand("locdel", "Remove loc", ::locDel) { invalidArgs = "Use as ::locdel duration" }
         onCommand("objectdel", "Remove loc", ::locDel) {
             invalidArgs = "Use as ::objectdel duration"
@@ -594,6 +597,27 @@ constructor(
             locRepo.add(loc, duration)
             player.mes("Spawned loc '${type.internalName}' (duration: $duration cycles)")
             logger.debug { "Spawned loc: loc=$loc, type=$type" }
+        }
+
+    private fun locType(cheat: Cheat) =
+        with(cheat) {
+            val typeId =
+                if (args[0].toIntOrNull() != null) {
+                    args[0].toInt()
+                } else {
+                    "loc.${args[0]}".asRSCM()
+                }
+            val type = ServerCacheManager.getObject(typeId)
+            if (type == null) {
+                player.mes("That loc does not exist: $typeId")
+                return
+            }
+            player.mes(
+                "Loc '${type.internalName}' id=${type.id} name='${type.name}' " +
+                    "cg=${type.contentGroup} mvbit=${type.multiVarBit} mvp=${type.multiVarp} " +
+                    "mdef=${type.multiDefault} multi=${type.multiLoc.joinToString(",")} " +
+                    "acts=${type.actions} w=${type.width}x${type.length}"
+            )
         }
 
     private fun locDel(cheat: Cheat) =

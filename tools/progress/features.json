@@ -438,6 +438,11 @@
                     "rscmPrefixes": [
                         "colosseum_"
                     ]
+                },
+                "Pyramid Plunder": {
+                    "rscmPrefixes": [
+                        "ntk_mummy"
+                    ]
                 }
             }
         }

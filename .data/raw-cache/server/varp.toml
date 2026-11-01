@@ -1012,3 +1012,9 @@ isServerOnly = true
 id = "varp.tog_last_played_qp"
 scope = "Perm"
 transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.pp_doors"
+scope = "Temp"
+transmit = "Never"
