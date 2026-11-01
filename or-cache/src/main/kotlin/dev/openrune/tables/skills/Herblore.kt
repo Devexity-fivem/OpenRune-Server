@@ -1,20 +1,26 @@
 package dev.openrune.tables.skills
 
+import dev.openrune.definition.util.VarType
 import dev.openrune.tables.production.productionTable
 
 object Herblore {
+    private const val COL_BREW_TICKS = 7
 
     /**
      * Table for creating unfinished potions (herb + vial of water)
      */
     fun unfinishedPotions() =
-        productionTable("dbtable.herblore_unfinished", serverOnly = true) {
+        productionTable(
+            "dbtable.herblore_unfinished",
+            serverOnly = true,
+            extraColumns = { column("brew_ticks", COL_BREW_TICKS, VarType.INT) },
+        ) {
 
             row("dbrow.herblore_guam_unfinished") {
                 production {
                     input("obj.guam_leaf")
                     statReq("stat.herblore", 3)
-                    xp(0)
+                    xp(2)
                     output("obj.guamvial")
                     category("Unfinished Potions")
                 }
@@ -23,7 +29,7 @@ object Herblore {
                 production {
                     input("obj.marentill")
                     statReq("stat.herblore", 5)
-                    xp(0)
+                    xp(3)
                     output("obj.marrentillvial")
                     category("Unfinished Potions")
                 }
@@ -31,8 +37,8 @@ object Herblore {
             row("dbrow.herblore_tarromin_unfinished") {
                 production {
                     input("obj.tarromin")
-                    statReq("stat.herblore", 12)
-                    xp(0)
+                    statReq("stat.herblore", 11)
+                    xp(5)
                     output("obj.tarrominvial")
                     category("Unfinished Potions")
                 }
@@ -40,8 +46,8 @@ object Herblore {
             row("dbrow.herblore_harralander_unfinished") {
                 production {
                     input("obj.harralander")
-                    statReq("stat.herblore", 22)
-                    xp(0)
+                    statReq("stat.herblore", 20)
+                    xp(6)
                     output("obj.harralandervial")
                     category("Unfinished Potions")
                 }
@@ -49,8 +55,8 @@ object Herblore {
             row("dbrow.herblore_ranarr_unfinished") {
                 production {
                     input("obj.ranarr_weed")
-                    statReq("stat.herblore", 30)
-                    xp(0)
+                    statReq("stat.herblore", 25)
+                    xp(8)
                     output("obj.ranarrvial")
                     category("Unfinished Potions")
                 }
@@ -58,8 +64,8 @@ object Herblore {
             row("dbrow.herblore_toadflax_unfinished") {
                 production {
                     input("obj.toadflax")
-                    statReq("stat.herblore", 34)
-                    xp(0)
+                    statReq("stat.herblore", 30)
+                    xp(8)
                     output("obj.toadflaxvial")
                     category("Unfinished Potions")
                 }
@@ -67,8 +73,8 @@ object Herblore {
             row("dbrow.herblore_irit_unfinished") {
                 production {
                     input("obj.irit_leaf")
-                    statReq("stat.herblore", 45)
-                    xp(0)
+                    statReq("stat.herblore", 40)
+                    xp(9)
                     output("obj.iritvial")
                     category("Unfinished Potions")
                 }
@@ -76,8 +82,8 @@ object Herblore {
             row("dbrow.herblore_avantoe_unfinished") {
                 production {
                     input("obj.avantoe")
-                    statReq("stat.herblore", 50)
-                    xp(0)
+                    statReq("stat.herblore", 48)
+                    xp(10)
                     output("obj.avantoevial")
                     category("Unfinished Potions")
                 }
@@ -85,8 +91,8 @@ object Herblore {
             row("dbrow.herblore_kwuarm_unfinished") {
                 production {
                     input("obj.kwuarm")
-                    statReq("stat.herblore", 55)
-                    xp(0)
+                    statReq("stat.herblore", 54)
+                    xp(11)
                     output("obj.kwuarmvial")
                     category("Unfinished Potions")
                 }
@@ -94,8 +100,8 @@ object Herblore {
             row("dbrow.herblore_snapdragon_unfinished") {
                 production {
                     input("obj.snapdragon")
-                    statReq("stat.herblore", 63)
-                    xp(0)
+                    statReq("stat.herblore", 59)
+                    xp(12)
                     output("obj.snapdragonvial")
                     category("Unfinished Potions")
                 }
@@ -103,8 +109,8 @@ object Herblore {
             row("dbrow.herblore_cadantine_unfinished") {
                 production {
                     input("obj.cadantine")
-                    statReq("stat.herblore", 66)
-                    xp(0)
+                    statReq("stat.herblore", 65)
+                    xp(13)
                     output("obj.cadantinevial")
                     category("Unfinished Potions")
                 }
@@ -112,8 +118,8 @@ object Herblore {
             row("dbrow.herblore_lantadyme_unfinished") {
                 production {
                     input("obj.lantadyme")
-                    statReq("stat.herblore", 69)
-                    xp(0)
+                    statReq("stat.herblore", 67)
+                    xp(13)
                     output("obj.lantadymevial")
                     category("Unfinished Potions")
                 }
@@ -121,8 +127,8 @@ object Herblore {
             row("dbrow.herblore_dwarf_weed_unfinished") {
                 production {
                     input("obj.dwarf_weed")
-                    statReq("stat.herblore", 72)
-                    xp(0)
+                    statReq("stat.herblore", 70)
+                    xp(13)
                     output("obj.dwarfweedvial")
                     category("Unfinished Potions")
                 }
@@ -130,20 +136,34 @@ object Herblore {
             row("dbrow.herblore_torstol_unfinished") {
                 production {
                     input("obj.torstol")
-                    statReq("stat.herblore", 78)
-                    xp(0)
+                    statReq("stat.herblore", 75)
+                    xp(14)
                     output("obj.torstolvial")
                     category("Unfinished Potions")
                 }
             }
-
+            row("dbrow.herblore_huasca_unfinished") {
+                production {
+                    input("obj.huasca")
+                    statReq("stat.herblore", 58)
+                    xp(0)
+                    output("obj.huascavial")
+                    category("Unfinished Potions")
+                }
+                column(COL_BREW_TICKS, 1, 1)
+            }
         }
 
     /**
      * Table for creating finished potions (unfinished potion + secondary ingredient)
+     * XP is stored in tenths to preserve fractional potion rewards.
      */
     fun finishedPotions() =
-        productionTable("dbtable.herblore_finished", serverOnly = true) {
+        productionTable(
+            "dbtable.herblore_finished",
+            serverOnly = true,
+            extraColumns = { column("brew_ticks", COL_BREW_TICKS, VarType.INT) },
+        ) {
 
             row("dbrow.herblore_attack_potion") {
                 production {
@@ -184,6 +204,17 @@ object Herblore {
                     output("obj.3dosestatrestore")
                     category("Potions")
                 }
+            }
+            row("dbrow.herblore_compost_potion") {
+                production {
+                    input("obj.harralandervial")
+                    input("obj.fossil_volcanic_ash")
+                    statReq("stat.herblore", 22)
+                    xp(600)
+                    output("obj.supercompost_potion_3")
+                    category("Potions")
+                }
+                column(COL_BREW_TICKS, 2, 2)
             }
             row("dbrow.herblore_energy_potion") {
                 production {
@@ -255,6 +286,17 @@ object Herblore {
                     category("Potions")
                 }
             }
+            row("dbrow.herblore_prayer_regeneration") {
+                production {
+                    input("obj.huascavial")
+                    input("obj.aldarium")
+                    statReq("stat.herblore", 58)
+                    xp(1320)
+                    output("obj.3dose1prayer_regeneration")
+                    category("Potions")
+                }
+                column(COL_BREW_TICKS, 2, 2)
+            }
             row("dbrow.herblore_weapon_poison") {
                 production {
                     input("obj.kwuarmvial")
@@ -300,7 +342,7 @@ object Herblore {
                     input("obj.lantadymevial")
                     input("obj.crushed_dragon_bones")
                     statReq("stat.herblore", 92)
-                    xp(1800)
+                    xp(1300)
                     output("obj.3dose2antidragon")
                     category("Potions")
                 }
@@ -401,7 +443,7 @@ object Herblore {
                     input("obj.cadantinevial")
                     input("obj.cactus_potato")
                     input("obj.crushed_dragon_bones")
-                    statReq("stat.herblore", 80)
+                    statReq("stat.herblore", 79)
                     xp(1550)
                     output("obj.3dosebattlemage")
                     category("Potions")
@@ -424,7 +466,7 @@ object Herblore {
                     input("obj.antivenom+3")
                     input("obj.snakeboss_scale")
                     statReq("stat.herblore", 94)
-                    xp(1600)
+                    xp(600)
                     output("obj.extended_antivenom+3")
                     category("Potions")
                 }
@@ -789,11 +831,11 @@ object Herblore {
                     category("Potions")
                 }
             }
-
         }
 
     /**
      * Table for cleaning grimy herbs (unidentified -> clean)
+     * XP is stored in tenths to preserve fractional cleaning rewards.
      */
     fun cleaningHerbs() =
         productionTable("dbtable.herblore_cleaning", serverOnly = true) {
@@ -936,8 +978,16 @@ object Herblore {
                     category("Herbs")
                 }
             }
+            row("dbrow.herblore_clean_huasca") {
+                production {
+                    input("obj.unidentified_huasca")
+                    statReq("stat.herblore", 58)
+                    xp(118)
+                    output("obj.huasca")
+                    category("Herbs")
+                }
+            }
         }
-
 
     /**
      * Table for creating barbarian mixes (two-dose potion + roe/caviar)
@@ -949,8 +999,8 @@ object Herblore {
                 production {
                     input("obj.2dose1attack")
                     input("obj.brut_roe")
-                    statReq("stat.herblore", 4)
-                    xp(80)
+                    statReq("stat.herblore", 3)
+                    xp(0)
                     output("obj.brutal_2dose1attack")
                     category("Barbarian Mixes")
                 }
@@ -959,8 +1009,8 @@ object Herblore {
                 production {
                     input("obj.2doseantipoison")
                     input("obj.brut_roe")
-                    statReq("stat.herblore", 6)
-                    xp(120)
+                    statReq("stat.herblore", 5)
+                    xp(0)
                     output("obj.brutal_2doseantipoison")
                     category("Barbarian Mixes")
                 }
@@ -969,8 +1019,8 @@ object Herblore {
                 production {
                     input("obj.2dose1attack")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 4)
-                    xp(80)
+                    statReq("stat.herblore", 3)
+                    xp(0)
                     output("obj.brutal_2dose1attack")
                     category("Barbarian Mixes")
                 }
@@ -979,8 +1029,8 @@ object Herblore {
                 production {
                     input("obj.2dose1strength")
                     input("obj.brut_roe")
-                    statReq("stat.herblore", 14)
-                    xp(170)
+                    statReq("stat.herblore", 12)
+                    xp(0)
                     output("obj.brutal_2dose1strength")
                     category("Barbarian Mixes")
                 }
@@ -989,8 +1039,8 @@ object Herblore {
                 production {
                     input("obj.2dosestatrestore")
                     input("obj.brut_roe")
-                    statReq("stat.herblore", 24)
-                    xp(210)
+                    statReq("stat.herblore", 22)
+                    xp(0)
                     output("obj.brutal_2dosestatrestore")
                     category("Barbarian Mixes")
                 }
@@ -998,9 +1048,9 @@ object Herblore {
             row("dbrow.herblore_energy_mix") {
                 production {
                     input("obj.2dose1energy")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 29)
-                    xp(230)
+                    input("obj.brut_roe")
+                    statReq("stat.herblore", 26)
+                    xp(0)
                     output("obj.brutal_2dose1energy")
                     category("Barbarian Mixes")
                 }
@@ -1008,9 +1058,9 @@ object Herblore {
             row("dbrow.herblore_defence_mix") {
                 production {
                     input("obj.2dose1defense")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 33)
-                    xp(250)
+                    input("obj.brut_roe")
+                    statReq("stat.herblore", 30)
+                    xp(0)
                     output("obj.brutal_2dose1defense")
                     category("Barbarian Mixes")
                 }
@@ -1018,9 +1068,9 @@ object Herblore {
             row("dbrow.herblore_agility_mix") {
                 production {
                     input("obj.2dose1agility")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 37)
-                    xp(270)
+                    input("obj.brut_roe")
+                    statReq("stat.herblore", 34)
+                    xp(0)
                     output("obj.brutal_2dose1agility")
                     category("Barbarian Mixes")
                 }
@@ -1028,9 +1078,9 @@ object Herblore {
             row("dbrow.herblore_prayer_mix") {
                 production {
                     input("obj.2doseprayerrestore")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 42)
-                    xp(290)
+                    input("obj.brut_roe")
+                    statReq("stat.herblore", 38)
+                    xp(0)
                     output("obj.brutal_2doseprayerrestore")
                     category("Barbarian Mixes")
                 }
@@ -1039,8 +1089,8 @@ object Herblore {
                 production {
                     input("obj.2dose2attack")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 47)
-                    xp(330)
+                    statReq("stat.herblore", 45)
+                    xp(0)
                     output("obj.brutal_2dose2attack")
                     category("Barbarian Mixes")
                 }
@@ -1049,8 +1099,8 @@ object Herblore {
                 production {
                     input("obj.2dose2antipoison")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 51)
-                    xp(350)
+                    statReq("stat.herblore", 48)
+                    xp(0)
                     output("obj.brutal_2dose2antipoison")
                     category("Barbarian Mixes")
                 }
@@ -1059,8 +1109,8 @@ object Herblore {
                 production {
                     input("obj.2dosefisherspotion")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 53)
-                    xp(380)
+                    statReq("stat.herblore", 50)
+                    xp(0)
                     output("obj.brutal_2dosefisherspotion")
                     category("Barbarian Mixes")
                 }
@@ -1069,8 +1119,8 @@ object Herblore {
                 production {
                     input("obj.2dose2energy")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 56)
-                    xp(390)
+                    statReq("stat.herblore", 52)
+                    xp(0)
                     output("obj.brutal_2dose2energy")
                     category("Barbarian Mixes")
                 }
@@ -1079,8 +1129,8 @@ object Herblore {
                 production {
                     input("obj.2dose2strength")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 59)
-                    xp(420)
+                    statReq("stat.herblore", 55)
+                    xp(0)
                     output("obj.brutal_2dose2strength")
                     category("Barbarian Mixes")
                 }
@@ -1089,8 +1139,8 @@ object Herblore {
                 production {
                     input("obj.2dose2restore")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 67)
-                    xp(480)
+                    statReq("stat.herblore", 63)
+                    xp(0)
                     output("obj.brutal_2dose2restore")
                     category("Barbarian Mixes")
                 }
@@ -1099,8 +1149,8 @@ object Herblore {
                 production {
                     input("obj.2dose2defense")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 71)
-                    xp(500)
+                    statReq("stat.herblore", 66)
+                    xp(0)
                     output("obj.brutal_2dose2defense")
                     category("Barbarian Mixes")
                 }
@@ -1109,8 +1159,8 @@ object Herblore {
                 production {
                     input("obj.2dose1antidragon")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 75)
-                    xp(530)
+                    statReq("stat.herblore", 69)
+                    xp(0)
                     output("obj.brutal_2dose1antidragon")
                     category("Barbarian Mixes")
                 }
@@ -1119,8 +1169,8 @@ object Herblore {
                 production {
                     input("obj.2doserangerspotion")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 80)
-                    xp(540)
+                    statReq("stat.herblore", 72)
+                    xp(0)
                     output("obj.brutal_2doserangerspotion")
                     category("Barbarian Mixes")
                 }
@@ -1129,8 +1179,8 @@ object Herblore {
                 production {
                     input("obj.2dose1magic")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 83)
-                    xp(570)
+                    statReq("stat.herblore", 76)
+                    xp(0)
                     output("obj.brutal_2dose1magic")
                     category("Barbarian Mixes")
                 }
@@ -1139,94 +1189,12 @@ object Herblore {
                 production {
                     input("obj.2dosepotionofzamorak")
                     input("obj.brut_caviar")
-                    statReq("stat.herblore", 85)
-                    xp(580)
+                    statReq("stat.herblore", 78)
+                    xp(0)
                     output("obj.brutal_2dosepotionofzamorak")
                     category("Barbarian Mixes")
                 }
             }
-
-            row("dbrow.herblore_antipoison_mix_caviar") {
-                production {
-                    input("obj.2doseantipoison")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 6)
-                    xp(120)
-                    output("obj.brutal_2doseantipoison")
-                    category("Barbarian Mixes")
-                }
-            }
-            row("dbrow.herblore_strength_mix_caviar") {
-                production {
-                    input("obj.2dose1strength")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 14)
-                    xp(170)
-                    output("obj.brutal_2dose1strength")
-                    category("Barbarian Mixes")
-                }
-            }
-            row("dbrow.herblore_stat_restore_mix_caviar") {
-                production {
-                    input("obj.2dosestatrestore")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 24)
-                    xp(210)
-                    output("obj.brutal_2dosestatrestore")
-                    category("Barbarian Mixes")
-                }
-            }
-            row("dbrow.herblore_combat_mix") {
-                production {
-                    input("obj.2dosecombat")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 40)
-                    xp(280)
-                    output("obj.brutal_2dosecombat")
-                    category("Barbarian Mixes")
-                }
-            }
-            row("dbrow.herblore_hunting_mix") {
-                production {
-                    input("obj.2dosehunting")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 58)
-                    xp(400)
-                    output("obj.brutal_2dose1hunting")
-                    category("Barbarian Mixes")
-                }
-            }
-            row("dbrow.herblore_magic_essence_mix") {
-                production {
-                    input("obj.2dosemagicess")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 61)
-                    xp(430)
-                    output("obj.brutal_2dosemagicess")
-                    category("Barbarian Mixes")
-                }
-            }
-            row("dbrow.herblore_stamina_mix") {
-                production {
-                    input("obj.2dose2stamina")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 86)
-                    xp(600)
-                    output("obj.brutal_2dosestamina")
-                    category("Barbarian Mixes")
-                }
-            }
-            row("dbrow.herblore_ancient_mix") {
-                production {
-                    input("obj.2doseancientbrew")
-                    input("obj.brut_caviar")
-                    statReq("stat.herblore", 92)
-                    xp(630)
-                    output("obj.brutal_2doseancientbrew")
-                    category("Barbarian Mixes")
-                }
-            }
-
         }
 
     /**
@@ -1239,7 +1207,7 @@ object Herblore {
                 production {
                     input("obj.guam_leaf")
                     statReq("stat.herblore", 19)
-                    xp(300)
+                    xp(30)
                     output("obj.salamander_tar_green")
                     category("Swamp Tar")
                 }
@@ -1248,7 +1216,7 @@ object Herblore {
                 production {
                     input("obj.marentill")
                     statReq("stat.herblore", 31)
-                    xp(425)
+                    xp(42)
                     output("obj.salamander_tar_orange")
                     category("Swamp Tar")
                 }
@@ -1257,7 +1225,7 @@ object Herblore {
                 production {
                     input("obj.tarromin")
                     statReq("stat.herblore", 39)
-                    xp(550)
+                    xp(55)
                     output("obj.salamander_tar_red")
                     category("Swamp Tar")
                 }
@@ -1266,7 +1234,7 @@ object Herblore {
                 production {
                     input("obj.harralander")
                     statReq("stat.herblore", 44)
-                    xp(725)
+                    xp(72)
                     output("obj.salamander_tar_black")
                     category("Swamp Tar")
                 }
@@ -1275,12 +1243,11 @@ object Herblore {
                 production {
                     input("obj.irit_leaf")
                     statReq("stat.herblore", 50)
-                    xp(840)
+                    xp(84)
                     output("obj.salamander_tar_mountain")
                     category("Swamp Tar")
                 }
             }
-
         }
 
     /**

@@ -6,6 +6,7 @@ import dev.openrune.rscm.RSCMType
 import dev.openrune.types.aconverted.interf.IfButtonOp
 import jakarta.inject.Inject
 import org.rsmod.api.combat.weapon.WeaponSpeeds
+import org.rsmod.api.config.refs.params
 import org.rsmod.api.enums.EquipmentEnums.equipment_stats_to_slots_map
 import org.rsmod.api.market.MarketPrices
 import org.rsmod.api.player.bonus.WornBonuses
@@ -152,10 +153,17 @@ constructor(
                 return
             }
 
-            val result = invEquip(invSlot)
-            if (result is HeldEquipResult.Fail) {
-                result.messages.forEach(::mes)
-            } else {
+            when (getInvObj(obj).param(params.wear_op_index)) {
+                1 -> opHeld1(invSlot)
+                3 -> opHeld3(invSlot)
+                4 -> opHeld4(invSlot)
+                5 -> opHeld5(invSlot)
+                else -> opHeld2(invSlot)
+            }
+
+            // Cheap way of checking if obj was equipped.
+            val equipped = obj != inv[invSlot]
+            if (equipped) {
                 updateBonuses()
             }
             return
