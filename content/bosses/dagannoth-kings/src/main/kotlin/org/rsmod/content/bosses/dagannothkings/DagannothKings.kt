@@ -15,6 +15,9 @@ import org.rsmod.api.bosses.spec.StatDrainEntry
 import org.rsmod.api.bosses.spec.TargetExpr
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.map.collision.get
+import org.rsmod.game.map.collision.isZoneValid
+import org.rsmod.routefinder.flag.CollisionFlag
 
 // OSRS wiki + Kronos-184 reference (io.ruin Waterbirth kings + Spinolyp):
 // all three kings share the sub-level lair and attack every 4 ticks.
@@ -54,11 +57,21 @@ class Spinolyp @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         if (dx == 0 && dz == 0) {
             return
         }
+        val dest = npc.coords.translate(dx, dz)
+        if (!deps.collision.isZoneValid(dest) || deps.collision[dest] and OCCUPIED != 0) {
+            return
+        }
         npc.anim("seq.dagannoth_water_creature_go_down")
-        PathingEntityCommon.telejump(npc, deps.collision, npc.coords.translate(dx, dz))
+        PathingEntityCommon.telejump(npc, deps.collision, dest)
         npc.anim("seq.dagannoth_water_creature_spring_up")
     }
 }
+
+private val OCCUPIED =
+    CollisionFlag.BLOCK_WALK or
+        CollisionFlag.LOC or
+        CollisionFlag.BLOCK_NPCS or
+        CollisionFlag.BLOCK_PLAYERS
 
 internal fun dagannothPrimeSpec(): BossSpec = boss("npc.dagcave_magic_boss") {
     stats(attackRate = 4)
