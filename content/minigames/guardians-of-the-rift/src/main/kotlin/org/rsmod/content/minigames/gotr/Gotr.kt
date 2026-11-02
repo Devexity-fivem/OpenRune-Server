@@ -243,32 +243,41 @@ constructor(
         val essence = inv.count(OBJ_ESSENCE)
         val cells = inv.count(OBJ_CELL_UNCHARGED)
         val held = heldCell()
-        if (essence == 0 && cells == 0 && held == null) {
-            mes("You have no guardian essence or uncharged cells to imbue.")
+        val chargeSource = when {
+            held != null && portal.cellTier > held.tier.tier -> held.obj
+            held == null && cells > 0 -> OBJ_CELL_UNCHARGED
+            else -> null
+        }
+        if (essence == 0 && chargeSource == null) {
+            mes("You have no supplies that can be imbued at this altar.")
+            return
+        }
+        val talisman = (0 until essence).any { random.of(0, TALISMAN_RATE - 1) == 0 }
+        val imbued = player.invTransaction(inv) {
+            val inventory = select(inv)
+            if (chargeSource != null) {
+                delete(inventory, chargeSource.asRSCM(RSCMType.OBJ), 1)
+                add(inventory, "obj.gotr_cell_tier${portal.cellTier}".asRSCM(RSCMType.OBJ), 1)
+            }
+            if (essence > 0) {
+                delete(inventory, OBJ_ESSENCE.asRSCM(RSCMType.OBJ), essence)
+                add(inventory, portal.stoneObj.asRSCM(RSCMType.OBJ), essence)
+                add(inventory, portal.runeObj.asRSCM(RSCMType.OBJ), essence)
+            }
+            if (talisman) {
+                add(inventory, portal.talismanObj.asRSCM(RSCMType.OBJ), 1)
+            }
+        }
+        if (imbued.failure) {
+            mes("You don't have enough inventory space to imbue your supplies.")
             return
         }
         anim(IMBUE_ANIM)
-        if (cells > 0 || held != null) {
+        if (chargeSource != null) {
             statAdvance("stat.runecrafting", CELL_XP.toDouble())
         }
-        if (held != null && portal.cellTier > held.tier.tier) {
-            invDel(inv, held.obj, 1)
-            invAdd(inv, "obj.gotr_cell_tier${portal.cellTier}", 1)
-            mes("The ${portal.display} altar overcharges your cell.")
-        } else if (held == null && cells > 0) {
-            invDel(inv, OBJ_CELL_UNCHARGED, 1)
-            invAdd(inv, "obj.gotr_cell_tier${portal.cellTier}", 1)
-        }
         if (essence > 0) {
-            invDel(inv, OBJ_ESSENCE, essence)
-            invAdd(inv, portal.stoneObj, essence)
-            invAdd(inv, portal.runeObj, essence)
             statAdvance("stat.runecrafting", essence * ESSENCE_XP.toDouble())
-            repeat(essence) {
-                if (Random.nextInt(TALISMAN_RATE) == 0) {
-                    invAdd(inv, portal.talismanObj, 1)
-                }
-            }
         }
         mes("You imbue your supplies at the ${portal.display} altar.")
     }

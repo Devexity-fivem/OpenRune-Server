@@ -9,16 +9,21 @@
         "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrMultiplayerTest.kt",
         "content/minigames/guardians-of-the-rift/src/test/kotlin/org/rsmod/content/minigames/gotr/GotrScalingTest.kt",
         "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrRewardsTest.kt",
+        "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrImbuingTest.kt",
         "content/minigames/guardians-of-the-rift/pack/src/main/resources/pack/configs/gotr_varps.toml"
       ],
       "wikiReferences": [
         "https://oldschool.runescape.wiki/w/Guardians_of_the_Rift",
         "https://oldschool.runescape.wiki/w/Guardians_of_the_Rift?action=raw",
-        "https://oldschool.runescape.wiki/w/Rewards_Guardian?action=raw"
+        "https://oldschool.runescape.wiki/w/Rewards_Guardian?action=raw",
+        "https://oldschool.runescape.wiki/w/Weak_cell?action=raw",
+        "https://oldschool.runescape.wiki/w/Medium_cell?action=raw",
+        "https://oldschool.runescape.wiki/w/Strong_cell?action=raw",
+        "https://oldschool.runescape.wiki/w/Overcharged_cell?action=raw"
       ],
       "mechanics": {
         "state": "partial",
-        "evidence": ["b6d21cc30: corrected cell-tile dispatch and barrier/tile layer separation; Wiki confirms higher cells strengthen one tier and lower cells recharge", "Implemented the Wiki's twenty-player scaling boundary (250 stones per first twenty players, 200 thereafter). Round results now have separate once-only delivery for each participant.", "Reward searches use the player's paired points or a 25-pearl sacrifice, preserve unmatched balances, enforce the Wiki's 65535-point storage bound and three-tick search interval, and leave points unchanged when inventory addition fails."]
+        "evidence": ["b6d21cc30: corrected cell-tile dispatch and barrier/tile layer separation; Wiki confirms higher cells strengthen one tier and lower cells recharge", "Implemented the Wiki's twenty-player scaling boundary (250 stones per first twenty players, 200 thereafter). Round results now have separate once-only delivery for each participant.", "Reward searches use the player's paired points or a 25-pearl sacrifice, preserve unmatched balances, enforce the Wiki's 65535-point storage bound and three-tick search interval, and leave points unchanged when inventory addition fails.", "Cell charging and upgrading grant the Wiki's 10 XP only after a committed inventory change; equal or higher held cells do not yield free repeat XP. Cell/essence/stone/rune/talisman conversion is atomic, and a crafting action stops its talisman rolls after the first success."]
       },
       "visuals": {
         "state": "unverified",
@@ -27,7 +32,7 @@
       },
       "automated": {
         "state": "passed",
-        "evidence": ["gradlew :content:minigames:guardians-of-the-rift:test :content:minigames:guardians-of-the-rift:integration passed: 2 scaling unit tests and 11 cache-backed integration tests, including two simulated players receiving one round result each, logout removing a player from charge scaling, paired/unmatched reward balances, inventory-full/stack-overflow rollback, repeat searches, pearl sacrifice accounting and recharge-cap isolation. Barrier consumption, strengthening, recharge and tile preservation remain covered. spotlessKotlinCheck passed. mergePluginGamevals and buildCache completed, initially with an npcs.toml scanner/decoder warning; the subsequent Cache and gamevals regression records its correction.", "node --test tools/progress/accuracy.test.mjs passed 7 generator regression tests; generator --check passes without modifying output."]
+        "evidence": ["gradlew :content:minigames:guardians-of-the-rift:test :content:minigames:guardians-of-the-rift:integration passed: 2 scaling unit tests and 17 cache-backed integration tests, including two simulated players receiving one round result each, logout removing a player from charge scaling, paired/unmatched reward balances, inventory-full/stack-overflow rollback, repeat searches, pearl sacrifice accounting and recharge-cap isolation. Barrier consumption, strengthening, recharge and tile preservation remain covered. spotlessKotlinCheck passed. mergePluginGamevals and buildCache completed, initially with an npcs.toml scanner/decoder warning; the subsequent Cache and gamevals regression records its correction.", "node --test tools/progress/accuracy.test.mjs passed 7 generator regression tests; generator --check passes without modifying output."]
       },
       "mcp": {
         "state": "partial",
