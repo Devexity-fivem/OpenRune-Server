@@ -477,7 +477,7 @@ COMPLETE requires verified mechanics and visuals, passing automated tests, succe
 | IN PROGRESS | [areas/zeah](content/areas/zeah) | 234 loc |  |
 | IN PROGRESS | [bosses/dagannoth-kings](content/bosses/dagannoth-kings) | 192 loc |  |
 | IN PROGRESS | [bosses/demonic-gorilla](content/bosses/demonic-gorilla) | 320 loc |  |
-| IN PROGRESS | [bosses/quest-bosses](content/bosses/quest-bosses) | 1,451 loc |  |
+| IN PROGRESS | [bosses/quest-bosses](content/bosses/quest-bosses) | 1,476 loc |  |
 | IN PROGRESS | [bosses/raid-bosses](content/bosses/raid-bosses) | 427 loc |  |
 | IN PROGRESS | [bosses/thermy](content/bosses/thermy) | 125 loc |  |
 | IN PROGRESS | [bosses/tormented-demon](content/bosses/tormented-demon) | 531 loc |  |
@@ -1192,7 +1192,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/muspah` | 4 | 1,295 | 0 | 0 | 2026-10-04 |
 | `bosses/nex` | 3 | 1,290 | 2 | 0 | 2026-11-02 |
 | `bosses/obor` | 1 | 60 | 1 | 0 | 2026-10-26 |
-| `bosses/quest-bosses` | 8 | 1,451 | 1 | 0 | 2026-11-02 |
+| `bosses/quest-bosses` | 8 | 1,476 | 1 | 0 | 2026-11-02 |
 | `bosses/raid-bosses` | 1 | 427 | 1 | 0 | 2026-11-02 |
 | `bosses/royal-titans` | 12 | 3,558 | 2 | 0 | 2026-10-29 |
 | `bosses/sarachnis` | 1 | 132 | 1 | 0 | 2026-10-27 |

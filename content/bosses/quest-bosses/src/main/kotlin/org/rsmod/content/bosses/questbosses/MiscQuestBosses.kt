@@ -13,7 +13,7 @@ class ElidGolem @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         boss("npc.elid_golem_black", "npc.elid_golem_white", "npc.elid_golem_grey") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("seq.golem_attack")
+                anim("seq.clay_golem_attack")
                 hit { damage(0..9).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -38,7 +38,7 @@ class GiantScarab @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.contact_scarab_boss") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.scarab_attack")
+            anim("seq.contact_boss_attack")
             hit { damage(0..20).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -50,11 +50,11 @@ class SeaTrollQueen @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
     override val spec: BossSpec = boss("npc.swan_seatroll_queen") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.troll_attack")
+            anim("seq.swan_queen_attack")
             hit { damage(0..16).roll(); type(Melee) }
         }
         val magic = ability("magic") {
-            anim("seq.troll_attack")
+            anim("seq.swan_queen_attack")
             projectile(
                 spotanim = "spotanim.waterblast_travel",
                 hit = Effect.Hit(damage = Roll(0..37), type = Magic),
@@ -72,10 +72,23 @@ class SeaTrollQueen @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
 // Royal Trouble — Giant Sea Snake: melee up to ~12.
 class GiantSeaSnake @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
-        boss("npc.royal_sea_snake_medium", "npc.royal_sea_snake_mother_smaller") {
+        boss("npc.royal_sea_snake_medium") {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("seq.snake_attack")
+                anim("seq.royal_sea_snake_attack")
+                hit { damage(0..12).roll(); type(Melee) }
+            }
+            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        }
+}
+
+// Royal Trouble — Giant Sea Snake mother: melee up to ~12.
+class GiantSeaSnakeMother @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+    override val spec: BossSpec =
+        boss("npc.royal_sea_snake_mother_smaller") {
+            stats(attackRate = 4)
+            val melee = ability("melee") {
+                anim("seq.royal_sea_snake_mother_attack")
                 hit { damage(0..12).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -189,7 +202,7 @@ class MossGuardian @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     override val spec: BossSpec = boss("npc.roving_mossgiant") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.giant_attack")
+            anim("seq.giant_update_moss_attack")
             hit { damage(0..11).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }

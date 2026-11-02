@@ -32,7 +32,7 @@ class Bryophyta @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
         val melee =
             ability("melee") {
-                anim("seq.giant_attack")
+                anim("seq.giant_update_moss_attack")
                 hit {
                     damage(0..16).roll()
                     type(Melee)
@@ -41,7 +41,7 @@ class Bryophyta @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
         val magic =
             ability("magic") {
-                anim("seq.giant_attack")
+                anim("seq.giant_update_moss_attack")
                 projectile(
                     spotanim = "spotanim.earthbolt_travel",
                     hit = Effect.Hit(damage = Roll(0..10), type = Magic),

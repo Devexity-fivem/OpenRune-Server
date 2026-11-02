@@ -1683,7 +1683,8 @@
       "mcp": "unverified",
       "mechanics": "in_progress",
       "notes": [
-        "Added missing Ranged style (wiki: 18 melee, 20+ ranged). mcp unverified."
+        "Added missing Ranged style (wiki: 18 melee, 20+ ranged). mcp unverified.",
+        "Wiki audit: melee anim corrected to packed seq.human_sword_slash (was seq.demon_attack); mcp unverified."
       ]
     },
     "Tolna": {
@@ -1748,6 +1749,30 @@
       "mechanics": "in_progress",
       "notes": [
         "Placeholder spec rate 4->10 per wiki attack-speed table. Max hits remain placeholder values (real fight is unimplemented). mcp unverified."
+      ]
+    },
+    "Sea Troll Queen": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Wiki audit: attack anims corrected to packed seq.swan_queen_attack (was generic seq.troll_attack); mcp unverified."
+      ]
+    },
+    "The Everlasting": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Wiki audit: melee anim corrected to packed seq.dream_everlasting_attack (was seq.tentacle_monster_attack); mcp unverified."
+      ]
+    },
+    "The Untouchable": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Wiki audit: melee anim corrected to packed seq.dream_untouchable_attack (was seq.tentacle_monster_attack); mcp unverified."
       ]
     }
   }

@@ -25,7 +25,7 @@ class Inadequacy @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.dream_inadequacy") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.demon_attack")
+            anim("seq.human_sword_slash")
             hit { damage(0..18).roll(); type(Melee) }
         }
         val ranged = ability("ranged") {
@@ -45,7 +45,7 @@ class Everlasting @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.dream_everlasting") {
         stats(attackRate = 6)
         val melee = ability("melee") {
-            anim("seq.tentacle_monster_attack")
+            anim("seq.dream_everlasting_attack")
             hit { damage(0..24).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -57,7 +57,7 @@ class Untouchable @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.dream_untouchable") {
         stats(attackRate = 6)
         val melee = ability("melee") {
-            anim("seq.tentacle_monster_attack")
+            anim("seq.dream_untouchable_attack")
             hit { damage(0..26).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }

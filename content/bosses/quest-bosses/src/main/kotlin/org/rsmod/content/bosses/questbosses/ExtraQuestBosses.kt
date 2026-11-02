@@ -133,7 +133,7 @@ class DagannothMotherAll @Inject constructor(deps: BossDeps) : BossPluginScript(
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("seq.tentacle_monster_attack")
+                anim("seq.horror_dagannoth_attack")
                 hit { damage(0..9).roll(); type(Melee) }
             }
             val ranged = ability("ranged") {
@@ -170,7 +170,7 @@ class ArchiveGuardianTentacle @Inject constructor(deps: BossDeps) : BossPluginSc
     override val spec: BossSpec = boss("npc.raidquest_library_archive_guardian") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.tentacle_monster_attack")
+            anim("seq.horror_dagannoth_attack")
             hit { damage(0..20).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }

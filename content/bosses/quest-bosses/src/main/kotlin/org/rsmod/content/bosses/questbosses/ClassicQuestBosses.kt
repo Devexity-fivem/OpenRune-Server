@@ -122,7 +122,7 @@ class ArenaBouncer @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     override val spec: BossSpec = boss("npc.arena_bouncer") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.dog_attack")
+            anim("seq.hell_attack")
             hit { damage(0..13).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -144,15 +144,27 @@ class BlackKnightTitan @Inject constructor(deps: BossDeps) : BossPluginScript(de
 // Lost City / Fairy Tale tree spirits: melee up to ~14.
 class TreeSpiritBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
+        boss("npc.tree_spirit") {
+            stats(attackRate = 4)
+            val melee = ability("melee") {
+                anim("seq.ghost_update_normal_attack")
+                hit { damage(0..14).roll(); type(Melee) }
+            }
+            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        }
+}
+
+// Fairy Tale dryad guardians: melee up to ~14.
+class DryhadGuardian @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+    override val spec: BossSpec =
         boss(
-            "npc.tree_spirit",
             "npc.fairy2_dryhadguardian_1", "npc.fairy2_dryhadguardian_2",
             "npc.fairy2_dryhadguardian_3", "npc.fairy2_dryhadguardian_4",
             "npc.fairy2_dryhadguardian_5", "npc.fairy2_dryhadguardian_6",
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
-                anim("seq.human_unarmedpunch")
+                anim("seq.dryhad_attack")
                 hit { damage(0..14).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
