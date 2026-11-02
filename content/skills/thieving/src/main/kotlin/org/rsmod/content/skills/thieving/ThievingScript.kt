@@ -16,15 +16,15 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.advanced.onWearposChange
-import org.rsmod.api.script.onPlayerTimer
 import org.rsmod.api.script.onOpHeld1
 import org.rsmod.api.script.onOpHeld2
 import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpNpc3
+import org.rsmod.api.script.onPlayerTimer
 import org.rsmod.content.quest.manager.QuestRequirements
 import org.rsmod.game.entity.Npc
-import org.rsmod.game.inv.isType
 import org.rsmod.game.hit.HitType
+import org.rsmod.game.inv.isType
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
