@@ -42,6 +42,15 @@ class Delrith @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             anim("seq.demon_attack")
             hit { damage(0..3).roll(); type(Melee) }
         }
+        val immune = ability("immune") {
+            message("Delrith can only be harmed by Silverlight!")
+        }
+        incoming {
+            rule(Not(Condition.HitRighthandObj("obj.silverlight"))) {
+                cap(0)
+                run(immune)
+            }
+        }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
 }
