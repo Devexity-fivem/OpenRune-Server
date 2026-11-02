@@ -2,12 +2,20 @@ package org.rsmod.content.bosses.questbosses
 
 import jakarta.inject.Inject
 import org.rsmod.api.bosses.dsl.*
+import org.rsmod.api.bosses.runtime.BossCombat
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.Condition.Not
 import org.rsmod.api.bosses.spec.Effect
+import org.rsmod.api.player.output.mes
+import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
+import org.rsmod.game.entity.util.PathingEntityCommon
+import org.rsmod.game.map.collision.isWalkBlocked
+import org.rsmod.plugin.scripts.PluginScript
+import org.rsmod.plugin.scripts.ScriptContext
 
 // Dragon Slayer: melee up to ~12 plus dragonfire breath up to ~25.
 class Elvarg @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
@@ -68,23 +76,51 @@ class CountDraynor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
 }
 
 // Shadow of the Storm: melee up to ~16 with a magic projectile fallback.
-class AgrithNaar @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.agrith_naar") {
-        stats(attackRate = 4)
-        val melee = ability("melee") {
-            anim("seq.demon_attack")
-            hit { damage(0..10).roll(); type(Melee) }
-        }
-        val magic = ability("magic") {
-            anim("seq.demon_attack")
-            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..10), type = Magic))
-        }
-        phase("combat") {
-            weightedSelectorRandom {
-                +random(melee, weight = 3, requires = WithinMeleeRange)
-                +random(magic, weight = 2)
+class AgrithNaar @Inject constructor(private val deps: BossDeps) : PluginScript() {
+
+    val spec: BossSpec =
+        boss("npc.agrith_naar") {
+            stats(attackRate = 4)
+            val melee = ability("melee") {
+                anim("seq.demon_attack")
+                hit { damage(0..10).roll(); type(Melee) }
+            }
+            val magic = ability("magic") {
+                anim("seq.demon_attack")
+                projectile(
+                    spotanim = "spotanim.firebolt_travel",
+                    hit = Effect.Hit(damage = Roll(0..10), type = Magic),
+                )
+            }
+            phase("combat") {
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(magic, weight = 2)
+                }
             }
         }
+
+    private val lastPull = HashMap<Npc, Int>()
+
+    override fun ScriptContext.startup() {
+        BossCombat.register(this, spec, deps, onCombatTick = { pullTick(npc, it) })
+    }
+
+    private fun pullTick(boss: Npc, target: Player) {
+        if (boss.isWithinDistance(target, 1)) return
+        val last = lastPull[boss] ?: 0
+        if (deps.mapClock.cycle - last < PULL_COOLDOWN) return
+        lastPull[boss] = deps.mapClock.cycle
+        val dest =
+            listOf(1 to 0, -1 to 0, 0 to 1, 0 to -1, 1 to 1, -1 to 1, 1 to -1, -1 to -1)
+                .map { (dx, dy) -> boss.coords.translate(dx, dy) }
+                .firstOrNull { !deps.collision.isWalkBlocked(it) } ?: return
+        PathingEntityCommon.teleport(target, deps.collision, dest)
+        target.mes("Agrith Naar pulls you towards him!")
+    }
+
+    private companion object {
+        const val PULL_COOLDOWN = 25
     }
 }
 
