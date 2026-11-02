@@ -20,6 +20,7 @@ import org.rsmod.api.script.onOpLocU
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.script.onPlayerLogin
+import org.rsmod.api.script.onPlayerLogout
 import org.rsmod.api.script.onPlayerTimer
 import org.rsmod.content.interfaces.omnishop.openOmnishop
 import org.rsmod.content.skills.mining.configs.MiningParams
@@ -85,6 +86,7 @@ constructor(
         onOpLoc1(REWARD_RIFT) { searchRewards() }
         onOpNpc3(REWARD_TRADER) { openShop() }
         onPlayerLogin { onLogin(player) }
+        onPlayerLogout { game.leave(player) }
         onPlayerTimer(GOTR_TIMER) { gameTick() }
     }
 
@@ -472,9 +474,8 @@ constructor(
         }
         player.timerAt(GOTR_TIMER, worldClock.cycle, TICK_RATE)
         game.tick(this)
-        val result = game.lastWin
+        val result = game.takeResult(player)
         if (result != null) {
-            game.lastWin = null
             awardGameEnd(result)
         }
     }
@@ -622,7 +623,7 @@ constructor(
         private val guardians = mutableListOf<Npc>()
 
         private val chargeTarget: Int
-            get() = CHARGE_PER_PLAYER * players.size.coerceAtLeast(1)
+            get() = chargeTargetFor(players.size)
 
         fun join(player: Player) {
             players += player
@@ -633,7 +634,10 @@ constructor(
 
         fun leave(player: Player) {
             players -= player
+            pendingResults.remove(player)
         }
+
+        fun takeResult(player: Player): Boolean? = pendingResults.remove(player)
 
         fun isBattle() = phase == Phase.ACTIVE
 
@@ -831,11 +835,14 @@ constructor(
             barriers.keys.minByOrNull { chebyshev(it, coords) }
                 ?.takeIf { chebyshev(it, coords) <= BARRIER_BLOCK_RANGE }
 
-        var lastWin: Boolean? = null
+        private val pendingResults = mutableMapOf<Player, Boolean>()
 
         private fun endRound(win: Boolean) {
+            if (phase == Phase.OVER) return
             phase = Phase.OVER
-            lastWin = win
+            for (participant in players) {
+                pendingResults[participant] = win
+            }
             val guardian = greatGuardian()
             guardian?.anim(if (win) SURGE_ANIM else SLEEP_ANIM, 0, 0)
             for (npc in abyssals + guardians) {
@@ -889,6 +896,12 @@ constructor(
     }
 
     companion object {
+        internal fun chargeTargetFor(playerCount: Int): Int {
+            val count = playerCount.coerceAtLeast(1)
+            return minOf(count, FULL_SCALING_PLAYERS) * CHARGE_PER_PLAYER +
+                (count - FULL_SCALING_PLAYERS).coerceAtLeast(0) * CHARGE_PER_EXTRA_PLAYER
+        }
+
         private val BARRIERS = listOf("loc.gotr_barrier", "loc.gotr_barrier_closed")
         private const val WORKBENCH = "loc.gotr_workbench"
         private const val CELL_CRATE = "loc.gotr_uncharged_cells"
@@ -1003,6 +1016,8 @@ constructor(
         private const val SPAWN_INTERVAL = 8
         private const val OVER_RESTART = 40
         private const val CHARGE_PER_PLAYER = 500
+        private const val CHARGE_PER_EXTRA_PLAYER = 400
+        private const val FULL_SCALING_PLAYERS = 20
         private const val CHARGE_START_PCT = 10
         private const val SURGE_PCT = 60
         private const val SURGE_DAMAGE = 50

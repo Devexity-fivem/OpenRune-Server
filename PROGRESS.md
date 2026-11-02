@@ -7,254 +7,279 @@ either a module for it or its gameval symbols referenced somewhere in the code, 
 still counts if it was written somewhere unexpected. Added does not mean it matches the
 wiki, only that it exists.
 
-🟢 added · 🔴 not added
+NOT STARTED · IN PROGRESS · IMPLEMENTED · TESTED · WIKI VERIFIED · MCP VERIFIED · COMPLETE · BLOCKED
 
-Skills **23/23** · Bosses **178/178** · Raids **4/4** · Minigames **16/46**
+Skills **0/23 complete** · Bosses **0/178 complete** · Raids **0/4 complete** · Minigames **0/46 complete** · Additional content modules **0/87 complete** · Core systems **0/6 complete**
 
-These counts only cover skills, bosses, raids and minigames. Interfaces, areas,
-quests, drops and travel are real work that no category above points at, so check
-the module table at the bottom before reading a 0 as "nothing exists".
+The inventory includes Wiki-category entries, additional content modules and core systems.
+It is not an exhaustive list of every OSRS item, NPC, quest step or mechanic. Module rows
+may overlap Wiki features; counts are tracked entries, not a percentage of all OSRS gameplay.
+Source detection is retained as inventory evidence only: 314/344 entries detected.
+No recorded evidence means unverified, not that an existing implementation has been removed.
 
-### Skills <sup>23/23</sup>
+| Verification state | Entries |
+|---|---:|
+| NOT STARTED | 30 |
+| IN PROGRESS | 314 |
+| IMPLEMENTED | 0 |
+| TESTED | 0 |
+| WIKI VERIFIED | 0 |
+| MCP VERIFIED | 0 |
+| COMPLETE | 0 |
+| BLOCKED | 0 |
 
-| | Feature | Status | |
-|---|---|---|---|
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Attack_icon.png?b4bce" height="20" alt=""> Attack | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Attack) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Strength_icon.png?e6e0c" height="20" alt=""> Strength | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Strength) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Defence_icon.png?ca0cd" height="20" alt=""> Defence | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Defence) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Ranged_icon.png?01b0e" height="20" alt=""> Ranged | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Ranged) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Hitpoints_icon.png?a4819" height="20" alt=""> Hitpoints | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Hitpoints) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Magic_icon.png?334cf" height="20" alt=""> [Magic](content/skills/magic) | 5,764 loc | [wiki](https://oldschool.runescape.wiki/w/Magic) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Prayer_icon.png?7e70b" height="20" alt=""> [Prayer](content/skills/prayer) | 2,617 loc | [wiki](https://oldschool.runescape.wiki/w/Prayer) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Runecraft_icon.png?c278c" height="20" alt=""> [Runecraft](content/skills/runecrafting) | 2,632 loc | [wiki](https://oldschool.runescape.wiki/w/Runecraft) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Slayer_icon.png?cd34f" height="20" alt=""> [Slayer](content/skills/slayer) | 6,012 loc | [wiki](https://oldschool.runescape.wiki/w/Slayer) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Mining_icon.png?00870" height="20" alt=""> [Mining](content/skills/mining) | 1,041 loc | [wiki](https://oldschool.runescape.wiki/w/Mining) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Smithing_icon.png?d26c5" height="20" alt=""> [Smithing](content/skills/smithing) | 2,139 loc | [wiki](https://oldschool.runescape.wiki/w/Smithing) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Woodcutting_icon.png?6ead4" height="20" alt=""> [Woodcutting](content/skills/woodcutting) | 522 loc | [wiki](https://oldschool.runescape.wiki/w/Woodcutting) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Firemaking_icon.png?45ea0" height="20" alt=""> [Firemaking](content/skills/firemaking) | 589 loc | [wiki](https://oldschool.runescape.wiki/w/Firemaking) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Cooking_icon.png?a0156" height="20" alt=""> [Cooking](content/skills/cooking) | 1,429 loc | [wiki](https://oldschool.runescape.wiki/w/Cooking) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Herblore_icon.png?ffa9e" height="20" alt=""> [Herblore](content/skills/herblore) | 1,189 loc | [wiki](https://oldschool.runescape.wiki/w/Herblore) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Fishing_icon.png?15a98" height="20" alt=""> [Fishing](content/skills/fishing) | 1,727 loc | [wiki](https://oldschool.runescape.wiki/w/Fishing) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Agility_icon.png?389e0" height="20" alt=""> [Agility](content/skills/agility) | 349 loc | [wiki](https://oldschool.runescape.wiki/w/Agility) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Thieving_icon.png?973fe" height="20" alt=""> [Thieving](content/skills/thieving) | 1,360 loc | [wiki](https://oldschool.runescape.wiki/w/Thieving) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Crafting_icon.png?a1f71" height="20" alt=""> [Crafting](content/skills/crafting) | 6,349 loc | [wiki](https://oldschool.runescape.wiki/w/Crafting) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> [Fletching](content/skills/fletching) | 698 loc | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Construction_icon.png?f9bf7" height="20" alt=""> Construction | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Construction) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 3,238 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
+### Verification evidence
 
-### Bosses <sup>178/178</sup>
+Statuses describe recorded evidence, not source-file detection. Unrecorded code defaults to IN PROGRESS.
+COMPLETE requires verified mechanics and visuals, passing automated tests, successful MCP evidence, and no recorded discrepancies.
+
+| Feature | Mechanics | Animations / graphics | Automated tests | MCP | Remaining discrepancies / limitations |
+|---|---|---|---|---|---|
+| Guardians of the Rift | partial: b6d21cc30: corrected cell-tile dispatch and barrier/tile layer separation; Wiki confirms higher cells strengthen one tier and lower cells recharge; Implemented the Wiki's twenty-player scaling boundary (250 stones per first twenty players, 200 thereafter). Round results now have separate once-only delivery for each participant. | unverified: Symbol resolution and an animation playing do not establish correct timing or sequence. Current placement/imbuing uses human_pickuptable without adequate evidence. | passed: gradlew :content:minigames:guardians-of-the-rift:test :content:minigames:guardians-of-the-rift:integration passed: 2 scaling unit tests and 4 cache-backed integration tests, including two simulated players receiving one round result each and logout removing a player from charge scaling; barrier consumption, strengthening, recharge and tile preservation remain covered. spotlessApply completed.; node --test tools/progress/accuracy.test.mjs passed 7 generator regression tests; generator --check passes without modifying output. | partial: Pre-b6d21cc30 client observation: Weak Barrier 43744 appeared on the tile; cells have Inspect/Drop but no Use operation. Updated build started successfully; corrected interaction chain not yet live-verified. | Portal entry currently imbues in place instead of travelling to and interacting with the altar.; Reward-search count and recharge caps are shared mutable round state rather than per-player persistent counters.; Special-energy run restoration is not implemented; charge still conflates guardian health and closing power, and initial charge needs correction.; Abyssal targeting, combat rates, guardian retaliation and route collision remain approximate.; Energy caps, talisman handling, temporary-item cleanup, HUD state and end-of-round rewards require further verification.; Two-player live verification and animation/graphic timing comparison remain outstanding. |
+
+**Guardians of the Rift** implementation: [content/minigames/guardians-of-the-rift/src/main/kotlin/org/rsmod/content/minigames/gotr/Gotr.kt](content/minigames/guardians-of-the-rift/src/main/kotlin/org/rsmod/content/minigames/gotr/Gotr.kt), [content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrBarrierTest.kt](content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrBarrierTest.kt), [content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrMultiplayerTest.kt](content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrMultiplayerTest.kt), [content/minigames/guardians-of-the-rift/src/test/kotlin/org/rsmod/content/minigames/gotr/GotrScalingTest.kt](content/minigames/guardians-of-the-rift/src/test/kotlin/org/rsmod/content/minigames/gotr/GotrScalingTest.kt). Wiki: [source](https://oldschool.runescape.wiki/w/Guardians_of_the_Rift), [source](https://oldschool.runescape.wiki/w/Guardians_of_the_Rift?action=raw).
+
+
+### Skills <sup>0/23 complete</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Abyssal_Sire_%28phase_1%29.png/48px-Abyssal_Sire_%28phase_1%29.png?0db8f" height="20" alt=""> [Abyssal Sire](content/bosses/abyssal-sire) | 271 loc | [wiki](https://oldschool.runescape.wiki/w/Abyssal_Sire) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Agrith_Naar.png/48px-Agrith_Naar.png?fcbf6" height="20" alt=""> Agrith Naar | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Agrith_Naar) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Agrith-Na-Na.png/48px-Agrith-Na-Na.png?9d9fc" height="20" alt=""> Agrith-Na-Na | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Agrith-Na-Na) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ahrim_the_Blighted.png/48px-Ahrim_the_Blighted.png?33092" height="20" alt=""> Ahrim the Blighted | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Ahrim_the_Blighted) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Akkha.png/48px-Akkha.png?09042" height="20" alt=""> Akkha | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Akkha) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Alchemical_Hydra_%28serpentine%29.png/48px-Alchemical_Hydra_%28serpentine%29.png?925dd" height="20" alt=""> [Alchemical Hydra](content/bosses/alchemical-hydra) | 271 loc | [wiki](https://oldschool.runescape.wiki/w/Alchemical_Hydra) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Amoxliatl.png/48px-Amoxliatl.png?01b12" height="20" alt=""> [Amoxliatl](content/bosses/amoxliatl) | 387 loc | [wiki](https://oldschool.runescape.wiki/w/Amoxliatl) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Araxxor.png/48px-Araxxor.png?35d2e" height="20" alt=""> [Araxxor](content/bosses/araxxor) | 464 loc | [wiki](https://oldschool.runescape.wiki/w/Araxxor) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Archive_Guardian.png/48px-Archive_Guardian.png?c881d" height="20" alt=""> Archive Guardian | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Archive_Guardian) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Arrg.png/48px-Arrg.png?2e0cb" height="20" alt=""> Arrg | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arrg) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Artio.png/48px-Artio.png?bfba7" height="20" alt=""> Artio | no module, code in content/bosses/callisto | [wiki](https://oldschool.runescape.wiki/w/Artio) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Arzinian_Avatar_of_Magic.png/48px-Arzinian_Avatar_of_Magic.png?3ca7b" height="20" alt=""> Arzinian Avatar of Magic | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arzinian_Avatar_of_Magic) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Arzinian_Avatar_of_Ranging.png/48px-Arzinian_Avatar_of_Ranging.png?c3678" height="20" alt=""> Arzinian Avatar of Ranging | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arzinian_Avatar_of_Ranging) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Arzinian_Avatar_of_Strength.png/48px-Arzinian_Avatar_of_Strength.png?c3678" height="20" alt=""> Arzinian Avatar of Strength | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arzinian_Avatar_of_Strength) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Arzinian_Being_of_Bordanzan.png/48px-Arzinian_Being_of_Bordanzan.png?3e89e" height="20" alt=""> Arzinian Being of Bordanzan | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arzinian_Being_of_Bordanzan) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ba-Ba.png/48px-Ba-Ba.png?648d9" height="20" alt=""> Ba-Ba | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Ba-Ba) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Barrelchest.png/48px-Barrelchest.png?b2ae4" height="20" alt=""> Barrelchest | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Barrelchest) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Barrows_minigame.png/48px-Barrows_minigame.png?f7aaf" height="20" alt=""> [Barrows](content/bosses/barrows) | 1,566 loc | [wiki](https://oldschool.runescape.wiki/w/Barrows) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Black_Knight_Titan.png/48px-Black_Knight_Titan.png?69152" height="20" alt=""> Black Knight Titan | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_Knight_Titan) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Black_demon.png/48px-Black_demon.png?5ecf8" height="20" alt=""> Black demon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_demon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Black_golem.png/48px-Black_golem.png?18834" height="20" alt=""> Black golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_golem) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Blood_Moon.png/48px-Blood_Moon.png?c3e72" height="20" alt=""> Blood Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blood_Moon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Blue_Moon.png/48px-Blue_Moon.png?c3e72" height="20" alt=""> Blue Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blue_Moon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bork.png/48px-Bork.png?67f06" height="20" alt=""> Bork | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Bork) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer.png/48px-Bouncer.png?4de03" height="20" alt=""> Bouncer | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer_%28ghost%29.png/48px-Bouncer_%28ghost%29.png?756db" height="20" alt=""> Bouncer (ghost) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer_(ghost)) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Branda_the_Fire_Queen.png/48px-Branda_the_Fire_Queen.png?0687c" height="20" alt=""> Branda the Fire Queen | no module, code in content/bosses/royal-titans | [wiki](https://oldschool.runescape.wiki/w/Branda_the_Fire_Queen) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Brutus.png/48px-Brutus.png?eda9e" height="20" alt=""> [Brutus](content/bosses/brutus) | 1,411 loc | [wiki](https://oldschool.runescape.wiki/w/Brutus) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Bryophyta.png/48px-Bryophyta.png?08bc8" height="20" alt=""> [Bryophyta](content/bosses/bryophyta) | 153 loc | [wiki](https://oldschool.runescape.wiki/w/Bryophyta) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Callisto.png/48px-Callisto.png?bfba7" height="20" alt=""> [Callisto](content/bosses/callisto) | 568 loc | [wiki](https://oldschool.runescape.wiki/w/Callisto) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Calvar%27ion.png/48px-Calvar%27ion.png?6268f" height="20" alt=""> [Calvar'ion](content/bosses/calvarion) | 234 loc | [wiki](https://oldschool.runescape.wiki/w/Calvar'ion) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Cerberus.png/48px-Cerberus.png?47f4c" height="20" alt=""> [Cerberus](content/bosses/cerberus) | 324 loc | [wiki](https://oldschool.runescape.wiki/w/Cerberus) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Chaos_Elemental.png/48px-Chaos_Elemental.png?c170c" height="20" alt=""> [Chaos Elemental](content/bosses/chaos-elemental) | 154 loc | [wiki](https://oldschool.runescape.wiki/w/Chaos_Elemental) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Chaos_Fanatic.png/48px-Chaos_Fanatic.png?8871d" height="20" alt=""> [Chaos Fanatic](content/bosses/chaos-fanatic) | 78 loc | [wiki](https://oldschool.runescape.wiki/w/Chaos_Fanatic) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Chronozon.png/48px-Chronozon.png?5ecf8" height="20" alt=""> Chronozon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Chronozon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Commander_Zilyana.png/48px-Commander_Zilyana.png?c5eaa" height="20" alt=""> [Commander Zilyana](content/bosses/zilyana) | 164 loc | [wiki](https://oldschool.runescape.wiki/w/Commander_Zilyana) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Corporeal_Beast.png/48px-Corporeal_Beast.png?52ebb" height="20" alt=""> [Corporeal Beast](content/bosses/corporeal-beast) | 290 loc | [wiki](https://oldschool.runescape.wiki/w/Corporeal_Beast) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Corrupted_Hunllef.png/48px-Corrupted_Hunllef.png?0cd55" height="20" alt=""> Corrupted Hunllef | no module, code in content/minigames/gauntlet | [wiki](https://oldschool.runescape.wiki/w/Corrupted_Hunllef) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Count_Draynor.png/48px-Count_Draynor.png?95156" height="20" alt=""> Count Draynor | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Count_Draynor) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Crazy_archaeologist.png/48px-Crazy_archaeologist.png?78fa1" height="20" alt=""> [Crazy archaeologist](content/bosses/crazy-archaeologist) | 82 loc | [wiki](https://oldschool.runescape.wiki/w/Crazy_archaeologist) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Crystalline_Hunllef.png/48px-Crystalline_Hunllef.png?7737a" height="20" alt=""> Crystalline Hunllef | no module, code in content/minigames/gauntlet | [wiki](https://oldschool.runescape.wiki/w/Crystalline_Hunllef) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Culinaromancer.png/48px-Culinaromancer.png?1076b" height="20" alt=""> Culinaromancer | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Culinaromancer) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dad.png/48px-Dad.png?18a30" height="20" alt=""> Dad | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dad) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_Prime.png/48px-Dagannoth_Prime.png?945b1" height="20" alt=""> Dagannoth Prime | no module, code in content/bosses/dagannoth-kings | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_Prime) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_Rex.png/48px-Dagannoth_Rex.png?a99a9" height="20" alt=""> Dagannoth Rex | no module, code in content/bosses/dagannoth-kings | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_Rex) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_Supreme.png/48px-Dagannoth_Supreme.png?81f00" height="20" alt=""> Dagannoth Supreme | no module, code in content/bosses/dagannoth-kings | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_Supreme) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_mother_white.png/48px-Dagannoth_mother_white.png?945b1" height="20" alt=""> Dagannoth mother | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_mother) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagon%27hai_Elder.png/48px-Dagon%27hai_Elder.png?bc5b7" height="20" alt=""> Dagon'hai Elder | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagon%27hai_Monk_%28staff%29.png/48px-Dagon%27hai_Monk_%28staff%29.png?bc5b7" height="20" alt=""> Dagon'hai Monk | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Damis_first_form.png/48px-Damis_first_form.png?ee7b6" height="20" alt=""> Damis | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Damis) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dawn.png/48px-Dawn.png?8b8ea" height="20" alt=""> Dawn | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Dawn) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Delrith.png/48px-Delrith.png?ceece" height="20" alt=""> Delrith | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Delrith) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Demonic_Brutus.png/48px-Demonic_Brutus.png?eda9e" height="20" alt=""> [Demonic Brutus](content/bosses/brutus) | 1,411 loc | [wiki](https://oldschool.runescape.wiki/w/Demonic_Brutus) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Deranged_archaeologist.png/48px-Deranged_archaeologist.png?32c7e" height="20" alt=""> [Deranged archaeologist](content/bosses/deranged-archaeologist) | 76 loc | [wiki](https://oldschool.runescape.wiki/w/Deranged_archaeologist) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dessourt.png/48px-Dessourt.png?c2392" height="20" alt=""> Dessourt | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dessourt) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dessous.png/48px-Dessous.png?bd2c8" height="20" alt=""> Dessous | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dessous) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dharok_the_Wretched.png/48px-Dharok_the_Wretched.png?33092" height="20" alt=""> Dharok the Wretched | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Dharok_the_Wretched) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Doom_of_Mokhaiotl.png/48px-Doom_of_Mokhaiotl.png?e5edb" height="20" alt=""> [Doom of Mokhaiotl](content/bosses/doom-of-mokhaiotl) | 3,150 loc | [wiki](https://oldschool.runescape.wiki/w/Doom_of_Mokhaiotl) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dreadnoth_the_Jellied.png/48px-Dreadnoth_the_Jellied.png?bc5b7" height="20" alt=""> Dreadnoth the Jellied | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Dreadnoth_the_Jellied) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Duke_Sucellus.png/48px-Duke_Sucellus.png?d588a" height="20" alt=""> [Duke Sucellus](content/bosses/duke-sucellus) | 1,264 loc | [wiki](https://oldschool.runescape.wiki/w/Duke_Sucellus) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dusk.png/48px-Dusk.png?2d6f0" height="20" alt=""> Dusk | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Dusk) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Eclipse Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Eclipse_Moon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eldric_the_Ice_King.png/48px-Eldric_the_Ice_King.png?6bd48" height="20" alt=""> Eldric the Ice King | no module, code in content/bosses/royal-titans | [wiki](https://oldschool.runescape.wiki/w/Eldric_the_Ice_King) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Elidinis%27_Warden.png/48px-Elidinis%27_Warden.png?c9f68" height="20" alt=""> Elidinis' Warden | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Elidinis'_Warden) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Elvarg.png/48px-Elvarg.png?336d5" height="20" alt=""> Elvarg | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Elvarg) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Evil_spirit.png/48px-Evil_spirit.png?40157" height="20" alt=""> Evil spirit | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Evil_spirit) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ezekiel.png/48px-Ezekiel.png?bc5b7" height="20" alt=""> Ezekiel | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Ezekiel) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fareed.png/48px-Fareed.png?537e7" height="20" alt=""> Fareed | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Fareed) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Flambeed.png/48px-Flambeed.png?7ad3e" height="20" alt=""> Flambeed | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Flambeed) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Gadderanks.png/48px-Gadderanks.png?aac4f" height="20" alt=""> Gadderanks | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Gadderanks) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Galvek.png/48px-Galvek.png?5cca4" height="20" alt=""> Galvek | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Galvek) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Gelatinnoth_Mother_%28air%29.png/48px-Gelatinnoth_Mother_%28air%29.png?97725" height="20" alt=""> Gelatinnoth Mother | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Gelatinnoth_Mother) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Gemstone_Crab.png/48px-Gemstone_Crab.png?79415" height="20" alt=""> [Gemstone Crab](content/bosses/gemstone-crab) | 662 loc | [wiki](https://oldschool.runescape.wiki/w/Gemstone_Crab) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/General_Graardor.png/48px-General_Graardor.png?4dd90" height="20" alt=""> [General Graardor](content/bosses/graardor) | 166 loc | [wiki](https://oldschool.runescape.wiki/w/General_Graardor) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/General_Khazard.png/48px-General_Khazard.png?15c61" height="20" alt=""> General Khazard | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/General_Khazard) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Giant_Mole.png/48px-Giant_Mole.png?3f58a" height="20" alt=""> [Giant Mole](content/bosses/giant-mole) | 382 loc | [wiki](https://oldschool.runescape.wiki/w/Giant_Mole) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Giant_Roc.png/48px-Giant_Roc.png?bd2c8" height="20" alt=""> Giant Roc | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Giant_Roc) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Giant_Scarab.png/48px-Giant_Scarab.png?bd2c8" height="20" alt=""> Giant Scarab | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Giant_Scarab) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Giant_Sea_Snake.png/48px-Giant_Sea_Snake.png?3f58a" height="20" alt=""> Giant Sea Snake | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Giant_Sea_Snake) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Glod.png/48px-Glod.png?1c57f" height="20" alt=""> Glod | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Glod) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Glough.png/48px-Glough.png?81044" height="20" alt=""> Glough | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Glough) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Great_Olm.png/48px-Great_Olm.png?f1081" height="20" alt=""> Great Olm | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Great_Olm) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Grey_golem.png/48px-Grey_golem.png?857cb" height="20" alt=""> Grey golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Grey_golem) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fighting_Grotesque_Guardians.png/48px-Fighting_Grotesque_Guardians.png?f7fd9" height="20" alt=""> Grotesque Guardians | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Grotesque_Guardians) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Guthan_the_Infested.png/48px-Guthan_the_Infested.png?33092" height="20" alt=""> Guthan the Infested | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Guthan_the_Infested) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Hespori.png/48px-Hespori.png?83c72" height="20" alt=""> [Hespori](content/bosses/hespori) | 330 loc | [wiki](https://oldschool.runescape.wiki/w/Hespori) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ice_Troll_King.png/48px-Ice_Troll_King.png?a972f" height="20" alt=""> Ice Troll King | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Ice_Troll_King) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ice_demon.png/48px-Ice_demon.png?c9bce" height="20" alt=""> Ice demon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Ice_demon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Judge_of_Yama.png/48px-Judge_of_Yama.png?02e2b" height="20" alt=""> Judge of Yama (A Kingdom Divided) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Judge_of_Yama_(A_Kingdom_Divided)) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Jungle_Demon.png/48px-Jungle_Demon.png?b44f3" height="20" alt=""> Jungle Demon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Jungle_Demon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/K%27ril_Tsutsaroth.png/48px-K%27ril_Tsutsaroth.png?73bda" height="20" alt=""> [K'ril Tsutsaroth](content/bosses/kril) | 191 loc | [wiki](https://oldschool.runescape.wiki/w/K'ril_Tsutsaroth) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kalphite_Queen.png/48px-Kalphite_Queen.png?a4955" height="20" alt=""> [Kalphite Queen](content/bosses/kalphite-queen) | 149 loc | [wiki](https://oldschool.runescape.wiki/w/Kalphite_Queen) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kamil.png/48px-Kamil.png?68693" height="20" alt=""> Kamil | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Kamil) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Karamel.png/48px-Karamel.png?f69b4" height="20" alt=""> Karamel | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Karamel) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Karil_the_Tainted.png/48px-Karil_the_Tainted.png?33092" height="20" alt=""> Karil the Tainted | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Karil_the_Tainted) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kephri.png/48px-Kephri.png?4c3cd" height="20" alt=""> Kephri | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Kephri) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/King_Black_Dragon.png/48px-King_Black_Dragon.png?d25f0" height="20" alt=""> [King Black Dragon](content/bosses/kbd) | 143 loc | [wiki](https://oldschool.runescape.wiki/w/King_Black_Dragon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Koschei_the_deathless.png/48px-Koschei_the_deathless.png?37d97" height="20" alt=""> Koschei the deathless | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Koschei_the_deathless) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kraken.png/48px-Kraken.png?a4955" height="20" alt=""> [Kraken](content/bosses/kraken) | 110 loc | [wiki](https://oldschool.runescape.wiki/w/Kraken) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/48px-Kree%27arra.png?ba75c" height="20" alt=""> [Kree'arra](content/bosses/kreearra) | 229 loc | [wiki](https://oldschool.runescape.wiki/w/Kree'arra) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Lowerniel_Drakan.png/48px-Lowerniel_Drakan.png?b887a" height="20" alt=""> Lowerniel Drakan | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mad_Angel.webp/48px-Mad_Angel.webp?c7990" height="20" alt=""> [Mad Angel](content/bosses/mad-angel) | 1,122 loc | [wiki](https://oldschool.runescape.wiki/w/Mad_Angel) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Maggot_King.png/48px-Maggot_King.png?a6790" height="20" alt=""> [Maggot King](content/bosses/maggot-king) | 1,480 loc | [wiki](https://oldschool.runescape.wiki/w/Maggot_King) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Me.png/48px-Me.png?65f08" height="20" alt=""> Me | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Me) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Melzar_the_Mad.png/48px-Melzar_the_Mad.png?b3424" height="20" alt=""> Melzar the Mad | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Melzar_the_Mad) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Moia.png/48px-Moia.png?bc5b7" height="20" alt=""> Moia | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Moia) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Moons of Peril | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Moons_of_Peril) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Moss_Guardian.png/48px-Moss_Guardian.png?a1e47" height="20" alt=""> Moss Guardian | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Moss_Guardian) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Muttadile.png/48px-Muttadile.png?55798" height="20" alt=""> Muttadile | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Muttadile) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Nex.png/48px-Nex.png?2a1b3" height="20" alt=""> [Nex](content/bosses/nex) | 1,248 loc | [wiki](https://oldschool.runescape.wiki/w/Nex) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Nezikchened.png/48px-Nezikchened.png?8ee94" height="20" alt=""> Nezikchened | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Nezikchened) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Nylocas_Vasilias_%28melee%29.png/48px-Nylocas_Vasilias_%28melee%29.png?52075" height="20" alt=""> Nylocas Vasilias | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Nylocas_Vasilias) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Obor.png/48px-Obor.png?08bc8" height="20" alt=""> [Obor](content/bosses/obor) | 60 loc | [wiki](https://oldschool.runescape.wiki/w/Obor) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ocellus.png/48px-Ocellus.png?6fd2f" height="20" alt=""> Ocellus | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Ocellus) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Penance_Queen.png/48px-Penance_Queen.png?56343" height="20" alt=""> Penance Queen | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Penance_Queen) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Pestilent_Bloat.png/48px-Pestilent_Bloat.png?b1ab7" height="20" alt=""> Pestilent Bloat | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Pestilent_Bloat) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Phantom_Muspah_%28ranged%29.png/48px-Phantom_Muspah_%28ranged%29.png?9cf6a" height="20" alt=""> [Phantom Muspah](content/bosses/muspah) | 1,295 loc | [wiki](https://oldschool.runescape.wiki/w/Phantom_Muspah) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/48px-The_Nightmare.png?0128a" height="20" alt=""> Phosani's Nightmare | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Phosani's_Nightmare) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Revenant_maledictus.png/48px-Revenant_maledictus.png?73c48" height="20" alt=""> Revenant maledictus | no module, code in content/areas/wilderness, content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Revenant_maledictus) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fighting_Royal_Titans.png/48px-Fighting_Royal_Titans.png?bfd16" height="20" alt=""> [Royal Titans](content/bosses/royal-titans) | 3,558 loc | [wiki](https://oldschool.runescape.wiki/w/Royal_Titans) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Salarin_the_twisted.png/48px-Salarin_the_twisted.png?079fa" height="20" alt=""> Salarin the twisted | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Salarin_the_twisted) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Sarachnis.png/48px-Sarachnis.png?8f040" height="20" alt=""> [Sarachnis](content/bosses/sarachnis) | 132 loc | [wiki](https://oldschool.runescape.wiki/w/Sarachnis) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Scorpia.png/48px-Scorpia.png?517c9" height="20" alt=""> [Scorpia](content/bosses/scorpia) | 133 loc | [wiki](https://oldschool.runescape.wiki/w/Scorpia) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Scurrius.png/48px-Scurrius.png?e66a5" height="20" alt=""> [Scurrius](content/bosses/scurrius) | 384 loc | [wiki](https://oldschool.runescape.wiki/w/Scurrius) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Sea_Troll_Queen.png/48px-Sea_Troll_Queen.png?c0777" height="20" alt=""> Sea Troll Queen | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Sea_Troll_Queen) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Shellbane_gryphon.png/48px-Shellbane_gryphon.png?bc76e" height="20" alt=""> Shellbane gryphon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Shellbane_gryphon) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Sigmund.png/48px-Sigmund.png?00361" height="20" alt=""> Sigmund | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Sigmund) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Sir_Leye.png/48px-Sir_Leye.png?bf298" height="20" alt=""> Sir Leye | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Sir_Leye) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Sir_Mordred.png/48px-Sir_Mordred.png?e2886" height="20" alt=""> Sir Mordred | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Sir_Mordred) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Skotizo.png/48px-Skotizo.png?dc8b8" height="20" alt=""> [Skotizo](content/bosses/skotizo) | 264 loc | [wiki](https://oldschool.runescape.wiki/w/Skotizo) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Slagilith.png/48px-Slagilith.png?dc8b8" height="20" alt=""> Slagilith | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Slagilith) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Slash_Bash.png/48px-Slash_Bash.png?ec9d3" height="20" alt=""> Slash Bash | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Slash_Bash) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Slug_Prince.png/48px-Slug_Prince.png?9805c" height="20" alt=""> Slug Prince | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Slug_Prince) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Sol_Heredit.png/48px-Sol_Heredit.png?91250" height="20" alt=""> Sol Heredit | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Sol_Heredit) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Sotetseg.png/48px-Sotetseg.png?61151" height="20" alt=""> Sotetseg | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Sotetseg) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Spindel.png/48px-Spindel.png?2c818" height="20" alt=""> [Spindel](content/bosses/spindel) | 522 loc | [wiki](https://oldschool.runescape.wiki/w/Spindel) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mutant_tarn.png/48px-Mutant_tarn.png?658b7" height="20" alt=""> Tarn | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Tarn) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tekton.png/48px-Tekton.png?a32ab" height="20" alt=""> Tekton | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tekton) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tempoross.png/48px-Tempoross.png?12042" height="20" alt=""> Tempoross | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Tempoross) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Draugen.png/48px-The_Draugen.png?74e5c" height="20" alt=""> The Draugen | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Draugen) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Everlasting.png/48px-The_Everlasting.png?52537" height="20" alt=""> The Everlasting | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Everlasting) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Hueycoatl.png/48px-The_Hueycoatl.png?7b216" height="20" alt=""> The Hueycoatl | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Hueycoatl) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Cyrisus_steps_on_The_Illusive.gif/48px-Cyrisus_steps_on_The_Illusive.gif?1ecf1" height="20" alt=""> The Illusive | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Illusive) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Inadequacy.png/48px-The_Inadequacy.png?1eaf1" height="20" alt=""> The Inadequacy | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Inadequacy) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Leviathan.png/48px-The_Leviathan.png?d588a" height="20" alt=""> [The Leviathan](content/bosses/leviathan) | 1,397 loc | [wiki](https://oldschool.runescape.wiki/w/The_Leviathan) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Maiden_of_Sugadinti.png/48px-The_Maiden_of_Sugadinti.png?c69d5" height="20" alt=""> The Maiden of Sugadinti | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Maiden_of_Sugadinti) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Mimic.png/48px-The_Mimic.png?b45f4" height="20" alt=""> The Mimic | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Mimic) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/48px-The_Nightmare.png?0128a" height="20" alt=""> The Nightmare | no module, code in content/other/pets, content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Nightmare) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Smorks.png/48px-The_Smorks.png?bc5b7" height="20" alt=""> The Smorks | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/The_Smorks) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Untouchable.png/48px-The_Untouchable.png?dc69e" height="20" alt=""> The Untouchable | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Untouchable) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Whisperer.png/48px-The_Whisperer.png?aedab" height="20" alt=""> [The Whisperer](content/bosses/whisperer) | 1,854 loc | [wiki](https://oldschool.runescape.wiki/w/The_Whisperer) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Thermonuclear_smoke_devil.png/48px-Thermonuclear_smoke_devil.png?de858" height="20" alt=""> Thermonuclear smoke devil | no module, code in content/bosses/thermy | [wiki](https://oldschool.runescape.wiki/w/Thermonuclear_smoke_devil) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tolna_%28boy%29.png/48px-Tolna_%28boy%29.png?0e3b5" height="20" alt=""> Tolna | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Tolna) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Torag_the_Corrupted.png/48px-Torag_the_Corrupted.png?33092" height="20" alt=""> Torag the Corrupted | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Torag_the_Corrupted) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tree_spirit_%28Lost_City%29.png/48px-Tree_spirit_%28Lost_City%29.png?2446d" height="20" alt=""> Tree spirit (Lost City) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Tree_spirit_(Lost_City)) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Treus_Dayth.png/48px-Treus_Dayth.png?9cace" height="20" alt=""> Treus Dayth | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Treus_Dayth) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tumeken%27s_Warden.png/48px-Tumeken%27s_Warden.png?c9f68" height="20" alt=""> Tumeken's Warden | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tumeken's_Warden) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzKal-Zuk.png/48px-TzKal-Zuk.png?2d222" height="20" alt=""> TzKal-Zuk | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/TzKal-Zuk) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzTok-Jad.png/48px-TzTok-Jad.png?df681" height="20" alt=""> [TzTok-Jad](content/bosses/tztokjad) | 223 loc | [wiki](https://oldschool.runescape.wiki/w/TzTok-Jad) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Ulfric.png/48px-Ulfric.png?59d75" height="20" alt=""> Ulfric | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Ulfric) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vanguard_%28magic%29.png/48px-Vanguard_%28magic%29.png?db160" height="20" alt=""> Vanguard | no module, code in content/other/pets | [wiki](https://oldschool.runescape.wiki/w/Vanguard) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vardorvis.png/48px-Vardorvis.png?48af8" height="20" alt=""> [Vardorvis](content/bosses/vardorvis) | 1,287 loc | [wiki](https://oldschool.runescape.wiki/w/Vardorvis) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vasa_Nistirio.png/48px-Vasa_Nistirio.png?64087" height="20" alt=""> Vasa Nistirio | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Vasa_Nistirio) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Venenatis.png/48px-Venenatis.png?13693" height="20" alt=""> Venenatis | no module, code in content/bosses/spindel | [wiki](https://oldschool.runescape.wiki/w/Venenatis) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Verac_the_Defiled.png/48px-Verac_the_Defiled.png?33092" height="20" alt=""> Verac the Defiled | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Verac_the_Defiled) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Verzik_Vitur.png/48px-Verzik_Vitur.png?cfc15" height="20" alt=""> Verzik Vitur | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Verzik_Vitur) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vespula.png/48px-Vespula.png?09658" height="20" alt=""> Vespula | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Vespula) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vet%27ion.png/48px-Vet%27ion.png?8695f" height="20" alt=""> [Vet'ion](content/bosses/vetion) | 233 loc | [wiki](https://oldschool.runescape.wiki/w/Vet'ion) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vorkath.png/48px-Vorkath.png?1ce3f" height="20" alt=""> [Vorkath](content/bosses/vorkath) | 476 loc | [wiki](https://oldschool.runescape.wiki/w/Vorkath) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/White_golem.png/48px-White_golem.png?b3020" height="20" alt=""> White golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/White_golem) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Howling_Snow_Storm.gif/48px-Howling_Snow_Storm.gif?ec549" height="20" alt=""> [Wintertodt](content/bosses/wintertodt) | 955 loc | [wiki](https://oldschool.runescape.wiki/w/Wintertodt) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Xamphur_%28monster%2C_phantom_hands%29.png/48px-Xamphur_%28monster%2C_phantom_hands%29.png?de61a" height="20" alt=""> Xamphur | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Xamphur) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Xarpus_%28phase_1%29.png/48px-Xarpus_%28phase_1%29.png?81ca6" height="20" alt=""> Xarpus | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Xarpus) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Xarth.png/48px-Xarth.png?bc5b7" height="20" alt=""> Xarth | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Xarth) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Yama.png/48px-Yama.png?7653a" height="20" alt=""> Yama | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Yama) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zalcano_%28weakened%29.png/48px-Zalcano_%28weakened%29.png?fa423" height="20" alt=""> [Zalcano](content/bosses/zalcano) | 556 loc | [wiki](https://oldschool.runescape.wiki/w/Zalcano) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zebak.png/48px-Zebak.png?23978" height="20" alt=""> Zebak | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Zebak) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/48px-Zulrah_%28serpentine%29.png?29a54" height="20" alt=""> [Zulrah](content/bosses/zulrah) | 639 loc | [wiki](https://oldschool.runescape.wiki/w/Zulrah) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Attack_icon.png?b4bce" height="20" alt=""> Attack | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Attack) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Strength_icon.png?e6e0c" height="20" alt=""> Strength | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Strength) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Defence_icon.png?ca0cd" height="20" alt=""> Defence | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Defence) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Ranged_icon.png?01b0e" height="20" alt=""> Ranged | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Ranged) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Hitpoints_icon.png?a4819" height="20" alt=""> Hitpoints | in `api/combat` | [wiki](https://oldschool.runescape.wiki/w/Hitpoints) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Magic_icon.png?334cf" height="20" alt=""> [Magic](content/skills/magic) | 5,764 loc | [wiki](https://oldschool.runescape.wiki/w/Magic) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Prayer_icon.png?7e70b" height="20" alt=""> [Prayer](content/skills/prayer) | 2,617 loc | [wiki](https://oldschool.runescape.wiki/w/Prayer) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Runecraft_icon.png?c278c" height="20" alt=""> [Runecraft](content/skills/runecrafting) | 2,632 loc | [wiki](https://oldschool.runescape.wiki/w/Runecraft) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Slayer_icon.png?cd34f" height="20" alt=""> [Slayer](content/skills/slayer) | 6,012 loc | [wiki](https://oldschool.runescape.wiki/w/Slayer) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Mining_icon.png?00870" height="20" alt=""> [Mining](content/skills/mining) | 1,041 loc | [wiki](https://oldschool.runescape.wiki/w/Mining) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Smithing_icon.png?d26c5" height="20" alt=""> [Smithing](content/skills/smithing) | 2,139 loc | [wiki](https://oldschool.runescape.wiki/w/Smithing) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Woodcutting_icon.png?6ead4" height="20" alt=""> [Woodcutting](content/skills/woodcutting) | 522 loc | [wiki](https://oldschool.runescape.wiki/w/Woodcutting) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Firemaking_icon.png?45ea0" height="20" alt=""> [Firemaking](content/skills/firemaking) | 589 loc | [wiki](https://oldschool.runescape.wiki/w/Firemaking) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Cooking_icon.png?a0156" height="20" alt=""> [Cooking](content/skills/cooking) | 1,429 loc | [wiki](https://oldschool.runescape.wiki/w/Cooking) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Herblore_icon.png?ffa9e" height="20" alt=""> [Herblore](content/skills/herblore) | 1,189 loc | [wiki](https://oldschool.runescape.wiki/w/Herblore) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Fishing_icon.png?15a98" height="20" alt=""> [Fishing](content/skills/fishing) | 1,727 loc | [wiki](https://oldschool.runescape.wiki/w/Fishing) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Agility_icon.png?389e0" height="20" alt=""> [Agility](content/skills/agility) | 349 loc | [wiki](https://oldschool.runescape.wiki/w/Agility) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Thieving_icon.png?973fe" height="20" alt=""> [Thieving](content/skills/thieving) | 1,360 loc | [wiki](https://oldschool.runescape.wiki/w/Thieving) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Crafting_icon.png?a1f71" height="20" alt=""> [Crafting](content/skills/crafting) | 6,349 loc | [wiki](https://oldschool.runescape.wiki/w/Crafting) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> [Fletching](content/skills/fletching) | 698 loc | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Construction_icon.png?f9bf7" height="20" alt=""> Construction | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Construction) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 3,238 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
-### Raids <sup>4/4</sup>
+### Bosses <sup>0/178 complete</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Chambers_of_Xeric_logo.png/48px-Chambers_of_Xeric_logo.png?34a98" height="20" alt=""> Chambers of Xeric | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Chambers_of_Xeric) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Fractured_Archive_logo.png/48px-The_Fractured_Archive_logo.png?2eb86" height="20" alt=""> The Fractured Archive | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/The_Fractured_Archive) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Theatre_of_Blood_logo.png/48px-Theatre_of_Blood_logo.png?e6e68" height="20" alt=""> Theatre of Blood | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Theatre_of_Blood) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tombs_of_Amascut.png/48px-Tombs_of_Amascut.png?f9992" height="20" alt=""> Tombs of Amascut | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tombs_of_Amascut) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Abyssal_Sire_%28phase_1%29.png/48px-Abyssal_Sire_%28phase_1%29.png?0db8f" height="20" alt=""> [Abyssal Sire](content/bosses/abyssal-sire) | 271 loc | [wiki](https://oldschool.runescape.wiki/w/Abyssal_Sire) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Agrith_Naar.png/48px-Agrith_Naar.png?fcbf6" height="20" alt=""> Agrith Naar | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Agrith_Naar) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Agrith-Na-Na.png/48px-Agrith-Na-Na.png?9d9fc" height="20" alt=""> Agrith-Na-Na | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Agrith-Na-Na) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Ahrim_the_Blighted.png/48px-Ahrim_the_Blighted.png?33092" height="20" alt=""> Ahrim the Blighted | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Ahrim_the_Blighted) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Akkha.png/48px-Akkha.png?09042" height="20" alt=""> Akkha | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Akkha) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Alchemical_Hydra_%28serpentine%29.png/48px-Alchemical_Hydra_%28serpentine%29.png?925dd" height="20" alt=""> [Alchemical Hydra](content/bosses/alchemical-hydra) | 271 loc | [wiki](https://oldschool.runescape.wiki/w/Alchemical_Hydra) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Amoxliatl.png/48px-Amoxliatl.png?01b12" height="20" alt=""> [Amoxliatl](content/bosses/amoxliatl) | 387 loc | [wiki](https://oldschool.runescape.wiki/w/Amoxliatl) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Araxxor.png/48px-Araxxor.png?35d2e" height="20" alt=""> [Araxxor](content/bosses/araxxor) | 464 loc | [wiki](https://oldschool.runescape.wiki/w/Araxxor) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Archive_Guardian.png/48px-Archive_Guardian.png?c881d" height="20" alt=""> Archive Guardian | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Archive_Guardian) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Arrg.png/48px-Arrg.png?2e0cb" height="20" alt=""> Arrg | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arrg) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Artio.png/48px-Artio.png?bfba7" height="20" alt=""> Artio | no module, code in content/bosses/callisto | [wiki](https://oldschool.runescape.wiki/w/Artio) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Arzinian_Avatar_of_Magic.png/48px-Arzinian_Avatar_of_Magic.png?3ca7b" height="20" alt=""> Arzinian Avatar of Magic | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arzinian_Avatar_of_Magic) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Arzinian_Avatar_of_Ranging.png/48px-Arzinian_Avatar_of_Ranging.png?c3678" height="20" alt=""> Arzinian Avatar of Ranging | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arzinian_Avatar_of_Ranging) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Arzinian_Avatar_of_Strength.png/48px-Arzinian_Avatar_of_Strength.png?c3678" height="20" alt=""> Arzinian Avatar of Strength | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arzinian_Avatar_of_Strength) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Arzinian_Being_of_Bordanzan.png/48px-Arzinian_Being_of_Bordanzan.png?3e89e" height="20" alt=""> Arzinian Being of Bordanzan | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Arzinian_Being_of_Bordanzan) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Ba-Ba.png/48px-Ba-Ba.png?648d9" height="20" alt=""> Ba-Ba | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Ba-Ba) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Barrelchest.png/48px-Barrelchest.png?b2ae4" height="20" alt=""> Barrelchest | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Barrelchest) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Barrows_minigame.png/48px-Barrows_minigame.png?f7aaf" height="20" alt=""> [Barrows](content/bosses/barrows) | 1,566 loc | [wiki](https://oldschool.runescape.wiki/w/Barrows) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Black_Knight_Titan.png/48px-Black_Knight_Titan.png?69152" height="20" alt=""> Black Knight Titan | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_Knight_Titan) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Black_demon.png/48px-Black_demon.png?5ecf8" height="20" alt=""> Black demon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_demon) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Black_golem.png/48px-Black_golem.png?18834" height="20" alt=""> Black golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Black_golem) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Blood_Moon.png/48px-Blood_Moon.png?c3e72" height="20" alt=""> Blood Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blood_Moon) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Blue_Moon.png/48px-Blue_Moon.png?c3e72" height="20" alt=""> Blue Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Blue_Moon) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Bork.png/48px-Bork.png?67f06" height="20" alt=""> Bork | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Bork) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer.png/48px-Bouncer.png?4de03" height="20" alt=""> Bouncer | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Bouncer_%28ghost%29.png/48px-Bouncer_%28ghost%29.png?756db" height="20" alt=""> Bouncer (ghost) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Bouncer_(ghost)) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Branda_the_Fire_Queen.png/48px-Branda_the_Fire_Queen.png?0687c" height="20" alt=""> Branda the Fire Queen | no module, code in content/bosses/royal-titans | [wiki](https://oldschool.runescape.wiki/w/Branda_the_Fire_Queen) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Brutus.png/48px-Brutus.png?eda9e" height="20" alt=""> [Brutus](content/bosses/brutus) | 1,411 loc | [wiki](https://oldschool.runescape.wiki/w/Brutus) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Bryophyta.png/48px-Bryophyta.png?08bc8" height="20" alt=""> [Bryophyta](content/bosses/bryophyta) | 153 loc | [wiki](https://oldschool.runescape.wiki/w/Bryophyta) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Callisto.png/48px-Callisto.png?bfba7" height="20" alt=""> [Callisto](content/bosses/callisto) | 568 loc | [wiki](https://oldschool.runescape.wiki/w/Callisto) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Calvar%27ion.png/48px-Calvar%27ion.png?6268f" height="20" alt=""> [Calvar'ion](content/bosses/calvarion) | 234 loc | [wiki](https://oldschool.runescape.wiki/w/Calvar'ion) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Cerberus.png/48px-Cerberus.png?47f4c" height="20" alt=""> [Cerberus](content/bosses/cerberus) | 324 loc | [wiki](https://oldschool.runescape.wiki/w/Cerberus) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chaos_Elemental.png/48px-Chaos_Elemental.png?c170c" height="20" alt=""> [Chaos Elemental](content/bosses/chaos-elemental) | 154 loc | [wiki](https://oldschool.runescape.wiki/w/Chaos_Elemental) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chaos_Fanatic.png/48px-Chaos_Fanatic.png?8871d" height="20" alt=""> [Chaos Fanatic](content/bosses/chaos-fanatic) | 78 loc | [wiki](https://oldschool.runescape.wiki/w/Chaos_Fanatic) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chronozon.png/48px-Chronozon.png?5ecf8" height="20" alt=""> Chronozon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Chronozon) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Commander_Zilyana.png/48px-Commander_Zilyana.png?c5eaa" height="20" alt=""> [Commander Zilyana](content/bosses/zilyana) | 164 loc | [wiki](https://oldschool.runescape.wiki/w/Commander_Zilyana) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Corporeal_Beast.png/48px-Corporeal_Beast.png?52ebb" height="20" alt=""> [Corporeal Beast](content/bosses/corporeal-beast) | 290 loc | [wiki](https://oldschool.runescape.wiki/w/Corporeal_Beast) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Corrupted_Hunllef.png/48px-Corrupted_Hunllef.png?0cd55" height="20" alt=""> Corrupted Hunllef | no module, code in content/minigames/gauntlet | [wiki](https://oldschool.runescape.wiki/w/Corrupted_Hunllef) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Count_Draynor.png/48px-Count_Draynor.png?95156" height="20" alt=""> Count Draynor | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Count_Draynor) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Crazy_archaeologist.png/48px-Crazy_archaeologist.png?78fa1" height="20" alt=""> [Crazy archaeologist](content/bosses/crazy-archaeologist) | 82 loc | [wiki](https://oldschool.runescape.wiki/w/Crazy_archaeologist) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Crystalline_Hunllef.png/48px-Crystalline_Hunllef.png?7737a" height="20" alt=""> Crystalline Hunllef | no module, code in content/minigames/gauntlet | [wiki](https://oldschool.runescape.wiki/w/Crystalline_Hunllef) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Culinaromancer.png/48px-Culinaromancer.png?1076b" height="20" alt=""> Culinaromancer | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Culinaromancer) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dad.png/48px-Dad.png?18a30" height="20" alt=""> Dad | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dad) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_Prime.png/48px-Dagannoth_Prime.png?945b1" height="20" alt=""> Dagannoth Prime | no module, code in content/bosses/dagannoth-kings | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_Prime) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_Rex.png/48px-Dagannoth_Rex.png?a99a9" height="20" alt=""> Dagannoth Rex | no module, code in content/bosses/dagannoth-kings | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_Rex) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_Supreme.png/48px-Dagannoth_Supreme.png?81f00" height="20" alt=""> Dagannoth Supreme | no module, code in content/bosses/dagannoth-kings | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_Supreme) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_mother_white.png/48px-Dagannoth_mother_white.png?945b1" height="20" alt=""> Dagannoth mother | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_mother) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dagon%27hai_Elder.png/48px-Dagon%27hai_Elder.png?bc5b7" height="20" alt=""> Dagon'hai Elder | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Dagon'hai_Elder) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dagon%27hai_Monk_%28staff%29.png/48px-Dagon%27hai_Monk_%28staff%29.png?bc5b7" height="20" alt=""> Dagon'hai Monk | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Dagon'hai_Monk) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Damis_first_form.png/48px-Damis_first_form.png?ee7b6" height="20" alt=""> Damis | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Damis) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dawn.png/48px-Dawn.png?8b8ea" height="20" alt=""> Dawn | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Dawn) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Delrith.png/48px-Delrith.png?ceece" height="20" alt=""> Delrith | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Delrith) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Demonic_Brutus.png/48px-Demonic_Brutus.png?eda9e" height="20" alt=""> [Demonic Brutus](content/bosses/brutus) | 1,411 loc | [wiki](https://oldschool.runescape.wiki/w/Demonic_Brutus) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Deranged_archaeologist.png/48px-Deranged_archaeologist.png?32c7e" height="20" alt=""> [Deranged archaeologist](content/bosses/deranged-archaeologist) | 76 loc | [wiki](https://oldschool.runescape.wiki/w/Deranged_archaeologist) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dessourt.png/48px-Dessourt.png?c2392" height="20" alt=""> Dessourt | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dessourt) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dessous.png/48px-Dessous.png?bd2c8" height="20" alt=""> Dessous | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dessous) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dharok_the_Wretched.png/48px-Dharok_the_Wretched.png?33092" height="20" alt=""> Dharok the Wretched | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Dharok_the_Wretched) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Doom_of_Mokhaiotl.png/48px-Doom_of_Mokhaiotl.png?e5edb" height="20" alt=""> [Doom of Mokhaiotl](content/bosses/doom-of-mokhaiotl) | 3,150 loc | [wiki](https://oldschool.runescape.wiki/w/Doom_of_Mokhaiotl) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dreadnoth_the_Jellied.png/48px-Dreadnoth_the_Jellied.png?bc5b7" height="20" alt=""> Dreadnoth the Jellied | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Dreadnoth_the_Jellied) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Duke_Sucellus.png/48px-Duke_Sucellus.png?d588a" height="20" alt=""> [Duke Sucellus](content/bosses/duke-sucellus) | 1,264 loc | [wiki](https://oldschool.runescape.wiki/w/Duke_Sucellus) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Dusk.png/48px-Dusk.png?2d6f0" height="20" alt=""> Dusk | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Dusk) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Eclipse Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Eclipse_Moon) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Eldric_the_Ice_King.png/48px-Eldric_the_Ice_King.png?6bd48" height="20" alt=""> Eldric the Ice King | no module, code in content/bosses/royal-titans | [wiki](https://oldschool.runescape.wiki/w/Eldric_the_Ice_King) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Elidinis%27_Warden.png/48px-Elidinis%27_Warden.png?c9f68" height="20" alt=""> Elidinis' Warden | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Elidinis'_Warden) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Elvarg.png/48px-Elvarg.png?336d5" height="20" alt=""> Elvarg | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Elvarg) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Evil_spirit.png/48px-Evil_spirit.png?40157" height="20" alt=""> Evil spirit | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Evil_spirit) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Ezekiel.png/48px-Ezekiel.png?bc5b7" height="20" alt=""> Ezekiel | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Ezekiel) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Fareed.png/48px-Fareed.png?537e7" height="20" alt=""> Fareed | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Fareed) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Flambeed.png/48px-Flambeed.png?7ad3e" height="20" alt=""> Flambeed | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Flambeed) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Gadderanks.png/48px-Gadderanks.png?aac4f" height="20" alt=""> Gadderanks | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Gadderanks) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Galvek.png/48px-Galvek.png?5cca4" height="20" alt=""> Galvek | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Galvek) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Gelatinnoth_Mother_%28air%29.png/48px-Gelatinnoth_Mother_%28air%29.png?97725" height="20" alt=""> Gelatinnoth Mother | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Gelatinnoth_Mother) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Gemstone_Crab.png/48px-Gemstone_Crab.png?79415" height="20" alt=""> [Gemstone Crab](content/bosses/gemstone-crab) | 662 loc | [wiki](https://oldschool.runescape.wiki/w/Gemstone_Crab) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/General_Graardor.png/48px-General_Graardor.png?4dd90" height="20" alt=""> [General Graardor](content/bosses/graardor) | 166 loc | [wiki](https://oldschool.runescape.wiki/w/General_Graardor) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/General_Khazard.png/48px-General_Khazard.png?15c61" height="20" alt=""> General Khazard | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/General_Khazard) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Giant_Mole.png/48px-Giant_Mole.png?3f58a" height="20" alt=""> [Giant Mole](content/bosses/giant-mole) | 382 loc | [wiki](https://oldschool.runescape.wiki/w/Giant_Mole) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Giant_Roc.png/48px-Giant_Roc.png?bd2c8" height="20" alt=""> Giant Roc | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Giant_Roc) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Giant_Scarab.png/48px-Giant_Scarab.png?bd2c8" height="20" alt=""> Giant Scarab | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Giant_Scarab) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Giant_Sea_Snake.png/48px-Giant_Sea_Snake.png?3f58a" height="20" alt=""> Giant Sea Snake | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Giant_Sea_Snake) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Glod.png/48px-Glod.png?1c57f" height="20" alt=""> Glod | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Glod) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Glough.png/48px-Glough.png?81044" height="20" alt=""> Glough | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Glough) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Great_Olm.png/48px-Great_Olm.png?f1081" height="20" alt=""> Great Olm | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Great_Olm) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Grey_golem.png/48px-Grey_golem.png?857cb" height="20" alt=""> Grey golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Grey_golem) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Fighting_Grotesque_Guardians.png/48px-Fighting_Grotesque_Guardians.png?f7fd9" height="20" alt=""> Grotesque Guardians | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Grotesque_Guardians) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Guthan_the_Infested.png/48px-Guthan_the_Infested.png?33092" height="20" alt=""> Guthan the Infested | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Guthan_the_Infested) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Hespori.png/48px-Hespori.png?83c72" height="20" alt=""> [Hespori](content/bosses/hespori) | 330 loc | [wiki](https://oldschool.runescape.wiki/w/Hespori) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Ice_Troll_King.png/48px-Ice_Troll_King.png?a972f" height="20" alt=""> Ice Troll King | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Ice_Troll_King) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Ice_demon.png/48px-Ice_demon.png?c9bce" height="20" alt=""> Ice demon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Ice_demon) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Judge_of_Yama.png/48px-Judge_of_Yama.png?02e2b" height="20" alt=""> Judge of Yama (A Kingdom Divided) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Judge_of_Yama_(A_Kingdom_Divided)) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Jungle_Demon.png/48px-Jungle_Demon.png?b44f3" height="20" alt=""> Jungle Demon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Jungle_Demon) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/K%27ril_Tsutsaroth.png/48px-K%27ril_Tsutsaroth.png?73bda" height="20" alt=""> [K'ril Tsutsaroth](content/bosses/kril) | 191 loc | [wiki](https://oldschool.runescape.wiki/w/K'ril_Tsutsaroth) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Kalphite_Queen.png/48px-Kalphite_Queen.png?a4955" height="20" alt=""> [Kalphite Queen](content/bosses/kalphite-queen) | 149 loc | [wiki](https://oldschool.runescape.wiki/w/Kalphite_Queen) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Kamil.png/48px-Kamil.png?68693" height="20" alt=""> Kamil | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Kamil) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Karamel.png/48px-Karamel.png?f69b4" height="20" alt=""> Karamel | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Karamel) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Karil_the_Tainted.png/48px-Karil_the_Tainted.png?33092" height="20" alt=""> Karil the Tainted | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Karil_the_Tainted) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Kephri.png/48px-Kephri.png?4c3cd" height="20" alt=""> Kephri | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Kephri) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/King_Black_Dragon.png/48px-King_Black_Dragon.png?d25f0" height="20" alt=""> [King Black Dragon](content/bosses/kbd) | 143 loc | [wiki](https://oldschool.runescape.wiki/w/King_Black_Dragon) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Koschei_the_deathless.png/48px-Koschei_the_deathless.png?37d97" height="20" alt=""> Koschei the deathless | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Koschei_the_deathless) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Kraken.png/48px-Kraken.png?a4955" height="20" alt=""> [Kraken](content/bosses/kraken) | 110 loc | [wiki](https://oldschool.runescape.wiki/w/Kraken) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/48px-Kree%27arra.png?ba75c" height="20" alt=""> [Kree'arra](content/bosses/kreearra) | 229 loc | [wiki](https://oldschool.runescape.wiki/w/Kree'arra) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Lowerniel_Drakan.png/48px-Lowerniel_Drakan.png?b887a" height="20" alt=""> Lowerniel Drakan | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Lowerniel_Drakan) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Mad_Angel.webp/48px-Mad_Angel.webp?c7990" height="20" alt=""> [Mad Angel](content/bosses/mad-angel) | 1,122 loc | [wiki](https://oldschool.runescape.wiki/w/Mad_Angel) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Maggot_King.png/48px-Maggot_King.png?a6790" height="20" alt=""> [Maggot King](content/bosses/maggot-king) | 1,480 loc | [wiki](https://oldschool.runescape.wiki/w/Maggot_King) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Me.png/48px-Me.png?65f08" height="20" alt=""> Me | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Me) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Melzar_the_Mad.png/48px-Melzar_the_Mad.png?b3424" height="20" alt=""> Melzar the Mad | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Melzar_the_Mad) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Moia.png/48px-Moia.png?bc5b7" height="20" alt=""> Moia | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Moia) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Moons of Peril | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Moons_of_Peril) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Moss_Guardian.png/48px-Moss_Guardian.png?a1e47" height="20" alt=""> Moss Guardian | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Moss_Guardian) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Muttadile.png/48px-Muttadile.png?55798" height="20" alt=""> Muttadile | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Muttadile) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Nex.png/48px-Nex.png?2a1b3" height="20" alt=""> [Nex](content/bosses/nex) | 1,248 loc | [wiki](https://oldschool.runescape.wiki/w/Nex) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Nezikchened.png/48px-Nezikchened.png?8ee94" height="20" alt=""> Nezikchened | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Nezikchened) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Nylocas_Vasilias_%28melee%29.png/48px-Nylocas_Vasilias_%28melee%29.png?52075" height="20" alt=""> Nylocas Vasilias | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Nylocas_Vasilias) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Obor.png/48px-Obor.png?08bc8" height="20" alt=""> [Obor](content/bosses/obor) | 60 loc | [wiki](https://oldschool.runescape.wiki/w/Obor) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Ocellus.png/48px-Ocellus.png?6fd2f" height="20" alt=""> Ocellus | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Ocellus) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Penance_Queen.png/48px-Penance_Queen.png?56343" height="20" alt=""> Penance Queen | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Penance_Queen) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Pestilent_Bloat.png/48px-Pestilent_Bloat.png?b1ab7" height="20" alt=""> Pestilent Bloat | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Pestilent_Bloat) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Phantom_Muspah_%28ranged%29.png/48px-Phantom_Muspah_%28ranged%29.png?9cf6a" height="20" alt=""> [Phantom Muspah](content/bosses/muspah) | 1,295 loc | [wiki](https://oldschool.runescape.wiki/w/Phantom_Muspah) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/48px-The_Nightmare.png?0128a" height="20" alt=""> Phosani's Nightmare | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Phosani's_Nightmare) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Revenant_maledictus.png/48px-Revenant_maledictus.png?73c48" height="20" alt=""> Revenant maledictus | no module, code in content/areas/wilderness, content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Revenant_maledictus) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Fighting_Royal_Titans.png/48px-Fighting_Royal_Titans.png?bfd16" height="20" alt=""> [Royal Titans](content/bosses/royal-titans) | 3,558 loc | [wiki](https://oldschool.runescape.wiki/w/Royal_Titans) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Salarin_the_twisted.png/48px-Salarin_the_twisted.png?079fa" height="20" alt=""> Salarin the twisted | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Salarin_the_twisted) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Sarachnis.png/48px-Sarachnis.png?8f040" height="20" alt=""> [Sarachnis](content/bosses/sarachnis) | 132 loc | [wiki](https://oldschool.runescape.wiki/w/Sarachnis) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Scorpia.png/48px-Scorpia.png?517c9" height="20" alt=""> [Scorpia](content/bosses/scorpia) | 133 loc | [wiki](https://oldschool.runescape.wiki/w/Scorpia) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Scurrius.png/48px-Scurrius.png?e66a5" height="20" alt=""> [Scurrius](content/bosses/scurrius) | 384 loc | [wiki](https://oldschool.runescape.wiki/w/Scurrius) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Sea_Troll_Queen.png/48px-Sea_Troll_Queen.png?c0777" height="20" alt=""> Sea Troll Queen | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Sea_Troll_Queen) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Shellbane_gryphon.png/48px-Shellbane_gryphon.png?bc76e" height="20" alt=""> Shellbane gryphon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Shellbane_gryphon) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Sigmund.png/48px-Sigmund.png?00361" height="20" alt=""> Sigmund | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Sigmund) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Sir_Leye.png/48px-Sir_Leye.png?bf298" height="20" alt=""> Sir Leye | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Sir_Leye) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Sir_Mordred.png/48px-Sir_Mordred.png?e2886" height="20" alt=""> Sir Mordred | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Sir_Mordred) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Skotizo.png/48px-Skotizo.png?dc8b8" height="20" alt=""> [Skotizo](content/bosses/skotizo) | 264 loc | [wiki](https://oldschool.runescape.wiki/w/Skotizo) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Slagilith.png/48px-Slagilith.png?dc8b8" height="20" alt=""> Slagilith | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Slagilith) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Slash_Bash.png/48px-Slash_Bash.png?ec9d3" height="20" alt=""> Slash Bash | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Slash_Bash) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Slug_Prince.png/48px-Slug_Prince.png?9805c" height="20" alt=""> Slug Prince | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Slug_Prince) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Sol_Heredit.png/48px-Sol_Heredit.png?91250" height="20" alt=""> Sol Heredit | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Sol_Heredit) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Sotetseg.png/48px-Sotetseg.png?61151" height="20" alt=""> Sotetseg | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Sotetseg) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Spindel.png/48px-Spindel.png?2c818" height="20" alt=""> [Spindel](content/bosses/spindel) | 522 loc | [wiki](https://oldschool.runescape.wiki/w/Spindel) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Mutant_tarn.png/48px-Mutant_tarn.png?658b7" height="20" alt=""> Tarn | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Tarn) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Tekton.png/48px-Tekton.png?a32ab" height="20" alt=""> Tekton | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tekton) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Tempoross.png/48px-Tempoross.png?12042" height="20" alt=""> Tempoross | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Tempoross) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Draugen.png/48px-The_Draugen.png?74e5c" height="20" alt=""> The Draugen | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Draugen) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Everlasting.png/48px-The_Everlasting.png?52537" height="20" alt=""> The Everlasting | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Everlasting) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Hueycoatl.png/48px-The_Hueycoatl.png?7b216" height="20" alt=""> The Hueycoatl | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Hueycoatl) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Cyrisus_steps_on_The_Illusive.gif/48px-Cyrisus_steps_on_The_Illusive.gif?1ecf1" height="20" alt=""> The Illusive | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Illusive) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Inadequacy.png/48px-The_Inadequacy.png?1eaf1" height="20" alt=""> The Inadequacy | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Inadequacy) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Leviathan.png/48px-The_Leviathan.png?d588a" height="20" alt=""> [The Leviathan](content/bosses/leviathan) | 1,397 loc | [wiki](https://oldschool.runescape.wiki/w/The_Leviathan) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Maiden_of_Sugadinti.png/48px-The_Maiden_of_Sugadinti.png?c69d5" height="20" alt=""> The Maiden of Sugadinti | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Maiden_of_Sugadinti) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Mimic.png/48px-The_Mimic.png?b45f4" height="20" alt=""> The Mimic | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Mimic) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Nightmare.png/48px-The_Nightmare.png?0128a" height="20" alt=""> The Nightmare | no module, code in content/other/pets, content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Nightmare) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Smorks.png/48px-The_Smorks.png?bc5b7" height="20" alt=""> The Smorks | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/The_Smorks) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Untouchable.png/48px-The_Untouchable.png?dc69e" height="20" alt=""> The Untouchable | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/The_Untouchable) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Whisperer.png/48px-The_Whisperer.png?aedab" height="20" alt=""> [The Whisperer](content/bosses/whisperer) | 1,854 loc | [wiki](https://oldschool.runescape.wiki/w/The_Whisperer) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Thermonuclear_smoke_devil.png/48px-Thermonuclear_smoke_devil.png?de858" height="20" alt=""> Thermonuclear smoke devil | no module, code in content/bosses/thermy | [wiki](https://oldschool.runescape.wiki/w/Thermonuclear_smoke_devil) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Tolna_%28boy%29.png/48px-Tolna_%28boy%29.png?0e3b5" height="20" alt=""> Tolna | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Tolna) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Torag_the_Corrupted.png/48px-Torag_the_Corrupted.png?33092" height="20" alt=""> Torag the Corrupted | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Torag_the_Corrupted) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Tree_spirit_%28Lost_City%29.png/48px-Tree_spirit_%28Lost_City%29.png?2446d" height="20" alt=""> Tree spirit (Lost City) | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Tree_spirit_(Lost_City)) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Treus_Dayth.png/48px-Treus_Dayth.png?9cace" height="20" alt=""> Treus Dayth | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Treus_Dayth) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Tumeken%27s_Warden.png/48px-Tumeken%27s_Warden.png?c9f68" height="20" alt=""> Tumeken's Warden | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tumeken's_Warden) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/TzKal-Zuk.png/48px-TzKal-Zuk.png?2d222" height="20" alt=""> TzKal-Zuk | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/TzKal-Zuk) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/TzTok-Jad.png/48px-TzTok-Jad.png?df681" height="20" alt=""> [TzTok-Jad](content/bosses/tztokjad) | 223 loc | [wiki](https://oldschool.runescape.wiki/w/TzTok-Jad) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Ulfric.png/48px-Ulfric.png?59d75" height="20" alt=""> Ulfric | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Ulfric) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Vanguard_%28magic%29.png/48px-Vanguard_%28magic%29.png?db160" height="20" alt=""> Vanguard | no module, code in content/other/pets | [wiki](https://oldschool.runescape.wiki/w/Vanguard) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Vardorvis.png/48px-Vardorvis.png?48af8" height="20" alt=""> [Vardorvis](content/bosses/vardorvis) | 1,287 loc | [wiki](https://oldschool.runescape.wiki/w/Vardorvis) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Vasa_Nistirio.png/48px-Vasa_Nistirio.png?64087" height="20" alt=""> Vasa Nistirio | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Vasa_Nistirio) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Venenatis.png/48px-Venenatis.png?13693" height="20" alt=""> Venenatis | no module, code in content/bosses/spindel | [wiki](https://oldschool.runescape.wiki/w/Venenatis) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Verac_the_Defiled.png/48px-Verac_the_Defiled.png?33092" height="20" alt=""> Verac the Defiled | no module, code in content/bosses/barrows | [wiki](https://oldschool.runescape.wiki/w/Verac_the_Defiled) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Verzik_Vitur.png/48px-Verzik_Vitur.png?cfc15" height="20" alt=""> Verzik Vitur | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Verzik_Vitur) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Vespula.png/48px-Vespula.png?09658" height="20" alt=""> Vespula | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Vespula) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Vet%27ion.png/48px-Vet%27ion.png?8695f" height="20" alt=""> [Vet'ion](content/bosses/vetion) | 233 loc | [wiki](https://oldschool.runescape.wiki/w/Vet'ion) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Vorkath.png/48px-Vorkath.png?1ce3f" height="20" alt=""> [Vorkath](content/bosses/vorkath) | 476 loc | [wiki](https://oldschool.runescape.wiki/w/Vorkath) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/White_golem.png/48px-White_golem.png?b3020" height="20" alt=""> White golem | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/White_golem) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Howling_Snow_Storm.gif/48px-Howling_Snow_Storm.gif?ec549" height="20" alt=""> [Wintertodt](content/bosses/wintertodt) | 955 loc | [wiki](https://oldschool.runescape.wiki/w/Wintertodt) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Xamphur_%28monster%2C_phantom_hands%29.png/48px-Xamphur_%28monster%2C_phantom_hands%29.png?de61a" height="20" alt=""> Xamphur | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Xamphur) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Xarpus_%28phase_1%29.png/48px-Xarpus_%28phase_1%29.png?81ca6" height="20" alt=""> Xarpus | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Xarpus) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Xarth.png/48px-Xarth.png?bc5b7" height="20" alt=""> Xarth | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/Xarth) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Yama.png/48px-Yama.png?7653a" height="20" alt=""> Yama | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Yama) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Zalcano_%28weakened%29.png/48px-Zalcano_%28weakened%29.png?fa423" height="20" alt=""> [Zalcano](content/bosses/zalcano) | 556 loc | [wiki](https://oldschool.runescape.wiki/w/Zalcano) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Zebak.png/48px-Zebak.png?23978" height="20" alt=""> Zebak | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Zebak) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Zulrah_%28serpentine%29.png/48px-Zulrah_%28serpentine%29.png?29a54" height="20" alt=""> [Zulrah](content/bosses/zulrah) | 639 loc | [wiki](https://oldschool.runescape.wiki/w/Zulrah) |
 
-### Minigames <sup>16/46</sup>
+### Raids <sup>0/4 complete</sup>
 
 | | Feature | Status | |
 |---|---|---|---|
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fortis_Colosseum.png/48px-Fortis_Colosseum.png?4c94a" height="20" alt=""> Fortis Colosseum | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Fortis_Colosseum) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Giants%27_Foundry.png/48px-Giants%27_Foundry.png?70b44" height="20" alt=""> [Giants' Foundry](content/minigames/giants-foundry) | 4,471 loc | [wiki](https://oldschool.runescape.wiki/w/Giants'_Foundry) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Guardians_of_the_Rift.png/48px-Guardians_of_the_Rift.png?79d31" height="20" alt=""> [Guardians of the Rift](content/minigames/guardians-of-the-rift) | 1,040 loc | [wiki](https://oldschool.runescape.wiki/w/Guardians_of_the_Rift) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Hunting_implings.png/48px-Hunting_implings.png?76106" height="20" alt=""> Impetuous Impulses | no module, code in content/skills/hunter | [wiki](https://oldschool.runescape.wiki/w/Impetuous_Impulses) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Inferno_entrance.png/48px-Inferno_entrance.png?daf3a" height="20" alt=""> [Inferno](content/minigames/inferno) | 514 loc | [wiki](https://oldschool.runescape.wiki/w/Inferno) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mastering_Mixology_room.png/48px-Mastering_Mixology_room.png?e26f0" height="20" alt=""> [Mastering Mixology](content/minigames/mastering-mixology) | 829 loc | [wiki](https://oldschool.runescape.wiki/w/Mastering_Mixology) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mess.png/48px-Mess.png?5e79d" height="20" alt=""> [Mess](content/minigames/mess) | 265 loc | [wiki](https://oldschool.runescape.wiki/w/Mess) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Nightmare_Zone.png/48px-Nightmare_Zone.png?e0725" height="20" alt=""> [Nightmare Zone](content/minigames/nightmare-zone) | 395 loc | [wiki](https://oldschool.runescape.wiki/w/Nightmare_Zone) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Pest_Control.png/48px-Pest_Control.png?ed7bb" height="20" alt=""> Pest Control | no module, code in content/areas/misc, content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Pest_Control) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Pyramid_Plunder.png/48px-Pyramid_Plunder.png?4aa28" height="20" alt=""> [Pyramid Plunder](content/minigames/pyramid-plunder) | 605 loc | [wiki](https://oldschool.runescape.wiki/w/Pyramid_Plunder) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tears_of_Guthix_%28minigame%29.png/48px-Tears_of_Guthix_%28minigame%29.png?0ec80" height="20" alt=""> [Tears of Guthix (minigame)](content/minigames/tears-of-guthix) | 407 loc | [wiki](https://oldschool.runescape.wiki/w/Tears_of_Guthix_(minigame)) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/The_Gauntlet.png/48px-The_Gauntlet.png?1a926" height="20" alt=""> [The Gauntlet](content/minigames/gauntlet) | 3,514 loc | [wiki](https://oldschool.runescape.wiki/w/The_Gauntlet) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Tithe_Farm_entrance.png/48px-Tithe_Farm_entrance.png?23239" height="20" alt=""> [Tithe Farm](content/minigames/tithe-farm) | 623 loc | [wiki](https://oldschool.runescape.wiki/w/Tithe_Farm) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar_Fight_Cave.png/48px-TzHaar_Fight_Cave.png?f5437" height="20" alt=""> [TzHaar Fight Cave](content/minigames/fight-cave) | 486 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar_Fight_Cave) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar-Ket-Rak%27s_Challenges.png/48px-TzHaar-Ket-Rak%27s_Challenges.png?53c80" height="20" alt=""> [TzHaar-Ket-Rak's Challenges](content/minigames/ket-rak) | 657 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar-Ket-Rak's_Challenges) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Vale_Totems_%28minigame%29.png/48px-Vale_Totems_%28minigame%29.png?91627" height="20" alt=""> [Vale Totems](content/minigames/vale-totems) | 924 loc | [wiki](https://oldschool.runescape.wiki/w/Vale_Totems) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chambers_of_Xeric_logo.png/48px-Chambers_of_Xeric_logo.png?34a98" height="20" alt=""> Chambers of Xeric | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Chambers_of_Xeric) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Fractured_Archive_logo.png/48px-The_Fractured_Archive_logo.png?2eb86" height="20" alt=""> The Fractured Archive | no module, code in content/raids/tfa | [wiki](https://oldschool.runescape.wiki/w/The_Fractured_Archive) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Theatre_of_Blood_logo.png/48px-Theatre_of_Blood_logo.png?e6e68" height="20" alt=""> Theatre of Blood | no module, code in content/other/pets, content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Theatre_of_Blood) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Tombs_of_Amascut.png/48px-Tombs_of_Amascut.png?f9992" height="20" alt=""> Tombs of Amascut | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Tombs_of_Amascut) |
+
+### Minigames <sup>0/46 complete</sup>
+
+| | Feature | Status | |
+|---|---|---|---|
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Fortis_Colosseum.png/48px-Fortis_Colosseum.png?4c94a" height="20" alt=""> Fortis Colosseum | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Fortis_Colosseum) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Giants%27_Foundry.png/48px-Giants%27_Foundry.png?70b44" height="20" alt=""> [Giants' Foundry](content/minigames/giants-foundry) | 4,471 loc | [wiki](https://oldschool.runescape.wiki/w/Giants'_Foundry) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Guardians_of_the_Rift.png/48px-Guardians_of_the_Rift.png?79d31" height="20" alt=""> [Guardians of the Rift](content/minigames/guardians-of-the-rift) | 1,055 loc | [wiki](https://oldschool.runescape.wiki/w/Guardians_of_the_Rift) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Hunting_implings.png/48px-Hunting_implings.png?76106" height="20" alt=""> Impetuous Impulses | no module, code in content/skills/hunter | [wiki](https://oldschool.runescape.wiki/w/Impetuous_Impulses) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Inferno_entrance.png/48px-Inferno_entrance.png?daf3a" height="20" alt=""> [Inferno](content/minigames/inferno) | 514 loc | [wiki](https://oldschool.runescape.wiki/w/Inferno) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Mastering_Mixology_room.png/48px-Mastering_Mixology_room.png?e26f0" height="20" alt=""> [Mastering Mixology](content/minigames/mastering-mixology) | 829 loc | [wiki](https://oldschool.runescape.wiki/w/Mastering_Mixology) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Mess.png/48px-Mess.png?5e79d" height="20" alt=""> [Mess](content/minigames/mess) | 265 loc | [wiki](https://oldschool.runescape.wiki/w/Mess) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Nightmare_Zone.png/48px-Nightmare_Zone.png?e0725" height="20" alt=""> [Nightmare Zone](content/minigames/nightmare-zone) | 395 loc | [wiki](https://oldschool.runescape.wiki/w/Nightmare_Zone) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Pest_Control.png/48px-Pest_Control.png?ed7bb" height="20" alt=""> Pest Control | no module, code in content/areas/misc, content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Pest_Control) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Pyramid_Plunder.png/48px-Pyramid_Plunder.png?4aa28" height="20" alt=""> [Pyramid Plunder](content/minigames/pyramid-plunder) | 605 loc | [wiki](https://oldschool.runescape.wiki/w/Pyramid_Plunder) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Tears_of_Guthix_%28minigame%29.png/48px-Tears_of_Guthix_%28minigame%29.png?0ec80" height="20" alt=""> [Tears of Guthix (minigame)](content/minigames/tears-of-guthix) | 407 loc | [wiki](https://oldschool.runescape.wiki/w/Tears_of_Guthix_(minigame)) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/The_Gauntlet.png/48px-The_Gauntlet.png?1a926" height="20" alt=""> [The Gauntlet](content/minigames/gauntlet) | 3,514 loc | [wiki](https://oldschool.runescape.wiki/w/The_Gauntlet) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Tithe_Farm_entrance.png/48px-Tithe_Farm_entrance.png?23239" height="20" alt=""> [Tithe Farm](content/minigames/tithe-farm) | 623 loc | [wiki](https://oldschool.runescape.wiki/w/Tithe_Farm) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar_Fight_Cave.png/48px-TzHaar_Fight_Cave.png?f5437" height="20" alt=""> [TzHaar Fight Cave](content/minigames/fight-cave) | 486 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar_Fight_Cave) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/TzHaar-Ket-Rak%27s_Challenges.png/48px-TzHaar-Ket-Rak%27s_Challenges.png?53c80" height="20" alt=""> [TzHaar-Ket-Rak's Challenges](content/minigames/ket-rak) | 657 loc | [wiki](https://oldschool.runescape.wiki/w/TzHaar-Ket-Rak's_Challenges) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Vale_Totems_%28minigame%29.png/48px-Vale_Totems_%28minigame%29.png?91627" height="20" alt=""> [Vale Totems](content/minigames/vale-totems) | 924 loc | [wiki](https://oldschool.runescape.wiki/w/Vale_Totems) |
 
 <details>
 <summary>🔴 <b>30 not started</b></summary>
@@ -265,6 +290,665 @@ the module table at the bottom before reading a 0 as "nothing exists".
 
 </details>
 
+### Additional content modules <sup>0/87 complete</sup>
+
+| | Feature | Status | |
+|---|---|---|---|
+| IN PROGRESS | [areas/city/al-kharid](content/areas/city/al-kharid) | 552 loc |  |
+| IN PROGRESS | [areas/city/ardougne](content/areas/city/ardougne) | 139 loc |  |
+| IN PROGRESS | [areas/city/barbarian-village](content/areas/city/barbarian-village) | 532 loc |  |
+| IN PROGRESS | [areas/city/desert](content/areas/city/desert) | 42 loc |  |
+| IN PROGRESS | [areas/city/draynor](content/areas/city/draynor) | 3,797 loc |  |
+| IN PROGRESS | [areas/city/edgeville](content/areas/city/edgeville) | 380 loc |  |
+| IN PROGRESS | [areas/city/falador](content/areas/city/falador) | 1,735 loc |  |
+| IN PROGRESS | [areas/city/karamja](content/areas/city/karamja) | 42 loc |  |
+| IN PROGRESS | [areas/city/lumbridge](content/areas/city/lumbridge) | 6,338 loc |  |
+| IN PROGRESS | [areas/city/port-sarim](content/areas/city/port-sarim) | 1,981 loc |  |
+| IN PROGRESS | [areas/city/prifddinas](content/areas/city/prifddinas) | 82 loc |  |
+| IN PROGRESS | [areas/city/rellekka](content/areas/city/rellekka) | 52 loc |  |
+| IN PROGRESS | [areas/city/rimmington](content/areas/city/rimmington) | 772 loc |  |
+| IN PROGRESS | [areas/city/taverley](content/areas/city/taverley) | 111 loc |  |
+| IN PROGRESS | [areas/city/varrock](content/areas/city/varrock) | 954 loc |  |
+| IN PROGRESS | [areas/godwars](content/areas/godwars) | 176 loc |  |
+| IN PROGRESS | [areas/misc/ape-atoll](content/areas/misc/ape-atoll) | 103 loc |  |
+| IN PROGRESS | [areas/misc/black-knights-fortress](content/areas/misc/black-knights-fortress) | 45 loc |  |
+| IN PROGRESS | [areas/misc/deaths-office](content/areas/misc/deaths-office) | 1,436 loc |  |
+| IN PROGRESS | [areas/misc/dog_shelter](content/areas/misc/dog_shelter) | 151 loc |  |
+| IN PROGRESS | [areas/misc/dwarven-mine](content/areas/misc/dwarven-mine) | 902 loc |  |
+| IN PROGRESS | [areas/misc/goblin-village](content/areas/misc/goblin-village) | 259 loc |  |
+| IN PROGRESS | [areas/misc/lobbies](content/areas/misc/lobbies) | 1,031 loc |  |
+| IN PROGRESS | [areas/misc/mining-guild](content/areas/misc/mining-guild) | 714 loc |  |
+| IN PROGRESS | [areas/misc/monastery](content/areas/misc/monastery) | 370 loc |  |
+| IN PROGRESS | [areas/misc/motherlode-mine](content/areas/misc/motherlode-mine) | 1,408 loc |  |
+| IN PROGRESS | [areas/misc/multiways](content/areas/misc/multiways) | 36 loc |  |
+| IN PROGRESS | [areas/misc/stronghold_of_security](content/areas/misc/stronghold_of_security) | 1,571 loc |  |
+| IN PROGRESS | [areas/misc/tutorial-island](content/areas/misc/tutorial-island) | 1,203 loc |  |
+| IN PROGRESS | [areas/misc/ver_sinhaza](content/areas/misc/ver_sinhaza) | 139 loc |  |
+| IN PROGRESS | [areas/misc/wizards_tower](content/areas/misc/wizards_tower) | 1,129 loc |  |
+| IN PROGRESS | [areas/misc/zanaris](content/areas/misc/zanaris) | 36 loc |  |
+| IN PROGRESS | [areas/wilderness](content/areas/wilderness) | 1,600 loc |  |
+| IN PROGRESS | [areas/zeah](content/areas/zeah) | 234 loc |  |
+| IN PROGRESS | [bosses/dagannoth-kings](content/bosses/dagannoth-kings) | 179 loc |  |
+| IN PROGRESS | [bosses/demonic-gorilla](content/bosses/demonic-gorilla) | 320 loc |  |
+| IN PROGRESS | [bosses/quest-bosses](content/bosses/quest-bosses) | 1,266 loc |  |
+| IN PROGRESS | [bosses/raid-bosses](content/bosses/raid-bosses) | 427 loc |  |
+| IN PROGRESS | [bosses/thermy](content/bosses/thermy) | 125 loc |  |
+| IN PROGRESS | [bosses/tormented-demon](content/bosses/tormented-demon) | 531 loc |  |
+| IN PROGRESS | [bosses/world-bosses](content/bosses/world-bosses) | 727 loc |  |
+| IN PROGRESS | [drops](content/drops) | 14,610 loc |  |
+| IN PROGRESS | [events/raging-echoes-league](content/events/raging-echoes-league) | 49 loc |  |
+| IN PROGRESS | [events/shooting-stars](content/events/shooting-stars) | 1,701 loc |  |
+| IN PROGRESS | [generic/generic-items](content/generic/generic-items) | 290 loc |  |
+| IN PROGRESS | [generic/generic-locs](content/generic/generic-locs) | 1,699 loc |  |
+| IN PROGRESS | [generic/generic-npcs](content/generic/generic-npcs) | 1,678 loc |  |
+| IN PROGRESS | [generic/killcount](content/generic/killcount) | 36 loc |  |
+| IN PROGRESS | [interfaces/bank](content/interfaces/bank) | 2,315 loc |  |
+| IN PROGRESS | [interfaces/collection-log](content/interfaces/collection-log) | 543 loc |  |
+| IN PROGRESS | [interfaces/combat-tab](content/interfaces/combat-tab) | 613 loc |  |
+| IN PROGRESS | [interfaces/deposit-box](content/interfaces/deposit-box) | 459 loc |  |
+| IN PROGRESS | [interfaces/emotes](content/interfaces/emotes) | 637 loc |  |
+| IN PROGRESS | [interfaces/equipment](content/interfaces/equipment) | 699 loc |  |
+| IN PROGRESS | [interfaces/fade-overlay](content/interfaces/fade-overlay) | 20 loc |  |
+| IN PROGRESS | [interfaces/gameframe](content/interfaces/gameframe) | 556 loc |  |
+| IN PROGRESS | [interfaces/journal-tab](content/interfaces/journal-tab) | 283 loc |  |
+| IN PROGRESS | [interfaces/logout-tab](content/interfaces/logout-tab) | 30 loc |  |
+| IN PROGRESS | [interfaces/menu](content/interfaces/menu) | 23 loc |  |
+| IN PROGRESS | [interfaces/omnishop](content/interfaces/omnishop) | 338 loc |  |
+| IN PROGRESS | [interfaces/prayer-tab](content/interfaces/prayer-tab) | 797 loc |  |
+| IN PROGRESS | [interfaces/settings](content/interfaces/settings) | 1,348 loc |  |
+| IN PROGRESS | [interfaces/skill-guides](content/interfaces/skill-guides) | 114 loc |  |
+| IN PROGRESS | [interfaces/spellbook](content/interfaces/spellbook) | 63 loc |  |
+| IN PROGRESS | [interfaces/worldmap](content/interfaces/worldmap) | 104 loc |  |
+| IN PROGRESS | [interfaces/xp-drops](content/interfaces/xp-drops) | 44 loc |  |
+| IN PROGRESS | [minigames/chompy-hunting](content/minigames/chompy-hunting) | 430 loc |  |
+| IN PROGRESS | [other/commands](content/other/commands) | 1,677 loc |  |
+| IN PROGRESS | [other/consumables](content/other/consumables) | 8,638 loc |  |
+| IN PROGRESS | [other/discord](content/other/discord) | 80 loc |  |
+| IN PROGRESS | [other/gravestones](content/other/gravestones) | 940 loc |  |
+| IN PROGRESS | [other/ironman](content/other/ironman) | 403 loc |  |
+| IN PROGRESS | [other/login](content/other/login) | 184 loc |  |
+| IN PROGRESS | [other/mapclock](content/other/mapclock) | 63 loc |  |
+| IN PROGRESS | [other/pets](content/other/pets) | 9,145 loc |  |
+| IN PROGRESS | [other/plank-sack](content/other/plank-sack) | 164 loc |  |
+| IN PROGRESS | [other/sandstorm](content/other/sandstorm) | 364 loc |  |
+| IN PROGRESS | [other/sawmill](content/other/sawmill) | 379 loc |  |
+| IN PROGRESS | [other/spawn](content/other/spawn) | 339 loc |  |
+| IN PROGRESS | [other/special-attacks](content/other/special-attacks) | 629 loc |  |
+| IN PROGRESS | [other/special-weapons](content/other/special-weapons) | 2,081 loc |  |
+| IN PROGRESS | [other/windmill](content/other/windmill) | 139 loc |  |
+| IN PROGRESS | [quest](content/quest) | 18,311 loc |  |
+| IN PROGRESS | [raids/party](content/raids/party) | 212 loc |  |
+| IN PROGRESS | [raids/tfa](content/raids/tfa) | 17,099 loc |  |
+| IN PROGRESS | [skills/utils](content/skills/utils) | 355 loc |  |
+| IN PROGRESS | [travel/canoe](content/travel/canoe) | 1,122 loc |  |
+
+### Core systems <sup>0/6 complete</sup>
+
+| | Feature | Status | |
+|---|---|---|---|
+| IN PROGRESS | Combat engine | in `api/combat` |  |
+| IN PROGRESS | Movement and routing | in `api/route` |  |
+| IN PROGRESS | NPC processing | in `api/npc` |  |
+| IN PROGRESS | Player state | in `api/player` |  |
+| IN PROGRESS | Game loop | in `engine/game` |  |
+| IN PROGRESS | Cache and gamevals | in `or-cache` |  |
+
+### Sub-features and mechanics
+
+Pulled from wiki section headings. A lot of this has no cache symbol to match against
+(run energy, failure rates, formulas), so the entity scan cannot see it at all. Listed
+here so it at least shows up. Nothing is ticked until someone claims it.
+
+<details>
+<summary>IN PROGRESS <b>Attack</b> — 4 sub-features</summary>
+
+- [ ] Fighting accurately
+- [ ] Attack bonuses
+- [ ] Other Attack bonuses
+- [ ] Levels
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Strength</b> — 5 sub-features</summary>
+
+- [ ] Combat
+- [ ] Fighting aggressively
+- [ ] Strength bonus
+- [ ] Other Strength bonuses
+- [ ] Levels
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Defence</b> — 2 sub-features</summary>
+
+- [ ] Mechanics
+- [ ] Equipment
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Ranged</b> — 5 sub-features</summary>
+
+- [ ] Equipment
+- [ ] Stats
+- [ ] Weapons
+- [ ] Armour
+- [ ] Enchanted crossbow bolts
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Hitpoints</b> — 14 sub-features</summary>
+
+- [ ] Types of damage
+- [ ] Fighting
+- [ ] Death
+- [ ] Recovering Hitpoints
+- [ ] Regeneration
+- [ ] Restoration
+- [ ] Healing from others
+- [ ] Life Leech
+- [ ] Overhealing
+- [ ] Losing Hitpoints
+- [ ] Self-inflicted damage
+- [ ] Scenery
+- [ ] Environment
+- [ ] Earning experience
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Magic</b> — 21 sub-features</summary>
+
+- [ ] Spells
+- [ ] Combat spells
+- [ ] Teleport spells
+- [ ] Utility spells
+- [ ] Spellbooks
+- [ ] Standard spellbook
+- [ ] Arceuus spellbook
+- [ ] Ancient Magicks
+- [ ] Lunar spellbook
+- [ ] Equipment
+- [ ] Runes
+- [ ] Magic weapons
+- [ ] Magic armour and robes
+- [ ] Combat
+- [ ] Monster Magic defence
+- [ ] Magic accuracy
+- [ ] Elemental weaknesses
+- [ ] Activities and locations
+- [ ] Training Magic
+- [ ] Activity boosts
+- [ ] One-time boosts
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Prayer</b> — 24 sub-features</summary>
+
+- [ ] Prayer points
+- [ ] Recharging points
+- [ ] Consumables
+- [ ] Spells
+- [ ] Equippable items
+- [ ] Interactive scenery
+- [ ] Area effects
+- [ ] Prayers list
+- [ ] Conflicting prayers
+- [ ] Prayer drain
+- [ ] Prayer drain mechanics
+- [ ] Quick prayers
+- [ ] Prayer filtering
+- [ ] Prayer flicking
+- [ ] How to prayer flick
+- [ ] 1-tick prayer flicking
+- [ ] Equipment that affects Prayer
+- [ ] Special attacks
+- [ ] Passive/set effects
+- [ ] Spells
+- [ ] Automation
+- [ ] Miscellaneous
+- [ ] Monsters that use Prayer
+- [ ] Other Prayer experience rewards
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Runecraft</b> — 23 sub-features</summary>
+
+- [ ] Crafting runes
+- [ ] Essence
+- [ ] Rune essence
+- [ ] Pure essence
+- [ ] Daeyalt essence
+- [ ] Dark essence fragments
+- [ ] Blood essence
+- [ ] Cores
+- [ ] Talismans
+- [ ] Elemental and Catalytic talismans
+- [ ] Talisman tiaras
+- [ ] Essence pouches
+- [ ] Other equipment
+- [ ] Altars
+- [ ] Regular altars
+- [ ] Kourend Blood and Soul Altars
+- [ ] Ourania Altar
+- [ ] Abyss
+- [ ] Multiple runes
+- [ ] Runic extracts
+- [ ] Combination runes
+- [ ] Infusing
+- [ ] Runecraft pet
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Slayer</b> — 12 sub-features</summary>
+
+- [ ] Introduction
+- [ ] Slayer Masters
+- [ ] Slayer equipment
+- [ ] Slayer tasks
+- [ ] Bosses
+- [ ] Slayer Partners
+- [ ] Assigning a partner
+- [ ] Receiving a task
+- [ ] Getting kills
+- [ ] Reward points
+- [ ] Slayer reward points
+- [ ] Collection log
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Mining</b> — 27 sub-features</summary>
+
+- [ ] How to mine
+- [ ] Pickaxes
+- [ ] Other equipment
+- [ ] Mineable items
+- [ ] Gems
+- [ ] Clue geodes
+- [ ] Mines
+- [ ] Special mining areas and activities
+- [ ] Mining Guild
+- [ ] Motherlode Mine
+- [ ] Blast mine
+- [ ] Coal Trucks
+- [ ] Trahaearn mine
+- [ ] Volcanic mine
+- [ ] Shooting stars
+- [ ] Zalcano
+- [ ] Digsite
+- [ ] Wyrmscraig Mine
+- [ ] Cam Torum Mine
+- [ ] Ruins of Camdozaal
+- [ ] Other uses
+- [ ] Tips
+- [ ] Power-mining
+- [ ] Mining gloves
+- [ ] Reduce total weight
+- [ ] Switch worlds
+- [ ] Mining pet
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Smithing</b> — 14 sub-features</summary>
+
+- [ ] Smelting
+- [ ] Smelting using Magic
+- [ ] Success rate
+- [ ] Bar chart
+- [ ] Smithing
+- [ ] Smithing tables
+- [ ] Crystal singing
+- [ ] Minigames
+- [ ] Other smithing activities
+- [ ] Smithing equipment and tools
+- [ ] Smelting and Smithing tips
+- [ ] Making money
+- [ ] High Level Alchemy table
+- [ ] Achievement Diaries requiring Smithing
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Woodcutting</b> — 22 sub-features</summary>
+
+- [ ] Types of trees
+- [ ] Trees chopped in quests and minigames
+- [ ] Logs
+- [ ] Normal logs
+- [ ] Hardwood logs
+- [ ] Other logs
+- [ ] Special logs
+- [ ] Equipment
+- [ ] Axes
+- [ ] Felling axes
+- [ ] Mechanics
+- [ ] Bird nests (Members only)
+- [ ] Special Woodcutting locations and activities
+- [ ] Woodcutting Guild
+- [ ] Forestry
+- [ ] Canoes
+- [ ] Tai Bwo Wannai Cleanup
+- [ ] Prifddinas
+- [ ] Ents
+- [ ] Farmable trees
+- [ ] Obstacles
+- [ ] Woodcutting pet
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Firemaking</b> — 12 sub-features</summary>
+
+- [ ] Making fires
+- [ ] Forester's Campfire
+- [ ] List of combustible logs
+- [ ] Pyre logs
+- [ ] Barbarian Firemaking
+- [ ] Bow firemaking
+- [ ] Pyre ships
+- [ ] Torches, candles, and lanterns
+- [ ] Abyssal lantern
+- [ ] Balloons
+- [ ] Fire pits
+- [ ] Success chance
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Cooking</b> — 18 sub-features</summary>
+
+- [ ] How to cook
+- [ ] Burning food
+- [ ] Items needed
+- [ ] Types of food
+- [ ] Meat / fish
+- [ ] Bread
+- [ ] Pies
+- [ ] Stews
+- [ ] Pizzas
+- [ ] Cakes
+- [ ] Wine
+- [ ] Hot drinks
+- [ ] Vegetables
+- [ ] Dairy
+- [ ] Kebabs
+- [ ] Brewing
+- [ ] Gnome cooking
+- [ ] 2-tick cooking
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Herblore</b> — 8 sub-features</summary>
+
+- [ ] Requirements
+- [ ] Training activities
+- [ ] Cleaning herbs &amp; unfinished potions
+- [ ] Potions
+- [ ] Herbed tar
+- [ ] Barbarian Mixes
+- [ ] Ingredient Processing
+- [ ] Mastering Mixology
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Fishing</b> — 34 sub-features</summary>
+
+- [ ] Fish
+- [ ] Clue in a bottle
+- [ ] Fishing methods
+- [ ] Equipment
+- [ ] Fishing shops
+- [ ] Nets
+- [ ] Fishing rods and bait
+- [ ] Fly fishing rods and feathers
+- [ ] Harpoon
+- [ ] Lobster pots
+- [ ] Cormorant's glove
+- [ ] Drift Nets
+- [ ] Karambwan vessels
+- [ ] Barbarian Fishing
+- [ ] Deep sea trawling
+- [ ] Other Equipment
+- [ ] Rada's blessing
+- [ ] Spirit flakes
+- [ ] Diabolic Worms
+- [ ] Shark Lures
+- [ ] Utility equipment
+- [ ] Underwater equipment
+- [ ] Angler's outfit
+- [ ] Fishing spots
+- [ ] Net and bait fishing spots
+- [ ] Lure and bait fishing spots
+- [ ] Big net fishing spots
+- [ ] Harpoon &amp; Lobster Pot fishing spots
+- [ ] Lantern harpooning spots
+- [ ] Other fishing spots
+- [ ] Static fishing spots
+- [ ] Fishing Trawler
+- [ ] Tempoross
+- [ ] Collection log
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Agility</b> — 30 sub-features</summary>
+
+- [ ] Run energy
+- [ ] Agility training areas
+- [ ] Failure
+- [ ] Stamina
+- [ ] Regular courses
+- [ ] Gnome Stronghold Agility Course
+- [ ] Shayzien Agility Course
+- [ ] Penguin Agility Course
+- [ ] Barbarian Outpost Agility Course
+- [ ] Ape Atoll Agility Course
+- [ ] Wilderness Agility Course
+- [ ] Colossal Wyrm Agility Course
+- [ ] Werewolf Agility Course
+- [ ] Prifddinas Agility Course
+- [ ] Rooftop Agility courses
+- [ ] Other courses
+- [ ] Brimhaven Agility Arena
+- [ ] Agility Pyramid
+- [ ] Dorgesh-Kaan
+- [ ] Hallowed Sepulchre
+- [ ] Other training methods
+- [ ] Barbarian Fishing
+- [ ] Blast Furnace
+- [ ] Gnome Ball
+- [ ] Toy mouse
+- [ ] Underwater Agility and Thieving
+- [ ] Werewolf Skullball
+- [ ] Wintertodt Pillars
+- [ ] Shortcuts
+- [ ] Collection log
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Thieving</b> — 13 sub-features</summary>
+
+- [ ] Pickpocketing
+- [ ] Equipment
+- [ ] Other effects
+- [ ] Thievable NPCs
+- [ ] Stalls
+- [ ] Thievable stalls
+- [ ] Chests
+- [ ] Thievable chests
+- [ ] Doors
+- [ ] Pickable doors
+- [ ] Training strategies
+- [ ] Thieving minigames
+- [ ] Thieving pet
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Crafting</b> — 28 sub-features</summary>
+
+- [ ] Spinning
+- [ ] Weaving
+- [ ] Pottery
+- [ ] Armour
+- [ ] Leather
+- [ ] Dragonhides
+- [ ] Snakeskin
+- [ ] Yak hide
+- [ ] Snelms
+- [ ] Crab armour
+- [ ] Xerician robes
+- [ ] Splitbark armour
+- [ ] Mixed hide armour
+- [ ] Hueycoatl hide armour
+- [ ] Glass
+- [ ] Locations
+- [ ] Stills and oil lamps
+- [ ] Jewellery
+- [ ] Gems
+- [ ] Silver jewellery
+- [ ] Gold jewellery
+- [ ] Weaponry
+- [ ] Battlestaves and silver bolts
+- [ ] Amethyst
+- [ ] Silver
+- [ ] Birdhouses
+- [ ] Crystal singing
+- [ ] Golem Crafting
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Fletching</b> — 9 sub-features</summary>
+
+- [ ] Materials used
+- [ ] General
+- [ ] Making weapons
+- [ ] Making projectiles
+- [ ] Making the items
+- [ ] Weapons
+- [ ] Shields
+- [ ] Projectiles
+- [ ] Training
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Construction</b> — 25 sub-features</summary>
+
+- [ ] How to start training Construction
+- [ ] Buying a house
+- [ ] How to get to your house
+- [ ] How to build in your house
+- [ ] Materials
+- [ ] Equipment
+- [ ] Carpenter's outfit
+- [ ] Tools
+- [ ] Tips and tricks
+- [ ] Servants
+- [ ] Phials for unnoting
+- [ ] Training methods
+- [ ] Mahogany Homes
+- [ ] Repair Kits and Hull Parts
+- [ ] Notable milestones
+- [ ] Rooms
+- [ ] POH locations
+- [ ] Teleports
+- [ ] Pool
+- [ ] Spellbook altar
+- [ ] Shipbuilding
+- [ ] Miscellaneous
+- [ ] Cape of accomplishment
+- [ ] STASH units
+- [ ] Chambers of Xeric
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Farming</b> — 32 sub-features</summary>
+
+- [ ] Compost
+- [ ] Obtaining seeds
+- [ ] Growth and disease
+- [ ] Farming equipment
+- [ ] Tools
+- [ ] Magic secateurs
+- [ ] Farmer's outfit
+- [ ] Amulet of Nature
+- [ ] Seeds
+- [ ] Disease, payment, compost, and watering
+- [ ] Reducing disease risk
+- [ ] Eliminating disease risk
+- [ ] Compost
+- [ ] Crop types
+- [ ] Allotment, flower, and herb
+- [ ] Hops
+- [ ] Bushes
+- [ ] Trees
+- [ ] Fruit trees
+- [ ] Special patches
+- [ ] Farming Guild
+- [ ] Farming contracts
+- [ ] Hespori patch
+- [ ] Barbarian Farming
+- [ ] Tithe Farm
+- [ ] Requirements
+- [ ] Rewards
+- [ ] Mechanics
+- [ ] Growth timing
+- [ ] Variable crop yield
+- [ ] Average yield per crop type
+- [ ] Farming pet
+
+</details>
+
+<details>
+<summary>IN PROGRESS <b>Hunter</b> — 31 sub-features</summary>
+
+- [ ] Hunting techniques
+- [ ] Aerial fishing
+- [ ] Bird house trapping
+- [ ] Bird snaring
+- [ ] Box trapping
+- [ ] Butterfly netting
+- [ ] Crab trapping
+- [ ] Deadfall trapping
+- [ ] Drift net fishing
+- [ ] Falconry
+- [ ] Goat hunting
+- [ ] Net trapping
+- [ ] Magic box trapping
+- [ ] Pitfall trapping
+- [ ] Rabbit snaring
+- [ ] Tracking
+- [ ] Hunter areas
+- [ ] Miscellaneous
+- [ ] Bait and smoking traps
+- [ ] Multiple traps
+- [ ] Hunter shops
+- [ ] Hunter Guild &amp; Hunters' Rumours
+- [ ] Hunter spell
+- [ ] Hunter crossbow
+- [ ] Hunter and camouflage clothing
+- [ ] Storage items
+- [ ] Hunter pets
+- [ ] Baby chinchompa
+- [ ] Herbi
+- [ ] Quetzin
+- [ ] Mr McGroot
+
+</details>
 
 ### All content modules
 
@@ -417,7 +1101,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `minigames/gauntlet` | 35 | 3,514 | 2 | 0 | 2026-10-09 |
 | `minigames/giants-foundry` | 17 | 4,126 | 5 | 2 | 2026-10-27 |
 | `minigames/giants-foundry/pack` | 2 | 345 | 0 | 0 | 2026-10-27 |
-| `minigames/guardians-of-the-rift` | 1 | 1,040 | 1 | 0 | 2026-11-01 |
+| `minigames/guardians-of-the-rift` | 1 | 1,055 | 3 | 0 | 2026-11-01 |
 | `minigames/inferno` | 3 | 514 | 0 | 0 | 2026-10-29 |
 | `minigames/ket-rak` | 3 | 657 | 0 | 0 | 2026-10-29 |
 | `minigames/mastering-mixology` | 2 | 829 | 0 | 0 | 2026-11-01 |

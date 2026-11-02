@@ -16,6 +16,7 @@ import { execFileSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { STATES, assessAccuracy, renderAccuracy, writeOrCheck } from './accuracy.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 const args = new Set(process.argv.slice(2))
@@ -313,7 +314,7 @@ function scoreFeature(feature, ctx) {
   const hasDropTable = ctx.dropTables.has(norm(feature.name))
   const hasModule = !!mod && loc > 0
   const hasSymbols = covered > 0 || tagCovered > 0
-  const added = feature.engine ? true : hasModule || hasSymbols
+  const added = feature.engine ? fs.existsSync(P(feature.engine)) : hasModule || hasSymbols
 
   // Detail goes in the note. The status stays binary because anything finer
   // would be claiming a level of parity we cannot actually check.
@@ -357,14 +358,15 @@ const icon = (f) => f.image ? '<img src="' + f.image + '" height="20" alt="">' :
 function renderTables(categories) {
   const L = []
   for (const cat of categories) {
-    const done = cat.features.filter((f) => f.added).length
-    L.push('### ' + cat.name + ' <sup>' + done + '/' + cat.features.length + '</sup>')
+    const done = cat.features.filter((f) => f.accuracy.status === 'COMPLETE').length
+    L.push('### ' + cat.name + ' <sup>' + done + '/' + cat.features.length + ' complete</sup>')
     L.push('')
     // Long category-driven groups list the unstarted entries separately, so the
     // table stays readable instead of being 150 rows of "no module".
-    const started = cat.features.filter((f) => f.added)
     const notStarted = cat.features.filter((f) => !f.added)
-    const tabled = cat.features.length > 30 ? started : cat.features
+    const tabled = cat.features.length > 30
+      ? cat.features.filter((f) => f.added || f.accuracy.status !== 'NOT STARTED')
+      : cat.features
 
     if (tabled.length) {
       L.push('| | Feature | Status | |')
@@ -373,7 +375,7 @@ function renderTables(categories) {
         const label = f.moduleExists ? '[' + f.name + '](' + f.module + ')' : f.name
         const name = f.image ? icon(f) + ' ' + label : label
         const link = f.wiki ? '[wiki](' + wikiUrl(f.wiki) + ')' : ''
-        L.push('| ' + f.status + ' | ' + name + ' | ' + f.note + ' | ' + link + ' |')
+        L.push('| ' + f.accuracy.status + ' | ' + name + ' | ' + f.note + ' | ' + link + ' |')
       }
       L.push('')
     }
@@ -419,7 +421,7 @@ function renderModules(modules) {
 }
 
 function renderMechanics(categories) {
-  const mech = categories.flatMap((c) => c.features).filter((f) => f.sections.length && f.status !== GREEN)
+  const mech = categories.flatMap((c) => c.features).filter((f) => f.sections.length && f.accuracy.status !== 'COMPLETE')
   if (!mech.length) return ''
   const L = ['### Sub-features and mechanics', '']
   L.push('Pulled from wiki section headings. A lot of this has no cache symbol to match against')
@@ -428,7 +430,7 @@ function renderMechanics(categories) {
   L.push('')
   for (const f of mech) {
     L.push('<details>')
-    L.push('<summary>' + f.status + ' <b>' + f.name + '</b> — ' + f.sections.length + ' sub-features</summary>')
+    L.push('<summary>' + f.accuracy.status + ' <b>' + f.name + '</b> — ' + f.sections.length + ' sub-features</summary>')
     L.push('')
     for (const s of f.sections) L.push('- [ ] ' + s)
     L.push('')
@@ -509,17 +511,46 @@ const categories = spec.categories.map((c) => {
     }),
   }
 })
+const assigned = categories.flatMap((c) => c.features).map((f) => f.module).filter(Boolean)
+const extraModules = modules.filter((m) => m.files > 0 && !/\/pack$|-pack$/.test(m.path)
+  && !assigned.some((p) => m.path === p || m.path.startsWith(p + '/')))
+categories.push({ name: 'Additional content modules', features: extraModules.map((m) =>
+  scoreFeature({ name: m.name, module: m.path }, ctx)) })
+categories.push({ name: 'Core systems', features: [
+  ['Combat engine', 'api/combat'], ['Movement and routing', 'api/route'],
+  ['NPC processing', 'api/npc'], ['Player state', 'api/player'],
+  ['Game loop', 'engine/game'], ['Cache and gamevals', 'or-cache'],
+].map(([name, engine]) => scoreFeature({ name, engine }, ctx)) })
+const ledger = JSON.parse(fs.readFileSync(P('tools', 'progress', 'verification.json'), 'utf8'))
+if (ledger.schemaVersion !== 1) throw new Error('Unsupported verification schema version')
+const usedRecords = new Set()
+for (const f of categories.flatMap((c) => c.features)) {
+  const key = f.wiki ?? f.name
+  const record = ledger.features[key]
+  if (record) {
+    usedRecords.add(key)
+    for (const source of record.implementationPaths ?? []) {
+      if (!fs.existsSync(P(source))) throw new Error(`${key}: missing implementation path ${source}`)
+    }
+  }
+  f.accuracy = assessAccuracy(f, record)
+}
+for (const key of Object.keys(ledger.features)) {
+  if (!usedRecords.has(key)) throw new Error('Orphaned verification record: ' + key)
+}
 const summary = summarise(categories)
+const allFeatures = categories.flatMap((c) => c.features)
+const stateCounts = STATES.map((status) => [status, allFeatures.filter((f) => f.accuracy.status === status).length])
 
-const legend = GREEN + ' added · ' + RED + ' not added'
+const legend = STATES.join(' · ')
 // A single percentage would weight one quest boss the same as all of Agility,
 // so show it per category instead.
 const headline = categories
-  .map((c) => c.name + ' **' + c.features.filter((f) => f.added).length
-    + '/' + c.features.length + '**')
+  .map((c) => c.name + ' **' + c.features.filter((f) => f.accuracy.status === 'COMPLETE').length
+    + '/' + c.features.length + ' complete**')
   .join(' · ')
 
-fs.writeFileSync(P('PROGRESS.md'), [
+const progress = [
   '# Content progress',
   '',
   '_Generated by `tools/progress/content-progress.mjs` — do not edit by hand._',
@@ -533,10 +564,17 @@ fs.writeFileSync(P('PROGRESS.md'), [
   '',
   headline,
   '',
-  'These counts only cover skills, bosses, raids and minigames. Interfaces, areas,',
-  'quests, drops and travel are real work that no category above points at, so check',
-  'the module table at the bottom before reading a 0 as "nothing exists".',
+  'The inventory includes Wiki-category entries, additional content modules and core systems.',
+  'It is not an exhaustive list of every OSRS item, NPC, quest step or mechanic. Module rows',
+  'may overlap Wiki features; counts are tracked entries, not a percentage of all OSRS gameplay.',
+  'Source detection is retained as inventory evidence only: ' + summary.added + '/' + summary.total + ' entries detected.',
+  'No recorded evidence means unverified, not that an existing implementation has been removed.',
   '',
+  '| Verification state | Entries |',
+  '|---|---:|',
+  ...stateCounts.map(([status, count]) => '| ' + status + ' | ' + count + ' |'),
+  '',
+  renderAccuracy(allFeatures),
   renderTables(categories),
   renderMechanics(categories),
   renderModules(modules),
@@ -544,7 +582,12 @@ fs.writeFileSync(P('PROGRESS.md'), [
   '',
   'Feature lists, images and section headings come from the [OSRS Wiki](https://oldschool.runescape.wiki/),',
   'used under [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).',
-].join('\n') + '\n')
+].join('\n') + '\n'
+
+if (!writeOrCheck(P('PROGRESS.md'), progress, args.has('--check'))) {
+  process.stderr.write('PROGRESS.md is stale — run the generator and commit.\n')
+  process.exitCode = 1
+}
 
 // Headline and a link only. The readme is already long and the detail belongs
 // in PROGRESS.md, this is here so people know the report exists.
@@ -571,5 +614,6 @@ if (readme.missing) {
   fs.writeFileSync(P('README.md'), readme.text)
 }
 
-process.stderr.write('PROGRESS.md written: ' + summary.added + ' added, '
-  + summary.notAdded + ' not added, of ' + summary.total + ' features\n')
+process.stderr.write('Progress ' + (args.has('--check') ? 'checked' : 'generated') + ': '
+  + allFeatures.filter((f) => f.accuracy.status === 'COMPLETE').length + ' COMPLETE, '
+  + summary.added + ' source-detected, ' + summary.total + ' tracked entries\n')
