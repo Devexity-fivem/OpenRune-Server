@@ -377,6 +377,10 @@ class BossEncounter(
                 phaseEnteredTick >= 0 && mapClock.cycle - phaseEnteredTick >= condition.ticks
             is Condition.HitStyle -> requireHit().type == condition.type.toEngine()
             is Condition.HitDemonbane -> requireHit().demonbane
+            is Condition.HitSecondaryObj ->
+                condition.objs.any { name ->
+                    cacheObjType(name)?.let { requireHit().secondary?.id == it.id } == true
+                }
             is Condition.HitDamageAtLeast -> requireHit().damage >= condition.damage
             is Condition.TargetPraying -> target != null && target.isProtectingFrom(condition.type)
         }
@@ -404,6 +408,8 @@ class BossEncounter(
 }
 
 internal fun cacheNpcType(name: String): NpcServerType? = ServerCacheManager.getNpc(name.asRSCM(RSCMType.NPC))
+
+internal fun cacheObjType(name: String) = ServerCacheManager.getItem(name.asRSCM(RSCMType.OBJ))
 
 @OptIn(InternalApi::class)
 internal fun Npc.bossTransmog(type: NpcServerType, duration: Int) {

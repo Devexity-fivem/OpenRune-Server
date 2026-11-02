@@ -5,6 +5,7 @@ import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
+import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.Effect
 
 // Dragon Slayer: melee up to ~12 plus dragonfire breath up to ~25.
@@ -93,15 +94,45 @@ class MelzarTheMad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     }
 }
 
-// Family Crest: melee up to ~10.
+// Family Crest — Chronozon: immune to damage until struck by each of the four
+// elemental blast spells; melee up to ~18.
 class Chronozon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+
+    init {
+        deps.extensionRegistry.register("chronozon.mark_blast") { ctx ->
+            ctx.npc.vars[BLAST_VARN] = ctx.npc.vars[BLAST_VARN] or (ctx.params as Int)
+        }
+    }
+
     override val spec: BossSpec = boss("npc.chronozon") {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.demon_attack")
             hit { damage(0..18).roll(); type(Melee) }
         }
+        val markWind = ability("mark_wind") { external("chronozon.mark_blast", params = 1) }
+        val markWater = ability("mark_water") { external("chronozon.mark_blast", params = 2) }
+        val markEarth = ability("mark_earth") { external("chronozon.mark_blast", params = 4) }
+        val markFire = ability("mark_fire") { external("chronozon.mark_blast", params = 8) }
+        onIncomingHit(markWind, withObj = listOf("obj.41_wind_blast"))
+        onIncomingHit(markWater, withObj = listOf("obj.47_water_blast"))
+        onIncomingHit(markEarth, withObj = listOf("obj.53_earth_blast"))
+        onIncomingHit(markFire, withObj = listOf("obj.59_fire_blast"))
+        incoming {
+            rule(hitSecondaryObj(*BLAST_SPELLS)) {}
+            rule(
+                Condition.Not(
+                    Condition.Custom { npc, _ -> npc.vars[BLAST_VARN] and 15 == 15 }
+                )
+            ) { cap(0) }
+        }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+    }
+
+    private companion object {
+        const val BLAST_VARN = "varn.generic_state_2"
+        val BLAST_SPELLS =
+            arrayOf("obj.41_wind_blast", "obj.47_water_blast", "obj.53_earth_blast", "obj.59_fire_blast")
     }
 }
 

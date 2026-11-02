@@ -284,6 +284,9 @@ fun hitStyle(type: HitType): Condition = Condition.HitStyle(type)
 
 fun hitDemonbane(): Condition = Condition.HitDemonbane
 
+/** Matches when the hit's secondary obj (spell obj for magic, ammo for ranged) is one of [objs]. */
+fun hitSecondaryObj(vararg objs: String): Condition = Condition.HitSecondaryObj(objs.toList())
+
 fun hitDamageAtLeast(damage: Int): Condition = Condition.HitDamageAtLeast(damage)
 
 fun after(ticks: Int, effect: Effect, requireAlive: Boolean = true): Effect =

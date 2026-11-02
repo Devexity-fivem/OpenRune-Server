@@ -4,7 +4,9 @@ import jakarta.inject.Inject
 import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
+import org.rsmod.api.bosses.runtime.encounter
 import org.rsmod.api.bosses.spec.BossSpec
+import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.Effect
 
 // Zogre Flesh Eaters — Slash Bash: melee up to ~30.
@@ -124,14 +126,28 @@ class ShadowKhazard @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
     }
 }
 
-// Horror from the Deep — Dagannoth Mother all-colour cycle: melee up to ~28.
+// Horror from the Deep — Dagannoth Mother: cycles colours throughout the
+// fight; each colour only takes damage from its matching combat style or
+// elemental spell. Melee up to ~9, ranged ~12.
 class DagannothMotherAll @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+
+    init {
+        deps.extensionRegistry.register("dagannoth_mother.next_colour") { ctx ->
+            val encounter = deps.encounter(ctx.npc)
+            val next = COLOURS.filter { it != encounter.currentPhaseName }
+            encounter.transitionTo(next[deps.random.of(next.size)], deps.mapClock.cycle)
+        }
+    }
+
     override val spec: BossSpec =
         boss(
             "npc.horror_dagganoth_air", "npc.horror_dagganoth_water", "npc.horror_dagganoth_fire",
             "npc.horror_dagganoth_earth", "npc.horror_dagganoth_ranged", "npc.horror_dagganoth_melee",
         ) {
             stats(attackRate = 4)
+
+            every(COLOUR_CYCLE_TICKS, external("dagannoth_mother.next_colour"))
+
             val melee = ability("melee") {
                 anim("seq.horror_dagannoth_attack")
                 hit { damage(0..9).roll(); type(Melee) }
@@ -143,13 +159,50 @@ class DagannothMotherAll @Inject constructor(deps: BossDeps) : BossPluginScript(
                 )
                 hit { damage(0..12).roll(); type(Ranged) }
             }
-            phase("combat") {
-                weightedSelectorRandom {
-                    +random(melee, weight = 2, requires = WithinMeleeRange)
-                    +random(ranged, weight = 1)
+
+            incoming {
+                rule(InPhase("air") and Condition.Not(hitSecondaryObj(*AIR_SPELLS))) { cap(0) }
+                rule(InPhase("water") and Condition.Not(hitSecondaryObj(*WATER_SPELLS))) { cap(0) }
+                rule(InPhase("earth") and Condition.Not(hitSecondaryObj(*EARTH_SPELLS))) { cap(0) }
+                rule(InPhase("fire") and Condition.Not(hitSecondaryObj(*FIRE_SPELLS))) { cap(0) }
+                rule(InPhase("ranged") and Condition.Not(hitStyle(Ranged))) { cap(0) }
+                rule(InPhase("melee") and Condition.Not(hitStyle(Melee))) { cap(0) }
+            }
+
+            for (colour in COLOURS) {
+                phase(colour, transmog = "npc.horror_dagganoth_$colour") {
+                    weightedSelectorRandom {
+                        +random(melee, weight = 2, requires = WithinMeleeRange)
+                        +random(ranged, weight = 1)
+                    }
                 }
             }
         }
+
+    private companion object {
+        const val COLOUR_CYCLE_TICKS = 16
+        val COLOURS = arrayOf("air", "water", "earth", "fire", "ranged", "melee")
+        val AIR_SPELLS =
+            arrayOf(
+                "obj.01_wind_strike", "obj.17_wind_bolt", "obj.41_wind_blast",
+                "obj.62_wind_wave", "obj.81_wind_surge", "obj.50_slayer_dart",
+            )
+        val WATER_SPELLS =
+            arrayOf(
+                "obj.05_water_strike", "obj.23_water_bolt", "obj.47_water_blast",
+                "obj.65_water_wave", "obj.85_water_surge",
+            )
+        val EARTH_SPELLS =
+            arrayOf(
+                "obj.09_earth_strike", "obj.29_earth_bolt", "obj.53_earth_blast",
+                "obj.70_earth_wave", "obj.90_earth_surge",
+            )
+        val FIRE_SPELLS =
+            arrayOf(
+                "obj.13_fire_strike", "obj.35_fire_bolt", "obj.59_fire_blast",
+                "obj.75_fire_wave", "obj.95_fire_surge",
+            )
+    }
 }
 
 // The Grand Tree — Black demon: melee + magic up to ~30.

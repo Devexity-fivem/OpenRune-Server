@@ -176,6 +176,7 @@ object SpecValidator {
                     }
                 is Condition.HitStyle,
                 is Condition.HitDemonbane,
+                is Condition.HitSecondaryObj,
                 is Condition.HitDamageAtLeast ->
                     if (!scope.hitAware) {
                         error(

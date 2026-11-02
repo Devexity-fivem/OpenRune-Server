@@ -17,6 +17,11 @@ sealed interface Condition {
 
     data class HitDamageAtLeast(val damage: Int) : Condition
 
+    /** The hit's secondary obj (spell obj for magic attacks, ammo for ranged) is one of [objs]. */
+    data class HitSecondaryObj(val objs: List<String>) : Condition {
+        constructor(vararg objs: String) : this(objs.toList())
+    }
+
     data class PhaseTicksAtLeast(val ticks: Int) : Condition
     data class TargetPraying(val type: HitType) : Condition
     data class InPhase(val phase: String) : Condition
@@ -35,6 +40,7 @@ sealed interface Condition {
      * [bearingVarn] turned by [offset] (e.g. `offset = 1024` for "behind" that bearing).
      */
     data class TargetInArc(val bearingVarn: String, val offset: Int, val halfArc: Int) : Condition
+
     /** The tile (e.g. `CurrentTile`, `ImpactTile`) lies inside the caster's footprint. */
     data class TileInFootprint(val tile: TargetExpr.Single) : Condition
 

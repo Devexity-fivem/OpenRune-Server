@@ -1,11 +1,22 @@
 package org.rsmod.content.bosses.questbosses
 
+import dev.openrune.ServerCacheManager
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
 import jakarta.inject.Inject
+import org.rsmod.annotations.InternalApi
 import org.rsmod.api.bosses.dsl.*
+import org.rsmod.api.bosses.runtime.BossCombat
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Effect
+import org.rsmod.api.bosses.spec.StatDrainEntry
+import org.rsmod.api.npc.events.NpcHitEvents
+import org.rsmod.game.entity.Npc
+import org.rsmod.game.hit.HitType
+import org.rsmod.plugin.scripts.PluginScript
+import org.rsmod.plugin.scripts.ScriptContext
 
 // Spirits of the Elid — possessed golems: melee up to ~9 each.
 class ElidGolem @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
@@ -146,18 +157,20 @@ class Glough @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 }
 
-// Legends' Quest — Nezikchened: melee up to ~10 with prayer-draining aura.
+// Legends' Quest — Nezikchened: drains all prayer at fight start, melee up to ~18.
 class Nezikchened @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.nezikchened") {
         stats(attackRate = 5)
+        val drain = ability("drain_prayer") { statDrainPercent("stat.prayer", percent = 100) }
         val melee = ability("melee") {
             anim("seq.demon_attack")
-            hit { damage(0..18).roll(); type(Melee) }
+            hit { damage(0..18).roll(); type(Melee); onHit(Effect.StatDrain(listOf(StatDrainEntry("stat.prayer", amount = 1)))) }
         }
         val magic = ability("magic") {
             projectile(spotanim = "spotanim.fireblast_travel", hit = Effect.Hit(damage = Roll(0..18), type = Magic))
         }
         phase("combat") {
+            entry = drain.name
             weightedSelectorRandom {
                 +random(melee, weight = 3, requires = WithinMeleeRange)
                 +random(magic, weight = 2)
@@ -167,13 +180,17 @@ class Nezikchened @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 }
 
 // Death to the Dorgeshuun / Another Slice — Sigmund: all three combat styles,
-// up to ~11.
-class Sigmund @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec =
+// up to ~11. He adapts a protection prayer to whatever style last hit him, so
+// only the first hit of each style lands; its `_melee/_ranged/_magic` NPCs are
+// the matching protected forms (overhead icon baked in).
+class Sigmund @Inject constructor(private val deps: BossDeps) : PluginScript() {
+
+    val spec: BossSpec =
         boss(
-            "npc.dttd_sigmund_melee", "npc.dttd_sigmund_ranged", "npc.dttd_sigmund_magic",
-            "npc.dttd_sigmund_mill", "npc.slice_sigmund_melee", "npc.slice_sigmund_ranged",
-            "npc.slice_sigmund_magic", "npc.slice_sigmund_showdown",
+            "npc.dttd_sigmund", "npc.dttd_sigmund_melee", "npc.dttd_sigmund_ranged",
+            "npc.dttd_sigmund_magic", "npc.dttd_sigmund_mill", "npc.slice_sigmund",
+            "npc.slice_sigmund_melee", "npc.slice_sigmund_ranged", "npc.slice_sigmund_magic",
+            "npc.slice_sigmund_showdown",
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
@@ -195,6 +212,54 @@ class Sigmund @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 }
             }
         }
+
+    override fun ScriptContext.startup() {
+        BossCombat.register(this, spec, deps, onModifyHit = { onProtectionHit(this) })
+    }
+
+    private fun onProtectionHit(event: NpcHitEvents.Modify) {
+        if (!event.hit.isFromPlayer) return
+        val style =
+            when (event.hit.type) {
+                HitType.Melee -> "melee"
+                HitType.Ranged -> "ranged"
+                HitType.Magic -> "magic"
+                else -> return
+            }
+        val npc = event.npc
+        if (npc.vars["varn.immune_$style"] == 1) return
+        if (npc.vars[SWITCHING_VARN] != 0) return
+        npc.vars[SWITCHING_VARN] = 1
+        deps.worldQueues.add(1) {
+            npc.vars["varn.immune_melee"] = if (style == "melee") 1 else 0
+            npc.vars["varn.immune_ranged"] = if (style == "ranged") 1 else 0
+            npc.vars["varn.immune_magic"] = if (style == "magic") 1 else 0
+            transmogToStyle(npc, style)
+            npc.vars[SWITCHING_VARN] = 0
+        }
+    }
+
+    @OptIn(InternalApi::class)
+    private fun transmogToStyle(npc: Npc, style: String) {
+        val name = nameByTypeId[npc.type.id] ?: return
+        val family = name.substringBeforeLast('_')
+        if (family !in FAMILIES) return
+        val npcType = "${family}_$style".npcTypeId()?.let(ServerCacheManager::getNpc) ?: return
+        npc.transmog(npcType, Int.MAX_VALUE)
+        npc.assignUid()
+    }
+
+    private fun String.npcTypeId(): Int? =
+        ServerCacheManager.getNpc(asRSCM(RSCMType.NPC))?.id
+
+    private val nameByTypeId: Map<Int, String> by lazy {
+        spec.npcTypes.mapNotNull { name -> name.npcTypeId()?.let { it to name } }.toMap()
+    }
+
+    private companion object {
+        const val SWITCHING_VARN = "varn.generic_state_2"
+        val FAMILIES = setOf("dttd_sigmund", "slice_sigmund")
+    }
 }
 
 // Watchtower — Moss guardian: melee up to ~11.

@@ -1659,7 +1659,8 @@
       "mcp": "unverified",
       "mechanics": "in_progress",
       "notes": [
-        "Added prayer-gated Ranged attack (wiki styles Crush+Ranged; fires vs Protect from Melee). mcp unverified."
+        "Added prayer-gated Ranged attack (wiki styles Crush+Ranged; fires vs Protect from Melee). mcp unverified.",
+        "Wiki mechanics: signature slam special added (forced every 6-10 attacks \u2014 hits through prayer, drains 5 prayer, disables overhead prayers); mcp unverified."
       ]
     },
     "Gelatinnoth Mother": {
@@ -1716,7 +1717,8 @@
       "mcp": "unverified",
       "mechanics": "in_progress",
       "notes": [
-        "Rate 4->5 per wiki infobox; added missing Magic style (Slash+Magic, max 18). mcp unverified."
+        "Rate 4->5 per wiki infobox; added missing Magic style (Slash+Magic, max 18). mcp unverified.",
+        "Wiki mechanics: drains all prayer at fight start via phase entry + 1 prayer per melee hit; mcp unverified."
       ]
     },
     "Jungle Demon": {
@@ -1789,6 +1791,22 @@
       "mechanics": "in_progress",
       "notes": [
         "Wiki audit: attack anims corrected to packed seq.giant_attack (was seq.bird_attack); mcp unverified."
+      ]
+    },
+    "Dagannoth Mother": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Wiki mechanics: colour-cycle rework \u2014 phases transmog to each colour form, incoming hits capped to 0 unless matching combat style/elemental spell, random colour rotation every 16 ticks; mcp unverified."
+      ]
+    },
+    "Sigmund": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Wiki mechanics: adaptive protection prayer \u2014 first hit of each style lands, then he protects against it (immune varns + transmog to matching _melee/_ranged/_magic NPC form); mcp unverified."
       ]
     }
   }

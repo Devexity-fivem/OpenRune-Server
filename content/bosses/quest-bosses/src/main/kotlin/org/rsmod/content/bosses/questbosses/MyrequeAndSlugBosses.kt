@@ -6,6 +6,7 @@ import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Effect
+import org.rsmod.api.bosses.spec.StatDrainEntry
 
 // In Aid of the Myreque — Gadderanks: melee up to ~5 with vampyre guard aid scripted elsewhere.
 class Gadderanks @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
@@ -210,7 +211,15 @@ class Barrelchest @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         val ranged = ability("ranged") {
             projectile(spotanim = "spotanim.myarm_rock_roc_travel", hit = Effect.Hit(damage = Roll(0..35), type = Ranged))
         }
+        // Signature slam: hits through prayer, drains prayer and disables overheads.
+        val slam = ability("slam") {
+            anim("seq.giant_attack")
+            include(Effect.DisablePrayers(overheadsOnly = true))
+            include(Effect.StatDrain(listOf(StatDrainEntry("stat.prayer", amount = 5))))
+            hit { damage(0..35).roll(); type(Melee); penetration(100) }
+        }
         phase("combat") {
+            forceEveryAttacks(6, 10, slam)
             weightedSelectorRandom {
                 +random(melee, weight = 3, requires = WithinMeleeRange and !TargetPraying(Melee))
                 +random(ranged, weight = 2, requires = TargetPraying(Melee))
