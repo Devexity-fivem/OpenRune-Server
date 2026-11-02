@@ -13773,7 +13773,6 @@ attackRange = 10
 "param.defend_anim"="seq.rabbit_update_defend"
 "param.death_anim"="seq.rabbit_update_death"
 [[npc]]
-[[npc]]
 id = "npc.regicide_darkelf2"
 inherit = "npc.regicide_darkelf2"
 huntMode = 1
@@ -30723,7 +30722,6 @@ huntRange = 5
 "param.aggression_tolerant"=1
 "param.defend_anim"="seq.human_unarmed_def"
 "param.death_anim"="seq.human_death"
-[[npc]]
 [[npc]]
 id = "npc.falador_man2"
 inherit = "npc.falador_man2"
