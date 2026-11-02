@@ -2,10 +2,16 @@ package org.rsmod.content.bosses.questbosses
 
 import jakarta.inject.Inject
 import org.rsmod.api.bosses.dsl.*
+import org.rsmod.api.bosses.runtime.BossCombat
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
+import org.rsmod.api.bosses.runtime.encounter
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Effect
+import org.rsmod.api.npc.events.NpcHitEvents
+import org.rsmod.game.entity.Npc
+import org.rsmod.plugin.scripts.PluginScript
+import org.rsmod.plugin.scripts.ScriptContext
 
 // Troll Stronghold — Dad: heavy melee up to ~28.
 class Dad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
@@ -156,15 +162,47 @@ class JungleDemon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 }
 
-// Fremennik Trials — Koschei the deathless: melee (revive cycle is quest-driven).
-class Koschei @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.vikingexile_koschei_battle") {
-        stats(attackRate = 4)
-        val melee = ability("melee") {
-            anim("seq.human_unarmedpunch")
-            hit { damage(0..14).roll(); type(Melee) }
+// Fremennik Trials — Koschei the deathless: four forms; each "kill" revives
+// him at full health in a stronger form, the last attacking every tick.
+class Koschei @Inject constructor(private val deps: BossDeps) : PluginScript() {
+
+    val spec: BossSpec =
+        boss("npc.vikingexile_koschei_battle") {
+            stats(attackRate = 4)
+            val melee = ability("melee") {
+                anim("seq.human_unarmedpunch")
+                hit { damage(0..14).roll(); type(Melee) }
+            }
+            for (form in 1..4) {
+                phase("form$form", attackRate = if (form == 4) 1 else 4) {
+                    weightedSelectorRandom { +random(melee, weight = 1) }
+                }
+            }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+
+    override fun ScriptContext.startup() {
+        BossCombat.register(this, spec, deps, onModifyHit = { onReviveHit(this) })
+    }
+
+    private fun onReviveHit(event: NpcHitEvents.Modify) {
+        if (!event.hit.isFromPlayer) return
+        val npc = event.npc
+        if (event.hit.damage < npc.hitpoints) return
+        val form = npc.vars[FORM_VARN]
+        if (form >= 3) return
+        event.hit.damage = npc.hitpoints - 1
+        npc.vars[FORM_VARN] = form + 1
+        deps.worldQueues.add(1) { revive(npc, "form${form + 2}") }
+    }
+
+    private fun revive(npc: Npc, phase: String) {
+        npc.hitpoints = npc.baseHitpointsLvl
+        deps.encounter(npc).transitionTo(phase, deps.mapClock.cycle)
+        npc.say("You cannot defeat Koschei the Deathless!")
+    }
+
+    private companion object {
+        const val FORM_VARN = "varn.generic_state_2"
     }
 }
 
