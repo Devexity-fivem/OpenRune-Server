@@ -1,0 +1,11 @@
+[[enum]]
+isServerOnly = true
+id = "enum.runecrafting_extract_runes"
+keyType = "OBJ"
+valueType = "INT"
+
+[enum.values]
+"obj.scar_extract_warped" = 250
+"obj.scar_extract_twisted" = 60
+"obj.scar_extract_mangled" = 60
+"obj.scar_extract_scarred" = 60

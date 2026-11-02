@@ -4,7 +4,7 @@ import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import dev.openrune.types.ItemServerType
 import kotlin.math.floor
-import org.rsmod.api.enums.NamedEnums
+import org.rsmod.api.enums.RunecraftingEnums
 import org.rsmod.api.invtx.add
 import org.rsmod.api.invtx.delete
 import org.rsmod.api.invtx.invTransaction
@@ -39,13 +39,6 @@ object RunecraftAction {
     private const val OURANIA_XP_MULTIPLIER = 1.7
     private const val CORE_RUNE_MULTIPLIER = 11
     private const val CORE_XP_MULTIPLIER = 10
-
-    private val runecraftingExtract = mapOf(
-        "obj.scar_extract_warped" to 250,
-        "obj.scar_extract_twisted" to 60,
-        "obj.scar_extract_mangled" to 60,
-        "obj.scar_extract_scarred" to 60
-    )
 
     suspend fun ProtectedAccess.preCraft() {
         anim("seq.human_runecraft")
@@ -177,8 +170,13 @@ object RunecraftAction {
     ) {
         val essenceConsumed = inputs.sumOf { it.count }
         val extract = rune.extract
-        val consumeExtract = inv.contains(extract.internalName)
-        val extractRunes = if (consumeExtract) runecraftingExtract[extract.internalName] ?: 0 else 0
+        val extractBonus = RunecraftingEnums.runecrafting_extract_runes[extract] ?: 0
+        val extractCount = if (!ouraniaAltar && extractBonus > 0) {
+            minOf(essenceConsumed, inv.count(extract.internalName))
+        } else {
+            0
+        }
+        val extractRunes = extractCount * extractBonus
         val bloodRunes = if (!ouraniaAltar && rune.output.internalName == BloodEssence.BLOOD_RUNE) {
             rollBloodRuneBonus(essenceConsumed)
         } else {
@@ -187,7 +185,7 @@ object RunecraftAction {
         val crafted = player.invTransaction(inv) {
             val inventory = select(inv)
             for (input in inputs) delete(inventory, input.id, input.count)
-            if (consumeExtract) delete(inventory, extract.id, 1)
+            if (extractCount > 0) delete(inventory, extract.id, extractCount)
             if (bloodRunes > 0 && bloodRunes == player.bloodEssenceCharges) {
                 delete(inventory, BloodEssence.ACTIVE.asRSCM(RSCMType.OBJ), 1)
             }
@@ -370,7 +368,7 @@ object RunecraftAction {
 
         var produced = applyBonus(successes)
         if (successes > 0 && invDel(inv, "obj.scar_extract_scarred", 1).completed() > 0) {
-            produced += runecraftingExtract["obj.scar_extract_scarred"] ?: 0
+            produced += getExtractBonus("obj.scar_extract_scarred")
         }
 
         val totalRunes = invDel(inv, "obj.cosmic_soul_catalyst", produced).completed()
@@ -400,8 +398,12 @@ object RunecraftAction {
             "obj.aetherrune",
         )
 
+    private fun getExtractBonus(extract: String): Int =
+        RunecraftingEnums.runecrafting_extract_runes.backing.entries
+            .firstOrNull { it.key.internalName == extract }?.value ?: 0
+
     fun getBonusMultiplier(rune: String, level: Int): Double {
-        val interval = NamedEnums.runecrafting_multiple_intervals.backing.entries
+        val interval = RunecraftingEnums.runecrafting_multiple_intervals.backing.entries
             .firstOrNull { it.key.internalName == rune }?.value ?: return 1.0
         return floor(level / interval.toDouble()) + 1
     }
@@ -446,7 +448,7 @@ object RunecraftAction {
             }
 
         if (invDel(inv, "obj.scar_extract_twisted", 1).completed() > 0) {
-            finalCount += runecraftingExtract["obj.scar_extract_twisted"] ?: 0
+            finalCount += getExtractBonus("obj.scar_extract_twisted")
         }
 
         invAdd(inv, output.internalName, finalCount)

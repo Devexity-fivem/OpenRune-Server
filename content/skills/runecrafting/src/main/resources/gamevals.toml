@@ -9,6 +9,7 @@ runecrafting_tiara=65515
 [gamevals.enum]
 essence_mine_teleporter_exits=63890
 runecrafting_multiple_intervals=63484
+runecrafting_extract_runes=63485
 
 [gamevals.dbrow]
 runecrafting_rune_sunfire=65173

@@ -127,7 +127,9 @@ data is already there.
 - Read it through the generated code in `api/generated` (gitignored, rebuilt by
   `buildCache`): `org.rsmod.api.table.<Name>Row` (`all()`, `getRow(...)`, typed
   column properties) and `org.rsmod.api.enums.<Group>Enums.<enum_name>`. Use these
-  over raw `ServerCacheManager`/column-index lookups.
+  over raw `ServerCacheManager`/column-index lookups. Adding another enum with a shared
+  prefix can move existing accessors from `NamedEnums` into a generated prefix group;
+  inspect the emitted class after rebuilding rather than assuming the old group name.
 - Kotlin enum classes are for code-side state machines and closed sets of
   behaviour, not for carrying data tables.
 

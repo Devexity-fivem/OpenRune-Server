@@ -134,6 +134,58 @@ class RunecraftingInventoryTest {
         assertEquals(2, player.inv.count(BloodEssence.BLOOD_RUNE))
     }
 
+    @Test
+    fun GameTestState.`extracts are consumed per essence without multiplying experience`() = runAltarTest(level = 60) { loc, altar ->
+        val extract = altar.rune.extract.internalName
+        repeat(2) { player.inv[it] = InvObj(EssencePouch.PURE_ESSENCE, 1) }
+        player.inv[2] = InvObj(extract, 3)
+        val xp = player.statMap.getFineXP(RUNECRAFTING)
+        player.opLoc1(loc)
+        advance(8)
+        assertEquals(0, player.inv.count(EssencePouch.PURE_ESSENCE))
+        assertEquals(1, player.inv.count(extract))
+        assertEquals(508, player.inv.count(WATER))
+        assertEquals(xp + 120, player.statMap.getFineXP(RUNECRAFTING))
+    }
+
+    @Test
+    fun GameTestState.`limited extracts enhance only the matching number of essence`() = runAltarTest(level = 60) { loc, altar ->
+        repeat(2) { player.inv[it] = InvObj(EssencePouch.PURE_ESSENCE, 1) }
+        player.inv[2] = InvObj(altar.rune.extract.internalName, 1)
+        player.opLoc1(loc)
+        advance(8)
+        assertEquals(0, player.inv.count(EssencePouch.PURE_ESSENCE))
+        assertEquals(0, player.inv.count(altar.rune.extract.internalName))
+        assertEquals(258, player.inv.count(WATER))
+    }
+
+    @Test
+    fun GameTestState.`extract bonuses work with daeyalt without boosting the bonus runes or experience`() = runAltarTest(level = 60) { loc, altar ->
+        player.inv[0] = InvObj(EssencePouch.DAEYALT_ESSENCE, 1)
+        player.inv[1] = InvObj(altar.rune.extract.internalName, 2)
+        val xp = player.statMap.getFineXP(RUNECRAFTING)
+        player.opLoc1(loc)
+        advance(8)
+        assertEquals(0, player.inv.count(EssencePouch.DAEYALT_ESSENCE))
+        assertEquals(1, player.inv.count(altar.rune.extract.internalName))
+        assertEquals(254, player.inv.count(WATER))
+        assertEquals(xp + 90, player.statMap.getFineXP(RUNECRAFTING))
+    }
+
+    @Test
+    fun GameTestState.`batch extract output overflow rolls back the whole conversion`() = runAltarTest(level = 60) { loc, altar ->
+        repeat(2) { player.inv[it] = InvObj(EssencePouch.PURE_ESSENCE, 1) }
+        player.inv[2] = InvObj(altar.rune.extract.internalName, 2)
+        player.inv[3] = InvObj(WATER, Int.MAX_VALUE - 500)
+        val xp = player.statMap.getFineXP(RUNECRAFTING)
+        player.opLoc1(loc)
+        advance(8)
+        assertEquals(2, player.inv.count(EssencePouch.PURE_ESSENCE))
+        assertEquals(2, player.inv.count(altar.rune.extract.internalName))
+        assertEquals(Int.MAX_VALUE - 500, player.inv.count(WATER))
+        assertEquals(xp, player.statMap.getFineXP(RUNECRAFTING))
+    }
+
     private fun GameTestState.runAltarTest(
         rune: String = WATER,
         level: Int = 27,
