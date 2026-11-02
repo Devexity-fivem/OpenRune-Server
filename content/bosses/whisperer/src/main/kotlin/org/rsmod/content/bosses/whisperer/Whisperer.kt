@@ -51,7 +51,7 @@ import org.rsmod.game.map.collision.isWalkBlocked
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.ScriptContext
 
-internal const val WHISPERER_ATTACK_RATE = 6
+internal const val WHISPERER_ATTACK_RATE = 10
 
 class Whisperer
 @Inject

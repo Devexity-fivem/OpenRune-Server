@@ -132,7 +132,7 @@ class ArenaBouncer @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
 // Holy Grail: melee up to ~12.
 class BlackKnightTitan @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.black_knight_titan") {
-        stats(attackRate = 4)
+        stats(attackRate = 7)
         val melee = ability("melee") {
             anim("seq.human_sword_slash")
             hit { damage(0..12).roll(); type(Melee) }

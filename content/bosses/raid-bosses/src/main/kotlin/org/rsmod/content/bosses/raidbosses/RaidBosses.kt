@@ -16,7 +16,7 @@ import org.rsmod.api.bosses.spec.Effect
 class Tekton @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
         boss("npc.raids_tekton_fighting_standard", "npc.raids_tekton_walking_standard") {
-            stats(attackRate = 6)
+            stats(attackRate = 3)
             val melee = ability("melee") {
                 anim("seq.tekton_attack_stab")
                 hit { damage(0..42).roll(); type(Melee) }

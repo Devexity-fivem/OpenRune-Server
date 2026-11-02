@@ -369,7 +369,7 @@ constructor(
 
         private const val EMERGE_TICKS = 3
         private const val DIVE_TICKS = 3
-        private const val ATTACK_GAP = 4
+        private const val ATTACK_GAP = 3
         private const val ORB_GAP = 3
         private const val ORB_SPAWN_DELAY = 4
         private const val CLOUD_GAP = 2

@@ -19,7 +19,7 @@ class ThermonuclearSmokeDevil @Inject constructor(deps: BossDeps) : BossPluginSc
 }
 
 internal fun thermonuclearSmokeDevilSpec(): BossSpec = boss("npc.smoke_devil_boss") {
-    stats(attackRate = 4)
+    stats(attackRate = 2)
 
     val spit =
         ability("spit") {

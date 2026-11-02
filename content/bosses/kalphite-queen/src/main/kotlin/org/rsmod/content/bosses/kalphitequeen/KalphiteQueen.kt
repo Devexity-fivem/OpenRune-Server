@@ -124,7 +124,7 @@ constructor(private val deps: BossDeps, private val interactions: AiPlayerIntera
     private companion object {
         const val PHASE_GROUNDED = "grounded"
         const val PHASE_FLYING = "flying"
-        const val ATTACK_RATE = 6
+        const val ATTACK_RATE = 4
         const val EMERGE_HEAL = 255
         const val PROTECTED_SCALE = 10
         const val WORKER_AGGRO_PERIOD = 6

@@ -269,7 +269,7 @@ class CorporealBeast @Inject constructor(private val deps: BossDeps) : PluginScr
     private fun noCoreAlive(): Condition = Condition.Not(coreAlive())
 
     private companion object {
-        const val ATTACK_RATE = 6
+        const val ATTACK_RATE = 4
         const val DAMAGE_CAP = 100
         const val CORE_SPAWN_HIT = 32
         const val CORE_SPAWN_ONE_IN = 8

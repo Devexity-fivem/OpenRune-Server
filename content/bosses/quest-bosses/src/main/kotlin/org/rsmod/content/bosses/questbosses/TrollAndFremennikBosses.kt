@@ -10,7 +10,7 @@ import org.rsmod.api.bosses.spec.Effect
 // Troll Stronghold — Dad: heavy melee up to ~28.
 class Dad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.fd_troll_dad") {
-        stats(attackRate = 4)
+        stats(attackRate = 8)
         val melee = ability("melee") {
             anim("seq.giant_attack")
             hit { damage(0..28).roll(); type(Melee) }

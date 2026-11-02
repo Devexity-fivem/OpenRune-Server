@@ -26,7 +26,7 @@ class NightmareStandard @Inject constructor(deps: BossDeps) : BossPluginScript(d
             "npc.nightmare_phase_01", "npc.nightmare_phase_02", "npc.nightmare_phase_03",
             "npc.nightmare_weak_phase_01", "npc.nightmare_weak_phase_02", "npc.nightmare_weak_phase_03",
         ) {
-            stats(attackRate = 4)
+            stats(attackRate = 6)
             val melee = ability("melee") {
                 anim("seq.demon_attack")
                 hit { damage(0..30).roll(); type(Melee) }

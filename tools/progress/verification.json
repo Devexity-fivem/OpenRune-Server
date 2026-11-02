@@ -399,6 +399,296 @@
     "Same empty-room reset gap as Graardor."
    ],
    "limitations": []
+  },
+  "Thermonuclear smoke devil": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/thermy/src/main/kotlin/org/rsmod/content/bosses/thermy/ThermonuclearSmokeDevil.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Thermonuclear_smoke_devil",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 4->2 ticks per the Wiki infobox (2-tick attacker, same row as Commander Zilyana melee)."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "Kalphite Queen": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/kalphite-queen/src/main/kotlin/org/rsmod/content/bosses/kalphitequeen/KalphiteQueen.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Kalphite_Queen",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 6->4 ticks per the Wiki infobox."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "Corporeal Beast": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/corporeal-beast/src/main/kotlin/org/rsmod/content/bosses/corp/CorporealBeast.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Corporeal_Beast",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 6->4 ticks per the Wiki infobox (its auto-attack interval; specials remain variable-timed)."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "The Whisperer": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/whisperer/src/main/kotlin/org/rsmod/content/bosses/whisperer/Whisperer.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/The_Whisperer",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 6->10 ticks per the Wiki infobox (slow deliberate autos; enraged phase rate unchanged at 2)."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "Dad": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/TrollAndFremennikBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Dad",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 4->8 ticks per the Wiki attack-speed table (Dad is in the 8-tick row)."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "Black Knight Titan": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/ClassicQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Black_Knight_Titan",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 4->7 ticks per the Wiki attack-speed table (Black knight titan is in the 7-tick row)."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "The Nightmare": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/ExtraQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/The_Nightmare",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 4->6 ticks per the Wiki infobox for the standard-mode phases."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "Phosani's Nightmare": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/world-bosses/src/main/kotlin/org/rsmod/content/bosses/worldbosses/WorldBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Phosani%27s_Nightmare",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 4->6 ticks per the Wiki infobox for the challenge-mode (nightmare_challenge_*) phases."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "Tekton": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/raid-bosses/src/main/kotlin/org/rsmod/content/bosses/raidbosses/RaidBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Tekton",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 6->3 ticks per the Wiki infobox for the standard Tekton spec; the enraged spec was already 3."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "Zulrah": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/zulrah/src/main/kotlin/org/rsmod/content/bosses/zulrah/ZulrahFights.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Zulrah",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Inter-attack gap corrected 4->3 ticks per the Wiki infobox attack speed of 3."
+    ],
+    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; module tests green."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not yet observed in game after the correction."
+    ]
+   }
   }
  }
 }
