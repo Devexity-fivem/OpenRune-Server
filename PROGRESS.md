@@ -252,7 +252,7 @@ COMPLETE requires verified mechanics and visuals, passing automated tests, succe
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Calvar%27ion.png/48px-Calvar%27ion.png?6268f" height="20" alt=""> [Calvar'ion](content/bosses/calvarion) | 234 loc | [wiki](https://oldschool.runescape.wiki/w/Calvar'ion) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Cerberus.png/48px-Cerberus.png?47f4c" height="20" alt=""> [Cerberus](content/bosses/cerberus) | 324 loc | [wiki](https://oldschool.runescape.wiki/w/Cerberus) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chaos_Elemental.png/48px-Chaos_Elemental.png?c170c" height="20" alt=""> [Chaos Elemental](content/bosses/chaos-elemental) | 154 loc | [wiki](https://oldschool.runescape.wiki/w/Chaos_Elemental) |
-| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chaos_Fanatic.png/48px-Chaos_Fanatic.png?8871d" height="20" alt=""> [Chaos Fanatic](content/bosses/chaos-fanatic) | 78 loc | [wiki](https://oldschool.runescape.wiki/w/Chaos_Fanatic) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chaos_Fanatic.png/48px-Chaos_Fanatic.png?8871d" height="20" alt=""> [Chaos Fanatic](content/bosses/chaos-fanatic) | 79 loc | [wiki](https://oldschool.runescape.wiki/w/Chaos_Fanatic) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chronozon.png/48px-Chronozon.png?5ecf8" height="20" alt=""> Chronozon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Chronozon) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Commander_Zilyana.png/48px-Commander_Zilyana.png?c5eaa" height="20" alt=""> [Commander Zilyana](content/bosses/zilyana) | 164 loc | [wiki](https://oldschool.runescape.wiki/w/Commander_Zilyana) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Corporeal_Beast.png/48px-Corporeal_Beast.png?52ebb" height="20" alt=""> [Corporeal Beast](content/bosses/corporeal-beast) | 351 loc | [wiki](https://oldschool.runescape.wiki/w/Corporeal_Beast) |
@@ -1163,12 +1163,12 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/araxxor` | 1 | 464 | 1 | 0 | 2026-10-27 |
 | `bosses/barrows` | 16 | 1,566 | 1 | 0 | 2026-10-21 |
 | `bosses/brutus` | 9 | 1,411 | 3 | 2 | 2026-10-19 |
-| `bosses/bryophyta` | 2 | 153 | 1 | 0 | 2026-10-27 |
+| `bosses/bryophyta` | 2 | 153 | 1 | 0 | 2026-11-02 |
 | `bosses/callisto` | 2 | 568 | 0 | 0 | 2026-09-30 |
 | `bosses/calvarion` | 1 | 234 | 1 | 0 | 2026-10-27 |
 | `bosses/cerberus` | 1 | 324 | 1 | 0 | 2026-10-27 |
 | `bosses/chaos-elemental` | 1 | 154 | 1 | 0 | 2026-10-25 |
-| `bosses/chaos-fanatic` | 1 | 78 | 0 | 0 | 2026-10-25 |
+| `bosses/chaos-fanatic` | 1 | 79 | 0 | 0 | 2026-10-25 |
 | `bosses/corporeal-beast` | 1 | 351 | 1 | 0 | 2026-11-02 |
 | `bosses/crazy-archaeologist` | 1 | 82 | 0 | 0 | 2026-10-25 |
 | `bosses/dagannoth-kings` | 1 | 192 | 1 | 0 | 2026-11-02 |

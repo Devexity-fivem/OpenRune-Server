@@ -1774,6 +1774,22 @@
       "notes": [
         "Wiki audit: melee anim corrected to packed seq.dream_untouchable_attack (was seq.tentacle_monster_attack); mcp unverified."
       ]
+    },
+    "Chaos Fanatic": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Wiki audit: added missing attack anim seq.human_sword_slash (packed attack_anim) to magic attack; mcp unverified."
+      ]
+    },
+    "Giant Roc": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Wiki audit: attack anims corrected to packed seq.giant_attack (was seq.bird_attack); mcp unverified."
+      ]
     }
   }
 }

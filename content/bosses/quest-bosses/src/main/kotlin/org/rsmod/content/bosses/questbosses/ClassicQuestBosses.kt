@@ -78,7 +78,7 @@ class MelzarTheMad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
     override val spec: BossSpec = boss("npc.melzar_the_mad") {
         stats(attackRate = 4)
         val melee = ability("melee") {
-            anim("seq.human_unarmedpunch")
+            anim("seq.human_sword_slash")
             hit { damage(0..5).roll(); type(Melee) }
         }
         val magic = ability("magic") {

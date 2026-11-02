@@ -27,6 +27,7 @@ class ChaosFanatic @Inject constructor(
 
         val magic =
             ability("magic") {
+                anim("seq.human_sword_slash")
                 projectile(
                     spotanim = "spotanim.chaoselemental_spotanim_confusion_travel",
                     hit = Effect.Hit(damage = DamageExpr.Roll(0..21), type = Magic),

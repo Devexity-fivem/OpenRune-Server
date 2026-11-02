@@ -48,11 +48,11 @@ class GiantRoc @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.myarm_giant_roc") {
         stats(attackRate = 6)
         val melee = ability("melee") {
-            anim("seq.bird_attack")
+            anim("seq.giant_attack")
             hit { damage(0..14).roll(); type(Melee) }
         }
         val ranged = ability("ranged") {
-            anim("seq.bird_attack")
+            anim("seq.giant_attack")
             projectile(
                 spotanim = "spotanim.myarm_rock_roc_travel",
                 hit = Effect.Hit(damage = Roll(0..20), type = Ranged),
