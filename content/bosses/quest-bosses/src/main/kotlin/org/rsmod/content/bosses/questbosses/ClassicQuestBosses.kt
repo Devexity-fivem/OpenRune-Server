@@ -31,7 +31,7 @@ class Elvarg @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // Demon Slayer: melee up to ~7.
 class Delrith @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.delrith", "npc.delrith_weakened") {
-        stats(attackRate = 4)
+        stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.demon_attack")
             hit { damage(0..3).roll(); type(Melee) }

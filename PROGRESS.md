@@ -255,7 +255,7 @@ COMPLETE requires verified mechanics and visuals, passing automated tests, succe
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chaos_Fanatic.png/48px-Chaos_Fanatic.png?8871d" height="20" alt=""> [Chaos Fanatic](content/bosses/chaos-fanatic) | 78 loc | [wiki](https://oldschool.runescape.wiki/w/Chaos_Fanatic) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Chronozon.png/48px-Chronozon.png?5ecf8" height="20" alt=""> Chronozon | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Chronozon) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Commander_Zilyana.png/48px-Commander_Zilyana.png?c5eaa" height="20" alt=""> [Commander Zilyana](content/bosses/zilyana) | 164 loc | [wiki](https://oldschool.runescape.wiki/w/Commander_Zilyana) |
-| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Corporeal_Beast.png/48px-Corporeal_Beast.png?52ebb" height="20" alt=""> [Corporeal Beast](content/bosses/corporeal-beast) | 290 loc | [wiki](https://oldschool.runescape.wiki/w/Corporeal_Beast) |
+| IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Corporeal_Beast.png/48px-Corporeal_Beast.png?52ebb" height="20" alt=""> [Corporeal Beast](content/bosses/corporeal-beast) | 351 loc | [wiki](https://oldschool.runescape.wiki/w/Corporeal_Beast) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Corrupted_Hunllef.png/48px-Corrupted_Hunllef.png?0cd55" height="20" alt=""> Corrupted Hunllef | no module, code in content/minigames/gauntlet | [wiki](https://oldschool.runescape.wiki/w/Corrupted_Hunllef) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Count_Draynor.png/48px-Count_Draynor.png?95156" height="20" alt=""> Count Draynor | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Count_Draynor) |
 | IN PROGRESS | <img src="https://oldschool.runescape.wiki/images/thumb/Crazy_archaeologist.png/48px-Crazy_archaeologist.png?78fa1" height="20" alt=""> [Crazy archaeologist](content/bosses/crazy-archaeologist) | 82 loc | [wiki](https://oldschool.runescape.wiki/w/Crazy_archaeologist) |
@@ -477,7 +477,7 @@ COMPLETE requires verified mechanics and visuals, passing automated tests, succe
 | IN PROGRESS | [areas/zeah](content/areas/zeah) | 234 loc |  |
 | IN PROGRESS | [bosses/dagannoth-kings](content/bosses/dagannoth-kings) | 192 loc |  |
 | IN PROGRESS | [bosses/demonic-gorilla](content/bosses/demonic-gorilla) | 320 loc |  |
-| IN PROGRESS | [bosses/quest-bosses](content/bosses/quest-bosses) | 1,333 loc |  |
+| IN PROGRESS | [bosses/quest-bosses](content/bosses/quest-bosses) | 1,451 loc |  |
 | IN PROGRESS | [bosses/raid-bosses](content/bosses/raid-bosses) | 427 loc |  |
 | IN PROGRESS | [bosses/thermy](content/bosses/thermy) | 125 loc |  |
 | IN PROGRESS | [bosses/tormented-demon](content/bosses/tormented-demon) | 531 loc |  |
@@ -1169,7 +1169,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/cerberus` | 1 | 324 | 1 | 0 | 2026-10-27 |
 | `bosses/chaos-elemental` | 1 | 154 | 1 | 0 | 2026-10-25 |
 | `bosses/chaos-fanatic` | 1 | 78 | 0 | 0 | 2026-10-25 |
-| `bosses/corporeal-beast` | 1 | 290 | 1 | 0 | 2026-11-02 |
+| `bosses/corporeal-beast` | 1 | 351 | 1 | 0 | 2026-11-02 |
 | `bosses/crazy-archaeologist` | 1 | 82 | 0 | 0 | 2026-10-25 |
 | `bosses/dagannoth-kings` | 1 | 192 | 1 | 0 | 2026-11-02 |
 | `bosses/demonic-gorilla` | 1 | 320 | 0 | 0 | 2026-10-01 |
@@ -1192,7 +1192,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/muspah` | 4 | 1,295 | 0 | 0 | 2026-10-04 |
 | `bosses/nex` | 3 | 1,290 | 2 | 0 | 2026-11-02 |
 | `bosses/obor` | 1 | 60 | 1 | 0 | 2026-10-26 |
-| `bosses/quest-bosses` | 8 | 1,333 | 1 | 0 | 2026-11-02 |
+| `bosses/quest-bosses` | 8 | 1,451 | 1 | 0 | 2026-11-02 |
 | `bosses/raid-bosses` | 1 | 427 | 1 | 0 | 2026-11-02 |
 | `bosses/royal-titans` | 12 | 3,558 | 2 | 0 | 2026-10-29 |
 | `bosses/sarachnis` | 1 | 132 | 1 | 0 | 2026-10-27 |

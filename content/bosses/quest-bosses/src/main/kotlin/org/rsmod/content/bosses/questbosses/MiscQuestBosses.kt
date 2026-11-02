@@ -109,7 +109,8 @@ class DagannothMother @Inject constructor(deps: BossDeps) : BossPluginScript(dep
             }
             val ranged = ability("ranged") {
                 anim("seq.horror_dagannoth_attack")
-                projectile(spotanim = "spotanim.troll_rock_travel", hit = Effect.Hit(damage = Roll(0..14), type = Ranged))
+                projectile(spotanim = "spotanim.troll_rock_travel", hit = Effect.Hit(damage = Roll(0..12), type = Ranged))
+                hit { damage(0..12).roll(); type(Ranged) }
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -135,12 +136,20 @@ class Glough @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // Legends' Quest — Nezikchened: melee up to ~10 with prayer-draining aura.
 class Nezikchened @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.nezikchened") {
-        stats(attackRate = 4)
+        stats(attackRate = 5)
         val melee = ability("melee") {
             anim("seq.demon_attack")
             hit { damage(0..18).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val magic = ability("magic") {
+            projectile(spotanim = "spotanim.fireblast_travel", hit = Effect.Hit(damage = Roll(0..18), type = Magic))
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange)
+                +random(magic, weight = 2)
+            }
+        }
     }
 }
 

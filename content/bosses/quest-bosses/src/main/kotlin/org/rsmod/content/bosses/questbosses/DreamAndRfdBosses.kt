@@ -28,7 +28,15 @@ class Inadequacy @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             anim("seq.demon_attack")
             hit { damage(0..18).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val ranged = ability("ranged") {
+            projectile(spotanim = "spotanim.myarm_rock_roc_travel", hit = Effect.Hit(damage = Roll(0..20), type = Ranged))
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange)
+                +random(ranged, weight = 1)
+            }
+        }
     }
 }
 
@@ -75,9 +83,20 @@ class Tolna @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.tentacle_monster_attack")
-                hit { damage(0..18).roll(); type(Melee) }
+                hit { damage(0..5).roll(); type(Melee) }
             }
-            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+            val ranged = ability("ranged") {
+                projectile(
+                    spotanim = "spotanim.troll_rock_travel",
+                    hit = Effect.Hit(damage = Roll(0..5), type = Ranged),
+                )
+            }
+            phase("combat") {
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(ranged, weight = 1)
+                }
+            }
         }
 }
 
@@ -110,7 +129,15 @@ class Flambeed @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             anim("seq.giant_attack")
             hit { damage(0..25).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val magic = ability("magic") {
+            projectile(spotanim = "spotanim.fireblast_travel", hit = Effect.Hit(damage = Roll(0..25), type = Magic))
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange)
+                +random(magic, weight = 2)
+            }
+        }
     }
 }
 
@@ -118,12 +145,23 @@ class Flambeed @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 class Karamel @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.hundred_minion3") {
         stats(attackRate = 3)
-        val melee = ability("melee") {
-            anim("seq.tentacle_monster_attack")
-            hit { damage(0..18).roll(); type(Melee) }
+        val magic = ability("magic") {
+            projectile(spotanim = "spotanim.ice_barrage_travel", hit = Effect.Hit(damage = Roll(0..7), type = Magic))
+            hit { damage(0..7).roll(); type(Magic) }
             freeze(6, chance = 1, outOf = 8)
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val ranged = ability("ranged") {
+            projectile(
+                spotanim = "spotanim.myarm_rock_roc_travel",
+                hit = Effect.Hit(damage = Roll(0..20), type = Ranged),
+            )
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(magic, weight = 3)
+                +random(ranged, weight = 2)
+            }
+        }
     }
 }
 
@@ -135,7 +173,15 @@ class Dessourt @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             anim("seq.vamp_claw")
             hit { damage(0..19).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val magic = ability("magic") {
+            projectile(spotanim = "spotanim.blood_blitz_travel", hit = Effect.Hit(damage = Roll(0..19), type = Magic))
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange)
+                +random(magic, weight = 2)
+            }
+        }
     }
 }
 
@@ -153,7 +199,27 @@ class GelatinnothMother @Inject constructor(deps: BossDeps) : BossPluginScript(d
                 anim("seq.tentacle_monster_attack")
                 hit { damage(0..9).roll(); type(Melee) }
             }
-            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+            val ranged = ability("ranged") {
+                projectile(
+                    spotanim = "spotanim.troll_rock_travel",
+                    hit = Effect.Hit(damage = Roll(0..20), type = Ranged),
+                )
+                hit { damage(0..20).roll(); type(Ranged) }
+            }
+            val magic = ability("magic") {
+                projectile(
+                    spotanim = "spotanim.waterblast_travel",
+                    hit = Effect.Hit(damage = Roll(0..20), type = Magic),
+                )
+                hit { damage(0..20).roll(); type(Magic) }
+            }
+            phase("combat") {
+                weightedSelectorRandom {
+                    +random(melee, weight = 3, requires = WithinMeleeRange)
+                    +random(ranged, weight = 2)
+                    +random(magic, weight = 2)
+                }
+            }
         }
 }
 

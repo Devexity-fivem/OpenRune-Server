@@ -138,7 +138,7 @@ class GeneralKhazard @Inject constructor(deps: BossDeps) : BossPluginScript(deps
 // Monkey Madness — Jungle Demon: melee up to ~32 plus magic when out of reach.
 class JungleDemon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.mm_demon") {
-        stats(attackRate = 4)
+        stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.demon_attack")
             hit { damage(0..32).roll(); type(Melee) }

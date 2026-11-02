@@ -1593,7 +1593,8 @@
       "mcp": "unverified",
       "mechanics": "in_progress",
       "notes": [
-        "Wiki audit: attack rate corrected 4->3 ticks (infobox speed); mcp unverified."
+        "Wiki audit: attack rate corrected 4->3 ticks (infobox speed); mcp unverified.",
+        "Wiki styles Magic+Ranged (no melee): replaced melee with 7x2 ice magic + 20 ranged. mcp unverified."
       ]
     },
     "Dessourt": {
@@ -1601,7 +1602,8 @@
       "mcp": "unverified",
       "mechanics": "in_progress",
       "notes": [
-        "Wiki audit: attack rate corrected 4->3 ticks (infobox speed); mcp unverified."
+        "Wiki audit: attack rate corrected 4->3 ticks (infobox speed); mcp unverified.",
+        "Added missing Magic style (wiki: Crush+Magic). mcp unverified."
       ]
     },
     "Ice demon": {
@@ -1610,6 +1612,142 @@
       "mechanics": "in_progress",
       "notes": [
         "Wiki audit: attack rate corrected 4->3 ticks (infobox speed); mcp unverified."
+      ]
+    },
+    "Corporeal Beast": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Wiki mechanics pass: real melee attack (swiping anim, 0..33, 40% in melee range), three magic variants now use Jagex sprite_shoot anims with correct maxes (65/55/40), powered proj drains Magic-or-Prayer 1-2 on hit + heals Corp 50% (lifesteal), split volley 6 minis in 7x7, stomp is now a 7-tick footprint check (30-51 typeless) instead of a random attack, occasional 3-tick cadence via NextAttackIn chance. mcp unverified."
+      ]
+    },
+    "Slash Bash": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Added missing Ranged style (wiki: Crush+Ranged, max 13). mcp unverified."
+      ]
+    },
+    "Dagannoth mother": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Corrected melee 28->9, added missing 12x2 Ranged style per wiki infobox. mcp unverified."
+      ]
+    },
+    "Black demon (The Grand Tree)": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Removed invented magic ability; wiki styles are Slash only (max 16). mcp unverified."
+      ]
+    },
+    "Ranis Drakan": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Wiki speeds [5,2]: base rate 4->5, phase-3 3->2. mcp unverified."
+      ]
+    },
+    "Barrelchest": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Added prayer-gated Ranged attack (wiki styles Crush+Ranged; fires vs Protect from Melee). mcp unverified."
+      ]
+    },
+    "Gelatinnoth Mother": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Added missing Ranged+Magic styles (wiki: 9 melee, 20x2 ranged/magic). mcp unverified."
+      ]
+    },
+    "Flambeed": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Added missing Magic style (wiki: Crush+Magic, max 25). mcp unverified."
+      ]
+    },
+    "The Inadequacy": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Added missing Ranged style (wiki: 18 melee, 20+ ranged). mcp unverified."
+      ]
+    },
+    "Tolna": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Corrected max hit 18->5 and added Ranged style per wiki (all three heads use Slash+Ranged). mcp unverified."
+      ]
+    },
+    "Kamil": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Added missing 5x2 ice Magic style (wiki: 23 melee, 5x2 magic). mcp unverified."
+      ]
+    },
+    "Dessous": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Rate 4->3 per wiki infobox; added missing Magic and Ranged styles (5 each). mcp unverified."
+      ]
+    },
+    "Nezikchened": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Rate 4->5 per wiki infobox; added missing Magic style (Slash+Magic, max 18). mcp unverified."
+      ]
+    },
+    "Jungle Demon": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Rate 4->6 per wiki infobox. mcp unverified."
+      ]
+    },
+    "Delrith": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Rate 4->6 per wiki infobox. mcp unverified."
+      ]
+    },
+    "Dad": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "npc.troll_champion (Dad) rate 5->8; confirmed by both wiki infobox and Jagex packed param.attackrate=8. mcp unverified."
+      ]
+    },
+    "TzKal-Zuk": {
+      "automated": "pass",
+      "mcp": "unverified",
+      "mechanics": "in_progress",
+      "notes": [
+        "Placeholder spec rate 4->10 per wiki attack-speed table. Max hits remain placeholder values (real fight is unimplemented). mcp unverified."
       ]
     }
   }

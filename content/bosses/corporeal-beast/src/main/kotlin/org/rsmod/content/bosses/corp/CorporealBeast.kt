@@ -17,6 +17,7 @@ import org.rsmod.api.combat.commons.player.finishNpcHit
 import org.rsmod.api.npc.heal
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.stat.hitpoints
+import org.rsmod.api.player.stat.statSub
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.player.PlayerUid
@@ -41,60 +42,82 @@ class CorporealBeast @Inject constructor(private val deps: BossDeps) : PluginScr
 
     init {
         deps.extensionRegistry.register(CORE_TICK) { ctx -> coreTick(ctx.npc, ctx.target) }
+        deps.extensionRegistry.register(POWERED_DRAIN) { ctx -> poweredDrain(ctx.target) }
     }
 
     private val spec: BossSpec = boss("npc.corp_beast") {
 
         stats(attackRate = ATTACK_RATE)
 
-        val stomp =
-            ability("stomp") {
-                anim("seq.corp_double_stomp")
+        // Wiki: standard melee swipe, 40% of attacks in melee range, max 33.
+        val melee =
+            ability("melee") {
+                anim("seq.corpbeast_swiping_attack")
                 hit {
-                    damage(0..51).roll()
+                    damage(0..33).roll()
                     type(Melee)
                 }
+                include(chance(FAST_ATTACK_ONE_IN, Effect.NextAttackIn(FAST_ATTACK_TICKS)))
             }
 
         val weak =
             ability("weak_proj") {
-                anim("seq.corp_double_stomp")
+                anim("seq.corpbeast_sprite_shoot_1")
                 projectile(
                     spotanim = "spotanim.corp_spirit_beast_weak_proj",
-                    hit = Effect.Hit(damage = Roll(0..65), type = Magic),
+                    hit =
+                        Effect.Hit(
+                            damage = Roll(0..65),
+                            type = Magic,
+                            penetration = MAGIC_PRAY_IGNORE,
+                        ),
                 )
+                include(chance(FAST_ATTACK_ONE_IN, Effect.NextAttackIn(FAST_ATTACK_TICKS)))
             }
 
+        // Wiki: max 55, drains Magic or Prayer by 1-2 on hit, heals Corp half the damage dealt.
         val powered =
             ability("powered_proj") {
-                anim("seq.corp_double_stomp")
+                anim("seq.corpbeast_sprite_shoot_2")
                 spotanim("spotanim.corp_magic_splash")
                 projectile(
                     spotanim = "spotanim.corp_spirit_beast_strong_proj",
                     hit =
                         Effect.Hit(
-                            damage = Roll(30..65),
+                            damage = Roll(0..55),
                             type = Magic,
+                            penetration = MAGIC_PRAY_IGNORE,
+                            lifesteal = POWERED_LIFESTEAL,
+                            onHit = external(POWERED_DRAIN),
                         ),
                 )
+                include(chance(FAST_ATTACK_ONE_IN, Effect.NextAttackIn(FAST_ATTACK_TICKS)))
             }
 
+        // Wiki: up to 40 direct, splitting into six smaller projectiles in a 7x7 landing
+        // randomly around the target, each up to 30 direct.
         val split =
             ability("split_proj") {
-                anim("seq.corp_double_stomp")
+                anim("seq.corpbeast_sprite_shoot_3")
                 projectile(
                     spotanim = "spotanim.corp_spirit_beast_mid_proj",
-                    hit = Effect.Hit(damage = Roll(0..42), type = Magic),
+                    hit =
+                        Effect.Hit(
+                            damage = Roll(0..40),
+                            type = Magic,
+                            penetration = MAGIC_PRAY_IGNORE,
+                        ),
                 )
                 debris(
                     telegraph = "spotanim.corp_ground_stomp",
-                    damage = Roll(15..35),
+                    damage = Roll(0..30),
                     type = Magic,
-                    count = 5..5,
-                    scatterRadius = 2,
+                    count = SPLIT_MINI_COUNT..SPLIT_MINI_COUNT,
+                    scatterRadius = SPLIT_SCATTER_RADIUS,
                     windup = 2,
                     center = TargetExpr.CurrentTargetTile,
                 )
+                include(chance(FAST_ATTACK_ONE_IN, Effect.NextAttackIn(FAST_ATTACK_TICKS)))
             }
 
         val spawnCore =
@@ -143,12 +166,32 @@ class CorporealBeast @Inject constructor(private val deps: BossDeps) : PluginScr
             skipWhileBusy = false,
         )
 
+        // Wiki: checks every 7 ticks for players standing under the beast and stomps
+        // them for 30-51 damage that prayers cannot block.
+        every(
+            STOMP_CHECK_TICKS,
+            onEach(
+                AllInRadius(STOMP_SCAN_RADIUS),
+                whenever(
+                    Condition.TileInFootprint(CurrentTargetTile),
+                    sequence(
+                        Effect.Anim("seq.corpbeast_stomp_attack"),
+                        Effect.Hit(
+                            damage = Roll(STOMP_MIN..STOMP_MAX),
+                            type = org.rsmod.api.bosses.spec.HitType.Typeless,
+                        ),
+                    ),
+                ),
+            ),
+            skipWhileBusy = false,
+        )
+
         phase("combat") {
             weightedSelectorRandom {
-                +random(stomp, weight = 5, requires = WithinMeleeRange)
-                +random(weak, weight = 5)
-                +random(powered, weight = 2)
-                +random(split, weight = 2)
+                +random(melee, weight = 40, requires = WithinMeleeRange)
+                +random(weak, weight = 20)
+                +random(powered, weight = 20)
+                +random(split, weight = 20)
             }
         }
     }
@@ -252,6 +295,11 @@ class CorporealBeast @Inject constructor(private val deps: BossDeps) : PluginScr
         return tiles[deps.random.of(tiles.size)]
     }
 
+    private fun poweredDrain(target: Player) {
+        val stat = if (deps.random.of(2) == 0) "stat.magic" else "stat.prayer"
+        target.statSub(stat, constant = deps.random.of(DRAIN_MIN, DRAIN_MAX + 1), percent = 0)
+    }
+
     private fun findCore(corp: Npc): Npc? =
         deps.npcRepo
             .findAll(ZoneKey.from(corp.coords), CORE_SCAN_RADIUS)
@@ -270,6 +318,19 @@ class CorporealBeast @Inject constructor(private val deps: BossDeps) : PluginScr
 
     private companion object {
         const val ATTACK_RATE = 4
+        const val FAST_ATTACK_TICKS = 3
+        const val FAST_ATTACK_ONE_IN = 4
+        const val MAGIC_PRAY_IGNORE = 67
+        const val POWERED_LIFESTEAL = 50
+        const val POWERED_DRAIN = "corp.powered_drain"
+        const val DRAIN_MIN = 1
+        const val DRAIN_MAX = 2
+        const val STOMP_CHECK_TICKS = 7
+        const val STOMP_SCAN_RADIUS = 4
+        const val STOMP_MIN = 30
+        const val STOMP_MAX = 51
+        const val SPLIT_MINI_COUNT = 6
+        const val SPLIT_SCATTER_RADIUS = 3
         const val DAMAGE_CAP = 100
         const val CORE_SPAWN_HIT = 32
         const val CORE_SPAWN_ONE_IN = 8

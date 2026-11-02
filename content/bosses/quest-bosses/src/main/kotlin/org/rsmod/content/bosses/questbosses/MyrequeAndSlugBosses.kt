@@ -31,7 +31,7 @@ class RanisDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             "npc.myq3_ranis_drakan",
             "npc.myq3_ranis_drakan_grounded_vampire_state",
         ) {
-            stats(attackRate = 4)
+            stats(attackRate = 5)
             val melee = ability("melee") {
                 anim("seq.vamp_claw")
                 hit { damage(0..20).roll(); type(Melee) }
@@ -55,7 +55,7 @@ class RanisDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 }
             }
             phase("p3", entryHp = 0.33, transmog = "npc.myq4_ranis_vampyre_combat_enrage") {
-                attackRate = 3
+                attackRate = 2
                 weightedSelectorRandom {
                     +random(melee, weight = 3, requires = WithinMeleeRange)
                     +random(magic, weight = 3)
@@ -207,7 +207,15 @@ class Barrelchest @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             anim("seq.giant_attack")
             hit { damage(0..35).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val ranged = ability("ranged") {
+            projectile(spotanim = "spotanim.myarm_rock_roc_travel", hit = Effect.Hit(damage = Roll(0..35), type = Ranged))
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange and !TargetPraying(Melee))
+                +random(ranged, weight = 2, requires = TargetPraying(Melee))
+            }
+        }
     }
 }
 

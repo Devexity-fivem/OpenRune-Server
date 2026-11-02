@@ -15,7 +15,16 @@ class SlashBash @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             anim("seq.troll_attack")
             hit { damage(0..13).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val ranged = ability("ranged") {
+            anim("seq.troll_attack")
+            projectile(spotanim = "spotanim.myarm_rock_roc_travel", hit = Effect.Hit(damage = Roll(0..13), type = Ranged))
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange)
+                +random(ranged, weight = 1)
+            }
+        }
     }
 }
 
@@ -66,7 +75,7 @@ class RaidsIceDemon @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
 // Inferno — TzKal-Zuk placeholder encounter: melee + ranged up to ~40.
 class TzKalZuk @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.inferno_tzkalzuk_placeholder") {
-        stats(attackRate = 4)
+        stats(attackRate = 10)
         val melee = ability("melee") {
             anim("seq.demon_attack")
             hit { damage(0..40).roll(); type(Melee) }
@@ -97,7 +106,7 @@ class ShadowBouncer @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
 
 // Secrets of the North / DT2 — General Khazard: melee + magic up to ~35.
 class ShadowKhazard @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.shadow_maj_khazard", "npc.general_khazard", "npc.sotn_khazard_ghorrock") {
+    override val spec: BossSpec = boss("npc.shadow_maj_khazard", "npc.sotn_khazard_ghorrock") {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.human_sword_slash")
@@ -125,9 +134,21 @@ class DagannothMotherAll @Inject constructor(deps: BossDeps) : BossPluginScript(
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.tentacle_monster_attack")
-                hit { damage(0..28).roll(); type(Melee) }
+                hit { damage(0..9).roll(); type(Melee) }
             }
-            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+            val ranged = ability("ranged") {
+                projectile(
+                    spotanim = "spotanim.troll_rock_travel",
+                    hit = Effect.Hit(damage = Roll(0..12), type = Ranged),
+                )
+                hit { damage(0..12).roll(); type(Ranged) }
+            }
+            phase("combat") {
+                weightedSelectorRandom {
+                    +random(melee, weight = 2, requires = WithinMeleeRange)
+                    +random(ranged, weight = 1)
+                }
+            }
         }
 }
 
@@ -140,15 +161,7 @@ class GrandTreeBlackDemon @Inject constructor(deps: BossDeps) : BossPluginScript
                 anim("seq.demon_attack")
                 hit { damage(0..16).roll(); type(Melee) }
             }
-            val magic = ability("magic") {
-                projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..25), type = Magic))
-            }
-            phase("combat") {
-                weightedSelectorRandom {
-                    +random(melee, weight = 3, requires = WithinMeleeRange)
-                    +random(magic, weight = 2)
-                }
-            }
+            phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
         }
 }
 
@@ -167,7 +180,7 @@ class ArchiveGuardianTentacle @Inject constructor(deps: BossDeps) : BossPluginSc
 // Troll Stronghold — Dad (troll champion): melee up to ~27.
 class DadChampion @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.troll_champion") {
-        stats(attackRate = 5)
+        stats(attackRate = 8)
         val melee = ability("melee") {
             anim("seq.troll_attack")
             hit { damage(0..27).roll(); type(Melee) }
