@@ -4,6 +4,7 @@ import dev.openrune.types.NpcServerType
 import jakarta.inject.Inject
 import java.util.EnumSet
 import kotlin.math.max
+import org.rsmod.api.combat.commons.ranged.RangedAmmunition
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.attributes.CombatNpcAttributes
@@ -99,7 +100,7 @@ constructor(
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         val effectiveRanged = RangedMaxHitOperations.calculateEffectiveRanged(source, attackStyle)
-        val rangedBonus = bonuses.rangedStrengthBonus(source)
+        val rangedBonus = bonuses.rangedStrengthBonus(source) + quiverAmmoStatDelta(source).second
         val baseDamage = PlayerRangedMaxHit.calculateBaseDamage(effectiveRanged, rangedBonus)
         return RangedMaxHitOperations.modifyBaseDamage(
             baseDamage = baseDamage,
@@ -125,4 +126,7 @@ constructor(
             npcAttributes = npcAttributes,
         )
     }
+
+    private fun quiverAmmoStatDelta(source: Player): Pair<Int, Int> =
+        RangedAmmunition.quiverCombatStatDelta(source)
 }

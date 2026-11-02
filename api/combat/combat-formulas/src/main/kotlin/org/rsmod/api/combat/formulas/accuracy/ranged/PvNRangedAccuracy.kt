@@ -6,6 +6,7 @@ import java.util.EnumSet
 import kotlin.math.max
 import org.rsmod.api.combat.accuracy.npc.NpcRangedAccuracy
 import org.rsmod.api.combat.accuracy.player.PlayerRangedAccuracy
+import org.rsmod.api.combat.commons.ranged.RangedAmmunition
 import org.rsmod.api.combat.commons.styles.RangedAttackStyle
 import org.rsmod.api.combat.commons.types.RangedAttackType
 import org.rsmod.api.combat.formulas.accuracy.AccuracyOperations
@@ -106,7 +107,7 @@ constructor(
         npcAttributes: EnumSet<CombatNpcAttributes>,
     ): Int {
         val effectiveRanged = RangedAccuracyOperations.calculateEffectiveRanged(source, attackStyle)
-        val rangedBonus = bonuses.offensiveRangedBonus(source)
+        val rangedBonus = bonuses.offensiveRangedBonus(source) + quiverAmmoStatDelta(source).first
         val attackRoll = PlayerRangedAccuracy.calculateBaseAttackRoll(effectiveRanged, rangedBonus)
         return RangedAccuracyOperations.modifyAttackRoll(
             attackRoll = attackRoll,
@@ -141,4 +142,7 @@ constructor(
             RangedAttackType.Heavy -> param(BaseParams.defence_heavy)
             null -> 0
         }
+
+    private fun quiverAmmoStatDelta(source: Player): Pair<Int, Int> =
+        RangedAmmunition.quiverCombatStatDelta(source)
 }

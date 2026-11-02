@@ -47301,11 +47301,30 @@ tradeable = false
 
 
 [[item]]
+id = "obj.dizanas_quiver_charged"
+inherit = "obj.dizanas_quiver_charged"
+tradeable = false
+[item.params]
+"param.destroy_note_desc"="You can get another from The Colosseum."
+"param.uncharged_variant"="obj.dizanas_quiver_uncharged"
+
+
+[[item]]
 id = "obj.dizanas_quiver_uncharged"
 inherit = "obj.dizanas_quiver_uncharged"
 tradeable = false
 [item.params]
 "param.destroy_note_desc"="You can get another from The Colosseum."
+"param.charged_variant"="obj.dizanas_quiver_charged"
+
+
+[[item]]
+id = "obj.dizanas_quiver_charged_trouver"
+inherit = "obj.dizanas_quiver_charged_trouver"
+tradeable = false
+[item.params]
+"param.destroy_note_desc"="You can get another from The Colosseum."
+"param.uncharged_variant"="obj.dizanas_quiver_uncharged_trouver"
 
 
 [[item]]
@@ -47314,6 +47333,7 @@ inherit = "obj.dizanas_quiver_uncharged_trouver"
 tradeable = false
 [item.params]
 "param.destroy_note_desc"="You can get another from The Colosseum."
+"param.charged_variant"="obj.dizanas_quiver_charged_trouver"
 
 
 [[item]]

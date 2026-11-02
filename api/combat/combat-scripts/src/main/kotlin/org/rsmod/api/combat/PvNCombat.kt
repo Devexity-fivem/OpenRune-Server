@@ -5,6 +5,7 @@ import dev.openrune.rscm.RSCMType
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.NpcRangedAccuracyHook
+import org.rsmod.api.combat.commons.ranged.RangedAmmunition
 import org.rsmod.api.combat.manager.PlayerAttackManager
 import org.rsmod.api.combat.manager.RangedAmmoManager
 import org.rsmod.api.combat.player.activateMagicSpecial
@@ -162,7 +163,9 @@ constructor(
         }
 
         val quiver = player.quiver
-        val quiverType = getOrNull(quiver)
+        val wornAmmoType = getOrNull(quiver)
+        val (quiverType, fromStored) =
+            RangedAmmunition.resolveAmmo(player, righthandType, wornAmmoType)
 
         val canUseAmmo = ammunition.attemptAmmoUsage(player, righthandType, quiverType)
         if (!canUseAmmo) {
@@ -213,6 +216,8 @@ constructor(
 
         if (usingThrown) {
             ammunition.useThrownWeapon(player, righthandType, npc.coords, dropDelay = serverDelay)
+        } else if (quiverType != null && fromStored) {
+            ammunition.useStoredQuiverAmmo(player, quiverType, npc.coords, dropDelay = serverDelay)
         } else if (quiverType != null) {
             ammunition.useQuiverAmmo(player, quiverType, npc.coords, dropDelay = serverDelay)
         }

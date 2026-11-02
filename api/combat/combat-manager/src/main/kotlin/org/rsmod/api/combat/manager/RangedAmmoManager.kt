@@ -82,6 +82,38 @@ constructor(
         )
 
     /**
+     * Consumes ammunition stored inside a worn Dizana's quiver (its extra ammo slot), applying the
+     * same conservation and drop handling as [useQuiverAmmo].
+     */
+    public fun useStoredQuiverAmmo(
+        player: Player,
+        ammoType: ItemServerType,
+        dropCoord: CoordGrid,
+        dropDelay: Int,
+        dropChance: Int = RangedAmmunition.DEFAULT_AMMO_DROP_RATE,
+        dropDuration: Int = RangedAmmunition.DEFAULT_AMMO_DROP_DURATION,
+        useCount: Int = 1,
+    ) {
+        val conserve = RangedAmmunition.conserveAmmo(player, random)
+        if (!conserve) {
+            RangedAmmunition.detractStoredQuiverAmmo(player, useCount)
+            if (random.randomBoolean(dropChance)) {
+                RangedAmmunition.attemptAmmoDrop(
+                    player = player,
+                    delay = dropDelay,
+                    ammoType = ammoType,
+                    ammoCount = useCount,
+                    dropCoord = dropCoord,
+                    dropDuration = dropDuration,
+                    collision = collision,
+                    worldQueues = worldQueues,
+                    objRepo = objRepo,
+                )
+            }
+        }
+    }
+
+    /**
      * Consumes ammunition from the player's `righthand` slot (for thrown weapons), deducting it and
      * handling possible ammo drops.
      *

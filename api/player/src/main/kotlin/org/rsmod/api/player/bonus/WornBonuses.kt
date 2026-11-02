@@ -194,9 +194,9 @@ public class WornBonuses {
             magicDmg += 50
         }
 
-        // TODO: +10 off ranged and +1 ranged str with dizana's quiver.
-        //  Verify if this is visible in equipment bonus interface. If it's not then it can be
-        //  handled purely in combat formulae and not here.
+        // Note: Dizana's quiver's stored-ammo stat substitution and its +10 ranged accuracy /
+        // +1 ranged strength sunfire effect are applied in the combat formulas at fire time via
+        // `RangedAmmunition.quiverCombatStatDelta`, not here.
 
         return Bonuses(
             offStab = offStab,
