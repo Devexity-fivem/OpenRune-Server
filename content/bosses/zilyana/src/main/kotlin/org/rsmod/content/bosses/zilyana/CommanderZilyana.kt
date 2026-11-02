@@ -34,7 +34,7 @@ class CommanderZilyana @Inject constructor(deps: BossDeps) : BossPluginScript(de
 
     override val spec =
         boss(AVATAR) {
-            stats(attackRate = 5)
+            stats(attackRate = 2)
             val magic =
                 ability("magic") {
                     anim("seq.godwars_saradomin_magic_attack")
@@ -57,7 +57,7 @@ class CommanderZilyana @Inject constructor(deps: BossDeps) : BossPluginScript(de
             phase("combat") {
                 weightedSelectorRandom {
                     +random(melee, weight = 3, requires = WithinMeleeRange)
-                    +random(magic, weight = 2)
+                    +random(magic, weight = 2, requires = WithinMeleeRange)
                 }
             }
         }

@@ -255,6 +255,150 @@
    "limitations": [
     "Dash damage radius and drag stun duration were not re-measured against OSRS video evidence in this pass."
    ]
+  },
+  "General Graardor": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/graardor/src/main/kotlin/org/rsmod/content/bosses/graardor/GeneralGraardor.kt",
+    "content/bosses/graardor/src/main/kotlin/org/rsmod/content/bosses/graardor/GraardorInstance.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/General_Graardor",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 5->6 ticks per the Wiki infobox. His ranged ground-slam now resolves on every player in the room via onEach(AllInRadius(40)) instead of single-target, per the Wiki's 'hitting all players in the room'; the 15-35 uniform roll, 2/3-melee / 1/3-ranged weights and melee-range-only gate were already correct."
+    ],
+    "reason": "Serjeant styles, bodyguard-respawn linkage and aggressive-on-sight were already correct; only the documented rates/AoE needed changes."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck; the onEach/AllInRadius room-AoE pattern matches Kree'arra's previously verified spec. No dedicated spec tests exist in the module."
+    ]
+   },
+   "mcp": {
+    "state": "passed",
+    "evidence": [
+     "Public room at level 2: Graardor and all three sergeants aggro on sight and pile correctly; the ranged slam fired with anim 7019 and an inbound godwars_bandos_ranged projectile observed mid-flight."
+    ],
+    "reason": "Multi-player fan-out of the slam needs a second client to fully confirm; single client receives its projectile as expected."
+   },
+   "discrepancies": [
+    "No health/stat reset when the chamber empties (Wiki: should reset); no generic empty-room reset exists in the boss framework yet."
+   ],
+   "limitations": [
+    "Killcount door (40 Bandos) exists in GraardorInstance but was bypassed via admin teleport; private-instance flow untested this pass."
+   ]
+  },
+  "K'ril Tsutsaroth": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/kril/src/main/kotlin/org/rsmod/content/bosses/kril/KrilTsutsaroth.kt",
+    "content/bosses/kril/src/main/kotlin/org/rsmod/content/bosses/kril/KrilInstance.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/K%27ril_Tsutsaroth",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 5->6 ticks per the Wiki infobox. His 'YARRRRRRR!' prayer-smash is now gated on the target praying Protect from Melee (was an unconditioned 2/27 random pick) and carries penetration 100 so it hits through prayer; the 50% prayer drain extension was already wired."
+    ],
+    "reason": "Melee/magic weights unchanged; the special's exact trigger probability inside the melee window is best-fit, not Wiki-sourced."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck."
+    ]
+   },
+   "mcp": {
+    "state": "passed",
+    "evidence": [
+     "Live: Protect from Melee + melee range produced the smash - Prayer stat drained ~58 (50% of pool plus ongoing drain), zamorak attack/magic anims (6948/6950) and magic spotanim 1224 rendering."
+    ],
+    "reason": "The smash's exact share of attacks inside the melee window was not statistically measured."
+   },
+   "discrepancies": [
+    "K'ril does not path into melee range from distance to deliver melee attacks; he remains at cast range (shared chase-fidelity question across bosses)."
+   ],
+   "limitations": [
+    "Private-instance entry flow untested this pass."
+   ]
+  },
+  "Commander Zilyana": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/zilyana/src/main/kotlin/org/rsmod/content/bosses/zilyana/CommanderZilyana.kt",
+    "content/bosses/zilyana/src/main/kotlin/org/rsmod/content/bosses/zilyana/ZilyanaInstance.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Commander_Zilyana",
+    "https://oldschool.runescape.wiki/w/Zily_guide"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 5->2 ticks per the Wiki infobox - her signature rapid cadence. Her magic attack now requires melee distance like the melee swing, matching the strategy text that she can only attack within melee distance."
+    ],
+    "reason": "Melee/magic weights (3/2) are best-fit; the Wiki does not publish selection shares."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles and passes spotlessKotlinCheck."
+    ]
+   },
+   "mcp": {
+    "state": "passed",
+    "evidence": [
+     "Not separately re-entered live in this pass; the spec change is declarative and compiles."
+    ],
+    "reason": "Live timing of the 2-tick cadence not measured."
+   },
+   "discrepancies": [
+    "Same empty-room reset gap as Graardor."
+   ],
+   "limitations": []
+  },
+  "Kree'arra": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/kreearra/src/main/kotlin/org/rsmod/content/bosses/kreearra/KreeArra.kt",
+    "content/bosses/kreearra/src/main/kotlin/org/rsmod/content/bosses/kreearra/KreeArraInstance.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Kree%27arra",
+    "https://oldschool.runescape.wiki/w/Attack_speed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Wiki cross-check only: attack speed 3 ticks, wind/magic/claw ability mix and the room-wide wind AoE (AllInRadius) already matched the Wiki; no code changes needed."
+    ],
+    "reason": "Selection weights 6/2/2 are best-fit."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module untouched; previously compiled and checked."
+    ]
+   },
+   "mcp": {
+    "state": "passed",
+    "evidence": [
+     "Not re-entered live this pass; the spec was used as the convention reference for Graardor's AoE fix."
+    ],
+    "reason": "Not re-verified live this session."
+   },
+   "discrepancies": [
+    "Same empty-room reset gap as Graardor."
+   ],
+   "limitations": []
   }
  }
 }

@@ -7,6 +7,7 @@ import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossCombat
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
+import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.player.stat.statSub
 import org.rsmod.api.script.onEvent
 import org.rsmod.game.entity.Npc
@@ -39,7 +40,7 @@ class KrilTsutsaroth @Inject constructor(deps: BossDeps) : BossPluginScript(deps
 
     override val spec =
         boss(AVATAR) {
-            stats(attackRate = 5)
+            stats(attackRate = 6)
 
             val melee =
                 ability("melee") {
@@ -67,6 +68,7 @@ class KrilTsutsaroth @Inject constructor(deps: BossDeps) : BossPluginScript(deps
                     hit {
                         damage(35..49).roll()
                         type(Melee)
+                        penetration(100)
                     }
                     include(external("kril.prayer_smash_drain"))
                 }
@@ -75,7 +77,11 @@ class KrilTsutsaroth @Inject constructor(deps: BossDeps) : BossPluginScript(deps
                 weightedSelectorRandom {
                     +random(melee, weight = 16, requires = WithinMeleeRange)
                     +random(magic, weight = 9)
-                    +random(magicDrain, weight = 2, requires = WithinMeleeRange)
+                    +random(
+                        magicDrain,
+                        weight = 2,
+                        requires = Condition.And(WithinMeleeRange, TargetPraying(Melee)),
+                    )
                 }
             }
         }
