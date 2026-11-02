@@ -241,7 +241,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 |---|---|---|---|
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fortis_Colosseum.png/48px-Fortis_Colosseum.png?4c94a" height="20" alt=""> Fortis Colosseum | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Fortis_Colosseum) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Giants%27_Foundry.png/48px-Giants%27_Foundry.png?70b44" height="20" alt=""> [Giants' Foundry](content/minigames/giants-foundry) | 4,471 loc | [wiki](https://oldschool.runescape.wiki/w/Giants'_Foundry) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Guardians_of_the_Rift.png/48px-Guardians_of_the_Rift.png?79d31" height="20" alt=""> [Guardians of the Rift](content/minigames/guardians-of-the-rift) | 888 loc | [wiki](https://oldschool.runescape.wiki/w/Guardians_of_the_Rift) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Guardians_of_the_Rift.png/48px-Guardians_of_the_Rift.png?79d31" height="20" alt=""> [Guardians of the Rift](content/minigames/guardians-of-the-rift) | 1,040 loc | [wiki](https://oldschool.runescape.wiki/w/Guardians_of_the_Rift) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Hunting_implings.png/48px-Hunting_implings.png?76106" height="20" alt=""> Impetuous Impulses | no module, code in content/skills/hunter | [wiki](https://oldschool.runescape.wiki/w/Impetuous_Impulses) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Inferno_entrance.png/48px-Inferno_entrance.png?daf3a" height="20" alt=""> [Inferno](content/minigames/inferno) | 514 loc | [wiki](https://oldschool.runescape.wiki/w/Inferno) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mastering_Mixology_room.png/48px-Mastering_Mixology_room.png?e26f0" height="20" alt=""> [Mastering Mixology](content/minigames/mastering-mixology) | 829 loc | [wiki](https://oldschool.runescape.wiki/w/Mastering_Mixology) |
@@ -417,7 +417,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `minigames/gauntlet` | 35 | 3,514 | 2 | 0 | 2026-10-09 |
 | `minigames/giants-foundry` | 17 | 4,126 | 5 | 2 | 2026-10-27 |
 | `minigames/giants-foundry/pack` | 2 | 345 | 0 | 0 | 2026-10-27 |
-| `minigames/guardians-of-the-rift` | 1 | 888 | 0 | 0 | — |
+| `minigames/guardians-of-the-rift` | 1 | 1,040 | 1 | 0 | 2026-11-01 |
 | `minigames/inferno` | 3 | 514 | 0 | 0 | 2026-10-29 |
 | `minigames/ket-rak` | 3 | 657 | 0 | 0 | 2026-10-29 |
 | `minigames/mastering-mixology` | 2 | 829 | 0 | 0 | 2026-11-01 |

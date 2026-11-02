@@ -307,6 +307,10 @@ Default to no comments; the code and its names should carry the meaning.
 
 ## Unit tests — where they earn their keep
 
+Modules applying `integration-test-suite` run cache-backed game tests with the
+`:integration` task (not `:integrationTest`), for example
+`gradlew :content:minigames:guardians-of-the-rift:integration`.
+
 Write tests for two kinds of code, and verify everything else in a live client:
 
 - **Complex logic and maths**: combat formulas, accuracy/max-hit rolls, drop-rate

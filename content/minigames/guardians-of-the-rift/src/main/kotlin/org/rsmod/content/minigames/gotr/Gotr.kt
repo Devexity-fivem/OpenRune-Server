@@ -11,6 +11,7 @@ import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.player.ui.ifCloseOverlay
+import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
@@ -32,6 +33,8 @@ import org.rsmod.game.entity.Player
 import org.rsmod.game.entity.timerAt
 import org.rsmod.game.inv.InvObj
 import org.rsmod.game.loc.BoundLocInfo
+import org.rsmod.game.loc.LocInfo
+import org.rsmod.game.loc.LocShape
 import org.rsmod.game.type.getInvObj
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
@@ -43,6 +46,7 @@ constructor(
     private val protectedAccess: ProtectedAccessLauncher,
     private val worldClock: MapClock,
     private val npcRepo: NpcRepository,
+    private val locRepo: LocRepository,
     private val eventBus: EventBus,
 ) : PluginScript() {
 
@@ -66,12 +70,14 @@ constructor(
             onOpLoc1(portal.loc) { enterPortal(portal) }
         }
         onOpNpc1(GREAT_GUARDIAN) { powerUp() }
-        onOpLoc1(CELL_TILE_INACTIVE) { placeBarrier() }
-        onOpLoc1(CELL_TILE_BROKEN) { repairTile() }
+        onOpLoc1(CELL_TILE_INACTIVE) { useCellTile(it.loc) }
+        onOpLoc1(CELL_TILE_BROKEN) { repairTile(it.loc) }
         for (tier in CellTier.entries) {
-            onOpLoc1(tier.tileLoc) { placeBarrier() }
+            onOpLoc1(tier.tileLoc) { useCellTile(it.loc) }
             for (cell in 1..4) {
-                onOpLocU(tier.barrierLoc, "obj.gotr_cell_tier$cell") { useCellOnBarrier(tier, cell) }
+                onOpLocU(tier.barrierLoc, "obj.gotr_cell_tier$cell") {
+                    useCellOnBarrier(cell, it.loc)
+                }
             }
         }
         onOpLoc1(ESSENCE_PILE_ELEMENTAL) { assembleGuardian(true) }
@@ -88,6 +94,7 @@ constructor(
                 ifOpenOverlay(HUD_OVERLAY, HUD_TARGET)
                 if (vars[VB_IS_PLAYING] == 1) {
                     player.timerAt(GOTR_TIMER, worldClock.cycle, TICK_RATE)
+                    game.join(player)
                 }
             } else {
                 exitTemple()
@@ -99,11 +106,12 @@ constructor(
         ifOpenOverlay(HUD_OVERLAY, HUD_TARGET)
         vars[VB_IS_PLAYING] = 1
         player.timerAt(GOTR_TIMER, worldClock.cycle, TICK_RATE)
-        game.join()
+        game.join(player)
     }
 
     private fun ProtectedAccess.exitTemple() {
         player.ifCloseOverlay(HUD_OVERLAY, eventBus)
+        game.leave(player)
         vars[VB_IS_PLAYING] = 0
         vars[VB_ELEMENTAL_EARNED] = 0
         vars[VB_CATALYTIC_EARNED] = 0
@@ -232,6 +240,9 @@ constructor(
             return
         }
         anim(IMBUE_ANIM)
+        if (cells > 0 || held != null) {
+            statAdvance("stat.runecrafting", CELL_XP.toDouble())
+        }
         if (held != null && portal.cellTier > held.tier.tier) {
             invDel(inv, held.obj, 1)
             invAdd(inv, "obj.gotr_cell_tier${portal.cellTier}", 1)
@@ -245,6 +256,11 @@ constructor(
             invAdd(inv, portal.stoneObj, essence)
             invAdd(inv, portal.runeObj, essence)
             statAdvance("stat.runecrafting", essence * ESSENCE_XP.toDouble())
+            repeat(essence) {
+                if (Random.nextInt(TALISMAN_RATE) == 0) {
+                    invAdd(inv, portal.talismanObj, 1)
+                }
+            }
         }
         mes("You imbue your supplies at the ${portal.display} altar.")
     }
@@ -270,7 +286,7 @@ constructor(
             .coerceAtMost(ENERGY_CAP_PER_TYPE)
         vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + catalytic * ENERGY_PER_STONE)
             .coerceAtMost(ENERGY_CAP_PER_TYPE)
-        game.addCharge(earned)
+        game.addCharge(this, earned)
         statAdvance("stat.runecrafting", total * 5.0)
         player.runEnergy = (player.runEnergy + total * 100).coerceAtMost(10_000)
         if (vars[VB_ELEMENTAL_EARNED] >= ENERGY_CAP_PER_TYPE &&
@@ -281,12 +297,32 @@ constructor(
         }
     }
 
-    private fun ProtectedAccess.placeBarrier() {
+    private fun ProtectedAccess.useCellTile(srcLoc: BoundLocInfo) {
+        val tile = game.tileAt(srcLoc.coords) ?: run {
+            mes("There is no cell tile here.")
+            return
+        }
+        if (game.isBroken(tile)) {
+            repairTile(srcLoc)
+            return
+        }
+        if (game.hasBarrier(tile)) {
+            val cell = heldCell() ?: run {
+                mes("You need a charged cell to recharge or strengthen a barrier.")
+                return
+            }
+            useCellOnBarrier(cell.tier.tier, srcLoc)
+        } else {
+            placeBarrier(srcLoc)
+        }
+    }
+
+    private fun ProtectedAccess.placeBarrier(srcLoc: BoundLocInfo) {
         val cell = heldCell() ?: run {
             mes("You need a charged cell to place a barrier.")
             return
         }
-        val tile = game.tileAt(player.coords) ?: run {
+        val tile = game.tileAt(srcLoc.coords) ?: run {
             mes("There is no cell tile here.")
             return
         }
@@ -296,57 +332,69 @@ constructor(
         }
         invDel(inv, cell.obj, 1)
         anim(BUILD_ANIM)
-        game.placeBarrier(tile, cell.tier)
-        val energy = cell.tier.buildEnergy
-        vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + energy).coerceAtMost(ENERGY_CAP_PER_TYPE)
-        vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + energy).coerceAtMost(ENERGY_CAP_PER_TYPE)
-        if (game.isBattle()) {
-            statAdvance("stat.runecrafting", cell.tier.buildXp.toDouble())
-        }
-        mes("You erect a ${cell.tier.display} barrier.")
+        game.placeBarrier(tile, cell.tier, srcLoc)
+        vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + BUILD_ENERGY)
+            .coerceAtMost(ENERGY_CAP_PER_TYPE)
+        vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + BUILD_ENERGY)
+            .coerceAtMost(ENERGY_CAP_PER_TYPE)
+        statAdvance("stat.runecrafting", cell.tier.buildXp.toDouble())
+        mes("You erect a barrier on the cell tile.")
     }
 
-    private fun ProtectedAccess.useCellOnBarrier(existing: CellTier, cellTier: Int) {
-        val tile = game.tileAt(player.coords) ?: return
-        if (!game.hasBarrier(tile)) return
+    private fun ProtectedAccess.useCellOnBarrier(cellTier: Int, srcLoc: BoundLocInfo) {
+        val tile = game.tileAt(srcLoc.coords) ?: return
+        val existing = game.barrierTier(tile) ?: return
+        val cell = CellTier.of(cellTier)
+        if (inv.count("obj.gotr_cell_tier$cellTier") == 0) return
         if (cellTier > existing.tier) {
             invDel(inv, "obj.gotr_cell_tier$cellTier", 1)
-            game.strengthen(tile, cellTier)
+            game.strengthen(tile, srcLoc)
             anim(BUILD_ANIM)
-            val energy = CellTier.of(cellTier).buildEnergy
-            vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + energy)
+            vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + cell.strengthenEnergy)
                 .coerceAtMost(ENERGY_CAP_PER_TYPE)
-            vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + energy)
+            vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + cell.strengthenEnergy)
                 .coerceAtMost(ENERGY_CAP_PER_TYPE)
+            statAdvance("stat.runecrafting", cell.buildXp.toDouble())
             mes("You strengthen the barrier.")
         } else {
-            if (game.rechargeXp >= RECHARGE_XP_CAP && game.rechargeEnergy >= RECHARGE_ENERGY_CAP) {
+            val fullHp = game.isFullHealth(tile)
+            if (fullHp && game.rechargeEnergy >= RECHARGE_ENERGY_CAP) {
                 mes("You have gained as much as you can from recharging barriers.")
                 return
             }
             invDel(inv, "obj.gotr_cell_tier$cellTier", 1)
-            game.recharge(tile, cellTier)
+            game.recharge(tile, cell.heal)
             anim(BUILD_ANIM)
-            val tier = CellTier.of(cellTier)
-            val xp = (tier.buildXp / 2).coerceAtMost(RECHARGE_XP_CAP - game.rechargeXp)
-            val energy = tier.buildEnergy.coerceAtMost(RECHARGE_ENERGY_CAP - game.rechargeEnergy)
-            game.rechargeXp += xp
-            game.rechargeEnergy += energy
-            statAdvance("stat.runecrafting", xp.toDouble())
-            vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + energy / 2)
+            val energy = if (fullHp) {
+                (cell.rechargeEnergy).coerceAtMost(RECHARGE_ENERGY_CAP - game.rechargeEnergy)
+            } else {
+                cell.rechargeEnergy
+            }
+            if (fullHp) {
+                game.rechargeEnergy += energy
+            } else {
+                val xp = cell.buildXp.coerceAtMost(RECHARGE_XP_CAP - game.rechargeXp)
+                game.rechargeXp += xp
+                statAdvance("stat.runecrafting", xp.toDouble())
+            }
+            vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + energy)
                 .coerceAtMost(ENERGY_CAP_PER_TYPE)
-            vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + energy / 2)
+            vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + energy)
                 .coerceAtMost(ENERGY_CAP_PER_TYPE)
             mes("You recharge the barrier.")
         }
     }
 
-    private fun ProtectedAccess.repairTile() {
+    private fun ProtectedAccess.repairTile(srcLoc: BoundLocInfo) {
+        val tile = game.tileAt(srcLoc.coords) ?: return
+        if (!game.isBroken(tile)) {
+            mes("The cell tile is not broken.")
+            return
+        }
         if (inv.count(OBJ_FRAGMENT) < FRAGS_PER_REPAIR) {
             mes("You need $FRAGS_PER_REPAIR guardian fragments to repair the cell tile.")
             return
         }
-        val tile = game.tileAt(player.coords) ?: return
         invDel(inv, OBJ_FRAGMENT, FRAGS_PER_REPAIR)
         anim(BUILD_ANIM)
         game.repair(tile)
@@ -432,19 +480,23 @@ constructor(
     }
 
     private fun ProtectedAccess.awardGameEnd(win: Boolean) {
-        val total = vars[VB_ELEMENTAL_EARNED] + vars[VB_CATALYTIC_EARNED]
+        val elemental = vars[VB_ELEMENTAL_EARNED]
+        val catalytic = vars[VB_CATALYTIC_EARNED]
+        val total = elemental + catalytic
         if (total >= MIN_ENERGY_REWARD) {
             val xp = player.statBase("stat.runecrafting") * XP_PER_RC_LEVEL.toDouble()
             statAdvance("stat.runecrafting", xp)
             vars[VB_FINISHED_GAME] = 1
             vars[VB_COMPLETED] = 1
-            game.pendingSearches++
+            val searches = minOf(points(elemental), points(catalytic))
+            game.pendingSearches += searches
+            val searchText = if (searches == 1) "a reward search" else "$searches reward searches"
             if (win) {
-                mes("The Great Guardian closes the rift! You earned $total energy " +
-                    "and a reward search.")
+                mes("The Great Guardian closes the rift! You earned $total energy and " +
+                    "$searchText.")
             } else {
-                mes("The rift overwhelms the Great Guardian. You earned $total energy " +
-                    "and a reward search.")
+                mes("The rift overwhelms the Great Guardian. You earned $total energy and " +
+                    "$searchText.")
             }
         } else {
             mes("The game ends. You gathered too little energy to earn a reward.")
@@ -452,6 +504,10 @@ constructor(
         vars[VB_ELEMENTAL_EARNED] = 0
         vars[VB_CATALYTIC_EARNED] = 0
     }
+
+    private fun points(energy: Int): Int =
+        energy / POINTS_PER_ENERGY +
+            if (Random.nextInt(POINTS_PER_ENERGY) < energy % POINTS_PER_ENERGY) 1 else 0
 
     private fun inTemple(coords: CoordGrid): Boolean =
         coords.x in ARENA_MIN_X..ARENA_MAX_X &&
@@ -476,20 +532,24 @@ constructor(
         val barrierLoc: String,
         val buildXp: Int,
         val guardianXp: Int,
-        val buildEnergy: Int,
+        val maxHp: Int,
+        val placeHp: Int,
+        val heal: Int,
+        val strengthenEnergy: Int,
+        val rechargeEnergy: Int,
         val guardianEnergy: Int,
         val display: String,
         val elementalNpc: String,
         val catalyticNpc: String,
     ) {
-        WEAK(1, "loc.gotr_cell_tile_tier1", "loc.gotr_barrier_tier1", 30, 30, 17, 6, "weak",
-            "npc.gotr_guardian_air", "npc.gotr_guardian_mind"),
-        MEDIUM(2, "loc.gotr_cell_tile_tier2", "loc.gotr_barrier_tier2", 100, 100, 20, 15, "medium",
-            "npc.gotr_guardian_water", "npc.gotr_guardian_chaos"),
-        STRONG(3, "loc.gotr_cell_tile_tier3", "loc.gotr_barrier_tier3", 180, 180, 25, 27, "strong",
-            "npc.gotr_guardian_earth", "npc.gotr_guardian_death"),
-        OVERCHARGED(4, "loc.gotr_cell_tile_tier4", "loc.gotr_barrier_tier4", 250, 250, 30, 45,
-            "overcharged", "npc.gotr_guardian_fire", "npc.gotr_guardian_blood");
+        WEAK(1, "loc.gotr_cell_tile_tier1", "loc.gotr_barrier_tier1", 30, 30, 50, 17, 10, 0, 2, 6,
+            "weak", "npc.gotr_guardian_air", "npc.gotr_guardian_mind"),
+        MEDIUM(2, "loc.gotr_cell_tile_tier2", "loc.gotr_barrier_tier2", 100, 100, 100, 20, 25, 7,
+            5, 15, "medium", "npc.gotr_guardian_water", "npc.gotr_guardian_chaos"),
+        STRONG(3, "loc.gotr_cell_tile_tier3", "loc.gotr_barrier_tier3", 180, 180, 200, 24, 50, 13,
+            9, 27, "strong", "npc.gotr_guardian_earth", "npc.gotr_guardian_death"),
+        OVERCHARGED(4, "loc.gotr_cell_tile_tier4", "loc.gotr_barrier_tier4", 250, 250, 400, 30,
+            100, 22, 15, 45, "overcharged", "npc.gotr_guardian_fire", "npc.gotr_guardian_blood");
 
         fun npc(elemental: Boolean) = if (elemental) elementalNpc else catalyticNpc
 
@@ -505,25 +565,38 @@ constructor(
         val cellTier: Int,
         val rcReq: Int,
         val runeObj: String,
+        val talismanObj: String,
     ) {
-        AIR("loc.gotr_portal_air", "Air", true, 1, 1, "obj.airrune"),
-        WATER("loc.gotr_portal_water", "Water", true, 2, 5, "obj.waterrune"),
-        EARTH("loc.gotr_portal_earth", "Earth", true, 3, 9, "obj.earthrune"),
-        FIRE("loc.gotr_portal_fire", "Fire", true, 4, 14, "obj.firerune"),
-        MIND("loc.gotr_portal_mind", "Mind", false, 1, 2, "obj.mindrune"),
-        BODY("loc.gotr_portal_body", "Body", false, 1, 20, "obj.bodyrune"),
-        COSMIC("loc.gotr_portal_cosmic", "Cosmic", false, 2, 27, "obj.cosmicrune"),
-        CHAOS("loc.gotr_portal_chaos", "Chaos", false, 2, 35, "obj.chaosrune"),
-        NATURE("loc.gotr_portal_nature", "Nature", false, 3, 44, "obj.naturerune"),
-        LAW("loc.gotr_portal_law", "Law", false, 3, 54, "obj.lawrune"),
-        DEATH("loc.gotr_portal_death", "Death", false, 4, 65, "obj.deathrune"),
-        BLOOD("loc.gotr_portal_blood", "Blood", false, 4, 77, "obj.bloodrune");
+        AIR("loc.gotr_portal_air", "Air", true, 1, 1, "obj.airrune",
+            "obj.gotr_portal_talisman_air"),
+        WATER("loc.gotr_portal_water", "Water", true, 2, 5, "obj.waterrune",
+            "obj.gotr_portal_talisman_water"),
+        EARTH("loc.gotr_portal_earth", "Earth", true, 3, 9, "obj.earthrune",
+            "obj.gotr_portal_talisman_earth"),
+        FIRE("loc.gotr_portal_fire", "Fire", true, 4, 14, "obj.firerune",
+            "obj.gotr_portal_talisman_fire"),
+        MIND("loc.gotr_portal_mind", "Mind", false, 1, 2, "obj.mindrune",
+            "obj.gotr_portal_talisman_mind"),
+        BODY("loc.gotr_portal_body", "Body", false, 1, 20, "obj.bodyrune",
+            "obj.gotr_portal_talisman_body"),
+        COSMIC("loc.gotr_portal_cosmic", "Cosmic", false, 2, 27, "obj.cosmicrune",
+            "obj.gotr_portal_talisman_cosmic"),
+        CHAOS("loc.gotr_portal_chaos", "Chaos", false, 2, 35, "obj.chaosrune",
+            "obj.gotr_portal_talisman_chaos"),
+        NATURE("loc.gotr_portal_nature", "Nature", false, 3, 44, "obj.naturerune",
+            "obj.gotr_portal_talisman_nature"),
+        LAW("loc.gotr_portal_law", "Law", false, 3, 54, "obj.lawrune",
+            "obj.gotr_portal_talisman_law"),
+        DEATH("loc.gotr_portal_death", "Death", false, 4, 65, "obj.deathrune",
+            "obj.gotr_portal_talisman_death"),
+        BLOOD("loc.gotr_portal_blood", "Blood", false, 4, 77, "obj.bloodrune",
+            "obj.gotr_portal_talisman_blood");
 
         val stoneObj: String
             get() = if (elemental) OBJ_STONE_ELEMENTAL else OBJ_STONE_CATALYTIC
     }
 
-    private data class Barrier(val tier: CellTier, var hp: Int)
+    private data class Barrier(val tier: CellTier, var hp: Int, var loc: LocInfo? = null)
 
     private enum class Phase { IDLE, PREP, ACTIVE, OVER }
 
@@ -533,21 +606,33 @@ constructor(
         private var prepTicks = 0
         private var portalSwitch = 0
         private var spawnTick = 0
-        private var drainTick = 0
         private var overTicks = 0
+        private var lastTick = 0
+        private var rotations = 0
+        private var surged = false
         private var elementalPortal = Portal.AIR
         private var catalyticPortal = Portal.MIND
         var pendingSearches = 0
         var rechargeXp = 0
         var rechargeEnergy = 0
+        private val players = mutableSetOf<Player>()
         private val barriers = mutableMapOf<CoordGrid, Barrier>()
+        private val brokenTiles = mutableSetOf<CoordGrid>()
         private val abyssals = mutableListOf<Npc>()
         private val guardians = mutableListOf<Npc>()
 
-        fun join() {
+        private val chargeTarget: Int
+            get() = CHARGE_PER_PLAYER * players.size.coerceAtLeast(1)
+
+        fun join(player: Player) {
+            players += player
             if (phase != Phase.PREP && phase != Phase.ACTIVE) {
                 reset()
             }
+        }
+
+        fun leave(player: Player) {
+            players -= player
         }
 
         fun isBattle() = phase == Phase.ACTIVE
@@ -556,9 +641,16 @@ constructor(
 
         fun guardianCount() = guardians.size
 
-        fun addCharge(amount: Int) {
+        fun addCharge(access: ProtectedAccess, amount: Int) {
             charge += amount
-            if (charge >= CHARGE_TARGET) {
+            if (!surged && phase == Phase.ACTIVE && charge >= chargeTarget * SURGE_PCT / 100) {
+                surge()
+                access.mes(
+                    "The temple rumbles as the rift glows more intensely! " +
+                        "The barriers take the strain!"
+                )
+            }
+            if (charge >= chargeTarget) {
                 endRound(win = true)
             }
         }
@@ -571,27 +663,52 @@ constructor(
             }
         }
 
-        fun tileAt(near: CoordGrid): CoordGrid? =
-            CELL_TILES.firstOrNull { chebyshev(it, near) <= 2 }
+        fun tileAt(coords: CoordGrid): CoordGrid? =
+            CELL_TILES.firstOrNull { it == coords }
 
         fun hasBarrier(tile: CoordGrid) = barriers.containsKey(tile)
 
-        fun placeBarrier(tile: CoordGrid, tier: CellTier) {
-            barriers[tile] = Barrier(tier, tier.tier * BARRIER_HP_PER_TIER)
+        fun isBroken(tile: CoordGrid) = tile in brokenTiles
+
+        fun barrierTier(tile: CoordGrid) = barriers[tile]?.tier
+
+        fun isFullHealth(tile: CoordGrid) = barriers[tile]?.let { it.hp >= it.tier.maxHp } == true
+
+        fun placeBarrier(tile: CoordGrid, cell: CellTier, srcLoc: BoundLocInfo) {
+            val spawned = locRepo.add(
+                tile, CellTier.WEAK.barrierLoc, Int.MAX_VALUE, srcLoc.angle, LocShape.CentrepieceStraight
+            )
+            barriers[tile] = Barrier(CellTier.WEAK, cell.placeHp, spawned)
         }
 
-        fun strengthen(tile: CoordGrid, newTier: Int) {
-            barriers[tile] = Barrier(CellTier.of(newTier), newTier * BARRIER_HP_PER_TIER)
-        }
-
-        fun recharge(tile: CoordGrid, cellTier: Int) {
+        fun strengthen(tile: CoordGrid, srcLoc: BoundLocInfo) {
             val barrier = barriers[tile] ?: return
-            val max = barrier.tier.tier * BARRIER_HP_PER_TIER
-            barrier.hp = (barrier.hp + cellTier * RECHARGE_PER_TIER).coerceAtMost(max)
+            val next = CellTier.of(barrier.tier.tier + 1)
+            removeBarrierLoc(tile)
+            val spawned = locRepo.add(
+                tile, next.barrierLoc, Int.MAX_VALUE, srcLoc.angle, LocShape.CentrepieceStraight
+            )
+            barriers[tile] = Barrier(next, barrier.hp.coerceAtMost(next.maxHp), spawned)
+        }
+
+        fun removeBarrierLoc(tile: CoordGrid) {
+            barriers[tile]?.loc?.let { locRepo.del(it, Int.MAX_VALUE) }
+            barriers[tile]?.loc = null
+        }
+
+        fun recharge(tile: CoordGrid, heal: Int) {
+            val barrier = barriers[tile] ?: return
+            barrier.hp = (barrier.hp + heal).coerceAtMost(barrier.tier.maxHp)
         }
 
         fun repair(tile: CoordGrid) {
+            brokenTiles.remove(tile)
+        }
+
+        private fun breakBarrier(tile: CoordGrid) {
+            removeBarrierLoc(tile)
             barriers.remove(tile)
+            brokenTiles += tile
         }
 
         fun spawnRiftGuardian(at: CoordGrid, elemental: Boolean, tier: CellTier): Npc {
@@ -604,6 +721,8 @@ constructor(
         }
 
         fun tick(access: ProtectedAccess) {
+            if (worldClock.cycle - lastTick < TICK_RATE) return
+            lastTick = worldClock.cycle
             val player = access.player
             when (phase) {
                 Phase.PREP -> {
@@ -616,8 +735,7 @@ constructor(
                 Phase.ACTIVE -> {
                     if (++portalSwitch * TICK_RATE >= PORTAL_ROTATION) {
                         portalSwitch = 0
-                        elementalPortal = ELEMENTALS.random()
-                        catalyticPortal = CATALYTICS.random()
+                        rotatePortals()
                         access.mes(
                             "The portal guardians shift: ${elementalPortal.display} and " +
                                 "${catalyticPortal.display} are now active."
@@ -640,7 +758,7 @@ constructor(
                             abyssal.anim(abyssalAttackAnim(abyssal, blocked), 0, 0)
                             barrier.hp -= ABYSSAL_DPS
                             if (barrier.hp <= 0) {
-                                barriers.remove(blocked)
+                                breakBarrier(blocked)
                                 access.mes("A barrier has been destroyed!")
                             }
                             continue
@@ -666,10 +784,6 @@ constructor(
                             guardian.walk(target.coords)
                         }
                     }
-                    if (++drainTick * TICK_RATE >= DRAIN_INTERVAL) {
-                        drainTick = 0
-                        drain(PASSIVE_DRAIN)
-                    }
                     if (charge == 0 && phase == Phase.ACTIVE) {
                         endRound(win = false)
                     }
@@ -684,9 +798,29 @@ constructor(
             }
         }
 
+        private fun rotatePortals() {
+            if (++rotations <= MEDIUM_GUARANTEE_ROTATIONS) {
+                elementalPortal = Portal.WATER
+                catalyticPortal = MEDIUM_CATALYTICS.random()
+            } else {
+                elementalPortal = ELEMENTALS.random()
+                catalyticPortal = CATALYTICS.random()
+            }
+        }
+
+        private fun surge() {
+            surged = true
+            for ((tile, barrier) in barriers.entries.toList()) {
+                barrier.hp -= SURGE_DAMAGE
+                if (barrier.hp <= 0) {
+                    breakBarrier(tile)
+                }
+            }
+        }
+
         private fun spawnWave() {
             if (abyssals.size >= MAX_ABYSSALS) return
-            val type = ABYSSAL_TYPES.random()
+            val type = if (surged) ABYSSAL_TYPES_SURGED.random() else ABYSSAL_TYPES.random()
             val npc = Npc(type, RIFT_SPAWN.translate(Random.nextInt(-2, 3), Random.nextInt(-2, 3)))
             npc.respawns = false
             npcRepo.add(npc, Int.MAX_VALUE)
@@ -709,9 +843,17 @@ constructor(
             }
             abyssals.clear()
             guardians.clear()
-            barriers.clear()
+            clearBarriers()
             rechargeXp = 0
             rechargeEnergy = 0
+        }
+
+        private fun clearBarriers() {
+            for (tile in barriers.keys.toList()) {
+                removeBarrierLoc(tile)
+            }
+            barriers.clear()
+            brokenTiles.clear()
         }
 
         private fun abyssalAttackAnim(npc: Npc, target: CoordGrid): String {
@@ -732,15 +874,16 @@ constructor(
             }
             abyssals.clear()
             guardians.clear()
-            barriers.clear()
-            charge = CHARGE_START
+            clearBarriers()
+            charge = chargeTarget * CHARGE_START_PCT / 100
             prepTicks = 0
             portalSwitch = 0
             spawnTick = 0
-            drainTick = 0
             overTicks = 0
-            elementalPortal = ELEMENTALS.random()
-            catalyticPortal = CATALYTICS.random()
+            lastTick = 0
+            rotations = 0
+            surged = false
+            rotatePortals()
             phase = Phase.PREP
         }
     }
@@ -796,17 +939,23 @@ constructor(
             OBJ_FRAGMENT, OBJ_ESSENCE, OBJ_CELL_UNCHARGED,
             OBJ_STONE_ELEMENTAL, OBJ_STONE_CATALYTIC,
             "obj.gotr_cell_tier1", "obj.gotr_cell_tier2", "obj.gotr_cell_tier3", "obj.gotr_cell_tier4",
-        )
+        ) + Portal.entries.map { it.talismanObj }
 
         private val ELEMENTALS = listOf(Portal.AIR, Portal.WATER, Portal.EARTH, Portal.FIRE)
         private val CATALYTICS = listOf(
             Portal.MIND, Portal.BODY, Portal.COSMIC, Portal.CHAOS,
             Portal.NATURE, Portal.LAW, Portal.DEATH, Portal.BLOOD,
         )
+        private val MEDIUM_CATALYTICS = listOf(Portal.COSMIC, Portal.CHAOS)
 
         private val ABYSSAL_TYPES = listOf(
-            "npc.gotr_abyssal_leech", "npc.gotr_abyssal_leech",
-            "npc.gotr_abyssal_walker", "npc.gotr_abyssal_pyramid",
+            "npc.gotr_abyssal_leech", "npc.gotr_abyssal_leech", "npc.gotr_abyssal_leech",
+            "npc.gotr_abyssal_pyramid", "npc.gotr_abyssal_pyramid", "npc.gotr_abyssal_walker",
+        )
+        private val ABYSSAL_TYPES_SURGED = listOf(
+            "npc.gotr_abyssal_leech",
+            "npc.gotr_abyssal_pyramid", "npc.gotr_abyssal_pyramid",
+            "npc.gotr_abyssal_walker", "npc.gotr_abyssal_walker", "npc.gotr_abyssal_walker",
         )
 
         private const val ABYSSAL_LEECH_ID = 11407
@@ -850,18 +999,18 @@ constructor(
         private const val TICK_RATE = 4
         private const val PREP_TICKS = 200
         private const val PORTAL_ROTATION = 50
+        private const val MEDIUM_GUARANTEE_ROTATIONS = 2
         private const val SPAWN_INTERVAL = 8
-        private const val DRAIN_INTERVAL = 8
-        private const val PASSIVE_DRAIN = 2
         private const val OVER_RESTART = 40
-        private const val CHARGE_START = 150
-        private const val CHARGE_TARGET = 500
+        private const val CHARGE_PER_PLAYER = 500
+        private const val CHARGE_START_PCT = 10
+        private const val SURGE_PCT = 60
+        private const val SURGE_DAMAGE = 50
         private const val ENERGY_PER_STONE = 2
+        private const val BUILD_ENERGY = 2
         private const val ENERGY_CAP_PER_TYPE = 1000
         private const val FRAGS_PER_REPAIR = 12
         private const val MAX_CELLS = 10
-        private const val BARRIER_HP_PER_TIER = 50
-        private const val RECHARGE_PER_TIER = 15
         private const val BARRIER_BLOCK_RANGE = 12
         private const val ABYSSAL_DPS = 5
         private const val ABYSSAL_DRAIN = 2
@@ -872,8 +1021,11 @@ constructor(
         private const val MAX_GUARDIANS = 10
         private const val CRAFT_XP = 25
         private const val ESSENCE_XP = 10
+        private const val CELL_XP = 10
+        private const val TALISMAN_RATE = 250
         private const val MIN_ENERGY_REWARD = 300
         private const val XP_PER_RC_LEVEL = 45
+        private const val POINTS_PER_ENERGY = 100
         private const val PEARL_SEARCH_COST = 25
         private const val MIN_PEARL_ROLL = 14
         private const val MAX_PEARL_ROLL = 16
