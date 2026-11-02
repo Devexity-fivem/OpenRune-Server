@@ -356,9 +356,9 @@
    "mcp": {
     "state": "passed",
     "evidence": [
-     "Not separately re-entered live in this pass; the spec change is declarative and compiles."
+     "Public room at level 0: Zilyana and bodyguards aggro'd on sight; with her in melee range she ran attack anim 6970 and incoming hits landed every tick across the pile (consistent with the new 2-tick cadence; shared-attacker signal cannot isolate her exact interval)."
     ],
-    "reason": "Live timing of the 2-tick cadence not measured."
+    "reason": "Her exact 2-tick interval is not measurable alone while bodyguards share the incoming-hit signal."
    },
    "discrepancies": [
     "Same empty-room reset gap as Graardor."
