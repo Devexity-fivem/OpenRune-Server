@@ -381,6 +381,10 @@ class BossEncounter(
                 condition.objs.any { name ->
                     cacheObjType(name)?.let { requireHit().secondary?.id == it.id } == true
                 }
+            is Condition.HitRighthandObj ->
+                condition.objs.any { name ->
+                    cacheObjType(name)?.let { requireHit().righthand?.id == it.id } == true
+                }
             is Condition.HitDamageAtLeast -> requireHit().damage >= condition.damage
             is Condition.TargetPraying -> target != null && target.isProtectingFrom(condition.type)
         }

@@ -6,6 +6,7 @@ import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Condition
+import org.rsmod.api.bosses.spec.Condition.Not
 import org.rsmod.api.bosses.spec.Effect
 
 // Dragon Slayer: melee up to ~12 plus dragonfire breath up to ~25.
@@ -171,6 +172,15 @@ class BlackKnightTitan @Inject constructor(deps: BossDeps) : BossPluginScript(de
         val melee = ability("melee") {
             anim("seq.human_sword_slash")
             hit { damage(0..12).roll(); type(Melee) }
+        }
+        val immune = ability("immune") {
+            message("The titan can only be harmed by Excalibur!")
+        }
+        incoming {
+            rule(Not(Condition.HitRighthandObj("obj.excalibur"))) {
+                cap(0)
+                run(immune)
+            }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }

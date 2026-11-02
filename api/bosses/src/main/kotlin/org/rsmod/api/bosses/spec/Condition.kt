@@ -22,6 +22,11 @@ sealed interface Condition {
         constructor(vararg objs: String) : this(objs.toList())
     }
 
+    /** The hit's right-hand (weapon) obj is one of [objs]. */
+    data class HitRighthandObj(val objs: List<String>) : Condition {
+        constructor(vararg objs: String) : this(objs.toList())
+    }
+
     data class PhaseTicksAtLeast(val ticks: Int) : Condition
     data class TargetPraying(val type: HitType) : Condition
     data class InPhase(val phase: String) : Condition
