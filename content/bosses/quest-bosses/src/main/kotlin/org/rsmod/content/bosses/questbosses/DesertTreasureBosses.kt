@@ -5,7 +5,10 @@ import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
+import org.rsmod.api.bosses.spec.Condition
+import org.rsmod.api.bosses.spec.Condition.Not
 import org.rsmod.api.bosses.spec.Effect
+import org.rsmod.api.bosses.spec.StatDrainEntry
 
 // Desert Treasure — Damis: two encounter forms, melee up to ~18 with
 // prayer-draining shadow attacks on the tougher form.
@@ -14,7 +17,16 @@ class Damis @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.human_unarmedpunch")
-            hit { damage(0..18).roll(); type(Melee) }
+            hit {
+                damage(0..18).roll()
+                type(Melee)
+                onHit(
+                    Effect.Whenever(
+                        Condition.Custom { npc, _ -> "tougher" in npc.type.name },
+                        Effect.StatDrain(listOf(StatDrainEntry("stat.prayer", amount = 1))),
+                    )
+                )
+            }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -27,6 +39,22 @@ class Fareed @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         val melee = ability("melee") {
             anim("seq.human_sword_slash")
             hit { damage(0..37).roll(); type(Melee) }
+        }
+        val tooHot = ability("too_hot") {
+            message("You need Ice Gloves to harm Fareed!")
+        }
+        incoming {
+            rule(
+                Condition.HitStyle(Melee) and
+                    Not(
+                        Condition.Custom { _, target ->
+                            target != null && target.worn.count("obj.ice_gloves") > 0
+                        }
+                    )
+            ) {
+                cap(0)
+                run(tooHot)
+            }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
