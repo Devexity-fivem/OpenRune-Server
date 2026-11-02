@@ -3354,7 +3354,7 @@ attackRange = 10
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
+"param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_aberrant_spectre"
 "param.killcount_notify"=false
 "param.defend_anim"="seq.spectre_ghost_defend"
@@ -5067,7 +5067,7 @@ inherit = "npc.superior_kourend_spectre"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=40
+"param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_superior_monster"
 "param.killcount_notify"=false
 
@@ -18850,8 +18850,8 @@ huntRange = 8
 maxRange = 15
 attackRange = 10
 [npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
+"param.elemental_weakness_type"=1
+"param.elemental_weakness_percent"=100
 "param.defend_anim"="seq.pyrefiend_defend"
 "param.death_anim"="seq.pyrefiend_death"
 "param.attack_anim"="seq.pyrefiend_attack"
@@ -18891,8 +18891,8 @@ huntRange = 8
 maxRange = 15
 attackRange = 10
 [npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
+"param.elemental_weakness_type"=1
+"param.elemental_weakness_percent"=50
 "param.defend_anim"="seq.hell_block"
 "param.death_anim"="seq.hell_death"
 "param.attack_anim"="seq.hell_attack"
@@ -22710,8 +22710,8 @@ inherit = "npc.wild_cave_goblin_deadman"
 id = "npc.wild_cave_pyrefiend_deadman"
 inherit = "npc.wild_cave_pyrefiend_deadman"
 [npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
+"param.elemental_weakness_type"=1
+"param.elemental_weakness_percent"=100
 
 [[npc]]
 id = "npc.frost_dragon"
@@ -22850,8 +22850,8 @@ inherit = "npc.wild_cave_cyclops_deadman"
 id = "npc.wild_cave_hellhound_deadman"
 inherit = "npc.wild_cave_hellhound_deadman"
 [npc.params]
-"param.elemental_weakness_type"=0
-"param.elemental_weakness_percent"=30
+"param.elemental_weakness_type"=1
+"param.elemental_weakness_percent"=50
 
 [[npc]]
 id = "npc.wild_cave_demon_deadman"
