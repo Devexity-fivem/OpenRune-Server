@@ -199,6 +199,125 @@ class ServerCacheOverlayVerificationTest {
     }
 
     @Test
+    fun `demons use demon anim set not luc2 or leech`() {
+        val demons = intArrayOf(415, 2005, 2006, 2007, 2008, 12362, 12364)
+        for (id in demons) {
+            assertEquals(65, param(npc(id), PARAM_DEFEND_ANIM), "npc $id defend") // demon_block
+            assertEquals(67, param(npc(id), PARAM_DEATH_ANIM), "npc $id death") // demon_death
+        }
+    }
+
+    @Test
+    fun `slayer monsters use own family anims`() {
+        assertEquals(1547, param(npc(417), PARAM_DEFEND_ANIM)) // basilisk_defend
+        assertEquals(1548, param(npc(417), PARAM_DEATH_ANIM)) // basilisk_death
+        assertEquals(1519, param(npc(412), PARAM_DEFEND_ANIM)) // gargoyle_parry
+        assertEquals(1518, param(npc(412), PARAM_DEATH_ANIM)) // gargoyle_death
+        assertEquals(1596, param(npc(427), PARAM_DEFEND_ANIM)) // turoth_defend
+        assertEquals(1597, param(npc(427), PARAM_DEATH_ANIM)) // turoth_death
+        assertEquals(2777, param(npc(458), PARAM_DEFEND_ANIM)) // slayer_lizard_defend
+        assertEquals(2778, param(npc(458), PARAM_DEATH_ANIM)) // slayer_lizard_death
+    }
+
+    @Test
+    fun `krakens use kraken anim set`() {
+        for (id in intArrayOf(492, 494)) {
+            assertEquals(13214, param(npc(id), PARAM_DEFEND_ANIM), "npc $id defend")
+            assertEquals(13219, param(npc(id), PARAM_DEATH_ANIM), "npc $id death")
+        }
+    }
+
+    @Test
+    fun `strykewyrm uses lava strykewyrm anim set`() {
+        assertEquals(13654, param(npc(15500), PARAM_ATTACK_ANIM)) // melee01
+        assertEquals(13646, param(npc(15500), PARAM_DEFEND_ANIM)) // idle01
+        assertEquals(13652, param(npc(15500), PARAM_DEATH_ANIM)) // death01
+    }
+
+    @Test
+    fun `dragons use dragon anim set not canine`() {
+        val dragons = intArrayOf(2918, 5878, 5879, 5880, 5881, 5882)
+        for (id in dragons) {
+            assertEquals(89, param(npc(id), PARAM_DEFEND_ANIM), "npc $id defend") // dragon_block
+            assertEquals(92, param(npc(id), PARAM_DEATH_ANIM), "npc $id death") // dragon_death
+        }
+    }
+
+    @Test
+    fun `trolls use troll anim set not ghost or wolf`() {
+        val trolls = intArrayOf(4120, 4121, 4122, 4123, 4124)
+        for (id in trolls) {
+            assertEquals(285, param(npc(id), PARAM_DEFEND_ANIM), "npc $id defend") // troll_block
+            assertEquals(287, param(npc(id), PARAM_DEATH_ANIM), "npc $id death") // troll_death
+        }
+    }
+
+    @Test
+    fun `nex prison humans use human anims not blood reaver`() {
+        val humans = intArrayOf(11290, 11291, 11292)
+        for (id in humans) {
+            assertEquals(425, param(npc(id), PARAM_DEFEND_ANIM), "npc $id defend")
+            assertEquals(836, param(npc(id), PARAM_DEATH_ANIM), "npc $id death")
+        }
+    }
+
+    @Test
+    fun `elite vyrewatch use vampire flying anims not ork`() {
+        assertEquals(4691, param(npc(9756), PARAM_DEFEND_ANIM)) // myq3_vampire_flying_defend
+        assertEquals(4697, param(npc(9756), PARAM_DEATH_ANIM)) // myq3_vampire_flying_death
+    }
+
+    @Test
+    fun `canine monsters use matching canine anims`() {
+        assertEquals(76, param(npc(114), PARAM_DEFEND_ANIM)) // dog_block
+        assertEquals(78, param(npc(114), PARAM_DEATH_ANIM)) // dog_death
+        assertEquals(6562, param(npc(4185), PARAM_ATTACK_ANIM)) // small_dog_attack
+        assertEquals(76, param(npc(4185), PARAM_DEFEND_ANIM))
+        assertEquals(78, param(npc(4185), PARAM_DEATH_ANIM))
+        assertEquals(241, param(npc(2492), PARAM_DEFEND_ANIM)) // rat_block
+        assertEquals(243, param(npc(2492), PARAM_DEATH_ANIM)) // rat_death
+        assertEquals(12825, param(npc(2481), PARAM_DEFEND_ANIM)) // lore_minotaur_defend
+        assertEquals(12827, param(npc(2481), PARAM_DEATH_ANIM)) // lore_minotaur_death
+    }
+
+    @Test
+    fun `misc creature family anims`() {
+        assertEquals(1677, param(npc(319), PARAM_DEFEND_ANIM)) // corpbeast_defend
+        assertEquals(1676, param(npc(319), PARAM_DEATH_ANIM)) // corpbeast_death
+        assertEquals(12703, param(npc(8610), PARAM_DEFEND_ANIM)) // lore_wyrm_defend
+        assertEquals(8272, param(npc(8610), PARAM_DEATH_ANIM)) // wyrm_death
+        assertEquals(1340, param(npc(973), PARAM_DEFEND_ANIM)) // horror_dagannoth_defend
+        assertEquals(1342, param(npc(973), PARAM_DEATH_ANIM)) // horror_dagannoth_death
+        assertEquals(4936, param(npc(1792), PARAM_ATTACK_ANIM)) // desert_goat_attack
+        assertEquals(5342, param(npc(1792), PARAM_DEFEND_ANIM)) // goat_update_defend
+        assertEquals(2039, param(npc(4184), PARAM_ATTACK_ANIM)) // croc_attack
+        assertEquals(2035, param(npc(4184), PARAM_DEFEND_ANIM)) // croc_parry
+        assertEquals(2038, param(npc(4184), PARAM_DEATH_ANIM)) // croc_death
+        assertEquals(221, param(npc(1038), PARAM_DEFEND_ANIM)) // monkey_block
+        assertEquals(276, param(npc(3544), PARAM_DEFEND_ANIM)) // snake_block
+        assertEquals(278, param(npc(3544), PARAM_DEATH_ANIM)) // snake_death
+        assertEquals(261, param(npc(4494), PARAM_DEFEND_ANIM)) // skeleton_block
+        assertEquals(263, param(npc(4494), PARAM_DEATH_ANIM)) // skeleton_death
+        assertEquals(1200, param(npc(4708), PARAM_DEFEND_ANIM)) // lion_block (Shaikahan)
+        assertEquals(1201, param(npc(4708), PARAM_DEATH_ANIM)) // lion_death
+        assertEquals(1581, param(npc(2917), PARAM_DEFEND_ANIM)) // pyrefiend_defend
+        assertEquals(1580, param(npc(2917), PARAM_DEATH_ANIM)) // pyrefiend_death
+    }
+
+    @Test
+    fun `quest and boss NPCs keep correct family anims`() {
+        assertEquals(6090, param(npc(3902), PARAM_ATTACK_ANIM)) // rabbit_update_attack (Bunny)
+        assertEquals(6091, param(npc(3902), PARAM_DEFEND_ANIM)) // rabbit_update_defend
+        assertEquals(6092, param(npc(3902), PARAM_DEATH_ANIM)) // rabbit_update_death
+        assertEquals(425, param(npc(4922), PARAM_DEFEND_ANIM)) // Ice Queen human_unarmed_def
+        assertEquals(836, param(npc(4922), PARAM_DEATH_ANIM)) // human_death
+        assertEquals(8834, param(npc(10506), PARAM_DEFEND_ANIM)) // bear_headless_beast_defend
+        assertEquals(2733, param(npc(10506), PARAM_DEATH_ANIM)) // dark_beast_update_death
+        assertEquals(12492, param(npc(13011), PARAM_DEATH_ANIM)) // blood_jaguar_combat_death
+        assertEquals(12499, param(npc(12978), PARAM_DEATH_ANIM)) // npc_jaguar_combat_death
+    }
+
+    @Test
     fun `al kharid warrior is non-aggressive but calls same-type allies`() {
         val def = npc(3292)
         assertNull(def.huntMode)
