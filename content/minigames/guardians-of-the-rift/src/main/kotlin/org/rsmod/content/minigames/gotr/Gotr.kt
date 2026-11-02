@@ -28,11 +28,14 @@ import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.script.onPlayerLogout
 import org.rsmod.api.script.onPlayerTimer
+import org.rsmod.api.table.runecrafting.RunecraftingRunesRow
 import org.rsmod.content.interfaces.omnishop.openOmnishop
 import org.rsmod.content.skills.mining.configs.MiningParams
 import org.rsmod.content.skills.mining.scripts.Mining
 import org.rsmod.content.skills.mining.scripts.Mining.Companion.pickaxeAnim
 import org.rsmod.content.skills.mining.scripts.Mining.Companion.pickaxeWallAnim
+import org.rsmod.content.skills.runecrafting.action.RunecraftAction.getBonusMultiplier
+import org.rsmod.content.skills.runecrafting.essencepouch.EssencePouch
 import org.rsmod.events.EventBus
 import org.rsmod.game.MapClock
 import org.rsmod.game.entity.Npc
@@ -271,6 +274,19 @@ constructor(
             mes("You have no supplies that can be imbued at this altar.")
             return
         }
+        val rune = if (essence > 0) {
+            RunecraftingRunesRow.all().first { row ->
+                row.output.internalName == portal.runeObj &&
+                    row.input.any { it.internalName == EssencePouch.PURE_ESSENCE }
+            }
+        } else {
+            null
+        }
+        val runes = if (rune != null) {
+            essence * getBonusMultiplier(portal.runeObj, player.statBase("stat.runecrafting")).toInt()
+        } else {
+            0
+        }
         val talisman = (0 until essence).any { random.of(0, TALISMAN_RATE - 1) == 0 }
         val imbued = player.invTransaction(inv) {
             val inventory = select(inv)
@@ -281,7 +297,7 @@ constructor(
             if (essence > 0) {
                 delete(inventory, OBJ_ESSENCE.asRSCM(RSCMType.OBJ), essence)
                 add(inventory, portal.stoneObj.asRSCM(RSCMType.OBJ), essence)
-                add(inventory, portal.runeObj.asRSCM(RSCMType.OBJ), essence)
+                add(inventory, portal.runeObj.asRSCM(RSCMType.OBJ), runes)
             }
             if (talisman) {
                 add(inventory, portal.talismanObj.asRSCM(RSCMType.OBJ), 1)
@@ -295,8 +311,8 @@ constructor(
         if (chargeSource != null) {
             statAdvance("stat.runecrafting", CELL_XP.toDouble())
         }
-        if (essence > 0) {
-            statAdvance("stat.runecrafting", essence * ESSENCE_XP.toDouble())
+        if (rune != null) {
+            statAdvance("stat.runecrafting", essence * rune.xp / 10.0)
         }
         mes("You imbue your supplies at the ${portal.display} altar.")
     }
@@ -1086,7 +1102,6 @@ constructor(
         private const val GUARDIAN_FIGHT_RANGE = 3
         private const val MAX_ABYSSALS = 10
         private const val MAX_GUARDIANS = 10
-        private const val ESSENCE_XP = 10
         private const val CELL_XP = 10
         private const val TALISMAN_RATE = 250
         private const val MIN_ENERGY_REWARD = 300

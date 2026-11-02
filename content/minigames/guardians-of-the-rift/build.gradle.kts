@@ -12,5 +12,6 @@ dependencies {
     implementation(projects.api.scriptAdvanced)
     implementation(projects.content.interfaces.omnishop)
     implementation(projects.content.skills.mining)
+    implementation(projects.content.skills.runecrafting)
     testImplementation(libs.fastutil)
 }

@@ -1,0 +1,20 @@
+[[enum]]
+isServerOnly = true
+id = "enum.runecrafting_multiple_intervals"
+keyType = "OBJ"
+valueType = "INT"
+
+[enum.values]
+"obj.airrune" = 11
+"obj.mindrune" = 14
+"obj.waterrune" = 19
+"obj.earthrune" = 26
+"obj.firerune" = 35
+"obj.bodyrune" = 46
+"obj.cosmicrune" = 59
+"obj.sunfirerune" = 49
+"obj.chaosrune" = 74
+"obj.astralrune" = 82
+"obj.naturerune" = 91
+"obj.lawrune" = 95
+"obj.deathrune" = 99

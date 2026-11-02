@@ -100,13 +100,30 @@ class GotrImbuingTest {
     @Test
     fun GameTestState.`one crafting action converts all essence and stops after its first talisman`() = runPortalTest { portal ->
         repeat(3) { player.inv[it] = InvObj(ESSENCE, 1) }
+        val xp = player.statMap.getFineXP(RUNECRAFTING)
         random.next = 0
         random.then = 0
         player.opLoc1(portal)
         advanceUntil({ player.inv.count(ESSENCE) == 0 }, timeoutTicks = 10)
         assertEquals(3, player.inv.count(STONE))
-        assertEquals(3, player.inv.count(RUNE))
+        assertEquals(6, player.inv.count(RUNE))
+        assertEquals(xp + 180, player.statMap.getFineXP(RUNECRAFTING))
         assertEquals(1, player.inv.count("obj.gotr_portal_talisman_water"))
+    }
+
+    @Test
+    fun GameTestState.`crossing the water multiple threshold increases runes but not stones or experience`() = runPortalTest { portal ->
+        player.setBaseLevel(RUNECRAFTING, 38)
+        player.setCurrentLevel(RUNECRAFTING, 38)
+        player.inv[0] = InvObj(ESSENCE, 1)
+        val xp = player.statMap.getFineXP(RUNECRAFTING)
+        random.next = 249
+        random.then = 249
+        player.opLoc1(portal)
+        advanceUntil({ player.inv.count(ESSENCE) == 0 }, timeoutTicks = 10)
+        assertEquals(3, player.inv.count(RUNE))
+        assertEquals(1, player.inv.count(STONE))
+        assertEquals(xp + 60, player.statMap.getFineXP(RUNECRAFTING))
     }
 
     private fun GameTestState.runPortalTest(body: GameTestScope.(BoundLocInfo) -> Unit) =

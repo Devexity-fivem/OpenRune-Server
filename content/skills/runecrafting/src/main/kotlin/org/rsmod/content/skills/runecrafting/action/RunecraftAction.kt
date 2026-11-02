@@ -2,6 +2,7 @@ package org.rsmod.content.skills.runecrafting.action
 
 import dev.openrune.types.ItemServerType
 import kotlin.math.floor
+import org.rsmod.api.enums.NamedEnums
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseRunecraftingLvl
 import org.rsmod.api.stats.xpmod.XpModifiers
@@ -395,20 +396,11 @@ object RunecraftAction {
             "obj.aetherrune",
         )
 
-    fun getBonusMultiplier(rune: String, level: Int): Double =
-        when (rune) {
-            "obj.airrune" -> floor(level / 11.0) + 1
-            "obj.mindrune" -> floor(level / 14.0) + 1
-            "obj.waterrune" -> floor(level / 19.0) + 1
-            "obj.earthrune" -> floor(level / 26.0) + 1
-            "obj.firerune" -> floor(level / 35.0) + 1
-            "obj.bodyrune" -> floor(level / 46.0) + 1
-            "obj.cosmicrune" -> floor(level / 59.0) + 1
-            "obj.chaosrune" -> floor(level / 74.0) + 1
-            "obj.naturerune" -> floor(level / 91.0) + 1
-            "obj.astralrune" -> if (level >= 82) 2.0 else 1.0
-            else -> 1.0
-        }
+    fun getBonusMultiplier(rune: String, level: Int): Double {
+        val interval = NamedEnums.runecrafting_multiple_intervals.backing.entries
+            .firstOrNull { it.key.internalName == rune }?.value ?: return 1.0
+        return floor(level / interval.toDouble()) + 1
+    }
 
     suspend fun ProtectedAccess.craftCombination(combo: ComboruneRecipeRow, xpMods: XpModifiers) {
         val output = combo.output ?: return
