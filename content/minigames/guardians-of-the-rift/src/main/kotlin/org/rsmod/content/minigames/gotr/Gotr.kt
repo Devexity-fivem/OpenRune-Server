@@ -212,8 +212,19 @@ constructor(
     }
 
     private fun ProtectedAccess.takeWeakCell() {
+        if (heldCell() != null) {
+            mes("You can only carry one charged cell at a time.")
+            return
+        }
+        val taken = player.invTransaction(inv) {
+            val inventory = select(inv)
+            add(inventory, "obj.gotr_cell_tier1".asRSCM(RSCMType.OBJ), 1)
+        }
+        if (taken.failure) {
+            mes("You don't have enough inventory space.")
+            return
+        }
         anim(TAKE_ANIM)
-        invAdd(inv, "obj.gotr_cell_tier1", 1)
         mes("You take a weak cell.")
     }
 
