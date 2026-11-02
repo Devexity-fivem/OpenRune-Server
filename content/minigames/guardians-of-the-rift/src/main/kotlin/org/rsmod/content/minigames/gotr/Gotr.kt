@@ -1,5 +1,6 @@
 package org.rsmod.content.minigames.gotr
 
+import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
@@ -20,6 +21,7 @@ import org.rsmod.api.player.ui.ifCloseOverlay
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
+import org.rsmod.api.script.onOpHeld1
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
 import org.rsmod.api.script.onOpLoc3
@@ -29,8 +31,10 @@ import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.script.onPlayerLogin
 import org.rsmod.api.script.onPlayerLogout
 import org.rsmod.api.script.onPlayerTimer
+import org.rsmod.api.table.GotrRewardTableRow
 import org.rsmod.api.table.runecrafting.RunecraftingRunesRow
 import org.rsmod.content.interfaces.omnishop.openOmnishop
+import org.rsmod.content.quest.manager.QuestRequirements
 import org.rsmod.content.skills.mining.configs.MiningParams
 import org.rsmod.content.skills.mining.scripts.Mining
 import org.rsmod.content.skills.mining.scripts.Mining.Companion.pickaxeAnim
@@ -93,7 +97,10 @@ constructor(
         }
         onOpLoc1(ESSENCE_PILE_ELEMENTAL) { assembleGuardian(true) }
         onOpLoc1(ESSENCE_PILE_CATALYTIC) { assembleGuardian(false) }
-        onOpLoc1(REWARD_RIFT) { searchRewards() }
+        onOpLoc1(REWARD_RIFT) { searchRewards(1) }
+        onOpLoc2(REWARD_RIFT) { checkRewards() }
+        onOpLoc3(REWARD_RIFT) { searchRewards(5) }
+        onOpHeld1(INTRICATE_POUCH) { openIntricatePouch() }
         onOpNpc3(REWARD_TRADER) { openShop() }
         onPlayerLogin { onLogin(player) }
         onPlayerLogout { game.leave(player) }
@@ -482,33 +489,199 @@ constructor(
         mes("You assemble a rift guardian to defend the Great Guardian.")
     }
 
-    private fun ProtectedAccess.searchRewards() {
+    private fun ProtectedAccess.searchRewards(searches: Int) {
         if (actionDelay > worldClock.cycle) return
+        repeat(searches) {
+            if (!rollRewardSearch()) return
+            actionDelay = worldClock.cycle + SEARCH_TICKS
+        }
+    }
+
+    private fun ProtectedAccess.rollRewardSearch(): Boolean {
         val usePoints = vars[VP_ELEMENTAL_POINTS] > 0 && vars[VP_CATALYTIC_POINTS] > 0
         if (!usePoints && inv.count("obj.abyssal_pearl") < PEARL_SEARCH_COST) {
             mes("You need one elemental and one catalytic reward point, or 25 abyssal pearls.")
-            return
+            return false
         }
-        val pearls = MIN_PEARL_ROLL + Random.nextInt(MAX_PEARL_ROLL - MIN_PEARL_ROLL + 1)
+        val rewards = rollRewards()
         val received = player.invTransaction(inv) {
             val inventory = select(inv)
             if (!usePoints) {
                 delete(inventory, "obj.abyssal_pearl".asRSCM(RSCMType.OBJ), PEARL_SEARCH_COST)
             }
-            add(inventory, "obj.abyssal_pearl".asRSCM(RSCMType.OBJ), pearls)
+            for (reward in rewards) {
+                add(inventory, reward.obj.asRSCM(RSCMType.OBJ), reward.count)
+            }
         }
         if (received.failure) {
             mes("You don't have enough inventory space.")
-            return
+            return false
         }
         if (usePoints) {
             vars[VP_ELEMENTAL_POINTS] -= 1
             vars[VP_CATALYTIC_POINTS] -= 1
         }
-        actionDelay = worldClock.cycle + SEARCH_TICKS
+        vars[VP_SEARCHES] += 1
         anim(TAKE_ANIM)
-        mes("You rummage through the Rewards Guardian's offerings... and find $pearls abyssal pearls!")
+        for (reward in rewards) {
+            commitReward(reward)
+        }
+        return true
     }
+
+    private fun ProtectedAccess.rollRewards(): List<Reward> {
+        val rewards = mutableListOf<Reward>()
+        val rows = GotrRewardTableRow.all()
+        for (row in rows) {
+            val independent = row.section == "rare" || row.section == "tertiary"
+            if (independent && rollsUnique(row)) {
+                rewards += Reward(row.obj, 1, row.uniqueVarbit)
+            }
+        }
+        val ownsAllPouches = ownsAllPouches()
+        val mainRows = rows.filter { it.section == "main" && (it.key != "pouch" || !ownsAllPouches) }
+        pickWeighted(mainRows)?.let { row ->
+            when (row.key) {
+                "pouch" -> pouchReward()?.let { rewards += it }
+                "talisman" -> talismanReward(rows)?.let { rewards += it }
+                else -> rewards += Reward(row.obj, scaledQuantity(row), row.uniqueVarbit)
+            }
+        }
+        return rewards
+    }
+
+    private fun ProtectedAccess.rollsUnique(row: GotrRewardTableRow): Boolean {
+        if (Random.nextInt(row.denominator) != 0) {
+            return false
+        }
+        return row.uniqueVarbit.isEmpty() || vars[row.uniqueVarbit] == 0
+    }
+
+    private fun ProtectedAccess.talismanReward(rows: List<GotrRewardTableRow>): Reward? {
+        val table = rows.filter { it.section == "talisman" }
+        val row = pickWeighted(table) ?: return null
+        if (row.obj.isEmpty()) {
+            return null
+        }
+        val obj = if (row.quest.isNotEmpty() && !QuestRequirements.hasCompleted(player, row.quest)) {
+            row.fallbackObj
+        } else {
+            row.obj
+        }
+        return Reward(obj, 1)
+    }
+
+    private fun pickWeighted(rows: List<GotrRewardTableRow>): GotrRewardTableRow? {
+        val total = rows.sumOf { it.weight }
+        if (total <= 0) {
+            return null
+        }
+        var roll = Random.nextInt(total)
+        for (row in rows) {
+            roll -= row.weight
+            if (roll < 0) {
+                return row
+            }
+        }
+        return null
+    }
+
+    private fun ProtectedAccess.pouchReward(): Reward? {
+        val tier = EssencePouch.Tier.entries.firstOrNull { tier ->
+            tier != EssencePouch.Tier.Colossal && !ownsItem(tier.intactItem)
+        } ?: return null
+        return Reward(tier.intactItem, 1, pouchTier = tier, pouchEssence = POUCH_ESSENCE[tier.ordinal])
+    }
+
+    private fun ProtectedAccess.ownsAllPouches(): Boolean {
+        if (ownsItem("obj.rcu_pouch_colossal") || ownsItem("obj.rcu_pouch_colossal_degrade")) {
+            return true
+        }
+        return EssencePouch.Tier.entries
+            .filter { it != EssencePouch.Tier.Colossal }
+            .all { tier -> tier.items.any { ownsItem(it) } }
+    }
+
+    private fun ProtectedAccess.ownsItem(obj: String): Boolean =
+        inv.count(obj) > 0 || player.worn.count(obj) > 0 || bank.count(obj) > 0
+
+    private fun ProtectedAccess.scaledQuantity(row: GotrRewardTableRow): Int {
+        val rolled = row.qtyMin + Random.nextInt(row.qtyMax - row.qtyMin + 1)
+        val required = row.reqLevel
+        val level = player.statBase("stat.runecrafting")
+        if (required <= 0 || level >= required) {
+            return rolled
+        }
+        // Jagex lowers rune quantities below the craft level; exact curve is
+        // unpublished, scaled proportionally with the published range minimum.
+        return max(row.qtyMin, rolled * level / required)
+    }
+
+    private fun ProtectedAccess.commitReward(reward: Reward) {
+        if (reward.uniqueVarbit.isNotEmpty()) {
+            vars[reward.uniqueVarbit] = 1
+        }
+        if (reward.obj == PET_OBJ) {
+            vars[PET_UNLOCKED_VB] = 1
+        }
+        reward.pouchTier?.let { tier ->
+            EssencePouch.setStoredEssenceType(player, tier, EssencePouch.PURE_ESSENCE)
+            EssencePouch.depositUpTo(player, tier, reward.pouchEssence)
+        }
+        val name = ServerCacheManager.getItem(reward.obj.asRSCM(RSCMType.OBJ))?.name ?: reward.obj
+        mes("You rummage through the Rewards Guardian's offerings... and find " +
+            "${reward.count} $name!")
+    }
+
+    private fun ProtectedAccess.checkRewards() {
+        val elemental = vars[VP_ELEMENTAL_POINTS]
+        val catalytic = vars[VP_CATALYTIC_POINTS]
+        val searches = vars[VP_SEARCHES]
+        mes("You have $elemental elemental and $catalytic catalytic points remaining. " +
+            "You have searched the Rewards Guardian $searches times.")
+    }
+
+    private fun ProtectedAccess.openIntricatePouch() {
+        if (inv.count(INTRICATE_POUCH) == 0) return
+        val rewards = mutableListOf<Reward>()
+        val rows = GotrRewardTableRow.all()
+        for (row in rows) {
+            if (row.section == "pouch_preroll" && rollsUnique(row)) {
+                rewards += Reward(row.obj, 1, row.uniqueVarbit)
+            }
+            if (row.section == "pouch_tertiary" && Random.nextInt(row.denominator) == 0) {
+                rewards += Reward(row.obj, 1)
+            }
+        }
+        pickWeighted(rows.filter { it.section == "pouch_main" })?.let { row ->
+            rewards += Reward(row.obj, row.qtyMin + Random.nextInt(row.qtyMax - row.qtyMin + 1))
+        }
+        val result = player.invTransaction(inv) {
+            val inventory = select(inv)
+            delete(inventory, INTRICATE_POUCH.asRSCM(RSCMType.OBJ), 1)
+            for (reward in rewards) {
+                add(inventory, reward.obj.asRSCM(RSCMType.OBJ), reward.count)
+            }
+        }
+        if (result.failure) {
+            mes("You don't have enough inventory space.")
+            return
+        }
+        for (reward in rewards) {
+            if (reward.uniqueVarbit.isNotEmpty()) {
+                vars[reward.uniqueVarbit] = 1
+            }
+        }
+        mes("You open the intricate pouch.")
+    }
+
+    private data class Reward(
+        val obj: String,
+        val count: Int,
+        val uniqueVarbit: String = "",
+        val pouchTier: EssencePouch.Tier? = null,
+        val pouchEssence: Int = 0,
+    )
 
     private fun ProtectedAccess.openShop() {
         openOmnishop("dbrow.gotr_reward_shop_all")
@@ -1111,8 +1284,11 @@ constructor(
         private const val PEARL_SEARCH_COST = 25
         private const val SEARCH_TICKS = 3
         private const val MAX_REWARD_POINTS = 65_535
-        private const val MIN_PEARL_ROLL = 14
-        private const val MAX_PEARL_ROLL = 16
+        private const val INTRICATE_POUCH = "obj.gotr_intricate_pouch"
+        private const val PET_OBJ = "obj.abyssalpet"
+        private const val PET_UNLOCKED_VB = "varbit.skillpet_runecrafting_gotr_unlocked"
+        private const val VP_SEARCHES = "varp.gotr_searches"
+        private val POUCH_ESSENCE = intArrayOf(2, 4, 6, 8)
         private const val RECHARGE_XP_CAP = 2500
         private const val RECHARGE_ENERGY_CAP = 450
         private const val MINE_DELAY = 3

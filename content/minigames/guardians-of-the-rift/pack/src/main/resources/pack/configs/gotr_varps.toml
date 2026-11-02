@@ -17,3 +17,8 @@ transmit = "Never"
 id = "varp.gotr_recharge_energy"
 scope = "Temp"
 transmit = "Never"
+
+[[varp]]
+id = "varp.gotr_searches"
+scope = "Perm"
+transmit = "Never"
