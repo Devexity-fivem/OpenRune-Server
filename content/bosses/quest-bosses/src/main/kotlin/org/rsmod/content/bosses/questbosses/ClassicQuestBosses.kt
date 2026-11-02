@@ -17,8 +17,12 @@ class Elvarg @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             hit { damage(0..8).roll(); type(Melee) }
         }
         val fire = ability("dragonfire") {
-            anim("seq.dragon_attack")
-            projectile(spotanim = "spotanim.firebreath_travel", hit = Effect.Hit(damage = Roll(0..70), type = Magic))
+            anim("seq.dragon_firebreath_all_attack")
+            projectile(
+                spotanim = "spotanim.dragon_ranged_fire_attack",
+                travel = "projanim.dragonfire",
+                hit = Effect.Hit(damage = Roll(0..70), type = Dragonfire),
+            )
         }
         phase("combat") {
             weightedSelectorRandom {
