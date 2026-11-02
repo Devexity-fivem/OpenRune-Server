@@ -786,7 +786,8 @@
    "mechanics": {
     "state": "partial",
     "evidence": [
-     "Max hit corrected 16->10 per Wiki infobox."
+     "Max hit corrected 16->10 per Wiki infobox.",
+     "Magic max corrected 8->10 per the Wiki infobox."
     ],
     "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
    },
@@ -842,7 +843,8 @@
    "mechanics": {
     "state": "partial",
     "evidence": [
-     "Melee max corrected 15->38 per Wiki infobox (Arrg's signature heavy melee)."
+     "Melee max corrected 15->38 per Wiki infobox (Arrg's signature heavy melee).",
+     "Added the missing ranged rock attack (0..30) alongside melee 0..38 per the Wiki infobox's melee/ranged styles; shares seq.troll_attack as the only packed anim."
     ],
     "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
    },
@@ -929,6 +931,90 @@
      "Melee/magic maxes corrected: melee 20->11 (crush) and magic 16->25 per Wiki infobox."
     ],
     "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Slash Bash": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/ExtraQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Slash_Bash"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 5->6 ticks and max hit 30->13 per the Wiki infobox."
+    ],
+    "reason": "Style/cadence corrections from Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Sea Troll Queen": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/MiscQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Sea_Troll_Queen"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Added the missing magic attack (0..37) alongside melee 0..16 per the Wiki infobox; attack rate 4 confirmed correct."
+    ],
+    "reason": "Style/cadence corrections from Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Ice Troll King": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/TrollAndFremennikBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Ice_Troll_King"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Added missing magic (0..11) and ranged (0..7) attacks alongside melee 0..21 per the Wiki infobox's four attack styles; the 16 special is not yet modelled."
+    ],
+    "reason": "Style/cadence corrections from Wiki audit; fight remains a stub."
    },
    "automated": {
     "state": "passed",

@@ -10,7 +10,7 @@ import org.rsmod.api.bosses.spec.Effect
 // Zogre Flesh Eaters — Slash Bash: melee up to ~30.
 class SlashBash @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.zogre_slash_bash") {
-        stats(attackRate = 5)
+        stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.troll_attack")
             hit { damage(0..13).roll(); type(Melee) }

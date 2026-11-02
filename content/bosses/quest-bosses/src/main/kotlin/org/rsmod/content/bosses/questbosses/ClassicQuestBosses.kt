@@ -62,7 +62,7 @@ class AgrithNaar @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
         val magic = ability("magic") {
             anim("seq.demon_attack")
-            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..8), type = Magic))
+            projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..10), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {

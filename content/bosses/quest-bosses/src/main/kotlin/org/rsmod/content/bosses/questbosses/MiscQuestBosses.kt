@@ -53,7 +53,19 @@ class SeaTrollQueen @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
             anim("seq.troll_attack")
             hit { damage(0..16).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val magic = ability("magic") {
+            anim("seq.troll_attack")
+            projectile(
+                spotanim = "spotanim.waterblast_travel",
+                hit = Effect.Hit(damage = Roll(0..37), type = Magic),
+            )
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange)
+                +random(magic, weight = 2)
+            }
+        }
     }
 }
 

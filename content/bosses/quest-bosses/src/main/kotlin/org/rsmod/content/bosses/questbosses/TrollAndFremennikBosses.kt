@@ -27,7 +27,19 @@ class Arrg @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             anim("seq.troll_attack")
             hit { damage(0..38).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val ranged = ability("ranged") {
+            anim("seq.troll_attack")
+            projectile(
+                spotanim = "spotanim.myarm_rock_roc_travel",
+                hit = Effect.Hit(damage = Roll(0..30), type = Ranged),
+            )
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 2, requires = WithinMeleeRange)
+                +random(ranged, weight = 1)
+            }
+        }
     }
 }
 
@@ -75,7 +87,27 @@ class IceTrollKing @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
             anim("seq.troll_attack")
             hit { damage(0..21).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val magic = ability("magic") {
+            anim("seq.troll_attack")
+            projectile(
+                spotanim = "spotanim.ice_barrage_travel",
+                hit = Effect.Hit(damage = Roll(0..11), type = Magic),
+            )
+        }
+        val ranged = ability("ranged") {
+            anim("seq.troll_attack")
+            projectile(
+                spotanim = "spotanim.myarm_rock_roc_travel",
+                hit = Effect.Hit(damage = Roll(0..7), type = Ranged),
+            )
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange)
+                +random(magic, weight = 1)
+                +random(ranged, weight = 1)
+            }
+        }
     }
 }
 
