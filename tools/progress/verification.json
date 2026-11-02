@@ -120,7 +120,8 @@
       "mechanics": {
         "state": "partial",
         "evidence": [
-          "Both Lletya Elf Warrior variants (npc.mourning_guard_melee and npc.mourning_guard_melee2) now explicitly use the Wiki's two-tile halberd reach. Traced NPC attackRange through AiPlayerInteractions; the source definition default is one tile."
+          "Both Lletya Elf Warrior variants (npc.mourning_guard_melee and npc.mourning_guard_melee2) now explicitly use the Wiki's two-tile halberd reach. Traced NPC attackRange through AiPlayerInteractions; the source definition default is one tile.",
+          "Conditional-aggression audit against the Wiki's aggressive list: all god-affiliation rows resolve through packed godwars_*_follower categories or param.aggro_faction (desert bandits use aggro_if_goditem triggers, Mage Arena battle mages use aggro_unless_obj cape gates, greegree/vyre/mourner/armed/MM2-quest gates verified in place). Corrected Wiki-passive NPCs that still hunted: zamorakghost, five arena_guard (Khazard Guard) variants, regicide_darkelf (Iorwerth Archer), wilderness_rogue and kalphite_worker_chamber; added missing hunt config to aviansie variant 3176. Talk/spawn/chest-triggered aggression stays scripted content with correct passive base."
         ]
       },
       "visuals": {

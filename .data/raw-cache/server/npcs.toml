@@ -2720,6 +2720,10 @@ category = 65518
 id = "npc.godwars_armadyl_male_armor03_red"
 inherit = "npc.godwars_armadyl_male_armor03_red"
 category = 65518
+huntMode = 1
+huntRange = 5
+maxRange = 15
+
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
@@ -10455,11 +10459,7 @@ maxRange = 15
 [[npc]]
 id = "npc.kalphite_worker_chamber"
 inherit = "npc.kalphite_worker_chamber"
-huntMode = 1
-huntRange = 5
-maxRange = 15
 [npc.params]
-"param.aggression_tolerant"=1
 "param.attack_anim"="seq.kalphite_attack_claws"
 "param.death_anim"="seq.kalphite_update_death"
 "param.defend_anim"="seq.kalphite_update_defend"
@@ -13760,12 +13760,8 @@ inherit = "npc.champions_skeleton"
 [[npc]]
 id = "npc.regicide_darkelf"
 inherit = "npc.regicide_darkelf"
-huntMode = 2
-huntRange = 8
-maxRange = 15
 attackRange = 10
 [npc.params]
-"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_standard"
 "param.proj_travel"="spotanim.iron_arrow_travel"
@@ -15359,10 +15355,7 @@ inherit = "npc.zq_mainzombie3"
 [[npc]]
 id = "npc.zamorakghost"
 inherit = "npc.zamorakghost"
-huntMode = 1
-huntRange = 5
 [npc.params]
-"param.aggression_tolerant"=1
 "param.attack_anim"="seq.ghost_update_tendrill_attack"
 "param.death_anim"="seq.ghost_update_tendrill_death"
 "param.defend_anim"="seq.ghost_update_tendrill_defend"
@@ -25234,13 +25227,13 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggro_unless_obj"="obj.saradomin_cape"
-"param.attack_anim"="seq.godwars_lion_attack"
+"param.attack_anim"="seq.human_castwave"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
 "param.attackrate"=5
-"param.defend_anim"="seq.godwars_lion_defend"
-"param.death_anim"="seq.godwars_lion_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.guthix_mage"
 inherit = "npc.guthix_mage"
@@ -25250,7 +25243,7 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggro_unless_obj"="obj.guthix_cape"
-"param.attack_anim"="seq.bat_attack"
+"param.attack_anim"="seq.human_castwave"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
@@ -30130,10 +30123,7 @@ inherit = "npc.khazard_commander"
 [[npc]]
 id = "npc.arena_guard1"
 inherit = "npc.arena_guard1"
-huntMode = 1
-huntRange = 5
 [npc.params]
-"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 "param.defend_anim"="seq.human_unarmed_def"
@@ -30141,10 +30131,7 @@ huntRange = 5
 [[npc]]
 id = "npc.arena_guard4"
 inherit = "npc.arena_guard4"
-huntMode = 1
-huntRange = 5
 [npc.params]
-"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 "param.defend_anim"="seq.human_unarmed_def"
@@ -30152,10 +30139,7 @@ huntRange = 5
 [[npc]]
 id = "npc.arena_guard5"
 inherit = "npc.arena_guard5"
-huntMode = 1
-huntRange = 5
 [npc.params]
-"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 "param.defend_anim"="seq.human_unarmed_def"
@@ -30163,10 +30147,7 @@ huntRange = 5
 [[npc]]
 id = "npc.arena_guard6"
 inherit = "npc.arena_guard6"
-huntMode = 1
-huntRange = 5
 [npc.params]
-"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 "param.defend_anim"="seq.human_unarmed_def"
@@ -30174,10 +30155,7 @@ huntRange = 5
 [[npc]]
 id = "npc.arena_guard7"
 inherit = "npc.arena_guard7"
-huntMode = 1
-huntRange = 5
 [npc.params]
-"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
 "param.defend_anim"="seq.human_unarmed_def"
@@ -32662,10 +32640,7 @@ inherit = "npc.rogue"
 [[npc]]
 id = "npc.wilderness_rogue"
 inherit = "npc.wilderness_rogue"
-huntMode = 1
-huntRange = 5
 [npc.params]
-"param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.defend_anim"="seq.human_unarmed_def"

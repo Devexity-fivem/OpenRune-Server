@@ -318,6 +318,35 @@ class ServerCacheOverlayVerificationTest {
     }
 
     @Test
+    fun `wiki-passive NPCs have no hunt mode`() {
+        // Ghost (5370): "No, except when spoken to"; Khazard guards: "No, unless
+        // talked to"; Iorwerth Archer: "No (yes during quests)"; wilderness rogue:
+        // "No, unless caught stealing"; upper-lair kalphite worker: not aggressive.
+        for (id in intArrayOf(5370, 1208, 1211, 12019, 12020, 12021, 3428, 6603, 961)) {
+            assertNull(npc(id).huntMode, "npc $id should not hunt")
+        }
+        assertNull(param(npc(6603), PARAM_AGGRESSION_TOLERANT))
+    }
+
+    @Test
+    fun `aviansie variant hunts like siblings`() {
+        val def = npc(3176)
+        assertEquals(1, def.huntMode)
+        assertEquals(5, def.huntRange)
+    }
+
+    @Test
+    fun `mage arena battle mages use human combat anims`() {
+        // guthix_mage previously attacked with seq.bat_attack; saradomin_mage used
+        // the godwars_lion set. Both are humanoid casters.
+        for (id in intArrayOf(1611, 1612)) {
+            assertEquals(727, param(npc(id), PARAM_ATTACK_ANIM), "npc $id attack")
+            assertEquals(425, param(npc(id), PARAM_DEFEND_ANIM), "npc $id defend")
+            assertEquals(836, param(npc(id), PARAM_DEATH_ANIM), "npc $id death")
+        }
+    }
+
+    @Test
     fun `al kharid warrior is non-aggressive but calls same-type allies`() {
         val def = npc(3292)
         assertNull(def.huntMode)
