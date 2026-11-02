@@ -956,7 +956,7 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
         private const val CHAMBER_RADIUS = 30
         private const val CHAMBER_ZONE_RADIUS = 6
 
-        private const val MELEE_MAX = 30
+        private const val MELEE_MAX = 27
         private const val MELEE_SWINGS = 3
         private const val AUTO_MAX = 33
         private const val SHADOW_BASE = 30

@@ -232,7 +232,8 @@
    "mechanics": {
     "state": "partial",
     "evidence": [
-     "Wall-sticking fix: her smoke-phase dash no longer probes a landing box with canStand (which accepted wall-interior tiles that carry only edge flags); it slides one tile at a time through StepValidator.canTravel with her real size 3 and BLOCK_NPCS, stopping at the last valid step. Drag targets keep freeAdjacent + hasLineOfWalk + zone-valid checks; reaver spawns via freeTilesAround now reject wall pockets using the same walk-line rule plus a BLOCK_WALK|LOC|BLOCK_NPCS|BLOCK_PLAYERS occupancy mask (previously entity occupancy was invisible to the check)."
+     "Wall-sticking fix: her smoke-phase dash no longer probes a landing box with canStand (which accepted wall-interior tiles that carry only edge flags); it slides one tile at a time through StepValidator.canTravel with her real size 3 and BLOCK_NPCS, stopping at the last valid step. Drag targets keep freeAdjacent + hasLineOfWalk + zone-valid checks; reaver spawns via freeTilesAround now reject wall pockets using the same walk-line rule plus a BLOCK_WALK|LOC|BLOCK_NPCS|BLOCK_PLAYERS occupancy mask (previously entity occupancy was invisible to the check).",
+     "Melee max corrected 30->27 per Wiki infobox; magic 33, ranged 60, smoke dash 50, shadow smash 50, blood sacrifice 80, containment 60 all confirmed already correct."
     ],
     "reason": "Only the movement mechanics were reworked; per-phase attack cadence and full-fight parity remain covered by the existing spec but were not re-audited here."
    },
@@ -1491,6 +1492,62 @@
      "Melee max corrected 20->18 per Wiki infobox (20+ ranged not modelled)."
     ],
     "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Yama": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/world-bosses/src/main/kotlin/org/rsmod/content/bosses/worldbosses/WorldBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Yama"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Auto-attack maxes corrected to 46 per Wiki infobox (melee 30->46, magic 26->46); Meteor Strike 162 / Shadow Stomp 80 specials not yet modelled."
+    ],
+    "reason": "Value correction from the cross-boss Wiki audit."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Tumeken's Warden": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/raid-bosses/src/main/kotlin/org/rsmod/content/bosses/raidbosses/RaidBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Tumeken's_Warden"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Attack speed corrected 7->8 per Wiki infobox (Elidinis' Warden 7 confirmed correct)."
+    ],
+    "reason": "Value correction from the cross-boss Wiki audit."
    },
    "automated": {
     "state": "passed",

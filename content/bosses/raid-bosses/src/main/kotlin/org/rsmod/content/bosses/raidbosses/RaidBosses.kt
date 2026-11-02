@@ -372,7 +372,7 @@ class TumekensWarden @Inject constructor(deps: BossDeps) : BossPluginScript(deps
             "npc.toa_warden_tumeken_phase2_range",
             "npc.toa_warden_tumeken_phase3",
         ) {
-            stats(attackRate = 7)
+            stats(attackRate = 8)
             val magic = ability("magic") {
                 anim("seq.npc_wardens_attackcenter01")
                 hit { damage(0..30).roll(); type(Magic) }

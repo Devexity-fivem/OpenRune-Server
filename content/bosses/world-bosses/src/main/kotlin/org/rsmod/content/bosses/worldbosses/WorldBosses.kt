@@ -261,11 +261,11 @@ class YamaBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.npc_yama01_melee01")
-                hit { damage(0..30).roll(); type(Melee) }
+                hit { damage(0..46).roll(); type(Melee) }
             }
             val magic = ability("magic") {
                 anim("seq.npc_yama01_magic01")
-                projectile(spotanim = "spotanim.vfx_npc_yama_magic_fire_spotanim01", hit = Effect.Hit(damage = Roll(0..26), type = Magic))
+                projectile(spotanim = "spotanim.vfx_npc_yama_magic_fire_spotanim01", hit = Effect.Hit(damage = Roll(0..46), type = Magic))
             }
             phase("combat") {
                 weightedSelectorRandom {
