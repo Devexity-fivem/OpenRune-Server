@@ -109,6 +109,7 @@ object BaseParams {
     val freeze_resistance: ParamInt = param("freeze_resistance")
     val aggression_tolerant: ParamInt = param("aggression_tolerant")
     val godwars_faction: ParamInt = param("godwars_faction")
+    val aggro_call_help: ParamInt = param("aggro_call_help")
     val aggro_faction: ParamInt = param("aggro_faction")
     val aggro_if_goditem: ParamInt = param("aggro_if_goditem")
     val aggro_unless_greegree: ParamInt = param("aggro_unless_greegree")

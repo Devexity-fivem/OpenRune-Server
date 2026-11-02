@@ -198,6 +198,13 @@ class ServerCacheOverlayVerificationTest {
         assertEquals(836, param(npc(7418), PARAM_DEATH_ANIM)) // human_death
     }
 
+    @Test
+    fun `al kharid warrior is non-aggressive but calls same-type allies`() {
+        val def = npc(3292)
+        assertNull(def.huntMode)
+        assertEquals(5, param(def, PARAM_AGGRO_CALL_HELP))
+    }
+
     companion object {
         private const val PARAM_ATTACK_TYPE = 65407
         private const val PARAM_ATTACK_ANIM = 65500
@@ -209,6 +216,7 @@ class ServerCacheOverlayVerificationTest {
         private const val PARAM_WEAKNESS_PERCENT = 65405
         private const val PARAM_DEMON = 65432
         private const val PARAM_AGGRESSION_TOLERANT = 65560
+        private const val PARAM_AGGRO_CALL_HELP = 65574
 
         @JvmStatic
         @BeforeAll

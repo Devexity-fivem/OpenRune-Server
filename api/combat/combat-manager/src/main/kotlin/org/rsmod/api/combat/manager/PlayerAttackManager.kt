@@ -16,6 +16,7 @@ import org.rsmod.api.combat.commons.magic.Spellbook
 import org.rsmod.api.combat.commons.npc.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.npc.combatPlayDefendSpot
 import org.rsmod.api.combat.commons.npc.queueCombatRetaliate
+import org.rsmod.api.combat.commons.npc.queueCombatRetaliateWithAssist
 import org.rsmod.api.combat.commons.npc.resolveCombatXpMultiplier
 import org.rsmod.api.combat.commons.player.combatPlayDefendAnim
 import org.rsmod.api.combat.commons.player.combatPlayDefendSpot
@@ -46,6 +47,7 @@ import org.rsmod.api.player.protect.clearPendingAction
 import org.rsmod.api.player.stat.hitpoints
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.random.GameRandom
+import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
@@ -73,6 +75,7 @@ constructor(
     private val npcTInteractions: NpcTInteractions,
     private val playerInteractions: PlayerInteractions,
     private val playerTInteractions: PlayerTInteractions,
+    private val npcRepo: NpcRepository,
     private val pvpPlayerHitHooks: Set<PvPPlayerHitHook>,
 ) {
     /**
@@ -718,7 +721,7 @@ constructor(
         // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
         // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
         // last entries in the queue list at the time of processing.
-        target.queueCombatRetaliate(source)
+        target.queueCombatRetaliateWithAssist(source, npcRepo = npcRepo)
 
         val hit = target.queueHit(source, delay, HitType.Melee, damage, npcHitModifier)
         target.combatPlayDefendAnim()
@@ -1036,7 +1039,7 @@ constructor(
         // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
         // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
         // last entries in the queue list at the time of processing.
-        target.queueCombatRetaliate(source, hitDelay)
+        target.queueCombatRetaliateWithAssist(source, hitDelay, npcRepo)
 
         val hit =
             target.queueHit(
@@ -1552,7 +1555,7 @@ constructor(
         // Note: Retaliation must be queued _before_ the hit. If queued after, every hit would
         // trigger the "speed-up" death mechanic, since the hit queues would no longer be the
         // last entries in the queue list at the time of processing.
-        target.queueCombatRetaliate(source, retaliationDelay)
+        target.queueCombatRetaliateWithAssist(source, retaliationDelay, npcRepo)
 
         val hit =
             target.queueHit(

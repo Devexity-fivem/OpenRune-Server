@@ -10,12 +10,15 @@ import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.apPlayer2
 import org.rsmod.api.npc.interact.AiPlayerInteractions
+import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.npc.opPlayer2
 import org.rsmod.api.npc.vars.intVarn
 import org.rsmod.api.npc.vars.typePlayerUidVarn
+import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.interact.InteractionOp
+import org.rsmod.map.zone.ZoneKey
 
 private var Npc.lastCombat: Int by intVarn("varn.lastcombat")
 private var Npc.aggressivePlayer by typePlayerUidVarn("varn.aggressive_player")
@@ -35,6 +38,21 @@ public fun Npc.queueCombatRetaliate(source: Player, delay: Int = 1) {
     queue("queue.com_retaliate_player", delay)
     aggressivePlayer = source.uid
     lastCombat = max(lastCombat, currentMapClock)
+}
+
+public fun Npc.queueCombatRetaliateWithAssist(
+    source: Player,
+    delay: Int = 1,
+    npcRepo: NpcRepository,
+) {
+    queueCombatRetaliate(source, delay)
+    val assistRange = visType.paramOrNull(params.aggro_call_help) ?: return
+    npcRepo
+        .findAll(ZoneKey.from(coords), zoneRadius = 1)
+        .filter { it !== this && it.visType == visType }
+        .filter { it.coords.chebyshevDistance(coords) <= assistRange }
+        .filter { it.isValidTarget() && !it.hasInteraction() && it.canRetaliate() }
+        .forEach { it.queueCombatRetaliate(source, delay) }
 }
 
 public fun Npc.combatDefaultRetaliate(interactions: AiPlayerInteractions) {

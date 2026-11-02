@@ -30716,12 +30716,10 @@ inherit = "npc.al_kharid_man"
 [[npc]]
 id = "npc.al_kharid_warrior"
 inherit = "npc.al_kharid_warrior"
-huntMode = 1
-huntRange = 5
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.aggression_tolerant"=1
+"param.aggro_call_help"=5
 "param.defend_anim"="seq.human_unarmed_def"
 "param.death_anim"="seq.human_death"
 [[npc]]
