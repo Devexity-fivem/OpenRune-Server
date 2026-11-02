@@ -77,7 +77,7 @@ class LowernielDrakan @Inject constructor(deps: BossDeps) : BossPluginScript(dep
             "npc.myq6_lowerniel_combat_3",
             "npc.myq6_lowerniel_final_combat",
         ) {
-            stats(attackRate = 5)
+            stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.npc_lowerniel_drakan_melee_attack01")
                 hit { damage(0..27).roll(); type(Melee) }
@@ -136,7 +136,7 @@ class Abomination @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // A Kingdom Divided — Judge of Yama: melee up to ~12 with demonic magic.
 class JudgeOfYama @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.akd_judge_of_yama_combat", "npc.yama_judge_of_yama") {
-        stats(attackRate = 4)
+        stats(attackRate = 5)
         val melee = ability("melee") {
             anim("seq.demon_attack")
             hit { damage(0..12).roll(); type(Melee) }
@@ -157,7 +157,7 @@ class JudgeOfYama @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 class Xamphur @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
         boss("npc.akd_xamphur_combat", "npc.akd_xamphur_combat_nohands") {
-            stats(attackRate = 4)
+            stats(attackRate = 5)
             val melee = ability("melee") {
                 anim("seq.demon_attack")
                 hit { damage(0..14).roll(); type(Melee) }

@@ -46,7 +46,7 @@ class NightmareStandard @Inject constructor(deps: BossDeps) : BossPluginScript(d
 // Chambers of Xeric — Ice demon: melee + ice magic up to ~35.
 class RaidsIceDemon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.raids_icedemon_combat") {
-        stats(attackRate = 4)
+        stats(attackRate = 3)
         val melee = ability("melee") {
             anim("seq.demon_attack")
             hit { damage(0..35).roll(); type(Melee) }

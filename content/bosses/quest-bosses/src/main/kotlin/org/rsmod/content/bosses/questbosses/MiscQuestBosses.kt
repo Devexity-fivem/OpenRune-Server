@@ -214,7 +214,7 @@ class Galvek @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             "npc.galvek_waves", "npc.galvek_fire", "npc.galvek_water",
             "npc.galvek_wind", "npc.galvek_earth", "npc.galvek_transmog",
         ) {
-            stats(attackRate = 4)
+            stats(attackRate = 6)
             val melee = ability("melee") {
                 anim("seq.dragon_attack")
                 hit { damage(0..30).roll(); type(Melee) }

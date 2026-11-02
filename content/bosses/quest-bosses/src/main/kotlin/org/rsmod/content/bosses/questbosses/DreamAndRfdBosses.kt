@@ -117,7 +117,7 @@ class Flambeed @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // Recipe for Disaster — Karamel: melee up to ~18 plus stat-draining ice magic.
 class Karamel @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.hundred_minion3") {
-        stats(attackRate = 4)
+        stats(attackRate = 3)
         val melee = ability("melee") {
             anim("seq.tentacle_monster_attack")
             hit { damage(0..18).roll(); type(Melee) }
@@ -130,7 +130,7 @@ class Karamel @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // Recipe for Disaster — Dessourt: melee up to ~18.
 class Dessourt @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.hundred_minion4") {
-        stats(attackRate = 4)
+        stats(attackRate = 3)
         val melee = ability("melee") {
             anim("seq.vamp_claw")
             hit { damage(0..19).roll(); type(Melee) }
