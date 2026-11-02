@@ -43,4 +43,10 @@ class SlayerLevelGateTest {
             ServerCacheManager.init(240).close()
         }
     }
+
+    @Test
+    fun `slayer boss level gates match the wiki`() {
+        assertEquals(87, required("npc.slayer_kraken_boss"))
+        assertEquals(93, required("npc.smoke_devil_boss"))
+    }
 }
