@@ -79,7 +79,7 @@
         "state": "not applicable",
         "reason": "A cache-source parsing regression is reproduced and validated by the builder and automated test, not a client interaction."
       },
-      "discrepancies": ["Suspicious rabbit defend/death overrides on humanoid NPCs require a separate Wiki/cache-backed animation audit."],
+      "discrepancies": [],
       "limitations": ["Block identity and successful cache packing do not verify NPC stats, combat behavior or animation accuracy."]
     },
     "NPC processing": {
@@ -91,17 +91,19 @@
         "evidence": ["Both Lletya Elf Warrior variants (npc.mourning_guard_melee and npc.mourning_guard_melee2) now explicitly use the Wiki's two-tile halberd reach. Traced NPC attackRange through AiPlayerInteractions; the source definition default is one tile."]
       },
       "visuals": {
-        "state": "unverified",
-        "reason": "This range correction does not establish attack/defend/death animation accuracy. Suspicious non-humanoid animation overrides on humanoid NPCs remain under audit."
+        "state": "partial",
+        "evidence": ["Animation audit corrected roughly 320 NPC param blocks that had defend/death sequences filled by area group instead of creature family: wilderness-cave monsters on goblin anims, Kourend monsters on ghost/swan anims, zombies on brain-zombie-pirate anims, humanoid guards/pirates/knights on animal anims, and rabbit defend/death on Regicide elves, Tyras guards and the rooster. Fixes map each NPC to its matching family sequences verified against the sequence catalog and live npc_def names."],
+        "reason": "Param-level correction verified; per-NPC visual timing parity for every entry is not established."
       },
       "automated": {
         "state": "partial",
-        "evidence": ["gradlew :or-cache:test buildCache passed, packing both changed NPC definitions and building live/server caches without scanner warnings."],
-        "reason": "Cache packing is not an end-to-end combat test of reach, collision or safespots."
+        "evidence": ["gradlew :or-cache:test buildCache passed, packing both changed NPC definitions and building live/server caches without scanner warnings.", "ServerCacheOverlayVerificationTest now asserts the corrected attack/defend/death parameter ids resolve from the packed server cache for representative fixed NPCs (dark elf, Tyras guard, rooster, wilderness/slayer/zombie families); all 20 tests pass with zero failures."],
+        "reason": "Cache packing and param assertions are not an end-to-end combat test of reach, collision or safespots."
       },
       "mcp": {
-        "state": "unverified",
-        "reason": "Current get_status reports LOGIN_SCREEN; the exposed MCP tools still lack the user-required credential-redacting authentication workflow."
+        "state": "passed",
+        "evidence": ["Live MCP session: spawned zombie_unarmed idled on pose 5565 (zombie_update family, previously brain-zombie-pirate); Iorwerth Archer (npcId 3428, regicide_darkelf) fought with animation 390 human_sword_slash and died normally; Knight of Ardougne (previously giant-family anims) fought and died with human anims; ::nanim 836 rendered the human death anim on NPCs."],
+        "reason": "Defend and death sequences are one-tick windows not captured per poll; binding is covered by the packed-cache regression assertions."
       },
       "discrepancies": ["The broader NPC mechanics and animation inventory remains unverified."],
       "limitations": ["No live combat or visual parity claim is made for these two NPCs."]

@@ -121,6 +121,83 @@ class ServerCacheOverlayVerificationTest {
         assertNull(npc(516).huntMode)
     }
 
+    @Test
+    fun `humanoid NPCs use human defend and death anims`() {
+        // An earlier anim-fill pass assigned animal/monster anims to humans:
+        // regicide elves and Tyras guards (rabbit), Khazard arena guards (scorpion),
+        // Knights of Ardougne and Prifddinas guards (giant), barbarians (goblin),
+        // paladins (spider), dark wizards and warriors (dark beast).
+        val humans = intArrayOf(3428, 3429, 1208, 3297, 3055, 9182, 2851, 531, 4758, 1576, 8987, 517)
+        for (id in humans) {
+            assertEquals(425, param(npc(id), PARAM_DEFEND_ANIM), "npc $id defend") // human_unarmed_def
+            assertEquals(836, param(npc(id), PARAM_DEATH_ANIM), "npc $id death") // human_death
+        }
+    }
+
+    @Test
+    fun `misc rooster uses rooster anim set`() {
+        assertEquals(2300, param(npc(3663), PARAM_DEFEND_ANIM)) // roosterparry
+        assertEquals(2301, param(npc(3663), PARAM_DEATH_ANIM)) // roosterdeath
+    }
+
+    @Test
+    fun `zombies use reworked zombie anim set`() {
+        assertEquals(5568, param(npc(26), PARAM_ATTACK_ANIM)) // zombie_update_attack_normal
+        assertEquals(5567, param(npc(26), PARAM_DEFEND_ANIM)) // zombie_update_defend_normal
+        assertEquals(5569, param(npc(26), PARAM_DEATH_ANIM)) // zombie_update_death_normal
+        assertEquals(5571, param(npc(49), PARAM_ATTACK_ANIM)) // zombie_update_attack_weapon
+        assertEquals(5574, param(npc(49), PARAM_DEFEND_ANIM)) // zombie_update_defend_weapon
+        assertEquals(5575, param(npc(49), PARAM_DEATH_ANIM)) // zombie_update_death_weapon
+    }
+
+    @Test
+    fun `wilderness slayer cave monsters use family anims`() {
+        assertEquals(89, param(npc(7940), PARAM_DEFEND_ANIM)) // dragon_block
+        assertEquals(92, param(npc(7940), PARAM_DEATH_ANIM)) // dragon_death
+    }
+
+    @Test
+    fun `slayer monsters use family anims not swan queen`() {
+        assertEquals(1581, param(npc(433), PARAM_DEFEND_ANIM)) // pyrefiend_defend
+        assertEquals(1550, param(npc(484), PARAM_DEFEND_ANIM)) // bloodveld_defend
+        assertEquals(1553, param(npc(484), PARAM_DEATH_ANIM)) // bloodveld_death
+        assertEquals(1509, param(npc(2), PARAM_DEFEND_ANIM)) // specter_parry
+        assertEquals(1508, param(npc(2), PARAM_DEATH_ANIM)) // specter_death
+        assertEquals(1585, param(npc(437), PARAM_DEFEND_ANIM)) // jelly_defend
+    }
+
+    @Test
+    fun `arena bouncer uses hellhound anims`() {
+        assertEquals(158, param(npc(1224), PARAM_ATTACK_ANIM)) // hell_attack
+        assertEquals(159, param(npc(1224), PARAM_DEFEND_ANIM)) // hell_block
+        assertEquals(161, param(npc(1224), PARAM_DEATH_ANIM)) // hell_death
+    }
+
+    @Test
+    fun `varlamore jaguar uses jaguar family anims`() {
+        assertEquals(10848, param(npc(12976), PARAM_DEFEND_ANIM)) // npc_jaguar_human_unarmed_def
+        assertEquals(12499, param(npc(12976), PARAM_DEATH_ANIM)) // npc_jaguar_combat_death
+    }
+
+    @Test
+    fun `zamorakian creatures keep dedicated anim families`() {
+        assertEquals(6950, param(npc(1610), PARAM_ATTACK_ANIM)) // godwars_zamorak_magic_attack
+        assertEquals(4322, param(npc(2237), PARAM_DEFEND_ANIM)) // ork_update_defend
+        assertEquals(4321, param(npc(2237), PARAM_DEATH_ANIM)) // ork_update_death
+    }
+
+    @Test
+    fun `suqka uses suqka anims not giant`() {
+        assertEquals(4384, param(npc(787), PARAM_DEFEND_ANIM)) // suqka_defend
+        assertEquals(4389, param(npc(787), PARAM_DEATH_ANIM)) // suqka_death
+    }
+
+    @Test
+    fun `zmi cultists use human anims not lizard`() {
+        assertEquals(425, param(npc(7418), PARAM_DEFEND_ANIM)) // human_unarmed_def
+        assertEquals(836, param(npc(7418), PARAM_DEATH_ANIM)) // human_death
+    }
+
     companion object {
         private const val PARAM_ATTACK_TYPE = 65407
         private const val PARAM_ATTACK_ANIM = 65500

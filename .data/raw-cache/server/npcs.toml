@@ -1877,8 +1877,8 @@ maxRange = 15
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_araxyte"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.lotr_terror_dog_defend"
-"param.death_anim"="seq.lotr_terror_dog_death"
+"param.defend_anim"="seq.spider_update_defend_large"
+"param.death_anim"="seq.spider_update_death_large"
 "param.attack_anim"="seq.npc_araxyte02_attack"
 [[npc]]
 id = "npc.araxyte_large_bigwander"
@@ -2263,8 +2263,8 @@ category = 65517
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.ork_update_defend"
+"param.death_anim"="seq.ork_update_death"
 "param.attack_anim"="seq.ork_update_double_grip_attack"
 [[npc]]
 id = "npc.godwars_ancient_ork2"
@@ -2279,8 +2279,8 @@ category = 65517
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.ork_update_defend"
+"param.death_anim"="seq.ork_update_death"
 "param.attack_anim"="seq.ork_update_double_grip_attack"
 [[npc]]
 id = "npc.godwars_ancient_ork3"
@@ -2295,8 +2295,8 @@ category = 65517
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.ork_update_defend"
+"param.death_anim"="seq.ork_update_death"
 "param.attack_anim"="seq.ork_update_double_grip_attack"
 [[npc]]
 id = "npc.godwars_ancient_ork4"
@@ -2311,8 +2311,8 @@ category = 65517
 "param.attackrate"=5
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=15
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.ork_update_defend"
+"param.death_anim"="seq.ork_update_death"
 "param.attack_anim"="seq.ork_update_double_grip_attack"
 [[npc]]
 id = "npc.godwars_ancient_cyclops"
@@ -2324,8 +2324,8 @@ category = 65517
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.giant_update_basic_defend"
+"param.death_anim"="seq.giant_update_basic_death"
 "param.attack_anim"="seq.giant_update_basic_attack"
 [[npc]]
 id = "npc.godwars_ancient_cyclops2"
@@ -2337,8 +2337,8 @@ category = 65517
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.giant_update_basic_defend"
+"param.death_anim"="seq.giant_update_basic_death"
 "param.attack_anim"="seq.giant_update_basic_attack"
 [[npc]]
 id = "npc.godwars_ancient_jogre"
@@ -2354,8 +2354,8 @@ category = 65517
 "param.attackrate"=6
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=25
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.ogre_block"
+"param.death_anim"="seq.ogre_death"
 [[npc]]
 id = "npc.godwars_ancient_ogre"
 inherit = "npc.godwars_ancient_ogre"
@@ -2370,8 +2370,8 @@ category = 65517
 "param.attackrate"=7
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.ogre_block"
+"param.death_anim"="seq.ogre_death"
 [[npc]]
 id = "npc.godwars_ancient_hobgoblin"
 inherit = "npc.godwars_ancient_hobgoblin"
@@ -2885,8 +2885,8 @@ category = 65520
 "param.attack_anim"="seq.human_caststrike"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.bloodveld_defend"
+"param.death_anim"="seq.bloodveld_death"
 [[npc]]
 id = "npc.godwars_gorak"
 inherit = "npc.godwars_gorak"
@@ -2897,8 +2897,8 @@ category = 65520
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.gorak_defend"
+"param.death_anim"="seq.gorak_death"
 "param.attack_anim"="seq.gorak_attack"
 [[npc]]
 id = "npc.godwars_icefiend_1"
@@ -2916,8 +2916,8 @@ category = 65520
 "param.elemental_weakness_percent"=100
 "param.killcount_varp"="varp.kc_bloodveld"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.pyrefiend_defend"
+"param.death_anim"="seq.pyrefiend_death"
 "param.attack_anim"="seq.pyrefiend_attack"
 [[npc]]
 id = "npc.godwars_pyrefiend_1"
@@ -2934,8 +2934,8 @@ category = 65520
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=100
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.pyrefiend_defend"
+"param.death_anim"="seq.pyrefiend_death"
 [[npc]]
 id = "npc.godwars_ancient_hellhound"
 inherit = "npc.godwars_ancient_hellhound"
@@ -2974,8 +2974,8 @@ maxRange = 15
 category = 65520
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.myq3_vampire_grounded_defend_male"
+"param.death_anim"="seq.myq3_vampire_grounded_death"
 "param.attack_anim"="seq.myq3_vampire_grounded_attack"
 [[npc]]
 id = "npc.godwars_ancient_werewolf1"
@@ -3281,8 +3281,8 @@ maxRange = 15
 "param.elemental_weakness_percent"=25
 "param.killcount_varp"="varp.kc_banshee"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.banshee_parry"
+"param.death_anim"="seq.banshee_death"
 [[npc]]
 id = "npc.kourend_bloodveld"
 inherit = "npc.kourend_bloodveld"
@@ -3292,8 +3292,8 @@ inherit = "npc.kourend_bloodveld"
 "param.demon"=1
 "param.killcount_varp"="varp.kc_bloodveld"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.bloodveld_defend"
+"param.death_anim"="seq.bloodveld_death"
 [[npc]]
 id = "npc.kourend_dark_beast"
 inherit = "npc.kourend_dark_beast"
@@ -3313,8 +3313,8 @@ inherit = "npc.kourend_dustdevil"
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_dust_devil"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.dustdevil_defend"
+"param.death_anim"="seq.dustdevil_death"
 "param.attack_anim"="seq.dustdevil_attack"
 [[npc]]
 id = "npc.kourend_jelly"
@@ -3325,8 +3325,8 @@ inherit = "npc.kourend_jelly"
 "param.elemental_weakness_percent"=30
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 "param.attack_anim"="seq.jelly_attack"
 [[npc]]
 id = "npc.kourend_nechryael"
@@ -3336,8 +3336,8 @@ inherit = "npc.kourend_nechryael"
 "param.demon"=1
 "param.killcount_varp"="varp.kc_nechryael"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 "param.attack_anim"="seq.demon_attack"
 [[npc]]
 id = "npc.kourend_spectre"
@@ -3353,8 +3353,8 @@ attackRange = 10
 "param.elemental_weakness_percent"=30
 "param.killcount_varp"="varp.kc_aberrant_spectre"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.spectre_ghost_defend"
+"param.death_anim"="seq.specter_death"
 "param.attack_anim"="seq.spectre_ghost_mage_attack"
 [[npc]]
 id = "npc.lotr_terror_dog_large"
@@ -3425,8 +3425,8 @@ inherit = "npc.molanisk_giant_cave_bug"
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_cave_bug"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.monalisk_cave_bug_defend"
+"param.death_anim"="seq.monalisk_giant_cave_bug_death"
 "param.attack_anim"="seq.monalisk_cave_bug_attack"
 [[npc]]
 id = "npc.mourning_dark_beast"
@@ -3532,8 +3532,8 @@ attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_warped_terrorbird"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.pog_mutant_terror_bird_defend"
+"param.death_anim"="seq.pog_mutant_terror_bird_death"
 "param.attack_anim"="seq.pog_mutant_terror_bird_attack"
 [[npc]]
 id = "npc.pog_mutated_terrorbird_2"
@@ -3545,8 +3545,8 @@ attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_warped_terrorbird"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.pog_mutant_terror_bird_defend"
+"param.death_anim"="seq.pog_mutant_terror_bird_death"
 "param.attack_anim"="seq.pog_mutant_terror_bird_attack"
 [[npc]]
 id = "npc.pog_mutated_terrorbird_3"
@@ -3558,8 +3558,8 @@ attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_warped_terrorbird"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.pog_mutant_terror_bird_defend"
+"param.death_anim"="seq.pog_mutant_terror_bird_death"
 "param.attack_anim"="seq.pog_mutant_terror_bird_attack"
 [[npc]]
 id = "npc.pog_mutated_terrorbird_4"
@@ -3571,8 +3571,8 @@ attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_warped_terrorbird"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.pog_mutant_terror_bird_defend"
+"param.death_anim"="seq.pog_mutant_terror_bird_death"
 "param.attack_anim"="seq.pog_mutant_terror_bird_attack"
 [[npc]]
 id = "npc.pog_mutated_terrorbird_5"
@@ -3584,8 +3584,8 @@ attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_warped_terrorbird"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.pog_mutant_terror_bird_defend"
+"param.death_anim"="seq.pog_mutant_terror_bird_death"
 "param.attack_anim"="seq.pog_mutant_terror_bird_attack"
 [[npc]]
 id = "npc.pog_mutated_terrorbird_6"
@@ -3597,8 +3597,8 @@ attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_warped_terrorbird"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.pog_mutant_terror_bird_defend"
+"param.death_anim"="seq.pog_mutant_terror_bird_death"
 "param.attack_anim"="seq.pog_mutant_terror_bird_attack"
 [[npc]]
 id = "npc.pog_mutated_terrorbird_7"
@@ -3610,8 +3610,8 @@ attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_warped_terrorbird"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.pog_mutant_terror_bird_defend"
+"param.death_anim"="seq.pog_mutant_terror_bird_death"
 "param.attack_anim"="seq.pog_mutant_terror_bird_attack"
 [[npc]]
 id = "npc.pog_mutated_terrorbird_8"
@@ -3623,8 +3623,8 @@ attackRange = 10
 [npc.params]
 "param.killcount_varp"="varp.kc_warped_terrorbird"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.pog_mutant_terror_bird_defend"
+"param.death_anim"="seq.pog_mutant_terror_bird_death"
 "param.attack_anim"="seq.pog_mutant_terror_bird_attack"
 [[npc]]
 id = "npc.pog_mutated_tortoise"
@@ -3775,7 +3775,7 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.specter_goo_launch"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
@@ -3783,8 +3783,8 @@ attackRange = 10
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_aberrant_spectre"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.specter_parry"
+"param.death_anim"="seq.specter_death"
 [[npc]]
 id = "npc.slayer_abberant_spectre_2"
 inherit = "npc.slayer_abberant_spectre_2"
@@ -3794,7 +3794,7 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.specter_goo_launch"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
@@ -3802,8 +3802,8 @@ attackRange = 10
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_aberrant_spectre"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.specter_parry"
+"param.death_anim"="seq.specter_death"
 [[npc]]
 id = "npc.slayer_abberant_spectre_3"
 inherit = "npc.slayer_abberant_spectre_3"
@@ -3813,7 +3813,7 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.specter_goo_launch"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
@@ -3821,8 +3821,8 @@ attackRange = 10
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_aberrant_spectre"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.specter_parry"
+"param.death_anim"="seq.specter_death"
 [[npc]]
 id = "npc.slayer_abberant_spectre_4"
 inherit = "npc.slayer_abberant_spectre_4"
@@ -3832,7 +3832,7 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.specter_goo_launch"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
@@ -3840,8 +3840,8 @@ attackRange = 10
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_aberrant_spectre"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.specter_parry"
+"param.death_anim"="seq.specter_death"
 [[npc]]
 id = "npc.slayer_aberrantspectre_1_strongholdcave"
 inherit = "npc.slayer_aberrantspectre_1_strongholdcave"
@@ -3851,7 +3851,7 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.specter_goo_launch"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
@@ -3859,8 +3859,8 @@ attackRange = 10
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_aberrant_spectre"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.specter_parry"
+"param.death_anim"="seq.specter_death"
 [[npc]]
 id = "npc.slayer_aberrantspectre_2_strongholdcave"
 inherit = "npc.slayer_aberrantspectre_2_strongholdcave"
@@ -3870,7 +3870,7 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.specter_goo_launch"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
@@ -3878,8 +3878,8 @@ attackRange = 10
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_aberrant_spectre"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.specter_parry"
+"param.death_anim"="seq.specter_death"
 [[npc]]
 id = "npc.slayer_abyssal"
 inherit = "npc.slayer_abyssal"
@@ -3948,46 +3948,46 @@ inherit = "npc.slayer_basilisk"
 id = "npc.slayer_bloodveld"
 inherit = "npc.slayer_bloodveld"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.bloodveld_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
 "param.killcount_varp"="varp.kc_bloodveld"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.bloodveld_defend"
+"param.death_anim"="seq.bloodveld_death"
 [[npc]]
 id = "npc.slayer_bloodveld_baby"
 inherit = "npc.slayer_bloodveld_baby"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.bloodveld_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
 "param.killcount_varp"="varp.kc_bloodveld"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.bloodveld_defend"
+"param.death_anim"="seq.bloodveld_death"
 [[npc]]
 id = "npc.slayer_bloodveld_baby_strongholdcave"
 inherit = "npc.slayer_bloodveld_baby_strongholdcave"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.bloodveld_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
 "param.killcount_varp"="varp.kc_bloodveld"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.bloodveld_defend"
+"param.death_anim"="seq.bloodveld_death"
 [[npc]]
 id = "npc.slayer_bloodveld_strongholdcave"
 inherit = "npc.slayer_bloodveld_strongholdcave"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.bloodveld_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
 "param.killcount_varp"="varp.kc_bloodveld"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.bloodveld_defend"
+"param.death_anim"="seq.bloodveld_death"
 [[npc]]
 id = "npc.slayer_cave_crawler_1"
 inherit = "npc.slayer_cave_crawler_1"
@@ -4256,8 +4256,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.firestrike_travel"
 "param.proj_type"="projanim.magic_spell"
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.slayer_infernal_mage_2"
 inherit = "npc.slayer_infernal_mage_2"
@@ -4269,8 +4269,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.firestrike_travel"
 "param.proj_type"="projanim.magic_spell"
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.slayer_infernal_mage_3"
 inherit = "npc.slayer_infernal_mage_3"
@@ -4282,8 +4282,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.firestrike_travel"
 "param.proj_type"="projanim.magic_spell"
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.slayer_infernal_mage_4"
 inherit = "npc.slayer_infernal_mage_4"
@@ -4295,8 +4295,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.firestrike_travel"
 "param.proj_type"="projanim.magic_spell"
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.slayer_infernal_mage_5"
 inherit = "npc.slayer_infernal_mage_5"
@@ -4308,80 +4308,80 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.firestrike_travel"
 "param.proj_type"="projanim.magic_spell"
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.slayer_jelly_1"
 inherit = "npc.slayer_jelly_1"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.jelly_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.slayer_jelly_2"
 inherit = "npc.slayer_jelly_2"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.jelly_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.slayer_jelly_3"
 inherit = "npc.slayer_jelly_3"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.jelly_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.slayer_jelly_4"
 inherit = "npc.slayer_jelly_4"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.jelly_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.slayer_jelly_5"
 inherit = "npc.slayer_jelly_5"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.jelly_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.slayer_jelly_6"
 inherit = "npc.slayer_jelly_6"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.jelly_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.slayer_killerwatt"
 inherit = "npc.slayer_killerwatt"
@@ -4659,54 +4659,54 @@ inherit = "npc.slayer_pyrebeast_2"
 id = "npc.slayer_pyrefiend_1"
 inherit = "npc.slayer_pyrefiend_1"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.pyrefiend_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=100
 "param.killcount_varp"="varp.kc_pyrefiend"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.pyrefiend_defend"
+"param.death_anim"="seq.pyrefiend_death"
 [[npc]]
 id = "npc.slayer_pyrefiend_2"
 inherit = "npc.slayer_pyrefiend_2"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.pyrefiend_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=100
 "param.killcount_varp"="varp.kc_pyrefiend"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.pyrefiend_defend"
+"param.death_anim"="seq.pyrefiend_death"
 [[npc]]
 id = "npc.slayer_pyrefiend_3"
 inherit = "npc.slayer_pyrefiend_3"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.pyrefiend_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=100
 "param.killcount_varp"="varp.kc_pyrefiend"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.pyrefiend_defend"
+"param.death_anim"="seq.pyrefiend_death"
 [[npc]]
 id = "npc.slayer_pyrefiend_4"
 inherit = "npc.slayer_pyrefiend_4"
 [npc.params]
-"param.attack_anim"="seq.human_caststrike"
+"param.attack_anim"="seq.pyrefiend_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=100
 "param.killcount_varp"="varp.kc_pyrefiend"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.swan_queen_defend"
-"param.death_anim"="seq.swan_queen_death"
+"param.defend_anim"="seq.pyrefiend_defend"
+"param.death_anim"="seq.pyrefiend_death"
 [[npc]]
 id = "npc.slayer_rockslug"
 inherit = "npc.slayer_rockslug"
@@ -4824,8 +4824,8 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.killcount_varp"="varp.kc_sulphur_lizard"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.rc_zmi_lizard_defend"
-"param.death_anim"="seq.rc_zmi_lizzard_death"
+"param.defend_anim"="seq.slayer_lizard_defend"
+"param.death_anim"="seq.slayer_lizard_death"
 "param.attack_anim"="seq.slayer_lizard_attack"
 [[npc]]
 id = "npc.superior_abberant_spectre"
@@ -5178,8 +5178,8 @@ maxRange = 15
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_cave_bug"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.monalisk_cave_bug_defend"
+"param.death_anim"="seq.monalisk_mini_cave_bug_death"
 "param.attack_anim"="seq.monalisk_cave_bug_attack"
 [[npc]]
 id = "npc.swamp_cave_slime"
@@ -5190,8 +5190,8 @@ inherit = "npc.swamp_cave_slime"
 "param.elemental_weakness_percent"=50
 "param.killcount_varp"="varp.kc_cave_slime"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.cave_slime_defend"
+"param.death_anim"="seq.cave_slime_death"
 "param.attack_anim"="seq.cave_slime_attack"
 [[npc]]
 id = "npc.swamp_wallbeast"
@@ -5361,8 +5361,8 @@ inherit = "npc.wild_cave_abyssal"
 "param.demon"=1
 "param.killcount_varp"="varp.kc_abyssal_demon"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.wild_cave_dustdevil"
 inherit = "npc.wild_cave_dustdevil"
@@ -5372,8 +5372,8 @@ inherit = "npc.wild_cave_dustdevil"
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_dust_devil"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.dustdevil_defend"
+"param.death_anim"="seq.dustdevil_death"
 "param.attack_anim"="seq.dustdevil_attack"
 [[npc]]
 id = "npc.wild_cave_jelly_1"
@@ -5385,8 +5385,8 @@ inherit = "npc.wild_cave_jelly_1"
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.wild_cave_jelly_2"
 inherit = "npc.wild_cave_jelly_2"
@@ -5397,8 +5397,8 @@ inherit = "npc.wild_cave_jelly_2"
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.wild_cave_jelly_3"
 inherit = "npc.wild_cave_jelly_3"
@@ -5409,8 +5409,8 @@ inherit = "npc.wild_cave_jelly_3"
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.wild_cave_jelly_4"
 inherit = "npc.wild_cave_jelly_4"
@@ -5421,8 +5421,8 @@ inherit = "npc.wild_cave_jelly_4"
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.wild_cave_jelly_5"
 inherit = "npc.wild_cave_jelly_5"
@@ -5433,8 +5433,8 @@ inherit = "npc.wild_cave_jelly_5"
 "param.elemental_weakness_percent"=35
 "param.killcount_varp"="varp.kc_jelly"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.jelly_defend"
+"param.death_anim"="seq.jelly_death"
 [[npc]]
 id = "npc.wild_cave_nechryael"
 inherit = "npc.wild_cave_nechryael"
@@ -5443,8 +5443,8 @@ inherit = "npc.wild_cave_nechryael"
 "param.demon"=1
 "param.killcount_varp"="varp.kc_nechryael"
 "param.killcount_notify"=false
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 "param.attack_anim"="seq.demon_attack"
 [[npc]]
 id = "npc.wyrm_dark"
@@ -6934,9 +6934,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed2"
 inherit = "npc.zombie_unarmed2"
@@ -6947,9 +6947,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed3"
 inherit = "npc.zombie_unarmed3"
@@ -6960,9 +6960,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed4"
 inherit = "npc.zombie_unarmed4"
@@ -6973,9 +6973,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed5"
 inherit = "npc.zombie_unarmed5"
@@ -6986,9 +6986,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed6"
 inherit = "npc.zombie_unarmed6"
@@ -6999,9 +6999,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed_city1"
 inherit = "npc.zombie_unarmed_city1"
@@ -7012,9 +7012,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed_city2"
 inherit = "npc.zombie_unarmed_city2"
@@ -7032,9 +7032,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed_city4"
 inherit = "npc.zombie_unarmed_city4"
@@ -7059,9 +7059,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed_sewer1"
 inherit = "npc.zombie_unarmed_sewer1"
@@ -7072,9 +7072,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed_sewer2"
 inherit = "npc.zombie_unarmed_sewer2"
@@ -7085,9 +7085,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed_sewer3"
 inherit = "npc.zombie_unarmed_sewer3"
@@ -7098,9 +7098,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_unarmed_sewer4"
 inherit = "npc.zombie_unarmed_sewer4"
@@ -7111,9 +7111,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie2"
 inherit = "npc.zombie2"
@@ -7124,9 +7124,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie2_b"
 inherit = "npc.zombie2_b"
@@ -7137,9 +7137,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie2_c"
 inherit = "npc.zombie2_c"
@@ -7150,9 +7150,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie2_rural1"
 inherit = "npc.zombie2_rural1"
@@ -7162,9 +7162,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie2_rural2"
 inherit = "npc.zombie2_rural2"
@@ -7174,9 +7174,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie2_rural3"
 inherit = "npc.zombie2_rural3"
@@ -7186,9 +7186,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie2_rural4"
 inherit = "npc.zombie2_rural4"
@@ -7198,9 +7198,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.zombie_armed"
 inherit = "npc.zombie_armed"
@@ -7211,9 +7211,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed2"
 inherit = "npc.zombie_armed2"
@@ -7224,9 +7224,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed3"
 inherit = "npc.zombie_armed3"
@@ -7237,9 +7237,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_city1"
 inherit = "npc.zombie_armed_city1"
@@ -7250,9 +7250,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_city2"
 inherit = "npc.zombie_armed_city2"
@@ -7270,9 +7270,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_sewer1"
 inherit = "npc.zombie_armed_sewer1"
@@ -7283,9 +7283,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_sewer2"
 inherit = "npc.zombie_armed_sewer2"
@@ -7296,9 +7296,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_sewer3"
 inherit = "npc.zombie_armed_sewer3"
@@ -7309,9 +7309,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_sewer4"
 inherit = "npc.zombie_armed_sewer4"
@@ -7322,9 +7322,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_rural1"
 inherit = "npc.zombie_armed_rural1"
@@ -7334,9 +7334,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_rural2"
 inherit = "npc.zombie_armed_rural2"
@@ -7346,9 +7346,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_rural3"
 inherit = "npc.zombie_armed_rural3"
@@ -7358,9 +7358,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_rural4"
 inherit = "npc.zombie_armed_rural4"
@@ -7370,9 +7370,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_armed_rural5"
 inherit = "npc.zombie_armed_rural5"
@@ -7382,9 +7382,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_weapon"
+"param.death_anim"="seq.zombie_update_death_weapon"
+"param.attack_anim"="seq.zombie_update_attack_weapon"
 [[npc]]
 id = "npc.zombie_entranan"
 inherit = "npc.zombie_entranan"
@@ -9840,8 +9840,8 @@ attackRange = 10
 "param.attackrate"=6
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.suqka_defend"
+"param.death_anim"="seq.suqka_death"
 "param.attack_anim"="seq.suqka_attack"
 [[npc]]
 id = "npc.lunar_suqka2"
@@ -9856,8 +9856,8 @@ attackRange = 10
 "param.attackrate"=6
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.suqka_defend"
+"param.death_anim"="seq.suqka_death"
 "param.attack_anim"="seq.suqka_attack"
 [[npc]]
 id = "npc.lunar_suqka3"
@@ -9872,8 +9872,8 @@ attackRange = 10
 "param.attackrate"=6
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.suqka_defend"
+"param.death_anim"="seq.suqka_death"
 "param.attack_anim"="seq.suqka_attack"
 [[npc]]
 id = "npc.lunar_suqka4"
@@ -9888,8 +9888,8 @@ attackRange = 10
 "param.attackrate"=6
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.suqka_defend"
+"param.death_anim"="seq.suqka_death"
 "param.attack_anim"="seq.suqka_attack"
 [[npc]]
 id = "npc.lunar_suqka5"
@@ -9904,8 +9904,8 @@ attackRange = 10
 "param.attackrate"=6
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.suqka_defend"
+"param.death_anim"="seq.suqka_death"
 "param.attack_anim"="seq.suqka_attack"
 [[npc]]
 id = "npc.lunar_suqka6"
@@ -9920,8 +9920,8 @@ attackRange = 10
 "param.attackrate"=6
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.suqka_defend"
+"param.death_anim"="seq.suqka_death"
 "param.attack_anim"="seq.suqka_attack"
 [[npc]]
 id = "npc.lunar_suqka7"
@@ -9936,8 +9936,8 @@ attackRange = 10
 "param.attackrate"=6
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.suqka_defend"
+"param.death_anim"="seq.suqka_death"
 "param.attack_anim"="seq.suqka_attack"
 [[npc]]
 id = "npc.contact_insectoid_mage"
@@ -10038,8 +10038,8 @@ attackRange = 10
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 "param.attack_anim"="seq.dragon_attack"
 [[npc]]
 id = "npc.peng_icelord_warrior01"
@@ -10896,8 +10896,8 @@ inherit = "npc.ramunsheeredshaggy"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.ogre_block"
-"param.death_anim"="seq.ogre_death"
+"param.defend_anim"="seq.sheep_update_shaggy_defend"
+"param.death_anim"="seq.sheep_update_death"
 "param.attack_anim"="seq.sheep_update_attack"
 [[npc]]
 id = "npc.rag_vulture"
@@ -13311,8 +13311,8 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=100
-"param.defend_anim"="seq.giant_update_basic_defend"
-"param.death_anim"="seq.giant_update_basic_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.icewarrior_low_wanderrange"
 inherit = "npc.icewarrior_low_wanderrange"
@@ -13325,8 +13325,8 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=100
-"param.defend_anim"="seq.giant_update_ice_defend"
-"param.death_anim"="seq.giant_update_ice_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.otherworldly_being"
 inherit = "npc.otherworldly_being"
@@ -13349,8 +13349,8 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=100
-"param.defend_anim"="seq.kalphite_update_queen_defend"
-"param.death_anim"="seq.kalphite_update_queen_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.brut_waterfiend"
 inherit = "npc.brut_waterfiend"
@@ -13766,12 +13766,12 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_bow"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_standard"
 "param.proj_travel"="spotanim.iron_arrow_travel"
 "param.proj_type"="projanim.arrow"
-"param.defend_anim"="seq.rabbit_update_defend"
-"param.death_anim"="seq.rabbit_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.regicide_darkelf2"
 inherit = "npc.regicide_darkelf2"
@@ -13779,10 +13779,10 @@ huntMode = 1
 huntRange = 5
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_spear_lunge"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_stab"
-"param.defend_anim"="seq.rabbit_update_defend"
-"param.death_anim"="seq.rabbit_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.regicide_rabbit"
 inherit = "npc.regicide_rabbit"
@@ -14231,9 +14231,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_tendrill_defend"
-"param.death_anim"="seq.ghost_update_tendrill_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.dragonslayer_zombie_2"
 inherit = "npc.dragonslayer_zombie_2"
@@ -14244,9 +14244,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.dragonslayer_demon"
 inherit = "npc.dragonslayer_demon"
@@ -14828,7 +14828,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.giant_attack"
+"param.attack_anim"="seq.bat_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=10
@@ -14908,9 +14908,9 @@ inherit = "npc.hundred_pirate_giant_crab_2"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.human_sword_slash"
+"param.defend_anim"="seq.crab_block"
+"param.death_anim"="seq.crab_death"
+"param.attack_anim"="seq.crab_attack"
 [[npc]]
 id = "npc.hundred_pirate_giant_mudskipper"
 inherit = "npc.hundred_pirate_giant_mudskipper"
@@ -14918,9 +14918,9 @@ inherit = "npc.hundred_pirate_giant_mudskipper"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.human_sword_slash"
+"param.defend_anim"="seq.mudskipper_block"
+"param.death_anim"="seq.mudskipper_death"
+"param.attack_anim"="seq.mudskipper_attack"
 [[npc]]
 id = "npc.hundred_pirate_giant_mudskipper_2"
 inherit = "npc.hundred_pirate_giant_mudskipper_2"
@@ -14928,9 +14928,9 @@ inherit = "npc.hundred_pirate_giant_mudskipper_2"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.human_sword_slash"
+"param.defend_anim"="seq.mudskipper_block"
+"param.death_anim"="seq.mudskipper_death"
+"param.attack_anim"="seq.mudskipper_attack"
 [[npc]]
 id = "npc.hundred_pirate_giant_crab"
 inherit = "npc.hundred_pirate_giant_crab"
@@ -14938,9 +14938,9 @@ inherit = "npc.hundred_pirate_giant_crab"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.human_sword_slash"
+"param.defend_anim"="seq.crab_block"
+"param.death_anim"="seq.crab_death"
+"param.attack_anim"="seq.crab_attack"
 [[npc]]
 id = "npc.hundred_minion2"
 inherit = "npc.hundred_minion2"
@@ -14975,8 +14975,8 @@ inherit = "npc.fire_bird"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=100
-"param.defend_anim"="seq.elemental_fire_defend"
-"param.death_anim"="seq.elemental_fire_death"
+"param.defend_anim"="seq.firebird_update_defend"
+"param.death_anim"="seq.firebird_update_death"
 "param.attack_anim"="seq.firebird_update_attack"
 [[npc]]
 id = "npc.chronozon"
@@ -15050,8 +15050,8 @@ inherit = "npc.mm_jungle_bird_green"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=25
-"param.defend_anim"="seq.spider_update_defend"
-"param.death_anim"="seq.spider_update_death"
+"param.defend_anim"="seq.bird_block"
+"param.death_anim"="seq.bird_death"
 "param.attack_anim"="seq.bird_attack"
 [[npc]]
 id = "npc.mm_jungle_bird_blue"
@@ -15060,8 +15060,8 @@ inherit = "npc.mm_jungle_bird_blue"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=25
-"param.defend_anim"="seq.spider_update_defend"
-"param.death_anim"="seq.spider_update_death"
+"param.defend_anim"="seq.bird_block"
+"param.death_anim"="seq.bird_death"
 "param.attack_anim"="seq.bird_attack"
 [[npc]]
 id = "npc.mm_jungle_scorpion"
@@ -16428,7 +16428,7 @@ inherit = "npc.castlewars_imp"
 id = "npc.mole_giant"
 inherit = "npc.mole_giant"
 [npc.params]
-"param.attack_anim"="seq.giant_attack"
+"param.attack_anim"="seq.mole_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=50
@@ -16518,8 +16518,8 @@ inherit = "npc.fairy_tanglefoot_sml1"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.cow_update_defend"
-"param.death_anim"="seq.cow_update_death"
+"param.defend_anim"="seq.tanglefoot_block"
+"param.death_anim"="seq.tanglefoot_death"
 "param.attack_anim"="seq.tanglefoot_attack"
 [[npc]]
 id = "npc.fairy_tanglefoot_sml2"
@@ -16528,8 +16528,8 @@ inherit = "npc.fairy_tanglefoot_sml2"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=20
-"param.defend_anim"="seq.cow_update_defend"
-"param.death_anim"="seq.cow_update_death"
+"param.defend_anim"="seq.tanglefoot_block"
+"param.death_anim"="seq.tanglefoot_death"
 "param.attack_anim"="seq.tanglefoot_attack"
 [[npc]]
 id = "npc.babygreendragon2"
@@ -17469,8 +17469,8 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.giant_update_basic_defend"
-"param.death_anim"="seq.giant_update_basic_death"
+"param.defend_anim"="seq.npc_ent_defend_01"
+"param.death_anim"="seq.npc_ent_death_01"
 "param.attack_anim"="seq.npc_ent_attack_01"
 [[npc]]
 id = "npc.wilderness_zombie"
@@ -17481,9 +17481,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.wilderness_zombie2"
 inherit = "npc.wilderness_zombie2"
@@ -17493,9 +17493,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.wilderness_zombie3"
 inherit = "npc.wilderness_zombie3"
@@ -17505,9 +17505,9 @@ maxRange = 15
 [npc.params]
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.wilderness_rune_golem"
 inherit = "npc.wilderness_rune_golem"
@@ -17528,8 +17528,8 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.giant_update_basic_defend"
-"param.death_anim"="seq.giant_update_basic_death"
+"param.defend_anim"="seq.skeleton_update_defend"
+"param.death_anim"="seq.skeleton_update_death"
 "param.attack_anim"="seq.skeleton_attack"
 [[npc]]
 id = "npc.vetion_hellhound_jnr"
@@ -17713,8 +17713,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.kourend_black_demon_2"
 inherit = "npc.kourend_black_demon_2"
@@ -17728,8 +17728,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.kourend_greater_demon1"
 inherit = "npc.kourend_greater_demon1"
@@ -17743,8 +17743,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.kourend_greater_demon2"
 inherit = "npc.kourend_greater_demon2"
@@ -17758,8 +17758,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.kourend_greater_demon3"
 inherit = "npc.kourend_greater_demon3"
@@ -17773,8 +17773,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.kourend_lesser_demon1"
 inherit = "npc.kourend_lesser_demon1"
@@ -17788,8 +17788,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.kourend_lesser_demon2"
 inherit = "npc.kourend_lesser_demon2"
@@ -17803,8 +17803,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.kourend_firegiant1"
 inherit = "npc.kourend_firegiant1"
@@ -17850,8 +17850,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.kourend_iron_dragon"
 inherit = "npc.kourend_iron_dragon"
@@ -17865,8 +17865,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.kourend_steel_dragon"
 inherit = "npc.kourend_steel_dragon"
@@ -17880,8 +17880,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.kourend_hellhound"
 inherit = "npc.kourend_hellhound"
@@ -17909,8 +17909,8 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.skeleton_update_defend"
+"param.death_anim"="seq.skeleton_update_death"
 "param.attack_anim"="seq.skeleton_attack"
 [[npc]]
 id = "npc.kourend_shade"
@@ -17932,8 +17932,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.horror_dagannoth_defend"
+"param.death_anim"="seq.horror_dagannoth_death"
 "param.attack_anim"="seq.horror_dagannoth_attack"
 [[npc]]
 id = "npc.kourend_dagannoth2"
@@ -17945,8 +17945,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=35
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.horror_dagannoth_defend"
+"param.death_anim"="seq.horror_dagannoth_death"
 "param.attack_anim"="seq.horror_dagannoth_attack"
 [[npc]]
 id = "npc.kourend_hillgiant"
@@ -18046,8 +18046,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.kourend_black_dragon"
 inherit = "npc.kourend_black_dragon"
@@ -18061,8 +18061,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.cata_boss"
 inherit = "npc.cata_boss"
@@ -18108,9 +18108,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.kourend_zombie2"
 inherit = "npc.kourend_zombie2"
@@ -18121,9 +18121,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.kourend_zombie3"
 inherit = "npc.kourend_zombie3"
@@ -18134,9 +18134,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.kourend_zombie4"
 inherit = "npc.kourend_zombie4"
@@ -18147,9 +18147,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
-"param.attack_anim"="seq.zombie_attack"
+"param.defend_anim"="seq.zombie_update_defend_normal"
+"param.death_anim"="seq.zombie_update_death_normal"
+"param.attack_anim"="seq.zombie_update_attack_normal"
 [[npc]]
 id = "npc.olm_head"
 inherit = "npc.olm_head"
@@ -18438,8 +18438,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=25
-"param.defend_anim"="seq.lobster_update_defend"
-"param.death_anim"="seq.lobster_update_death"
+"param.defend_anim"="seq.dagannoth_rock_lobster_defend"
+"param.death_anim"="seq.dagannoth_rock_lobster_death"
 "param.attack_anim"="seq.dagannoth_rock_lobster_attack"
 [[npc]]
 id = "npc.fossil_ammonitecrab"
@@ -18510,8 +18510,8 @@ attackRange = 10
 "param.attackrate"=6
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.wild_cave_black_dragon2"
 inherit = "npc.wild_cave_black_dragon2"
@@ -18542,8 +18542,8 @@ maxRange = 15
 "param.npc_attack_type"="category.attacktype_crush"
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.skeleton_update_defend"
+"param.death_anim"="seq.skeleton_update_death"
 "param.attack_anim"="seq.skeleton_attack"
 [[npc]]
 id = "npc.wild_cave_lesser_demon"
@@ -18557,8 +18557,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.wild_cave_lesser_demon2"
 inherit = "npc.wild_cave_lesser_demon2"
@@ -18571,8 +18571,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.wild_cave_lesser_demon3"
 inherit = "npc.wild_cave_lesser_demon3"
@@ -18585,8 +18585,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.wild_cave_green_dragon"
 inherit = "npc.wild_cave_green_dragon"
@@ -18599,8 +18599,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.wild_cave_green_dragon2"
 inherit = "npc.wild_cave_green_dragon2"
@@ -18613,8 +18613,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.wild_cave_green_dragon3"
 inherit = "npc.wild_cave_green_dragon3"
@@ -18627,8 +18627,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_slash"
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=50
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.wild_cave_greater_demon"
 inherit = "npc.wild_cave_greater_demon"
@@ -18641,8 +18641,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.wild_cave_greater_demon2"
 inherit = "npc.wild_cave_greater_demon2"
@@ -18655,8 +18655,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.wild_cave_greater_demon3"
 inherit = "npc.wild_cave_greater_demon3"
@@ -18669,8 +18669,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.wild_cave_black_demon"
 inherit = "npc.wild_cave_black_demon"
@@ -18703,8 +18703,8 @@ maxRange = 15
 "param.demon"=1
 "param.elemental_weakness_type"=1
 "param.elemental_weakness_percent"=40
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 [[npc]]
 id = "npc.wild_cave_hell_hound"
 inherit = "npc.wild_cave_hell_hound"
@@ -18775,8 +18775,8 @@ attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.imp_block"
+"param.death_anim"="seq.imp_death"
 "param.attack_anim"="seq.imp_attack"
 [[npc]]
 id = "npc.gargboss_dusk_phase2_attacking"
@@ -18859,8 +18859,8 @@ attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.pyrefiend_defend"
+"param.death_anim"="seq.pyrefiend_death"
 "param.attack_anim"="seq.pyrefiend_attack"
 [[npc]]
 id = "npc.wild_cave_hobgoblin"
@@ -18887,8 +18887,8 @@ attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.giant_update_basic_defend"
+"param.death_anim"="seq.giant_update_basic_death"
 "param.attack_anim"="seq.giant_update_basic_attack"
 [[npc]]
 id = "npc.wild_cave_hellhound"
@@ -18900,8 +18900,8 @@ attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.hell_block"
+"param.death_anim"="seq.hell_death"
 "param.attack_anim"="seq.hell_attack"
 [[npc]]
 id = "npc.wild_cave_demon"
@@ -18913,8 +18913,8 @@ attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.demon_block"
+"param.death_anim"="seq.demon_death"
 "param.attack_anim"="seq.demon_attack"
 [[npc]]
 id = "npc.wild_cave_ork"
@@ -18926,8 +18926,8 @@ attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.ork_update_defend"
+"param.death_anim"="seq.ork_update_death"
 "param.attack_anim"="seq.ork_update_double_grip_attack"
 [[npc]]
 id = "npc.wild_cave_darkbeast"
@@ -18939,8 +18939,8 @@ attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.dark_beast_update_defend"
+"param.death_anim"="seq.dark_beast_update_death"
 "param.attack_anim"="seq.dark_beast_update_attack"
 [[npc]]
 id = "npc.wild_cave_knight"
@@ -18952,8 +18952,8 @@ attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.wild_cave_dragon"
@@ -18965,8 +18965,8 @@ attackRange = 10
 [npc.params]
 "param.elemental_weakness_type"=0
 "param.elemental_weakness_percent"=30
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 "param.attack_anim"="seq.dragon_attack"
 [[npc]]
 id = "npc.baby_black_dragon_nohunt"
@@ -22009,8 +22009,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=10
-"param.defend_anim"="seq.scorpion_update_defend"
-"param.death_anim"="seq.scorpion_update_death"
+"param.defend_anim"="seq.npc_jaguar_human_unarmed_def"
+"param.death_anim"="seq.npc_jaguar_combat_death"
 "param.attack_anim"="seq.npc_jaguar_ranger_claws_attack"
 [[npc]]
 id = "npc.varlamore_jaguar_cub"
@@ -22022,8 +22022,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.elemental_weakness_type"=3
 "param.elemental_weakness_percent"=10
-"param.defend_anim"="seq.bear_rework_cub_defend"
-"param.death_anim"="seq.bear_rework_cub_death"
+"param.defend_anim"="seq.npc_jaguar_human_unarmed_def"
+"param.death_anim"="seq.npc_jaguar_combat_death"
 "param.attack_anim"="seq.npc_jaguar_ranger_claws_attack"
 [[npc]]
 id = "npc.varlamore_dark_jaguar"
@@ -23992,9 +23992,9 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_stab"
 "param.demon"=1
-"param.defend_anim"="seq.scorpion_update_defend"
-"param.death_anim"="seq.scorpion_update_death"
-"param.attack_anim"="seq.human_sword_slash"
+"param.defend_anim"="seq.hell_block"
+"param.death_anim"="seq.hell_death"
+"param.attack_anim"="seq.hell_attack"
 [[npc]]
 id = "npc.nzone_arena_bouncer_normal"
 inherit = "npc.nzone_arena_bouncer_normal"
@@ -24545,8 +24545,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
-"param.defend_anim"="seq.dark_beast_update_defend"
-"param.death_anim"="seq.dark_beast_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.young_dark_wizard"
 inherit = "npc.young_dark_wizard"
@@ -24560,8 +24560,8 @@ attackRange = 10
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
-"param.defend_anim"="seq.dark_beast_update_defend"
-"param.death_anim"="seq.dark_beast_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_dark_wizard_old_1"
 inherit = "npc.fai_dark_wizard_old_1"
@@ -24653,8 +24653,8 @@ attackRange = 8
 "param.npc_attack_type"="category.attacktype_standard"
 "param.proj_travel"="spotanim.iron_arrow_travel"
 "param.proj_type"="projanim.arrow"
-"param.defend_anim"="seq.ramble_zombie_defend"
-"param.death_anim"="seq.ramble_zombie_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.chaos_druid"
 inherit = "npc.chaos_druid"
@@ -24824,10 +24824,10 @@ inherit = "npc.nzone_hundred_minion1_normal"
 id = "npc.air_wizard"
 inherit = "npc.air_wizard"
 [npc.params]
-"param.attack_anim"="seq.human_sword_slash"
+"param.attack_anim"="seq.human_caststrike"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.elemental_air_defend"
-"param.death_anim"="seq.elemental_air_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.canafis_woman3"
 inherit = "npc.canafis_woman3"
@@ -25011,136 +25011,136 @@ inherit = "npc.fai_barbarian_1"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_2"
 inherit = "npc.fai_barbarian_2"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_3"
 inherit = "npc.fai_barbarian_3"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_4"
 inherit = "npc.fai_barbarian_4"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_5"
 inherit = "npc.fai_barbarian_5"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_6"
 inherit = "npc.fai_barbarian_6"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_7"
 inherit = "npc.fai_barbarian_7"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_8"
 inherit = "npc.fai_barbarian_8"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_10"
 inherit = "npc.fai_barbarian_10"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_11"
 inherit = "npc.fai_barbarian_11"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_12"
 inherit = "npc.fai_barbarian_12"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_13"
 inherit = "npc.fai_barbarian_13"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_14"
 inherit = "npc.fai_barbarian_14"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_female_1"
 inherit = "npc.fai_barbarian_female_1"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_female_2"
 inherit = "npc.fai_barbarian_female_2"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_female_3"
 inherit = "npc.fai_barbarian_female_3"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fai_barbarian_female_4"
 inherit = "npc.fai_barbarian_female_4"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.slice_surface_goblin_defend_spear"
-"param.death_anim"="seq.slice_surface_goblin_death_spear"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.barbarian"
 inherit = "npc.barbarian"
@@ -25219,7 +25219,7 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggro_unless_obj"="obj.zamorak_cape"
-"param.attack_anim"="seq.bat_attack"
+"param.attack_anim"="seq.godwars_zamorak_magic_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
@@ -25235,7 +25235,7 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggro_unless_obj"="obj.saradomin_cape"
-"param.attack_anim"="seq.bat_attack"
+"param.attack_anim"="seq.godwars_lion_attack"
 "param.npc_attack_type"="category.attacktype_magic"
 "param.proj_travel"="spotanim.earthstrike_travel"
 "param.proj_type"="projanim.magic_spell"
@@ -25416,8 +25416,8 @@ maxRange = 15
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.small_spider_update_defend"
-"param.death_anim"="seq.small_spider_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.jail_black_knight"
 inherit = "npc.jail_black_knight"
@@ -25441,8 +25441,8 @@ maxRange = 15
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.small_spider_update_defend"
-"param.death_anim"="seq.small_spider_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.wanted_summoned_black_knight"
 inherit = "npc.wanted_summoned_black_knight"
@@ -25471,8 +25471,8 @@ maxRange = 15
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.small_spider_update_defend"
-"param.death_anim"="seq.small_spider_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.black_knight_titan"
 inherit = "npc.black_knight_titan"
@@ -25781,8 +25781,8 @@ attackRange = 10
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.dragon_attack"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.dragon_block"
+"param.death_anim"="seq.dragon_death"
 [[npc]]
 id = "npc.brutal_blue_dragon_tapoyauik"
 inherit = "npc.brutal_blue_dragon_tapoyauik"
@@ -26396,8 +26396,8 @@ maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.giant_update_basic_defend"
+"param.death_anim"="seq.giant_update_basic_death"
 "param.attack_anim"="seq.giant_update_basic_attack"
 [[npc]]
 id = "npc.kourend_cyclops2"
@@ -26408,8 +26408,8 @@ maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.giant_update_basic_defend"
+"param.death_anim"="seq.giant_update_basic_death"
 "param.attack_anim"="seq.giant_update_basic_attack"
 [[npc]]
 id = "npc.fd_damis_normal"
@@ -26458,8 +26458,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.dark_beast_update_defend"
-"param.death_anim"="seq.dark_beast_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.wilderness_dark_warrior"
 inherit = "npc.wilderness_dark_warrior"
@@ -26469,8 +26469,8 @@ maxRange = 15
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.dark_beast_update_defend"
-"param.death_anim"="seq.dark_beast_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_dark_warrior_1"
 inherit = "npc.kourend_dark_warrior_1"
@@ -26481,8 +26481,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_dark_warrior_2"
 inherit = "npc.kourend_dark_warrior_2"
@@ -26493,8 +26493,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_dark_warrior_3"
 inherit = "npc.kourend_dark_warrior_3"
@@ -26505,8 +26505,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.qip_ds_young_dark_wizard1"
 inherit = "npc.qip_ds_young_dark_wizard1"
@@ -26518,8 +26518,8 @@ attackRange = 10
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.dark_beast_update_defend"
-"param.death_anim"="seq.dark_beast_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.qip_ds_young_dark_wizard2"
 inherit = "npc.qip_ds_young_dark_wizard2"
@@ -26531,8 +26531,8 @@ attackRange = 10
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.dark_beast_update_defend"
-"param.death_anim"="seq.dark_beast_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.qip_ds_young_dark_wizard3"
 inherit = "npc.qip_ds_young_dark_wizard3"
@@ -26544,8 +26544,8 @@ attackRange = 10
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.dark_beast_update_defend"
-"param.death_anim"="seq.dark_beast_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.qip_ds_young_dark_wizard4"
 inherit = "npc.qip_ds_young_dark_wizard4"
@@ -26557,8 +26557,8 @@ attackRange = 10
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.dark_beast_update_defend"
-"param.death_anim"="seq.dark_beast_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.raids_tightrope_mage"
 inherit = "npc.raids_tightrope_mage"
@@ -27088,10 +27088,10 @@ inherit = "npc.champions_earthwarrior"
 id = "npc.earth_wizard"
 inherit = "npc.earth_wizard"
 [npc.params]
-"param.attack_anim"="seq.human_sword_slash"
+"param.attack_anim"="seq.human_caststrike"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.earth_elemental_rework_defend"
-"param.death_anim"="seq.earth_elemental_rework_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.canafis_man6"
 inherit = "npc.canafis_man6"
@@ -27118,8 +27118,8 @@ attackRange = 10
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_basic_defend"
-"param.death_anim"="seq.giant_update_basic_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.mourning_guard_melee"
 inherit = "npc.mourning_guard_melee"
@@ -27246,10 +27246,10 @@ inherit = "npc.ikov_firewarrior"
 id = "npc.fire_wizard"
 inherit = "npc.fire_wizard"
 [npc.params]
-"param.attack_anim"="seq.human_sword_slash"
+"param.attack_anim"="seq.human_caststrike"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.elemental_fire_defend"
-"param.death_anim"="seq.elemental_fire_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.shadeshadow_level5"
 inherit = "npc.shadeshadow_level5"
@@ -28959,128 +28959,128 @@ inherit = "npc.prif_guard0"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.prif_guard1"
 inherit = "npc.prif_guard1"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.prif_guard2"
 inherit = "npc.prif_guard2"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.prif_guard3"
 inherit = "npc.prif_guard3"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.prif_guard4"
 inherit = "npc.prif_guard4"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.prif_guard5"
 inherit = "npc.prif_guard5"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.prif_guard6"
 inherit = "npc.prif_guard6"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.prif_guard7"
 inherit = "npc.prif_guard7"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_guard_m1"
 inherit = "npc.kourend_guard_m1"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_guard_m2"
 inherit = "npc.kourend_guard_m2"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_guard_m3"
 inherit = "npc.kourend_guard_m3"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_guard_m4"
 inherit = "npc.kourend_guard_m4"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_guard_f1"
 inherit = "npc.kourend_guard_f1"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_guard_f2"
 inherit = "npc.kourend_guard_f2"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_guard_f3"
 inherit = "npc.kourend_guard_f3"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kourend_guard_f4"
 inherit = "npc.kourend_guard_f4"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.deadman_guard_ardougne_range_vis"
 inherit = "npc.deadman_guard_ardougne_range_vis"
@@ -29634,8 +29634,8 @@ inherit = "npc.favour_guard_male_no_beard"
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.bear_block"
-"param.death_anim"="seq.bear_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.favour_guard_male_bearded"
 inherit = "npc.favour_guard_male_bearded"
@@ -29643,8 +29643,8 @@ inherit = "npc.favour_guard_male_bearded"
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.bear_block"
-"param.death_anim"="seq.bear_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.favour_guard_long_beard"
 inherit = "npc.favour_guard_long_beard"
@@ -29652,8 +29652,8 @@ inherit = "npc.favour_guard_long_beard"
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.bear_block"
-"param.death_anim"="seq.bear_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.slice_ham_mage"
 inherit = "npc.slice_ham_mage"
@@ -30030,8 +30030,8 @@ id = "npc.lunar_pirate_generic_pirate_1_attackable"
 inherit = "npc.lunar_pirate_generic_pirate_1_attackable"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.falador_doric_area_man4"
@@ -30137,8 +30137,8 @@ huntRange = 5
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.scorpion_update_defend"
-"param.death_anim"="seq.scorpion_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.arena_guard4"
 inherit = "npc.arena_guard4"
@@ -30148,8 +30148,8 @@ huntRange = 5
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.scorpion_update_defend"
-"param.death_anim"="seq.scorpion_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.arena_guard5"
 inherit = "npc.arena_guard5"
@@ -30159,8 +30159,8 @@ huntRange = 5
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.scorpion_update_defend"
-"param.death_anim"="seq.scorpion_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.arena_guard6"
 inherit = "npc.arena_guard6"
@@ -30170,8 +30170,8 @@ huntRange = 5
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.scorpion_update_defend"
-"param.death_anim"="seq.scorpion_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.arena_guard7"
 inherit = "npc.arena_guard7"
@@ -30181,8 +30181,8 @@ huntRange = 5
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.scorpion_update_defend"
-"param.death_anim"="seq.scorpion_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.arena_ogre"
 inherit = "npc.arena_ogre"
@@ -30194,8 +30194,8 @@ maxRange = 15
 "param.attack_anim"="seq.ogre_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.scorpion_update_defend"
-"param.death_anim"="seq.scorpion_update_death"
+"param.defend_anim"="seq.ogre_block"
+"param.death_anim"="seq.ogre_death"
 [[npc]]
 id = "npc.khazard_troop"
 inherit = "npc.khazard_troop"
@@ -30248,8 +30248,8 @@ inherit = "npc.knight_of_ardougne"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.knight_of_ardougne2"
 inherit = "npc.knight_of_ardougne2"
@@ -30291,8 +30291,8 @@ inherit = "npc.knight_of_ardougne_f"
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.kolhuman"
 inherit = "npc.kolhuman"
@@ -30651,8 +30651,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_slash"
 "param.attackrate"=6
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.magicaxe_block"
+"param.death_anim"="seq.magicaxe_death"
 "param.attack_anim"="seq.magicaxe_attack"
 [[npc]]
 id = "npc.deadman_breach_superior_infernal_mage"
@@ -30671,8 +30671,8 @@ maxRange = 15
 "param.attack_anim"="seq.mammoth_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=6
-"param.defend_anim"="seq.giant_update_basic_defend"
-"param.death_anim"="seq.giant_update_basic_death"
+"param.defend_anim"="seq.mammoth_block"
+"param.death_anim"="seq.mammoth_death"
 [[npc]]
 id = "npc.dskin_w_ardoungecitizen1"
 inherit = "npc.dskin_w_ardoungecitizen1"
@@ -31264,8 +31264,8 @@ inherit = "npc.chaos_temple_monk_wilderness"
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.giant_update_basic_defend"
-"param.death_anim"="seq.giant_update_basic_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.vikingexile_basilisk_superior"
 inherit = "npc.vikingexile_basilisk_superior"
@@ -31285,8 +31285,8 @@ inherit = "npc.terrorbird_mounted"
 "param.attack_anim"="seq.terrorbird_mounted_attack"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.terrorbird_mounted_block"
+"param.death_anim"="seq.terrorbird_mounted_death"
 [[npc]]
 id = "npc.terrorbird_mountedspear"
 inherit = "npc.terrorbird_mountedspear"
@@ -31300,8 +31300,8 @@ inherit = "npc.battlefield_terrorbird_mountedspear"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.terrorbird_mounted_block"
+"param.death_anim"="seq.terrorbird_mounted_death"
 "param.attack_anim"="seq.terrorbird_attack"
 [[npc]]
 id = "npc.battlefield_terrorbird_mountedspear2"
@@ -31309,8 +31309,8 @@ inherit = "npc.battlefield_terrorbird_mountedspear2"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.terrorbird_mounted_block"
+"param.death_anim"="seq.terrorbird_mounted_death"
 "param.attack_anim"="seq.terrorbird_attack"
 [[npc]]
 id = "npc.battlefield_terrorbird_mountedspear3"
@@ -31318,8 +31318,8 @@ inherit = "npc.battlefield_terrorbird_mountedspear3"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.terrorbird_mounted_block"
+"param.death_anim"="seq.terrorbird_mounted_death"
 "param.attack_anim"="seq.terrorbird_attack"
 [[npc]]
 id = "npc.sote_mourner_1"
@@ -31834,8 +31834,8 @@ maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.skeleton_update_gorilla_defend"
-"param.death_anim"="seq.skeleton_update_gorilla_death"
+"param.defend_anim"="seq.monkey_block"
+"param.death_anim"="seq.monkey_death"
 "param.attack_anim"="seq.monkey_attack"
 [[npc]]
 id = "npc.ardougne_paladin2"
@@ -31944,8 +31944,8 @@ id = "npc.lunar_pirate_generic_pirate_5_attackable"
 inherit = "npc.lunar_pirate_generic_pirate_5_attackable"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.barbassault_pen_queen_new"
@@ -32079,18 +32079,18 @@ maxRange = 15
 id = "npc.pirate1"
 inherit = "npc.pirate1"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.pirate2"
 inherit = "npc.pirate2"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.pirate_aggressive"
 inherit = "npc.pirate_aggressive"
@@ -32099,10 +32099,10 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.lady_pirate"
 inherit = "npc.lady_pirate"
@@ -32114,15 +32114,15 @@ inherit = "npc.lady_pirate"
 id = "npc.jail_pirate"
 inherit = "npc.jail_pirate"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.fever_pirate_enemy_01"
 inherit = "npc.fever_pirate_enemy_01"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -32133,7 +32133,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
 "param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
@@ -32145,7 +32145,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
 "param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
@@ -32157,7 +32157,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
 "param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
@@ -32169,7 +32169,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
 "param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
@@ -32181,7 +32181,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
 "param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
@@ -32193,7 +32193,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
 "param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
@@ -32205,7 +32205,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
 "param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
@@ -32217,7 +32217,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
 "param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
@@ -32229,7 +32229,7 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.brain_zombie_pirate_wanderers_attack"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
 "param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
@@ -32237,38 +32237,38 @@ maxRange = 15
 id = "npc.zeah_pirate1"
 inherit = "npc.zeah_pirate1"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.zeah_pirate2"
 inherit = "npc.zeah_pirate2"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.zeah_pirate3"
 inherit = "npc.zeah_pirate3"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.pirate2_aggressive"
 inherit = "npc.pirate2_aggressive"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
 id = "npc.pirate3_aggressive"
 inherit = "npc.pirate3_aggressive"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 
 [[npc]]
@@ -32338,10 +32338,10 @@ inherit = "npc.trr_pirate_4"
 id = "npc.pirate_guard"
 inherit = "npc.pirate_guard"
 [npc.params]
-"param.attack_anim"="seq.rat_attack"
+"param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.ics_little_plague_frog_vis"
 inherit = "npc.ics_little_plague_frog_vis"
@@ -32359,8 +32359,8 @@ id = "npc.elid_mayor_guard_2"
 inherit = "npc.elid_mayor_guard_2"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
-"param.defend_anim"="seq.clay_golem_defend"
-"param.death_anim"="seq.clay_golem_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.possessed_pickaxe"
@@ -32377,8 +32377,8 @@ maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_stab"
-"param.defend_anim"="seq.skeleton_update_defend"
-"param.death_anim"="seq.skeleton_update_death"
+"param.defend_anim"="seq.lotr_pickaxe_defend"
+"param.death_anim"="seq.lotr_pickaxe_death"
 "param.attack_anim"="seq.lotr_pickaxe_attack"
 [[npc]]
 id = "npc.kourend_pickaxe"
@@ -32389,8 +32389,8 @@ maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_stab"
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.magicaxe_block"
+"param.death_anim"="seq.magicaxe_death"
 "param.attack_anim"="seq.magicaxe_attack"
 [[npc]]
 id = "npc.ics_little_possessedpriest"
@@ -32411,8 +32411,8 @@ id = "npc.elid_mayor_guard_3"
 inherit = "npc.elid_mayor_guard_3"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
-"param.defend_anim"="seq.clay_golem_defend"
-"param.death_anim"="seq.clay_golem_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.misc_man_7"
@@ -32673,8 +32673,8 @@ huntRange = 5
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_stab"
-"param.defend_anim"="seq.giant_update_basic_defend"
-"param.death_anim"="seq.giant_update_basic_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.rooster"
 inherit = "npc.rooster"
@@ -32688,8 +32688,8 @@ id = "npc.misc_rooster"
 inherit = "npc.misc_rooster"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.rabbit_update_defend"
-"param.death_anim"="seq.rabbit_update_death"
+"param.defend_anim"="seq.roosterparry"
+"param.death_anim"="seq.roosterdeath"
 "param.attack_anim"="seq.roosterattack"
 [[npc]]
 id = "npc.slave_rowdy"
@@ -32745,8 +32745,8 @@ maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.spider_update_defend"
-"param.death_anim"="seq.spider_update_death"
+"param.defend_anim"="seq.shadow_defend"
+"param.death_anim"="seq.shadow_death"
 "param.attack_anim"="seq.shadow_attack"
 [[npc]]
 id = "npc.shadow_dog_wild"
@@ -32758,8 +32758,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.dog_update_small_dog_attack"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.spider_update_defend"
-"param.death_anim"="seq.spider_update_death"
+"param.defend_anim"="seq.dog_block"
+"param.death_anim"="seq.dog_death"
 [[npc]]
 id = "npc.shadow_warrior"
 inherit = "npc.shadow_warrior"
@@ -32770,8 +32770,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.spider_update_defend"
-"param.death_anim"="seq.spider_update_death"
+"param.defend_anim"="seq.shadow_defend"
+"param.death_anim"="seq.shadow_death"
 [[npc]]
 id = "npc.pest_shifter_1a"
 inherit = "npc.pest_shifter_1a"
@@ -32863,24 +32863,24 @@ id = "npc.upass_paladin2_vis"
 inherit = "npc.upass_paladin2_vis"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.small_spider_update_defend"
-"param.death_anim"="seq.small_spider_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.upass_paladin3_vis"
 inherit = "npc.upass_paladin3_vis"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.small_spider_update_defend"
-"param.death_anim"="seq.small_spider_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.upass_paladin1_vis"
 inherit = "npc.upass_paladin1_vis"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.small_spider_update_defend"
-"param.death_anim"="seq.small_spider_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.rd_combat_npc_room_3"
@@ -33359,8 +33359,8 @@ maxRange = 15
 "param.aggro_unless_quest"="monkey_madness_ii"
 "param.attack_anim"="seq.snake_attack"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.spider_update_defend"
-"param.death_anim"="seq.spider_update_death"
+"param.defend_anim"="seq.snake_block"
+"param.death_anim"="seq.snake_death"
 [[npc]]
 id = "npc.feud_desert_snake_outside"
 inherit = "npc.feud_desert_snake_outside"
@@ -33556,8 +33556,8 @@ attackRange = 8
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.elemental_water_defend"
-"param.death_anim"="seq.elemental_water_death"
+"param.defend_anim"="seq.dagannoth_water_creature_defend"
+"param.death_anim"="seq.dagannoth_water_creature_death"
 "param.attack_anim"="seq.dagannoth_water_creature_attack"
 [[npc]]
 id = "npc.dagannoth_water_creature_1x12"
@@ -33569,8 +33569,8 @@ attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.elemental_water_defend"
-"param.death_anim"="seq.elemental_water_death"
+"param.defend_anim"="seq.dagannoth_water_creature_defend"
+"param.death_anim"="seq.dagannoth_water_creature_death"
 "param.attack_anim"="seq.dagannoth_water_creature_attack"
 [[npc]]
 id = "npc.dagannoth_water_creature_1x13"
@@ -33582,8 +33582,8 @@ attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.elemental_water_defend"
-"param.death_anim"="seq.elemental_water_death"
+"param.defend_anim"="seq.dagannoth_water_creature_defend"
+"param.death_anim"="seq.dagannoth_water_creature_death"
 "param.attack_anim"="seq.dagannoth_water_creature_attack"
 [[npc]]
 id = "npc.pest_splatter_1"
@@ -33750,11 +33750,11 @@ hitpoints = 450
 id = "npc.priestperil_guardian_model"
 inherit = "npc.priestperil_guardian_model"
 [npc.params]
-"param.attack_anim"="seq.human_sword_slash"
+"param.attack_anim"="seq.dog_update_wolf_attack"
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
-"param.defend_anim"="seq.small_scorpion_update_defend"
-"param.death_anim"="seq.small_scorpion_update_death"
+"param.defend_anim"="seq.dog_update_wolf_defend"
+"param.death_anim"="seq.dog_update_wolf_death"
 [[npc]]
 id = "npc.templetrek_tentacle_arm"
 inherit = "npc.templetrek_tentacle_arm"
@@ -33783,8 +33783,8 @@ inherit = "npc.terrorbird2"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.terrorbird_block"
+"param.death_anim"="seq.terrorbird_death"
 "param.attack_anim"="seq.terrorbird_attack"
 [[npc]]
 id = "npc.terrorbird3"
@@ -33792,8 +33792,8 @@ inherit = "npc.terrorbird3"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_stab"
 "param.attackrate"=6
-"param.defend_anim"="seq.pog_terror_bird_defend"
-"param.death_anim"="seq.pog_terror_bird_death"
+"param.defend_anim"="seq.terrorbird_block"
+"param.death_anim"="seq.terrorbird_death"
 "param.attack_anim"="seq.terrorbird_attack"
 [[npc]]
 id = "npc.dream_everlasting"
@@ -34463,8 +34463,8 @@ inherit = "npc.regicide_old_camp_guard"
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.rabbit_update_defend"
-"param.death_anim"="seq.rabbit_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.regicide_tyras_camp_guard"
 inherit = "npc.regicide_tyras_camp_guard"
@@ -34472,8 +34472,8 @@ inherit = "npc.regicide_tyras_camp_guard"
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.rabbit_update_defend"
-"param.death_anim"="seq.rabbit_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.regicide_tyras_guard"
 inherit = "npc.regicide_tyras_guard"
@@ -34481,8 +34481,8 @@ inherit = "npc.regicide_tyras_guard"
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_crush"
 "param.attackrate"=5
-"param.defend_anim"="seq.rabbit_update_defend"
-"param.death_anim"="seq.rabbit_update_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.ugthanki"
 inherit = "npc.ugthanki"
@@ -35431,10 +35431,10 @@ inherit = "npc.yanille_watchman"
 id = "npc.water_wizard"
 inherit = "npc.water_wizard"
 [npc.params]
-"param.attack_anim"="seq.human_sword_slash"
+"param.attack_anim"="seq.human_caststrike"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.elemental_water_defend"
-"param.death_anim"="seq.elemental_water_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.weaponsmaster_vis"
 inherit = "npc.weaponsmaster_vis"
@@ -35739,8 +35739,8 @@ inherit = "npc.dog_wild"
 [npc.params]
 "param.attack_anim"="seq.dog_update_small_dog_attack"
 "param.npc_attack_type"="category.attacktype_stab"
-"param.defend_anim"="seq.slice_surface_goblin_defend"
-"param.death_anim"="seq.slice_surface_goblin_death"
+"param.defend_anim"="seq.dog_block"
+"param.death_anim"="seq.dog_death"
 [[npc]]
 id = "npc.dog_wild_2"
 inherit = "npc.dog_wild_2"
@@ -35753,8 +35753,8 @@ id = "npc.lunar_pirate_generic_pirate_2_attackable"
 inherit = "npc.lunar_pirate_generic_pirate_2_attackable"
 [npc.params]
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.brain_zombie_pirate_wanderers_defend"
-"param.death_anim"="seq.brain_zombie_pirate_wanderers_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.shapeshifterglob"
@@ -35953,8 +35953,8 @@ maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.rc_zmi_lizard_defend"
-"param.death_anim"="seq.rc_zmi_lizzard_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.rc_zmi_runerunner2"
@@ -35965,8 +35965,8 @@ maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.rc_zmi_lizard_defend"
-"param.death_anim"="seq.rc_zmi_lizzard_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.rc_zmi_ranger"
@@ -35977,10 +35977,10 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_sword_slash"
+"param.attack_anim"="seq.human_bow"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.rc_zmi_lizard_defend"
-"param.death_anim"="seq.rc_zmi_lizzard_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.rc_zmi_ranger2"
 inherit = "npc.rc_zmi_ranger2"
@@ -35990,10 +35990,10 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.attack_anim"="seq.human_sword_slash"
+"param.attack_anim"="seq.human_bow"
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.rc_zmi_lizard_defend"
-"param.death_anim"="seq.rc_zmi_lizzard_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.rc_zmi_melee"
 inherit = "npc.rc_zmi_melee"
@@ -36004,8 +36004,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.rc_zmi_lizard_defend"
-"param.death_anim"="seq.rc_zmi_lizzard_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.rc_zmi_melee2"
 inherit = "npc.rc_zmi_melee2"
@@ -36016,8 +36016,8 @@ maxRange = 15
 "param.aggression_tolerant"=1
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_slash"
-"param.defend_anim"="seq.rc_zmi_lizard_defend"
-"param.death_anim"="seq.rc_zmi_lizzard_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 [[npc]]
 id = "npc.trail_hard"
 inherit = "npc.trail_hard"
@@ -36326,8 +36326,8 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.barbassault_penance_ranger_defend"
-"param.death_anim"="seq.barbassault_penance_ranger_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.barbassault_pen_healer_tutor"
@@ -36337,8 +36337,8 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.barbassault_penance_ranger_defend"
-"param.death_anim"="seq.barbassault_penance_ranger_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.barbassault_pen_ranger_tutor"
@@ -36349,8 +36349,8 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.barbassault_penance_ranger_defend"
-"param.death_anim"="seq.barbassault_penance_ranger_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.brawling_bandit"
@@ -36382,8 +36382,8 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.lobster_update_defend"
-"param.death_anim"="seq.lobster_update_death"
+"param.defend_anim"="seq.dagannoth_rock_lobster_defend"
+"param.death_anim"="seq.dagannoth_rock_lobster_death"
 "param.attack_anim"="seq.dagannoth_rock_lobster_attack"
 [[npc]]
 id = "npc.dagannoth_water_creature_1x1_invisible"
@@ -36393,8 +36393,8 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.elemental_water_defend"
-"param.death_anim"="seq.elemental_water_death"
+"param.defend_anim"="seq.dagannoth_water_creature_defend"
+"param.death_anim"="seq.dagannoth_water_creature_death"
 "param.attack_anim"="seq.dagannoth_water_creature_attack"
 [[npc]]
 id = "npc.dagannoth_water_creature_1x1_invisible2"
@@ -36404,8 +36404,8 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.elemental_water_defend"
-"param.death_anim"="seq.elemental_water_death"
+"param.defend_anim"="seq.dagannoth_water_creature_defend"
+"param.death_anim"="seq.dagannoth_water_creature_death"
 "param.attack_anim"="seq.dagannoth_water_creature_attack"
 [[npc]]
 id = "npc.dagannoth_water_creature_1x1_invisible3"
@@ -36415,8 +36415,8 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.elemental_water_defend"
-"param.death_anim"="seq.elemental_water_death"
+"param.defend_anim"="seq.dagannoth_water_creature_defend"
+"param.death_anim"="seq.dagannoth_water_creature_death"
 "param.attack_anim"="seq.dagannoth_water_creature_attack"
 [[npc]]
 id = "npc.dark_seren_cutscene"
@@ -36520,8 +36520,8 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.ghost_update_normal_defend"
-"param.death_anim"="seq.ghost_update_normal_death"
+"param.defend_anim"="seq.rock_parry"
+"param.death_anim"="seq.rock_death"
 [[npc]]
 id = "npc.kr_cam_bedivere"
 inherit = "npc.kr_cam_bedivere"
@@ -36630,9 +36630,9 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.rc_zmi_lizard_defend"
-"param.death_anim"="seq.rc_zmi_lizzard_death"
-"param.attack_anim"="seq.human_sword_slash"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
+"param.attack_anim"="seq.human_caststrike"
 [[npc]]
 id = "npc.rc_zmi_mage2"
 inherit = "npc.rc_zmi_mage2"
@@ -36642,9 +36642,9 @@ maxRange = 15
 attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.rc_zmi_lizard_defend"
-"param.death_anim"="seq.rc_zmi_lizzard_death"
-"param.attack_anim"="seq.human_sword_slash"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
+"param.attack_anim"="seq.human_caststrike"
 [[npc]]
 id = "npc.roving_mossgiant"
 inherit = "npc.roving_mossgiant"
@@ -36823,8 +36823,8 @@ huntRange = 5
 maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
-"param.defend_anim"="seq.scorpion_update_defend"
-"param.death_anim"="seq.scorpion_update_death"
+"param.defend_anim"="seq.npc_jaguar_human_unarmed_def"
+"param.death_anim"="seq.npc_jaguar_combat_death"
 "param.attack_anim"="seq.npc_jaguar_ranger_claws_attack"
 [[npc]]
 id = "npc.wilderness_bandit"
@@ -36833,8 +36833,8 @@ huntMode = 1
 huntRange = 5
 maxRange = 15
 [npc.params]
-"param.defend_anim"="seq.giant_update_basic_defend"
-"param.death_anim"="seq.giant_update_basic_death"
+"param.defend_anim"="seq.human_unarmed_def"
+"param.death_anim"="seq.human_death"
 "param.attack_anim"="seq.human_sword_slash"
 [[npc]]
 id = "npc.zalcano"
@@ -36877,8 +36877,8 @@ attackRange = 10
 [npc.params]
 "param.aggression_tolerant"=1
 "param.aggro_unless_greegree"=1
-"param.defend_anim"="seq.skeleton_update_gorilla_defend"
-"param.death_anim"="seq.skeleton_update_gorilla_death"
+"param.defend_anim"="seq.m_monkey_block_bow"
+"param.death_anim"="seq.m_monkey_death"
 "param.attack_anim"="seq.m_monkey_attack_bow"
 [[npc]]
 id = "npc.fourdiamonds_sword_bandit_1"
