@@ -30877,8 +30877,6 @@ maxRange = 15
 [npc.params]
 "param.aggression_tolerant"=1
 "param.npc_attack_type"="category.attacktype_crush"
-"param.defend_anim"="seq.giant_update_moss_defend"
-"param.death_anim"="seq.giant_update_moss_death"
 [[npc]]
 id = "npc.quest_lunar_mirror_of_player_female"
 inherit = "npc.quest_lunar_mirror_of_player_female"
