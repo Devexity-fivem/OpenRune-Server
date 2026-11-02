@@ -51,7 +51,7 @@ class SeaTrollQueen @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.troll_attack")
-            hit { damage(0..18).roll(); type(Melee) }
+            hit { damage(0..16).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -126,7 +126,7 @@ class Nezikchened @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.demon_attack")
-            hit { damage(0..10).roll(); type(Melee) }
+            hit { damage(0..18).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }

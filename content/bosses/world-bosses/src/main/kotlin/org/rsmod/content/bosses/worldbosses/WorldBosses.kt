@@ -236,13 +236,13 @@ class NightmareBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
             stats(attackRate = 6)
             val melee = ability("melee") {
                 anim("seq.nightmare_attack_melee")
-                hit { damage(0..25).roll(); type(Melee) }
+                hit { damage(0..73).roll(); type(Melee) }
             }
             val magic = ability("magic") {
                 anim("seq.nightmare_attack_magic")
                 projectile(
                     spotanim = "spotanim.nightmare_magic_travel",
-                    hit = Effect.Hit(damage = Roll(0..20), type = Magic),
+                    hit = Effect.Hit(damage = Roll(0..80), type = Magic),
                 )
             }
             phase("combat") {

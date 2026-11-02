@@ -522,26 +522,25 @@
     "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/TrollAndFremennikBosses.kt"
    ],
    "wikiReferences": [
-    "https://oldschool.runescape.wiki/w/Dad",
-    "https://oldschool.runescape.wiki/w/Attack_speed"
+    "https://oldschool.runescape.wiki/w/Dad"
    ],
    "mechanics": {
     "state": "partial",
     "evidence": [
-     "Attack speed corrected 4->8 ticks per the Wiki attack-speed table (Dad is in the 8-tick row)."
+     "Max hit corrected 28->27 per Wiki infobox."
     ],
-    "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
    },
    "automated": {
     "state": "passed",
     "evidence": [
-     "Module compiles and passes spotlessKotlinCheck; module tests green."
+     "Module compiles, tests green, spotless clean."
     ]
    },
    "mcp": {
     "state": "unverified",
     "evidence": [
-     "Not yet observed in game after the correction."
+     "Not observed in game."
     ]
    }
   },
@@ -586,7 +585,8 @@
    "mechanics": {
     "state": "partial",
     "evidence": [
-     "Attack speed corrected 4->6 ticks per the Wiki infobox for the standard-mode phases."
+     "Attack speed corrected 4->6 ticks per the Wiki infobox for the standard-mode phases.",
+     "Melee max corrected 30->50 and magic max 24->33 per the Wiki infobox (normal-mode values; the 60/39 elevated values are tied to fight conditions not yet modelled)."
     ],
     "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
    },
@@ -615,7 +615,8 @@
    "mechanics": {
     "state": "partial",
     "evidence": [
-     "Attack speed corrected 4->6 ticks per the Wiki infobox for the challenge-mode (nightmare_challenge_*) phases."
+     "Attack speed corrected 4->6 ticks per the Wiki infobox for the challenge-mode (nightmare_challenge_*) phases.",
+     "Melee max corrected 25->73 and magic max 20->80 per the Wiki infobox (challenge-mode values)."
     ],
     "reason": "Correction found by a cross-boss attackRate audit against the Wiki infobox attack speed; remaining fight mechanics not yet re-verified."
    },
@@ -687,6 +688,258 @@
     "state": "unverified",
     "evidence": [
      "Not yet observed in game after the correction."
+    ]
+   }
+  },
+  "Elvarg": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/ClassicQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Elvarg"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee max corrected 12->8 and dragonfire 25->70 per Wiki infobox; anti-dragon-shield reduction to 10 is NOT modelled."
+    ],
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Delrith": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/ClassicQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Delrith"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 7->3 per Wiki infobox."
+    ],
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Count Draynor": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/ClassicQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Count_Draynor"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 7->3 per Wiki infobox."
+    ],
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Agrith Naar": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/ClassicQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Agrith_Naar"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 16->10 per Wiki infobox."
+    ],
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Chronozon": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/ClassicQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Chronozon"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 10->18 per Wiki infobox."
+    ],
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Arrg": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/TrollAndFremennikBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Arrg"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee max corrected 15->38 per Wiki infobox (Arrg's signature heavy melee)."
+    ],
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Glod": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/TrollAndFremennikBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Glod"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 20->25 per Wiki infobox."
+    ],
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Nezikchened": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/MiscQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Nezikchened"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 10->18 per Wiki infobox (dark dagger ~20 variant not modelled)."
+    ],
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Culinaromancer": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DreamAndRfdBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Culinaromancer"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee/magic maxes corrected: melee 20->11 (crush) and magic 16->25 per Wiki infobox."
+    ],
+    "reason": "Max-hit ceiling corrected from a cross-boss Wiki audit; full fight mechanics remain stubs."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
     ]
    }
   }

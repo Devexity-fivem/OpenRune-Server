@@ -164,10 +164,10 @@ class Culinaromancer @Inject constructor(deps: BossDeps) : BossPluginScript(deps
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.demon_attack")
-                hit { damage(0..20).roll(); type(Melee) }
+                hit { damage(0..11).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                projectile(spotanim = "spotanim.ice_barrage_travel", hit = Effect.Hit(damage = Roll(0..16), type = Magic))
+                projectile(spotanim = "spotanim.ice_barrage_travel", hit = Effect.Hit(damage = Roll(0..25), type = Magic))
                 freeze(6, chance = 1, outOf = 8)
             }
             phase("combat") {

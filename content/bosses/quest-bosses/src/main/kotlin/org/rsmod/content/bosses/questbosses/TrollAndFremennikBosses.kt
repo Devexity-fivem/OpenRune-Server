@@ -13,7 +13,7 @@ class Dad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 8)
         val melee = ability("melee") {
             anim("seq.giant_attack")
-            hit { damage(0..28).roll(); type(Melee) }
+            hit { damage(0..27).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -25,7 +25,7 @@ class Arrg @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.troll_attack")
-            hit { damage(0..15).roll(); type(Melee) }
+            hit { damage(0..38).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -61,7 +61,7 @@ class Glod @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.giant_attack")
-            hit { damage(0..20).roll(); type(Melee) }
+            hit { damage(0..25).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -73,7 +73,7 @@ class IceTrollKing @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.troll_attack")
-            hit { damage(0..15).roll(); type(Melee) }
+            hit { damage(0..21).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }

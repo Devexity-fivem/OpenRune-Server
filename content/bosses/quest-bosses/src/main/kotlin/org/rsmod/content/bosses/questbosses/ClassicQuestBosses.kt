@@ -13,11 +13,11 @@ class Elvarg @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.dragon_attack")
-            hit { damage(0..12).roll(); type(Melee) }
+            hit { damage(0..8).roll(); type(Melee) }
         }
         val fire = ability("dragonfire") {
             anim("seq.dragon_attack")
-            projectile(spotanim = "spotanim.firebreath_travel", hit = Effect.Hit(damage = Roll(0..25), type = Magic))
+            projectile(spotanim = "spotanim.firebreath_travel", hit = Effect.Hit(damage = Roll(0..70), type = Magic))
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -34,7 +34,7 @@ class Delrith @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.demon_attack")
-            hit { damage(0..7).roll(); type(Melee) }
+            hit { damage(0..3).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -46,7 +46,7 @@ class CountDraynor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.vamp_claw")
-            hit { damage(0..7).roll(); type(Melee) }
+            hit { damage(0..3).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -58,7 +58,7 @@ class AgrithNaar @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.demon_attack")
-            hit { damage(0..16).roll(); type(Melee) }
+            hit { damage(0..10).roll(); type(Melee) }
         }
         val magic = ability("magic") {
             anim("seq.demon_attack")
@@ -79,7 +79,7 @@ class MelzarTheMad @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.human_unarmedpunch")
-            hit { damage(0..7).roll(); type(Melee) }
+            hit { damage(0..5).roll(); type(Melee) }
         }
         val magic = ability("magic") {
             projectile(spotanim = "spotanim.earthbolt_travel", hit = Effect.Hit(damage = Roll(0..5), type = Magic))
@@ -99,7 +99,7 @@ class Chronozon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.demon_attack")
-            hit { damage(0..10).roll(); type(Melee) }
+            hit { damage(0..18).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -111,7 +111,7 @@ class SirMordred @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.human_sword_slash")
-            hit { damage(0..12).roll(); type(Melee) }
+            hit { damage(0..5).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -123,7 +123,7 @@ class ArenaBouncer @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.dog_attack")
-            hit { damage(0..11).roll(); type(Melee) }
+            hit { damage(0..13).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }

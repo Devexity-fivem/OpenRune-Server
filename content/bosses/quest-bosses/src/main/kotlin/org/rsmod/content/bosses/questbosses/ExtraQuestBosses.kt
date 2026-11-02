@@ -13,7 +13,7 @@ class SlashBash @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 5)
         val melee = ability("melee") {
             anim("seq.troll_attack")
-            hit { damage(0..30).roll(); type(Melee) }
+            hit { damage(0..13).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -29,10 +29,10 @@ class NightmareStandard @Inject constructor(deps: BossDeps) : BossPluginScript(d
             stats(attackRate = 6)
             val melee = ability("melee") {
                 anim("seq.demon_attack")
-                hit { damage(0..30).roll(); type(Melee) }
+                hit { damage(0..50).roll(); type(Melee) }
             }
             val magic = ability("magic") {
-                projectile(spotanim = "spotanim.spell_blood_barrage_impact", hit = Effect.Hit(damage = Roll(0..24), type = Magic))
+                projectile(spotanim = "spotanim.spell_blood_barrage_impact", hit = Effect.Hit(damage = Roll(0..33), type = Magic))
             }
             phase("combat") {
                 weightedSelectorRandom {
