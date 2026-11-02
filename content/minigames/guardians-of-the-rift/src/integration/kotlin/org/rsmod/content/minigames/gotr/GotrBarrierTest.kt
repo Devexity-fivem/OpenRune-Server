@@ -55,6 +55,30 @@ class GotrBarrierTest {
             assertMessageSent("You erect a barrier on the cell tile.")
         }
 
+    @Test
+    fun GameTestState.`one players recharge cap cannot block another players cell`() =
+        runBarrierTest {
+            val tile = placeMapLoc(TILE, "loc.gotr_cell_tile_inactive", shape = LocShape.GroundDecor)
+            repeat(5) {
+                player.inv[0] = InvObj(WEAK_CELL, 1)
+                player.opLoc1(tile)
+                advanceUntil({ player.inv.count(WEAK_CELL) == 0 }, timeoutTicks = 10)
+            }
+            player.setVarp("varp.gotr_recharge_energy", 450)
+            player.inv[0] = InvObj(WEAK_CELL, 1)
+            player.opLoc1(tile)
+            advance(3)
+            assertEquals(1, player.inv.count(WEAK_CELL))
+
+            val friend = registerPlayer(CoordGrid(3609, 9502))
+            friend.inv[0] = InvObj(WEAK_CELL, 1)
+            friend.opLoc1(tile)
+            advanceUntil({ friend.inv.count(WEAK_CELL) == 0 }, timeoutTicks = 10)
+            assertEquals(450, player.vars["varp.gotr_recharge_energy"])
+            assertEquals(2, friend.vars["varp.gotr_recharge_energy"])
+            assertEquals(1, player.inv.count(WEAK_CELL))
+        }
+
     private fun GameTestState.runBarrierTest(body: GameTestScope.() -> Unit) =
         runGameTest(Gotr::class) {
             player.clearAllInvs()

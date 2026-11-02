@@ -14,8 +14,9 @@ touching.
 - Cache tasks (or-cache module): `buildCache`, `freshCache`, `cleanCs2`,
   `mergePluginGamevals`. Cache data comes from OpenRS2 `.data/`.
 - Typical content loop: edit Kotlin in `content/` → `gradlew run` and test. If you
-  touched a `-pack` module's resources or a `gamevals.toml`, rebuild the cache
-  (`buildCache`) before running.
+  touched a `-pack` module's resources or a `gamevals.toml`, run
+  `gradlew mergePluginGamevals` followed by `gradlew buildCache` before running.
+  A config-only pack still needs a `PluginPack` subclass for resource discovery.
 
 ## Modules
 

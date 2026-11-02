@@ -1,0 +1,19 @@
+[[varp]]
+id = "varp.gotr_elemental_reward_points"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.gotr_catalytic_reward_points"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+id = "varp.gotr_recharge_xp"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+id = "varp.gotr_recharge_energy"
+scope = "Temp"
+transmit = "Never"

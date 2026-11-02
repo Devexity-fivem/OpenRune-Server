@@ -1,16 +1,22 @@
 package org.rsmod.content.minigames.gotr
 
 import dev.openrune.rscm.RSCM
+import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import jakarta.inject.Inject
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.random.Random
+import org.rsmod.api.invtx.add
+import org.rsmod.api.invtx.delete
+import org.rsmod.api.invtx.invTransaction
+import org.rsmod.api.invtx.select
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.player.ui.ifCloseOverlay
+import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onOpLoc1
@@ -360,7 +366,7 @@ constructor(
             mes("You strengthen the barrier.")
         } else {
             val fullHp = game.isFullHealth(tile)
-            if (fullHp && game.rechargeEnergy >= RECHARGE_ENERGY_CAP) {
+            if (fullHp && vars[VP_RECHARGE_ENERGY] >= RECHARGE_ENERGY_CAP) {
                 mes("You have gained as much as you can from recharging barriers.")
                 return
             }
@@ -368,15 +374,15 @@ constructor(
             game.recharge(tile, cell.heal)
             anim(BUILD_ANIM)
             val energy = if (fullHp) {
-                (cell.rechargeEnergy).coerceAtMost(RECHARGE_ENERGY_CAP - game.rechargeEnergy)
+                (cell.rechargeEnergy).coerceAtMost(RECHARGE_ENERGY_CAP - vars[VP_RECHARGE_ENERGY])
             } else {
                 cell.rechargeEnergy
             }
             if (fullHp) {
-                game.rechargeEnergy += energy
+                vars[VP_RECHARGE_ENERGY] += energy
             } else {
-                val xp = cell.buildXp.coerceAtMost(RECHARGE_XP_CAP - game.rechargeXp)
-                game.rechargeXp += xp
+                val xp = cell.buildXp.coerceAtMost(RECHARGE_XP_CAP - vars[VP_RECHARGE_XP])
+                vars[VP_RECHARGE_XP] += xp
                 statAdvance("stat.runecrafting", xp.toDouble())
             }
             vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + energy)
@@ -432,20 +438,30 @@ constructor(
     }
 
     private fun ProtectedAccess.searchRewards() {
-        if (game.pendingSearches <= 0) {
-            if (inv.count("obj.abyssal_pearl") >= PEARL_SEARCH_COST) {
-                invDel(inv, "obj.abyssal_pearl", PEARL_SEARCH_COST)
-                game.pendingSearches++
-                mes("You trade 25 abyssal pearls for an additional reward search.")
-            } else {
-                mes("Finish a game to earn a reward search, or trade 25 abyssal pearls.")
-                return
-            }
+        if (actionDelay > worldClock.cycle) return
+        val usePoints = vars[VP_ELEMENTAL_POINTS] > 0 && vars[VP_CATALYTIC_POINTS] > 0
+        if (!usePoints && inv.count("obj.abyssal_pearl") < PEARL_SEARCH_COST) {
+            mes("You need one elemental and one catalytic reward point, or 25 abyssal pearls.")
+            return
         }
-        game.pendingSearches--
-        anim(TAKE_ANIM)
         val pearls = MIN_PEARL_ROLL + Random.nextInt(MAX_PEARL_ROLL - MIN_PEARL_ROLL + 1)
-        invAdd(inv, "obj.abyssal_pearl", pearls)
+        val received = player.invTransaction(inv) {
+            val inventory = select(inv)
+            if (!usePoints) {
+                delete(inventory, "obj.abyssal_pearl".asRSCM(RSCMType.OBJ), PEARL_SEARCH_COST)
+            }
+            add(inventory, "obj.abyssal_pearl".asRSCM(RSCMType.OBJ), pearls)
+        }
+        if (received.failure) {
+            mes("You don't have enough inventory space.")
+            return
+        }
+        if (usePoints) {
+            vars[VP_ELEMENTAL_POINTS] -= 1
+            vars[VP_CATALYTIC_POINTS] -= 1
+        }
+        actionDelay = worldClock.cycle + SEARCH_TICKS
+        anim(TAKE_ANIM)
         mes("You rummage through the Rewards Guardian's offerings... and find $pearls abyssal pearls!")
     }
 
@@ -489,8 +505,13 @@ constructor(
             statAdvance("stat.runecrafting", xp)
             vars[VB_FINISHED_GAME] = 1
             vars[VB_COMPLETED] = 1
-            val searches = minOf(points(elemental), points(catalytic))
-            game.pendingSearches += searches
+            val elementalPoints = points(elemental)
+            val catalyticPoints = points(catalytic)
+            vars[VP_ELEMENTAL_POINTS] = (vars[VP_ELEMENTAL_POINTS].toLong() + elementalPoints)
+                .coerceAtMost(MAX_REWARD_POINTS.toLong()).toInt()
+            vars[VP_CATALYTIC_POINTS] = (vars[VP_CATALYTIC_POINTS].toLong() + catalyticPoints)
+                .coerceAtMost(MAX_REWARD_POINTS.toLong()).toInt()
+            val searches = minOf(vars[VP_ELEMENTAL_POINTS], vars[VP_CATALYTIC_POINTS])
             val searchText = if (searches == 1) "a reward search" else "$searches reward searches"
             if (win) {
                 mes("The Great Guardian closes the rift! You earned $total energy and " +
@@ -613,9 +634,6 @@ constructor(
         private var surged = false
         private var elementalPortal = Portal.AIR
         private var catalyticPortal = Portal.MIND
-        var pendingSearches = 0
-        var rechargeXp = 0
-        var rechargeEnergy = 0
         private val players = mutableSetOf<Player>()
         private val barriers = mutableMapOf<CoordGrid, Barrier>()
         private val brokenTiles = mutableSetOf<CoordGrid>()
@@ -851,8 +869,6 @@ constructor(
             abyssals.clear()
             guardians.clear()
             clearBarriers()
-            rechargeXp = 0
-            rechargeEnergy = 0
         }
 
         private fun clearBarriers() {
@@ -882,6 +898,10 @@ constructor(
             abyssals.clear()
             guardians.clear()
             clearBarriers()
+            for (participant in players) {
+                VarPlayerIntMapSetter.set(participant, VP_RECHARGE_XP, 0)
+                VarPlayerIntMapSetter.set(participant, VP_RECHARGE_ENERGY, 0)
+            }
             charge = chargeTarget * CHARGE_START_PCT / 100
             prepTicks = 0
             portalSwitch = 0
@@ -926,6 +946,10 @@ constructor(
         private const val VB_CATALYTIC_EARNED = "varbit.gotr_catalytic_earned_this_game"
         private const val VB_FINISHED_GAME = "varbit.gotr_player_has_finished_game"
         private const val VB_COMPLETED = "varbit.collection_minigames_gotr_completed"
+        private const val VP_ELEMENTAL_POINTS = "varp.gotr_elemental_reward_points"
+        private const val VP_CATALYTIC_POINTS = "varp.gotr_catalytic_reward_points"
+        private const val VP_RECHARGE_XP = "varp.gotr_recharge_xp"
+        private const val VP_RECHARGE_ENERGY = "varp.gotr_recharge_energy"
 
         private const val HUD_OVERLAY = "interface.gotr_overlay"
         private const val HUD_TARGET = "component.toplevel_osrs_stretch:overlay_hud"
@@ -1042,6 +1066,8 @@ constructor(
         private const val XP_PER_RC_LEVEL = 45
         private const val POINTS_PER_ENERGY = 100
         private const val PEARL_SEARCH_COST = 25
+        private const val SEARCH_TICKS = 3
+        private const val MAX_REWARD_POINTS = 65_535
         private const val MIN_PEARL_ROLL = 14
         private const val MAX_PEARL_ROLL = 16
         private const val RECHARGE_XP_CAP = 2500

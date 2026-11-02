@@ -1,2 +1,8 @@
 [gamevals.timer]
 gotr_tick = 434
+
+[gamevals.varp]
+gotr_elemental_reward_points = 63480
+gotr_catalytic_reward_points = 63481
+gotr_recharge_xp = 63482
+gotr_recharge_energy = 63483

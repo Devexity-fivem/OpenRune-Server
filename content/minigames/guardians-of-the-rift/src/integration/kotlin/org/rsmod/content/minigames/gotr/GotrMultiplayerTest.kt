@@ -33,11 +33,13 @@ class GotrMultiplayerTest {
             val guardian = spawnNpc(CoordGrid(3612, 9496), guardianType)
             for (participant in listOf(player, friend)) {
                 participant.withProtectedAccess {
-                    vars["varbit.gotr_elemental_earned_this_game"] = 150
-                    vars["varbit.gotr_catalytic_earned_this_game"] = 150
+                    vars["varbit.gotr_elemental_earned_this_game"] = 200
+                    vars["varbit.gotr_catalytic_earned_this_game"] = 200
                 }
             }
             advance()
+            friend.setVarp("varp.gotr_elemental_reward_points", 3)
+            friend.setVarp("varp.gotr_catalytic_reward_points", 5)
             val friendXp = friend.statMap.getFineXP(RUNECRAFTING)
             player.placeAt(CoordGrid(3611, 9495))
             player.inv[0] = InvObj("obj.gotr_guardian_stone_elemental", 500)
@@ -49,6 +51,10 @@ class GotrMultiplayerTest {
             val awardedXp = friend.statMap.getFineXP(RUNECRAFTING)
             advance(8)
             assertEquals(awardedXp, friend.statMap.getFineXP(RUNECRAFTING))
+            assertEquals(5, friend.vars["varp.gotr_elemental_reward_points"])
+            assertEquals(7, friend.vars["varp.gotr_catalytic_reward_points"])
+            assertEquals(10, player.vars["varp.gotr_elemental_reward_points"])
+            assertEquals(2, player.vars["varp.gotr_catalytic_reward_points"])
         }
 
     @Test
