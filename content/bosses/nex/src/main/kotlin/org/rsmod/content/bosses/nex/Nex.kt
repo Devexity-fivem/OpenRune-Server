@@ -37,12 +37,14 @@ import org.rsmod.game.entity.util.PathingEntityCommon
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocShape
 import org.rsmod.game.map.collision.get
-import org.rsmod.game.map.collision.isWalkBlocked
 import org.rsmod.game.map.collision.isZoneValid
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
 import org.rsmod.plugin.scripts.ScriptContext
 import org.rsmod.routefinder.LineValidator
+import org.rsmod.routefinder.StepValidator
+import org.rsmod.routefinder.collision.CollisionFlagMap
+import org.rsmod.routefinder.collision.CollisionStrategy
 import org.rsmod.routefinder.flag.CollisionFlag
 
 /**
@@ -631,9 +633,15 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
         val dz = (target.coords.z - nex.coords.z).compareTo(0)
         if (dx == 0 && dz == 0) return
         val dest =
-            (DASH_TILES downTo 1)
-                .map { nex.coords.translate(dx * it, dz * it) }
-                .firstOrNull { canStand(nex, it) } ?: return
+            dashDestination(
+                nex.coords,
+                dx,
+                dz,
+                nex.size,
+                deps.collision,
+                nex.collisionStrategy ?: CollisionStrategy.Normal,
+            )
+        if (dest == nex.coords) return
         nex.telejump(deps.collision, dest)
         for (p in roomPlayers(nex)) {
             if (p.coords.chebyshevDistance(dest) <= DASH_HIT_RADIUS) {
@@ -765,15 +773,20 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
                     var free = deps.collision.isZoneValid(origin)
                     for (x in 0 until size) {
                         for (z in 0 until size) {
-                            if (deps.collision.isWalkBlocked(origin.translate(x, z))) {
+                            if (occupied(origin.translate(x, z))) {
                                 free = false
                             }
                         }
                     }
-                    if (free) add(origin)
+                    // Wall-pocket tiles pass the flag checks above; a walk line
+                    // from the spawn centre filters them out.
+                    if (free && hasWalkLine(centre, origin)) add(origin)
                 }
             }
         }.toMutableList()
+
+    private fun hasWalkLine(from: CoordGrid, to: CoordGrid): Boolean =
+        lineValidator.hasLineOfWalk(from.level, from.x, from.z, to.x, to.z)
 
     private fun onNexLethal(nex: Npc) {
         nex.say("Taste my wrath!")
@@ -815,19 +828,8 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
             .minByOrNull { it.chebyshevDistance(near) }
     }
 
-    private fun canStand(nex: Npc, origin: CoordGrid): Boolean {
-        if (!deps.collision.isZoneValid(origin)) return false
-        for (dx in 0 until nex.size) {
-            for (dz in 0 until nex.size) {
-                if (occupied(origin.translate(dx, dz))) return false
-            }
-        }
-        return true
-    }
-
     private fun occupied(coords: CoordGrid): Boolean =
-        deps.collision.isWalkBlocked(coords) ||
-            deps.collision[coords] and CollisionFlag.LOC != 0
+        deps.collision[coords] and OCCUPIED_FLAGS != 0
 
     private fun reviveDeadMages(nex: Npc) {
         for (mage in deps.npcRepo.findAll(ZoneKey.from(nex.coords), CHAMBER_ZONE_RADIUS)) {
@@ -869,7 +871,41 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
         for (dx in -radius..radius) for (dz in -radius..radius) add(centre.translate(dx, dz))
     }
 
-    private companion object {
+    companion object {
+        // The dash slides step-by-step with full size-aware step validation
+        // rather than probing occupancy of a landing box: tiles inside wall
+        // structures carry only edge flags, so a box check alone could land
+        // her in the wall.
+        fun dashDestination(
+            sw: CoordGrid,
+            dx: Int,
+            dz: Int,
+            size: Int,
+            collision: CollisionFlagMap,
+            strategy: CollisionStrategy,
+        ): CoordGrid {
+            val steps = StepValidator(collision)
+            var dest = sw
+            repeat(DASH_TILES) {
+                if (
+                    !steps.canTravel(
+                        dest.level,
+                        dest.x,
+                        dest.z,
+                        dx,
+                        dz,
+                        size,
+                        CollisionFlag.BLOCK_NPCS,
+                        strategy,
+                    )
+                ) {
+                    return dest
+                }
+                dest = dest.translate(dx, dz)
+            }
+            return dest
+        }
+
         private const val NEX = "npc.nex"
         private const val NEX_SOULSPLIT = "npc.nex_soulsplit"
         private const val NEX_DEFLECT = "npc.nex_deflect"
@@ -987,6 +1023,12 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
         private const val DARK_DAMAGE_PERIOD = 2
 
         private const val SIPHON_TICKS = 8
+
+        private const val OCCUPIED_FLAGS =
+            CollisionFlag.BLOCK_WALK or
+                CollisionFlag.LOC or
+                CollisionFlag.BLOCK_NPCS or
+                CollisionFlag.BLOCK_PLAYERS
 
         // OSRS scales the wave with team size: four for a solo player, up to
         // eight in a full chamber.

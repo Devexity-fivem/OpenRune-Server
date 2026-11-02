@@ -1,224 +1,260 @@
 {
-  "schemaVersion": 1,
-  "features": {
-    "Guardians of the Rift": {
-      "status": "IN PROGRESS",
-      "implementationPaths": [
-        "content/minigames/guardians-of-the-rift/src/main/kotlin/org/rsmod/content/minigames/gotr/Gotr.kt",
-        "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrBarrierTest.kt",
-        "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrMultiplayerTest.kt",
-        "content/minigames/guardians-of-the-rift/src/test/kotlin/org/rsmod/content/minigames/gotr/GotrScalingTest.kt",
-        "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrRewardsTest.kt",
-        "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrImbuingTest.kt",
-        "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrWorkbenchTest.kt",
-        "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrCellSupplyTest.kt",
-        "content/minigames/guardians-of-the-rift/pack/src/main/resources/pack/configs/gotr_varps.toml",
-        "content/minigames/guardians-of-the-rift/pack/src/main/kotlin/org/rsmod/content/minigames/gotr/pack/GotrRewardsTable.kt",
-        "content/minigames/guardians-of-the-rift/src/main/resources/gamevals.toml"
-      ],
-      "wikiReferences": [
-        "https://oldschool.runescape.wiki/w/Guardians_of_the_Rift",
-        "https://oldschool.runescape.wiki/w/Guardians_of_the_Rift?action=raw",
-        "https://oldschool.runescape.wiki/w/Rewards_Guardian?action=raw",
-        "https://oldschool.runescape.wiki/w/Weak_cell?action=raw",
-        "https://oldschool.runescape.wiki/w/Medium_cell?action=raw",
-        "https://oldschool.runescape.wiki/w/Strong_cell?action=raw",
-        "https://oldschool.runescape.wiki/w/Overcharged_cell?action=raw",
-        "https://oldschool.runescape.wiki/w/Guardian_essence?action=raw",
-        "https://oldschool.runescape.wiki/w/Water_rune?action=raw",
-        "https://oldschool.runescape.wiki/w/Portal_talisman_(water)?action=raw"
-      ],
-      "mechanics": {
-        "state": "partial",
-        "evidence": [
-          "b6d21cc30: corrected cell-tile dispatch and barrier/tile layer separation; Wiki confirms higher cells strengthen one tier and lower cells recharge",
-          "Implemented the Wiki's twenty-player scaling boundary (250 stones per first twenty players, 200 thereafter). Round results now have separate once-only delivery for each participant.",
-          "Reward searches use the player's paired points or a 25-pearl sacrifice, preserve unmatched balances, enforce the Wiki's 65535-point storage bound and three-tick search interval, and leave points unchanged when inventory addition fails.",
-          "The pearl-only reward roll was replaced by the Wiki's published tables in cache-backed dbtable.gotr_reward_table: a 15/140 pouch slot (skipped when every pouch or the colossal pouch is owned, yielding the published /125 alternative denominators), six elemental runes at 4/140 with the published ranges, six higher runes at 10/140, a 16/140 talisman sub-table (48/64/16 of 560 weighting matching the published 4900 denominators, noted via cert objects, law/death quest fallbacks to air talisman), 18/140 pearls at 14-16, 5/140 intricate pouch, 1/140 ashes and 1/140 needle. Rare-table independent rolls cover diary 1/20, catalytic talisman 1/200, needle 1/300, lantern 1/700 and three dyes at 1/1200 with unique-varbit gating where the Wiki requires it, plus the 1/4000 tertiary protector. Intricate pouch opening rolls its own preroll (blood essence 1/200, lamp 1/15, locket 1/40, lost bag 1/60) and 45-weight main table plus a 1/10 hard clue. Rune quantities only scale down below the published craft level; reward pouches arrive prepacked with 2/4/6/8 pure essence. Payment and rewards commit atomically per search and Big-search stops when payment runs out.",
-          "Cell charging and upgrading grant the Wiki's 10 XP only after a committed inventory change; equal or higher held cells do not yield free repeat XP. Cell/essence/stone/rune/talisman conversion is atomic, and a crafting action stops its talisman rolls after the first success.",
-          "Workbench conversion was reproduced with four failing integration tests: bulk deletion lost fragments, blocked last-fragment slot reuse and awarded incorrect XP. It now converts one fragment per tick atomically with level/10 Crafting XP clamped to 1..5, preserves every unconverted fragment, and cancels when walking away. Six workbench regressions pass, including repeated clicks and vanished inputs.",
-          "Weak-cell supply collection now enforces one charged cell across all tiers. Two failing regressions reproduced weak-cell stockpiling and taking an extra cell while holding an overcharged cell; three supply tests now pass, including full-inventory preservation.",
-          "Guardian essence uses per-rune XP from the generated RunecraftingRunesRow and the shared cache-backed rune multiplier. Integration tests verify level-27 water output (two runes per essence), a visible-level boost from 37 to 38 (three runes), unchanged stone counts and six XP per essence. Portal talisman rolls remain per essence, not per multiplied rune; the Wiki's cited correction explicitly confirms this."
-        ]
-      },
-      "visuals": {
-        "state": "unverified",
-        "evidence": [],
-        "reason": "Symbol resolution and an animation playing do not establish correct timing or sequence. Current placement/imbuing uses human_pickuptable without adequate evidence."
-      },
-      "automated": {
-        "state": "passed",
-        "evidence": [
-          "gradlew :content:minigames:guardians-of-the-rift:test :content:minigames:guardians-of-the-rift:integration passed: 2 scaling unit tests and all cache-backed integration tests, including two simulated players receiving one round result each, logout removing a player from charge scaling, paired/unmatched reward balances, inventory-full/stack-overflow rollback, repeat searches, pearl sacrifice accounting and recharge-cap isolation. Barrier consumption, strengthening, recharge and tile preservation remain covered.",
-          "GotrRewardsTest now covers the weighted reward path: every search yields at least one item, repeated searches consume one point pair each, a player cannot spend another player's points, pearl sacrifice consumes exactly 25 pearls, Big-search consumes five searches and stops when payment runs out, and the intricate pouch opens into loot. All 11 reward tests and the full module suite pass; spotlessKotlinCheck passed. mergePluginGamevals and buildCache completed, initially with an npcs.toml scanner/decoder warning; the subsequent Cache and gamevals regression records its correction.",
-          "node --test tools/progress/accuracy.test.mjs passed 7 generator regression tests; generator --check passes without modifying output."
-        ]
-      },
-      "mcp": {
-        "state": "partial",
-        "evidence": [
-          "Live MCP session on the rebuilt server: point-funded Search consumed one elemental and one catalytic point and granted 9 death runes; a second search granted 15 abyssal pearls. Big-search granted five rewards in one click (16 pearls, 231 nature runes across stacked rolls, noted nature talisman, 40 law runes, Atlax's diary from the 1/20 rare table). Pearl-funded Search consumed exactly 25 abyssal pearls and granted a noted cosmic talisman without touching unmatched points. Check reported correct balances and search count (9). The reward message names the item after switching the lookup from getObject to getItem.",
-          "Remaining live-verification gaps: no two-client multiplayer session yet, and rift guardian combat/animation timing has not been observed in-game."
-        ],
-        "reason": "Reward searches, payment paths and reward output are live-verified; multiplayer scaling and visual timing still need an in-game check."
-      },
-      "discrepancies": [
-        "Portal entry currently imbues in place instead of travelling to and interacting with the altar.",
-        "Reward balances now use separate permanent player varps, recharge caps use temporary player varps, and rewards commit through inventory transactions. Actual save/reconnect behavior still needs end-to-end verification.",
-        "The Rewards Guardian now rolls the Wiki's weighted main/rare/tertiary tables and the intricate pouch opens into its own loot; reward-collection pacing is a single instant grant per search rather than a 3-tick trickle, and the exact sub-level quantity curve for uncraftable runes is unpublished (proportional approximation in use).",
-        "Special-energy run restoration is not implemented; charge still conflates guardian health and closing power, and initial charge needs correction.",
-        "Abyssal targeting, combat rates, guardian retaliation and route collision remain approximate.",
-        "Energy caps, talisman handling, temporary-item cleanup, HUD state and end-of-round rewards require further verification."
-      ],
-      "limitations": [
-        "Two-player live verification and animation/graphic timing comparison remain outstanding."
-      ]
-    },
-    "Cache and gamevals": {
-      "status": "IN PROGRESS",
-      "implementationPaths": [
-        "or-cache/src/test/kotlin/dev/openrune/tools/NpcConfigBlockIdentityTest.kt",
-        ".data/raw-cache/server/npcs.toml"
-      ],
-      "wikiReferences": [],
-      "mechanics": {
-        "state": "partial",
-        "evidence": [
-          "Reproduced two anonymous NPC blocks at source lines 13775 and 30726 with a failing identity regression. Removed only duplicate empty table headers; retained every named definition. The subsequent live/server cache build no longer emits the scanner/decoder warning."
-        ]
-      },
-      "visuals": {
-        "state": "not applicable",
-        "reason": "Source-block identity validation is server build tooling, not a rendered gameplay feature."
-      },
-      "automated": {
-        "state": "passed",
-        "evidence": [
-          "gradlew test passed repository-wide at 0185e4e13 before the new identity regression.",
-          "gradlew :or-cache:spotlessApply :or-cache:test :or-cache:spotlessKotlinCheck buildCache passed after fixing the two empty headers; both live and server caches built without the npcs.toml warning."
-        ]
-      },
-      "mcp": {
-        "state": "not applicable",
-        "reason": "A cache-source parsing regression is reproduced and validated by the builder and automated test, not a client interaction."
-      },
-      "discrepancies": [],
-      "limitations": [
-        "Block identity and successful cache packing do not verify NPC stats, combat behavior or animation accuracy."
-      ]
-    },
-    "NPC processing": {
-      "status": "IN PROGRESS",
-      "implementationPaths": [
-        ".data/raw-cache/server/npcs.toml",
-        "engine/game/src/main/kotlin/org/rsmod/game/entity/Npc.kt",
-        "api/npc/src/main/kotlin/org/rsmod/api/npc/interact/AiPlayerInteractions.kt"
-      ],
-      "wikiReferences": [
-        "https://oldschool.runescape.wiki/w/Elf_Warrior?action=raw"
-      ],
-      "mechanics": {
-        "state": "partial",
-        "evidence": [
-          "Both Lletya Elf Warrior variants (npc.mourning_guard_melee and npc.mourning_guard_melee2) now explicitly use the Wiki's two-tile halberd reach. Traced NPC attackRange through AiPlayerInteractions; the source definition default is one tile.",
-          "Conditional-aggression audit against the Wiki's aggressive list: all god-affiliation rows resolve through packed godwars_*_follower categories or param.aggro_faction (desert bandits use aggro_if_goditem triggers, Mage Arena battle mages use aggro_unless_obj cape gates, greegree/vyre/mourner/armed/MM2-quest gates verified in place). Corrected Wiki-passive NPCs that still hunted: zamorakghost, five arena_guard (Khazard Guard) variants, regicide_darkelf (Iorwerth Archer), wilderness_rogue and kalphite_worker_chamber; added missing hunt config to aviansie variant 3176. Talk/spawn/chest-triggered aggression stays scripted content with correct passive base."
-        ]
-      },
-      "visuals": {
-        "state": "partial",
-        "evidence": [
-          "Animation audit corrected roughly 320 NPC param blocks that had defend/death sequences filled by area group instead of creature family: wilderness-cave monsters on goblin anims, Kourend monsters on ghost/swan anims, zombies on brain-zombie-pirate anims, humanoid guards/pirates/knights on animal anims, and rabbit defend/death on Regicide elves, Tyras guards and the rooster. Fixes map each NPC to its matching family sequences verified against the sequence catalog and live npc_def names.",
-          "Follow-up passes corrected a further ~210 NPC blocks from a second bulk-fill pattern where defend/death were assigned from unrelated families: all remaining swan_queen overrides (abyssal demons, basilisk, gargoyle, cockatrice, crawling hands, dustdevil, kurask, rockslug, turoth, zygomite, icefiend, harpie bug swarm, killerwatt, cave crawlers, lizards, both Krakens and the lava strykewyrm) mapped to their matching family sequences; luc2_undead_demon overrides on ordinary lesser/greater/black/DT2-Scar demons moved to the demon set; dragon-family def/death on blue/black/bronze/iron/steel/baby-black strongholdcave dragons and brutal green/mithril dragons; ghost_tendrill and wolf overrides on trolls, humans, minotaurs, ankou, zombies and fleshcrawlers; human def/death on guard dogs replaced with the dog set; giant-frog on jackals/little crocs; blood-reaver on Nex prison humans; ork on elite vyrewatch; plus waterfiends, bunnies, the Ice Queen, desert goats, monkeys, snakes, the Shaikahan, Headless Beast, Blood Moon, Corporeal Beast and wyrm corrections. Packed-cache regression suite now asserts the resolved sequence ids for representative NPCs in every corrected family (32 tests)."
-        ],
-        "reason": "Param-level correction verified; per-NPC visual timing parity for every entry is not established."
-      },
-      "automated": {
-        "state": "partial",
-        "evidence": [
-          "gradlew :or-cache:test buildCache passed, packing both changed NPC definitions and building live/server caches without scanner warnings.",
-          "ServerCacheOverlayVerificationTest now asserts the corrected attack/defend/death parameter ids resolve from the packed server cache for representative fixed NPCs (dark elf, Tyras guard, rooster, wilderness/slayer/zombie families); all 20 tests pass with zero failures."
-        ],
-        "reason": "Cache packing and param assertions are not an end-to-end combat test of reach, collision or safespots."
-      },
-      "mcp": {
-        "state": "passed",
-        "evidence": [
-          "Live MCP session: spawned zombie_unarmed idled on pose 5565 (zombie_update family, previously brain-zombie-pirate); Iorwerth Archer (npcId 3428, regicide_darkelf) fought with animation 390 human_sword_slash and died normally; Knight of Ardougne (previously giant-family anims) fought and died with human anims; ::nanim 836 rendered the human death anim on NPCs."
-        ],
-        "reason": "Defend and death sequences are one-tick windows not captured per poll; binding is covered by the packed-cache regression assertions."
-      },
-      "discrepancies": [
-        "The broader NPC mechanics and animation inventory remains unverified."
-      ],
-      "limitations": [
-        "No live combat or visual parity claim is made for these two NPCs."
-      ]
-    },
-    "Runecraft": {
-      "status": "IN PROGRESS",
-      "implementationPaths": [
-        "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/action/RunecraftAction.kt",
-        "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/altar/ComboEvents.kt",
-        "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/items/BindingNecklaceEvents.kt",
-        "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/items/BindingNecklace.kt",
-        "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/magic/MagicImbue.kt",
-        "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/magic/MagicImbueEvents.kt",
-        "content/skills/runecrafting/pack/src/main/resources/pack/configs/runecrafting_multiples.toml",
-        "content/skills/runecrafting/pack/src/main/resources/pack/configs/runecrafting_extracts.toml",
-        "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/items/BloodEssence.kt",
-        "content/skills/runecrafting/src/integration/kotlin/org/rsmod/content/skills/runecrafting/RunecraftingInventoryTest.kt",
-        "content/skills/runecrafting/src/integration/kotlin/org/rsmod/content/skills/runecrafting/CombinationRuneInventoryTest.kt",
-        "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrImbuingTest.kt"
-      ],
-      "wikiReferences": [
-        "https://oldschool.runescape.wiki/w/Runecraft?action=raw",
-        "https://oldschool.runescape.wiki/w/Water_rune?action=raw",
-        "https://oldschool.runescape.wiki/w/Law_rune?action=raw",
-        "https://oldschool.runescape.wiki/w/Death_rune?action=raw",
-        "https://oldschool.runescape.wiki/w/Blood_rune?action=raw",
-        "https://oldschool.runescape.wiki/w/Template:Scar_extract_table?action=raw",
-        "https://oldschool.runescape.wiki/w/Warped_extract?action=raw",
-        "https://oldschool.runescape.wiki/w/Combination_rune?action=raw",
-        "https://oldschool.runescape.wiki/w/Twisted_extract?action=raw"
-      ],
-      "mechanics": {
-        "state": "partial",
-        "evidence": [
-          "Moved rune multiple intervals out of a hardcoded Kotlin lookup into a server-only cache enum with a generated typed accessor. Added the previously missing law (95), death (99) and sunfire (49) intervals from the Wiki's Multiple runes table. GotR now shares these multipliers and the existing per-rune XP dbtable.",
-          "Jagex's extract design confirms bonuses per essence and compatibility with rune, pure and daeyalt essence, excluding Ourania: https://secure.runescape.com/m=news/a=97/the-scar-essence-mine?oldschool=1 . Standard extract quantities now come from a typed cache enum and are consumed per matching essence without bonus XP.",
-          "Combination crafting now triggers when the elemental runes themselves are used on the altar, matching the Wiki's runes-or-talisman description. Binding necklace held ops were shifted one slot against the cache's op layout; Check and Destroy now sit on the correct indices and Destroy uses the real confirm dialogue. Magic Imbue's 20-cycle buff no longer persists across login, and its active check covers the varbit's full two-bit range."
-        ]
-      },
-      "visuals": {
-        "state": "unverified",
-        "reason": "No animation, graphic or timing parity claim is made by this data/calculation correction."
-      },
-      "automated": {
-        "state": "partial",
-        "evidence": [
-          "mergePluginGamevals and buildCache passed. Full gradlew --quiet test plus GotR integration and both touched modules' formatting checks passed. GotR water crafting accounting tests now cover a visible-level boost from 37 to 38 and XP per essence, not per rune. The boost test failed with two runes instead of three before the fix; focused GotR tests and integration/formatting checks passed afterward. The full repository test run preceded this final one-line level-source correction.",
-          "Two failing normal-altar regressions reproduced pure and daeyalt essence loss at an overflowing output stack. Standard altar input, extract, final active blood-essence deletion and rune output now commit in one inventory transaction; XP and blood-essence charge changes follow success. Eight normal-altar integration tests pass, covering overflow, extract preservation, full-inventory mixed inputs, repeated clicks, vanished input and final/remaining blood-essence charges. GotR's 28 integration regressions and a fresh full repository gradlew --quiet test run also pass after this shared-code change.",
-          "Two additional failing tests reproduced per-action extract underproduction and incorrect batch overflow handling. Standard extracts now consume min(essence, available extracts), use a typed server-only cache enum for bonus quantities, preserve unused extracts, and do not multiply XP or the additional runes. Twelve normal-altar integration tests, all 28 GotR integration tests and a fresh full repository unit-test run pass, including limited extracts, daeyalt XP and whole-batch overflow rollback.",
-          "Four more failing regressions reproduced ignored visible boosts and a boost expiring during the crafting animation. Standard pure/daeyalt requirements and rune multiples now use current visible levels and recheck requirements before conversion. Sixteen normal-altar tests and all 28 GotR integration tests pass, including base-4/current-5 water crafting, pure/daeyalt multiple thresholds, base-99/current-104 earth runes and expired-boost input preservation. These focused checks follow the earlier full repository test run.",
-          "Two combination-rune tests first reproduced essence loss on output overflow and extract-derived XP inflation. Pure/guardian essence, input runes, talisman, successful-combination extracts and output now commit atomically. Only successful base combinations grant XP; failed combinations retain extracts. Four combination arithmetic/inventory tests, sixteen standard-altar tests and all 28 GotR integration tests pass. Combination tests call the production action through ProtectedAccess; item-on-altar network wiring, binding-necklace edge cases and Magic Imbue expiry are not yet verified."
-        ],
-        "reason": "Normal altar boosted levels, quest gates, remaining crafting methods and item flows still need broader gameplay/inventory coverage."
-      },
-      "mcp": {
-        "state": "partial",
-        "evidence": [
-          "Logged into the dev world and verified the atomic altar path in-game at a spawned water altar: five essence survived a maxed water-rune stack unchanged with the correct 'You don't have enough inventory space to bind these runes.' message. After dropping the stack, five essence crafted into exactly 30 water runes (6x multiple at level 99) and +30 XP (per essence, not per rune). Two essence plus two warped extracts produced 512 water runes (2x6 base + 2x250 extract bonus) and +12 XP, confirming extracts add no XP.",
-          "Live combination crafting at the water altar: air talisman on the altar with six essence plus six air runes and a worn binding necklace produced six mist runes (100% success) at the Wiki's 8.5 XP per essence for the water altar. The talisman survived while varbit magic_imbue_active was 1 and was consumed once the buff reset, matching 'the talisman will be consumed' without imbue. Air runes used directly on the altar now also trigger the recipe (+4 mist runes, talisman consumed), matching the Wiki's runes-or-talisman trigger.",
-          "Live binding necklace check found its held ops shifted one slot (Wear fired Check, Check silently destroyed). Op indices are corrected to the cache layout (Wear=Op2, Check=Op3, Destroy=Op4 with the real destroy-confirm dialogue) and Wear now equips with a proper amulet swap. Magic Imbue's varbit stayed 1 across a server restart because the expire queue does not persist; it now resets on login, verified live as varbit 5438 dropping to 0."
-        ]
-      },
-      "discrepancies": [
-        "Standard-altar requirements/multiples and GotR multiples now use visible levels. Boost handling for other crafting methods and GotR portal requirement checks still needs review.",
-        "Ordinary standard-altar and elemental-combination extract quantities/XP are corrected. Sunfire's per-base-multiplied-rune extract exception remains unimplemented. Ourania, core and aether transactions still need fixes; extract access/quest requirements remain unverified."
-      ],
-      "limitations": [
-        "This is a partial skill correction, not verification of all methods, quests, boosts, bonuses, extracts or altar travel."
-      ]
-    }
+ "schemaVersion": 1,
+ "features": {
+  "Guardians of the Rift": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/minigames/guardians-of-the-rift/src/main/kotlin/org/rsmod/content/minigames/gotr/Gotr.kt",
+    "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrBarrierTest.kt",
+    "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrMultiplayerTest.kt",
+    "content/minigames/guardians-of-the-rift/src/test/kotlin/org/rsmod/content/minigames/gotr/GotrScalingTest.kt",
+    "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrRewardsTest.kt",
+    "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrImbuingTest.kt",
+    "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrWorkbenchTest.kt",
+    "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrCellSupplyTest.kt",
+    "content/minigames/guardians-of-the-rift/pack/src/main/resources/pack/configs/gotr_varps.toml",
+    "content/minigames/guardians-of-the-rift/pack/src/main/kotlin/org/rsmod/content/minigames/gotr/pack/GotrRewardsTable.kt",
+    "content/minigames/guardians-of-the-rift/src/main/resources/gamevals.toml"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Guardians_of_the_Rift",
+    "https://oldschool.runescape.wiki/w/Guardians_of_the_Rift?action=raw",
+    "https://oldschool.runescape.wiki/w/Rewards_Guardian?action=raw",
+    "https://oldschool.runescape.wiki/w/Weak_cell?action=raw",
+    "https://oldschool.runescape.wiki/w/Medium_cell?action=raw",
+    "https://oldschool.runescape.wiki/w/Strong_cell?action=raw",
+    "https://oldschool.runescape.wiki/w/Overcharged_cell?action=raw",
+    "https://oldschool.runescape.wiki/w/Guardian_essence?action=raw",
+    "https://oldschool.runescape.wiki/w/Water_rune?action=raw",
+    "https://oldschool.runescape.wiki/w/Portal_talisman_(water)?action=raw"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "b6d21cc30: corrected cell-tile dispatch and barrier/tile layer separation; Wiki confirms higher cells strengthen one tier and lower cells recharge",
+     "Implemented the Wiki's twenty-player scaling boundary (250 stones per first twenty players, 200 thereafter). Round results now have separate once-only delivery for each participant.",
+     "Reward searches use the player's paired points or a 25-pearl sacrifice, preserve unmatched balances, enforce the Wiki's 65535-point storage bound and three-tick search interval, and leave points unchanged when inventory addition fails.",
+     "The pearl-only reward roll was replaced by the Wiki's published tables in cache-backed dbtable.gotr_reward_table: a 15/140 pouch slot (skipped when every pouch or the colossal pouch is owned, yielding the published /125 alternative denominators), six elemental runes at 4/140 with the published ranges, six higher runes at 10/140, a 16/140 talisman sub-table (48/64/16 of 560 weighting matching the published 4900 denominators, noted via cert objects, law/death quest fallbacks to air talisman), 18/140 pearls at 14-16, 5/140 intricate pouch, 1/140 ashes and 1/140 needle. Rare-table independent rolls cover diary 1/20, catalytic talisman 1/200, needle 1/300, lantern 1/700 and three dyes at 1/1200 with unique-varbit gating where the Wiki requires it, plus the 1/4000 tertiary protector. Intricate pouch opening rolls its own preroll (blood essence 1/200, lamp 1/15, locket 1/40, lost bag 1/60) and 45-weight main table plus a 1/10 hard clue. Rune quantities only scale down below the published craft level; reward pouches arrive prepacked with 2/4/6/8 pure essence. Payment and rewards commit atomically per search and Big-search stops when payment runs out.",
+     "Cell charging and upgrading grant the Wiki's 10 XP only after a committed inventory change; equal or higher held cells do not yield free repeat XP. Cell/essence/stone/rune/talisman conversion is atomic, and a crafting action stops its talisman rolls after the first success.",
+     "Workbench conversion was reproduced with four failing integration tests: bulk deletion lost fragments, blocked last-fragment slot reuse and awarded incorrect XP. It now converts one fragment per tick atomically with level/10 Crafting XP clamped to 1..5, preserves every unconverted fragment, and cancels when walking away. Six workbench regressions pass, including repeated clicks and vanished inputs.",
+     "Weak-cell supply collection now enforces one charged cell across all tiers. Two failing regressions reproduced weak-cell stockpiling and taking an extra cell while holding an overcharged cell; three supply tests now pass, including full-inventory preservation.",
+     "Guardian essence uses per-rune XP from the generated RunecraftingRunesRow and the shared cache-backed rune multiplier. Integration tests verify level-27 water output (two runes per essence), a visible-level boost from 37 to 38 (three runes), unchanged stone counts and six XP per essence. Portal talisman rolls remain per essence, not per multiplied rune; the Wiki's cited correction explicitly confirms this."
+    ]
+   },
+   "visuals": {
+    "state": "unverified",
+    "evidence": [],
+    "reason": "Symbol resolution and an animation playing do not establish correct timing or sequence. Current placement/imbuing uses human_pickuptable without adequate evidence."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "gradlew :content:minigames:guardians-of-the-rift:test :content:minigames:guardians-of-the-rift:integration passed: 2 scaling unit tests and all cache-backed integration tests, including two simulated players receiving one round result each, logout removing a player from charge scaling, paired/unmatched reward balances, inventory-full/stack-overflow rollback, repeat searches, pearl sacrifice accounting and recharge-cap isolation. Barrier consumption, strengthening, recharge and tile preservation remain covered.",
+     "GotrRewardsTest now covers the weighted reward path: every search yields at least one item, repeated searches consume one point pair each, a player cannot spend another player's points, pearl sacrifice consumes exactly 25 pearls, Big-search consumes five searches and stops when payment runs out, and the intricate pouch opens into loot. All 11 reward tests and the full module suite pass; spotlessKotlinCheck passed. mergePluginGamevals and buildCache completed, initially with an npcs.toml scanner/decoder warning; the subsequent Cache and gamevals regression records its correction.",
+     "node --test tools/progress/accuracy.test.mjs passed 7 generator regression tests; generator --check passes without modifying output."
+    ]
+   },
+   "mcp": {
+    "state": "partial",
+    "evidence": [
+     "Live MCP session on the rebuilt server: point-funded Search consumed one elemental and one catalytic point and granted 9 death runes; a second search granted 15 abyssal pearls. Big-search granted five rewards in one click (16 pearls, 231 nature runes across stacked rolls, noted nature talisman, 40 law runes, Atlax's diary from the 1/20 rare table). Pearl-funded Search consumed exactly 25 abyssal pearls and granted a noted cosmic talisman without touching unmatched points. Check reported correct balances and search count (9). The reward message names the item after switching the lookup from getObject to getItem.",
+     "Remaining live-verification gaps: no two-client multiplayer session yet, and rift guardian combat/animation timing has not been observed in-game."
+    ],
+    "reason": "Reward searches, payment paths and reward output are live-verified; multiplayer scaling and visual timing still need an in-game check."
+   },
+   "discrepancies": [
+    "Portal entry currently imbues in place instead of travelling to and interacting with the altar.",
+    "Reward balances now use separate permanent player varps, recharge caps use temporary player varps, and rewards commit through inventory transactions. Actual save/reconnect behavior still needs end-to-end verification.",
+    "The Rewards Guardian now rolls the Wiki's weighted main/rare/tertiary tables and the intricate pouch opens into its own loot; reward-collection pacing is a single instant grant per search rather than a 3-tick trickle, and the exact sub-level quantity curve for uncraftable runes is unpublished (proportional approximation in use).",
+    "Special-energy run restoration is not implemented; charge still conflates guardian health and closing power, and initial charge needs correction.",
+    "Abyssal targeting, combat rates, guardian retaliation and route collision remain approximate.",
+    "Energy caps, talisman handling, temporary-item cleanup, HUD state and end-of-round rewards require further verification."
+   ],
+   "limitations": [
+    "Two-player live verification and animation/graphic timing comparison remain outstanding."
+   ]
+  },
+  "Cache and gamevals": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "or-cache/src/test/kotlin/dev/openrune/tools/NpcConfigBlockIdentityTest.kt",
+    ".data/raw-cache/server/npcs.toml"
+   ],
+   "wikiReferences": [],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Reproduced two anonymous NPC blocks at source lines 13775 and 30726 with a failing identity regression. Removed only duplicate empty table headers; retained every named definition. The subsequent live/server cache build no longer emits the scanner/decoder warning."
+    ]
+   },
+   "visuals": {
+    "state": "not applicable",
+    "reason": "Source-block identity validation is server build tooling, not a rendered gameplay feature."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "gradlew test passed repository-wide at 0185e4e13 before the new identity regression.",
+     "gradlew :or-cache:spotlessApply :or-cache:test :or-cache:spotlessKotlinCheck buildCache passed after fixing the two empty headers; both live and server caches built without the npcs.toml warning."
+    ]
+   },
+   "mcp": {
+    "state": "not applicable",
+    "reason": "A cache-source parsing regression is reproduced and validated by the builder and automated test, not a client interaction."
+   },
+   "discrepancies": [],
+   "limitations": [
+    "Block identity and successful cache packing do not verify NPC stats, combat behavior or animation accuracy."
+   ]
+  },
+  "NPC processing": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    ".data/raw-cache/server/npcs.toml",
+    "engine/game/src/main/kotlin/org/rsmod/game/entity/Npc.kt",
+    "api/npc/src/main/kotlin/org/rsmod/api/npc/interact/AiPlayerInteractions.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Elf_Warrior?action=raw"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Both Lletya Elf Warrior variants (npc.mourning_guard_melee and npc.mourning_guard_melee2) now explicitly use the Wiki's two-tile halberd reach. Traced NPC attackRange through AiPlayerInteractions; the source definition default is one tile.",
+     "Conditional-aggression audit against the Wiki's aggressive list: all god-affiliation rows resolve through packed godwars_*_follower categories or param.aggro_faction (desert bandits use aggro_if_goditem triggers, Mage Arena battle mages use aggro_unless_obj cape gates, greegree/vyre/mourner/armed/MM2-quest gates verified in place). Corrected Wiki-passive NPCs that still hunted: zamorakghost, five arena_guard (Khazard Guard) variants, regicide_darkelf (Iorwerth Archer), wilderness_rogue and kalphite_worker_chamber; added missing hunt config to aviansie variant 3176. Talk/spawn/chest-triggered aggression stays scripted content with correct passive base."
+    ]
+   },
+   "visuals": {
+    "state": "partial",
+    "evidence": [
+     "Animation audit corrected roughly 320 NPC param blocks that had defend/death sequences filled by area group instead of creature family: wilderness-cave monsters on goblin anims, Kourend monsters on ghost/swan anims, zombies on brain-zombie-pirate anims, humanoid guards/pirates/knights on animal anims, and rabbit defend/death on Regicide elves, Tyras guards and the rooster. Fixes map each NPC to its matching family sequences verified against the sequence catalog and live npc_def names.",
+     "Follow-up passes corrected a further ~210 NPC blocks from a second bulk-fill pattern where defend/death were assigned from unrelated families: all remaining swan_queen overrides (abyssal demons, basilisk, gargoyle, cockatrice, crawling hands, dustdevil, kurask, rockslug, turoth, zygomite, icefiend, harpie bug swarm, killerwatt, cave crawlers, lizards, both Krakens and the lava strykewyrm) mapped to their matching family sequences; luc2_undead_demon overrides on ordinary lesser/greater/black/DT2-Scar demons moved to the demon set; dragon-family def/death on blue/black/bronze/iron/steel/baby-black strongholdcave dragons and brutal green/mithril dragons; ghost_tendrill and wolf overrides on trolls, humans, minotaurs, ankou, zombies and fleshcrawlers; human def/death on guard dogs replaced with the dog set; giant-frog on jackals/little crocs; blood-reaver on Nex prison humans; ork on elite vyrewatch; plus waterfiends, bunnies, the Ice Queen, desert goats, monkeys, snakes, the Shaikahan, Headless Beast, Blood Moon, Corporeal Beast and wyrm corrections. Packed-cache regression suite now asserts the resolved sequence ids for representative NPCs in every corrected family (32 tests)."
+    ],
+    "reason": "Param-level correction verified; per-NPC visual timing parity for every entry is not established."
+   },
+   "automated": {
+    "state": "partial",
+    "evidence": [
+     "gradlew :or-cache:test buildCache passed, packing both changed NPC definitions and building live/server caches without scanner warnings.",
+     "ServerCacheOverlayVerificationTest now asserts the corrected attack/defend/death parameter ids resolve from the packed server cache for representative fixed NPCs (dark elf, Tyras guard, rooster, wilderness/slayer/zombie families); all 20 tests pass with zero failures."
+    ],
+    "reason": "Cache packing and param assertions are not an end-to-end combat test of reach, collision or safespots."
+   },
+   "mcp": {
+    "state": "passed",
+    "evidence": [
+     "Live MCP session: spawned zombie_unarmed idled on pose 5565 (zombie_update family, previously brain-zombie-pirate); Iorwerth Archer (npcId 3428, regicide_darkelf) fought with animation 390 human_sword_slash and died normally; Knight of Ardougne (previously giant-family anims) fought and died with human anims; ::nanim 836 rendered the human death anim on NPCs."
+    ],
+    "reason": "Defend and death sequences are one-tick windows not captured per poll; binding is covered by the packed-cache regression assertions."
+   },
+   "discrepancies": [
+    "The broader NPC mechanics and animation inventory remains unverified."
+   ],
+   "limitations": [
+    "No live combat or visual parity claim is made for these two NPCs."
+   ]
+  },
+  "Runecraft": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/action/RunecraftAction.kt",
+    "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/altar/ComboEvents.kt",
+    "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/items/BindingNecklaceEvents.kt",
+    "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/items/BindingNecklace.kt",
+    "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/magic/MagicImbue.kt",
+    "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/magic/MagicImbueEvents.kt",
+    "content/skills/runecrafting/pack/src/main/resources/pack/configs/runecrafting_multiples.toml",
+    "content/skills/runecrafting/pack/src/main/resources/pack/configs/runecrafting_extracts.toml",
+    "content/skills/runecrafting/src/main/kotlin/org/rsmod/content/skills/runecrafting/items/BloodEssence.kt",
+    "content/skills/runecrafting/src/integration/kotlin/org/rsmod/content/skills/runecrafting/RunecraftingInventoryTest.kt",
+    "content/skills/runecrafting/src/integration/kotlin/org/rsmod/content/skills/runecrafting/CombinationRuneInventoryTest.kt",
+    "content/minigames/guardians-of-the-rift/src/integration/kotlin/org/rsmod/content/minigames/gotr/GotrImbuingTest.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Runecraft?action=raw",
+    "https://oldschool.runescape.wiki/w/Water_rune?action=raw",
+    "https://oldschool.runescape.wiki/w/Law_rune?action=raw",
+    "https://oldschool.runescape.wiki/w/Death_rune?action=raw",
+    "https://oldschool.runescape.wiki/w/Blood_rune?action=raw",
+    "https://oldschool.runescape.wiki/w/Template:Scar_extract_table?action=raw",
+    "https://oldschool.runescape.wiki/w/Warped_extract?action=raw",
+    "https://oldschool.runescape.wiki/w/Combination_rune?action=raw",
+    "https://oldschool.runescape.wiki/w/Twisted_extract?action=raw"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Moved rune multiple intervals out of a hardcoded Kotlin lookup into a server-only cache enum with a generated typed accessor. Added the previously missing law (95), death (99) and sunfire (49) intervals from the Wiki's Multiple runes table. GotR now shares these multipliers and the existing per-rune XP dbtable.",
+     "Jagex's extract design confirms bonuses per essence and compatibility with rune, pure and daeyalt essence, excluding Ourania: https://secure.runescape.com/m=news/a=97/the-scar-essence-mine?oldschool=1 . Standard extract quantities now come from a typed cache enum and are consumed per matching essence without bonus XP.",
+     "Combination crafting now triggers when the elemental runes themselves are used on the altar, matching the Wiki's runes-or-talisman description. Binding necklace held ops were shifted one slot against the cache's op layout; Check and Destroy now sit on the correct indices and Destroy uses the real confirm dialogue. Magic Imbue's 20-cycle buff no longer persists across login, and its active check covers the varbit's full two-bit range."
+    ]
+   },
+   "visuals": {
+    "state": "unverified",
+    "reason": "No animation, graphic or timing parity claim is made by this data/calculation correction."
+   },
+   "automated": {
+    "state": "partial",
+    "evidence": [
+     "mergePluginGamevals and buildCache passed. Full gradlew --quiet test plus GotR integration and both touched modules' formatting checks passed. GotR water crafting accounting tests now cover a visible-level boost from 37 to 38 and XP per essence, not per rune. The boost test failed with two runes instead of three before the fix; focused GotR tests and integration/formatting checks passed afterward. The full repository test run preceded this final one-line level-source correction.",
+     "Two failing normal-altar regressions reproduced pure and daeyalt essence loss at an overflowing output stack. Standard altar input, extract, final active blood-essence deletion and rune output now commit in one inventory transaction; XP and blood-essence charge changes follow success. Eight normal-altar integration tests pass, covering overflow, extract preservation, full-inventory mixed inputs, repeated clicks, vanished input and final/remaining blood-essence charges. GotR's 28 integration regressions and a fresh full repository gradlew --quiet test run also pass after this shared-code change.",
+     "Two additional failing tests reproduced per-action extract underproduction and incorrect batch overflow handling. Standard extracts now consume min(essence, available extracts), use a typed server-only cache enum for bonus quantities, preserve unused extracts, and do not multiply XP or the additional runes. Twelve normal-altar integration tests, all 28 GotR integration tests and a fresh full repository unit-test run pass, including limited extracts, daeyalt XP and whole-batch overflow rollback.",
+     "Four more failing regressions reproduced ignored visible boosts and a boost expiring during the crafting animation. Standard pure/daeyalt requirements and rune multiples now use current visible levels and recheck requirements before conversion. Sixteen normal-altar tests and all 28 GotR integration tests pass, including base-4/current-5 water crafting, pure/daeyalt multiple thresholds, base-99/current-104 earth runes and expired-boost input preservation. These focused checks follow the earlier full repository test run.",
+     "Two combination-rune tests first reproduced essence loss on output overflow and extract-derived XP inflation. Pure/guardian essence, input runes, talisman, successful-combination extracts and output now commit atomically. Only successful base combinations grant XP; failed combinations retain extracts. Four combination arithmetic/inventory tests, sixteen standard-altar tests and all 28 GotR integration tests pass. Combination tests call the production action through ProtectedAccess; item-on-altar network wiring, binding-necklace edge cases and Magic Imbue expiry are not yet verified."
+    ],
+    "reason": "Normal altar boosted levels, quest gates, remaining crafting methods and item flows still need broader gameplay/inventory coverage."
+   },
+   "mcp": {
+    "state": "partial",
+    "evidence": [
+     "Logged into the dev world and verified the atomic altar path in-game at a spawned water altar: five essence survived a maxed water-rune stack unchanged with the correct 'You don't have enough inventory space to bind these runes.' message. After dropping the stack, five essence crafted into exactly 30 water runes (6x multiple at level 99) and +30 XP (per essence, not per rune). Two essence plus two warped extracts produced 512 water runes (2x6 base + 2x250 extract bonus) and +12 XP, confirming extracts add no XP.",
+     "Live combination crafting at the water altar: air talisman on the altar with six essence plus six air runes and a worn binding necklace produced six mist runes (100% success) at the Wiki's 8.5 XP per essence for the water altar. The talisman survived while varbit magic_imbue_active was 1 and was consumed once the buff reset, matching 'the talisman will be consumed' without imbue. Air runes used directly on the altar now also trigger the recipe (+4 mist runes, talisman consumed), matching the Wiki's runes-or-talisman trigger.",
+     "Live binding necklace check found its held ops shifted one slot (Wear fired Check, Check silently destroyed). Op indices are corrected to the cache layout (Wear=Op2, Check=Op3, Destroy=Op4 with the real destroy-confirm dialogue) and Wear now equips with a proper amulet swap. Magic Imbue's varbit stayed 1 across a server restart because the expire queue does not persist; it now resets on login, verified live as varbit 5438 dropping to 0."
+    ]
+   },
+   "discrepancies": [
+    "Standard-altar requirements/multiples and GotR multiples now use visible levels. Boost handling for other crafting methods and GotR portal requirement checks still needs review.",
+    "Ordinary standard-altar and elemental-combination extract quantities/XP are corrected. Sunfire's per-base-multiplied-rune extract exception remains unimplemented. Ourania, core and aether transactions still need fixes; extract access/quest requirements remain unverified."
+   ],
+   "limitations": [
+    "This is a partial skill correction, not verification of all methods, quests, boosts, bonuses, extracts or altar travel."
+   ]
+  },
+  "Nex": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/nex/src/main/kotlin/org/rsmod/content/bosses/nex/Nex.kt",
+    "content/bosses/nex/src/main/kotlin/org/rsmod/content/bosses/nex/NexInstance.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Nex"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Wall-sticking fix: her smoke-phase dash no longer probes a landing box with canStand (which accepted wall-interior tiles that carry only edge flags); it slides one tile at a time through StepValidator.canTravel with her real size 3 and BLOCK_NPCS, stopping at the last valid step. Drag targets keep freeAdjacent + hasLineOfWalk + zone-valid checks; reaver spawns via freeTilesAround now reject wall pockets using the same walk-line rule plus a BLOCK_WALK|LOC|BLOCK_NPCS|BLOCK_PLAYERS occupancy mask (previously entity occupancy was invisible to the check)."
+    ],
+    "reason": "Only the movement mechanics were reworked; per-phase attack cadence and full-fight parity remain covered by the existing spec but were not re-audited here."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "NexDashTest (8 cases) exercises dashDestination against a synthetic CollisionFlagMap: full 8-tile open slide, wall base stop, wall-interior pocket rejection, BLOCK_WALK and BLOCK_NPCS stops, players not blocking, diagonal wall stop, and the backed-against-wall no-move case. NexSpecTest symbol/stat suite still passes."
+    ]
+   },
+   "mcp": {
+    "state": "passed",
+    "evidence": [
+     "Live session in the overworld chamber (identical region geometry to the instance): three Nexes plus the four corner mages. get_collision_area confirmed a wall-interior pocket at (2919-2922, 5216) inside the north wall band. With the player teleported inside the wall band at (2914, 5216), all three Nexes targeted and attacked across ~180 ticks and every dash stopped at the boundary - none entered the pocket or embedded in the wall; the wall-line Nex kept sliding laterally. Two drags relocated the player onto open tiles (never into walls). Choke virus, poison, drag stun, and transmogs (11278 to 11280 to 11281) all fired during the same window."
+    ],
+    "reason": "Manually spawned Nexes ran the real combat script; the instanced fight itself was not re-run end to end."
+   },
+   "discrepancies": [
+    "Greedy NPC chase can still stall against thin obstacles for any 3x3 NPC; that is authentic OSRS behaviour and was intentionally left unchanged."
+   ],
+   "limitations": [
+    "Dash damage radius and drag stun duration were not re-measured against OSRS video evidence in this pass."
+   ]
   }
+ }
 }
