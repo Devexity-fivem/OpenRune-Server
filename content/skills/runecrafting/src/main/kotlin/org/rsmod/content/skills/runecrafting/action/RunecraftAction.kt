@@ -11,6 +11,7 @@ import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.select
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseRunecraftingLvl
+import org.rsmod.api.player.stat.runecraftingLvl
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.table.ComboruneRecipeRow
 import org.rsmod.api.table.runecrafting.RunecraftingRunesRow
@@ -57,6 +58,9 @@ object RunecraftAction {
         }
 
         preCraft()
+        if (!canCraftRune(rune)) {
+            return
+        }
 
         val validEssence = rune.input.map { it.internalName }.toSet()
         val acceptsDaeyalt = PURE_ESSENCE in validEssence
@@ -81,7 +85,7 @@ object RunecraftAction {
         daeyaltEssCount: Int,
         ouraniaAltar: Boolean,
     ) {
-        val level = player.baseRunecraftingLvl
+        val level = player.runecraftingLvl
         val baseMultiplier = getBonusMultiplier(rune.output.internalName, level).toInt()
         val baseProduced = daeyaltEssCount * baseMultiplier
         val produced = applyBonus(baseProduced)
@@ -135,7 +139,7 @@ object RunecraftAction {
             if (runeEssCount > 0) add(InvObj(RUNE_ESSENCE, runeEssCount))
         }
 
-        val level = player.baseRunecraftingLvl
+        val level = player.runecraftingLvl
         val baseMultiplier = getBonusMultiplier(rune.output.internalName, level).toInt()
 
         val basePure = pureEssCount * baseMultiplier
@@ -200,7 +204,7 @@ object RunecraftAction {
     }
 
     private suspend fun ProtectedAccess.canCraftRune(rune: RunecraftingRunesRow): Boolean {
-        val level = player.baseRunecraftingLvl
+        val level = player.runecraftingLvl
         if (level < rune.statReq.first().t1) {
             mesbox(
                 "You need Runecrafting level ${rune.statReq.first().t1} to craft ${rune.output.name.lowercase()}s.",

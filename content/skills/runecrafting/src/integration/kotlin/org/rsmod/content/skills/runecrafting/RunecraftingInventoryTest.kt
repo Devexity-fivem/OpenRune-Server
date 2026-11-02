@@ -186,6 +186,61 @@ class RunecraftingInventoryTest {
         assertEquals(xp, player.statMap.getFineXP(RUNECRAFTING))
     }
 
+    @Test
+    fun GameTestState.`a visible boost permits an ordinary altar requirement`() = runAltarTest(level = 4) { loc, _ ->
+        player.setCurrentLevel(RUNECRAFTING, 5)
+        player.inv[0] = InvObj(EssencePouch.PURE_ESSENCE, 1)
+        val xp = player.statMap.getFineXP(RUNECRAFTING)
+        player.opLoc1(loc)
+        advance(8)
+        assertEquals(0, player.inv.count(EssencePouch.PURE_ESSENCE))
+        assertEquals(1, player.inv.count(WATER))
+        assertEquals(xp + 60, player.statMap.getFineXP(RUNECRAFTING))
+    }
+
+    @Test
+    fun GameTestState.`water multiples use the visible boost without multiplying experience`() {
+        for (essence in listOf(EssencePouch.PURE_ESSENCE, EssencePouch.DAEYALT_ESSENCE)) {
+            runAltarTest(level = 37) { loc, _ ->
+                player.setCurrentLevel(RUNECRAFTING, 38)
+                player.inv[0] = InvObj(essence, 1)
+                val xp = player.statMap.getFineXP(RUNECRAFTING)
+                player.opLoc1(loc)
+                advance(8)
+                assertEquals(0, player.inv.count(essence))
+                assertEquals(3, player.inv.count(WATER))
+                val fineXp = if (essence == EssencePouch.DAEYALT_ESSENCE) 90 else 60
+                assertEquals(xp + fineXp, player.statMap.getFineXP(RUNECRAFTING))
+            }
+        }
+    }
+
+    @Test
+    fun GameTestState.`a plus five boost above level 99 produces five earth runes per essence`() = runAltarTest("obj.earthrune", 99) { loc, _ ->
+        player.setCurrentLevel(RUNECRAFTING, 104)
+        player.inv[0] = InvObj(EssencePouch.PURE_ESSENCE, 1)
+        val xp = player.statMap.getFineXP(RUNECRAFTING)
+        player.opLoc1(loc)
+        advance(8)
+        assertEquals(0, player.inv.count(EssencePouch.PURE_ESSENCE))
+        assertEquals(5, player.inv.count("obj.earthrune"))
+        assertEquals(xp + 65, player.statMap.getFineXP(RUNECRAFTING))
+    }
+
+    @Test
+    fun GameTestState.`a boost expiring before conversion preserves the essence and experience`() = runAltarTest(level = 4) { loc, _ ->
+        player.setCurrentLevel(RUNECRAFTING, 5)
+        player.inv[0] = InvObj(EssencePouch.PURE_ESSENCE, 1)
+        val xp = player.statMap.getFineXP(RUNECRAFTING)
+        player.opLoc1(loc)
+        advance(1)
+        player.setCurrentLevel(RUNECRAFTING, 4)
+        advance(7)
+        assertEquals(1, player.inv.count(EssencePouch.PURE_ESSENCE))
+        assertEquals(0, player.inv.count(WATER))
+        assertEquals(xp, player.statMap.getFineXP(RUNECRAFTING))
+    }
+
     private fun GameTestState.runAltarTest(
         rune: String = WATER,
         level: Int = 27,
