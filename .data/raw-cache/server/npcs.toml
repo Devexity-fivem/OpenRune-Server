@@ -27123,6 +27123,7 @@ attackRange = 10
 [[npc]]
 id = "npc.mourning_guard_melee"
 inherit = "npc.mourning_guard_melee"
+attackRange = 2
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_stab"
@@ -27131,6 +27132,7 @@ inherit = "npc.mourning_guard_melee"
 [[npc]]
 id = "npc.mourning_guard_melee2"
 inherit = "npc.mourning_guard_melee2"
+attackRange = 2
 [npc.params]
 "param.attack_anim"="seq.human_sword_slash"
 "param.npc_attack_type"="category.attacktype_stab"

@@ -67,7 +67,7 @@ constructor(
         for (node in Rock.entries) {
             onOpLoc1(node.loc) { mine(node, it.loc) }
         }
-        onOpLoc1(WORKBENCH) { craftEssence() }
+        onOpLoc1(WORKBENCH) { craftEssence(it.loc) }
         onOpLoc1(CELL_CRATE) { takeCells(10) }
         onOpLoc2(CELL_CRATE) { takeCells(1) }
         onOpLoc1(WEAK_CELL_CRATE) { takeWeakCell() }
@@ -186,21 +186,29 @@ constructor(
         return RSCM.getReverseMapping(RSCMType.SEQ, seq.id)
     }
 
-    private fun ProtectedAccess.craftEssence() {
-        val fragments = inv.count(OBJ_FRAGMENT)
-        if (fragments == 0) {
+    private fun ProtectedAccess.craftEssence(loc: BoundLocInfo) {
+        if (inv.count(OBJ_FRAGMENT) == 0) {
             mes("You need guardian fragments to craft essence here.")
             return
         }
-        if (inv.freeSpace() < 1 && inv.count(OBJ_ESSENCE) == 0) {
+        if (actionDelay > worldClock.cycle) {
+            opLoc1(loc)
+            return
+        }
+        val crafted = player.invTransaction(inv) {
+            val inventory = select(inv)
+            delete(inventory, OBJ_FRAGMENT.asRSCM(RSCMType.OBJ), 1)
+            add(inventory, OBJ_ESSENCE.asRSCM(RSCMType.OBJ), 1)
+        }
+        if (crafted.failure) {
             mes("Your inventory is too full to hold any more.")
             return
         }
         anim(CRAFT_ANIM)
-        invDel(inv, OBJ_FRAGMENT, fragments)
-        invAdd(inv, OBJ_ESSENCE, fragments)
-        statAdvance("stat.crafting", (fragments * CRAFT_XP).toDouble())
-        mes("You craft $fragments guardian essence.")
+        val xp = (player.statBase("stat.crafting") / 10.0).coerceIn(1.0, 5.0)
+        statAdvance("stat.crafting", xp)
+        actionDelay = worldClock.cycle + 1
+        opLoc1(loc)
     }
 
     private fun ProtectedAccess.takeWeakCell() {
@@ -1067,7 +1075,6 @@ constructor(
         private const val GUARDIAN_FIGHT_RANGE = 3
         private const val MAX_ABYSSALS = 10
         private const val MAX_GUARDIANS = 10
-        private const val CRAFT_XP = 25
         private const val ESSENCE_XP = 10
         private const val CELL_XP = 10
         private const val TALISMAN_RATE = 250
