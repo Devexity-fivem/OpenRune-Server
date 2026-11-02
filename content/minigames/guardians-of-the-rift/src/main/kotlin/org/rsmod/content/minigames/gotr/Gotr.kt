@@ -13,6 +13,7 @@ import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.select
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.protect.ProtectedAccessLauncher
+import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.player.ui.ifCloseOverlay
@@ -283,7 +284,7 @@ constructor(
             null
         }
         val runes = if (rune != null) {
-            essence * getBonusMultiplier(portal.runeObj, player.statBase("stat.runecrafting")).toInt()
+            essence * getBonusMultiplier(portal.runeObj, player.stat("stat.runecrafting")).toInt()
         } else {
             0
         }

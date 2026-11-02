@@ -112,8 +112,8 @@ class GotrImbuingTest {
     }
 
     @Test
-    fun GameTestState.`crossing the water multiple threshold increases runes but not stones or experience`() = runPortalTest { portal ->
-        player.setBaseLevel(RUNECRAFTING, 38)
+    fun GameTestState.`boosting across the water multiple threshold increases runes but not stones or experience`() = runPortalTest { portal ->
+        player.setBaseLevel(RUNECRAFTING, 37)
         player.setCurrentLevel(RUNECRAFTING, 38)
         player.inv[0] = InvObj(ESSENCE, 1)
         val xp = player.statMap.getFineXP(RUNECRAFTING)
