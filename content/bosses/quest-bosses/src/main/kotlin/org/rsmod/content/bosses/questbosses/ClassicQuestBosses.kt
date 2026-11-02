@@ -169,7 +169,6 @@ class Chronozon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         onIncomingHit(markEarth, withObj = listOf("obj.53_earth_blast"))
         onIncomingHit(markFire, withObj = listOf("obj.59_fire_blast"))
         incoming {
-            rule(hitSecondaryObj(*BLAST_SPELLS)) {}
             rule(
                 Condition.Not(
                     Condition.Custom { npc, _ -> npc.vars[BLAST_VARN] and 15 == 15 }
@@ -181,8 +180,6 @@ class Chronozon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 
     private companion object {
         const val BLAST_VARN = "varn.generic_state_2"
-        val BLAST_SPELLS =
-            arrayOf("obj.41_wind_blast", "obj.47_water_blast", "obj.53_earth_blast", "obj.59_fire_blast")
     }
 }
 

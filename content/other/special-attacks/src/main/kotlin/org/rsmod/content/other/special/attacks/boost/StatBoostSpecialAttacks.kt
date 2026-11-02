@@ -3,6 +3,7 @@ package org.rsmod.content.other.special.attacks.boost
 import jakarta.inject.Inject
 import org.rsmod.api.config.constants
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.stat.stat
 import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.specials.SpecialAttackManager
 import org.rsmod.api.specials.SpecialAttackMap
@@ -35,6 +36,33 @@ class StatBoostSpecialAttacks @Inject constructor(private val worldRepo: WorldRe
         registerInstant("obj.trailblazer_pickaxe_empty", ::rockKnockerInfernalPickaxeOr)
         registerInstant("obj.3a_pickaxe", ::rockKnockerThirdAgePickaxe)
         registerInstant("obj.crystal_pickaxe", ::rockKnockerCrystalPickaxe)
+
+        registerInstant("obj.dragon_battleaxe", ::rampage)
+        registerInstant("obj.excalibur", ::sanctuary)
+    }
+
+    private fun rampage(access: ProtectedAccess): Boolean = access.rampageSpec()
+
+    private fun ProtectedAccess.rampageSpec(): Boolean {
+        var drained = 0
+        for (stat in listOf("attack", "defence", "ranged", "magic")) {
+            val drain = (player.stat("stat.$stat") * 10) / 100
+            statSub("stat.$stat", drain, 0)
+            drained += drain
+        }
+        statBoost("stat.strength", constant = 10 + drained / 4, percent = 0)
+        anim("seq.rampage")
+        soundArea(worldRepo, coords, "synth.rampage", radius = 1)
+        return true
+    }
+
+    private fun sanctuary(access: ProtectedAccess): Boolean = access.sanctuarySpec()
+
+    private fun ProtectedAccess.sanctuarySpec(): Boolean {
+        statBoost("stat.defence", constant = 8, percent = 0)
+        anim("seq.sanctuary")
+        soundArea(worldRepo, coords, "synth.rampage", radius = 1)
+        return true
     }
 
     private fun lumberUpRed(access: ProtectedAccess): Boolean {

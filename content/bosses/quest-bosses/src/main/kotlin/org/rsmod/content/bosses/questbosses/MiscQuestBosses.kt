@@ -187,10 +187,10 @@ class Sigmund @Inject constructor(private val deps: BossDeps) : PluginScript() {
 
     val spec: BossSpec =
         boss(
-            "npc.dttd_sigmund", "npc.dttd_sigmund_melee", "npc.dttd_sigmund_ranged",
-            "npc.dttd_sigmund_magic", "npc.dttd_sigmund_mill", "npc.slice_sigmund",
+            "npc.dttd_sigmund_mill", "npc.dttd_sigmund_melee", "npc.dttd_sigmund_ranged",
+            "npc.dttd_sigmund_magic", "npc.slice_sigmund_village",
             "npc.slice_sigmund_melee", "npc.slice_sigmund_ranged", "npc.slice_sigmund_magic",
-            "npc.slice_sigmund_showdown",
+            "npc.slice_sigmund_showdown", "npc.slice_sigmund_noprayer",
         ) {
             stats(attackRate = 4)
             val melee = ability("melee") {
