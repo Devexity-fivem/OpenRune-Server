@@ -318,6 +318,9 @@ Default to no comments; the code and its names should carry the meaning.
 Modules applying `integration-test-suite` run cache-backed game tests with the
 `:integration` task (not `:integrationTest`), for example
 `gradlew :content:minigames:guardians-of-the-rift:integration`.
+Integration suites that directly import generated table/enum accessors need an explicit
+`"integrationImplementation"(projects.api.generated)` dependency; the main module's
+implementation dependencies are not automatically exposed to their compile classpath.
 
 Write tests for two kinds of code, and verify everything else in a live client:
 

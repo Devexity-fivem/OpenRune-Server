@@ -1,22 +1,31 @@
 package org.rsmod.content.skills.runecrafting.action
 
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
 import dev.openrune.types.ItemServerType
 import kotlin.math.floor
 import org.rsmod.api.enums.NamedEnums
+import org.rsmod.api.invtx.add
+import org.rsmod.api.invtx.delete
+import org.rsmod.api.invtx.invTransaction
+import org.rsmod.api.invtx.select
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.baseRunecraftingLvl
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.table.ComboruneRecipeRow
 import org.rsmod.api.table.runecrafting.RunecraftingRunesRow
 import org.rsmod.content.quest.manager.QuestRequirements
+import org.rsmod.content.skills.runecrafting.bloodEssenceCharges
 import org.rsmod.content.skills.runecrafting.essencepouch.EssencePouch
 import org.rsmod.content.skills.runecrafting.items.BindingNecklace.consumeChargeAfterCombo
 import org.rsmod.content.skills.runecrafting.items.BindingNecklace.isWearing
 import org.rsmod.content.skills.runecrafting.items.BloodEssence
-import org.rsmod.content.skills.runecrafting.items.BloodEssence.applyBloodRuneBonus
+import org.rsmod.content.skills.runecrafting.items.BloodEssence.commitBloodRuneBonus
+import org.rsmod.content.skills.runecrafting.items.BloodEssence.rollBloodRuneBonus
 import org.rsmod.content.skills.runecrafting.items.RaimentsOfTheEye.applyBonus
 import org.rsmod.content.skills.runecrafting.magic.MagicImbue.isActive
 import org.rsmod.content.skills.runecrafting.magicImbueActive
+import org.rsmod.game.inv.InvObj
 
 object RunecraftAction {
     private const val RUNECRAFT_WAIT_CYCLE = 3
@@ -79,10 +88,6 @@ object RunecraftAction {
         daeyaltEssCount: Int,
         ouraniaAltar: Boolean,
     ) {
-        if (invDel(inv, DAEYALT_ESSENCE, daeyaltEssCount).failure) {
-            return
-        }
-
         val level = player.baseRunecraftingLvl
         val baseMultiplier = getBonusMultiplier(rune.output.internalName, level).toInt()
         val baseProduced = daeyaltEssCount * baseMultiplier
@@ -97,7 +102,7 @@ object RunecraftAction {
 
         finishEssenceCraft(
             rune,
-            daeyaltEssCount,
+            listOf(InvObj(DAEYALT_ESSENCE, daeyaltEssCount)),
             daeyaltEssCount * rune.xp / 10.0 * xpMultiplier,
             xpMods,
             ouraniaAltar,
@@ -130,17 +135,11 @@ object RunecraftAction {
             return
         }
 
-        if (pureEssCount > 0 && invDel(inv, PURE_ESSENCE, pureEssCount).failure) {
-            return
-        }
-        if (guardianEssCount > 0 && invDel(inv, GUARDIAN_ESSENCE, guardianEssCount).failure) {
-            return
-        }
-        if (darkEssCount > 0 && invDel(inv, DARK_ESSENCE, darkEssCount).failure) {
-            return
-        }
-        if (runeEssCount > 0 && invDel(inv, RUNE_ESSENCE, runeEssCount).failure) {
-            return
+        val inputs = buildList {
+            if (pureEssCount > 0) add(InvObj(PURE_ESSENCE, pureEssCount))
+            if (guardianEssCount > 0) add(InvObj(GUARDIAN_ESSENCE, guardianEssCount))
+            if (darkEssCount > 0) add(InvObj(DARK_ESSENCE, darkEssCount))
+            if (runeEssCount > 0) add(InvObj(RUNE_ESSENCE, runeEssCount))
         }
 
         val level = player.baseRunecraftingLvl
@@ -160,7 +159,7 @@ object RunecraftAction {
 
         finishEssenceCraft(
             rune,
-            totalEssence,
+            inputs,
             totalXp * xpMultiplier,
             xpMods,
             ouraniaAltar,
@@ -170,30 +169,35 @@ object RunecraftAction {
 
     private suspend fun ProtectedAccess.finishEssenceCraft(
         rune: RunecraftingRunesRow,
-        essenceConsumed: Int,
+        inputs: List<InvObj>,
         xp: Double,
         xpMods: XpModifiers,
         ouraniaAltar: Boolean,
-        producedRunes: Int? = null,
+        producedRunes: Int,
     ) {
-        val level = player.baseRunecraftingLvl
-        val baseMultiplier = getBonusMultiplier(rune.output.internalName, level).toInt()
-        var totalRunes = producedRunes ?: applyBonus(essenceConsumed * baseMultiplier)
-
-        if (invDel(inv, rune.extract.internalName, 1).completed() > 0) {
-            totalRunes += runecraftingExtract[rune.extract.internalName] ?: 0
+        val essenceConsumed = inputs.sumOf { it.count }
+        val extract = rune.extract
+        val consumeExtract = inv.contains(extract.internalName)
+        val extractRunes = if (consumeExtract) runecraftingExtract[extract.internalName] ?: 0 else 0
+        val bloodRunes = if (!ouraniaAltar && rune.output.internalName == BloodEssence.BLOOD_RUNE) {
+            rollBloodRuneBonus(essenceConsumed)
+        } else {
+            0
         }
-
-        if (
-            !ouraniaAltar &&
-            rune.output.internalName == BloodEssence.BLOOD_RUNE
-        ) {
-            applyBloodRuneBonus(essenceConsumed)?.let { bonus ->
-                totalRunes += bonus
+        val crafted = player.invTransaction(inv) {
+            val inventory = select(inv)
+            for (input in inputs) delete(inventory, input.id, input.count)
+            if (consumeExtract) delete(inventory, extract.id, 1)
+            if (bloodRunes > 0 && bloodRunes == player.bloodEssenceCharges) {
+                delete(inventory, BloodEssence.ACTIVE.asRSCM(RSCMType.OBJ), 1)
             }
+            add(inventory, rune.output.id, producedRunes + extractRunes + bloodRunes)
         }
-
-        invAdd(inv, rune.output.internalName, totalRunes)
+        if (crafted.failure) {
+            mes("You don't have enough inventory space to bind these runes.")
+            return
+        }
+        commitBloodRuneBonus(bloodRunes)
         advanceRunecraftingXp(xp, xpMods)
     }
 

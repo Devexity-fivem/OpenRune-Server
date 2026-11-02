@@ -1,9 +1,11 @@
 plugins {
     id("base-conventions")
-
+    id("game-cache-test-conventions")
+    id("integration-test-suite")
 }
 
 dependencies {
+    "integrationImplementation"(projects.api.generated)
     implementation(projects.api.combat.combatManager)
     implementation(projects.api.invStorage)
     implementation(projects.api.invtx)

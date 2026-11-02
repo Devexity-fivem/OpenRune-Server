@@ -1,6 +1,5 @@
 package org.rsmod.content.skills.runecrafting.items
 
-import org.rsmod.api.invtx.invDel
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.content.skills.runecrafting.bloodEssenceCharges
 import org.rsmod.game.entity.Player
@@ -15,14 +14,14 @@ object BloodEssence {
 
     fun hasActive(player: Player): Boolean = player.inv.contains(ACTIVE)
 
-    fun ProtectedAccess.applyBloodRuneBonus(essenceConsumed: Int): Int? {
+    fun ProtectedAccess.rollBloodRuneBonus(essenceConsumed: Int): Int {
         if (!inv.contains(ACTIVE)) {
-            return null
+            return 0
         }
 
         val charges = player.bloodEssenceCharges
         if (charges <= 0) {
-            return null
+            return 0
         }
 
         var extraRunes = 0
@@ -32,15 +31,15 @@ object BloodEssence {
             }
         }
 
-        val granted = extraRunes.coerceAtMost(charges)
+        return extraRunes.coerceAtMost(charges)
+    }
+
+    fun ProtectedAccess.commitBloodRuneBonus(granted: Int) {
         if (granted <= 0) {
-            return null
+            return
         }
-
-        player.bloodEssenceCharges = charges - granted
-
+        player.bloodEssenceCharges -= granted
         if (player.bloodEssenceCharges <= 0) {
-            invDel(inv, ACTIVE, 1)
             mes("Your blood essence has been destroyed after crafting 1,000 runes.")
         } else {
             mes(
@@ -48,7 +47,5 @@ object BloodEssence {
                     "$granted extra rune${if (granted != 1) "s" else ""}.",
             )
         }
-
-        return granted
     }
 }
