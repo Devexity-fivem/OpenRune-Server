@@ -20,9 +20,21 @@ class ComboEvents @Inject constructor(
 
             val altarLoc = altar.altarObject.internalName
             val registeredTalismans = hashSetOf<String>()
+            val registeredInputs = hashSetOf<String>()
 
             altar.combo.forEach { combo ->
                 val talisman = combo.talisman?.internalName ?: return@forEach
+                val input = combo.input?.internalName
+                if (input != null && registeredInputs.add(input)) {
+                    onOpLocU(altarLoc, input) {
+                        val selectedCombo =
+                            altar.combo.firstOrNull { it.input?.internalName == input }
+                        if (selectedCombo != null) {
+                            craftCombination(selectedCombo, xpMods)
+                        }
+                    }
+                }
+
                 if (!registeredTalismans.add(talisman)) {
                     return@forEach
                 }

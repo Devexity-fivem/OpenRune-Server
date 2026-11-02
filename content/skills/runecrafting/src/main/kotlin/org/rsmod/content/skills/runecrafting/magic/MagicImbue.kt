@@ -8,7 +8,7 @@ object MagicImbue {
     const val DURATION_CYCLES = 20
     const val EXPIRE_QUEUE = "queue.runecraft_magic_imbue_expire"
 
-    fun Player.isActive(): Boolean = magicImbueActive == 1
+    fun Player.isActive(): Boolean = magicImbueActive != 0
 
     fun ProtectedAccess.activate() {
         player.magicImbueActive = 1
