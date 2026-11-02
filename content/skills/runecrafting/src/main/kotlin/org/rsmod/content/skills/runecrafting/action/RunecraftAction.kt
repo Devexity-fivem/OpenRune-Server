@@ -25,7 +25,6 @@ import org.rsmod.content.skills.runecrafting.items.BloodEssence.commitBloodRuneB
 import org.rsmod.content.skills.runecrafting.items.BloodEssence.rollBloodRuneBonus
 import org.rsmod.content.skills.runecrafting.items.RaimentsOfTheEye.applyBonus
 import org.rsmod.content.skills.runecrafting.magic.MagicImbue.isActive
-import org.rsmod.content.skills.runecrafting.magicImbueActive
 import org.rsmod.game.inv.InvObj
 
 object RunecraftAction {
@@ -423,44 +422,36 @@ object RunecraftAction {
         }
 
         preCraft()
-
-        val craftCount =
-            minOf(countPureLikeEssence(), inv.count(input.internalName))
+        if (!canCraftCombo(output, input, talisman, combo.statReq.first().t1)) {
+            return
+        }
+        val craftCount = minOf(countPureLikeEssence(), inv.count(input.internalName))
         if (craftCount <= 0) {
             return
         }
 
-        val usingMagicImbue = player.magicImbueActive > 0
-        if (!usingMagicImbue && invDel(inv, talisman.internalName, 1).failure) {
-            return
-        }
-        if (removePureLikeEssence(craftCount).not()) {
-            return
-        }
-        val removedRunes = invDel(inv, input.internalName, craftCount)
-        if (removedRunes.failure) {
-            return
-        }
-
+        val usingMagicImbue = player.isActive()
         val wearingBinding = player.isWearing()
-        val removedCount = removedRunes.completed()
-        var finalCount =
-            if (wearingBinding) {
-                removedCount
-            } else {
-                (1..removedCount).count { random.of(100) < 50 }
-            }
-
-        if (invDel(inv, "obj.scar_extract_twisted", 1).completed() > 0) {
-            finalCount += getExtractBonus("obj.scar_extract_twisted")
+        val successes = if (wearingBinding) craftCount else (1..craftCount).count { random.of(100) < 50 }
+        val extractCount = minOf(successes, inv.count("obj.scar_extract_twisted"))
+        val finalCount = applyBonus(successes) + extractCount * getExtractBonus("obj.scar_extract_twisted")
+        val pureCount = minOf(craftCount, inv.count(PURE_ESSENCE))
+        val guardianCount = craftCount - pureCount
+        val crafted = player.invTransaction(inv) {
+            val inventory = select(inv)
+            if (!usingMagicImbue) delete(inventory, talisman.id, 1)
+            if (pureCount > 0) delete(inventory, PURE_ESSENCE.asRSCM(RSCMType.OBJ), pureCount)
+            if (guardianCount > 0) delete(inventory, GUARDIAN_ESSENCE.asRSCM(RSCMType.OBJ), guardianCount)
+            delete(inventory, input.id, craftCount)
+            if (extractCount > 0) delete(inventory, "obj.scar_extract_twisted".asRSCM(RSCMType.OBJ), extractCount)
+            if (finalCount > 0) add(inventory, output.id, finalCount)
         }
-
-        invAdd(inv, output.internalName, finalCount)
-        advanceRunecraftingXp(finalCount * (xp.toDouble() / 10.0), xpMods)
-
-        if (wearingBinding) {
-            consumeChargeAfterCombo()
+        if (crafted.failure) {
+            mes("You don't have enough inventory space to bind these runes.")
+            return
         }
+        if (successes > 0) advanceRunecraftingXp(successes * (xp.toDouble() / 10.0), xpMods)
+        if (wearingBinding) consumeChargeAfterCombo()
     }
 
     fun ProtectedAccess.advanceRunecraftingXp(baseXp: Double, xpMods: XpModifiers) {
@@ -501,7 +492,7 @@ object RunecraftAction {
         requiredLevel: Int?,
     ): Boolean {
         val levelReq = requiredLevel ?: return false
-        val level = player.baseRunecraftingLvl
+        val level = player.runecraftingLvl
         val outputName = output.name
         val inputName = input.name
         val talismanName = talisman.name

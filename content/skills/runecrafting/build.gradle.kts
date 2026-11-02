@@ -6,6 +6,7 @@ plugins {
 
 dependencies {
     "integrationImplementation"(projects.api.generated)
+    "integrationImplementation"(projects.api.stats.xpmod)
     implementation(projects.api.combat.combatManager)
     implementation(projects.api.invStorage)
     implementation(projects.api.invtx)
