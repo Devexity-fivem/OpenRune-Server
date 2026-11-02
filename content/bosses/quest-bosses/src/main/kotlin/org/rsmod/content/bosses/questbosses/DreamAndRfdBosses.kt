@@ -26,7 +26,7 @@ class Inadequacy @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.demon_attack")
-            hit { damage(0..20).roll(); type(Melee) }
+            hit { damage(0..18).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -35,10 +35,10 @@ class Inadequacy @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // Dream Mentor — The Everlasting: melee up to ~15.
 class Everlasting @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.dream_everlasting") {
-        stats(attackRate = 4)
+        stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.tentacle_monster_attack")
-            hit { damage(0..15).roll(); type(Melee) }
+            hit { damage(0..24).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -47,10 +47,10 @@ class Everlasting @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // Dream Mentor — The Untouchable: melee up to ~17.
 class Untouchable @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.dream_untouchable") {
-        stats(attackRate = 4)
+        stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.tentacle_monster_attack")
-            hit { damage(0..17).roll(); type(Melee) }
+            hit { damage(0..26).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -59,10 +59,10 @@ class Untouchable @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // Dream Mentor — The Illusive: melee up to ~13.
 class Illusive @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.dream_illusive") {
-        stats(attackRate = 4)
+        stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.tentacle_monster_attack")
-            hit { damage(0..13).roll(); type(Melee) }
+            hit { damage(0..8).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -108,7 +108,7 @@ class Flambeed @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.giant_attack")
-            hit { damage(0..18).roll(); type(Melee) }
+            hit { damage(0..25).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -133,7 +133,7 @@ class Dessourt @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.vamp_claw")
-            hit { damage(0..18).roll(); type(Melee) }
+            hit { damage(0..19).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -151,7 +151,7 @@ class GelatinnothMother @Inject constructor(deps: BossDeps) : BossPluginScript(d
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.tentacle_monster_attack")
-                hit { damage(0..18).roll(); type(Melee) }
+                hit { damage(0..9).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
         }

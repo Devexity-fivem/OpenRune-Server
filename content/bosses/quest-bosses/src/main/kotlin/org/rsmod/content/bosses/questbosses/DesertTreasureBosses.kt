@@ -5,7 +5,6 @@ import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
-import org.rsmod.api.bosses.spec.Effect
 
 // Desert Treasure — Damis: two encounter forms, melee up to ~18 with
 // prayer-draining shadow attacks on the tougher form.
@@ -26,7 +25,7 @@ class Fareed @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.human_sword_slash")
-            hit { damage(0..18).roll(); type(Melee) }
+            hit { damage(0..37).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -38,7 +37,7 @@ class Kamil @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.human_sword_slash")
-            hit { damage(0..16).roll(); type(Melee) }
+            hit { damage(0..23).roll(); type(Melee) }
             freeze(8, chance = 1, outOf = 6)
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
@@ -52,7 +51,7 @@ class Dessous @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.vamp_claw")
-                hit { damage(0..16).roll(); type(Melee) }
+                hit { damage(0..19).roll(); type(Melee) }
             }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
         }

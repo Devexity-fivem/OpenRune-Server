@@ -13,7 +13,7 @@ class Gadderanks @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.human_unarmedpunch")
-            hit { damage(0..5).roll(); type(Melee) }
+            hit { damage(0..3).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -127,7 +127,7 @@ class Abomination @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.demon_attack")
-            hit { damage(0..14).roll(); type(Melee) }
+            hit { damage(0..23).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -180,7 +180,7 @@ class SlugPrince @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.human_unarmedpunch")
-            hit { damage(0..9).roll(); type(Melee) }
+            hit { damage(0..6).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -202,10 +202,10 @@ class Maledict @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // The Great Brain Robbery — Barrelchest: melee anchor-smash up to ~15.
 class Barrelchest @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.brain_barrel_chest") {
-        stats(attackRate = 4)
+        stats(attackRate = 5)
         val melee = ability("melee") {
             anim("seq.giant_attack")
-            hit { damage(0..15).roll(); type(Melee) }
+            hit { damage(0..35).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
@@ -217,9 +217,21 @@ class TreusDayth @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.ghost_attack")
-            hit { damage(0..10).roll(); type(Melee) }
+            hit { damage(0..8).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val ranged = ability("ranged") {
+            anim("seq.ghost_attack")
+            projectile(
+                spotanim = "spotanim.myarm_rock_roc_travel",
+                hit = Effect.Hit(damage = Roll(0..15), type = Ranged),
+            )
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(ranged, weight = 3)
+                +random(melee, weight = 2, requires = WithinMeleeRange)
+            }
+        }
     }
 }
 

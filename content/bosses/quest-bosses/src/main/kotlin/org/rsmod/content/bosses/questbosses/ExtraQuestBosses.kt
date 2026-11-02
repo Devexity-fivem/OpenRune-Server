@@ -138,7 +138,7 @@ class GrandTreeBlackDemon @Inject constructor(deps: BossDeps) : BossPluginScript
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.demon_attack")
-                hit { damage(0..30).roll(); type(Melee) }
+                hit { damage(0..16).roll(); type(Melee) }
             }
             val magic = ability("magic") {
                 projectile(spotanim = "spotanim.firebolt_travel", hit = Effect.Hit(damage = Roll(0..25), type = Magic))

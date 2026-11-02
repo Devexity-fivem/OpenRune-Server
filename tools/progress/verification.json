@@ -1028,6 +1028,482 @@
      "Not observed in game."
     ]
    }
+  },
+  "Fareed": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DesertTreasureBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Fareed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 18->37 per Wiki infobox (40 without Ice gloves is a conditional variant, not modelled)."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Kamil": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DesertTreasureBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Kamil"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee max corrected 16->23 per Wiki infobox (his 5x2 magic multi-hit not modelled)."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Dessous": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DesertTreasureBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Dessous"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee max corrected 16->19 per Wiki infobox (5 magic / 5 ranged styles not modelled)."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Barrelchest": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/MyrequeAndSlugBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Barrelchest"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 15->35 and attack speed 4->5 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Giant Roc": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/TrollAndFremennikBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Giant_Roc"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee max corrected 16->14, attack speed 4->6, and the missing 0..20 ranged attack added per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Treus Dayth": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/MyrequeAndSlugBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Treus_Dayth"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee max corrected 10->8 and his primary 0..15 ranged attack added per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "The Everlasting": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DreamAndRfdBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/The_Everlasting"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 15->24 and attack speed 4->6 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "The Untouchable": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DreamAndRfdBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/The_Untouchable"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 17->26 and attack speed 4->6 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "The Illusive": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DreamAndRfdBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/The_Illusive"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 13->8 and attack speed 4->6 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Sigmund": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/MiscQuestBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Sigmund"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee max corrected 11->6 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Slug Prince": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/MyrequeAndSlugBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Slug_Prince"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 9->6 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Gadderanks": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/MyrequeAndSlugBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Gadderanks"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 5->3 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "The Draugen": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/TrollAndFremennikBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/The_Draugen"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 8->7 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Flambeed": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DreamAndRfdBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Flambeed"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 18->25 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Dessourt": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DreamAndRfdBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Dessourt"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Max hit corrected 18->19 per Wiki infobox."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "Gelatinnoth Mother": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DreamAndRfdBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/Gelatinnoth_Mother"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee max corrected 18->9 per Wiki infobox (20x2 dual-projectile not modelled)."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
+  },
+  "The Inadequacy": {
+   "status": "IN PROGRESS",
+   "implementationPaths": [
+    "content/bosses/quest-bosses/src/main/kotlin/org/rsmod/content/bosses/questbosses/DreamAndRfdBosses.kt"
+   ],
+   "wikiReferences": [
+    "https://oldschool.runescape.wiki/w/The_Inadequacy"
+   ],
+   "mechanics": {
+    "state": "partial",
+    "evidence": [
+     "Melee max corrected 20->18 per Wiki infobox (20+ ranged not modelled)."
+    ],
+    "reason": "Value/style corrections from the cross-boss Wiki audit; fight remains a stub."
+   },
+   "automated": {
+    "state": "passed",
+    "evidence": [
+     "Module compiles, tests green, spotless clean."
+    ]
+   },
+   "mcp": {
+    "state": "unverified",
+    "evidence": [
+     "Not observed in game."
+    ]
+   }
   }
  }
 }

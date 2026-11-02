@@ -46,12 +46,24 @@ class Arrg @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 // My Arm's Big Adventure — Giant Roc: melee up to ~16.
 class GiantRoc @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.myarm_giant_roc") {
-        stats(attackRate = 4)
+        stats(attackRate = 6)
         val melee = ability("melee") {
             anim("seq.bird_attack")
-            hit { damage(0..16).roll(); type(Melee) }
+            hit { damage(0..14).roll(); type(Melee) }
         }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
+        val ranged = ability("ranged") {
+            anim("seq.bird_attack")
+            projectile(
+                spotanim = "spotanim.myarm_rock_roc_travel",
+                hit = Effect.Hit(damage = Roll(0..20), type = Ranged),
+            )
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 2, requires = WithinMeleeRange)
+                +random(ranged, weight = 1)
+            }
+        }
     }
 }
 
@@ -162,7 +174,7 @@ class Draugen @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.ghost_attack")
-            hit { damage(0..8).roll(); type(Melee) }
+            hit { damage(0..7).roll(); type(Melee) }
         }
         phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }

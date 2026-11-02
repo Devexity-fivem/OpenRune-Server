@@ -105,7 +105,7 @@ class DagannothMother @Inject constructor(deps: BossDeps) : BossPluginScript(dep
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.horror_dagannoth_attack")
-                hit { damage(0..19).roll(); type(Melee) }
+                hit { damage(0..9).roll(); type(Melee) }
             }
             val ranged = ability("ranged") {
                 anim("seq.horror_dagannoth_attack")
@@ -156,7 +156,7 @@ class Sigmund @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.human_sword_slash")
-                hit { damage(0..11).roll(); type(Melee) }
+                hit { damage(0..6).roll(); type(Melee) }
             }
             val ranged = ability("ranged") {
                 anim("seq.human_bow")
