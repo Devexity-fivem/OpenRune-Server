@@ -15,6 +15,7 @@ internal class RooftopObstacle(
     val dir: Int = 0,
     val apRange: Int = 0,
     val custom: Boolean = false,
+    val requiredLevel: Int = 0,
 )
 
 internal class RooftopCourseSpec(
@@ -30,8 +31,9 @@ internal suspend fun ProtectedAccess.attemptRooftop(
     obstacle: RooftopObstacle,
     marks: MarkOfGrace,
 ) {
-    if (player.agilityLvl < course.requiredLevel) {
-        mes("You need an Agility level of ${course.requiredLevel} to attempt this.")
+    val requiredLevel = if (obstacle.requiredLevel > 0) obstacle.requiredLevel else course.requiredLevel
+    if (player.agilityLvl < requiredLevel) {
+        mes("You need an Agility level of $requiredLevel to attempt this.")
         return
     }
     if (obstacle.walk) {
