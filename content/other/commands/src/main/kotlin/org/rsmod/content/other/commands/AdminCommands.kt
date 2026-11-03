@@ -107,6 +107,9 @@ constructor(
         onCommand("master", "Max out all stats", ::master)
         onCommand("spec", "Restore special attack energy to 100%", ::spec)
         onCommand("reset", "Reset all stats", ::reset)
+        onCommand("setlevel", "Set one stat level (ex: ::setlevel agility 35)", ::setLevel) {
+            invalidArgs = "Use as ::setlevel statName level (ex: ::setlevel agility 35)"
+        }
         onCommand("mypos", "Get current coordinates", ::mypos)
         onCommand("tele", "Teleport to coordgrid", ::tele) {
             invalidArgs = "Usage: ::tele mx mz [level](e.g. ::tele 3200 3200 0)"
@@ -411,6 +414,19 @@ constructor(
         }
 
     private fun reset(cheat: Cheat) = with(cheat) { player.setStatLevels(level = 1) }
+
+    private fun setLevel(cheat: Cheat) =
+        with(cheat) {
+            val statName = args[0]
+            val level = args[1].toInt()
+            val statId = "stat.${statName.lowercase()}"
+            val stat =
+                ServerCacheManager.getStats(statId.asRSCM(RSCMType.STAT))
+                    ?: return@with player.mes("That stat does not exist: $statId")
+            val targetLevel = max(stat.minLevel, level)
+            player.setStatLevel(statId, targetLevel)
+            player.mes("Set ${statName.lowercase()} to $targetLevel.")
+        }
 
     private fun mypos(cheat: Cheat) =
         with(cheat) {
@@ -836,6 +852,19 @@ constructor(
             }
             player.mes("Varbit '${args[0]}' (id=$typeId) = ${player.vars[type]}")
         }
+
+    @OptIn(InternalApi::class)
+    private fun Player.setStatLevel(statInternal: String, targetLevel: Int) {
+        val xp = PlayerSkillXPTable.getXPFromLevel(targetLevel)
+        val baseLevel = statMap.getBaseLevel(statInternal)
+        if (baseLevel > targetLevel) {
+            statRevert(statInternal, targetLevel, xp)
+            return
+        }
+        val xpDelta = xp - statMap.getXP(statInternal)
+        statMap.setCurrentLevel(statInternal, targetLevel.toByte())
+        statAdvance(statInternal, xpDelta.toDouble(), rate = 1.0, source = XpSource.Manual)
+    }
 
     @OptIn(InternalApi::class)
     private fun Player.setStatLevels(level: Int) {

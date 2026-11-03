@@ -79,6 +79,7 @@ class GnomeAgilityCourse @Inject constructor(
         anim("seq.human_climbing")
         delay(CLIMB_TICKS)
         telejump(CoordGrid(coords.x, NET_UP_LANDING_Z, 1))
+        resetAnim()
         statAdvance(AGILITY, NET_XP)
         completeObstacle(OBSTACLE_NET_UP)
     }
@@ -93,6 +94,7 @@ class GnomeAgilityCourse @Inject constructor(
         anim("seq.human_climbing")
         delay(CLIMB_TICKS)
         telejump(BRANCH_TOP)
+        resetAnim()
         statAdvance(AGILITY, BRANCH_XP)
         completeObstacle(OBSTACLE_BRANCH_UP)
         spam("... to the platform above.")
@@ -125,6 +127,7 @@ class GnomeAgilityCourse @Inject constructor(
         anim("seq.human_climbing_down")
         delay(CLIMB_TICKS)
         telejump(BRANCH_GROUND)
+        resetAnim()
         statAdvance(AGILITY, BRANCH_XP)
         completeObstacle(OBSTACLE_BRANCH_DOWN)
         spam("You land on the ground.")
@@ -143,6 +146,7 @@ class GnomeAgilityCourse @Inject constructor(
         anim("seq.human_climbing")
         delay(CLIMB_TICKS)
         telejump(CoordGrid(coords.x, landingZ, 0))
+        resetAnim()
         statAdvance(AGILITY, NET_XP)
         completeObstacle(OBSTACLE_NET_OVER)
     }
