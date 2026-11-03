@@ -13,6 +13,8 @@ internal class RooftopObstacle(
     val seq: String = ROOFTOP_JUMP,
     val walk: Boolean = false,
     val dir: Int = 0,
+    val apRange: Int = 0,
+    val custom: Boolean = false,
 )
 
 internal class RooftopCourseSpec(
