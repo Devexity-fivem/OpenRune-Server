@@ -148,7 +148,7 @@ treating main as "finished".
   falcon glove; teleporting out of the pen removed the glove from both the
   equipment panel and inventory.
 - Accounts cleaned up (2026-10-26): all ad-hoc test accounts deleted from
-  main.accounts; kept Devexity + devin ai (login: devin ai / devinai).
+  main.accounts; kept Devexity + devin ai (login: devin ai / devin).
   devin ai had stale xp_rate_in_hundreds=150 in character_progress — reset
   to 100. Use `devin ai` for all future live verification.
 - Fletching (content/skills/fletching) — VERIFIED live: full make-x surface
