@@ -263,7 +263,9 @@ constructor(
         teleport(EXIT)
         anim(SEQ_DRINK)
         if (tears > 0) {
-            statAdvance(lowestSkill(), tears * XP_PER_TEAR.toDouble())
+            val skill = lowestSkill()
+            statAdvance(skill, tears * xpPerTear(skill))
+            mes(SKILL_MESSAGES[skill] ?: "")
             if (tears > vars[VB_MAX_TEARS]) {
                 vars[VB_MAX_TEARS] = tears
             }
@@ -272,6 +274,9 @@ constructor(
         persistPlayed()
         mes("Juna takes the bowl from you as you drink the collected tears.")
     }
+
+    private fun ProtectedAccess.xpPerTear(stat: String): Double =
+        (10.0 + player.statMap.getXP(stat) / 27 / 10.0).coerceAtMost(60.0)
 
     private fun ProtectedAccess.persistPlayed() {
         vars[VP_LAST_DAY] = runeday()
@@ -381,7 +386,6 @@ constructor(
         private const val STREAM_COUNT = 6
         private const val STREAM_TICKS = 16
         private const val STAGGER_TICKS = 2
-        private const val XP_PER_TEAR = 60
         private const val XP_REQUIRED = 100_000
         private const val COOLDOWN_DAYS = 7
         private const val PLANE = 2
@@ -395,12 +399,38 @@ constructor(
         private const val ROOM_Z1 = 9521
 
         private val SKILLS = listOf(
-            "stat.attack", "stat.hitpoints", "stat.mining", "stat.strength",
-            "stat.agility", "stat.smithing", "stat.defence", "stat.herblore",
-            "stat.fishing", "stat.ranged", "stat.thieving", "stat.cooking",
-            "stat.prayer", "stat.crafting", "stat.firemaking", "stat.magic",
-            "stat.fletching", "stat.woodcutting", "stat.runecrafting", "stat.slayer",
+            "stat.attack", "stat.strength", "stat.ranged", "stat.magic",
+            "stat.defence", "stat.hitpoints", "stat.prayer", "stat.agility",
+            "stat.herblore", "stat.thieving", "stat.crafting", "stat.runecrafting",
+            "stat.mining", "stat.smithing", "stat.fishing", "stat.cooking",
+            "stat.firemaking", "stat.woodcutting", "stat.fletching", "stat.slayer",
             "stat.farming", "stat.construction", "stat.hunter",
+        )
+
+        private val SKILL_MESSAGES = mapOf(
+            "stat.attack" to "You feel a brief surge of aggression!",
+            "stat.strength" to "Your muscles bulge!",
+            "stat.defence" to "You feel very defensive!",
+            "stat.ranged" to "Your aim improves.",
+            "stat.prayer" to "You suddenly feel very close to the gods.",
+            "stat.magic" to "You feel magical power coursing through your body.",
+            "stat.hitpoints" to "You feel more healthy.",
+            "stat.agility" to "You feel very nimble.",
+            "stat.herblore" to "You gain a deep understanding of all kinds of strange plants.",
+            "stat.thieving" to "You feel your respect for others' property slipping away.",
+            "stat.crafting" to "Your fingers feel nimble and suited to delicate work.",
+            "stat.fletching" to "You gain a deep understanding of wooden sticks.",
+            "stat.mining" to "You gain a deep understanding of the stones of the earth.",
+            "stat.smithing" to "You gain a deep understanding of metal.",
+            "stat.fishing" to "You gain a deep understanding of the creatures of the sea.",
+            "stat.cooking" to "You have a brief urge to cook some food.",
+            "stat.firemaking" to "You have a brief urge to set light to something!",
+            "stat.woodcutting" to "You gain a deep understanding of the trees in the forest.",
+            "stat.runecrafting" to "You gain a deep understanding of runes.",
+            "stat.slayer" to "You gain a deep understanding of many strange creatures.",
+            "stat.farming" to "You gain a deep understanding of the cycles of nature.",
+            "stat.construction" to "You feel homesick.",
+            "stat.hunter" to "You briefly experience the joy of the hunt.",
         )
     }
 }
