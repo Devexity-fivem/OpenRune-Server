@@ -6,6 +6,7 @@ import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
+import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.DamageExpr
 import org.rsmod.api.bosses.spec.Effect
 import org.rsmod.api.bosses.spec.Selector
@@ -208,6 +209,7 @@ class Dawn @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
 }
 
 // Grotesque Guardians — Dusk: melee up to ~30 across all combat phases.
+// Completely immune to magic and ranged damage.
 class Dusk @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
         boss(
@@ -220,11 +222,19 @@ class Dusk @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 anim("seq.gargoyle_marble_attack")
                 hit { damage(0..30).roll(); type(Melee) }
             }
+            triggers {
+                on(Condition.Always) runs
+                    sequence(
+                        setVarn("varn.immune_magic", 1),
+                        setVarn("varn.immune_ranged", 1),
+                    )
+            }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
         }
 }
 
-// The Nightmare / Phosani's Nightmare — all combat phases, melee + magic up to ~25.
+// The Nightmare / Phosani's Nightmare — all combat phases: melee up to 60,
+// ranged + magic up to 39 (challenge-mode maxes).
 class NightmareBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
         boss(
@@ -236,29 +246,38 @@ class NightmareBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps)
             stats(attackRate = 6)
             val melee = ability("melee") {
                 anim("seq.nightmare_attack_melee")
-                hit { damage(0..73).roll(); type(Melee) }
+                hit { damage(0..60).roll(); type(Melee) }
+            }
+            val ranged = ability("ranged") {
+                anim("seq.nightmare_attack_ranged")
+                projectile(
+                    spotanim = "spotanim.nightmare_ranged_travel",
+                    hit = Effect.Hit(damage = Roll(0..39), type = Ranged),
+                )
             }
             val magic = ability("magic") {
                 anim("seq.nightmare_attack_magic")
                 projectile(
                     spotanim = "spotanim.nightmare_magic_travel",
-                    hit = Effect.Hit(damage = Roll(0..80), type = Magic),
+                    hit = Effect.Hit(damage = Roll(0..39), type = Magic),
                 )
             }
             phase("combat") {
                 weightedSelectorRandom {
                     +random(melee, weight = 3, requires = WithinMeleeRange)
-                    +random(magic, weight = 2)
+                    +random(ranged, weight = 1)
+                    +random(magic, weight = 1)
                 }
             }
         }
 }
 
-// Yama: melee + ranged/demonic magic up to ~30.
+// Yama: auto-attacks up to 46 — melee in range, alternating fire (magic) and
+// shadow (ranged) projectiles at distance.
 class YamaBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
         boss("npc.yama", "npc.yama_throne_occupied", "npc.voice_of_yama_3op") {
-            stats(attackRate = 4)
+            stats(attackRate = 8)
             val melee = ability("melee") {
                 anim("seq.npc_yama01_melee01")
                 hit { damage(0..46).roll(); type(Melee) }
@@ -267,10 +286,15 @@ class YamaBoss @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 anim("seq.npc_yama01_magic01")
                 projectile(spotanim = "spotanim.vfx_npc_yama_magic_fire_spotanim01", hit = Effect.Hit(damage = Roll(0..46), type = Magic))
             }
+            val ranged = ability("ranged") {
+                anim("seq.npc_yama01_magic02")
+                projectile(spotanim = "spotanim.vfx_npc_yama_magic_shadow_spotanim01", hit = Effect.Hit(damage = Roll(0..46), type = Ranged))
+            }
             phase("combat") {
                 weightedSelectorRandom {
                     +random(melee, weight = 3, requires = WithinMeleeRange)
-                    +random(magic, weight = 2)
+                    +random(magic, weight = 1)
+                    +random(ranged, weight = 1)
                 }
             }
         }
@@ -288,27 +312,27 @@ class SolHeredit @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 }
 
-// The Hueycoatl — head and enraged forms: melee up to ~25.
+// The Hueycoatl — head and enraged forms: all styles up to 14.
 class Hueycoatl @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec =
         boss("npc.huey_head", "npc.huey_head_enraged", "npc.huey_head_invulnerable") {
             stats(attackRate = 4)
             val melee = ability("melee") {
                 anim("seq.huey_attack_melee")
-                hit { damage(0..25).roll(); type(Melee) }
+                hit { damage(0..14).roll(); type(Melee) }
             }
             val ranged = ability("ranged") {
                 anim("seq.huey_attack_range")
                 projectile(
                     spotanim = "spotanim.vfx_huey_attack_ranged_projanim_01",
-                    hit = Effect.Hit(damage = Roll(0..22), type = Ranged),
+                    hit = Effect.Hit(damage = Roll(0..14), type = Ranged),
                 )
             }
             val magic = ability("magic") {
                 anim("seq.huey_attack_magic")
                 projectile(
                     spotanim = "spotanim.vfx_huey_attack_magic_projanim_01",
-                    hit = Effect.Hit(damage = Roll(0..22), type = Magic),
+                    hit = Effect.Hit(damage = Roll(0..14), type = Magic),
                 )
             }
             phase("combat") {
@@ -321,10 +345,10 @@ class Hueycoatl @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
 }
 
-// Shellbane gryphon: melee up to ~22.
+// Shellbane gryphon: melee + ranged up to 22.
 class ShellbaneGryphon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.gryphon_boss") {
-        stats(attackRate = 4)
+        stats(attackRate = 5)
         val melee = ability("melee") {
             anim("seq.gryphon_boss_melee_attack01")
             hit { damage(0..22).roll(); type(Melee) }
@@ -345,20 +369,41 @@ class ShellbaneGryphon @Inject constructor(deps: BossDeps) : BossPluginScript(de
     }
 }
 
-// Barbarian Assault — Penance Queen: melee + magic up to ~24.
+// Barbarian Assault — Penance Queen: melee up to 5, ranged up to 13.
 class PenanceQueen @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.barbassault_pen_queen_new") {
         stats(attackRate = 4)
         val melee = ability("melee") {
             anim("seq.barbassault_penance_queen_attack")
-            hit { damage(0..24).roll(); type(Melee) }
+            hit { damage(0..5).roll(); type(Melee) }
         }
-        val magic = ability("magic") {
+        val ranged = ability("ranged") {
             anim("seq.barbassault_penance_queen_rangeattack")
             projectile(
                 spotanim = "spotanim.barbassault_penance_ranger_attack_travel",
-                hit = Effect.Hit(damage = Roll(0..18), type = Magic),
+                hit = Effect.Hit(damage = Roll(0..13), type = Ranged),
             )
+        }
+        phase("combat") {
+            weightedSelectorRandom {
+                +random(melee, weight = 3, requires = WithinMeleeRange)
+                +random(ranged, weight = 2)
+            }
+        }
+    }
+}
+
+// The Mimic: crush + magic up to 23, chest-spawn adds scripted by the trail.
+class TheMimic @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+    override val spec: BossSpec = boss("npc.trail_mimic_combat") {
+        stats(attackRate = 3)
+        val melee = ability("melee") {
+            anim("seq.mimic_melee")
+            hit { damage(0..23).roll(); type(Melee) }
+        }
+        val magic = ability("magic") {
+            anim("seq.mimic_charge_ranged")
+            hit { damage(0..23).roll(); type(Magic) }
         }
         phase("combat") {
             weightedSelectorRandom {
@@ -366,18 +411,6 @@ class PenanceQueen @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
                 +random(magic, weight = 2)
             }
         }
-    }
-}
-
-// The Mimic: melee up to ~20 plus chest-spawn adds scripted by the trail.
-class TheMimic @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
-    override val spec: BossSpec = boss("npc.trail_mimic_combat") {
-        stats(attackRate = 4)
-        val melee = ability("melee") {
-            anim("seq.mimic_melee")
-            hit { damage(0..20).roll(); type(Melee) }
-        }
-        phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
     }
 }
 
