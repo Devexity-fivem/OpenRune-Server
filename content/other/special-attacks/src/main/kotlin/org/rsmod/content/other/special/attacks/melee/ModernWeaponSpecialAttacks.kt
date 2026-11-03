@@ -137,7 +137,7 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.impale(target: PathingEntity, attack: CombatAttack.Melee) {
-            anim("seq.claw_attack")
+            anim("seq.claw_attack_burst")
             val damage =
                 manager.rollMeleeDamage(
                     source = this,
@@ -414,7 +414,7 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.scatterAshes(target: PathingEntity, attack: CombatAttack.Melee) {
-            anim("seq.human_castwave_staff")
+            anim("seq.barrows_quarterstaff_attack")
             hit(target, attack)
             for (npc in npcList) {
                 if (npc === target || !npc.isValidTarget()) continue

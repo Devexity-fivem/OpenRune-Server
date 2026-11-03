@@ -256,6 +256,7 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
             attack: CombatAttack.Ranged,
         ): Boolean {
             val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
+            anim("seq.human_bow")
             val delays = fireProjectile(target, righthandType, ammoType, fromStored)
             if (delays == null) {
                 manager.stopCombat(this)
@@ -320,7 +321,20 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
             attack: CombatAttack.Ranged,
         ): Boolean {
             val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
-            val delays = fireProjectile(target, righthandType, ammoType, fromStored)
+            anim("seq.armadyl_special_attack")
+            spotanim(
+                "spotanim.acb_specialattack",
+                height = 96,
+                slot = constants.spotanim_slot_combat,
+            )
+            val delays =
+                fireProjectile(
+                    target,
+                    righthandType,
+                    ammoType,
+                    fromStored,
+                    launchOverride = "spotanim.acb_crossbowbolt_travel",
+                )
             if (delays == null) {
                 manager.stopCombat(this)
                 mes("You are unable to fire your ammunition.")
@@ -345,7 +359,15 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
             attack: CombatAttack.Ranged,
         ): Boolean {
             val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
-            val delays = fireProjectile(target, righthandType, ammoType, fromStored)
+            anim("seq.human_crossbow")
+            val delays =
+                fireProjectile(
+                    target,
+                    righthandType,
+                    ammoType,
+                    fromStored,
+                    launchOverride = "spotanim.dragon_crossbowbolt_travel",
+                )
             if (delays == null) {
                 manager.stopCombat(this)
                 mes("You are unable to fire your ammunition.")
@@ -478,7 +500,12 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
                 mes("You need to have at least 4 arrows in your quiver for this special attack.")
                 return false
             }
-            anim("seq.fx_webweaver01_launch")
+            anim("seq.human_special01_webweaver")
+            spotanim(
+                "spotanim.fx_webweaver01_launch_spotanim",
+                height = 96,
+                slot = constants.spotanim_slot_combat,
+            )
 
             var total = 0
             var hitDamage = 0

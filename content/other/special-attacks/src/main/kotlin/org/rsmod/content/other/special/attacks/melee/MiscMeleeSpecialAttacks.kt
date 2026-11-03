@@ -29,9 +29,13 @@ class MiscMeleeSpecialAttacks @Inject constructor(private val npcList: NpcList) 
             registerMelee(obj, blessedSs)
         }
 
-        val disrupt = Disrupt(manager)
-        for (obj in listOf("obj.voidwaker", "obj.br_voidwaker", "obj.deadman_voidwaker", "obj.deadman_blighted_voidwaker")) {
+        val disrupt = Disrupt(manager, "seq.human_special_voidwaker")
+        for (obj in listOf("obj.voidwaker", "obj.br_voidwaker")) {
             registerMelee(obj, disrupt)
+        }
+        val deadmanDisrupt = Disrupt(manager, "seq.human_special02_voidwaker")
+        for (obj in listOf("obj.deadman_voidwaker", "obj.deadman_blighted_voidwaker")) {
+            registerMelee(obj, deadmanDisrupt)
         }
         val eviscerate = Eviscerate(manager)
         for (obj in listOf("obj.osmumtens_fang", "obj.osmumtens_fang_ornament", "obj.br_osmumtens_fang")) {
@@ -99,7 +103,10 @@ class MiscMeleeSpecialAttacks @Inject constructor(private val npcList: NpcList) 
         }
     }
 
-    private class Disrupt(private val manager: SpecialAttackManager) : MeleeSpecialAttack {
+    private class Disrupt(
+        private val manager: SpecialAttackManager,
+        private val specAnim: String,
+    ) : MeleeSpecialAttack {
         override suspend fun ProtectedAccess.attack(
             target: Npc,
             attack: CombatAttack.Melee,
@@ -117,7 +124,7 @@ class MiscMeleeSpecialAttacks @Inject constructor(private val npcList: NpcList) 
         }
 
         private fun ProtectedAccess.disrupt(target: PathingEntity, attack: CombatAttack.Melee) {
-            anim("seq.vfx_voidwaker02_special")
+            anim(specAnim)
             spotanim(
                 "spotanim.fx_voidwaker02_special",
                 slot = constants.spotanim_slot_combat,
@@ -409,7 +416,7 @@ class MiscMeleeSpecialAttacks @Inject constructor(private val npcList: NpcList) 
         }
 
         private fun ProtectedAccess.bearDown(target: PathingEntity, attack: CombatAttack.Melee) {
-            anim("seq.fx_ursine01_special")
+            anim("seq.human_special_ursine")
             spotanim(
                 "spotanim.fx_ursine01_special",
                 slot = constants.spotanim_slot_combat,
