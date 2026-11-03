@@ -16,6 +16,9 @@ import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.script.onOpHeld2
 import org.rsmod.api.script.onOpHeld3
 import org.rsmod.api.script.onOpHeld4
+import org.rsmod.api.script.onOpWorn2
+import org.rsmod.api.script.onOpWorn3
+import org.rsmod.api.script.onOpWorn4
 import org.rsmod.game.inv.InvObj
 import org.rsmod.game.inv.Inventory
 import org.rsmod.game.type.getInvObj
@@ -30,15 +33,26 @@ class DizanaQuiverScript @Inject constructor(private val objRepo: ObjRepository)
         for (symbol in SLOT_QUIVERS) {
             if (ServerCacheManager.getItem(symbol.asRSCM(RSCMType.OBJ)) == null) continue
             onOpHeld2(symbol) { open() }
+            onOpWorn2(symbol) { open() }
         }
         for (symbol in UNCHARGED_QUIVERS) {
             if (ServerCacheManager.getItem(symbol.asRSCM(RSCMType.OBJ)) == null) continue
-            onOpHeld3(symbol) { empty() }
+            onOpHeld3(symbol) { uncharge(it.inventory, it.slot) }
+            onOpWorn3(symbol) { unchargeWorn(it.slot, it.obj) }
+            onOpHeld4(symbol) { empty() }
+            onOpWorn4(symbol) { empty() }
         }
         for (symbol in UNCHARGEABLE_QUIVERS) {
             if (ServerCacheManager.getItem(symbol.asRSCM(RSCMType.OBJ)) == null) continue
             onOpHeld3(symbol) { uncharge(it.inventory, it.slot) }
+            onOpWorn3(symbol) { unchargeWorn(it.slot, it.obj) }
             onOpHeld4(symbol) { empty() }
+            onOpWorn4(symbol) { empty() }
+        }
+        for (symbol in INFINITE_QUIVERS) {
+            if (ServerCacheManager.getItem(symbol.asRSCM(RSCMType.OBJ)) == null) continue
+            onOpHeld3(symbol) { empty() }
+            onOpWorn3(symbol) { empty() }
         }
     }
 
@@ -108,6 +122,18 @@ class DizanaQuiverScript @Inject constructor(private val objRepo: ObjRepository)
         RangedAmmunition.syncQuiverClient(player)
     }
 
+    private fun ProtectedAccess.unchargeWorn(slot: Int, quiverObj: InvObj) {
+        val type = getInvObj(quiverObj)
+        val uncharged = type.paramOrNull(params.uncharged_variant)
+        if (uncharged == null) {
+            player.mes("You can't uncharge this.")
+            return
+        }
+        player.worn[slot] = InvObj(uncharged, 1, quiverObj.vars)
+        player.mes("You uncharge your quiver.")
+        RangedAmmunition.syncQuiverClient(player)
+    }
+
     private fun ProtectedAccess.reportContents(type: ItemServerType?, count: Int) {
         if (type == null || count <= 0) {
             player.mes("The quiver is empty.")
@@ -123,9 +149,9 @@ class DizanaQuiverScript @Inject constructor(private val objRepo: ObjRepository)
         val UNCHARGEABLE_QUIVERS =
             listOf("obj.dizanas_quiver_charged", "obj.dizanas_quiver_charged_trouver")
 
-        val SLOT_QUIVERS =
-            UNCHARGED_QUIVERS +
-                UNCHARGEABLE_QUIVERS +
-                listOf("obj.dizanas_quiver_infinite", "obj.dizanas_quiver_infinite_trouver")
+        val INFINITE_QUIVERS =
+            listOf("obj.dizanas_quiver_infinite", "obj.dizanas_quiver_infinite_trouver")
+
+        val SLOT_QUIVERS = UNCHARGED_QUIVERS + UNCHARGEABLE_QUIVERS + INFINITE_QUIVERS
     }
 }
