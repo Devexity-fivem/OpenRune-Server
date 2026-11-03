@@ -1,17 +1,24 @@
 package org.rsmod.content.bosses.kalphitequeen
 
+import dev.openrune.ServerCacheManager
+import dev.openrune.rscm.RSCM.asRSCM
+import dev.openrune.rscm.RSCMType
 import dev.openrune.types.NpcMode
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossCombat
 import org.rsmod.api.bosses.runtime.BossDeps
+import org.rsmod.api.bosses.runtime.spawnOwnedNpc
 import org.rsmod.api.bosses.spec.BossSpec
 import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.Effect
+import org.rsmod.api.bosses.spec.StatDrainEntry
 import org.rsmod.api.npc.apPlayer2
+import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.api.npc.hit.NpcHitpointsFloorHook
 import org.rsmod.api.npc.interact.AiPlayerInteractions
+import org.rsmod.api.script.onNpcHit
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.game.hit.Hit
@@ -47,18 +54,36 @@ constructor(private val deps: BossDeps, private val interactions: AiPlayerIntera
         val lightning =
             ability("lightning") {
                 anim("seq.kalphite_queen_lightning")
-                projectile(
-                    spotanim = "spotanim.kalphite_queen_glow",
-                    hit = Effect.Hit(damage = Roll(0..31), type = Magic),
+                include(
+                    onEach(
+                        AllInRadius(LIGHTNING_CHAIN_RADIUS, of = CurrentTarget),
+                        Effect.Projectile(
+                            spotanim = "spotanim.kalphite_queen_glow",
+                            hit = Effect.Hit(damage = Roll(0..31), type = Magic),
+                        ),
+                    )
                 )
             }
 
         val spines =
             ability("spines") {
                 anim("seq.kalphite_queen_ranged_attack")
-                projectile(
-                    spotanim = "spotanim.kalphite_queen_spine",
-                    hit = Effect.Hit(damage = Roll(0..31), type = Ranged),
+                include(
+                    onEach(
+                        AllInRadius(SPINE_SPLASH_RADIUS, of = CurrentTarget),
+                        Effect.Projectile(
+                            spotanim = "spotanim.kalphite_queen_spine",
+                            hit =
+                                Effect.Hit(
+                                    damage = Roll(0..31),
+                                    type = Ranged,
+                                    onHit =
+                                        Effect.StatDrain(
+                                            listOf(StatDrainEntry("stat.prayer", amount = 1))
+                                        ),
+                                ),
+                        ),
+                    )
                 )
             }
 
@@ -66,6 +91,7 @@ constructor(private val deps: BossDeps, private val interactions: AiPlayerIntera
             ability("emerge") {
                 anim("seq.kalphite_queen_glow")
                 spotanim("spotanim.kalphite_queen_glow")
+                delay(EMERGE_DELAY_TICKS)
                 healSelf(EMERGE_HEAL)
                 transitionTo(PHASE_FLYING)
             }
@@ -91,8 +117,8 @@ constructor(private val deps: BossDeps, private val interactions: AiPlayerIntera
             every(WORKER_AGGRO_PERIOD, chance(WORKER_AGGRO_ONE_IN, external("kq.aggro_workers")))
             weightedSelectorRandom {
                 +random(claws, weight = 2, requires = WithinMeleeRange)
-                +random(lightning, weight = 2)
-                +random(spines, weight = 2)
+                +random(lightning, weight = 1)
+                +random(spines, weight = 1)
             }
         }
 
@@ -100,8 +126,8 @@ constructor(private val deps: BossDeps, private val interactions: AiPlayerIntera
             every(WORKER_AGGRO_PERIOD, chance(WORKER_AGGRO_ONE_IN, external("kq.aggro_workers")))
             weightedSelectorRandom {
                 +random(claws, weight = 2, requires = WithinMeleeRange)
-                +random(lightning, weight = 2)
-                +random(spines, weight = 2)
+                +random(lightning, weight = 1)
+                +random(spines, weight = 1)
             }
         }
     }
@@ -111,6 +137,28 @@ constructor(private val deps: BossDeps, private val interactions: AiPlayerIntera
         deps.extensionRegistry.register("kq.aggro_workers") { _, npc, target, _ ->
             aggroWorkers(npc, target)
         }
+
+        for (symbol in QUEEN_SYMBOLS) {
+            val type =
+                ServerCacheManager.getNpc(symbol.asRSCM(RSCMType.NPC))
+                    ?: error("Missing npc type for $symbol")
+            onNpcHit(type) { maybeHatchWorker(npc, this) }
+        }
+    }
+
+    // Bulging cocoons can hatch an aggressive worker each time the queen is hit near one.
+    private fun maybeHatchWorker(queen: Npc, event: NpcHitEvents.Impact) {
+        if (!event.hit.isFromPlayer || !queen.isSlotAssigned) return
+        if (deps.random.of(COCOON_HATCH_ONE_IN) != 0) return
+        val attacker = event.hit.resolvePlayerSource(deps.playerList) ?: return
+        val zone = ZoneKey.from(queen.coords)
+        val egg =
+            deps.locRepo.findAll(zone).firstOrNull {
+                it.id in cocoonLocIds &&
+                    it.coords.chebyshevDistance(queen.coords) <= COCOON_PROXIMITY
+            } ?: return
+        val worker = deps.spawnOwnedNpc(queen, WORKER, egg.coords, WORKER_TICKS) ?: return
+        worker.apPlayer2(attacker, interactions)
     }
 
     private fun aggroWorkers(npc: Npc, target: Player) {
@@ -121,16 +169,28 @@ constructor(private val deps: BossDeps, private val interactions: AiPlayerIntera
         }
     }
 
+    private val cocoonLocIds by lazy {
+        COCOON_LOCS.map { it.asRSCM(RSCMType.LOC) }.toSet()
+    }
+
     private companion object {
         const val PHASE_GROUNDED = "grounded"
         const val PHASE_FLYING = "flying"
         const val ATTACK_RATE = 4
         const val EMERGE_HEAL = 255
+        const val EMERGE_DELAY_TICKS = 20
         const val PROTECTED_SCALE = 10
+        const val SPINE_SPLASH_RADIUS = 1
+        const val LIGHTNING_CHAIN_RADIUS = 4
         const val WORKER_AGGRO_PERIOD = 6
         const val WORKER_AGGRO_ONE_IN = 3
         const val WORKER_ZONE_RADIUS = 1
         const val WORKER = "npc.kalphite_worker"
+        const val WORKER_TICKS = 300
+        const val COCOON_PROXIMITY = 4
+        const val COCOON_HATCH_ONE_IN = 20
+        val COCOON_LOCS = listOf("loc.kalphite_egg", "loc.kalphite_chamber_egg_update")
+        val QUEEN_SYMBOLS = listOf("npc.kalphite_queen", "npc.kalphite_flyingqueen")
     }
 }
 
