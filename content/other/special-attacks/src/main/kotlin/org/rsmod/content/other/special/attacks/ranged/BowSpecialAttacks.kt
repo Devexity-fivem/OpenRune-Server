@@ -322,18 +322,14 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
         ): Boolean {
             val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
             anim("seq.armadyl_special_attack")
-            spotanim(
-                "spotanim.acb_specialattack",
-                height = 96,
-                slot = constants.spotanim_slot_combat,
-            )
             val delays =
                 fireProjectile(
                     target,
                     righthandType,
                     ammoType,
                     fromStored,
-                    launchOverride = "spotanim.acb_crossbowbolt_travel",
+                    travelOverride = "spotanim.acb_crossbowbolt_travel",
+                    launchOverride = "spotanim.acb_specialattack",
                 )
             if (delays == null) {
                 manager.stopCombat(this)
@@ -366,7 +362,7 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
                     righthandType,
                     ammoType,
                     fromStored,
-                    launchOverride = "spotanim.dragon_crossbowbolt_travel",
+                    travelOverride = "spotanim.dragon_crossbowbolt_travel",
                 )
             if (delays == null) {
                 manager.stopCombat(this)
@@ -509,10 +505,26 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
 
             var total = 0
             var hitDamage = 0
+            var impactApplied = false
             repeat(4) {
-                val delays = fireProjectile(target, righthandType, ammoType, fromStored)
+                val delays =
+                    fireProjectile(
+                        target,
+                        righthandType,
+                        ammoType,
+                        fromStored,
+                        launchOverride = "spotanim.fx_webweaver01_launch_spotanim",
+                    )
                 if (delays != null) {
                     val (serverDelay, clientDelay) = delays
+                    if (!impactApplied) {
+                        impactApplied = true
+                        target.spotanim(
+                            "spotanim.fx_webweaver01_impact_spotanim",
+                            height = 96,
+                            delay = clientDelay,
+                        )
+                    }
                     val damage = rollDamage(target, attack, accuracyMultiplier = 1.0)
                     manager.giveCombatXp(this, target, attack, damage)
                     manager.queueRangedHit(this, target, ammoType, damage, clientDelay, serverDelay)
