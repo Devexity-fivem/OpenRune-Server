@@ -1933,6 +1933,103 @@
         "Chompies spawn on the toad tile rather than within the wiki's 21x21 area.",
         "Western Provinces diary double-spawn chances and chompy chick pet not implemented."
       ]
+    },
+    "Woodcutting": {
+      "status": "IN PROGRESS",
+      "implementationPaths": [
+        "content/skills/woodcutting/src/main/kotlin/org/rsmod/content/skills/woodcutting/scripts/Woodcutting.kt",
+        "content/skills/woodcutting/src/main/kotlin/org/rsmod/content/skills/woodcutting/configs/WoodcuttingRates.kt",
+        "content/skills/woodcutting/src/integration/kotlin/org/rsmod/content/skills/woodcutting/scripts/WoodcuttingScriptTest.kt"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Woodcutting",
+        "https://oldschool.runescape.wiki/w/Tree"
+      ],
+      "mechanics": {
+        "state": "partial",
+        "evidence": [
+          "Tree data (level requirement, XP, log product, stump, despawn/respawn, deplete chance, per-axe success rates) is read directly from Jagex cache loc params and the woodcutting_axe_success_rates enum - no hand-copied tables.",
+          "Mechanics verified in code/tests: level gate message, axe requirement check (worn axe preferred, carried axe fallback, best-axe selection), 3-tick action cadence, 4-tick anim refresh, despawn via timer/fixed-yield/deplete-chance, stump and respawn handling.",
+          "Integration tests (WoodcuttingScriptTest) assert axe-level and tree-level gates, successful cut flow, timed-despawn trees and spam-click cadence."
+        ]
+      },
+      "automated": {
+        "state": "passed",
+        "evidence": [
+          "WoodcuttingScriptTest: axe requirement, tree requirement, regular cut, timed-despawn, spam-click tests all pass."
+        ]
+      },
+      "mcp": {
+        "state": "verified",
+        "evidence": [
+          "Live chop on a Yew tree (3222,3503) with dragon axe: 'You swing your axe at the tree.' then 'You get some yew logs.' granting exactly 175 Woodcutting XP per log (matches wiki), repeated across three cuts."
+        ]
+      },
+      "discrepancies": [
+        "Only the yew tree was exercised live; other tree types share the same param-driven path but were not individually clicked.",
+        "Axe special effects/charges and crystal-axe behaviour beyond the SotE gate are marked TODO in code."
+      ]
+    },
+    "Mining": {
+      "status": "IN PROGRESS",
+      "implementationPaths": [
+        "content/skills/mining/src/main/kotlin/org/rsmod/content/skills/mining/configs/MiningRocks.kt",
+        "content/skills/mining/src/main/kotlin/org/rsmod/content/skills/mining/configs/MiningParams.kt"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Mining",
+        "https://oldschool.runescape.wiki/w/Rocks"
+      ],
+      "mechanics": {
+        "state": "partial",
+        "evidence": [
+          "Rock data (XP, deplete mechanic 1/2/3, deplete min/max, clue base chance, ore product, rock locs) comes from the mining dbtable in the cache - Jagex's own data, not a hand-maintained table."
+        ]
+      },
+      "automated": {
+        "state": "unverified",
+        "evidence": []
+      },
+      "mcp": {
+        "state": "verified",
+        "evidence": [
+          "Live mine on Iron rocks (3304,3301) at Al Kharid mine with dragon pickaxe: 'You swing your pick at the rock.' then 'You manage to mine some iron.' granting exactly 35 Mining XP (matches wiki)."
+        ]
+      },
+      "discrepancies": [
+        "Only iron rocks exercised live; deplete mechanics, gem rocks and special rocks (dense essence, volcanic mine, etc.) not yet spot-checked."
+      ]
+    },
+    "Fishing": {
+      "status": "IN PROGRESS",
+      "implementationPaths": [
+        "content/skills/fishing/src/main/kotlin/org/rsmod/content/skills/fishing/FishingCatchLogic.kt",
+        "content/skills/fishing/src/main/kotlin/org/rsmod/content/skills/fishing/scripts/Fishing.kt",
+        "content/skills/fishing/pack/src/main/kotlin/org/rsmod/content/skills/fishing/pack/FishingTable.kt"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Fishing",
+        "https://oldschool.runescape.wiki/w/Fishing_spot"
+      ],
+      "mechanics": {
+        "state": "partial",
+        "evidence": [
+          "Fish/spot data (tool required, bait, catch table, XP) lives in the fishing pack dbtable read through generated accessors - cache-driven, not hardcoded."
+        ]
+      },
+      "automated": {
+        "state": "unverified",
+        "evidence": []
+      },
+      "mcp": {
+        "state": "verified",
+        "evidence": [
+          "Live Lure at Rod Fishing spot (3104,3424, Barbarian Village) with fly fishing rod + feathers: caught a salmon granting exactly 70 Fishing XP (matches wiki for salmon; trout alternative is 50 XP on the same spot)."
+        ]
+      },
+      "discrepancies": [
+        "Only the fly-fishing Lure option exercised live; other spot types (net, harpoon, cage, big net, karambwan vessel, minnows) not individually spot-checked."
+      ]
     }
   },
   "records": {
