@@ -8,6 +8,7 @@ import org.rsmod.api.death.NpcDeathKillContext
 import org.rsmod.api.death.NpcDeathKillHook
 import org.rsmod.api.player.output.ChatType
 import org.rsmod.api.player.output.mes
+import org.rsmod.api.player.stat.statAdvance
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.game.entity.Npc
@@ -31,12 +32,21 @@ internal class ChompyKillHook @Inject constructor(private val npcRepo: NpcReposi
         if (unlocked != null) {
             player.mes("You can now claim $unlocked from Rantz!", ChatType.GameMessage)
         }
+        if (kills == BONUS_KILLS) {
+            player.statAdvance("stat.ranged", BONUS_RANGED_XP)
+            player.mes(
+                "You've been awarded ranged experience for your relentless pursuit of chompies!",
+                ChatType.GameMessage,
+            )
+        }
         npcRepo.add(Npc(DEAD_CHOMPY, context.dropCoords), CARCASS_TICKS)
     }
 
     private companion object {
         const val CHOMPY = "npc.chompybird"
         const val CARCASS_TICKS = 200
+        const val BONUS_KILLS = 4000
+        const val BONUS_RANGED_XP = 30_000.0
         val DEAD_CHOMPY =
             checkNotNull(ServerCacheManager.getNpc("npc.chompybird_dead".asRSCM(RSCMType.NPC)))
     }

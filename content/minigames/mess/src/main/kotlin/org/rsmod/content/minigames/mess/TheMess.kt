@@ -249,8 +249,8 @@ constructor(
         )
 
         const val MAX_APPRECIATION = 1000
-        const val SERVE_DROP = 60
-        const val SERVE_RAISE = 30
+        const val SERVE_DROP = 10
+        const val SERVE_RAISE = 5
 
         val AREA_X = 1634..1670
         val AREA_Z = 3613..3636

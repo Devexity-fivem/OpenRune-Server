@@ -114,6 +114,9 @@ constructor(
         delay(1)
         npcRepo.del(carcass, Int.MAX_VALUE)
         statAdvance(HUNTER, PLUCK_XP)
+        invAddOrDrop(objRepo, "obj.bones", 1)
+        invAddOrDrop(objRepo, "obj.raw_chompy", 1)
+        invAddOrDrop(objRepo, "obj.feather", random.of(PLUCK_FEATHERS_MIN, PLUCK_FEATHERS_MAX))
         mes("You start plucking the chompy bird.", ChatType.Spam)
     }
 
@@ -132,7 +135,7 @@ constructor(
     private fun releaseToad(player: Player) {
         val bait = Npc(BLOATED_TOAD_NPC, player.coords)
         npcRepo.add(bait, TOAD_LIFE_TICKS)
-        bait.queue(ATTRACT_QUEUE, ATTRACT_INTERVAL, TOAD_LIFE_TICKS - ATTRACT_INTERVAL)
+        bait.queue(ATTRACT_QUEUE, ATTRACT_INTERVAL, ATTRACT_ROLLS - 1)
     }
 
     private fun ProtectedAccess.releaseAllToads() {
@@ -145,17 +148,17 @@ constructor(
     }
 
     private fun StandardNpcAccess.attractChompy(remaining: Int?) {
-        val ticks = remaining ?: 0
+        val rolls = remaining ?: 0
         if (inMarsh(npc.coords) && random.of(ATTRACT_ODDS) == 0) {
             npcRepo.del(npc, Int.MAX_VALUE)
             npcRepo.add(Npc(CHOMPY_NPC, npc.coords), CHOMPY_LIFE_TICKS)
             return
         }
-        if (ticks <= 0) {
+        if (rolls <= 0) {
             npcRepo.del(npc, Int.MAX_VALUE)
             return
         }
-        npc.queue(ATTRACT_QUEUE, ATTRACT_INTERVAL, ticks - ATTRACT_INTERVAL)
+        npc.queue(ATTRACT_QUEUE, ATTRACT_INTERVAL, rolls - 1)
     }
 
     private fun inMarsh(coords: CoordGrid): Boolean =
@@ -209,6 +212,10 @@ constructor(
     }
 
     private suspend fun Dialogue.claimHats() {
+        if (player.inv.count(OGRE_BOW) == 0 && player.inv.count(COMP_OGRE_BOW) == 0) {
+            chatNpc(angry, "Yous need to bring da ogre bow so Rantz can count da notches!")
+            return
+        }
         val kills = vars[KILLS_VARP]
         val unlocked = HATS.filter { kills >= it.first }
         if (unlocked.isEmpty()) {
@@ -253,9 +260,12 @@ constructor(
 
         const val ATTRACT_QUEUE = "queue.chompy_attract"
         const val SUCK_RANGE = 3
-        const val ATTRACT_INTERVAL = 4
-        const val ATTRACT_ODDS = 3
-        const val TOAD_LIFE_TICKS = 110
+        const val ATTRACT_INTERVAL = 25
+        const val ATTRACT_ODDS = 5
+        const val ATTRACT_ROLLS = 4
+        const val TOAD_LIFE_TICKS = 101
+        const val PLUCK_FEATHERS_MIN = 10
+        const val PLUCK_FEATHERS_MAX = 30
         const val CHOMPY_LIFE_TICKS = 100
         const val TOAD_RESPAWN_TICKS = 30
         const val MAX_TOADS = 3
