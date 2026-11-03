@@ -10,6 +10,7 @@ import kotlin.math.max
 import kotlin.random.Random
 import org.rsmod.api.invtx.add
 import org.rsmod.api.invtx.delete
+import org.rsmod.api.invtx.invDel
 import org.rsmod.api.invtx.invTransaction
 import org.rsmod.api.invtx.select
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -134,9 +135,6 @@ constructor(
         vars[VB_IS_PLAYING] = 0
         vars[VB_ELEMENTAL_EARNED] = 0
         vars[VB_CATALYTIC_EARNED] = 0
-        for (obj in GAME_OBJECTS) {
-            invDel(inv, obj, inv.count(obj), strict = false)
-        }
     }
 
     private fun ProtectedAccess.passBarrier() {
@@ -342,19 +340,27 @@ constructor(
         invDel(inv, OBJ_STONE_ELEMENTAL, elemental)
         invDel(inv, OBJ_STONE_CATALYTIC, catalytic)
         val earned = total * ENERGY_PER_STONE
-        vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + elemental * ENERGY_PER_STONE)
-            .coerceAtMost(ENERGY_CAP_PER_TYPE)
-        vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + catalytic * ENERGY_PER_STONE)
-            .coerceAtMost(ENERGY_CAP_PER_TYPE)
+        earnEnergy(elemental * ENERGY_PER_STONE, catalytic * ENERGY_PER_STONE)
         game.addCharge(this, earned)
         statAdvance("stat.runecrafting", total * 5.0)
         player.runEnergy = (player.runEnergy + total * 100).coerceAtMost(10_000)
-        if (vars[VB_ELEMENTAL_EARNED] >= ENERGY_CAP_PER_TYPE &&
-            vars[VB_CATALYTIC_EARNED] >= ENERGY_CAP_PER_TYPE) {
+        if (vars[VB_ELEMENTAL_EARNED] + vars[VB_CATALYTIC_EARNED] >= ENERGY_CAP_TOTAL) {
             mes("You are fully attuned with runic energy and cannot earn anymore.")
         } else {
             mes("The Great Guardian absorbs your guardian stones.")
         }
+    }
+
+    private fun ProtectedAccess.earnEnergy(elemental: Int, catalytic: Int) {
+        if (elemental <= 0 && catalytic <= 0) return
+        var room =
+            (ENERGY_CAP_TOTAL - vars[VB_ELEMENTAL_EARNED] - vars[VB_CATALYTIC_EARNED])
+                .coerceAtLeast(0)
+        val e = minOf(elemental, room)
+        room -= e
+        val c = minOf(catalytic, room)
+        vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + e).coerceAtMost(ENERGY_CAP_PER_TYPE)
+        vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + c).coerceAtMost(ENERGY_CAP_PER_TYPE)
     }
 
     private fun ProtectedAccess.useCellTile(srcLoc: BoundLocInfo) {
@@ -393,10 +399,7 @@ constructor(
         invDel(inv, cell.obj, 1)
         anim(BUILD_ANIM)
         game.placeBarrier(tile, cell.tier, srcLoc)
-        vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + BUILD_ENERGY)
-            .coerceAtMost(ENERGY_CAP_PER_TYPE)
-        vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + BUILD_ENERGY)
-            .coerceAtMost(ENERGY_CAP_PER_TYPE)
+        earnEnergy(BUILD_ENERGY, BUILD_ENERGY)
         statAdvance("stat.runecrafting", cell.tier.buildXp.toDouble())
         mes("You erect a barrier on the cell tile.")
     }
@@ -410,10 +413,7 @@ constructor(
             invDel(inv, "obj.gotr_cell_tier$cellTier", 1)
             game.strengthen(tile, srcLoc)
             anim(BUILD_ANIM)
-            vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + cell.strengthenEnergy)
-                .coerceAtMost(ENERGY_CAP_PER_TYPE)
-            vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + cell.strengthenEnergy)
-                .coerceAtMost(ENERGY_CAP_PER_TYPE)
+            earnEnergy(cell.strengthenEnergy, cell.strengthenEnergy)
             statAdvance("stat.runecrafting", cell.buildXp.toDouble())
             mes("You strengthen the barrier.")
         } else {
@@ -437,10 +437,7 @@ constructor(
                 vars[VP_RECHARGE_XP] += xp
                 statAdvance("stat.runecrafting", xp.toDouble())
             }
-            vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + energy)
-                .coerceAtMost(ENERGY_CAP_PER_TYPE)
-            vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + energy)
-                .coerceAtMost(ENERGY_CAP_PER_TYPE)
+            earnEnergy(energy, energy)
             mes("You recharge the barrier.")
         }
     }
@@ -458,8 +455,7 @@ constructor(
         invDel(inv, OBJ_FRAGMENT, FRAGS_PER_REPAIR)
         anim(BUILD_ANIM)
         game.repair(tile)
-        vars[VB_ELEMENTAL_EARNED] = (vars[VB_ELEMENTAL_EARNED] + 25).coerceAtMost(ENERGY_CAP_PER_TYPE)
-        vars[VB_CATALYTIC_EARNED] = (vars[VB_CATALYTIC_EARNED] + 25).coerceAtMost(ENERGY_CAP_PER_TYPE)
+        earnEnergy(25, 25)
         mes("You repair the cell tile.")
     }
 
@@ -480,8 +476,7 @@ constructor(
         anim(GUARDIAN_ANIM)
         game.spawnRiftGuardian(player.coords, elemental, cell.tier)
         val energy = cell.tier.guardianEnergy
-        val vb = if (elemental) VB_ELEMENTAL_EARNED else VB_CATALYTIC_EARNED
-        vars[vb] = (vars[vb] + energy).coerceAtMost(ENERGY_CAP_PER_TYPE)
+        if (elemental) earnEnergy(energy, 0) else earnEnergy(0, energy)
         if (game.isBattle()) {
             statAdvance("stat.runecrafting", cell.tier.guardianXp.toDouble())
         }
@@ -871,6 +866,16 @@ constructor(
         fun leave(player: Player) {
             players -= player
             pendingResults.remove(player)
+            wipeItems(player)
+        }
+
+        private fun wipeItems(player: Player) {
+            for (obj in GAME_OBJECTS) {
+                val count = player.inv.count(obj)
+                if (count > 0) {
+                    player.invDel(player.inv, obj, count, strict = false)
+                }
+            }
         }
 
         fun takeResult(player: Player): Boolean? = pendingResults.remove(player)
@@ -1119,6 +1124,7 @@ constructor(
             for (participant in players) {
                 VarPlayerIntMapSetter.set(participant, VP_RECHARGE_XP, 0)
                 VarPlayerIntMapSetter.set(participant, VP_RECHARGE_ENERGY, 0)
+                wipeItems(participant)
             }
             charge = chargeTarget * CHARGE_START_PCT / 100
             prepTicks = 0
@@ -1266,6 +1272,7 @@ constructor(
         private const val ENERGY_PER_STONE = 2
         private const val BUILD_ENERGY = 2
         private const val ENERGY_CAP_PER_TYPE = 1000
+        private const val ENERGY_CAP_TOTAL = 1200
         private const val FRAGS_PER_REPAIR = 12
         private const val MAX_CELLS = 10
         private const val BARRIER_BLOCK_RANGE = 12
