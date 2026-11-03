@@ -670,13 +670,7 @@ constructor(
             }
 
         val vesselIndex: Int
-            get() = when (this) {
-                AAL -> 5
-                AAM -> 6
-                LLA -> 8
-                LLM -> 9
-                else -> index
-            }
+            get() = index
 
         val unfObj get() = "obj.mm_potion_${code}_unfinished"
         val finObj get() = "obj.mm_potion_${code}_finished"
