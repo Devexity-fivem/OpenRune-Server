@@ -50,6 +50,7 @@ import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocInfo
 import org.rsmod.game.loc.LocShape
 import org.rsmod.map.CoordGrid
+import org.rsmod.map.zone.ZoneKey
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -87,7 +88,7 @@ constructor(
         }
 
         for (scenery in ADMIRE_LOCS) {
-            onOpLoc1(scenery) { admire() }
+            onOpLoc1(scenery) { admire(it.loc) }
         }
 
         onOpHeld1(LOOT_OBJ) { rummage(single = true) }
@@ -162,6 +163,8 @@ constructor(
                 "stat.construction",
                 wood.level.toDouble() * xpMods.get(player, "stat.construction"),
             )
+            player.runEnergy = (player.runEnergy + BUILD_ENERGY_RESTORE).coerceAtMost(10_000)
+            UpdateRun.energy(player, player.runEnergy)
             spam("You build a ${wood.name.lowercase()} frame on the totem site.")
             player.timerAt(VISIT_TIMER, worldClock.cycle, VISIT_INTERVAL)
         }
@@ -367,9 +370,15 @@ constructor(
         )
     }
 
-    private fun ProtectedAccess.admire() {
-        player.runEnergy = (player.runEnergy + ENERGY_RESTORE).coerceAtMost(10_000)
-        UpdateRun.energy(player, player.runEnergy)
+    private fun ProtectedAccess.admire(loc: BoundLocInfo) {
+        val entNearby =
+            npcRepo.findAll(ZoneKey.from(loc.coords), zoneRadius = 2).any { npc ->
+                ENT_NPCS.any { npc.isType(it) }
+            }
+        if (entNearby) {
+            player.runEnergy = (player.runEnergy + ADMIRE_ENERGY_RESTORE).coerceAtMost(10_000)
+            UpdateRun.energy(player, player.runEnergy)
+        }
         spam("You admire the beautiful scenery and feel rested.")
     }
 
@@ -378,7 +387,7 @@ constructor(
             player.rollTrio(site)
         }
         for (site in SITES) {
-            if (player.base(site) == 0) continue
+            if (player.base(site) == 0 || !player.allSectionsCarved(site)) continue
             val decay = player.decay(site) - 1
             if (decay <= 0) {
                 collapse(site)
@@ -701,7 +710,8 @@ constructor(
         const val TRAIL_XP_ACTIONS = 4
         const val TRAIL_LIFETIME = 200
         const val TRAIL_CHANCE = 3
-        const val ENERGY_RESTORE = 2_000
+        const val ADMIRE_ENERGY_RESTORE = 2_000
+        const val BUILD_ENERGY_RESTORE = 1_500
         const val SHOP_SELL_PERCENT = 100.0
         const val SHOP_BUY_PERCENT = 80.0
 
@@ -709,6 +719,8 @@ constructor(
         val ISADORA = CoordGrid(1397, 3353, 0)
 
         val SITES = (1..8).toList()
+
+        val ENT_NPCS = SITES.map { "npc.ent_totems_ent_destination_$it" }
 
         val SITE_TILES: Map<Pair<Int, Int>, Int> by lazy {
             buildMap {
