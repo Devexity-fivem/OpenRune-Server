@@ -32,9 +32,9 @@ import org.rsmod.routefinder.flag.CollisionFlag
 
 class InfernoRun(
     var wave: Int = 0,
-    var jadHealersSpawned: Boolean = false,
     var zukHealersSpawned: Boolean = false,
     var completed: Boolean = false,
+    val healedJads: MutableSet<Npc> = mutableSetOf(),
     val npcs: MutableList<Npc> = mutableListOf(),
 )
 
@@ -101,6 +101,10 @@ constructor(
                     listOfNotNull(
                         spawn(sessionId, InfernoWaves.TZKAL_ZUK, player.coords, 0, player)
                     )
+                InfernoWaves.SINGLE_JAD_WAVE ->
+                    InfernoWaves.SINGLE_JAD.mapIndexedNotNull { index, sym ->
+                        spawn(sessionId, sym, player.coords, index, player)
+                    }
                 InfernoWaves.TRIPLE_JAD_WAVE ->
                     InfernoWaves.TRIPLE_JAD.mapIndexedNotNull { index, sym ->
                         spawn(sessionId, sym, player.coords, index, player)
@@ -119,19 +123,15 @@ constructor(
         player.mes("Wave: $wave")
     }
 
-    fun spawnJadHealers(player: Player, sessionId: InstanceId) {
+    fun spawnJadHealers(player: Player, sessionId: InstanceId, jad: Npc, count: Int) {
         val run = active[sessionId] ?: return
-        if (run.jadHealersSpawned) return
-        run.jadHealersSpawned = true
-        val anchor =
-            run.npcs.firstOrNull { it.type.internalName == InfernoWaves.JALTOK_JAD }?.coords
-                ?: player.coords
-        repeat(4) { index ->
-            spawn(sessionId, InfernoWaves.JALTOK_JAD_HEALER, anchor, index, player)?.let {
+        if (!run.healedJads.add(jad)) return
+        repeat(count) { index ->
+            spawn(sessionId, InfernoWaves.JALTOK_JAD_HEALER, jad.coords, index, player)?.let {
                 run.npcs.add(it)
             }
         }
-        player.mes("The JalTok-Jads call for help!")
+        player.mes("The JalTok-Jad calls for help!")
     }
 
     fun spawnZukHealers(player: Player, sessionId: InstanceId) {

@@ -63,13 +63,20 @@ class InfernoScript @Inject constructor(private val runs: InfernoRuns) : PluginS
                     runs.spawnWave(player, session.id, run.wave + 1)
                 }
             }
-            if (run.wave == InfernoWaves.TRIPLE_JAD_WAVE && !run.jadHealersSpawned) {
-                val hurt =
-                    run.npcs.any {
+            if (run.wave == InfernoWaves.SINGLE_JAD_WAVE || run.wave == InfernoWaves.TRIPLE_JAD_WAVE) {
+                val healerCount =
+                    if (run.wave == InfernoWaves.SINGLE_JAD_WAVE) {
+                        InfernoWaves.SINGLE_JAD_HEALERS
+                    } else {
+                        InfernoWaves.TRIPLE_JAD_HEALERS
+                    }
+                run.npcs
+                    .filter {
                         it.type.internalName == InfernoWaves.JALTOK_JAD &&
+                            it !in run.healedJads &&
                             it.hitpoints * 2 <= it.type.hitpoints
                     }
-                if (hurt) runs.spawnJadHealers(player, session.id)
+                    .forEach { runs.spawnJadHealers(player, session.id, it, healerCount) }
             }
             if (run.wave == InfernoWaves.LAST_WAVE && !run.zukHealersSpawned) {
                 val zuk = run.npcs.firstOrNull { it.type.internalName == InfernoWaves.TZKAL_ZUK }
