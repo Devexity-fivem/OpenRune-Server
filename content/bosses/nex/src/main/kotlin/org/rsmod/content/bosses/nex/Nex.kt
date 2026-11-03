@@ -294,7 +294,7 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
                                 (0..AUTO_MAX).roll(),
                                 HitType.Magic,
                                 penetration = MAGIC_PRAYER_THROUGH,
-                                onHit = Effect.Freeze(ICE_FREEZE_TICKS, chance = 1, outOf = 3),
+                                onHit = external(EXT_ICE_FREEZE),
                             ),
                     )
                 }
@@ -561,6 +561,11 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
             summonReavers(ctx.npc, ctx.target)
         }
         deps.extensionRegistry.register(EXT_SIPHON_END) { ctx -> siphonEnd(ctx.npc) }
+        deps.extensionRegistry.register(EXT_ICE_FREEZE) { ctx ->
+            if (ctx.target.vars["varbit.prayer_protectfrommagic"] != 1) {
+                CombatEffects.freeze(ctx.target, ICE_BARRAGE_FREEZE_TICKS)
+            }
+        }
 
         // Reavers heal Nex for their damage dealt; attackers heal half of what
         // they deal to a reaver.
@@ -678,14 +683,14 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
             if (!sacrificed.remove(target) || !target.isValidTarget()) return@add
             if (target.coords.chebyshevDistance(nex.coords) > SACRIFICE_ESCAPE) return@add
             val dmg = deps.random.of(SACRIFICE_MAX + 1)
-            target.queueHit(nex, 1, org.rsmod.game.hit.HitType.Magic, dmg, deps.playerHitModifier)
-            target.statSub("stat.prayer", constant = 0, percent = SACRIFICE_PRAYER_PERCENT)
-            nex.heal(SACRIFICE_HEAL)
+            target.queueHit(nex, 1, org.rsmod.game.hit.HitType.Typeless, dmg, deps.playerHitModifier)
+            target.statSub("stat.prayer", constant = target.stat("stat.prayer") / 3, percent = 0)
+            nex.heal(dmg)
             for (p in roomPlayers(nex)) {
                 if (p !== target && p.coords.chebyshevDistance(target.coords) <= SACRIFICE_SPLASH) {
-                    p.queueHit(nex, 1, org.rsmod.game.hit.HitType.Magic,
+                    p.queueHit(nex, 1, org.rsmod.game.hit.HitType.Typeless,
                         deps.random.of(SACRIFICE_SPLASH_MAX + 1), deps.playerHitModifier)
-                    p.statSub("stat.prayer", constant = 0, percent = SACRIFICE_SPLASH_PRAYER_PERCENT)
+                    p.statSub("stat.prayer", constant = p.stat("stat.prayer") / 3, percent = 0)
                 }
             }
         }
@@ -934,6 +939,7 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
         private const val EXT_ICE_PRISON = "nex.ice_prison"
         private const val EXT_SIPHON_REAVERS = "nex.siphon_reavers"
         private const val EXT_SIPHON_END = "nex.siphon_end"
+        private const val EXT_ICE_FREEZE = "nex.ice_freeze"
 
         private const val SMOKE_PROJ = "spotanim.nex_smoke_attack_proj"
         private const val SMOKE_IMPACT = "spotanim.nex_smoke_attack_impact"
@@ -1041,14 +1047,11 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
         private const val BLOOD_SPECIAL_MIN = 8
         private const val BLOOD_SPECIAL_MAX = 10
         private const val BLOOD_LEECH = 100
-        private const val SACRIFICE_TICKS = 5
+        private const val SACRIFICE_TICKS = 7
         private const val SACRIFICE_ESCAPE = 7
         private const val SACRIFICE_MAX = 80
-        private const val SACRIFICE_HEAL = 500
-        private const val SACRIFICE_PRAYER_PERCENT = 34
         private const val SACRIFICE_SPLASH = 2
         private const val SACRIFICE_SPLASH_MAX = 12
-        private const val SACRIFICE_SPLASH_PRAYER_PERCENT = 12
 
         private const val ICE_SPEC_CONTAIN = 1
         private const val ICE_SPEC_PRISON = 2
@@ -1056,7 +1059,7 @@ class Nex @Inject constructor(deps: BossDeps, private val npcList: NpcList) :
         private const val ICE_SPECIAL_MAX = 10
         private const val CONTAINMENT_RADIUS = 2
         private const val CONTAINMENT_MAX = 60
-        private const val ICE_FREEZE_TICKS = 2
+        private const val ICE_BARRAGE_FREEZE_TICKS = 15
         private const val PRISON_FREEZE_TICKS = 5
         private const val PRISON_BREAK_TICKS = 6
         private const val PRISON_LOC_TICKS = 10

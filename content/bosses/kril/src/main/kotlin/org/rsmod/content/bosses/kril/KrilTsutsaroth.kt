@@ -8,6 +8,7 @@ import org.rsmod.api.bosses.runtime.BossCombat
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.Condition
+import org.rsmod.api.player.stat.stat
 import org.rsmod.api.player.stat.statSub
 import org.rsmod.api.script.onEvent
 import org.rsmod.game.entity.Npc
@@ -25,7 +26,7 @@ class KrilTsutsaroth @Inject constructor(deps: BossDeps) : BossPluginScript(deps
         onEvent<NpcStateEvents.Respawn> { if (npc.id == avatarId) respawnDeadBodyguards(npc) }
 
         deps.extensionRegistry.register("kril.prayer_smash_drain") { _, _, target, _ ->
-            target.statSub("stat.prayer", constant = 0, percent = 50)
+            target.statSub("stat.prayer", constant = target.stat("stat.prayer") / 2, percent = 0)
         }
     }
 

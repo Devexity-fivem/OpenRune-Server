@@ -405,7 +405,7 @@ constructor(
             val max = if (awakened) AXE_MAX_HIT_AWAKENED else AXE_MAX_HIT
             var damage = deps.random.of(max + 1)
             if (player.vars[PROTECT_FROM_MELEE] != 0) damage /= 2
-            player.queueHit(npc, HIT_DELAY, HitType.Melee, damage, deps.playerHitModifier)
+            player.queueHit(npc, HIT_DELAY, HitType.Typeless, damage, deps.playerHitModifier)
             if (bleed) applyAxeBleed(npc, player, awakened)
         }
     }
@@ -553,7 +553,7 @@ constructor(
             if (player.coords !in tiles) continue
             var damage = deps.random.of(max + 1)
             if (player.vars[PROTECT_FROM_MELEE] != 0) damage /= 2
-            player.queueHit(npc, HIT_DELAY, HitType.Melee, damage, deps.playerHitModifier)
+            player.queueHit(npc, HIT_DELAY, HitType.Typeless, damage, deps.playerHitModifier)
         }
     }
 
@@ -658,6 +658,7 @@ constructor(
                     hit {
                         damage(Accuracy(npcMaxHit()))
                         type(Melee)
+                        penetration(25)
                     }
                     include(external(MAYBE_HEAD_GAZE))
                 }

@@ -2,6 +2,7 @@ package org.rsmod.content.bosses.kreearra
 
 import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
+import dev.openrune.util.WeaponCategory
 import jakarta.inject.Inject
 import org.rsmod.api.bosses.dsl.*
 import org.rsmod.api.bosses.runtime.BossCombat
@@ -114,7 +115,10 @@ internal class KreeArraMeleeBlockHook @Inject constructor(private val types: Att
         }
 
         val weapon = getOrNull(player.righthand)
-        if (weapon != null && weapon.isCategoryType("category.halberd")) {
+        if (weapon != null &&
+            (weapon.isCategoryType("category.halberd") ||
+                weapon.weaponCategory == WeaponCategory.Salamander)
+        ) {
             return NpcAttackValidateResult.Pass
         }
 
