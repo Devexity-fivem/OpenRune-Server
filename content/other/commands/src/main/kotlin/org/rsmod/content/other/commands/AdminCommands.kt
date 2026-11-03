@@ -105,6 +105,7 @@ constructor(
 
     override fun ScriptContext.startup() {
         onCommand("master", "Max out all stats", ::master)
+        onCommand("spec", "Restore special attack energy to 100%", ::spec)
         onCommand("reset", "Reset all stats", ::reset)
         onCommand("mypos", "Get current coordinates", ::mypos)
         onCommand("tele", "Teleport to coordgrid", ::tele) {
@@ -400,6 +401,14 @@ constructor(
         }
 
     private fun master(cheat: Cheat) = with(cheat) { player.setStatLevels(level = 99) }
+
+    private fun spec(cheat: Cheat) =
+        with(cheat) {
+            val type = ServerCacheManager.getVarp("varp.sa_energy".asRSCM()) ?: return
+            player.vars.backing[type.id] = 1000
+            player.resyncVar(type)
+            player.mes("Special attack energy restored to 100%.")
+        }
 
     private fun reset(cheat: Cheat) = with(cheat) { player.setStatLevels(level = 1) }
 

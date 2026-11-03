@@ -37,10 +37,13 @@ class DizanaQuiverScript @Inject constructor(private val objRepo: ObjRepository)
         }
         for (symbol in UNCHARGED_QUIVERS) {
             if (ServerCacheManager.getItem(symbol.asRSCM(RSCMType.OBJ)) == null) continue
-            onOpHeld3(symbol) { uncharge(it.inventory, it.slot) }
-            onOpWorn3(symbol) { unchargeWorn(it.slot, it.obj) }
-            onOpHeld4(symbol) { empty() }
-            onOpWorn4(symbol) { empty() }
+            onOpHeld3(symbol) { empty() }
+            onOpWorn3(symbol) { empty() }
+        }
+        for (symbol in INFINITE_QUIVERS) {
+            if (ServerCacheManager.getItem(symbol.asRSCM(RSCMType.OBJ)) == null) continue
+            onOpHeld3(symbol) { empty() }
+            onOpWorn3(symbol) { empty() }
         }
         for (symbol in UNCHARGEABLE_QUIVERS) {
             if (ServerCacheManager.getItem(symbol.asRSCM(RSCMType.OBJ)) == null) continue
@@ -48,11 +51,6 @@ class DizanaQuiverScript @Inject constructor(private val objRepo: ObjRepository)
             onOpWorn3(symbol) { unchargeWorn(it.slot, it.obj) }
             onOpHeld4(symbol) { empty() }
             onOpWorn4(symbol) { empty() }
-        }
-        for (symbol in INFINITE_QUIVERS) {
-            if (ServerCacheManager.getItem(symbol.asRSCM(RSCMType.OBJ)) == null) continue
-            onOpHeld3(symbol) { empty() }
-            onOpWorn3(symbol) { empty() }
         }
     }
 
