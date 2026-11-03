@@ -1695,12 +1695,16 @@
     "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/AlKharidRooftopCourse.kt",
     "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/CourseProgress.kt",
     "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/MarkOfGrace.kt",
-    "content/skills/agility/src/integration/kotlin/org/rsmod/content/skills/agility/GnomeAgilityCourseGameTest.kt"
+    "content/skills/agility/src/integration/kotlin/org/rsmod/content/skills/agility/GnomeAgilityCourseGameTest.kt",
+    "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/VarrockRooftopCourse.kt",
+    "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/CanifisRooftopCourse.kt"
    ],
    "wikiReferences": [
     "https://oldschool.runescape.wiki/w/Gnome_Stronghold_Agility_Course",
     "https://oldschool.runescape.wiki/w/Draynor_Village_Rooftop_Course",
-    "https://oldschool.runescape.wiki/w/Al_Kharid_Rooftop_Course"
+    "https://oldschool.runescape.wiki/w/Al_Kharid_Rooftop_Course",
+    "https://oldschool.runescape.wiki/w/Varrock_Rooftop_Course",
+    "https://oldschool.runescape.wiki/w/Canifis_Rooftop_Course"
    ],
    "mechanics": {
     "state": "partial",
@@ -1708,7 +1712,9 @@
      "Gnome Stronghold XP corrected to the wiki's current table (10/10/6.5/10/6.5/10/7.5 + 50 bonus = 110.5 per lap); the code had pre-rebalance values while the integration tests asserted the correct ones.",
      "Draynor Village Rooftop Course added: 7 obstacles at 5/8/7/7/10/4/79 = 120 XP, no level requirement and no failure per the 8 May 2024 rebalance, loc ids/tiles mapped from the live client.",
      "Al Kharid Rooftop Course added: 8 obstacles at 12/36/48/48/12/6/18/36 = 216 XP, level 20 gate.",
-     "Ordered-lap tracking shared across courses; mark of grace rolled on lap completion."
+     "Ordered-lap tracking shared across courses; mark of grace rolled on lap completion.",
+     "Varrock Rooftop Course added: 9 obstacles at 13.5/23/19/28/10/24.5/4.5/3.5/143.7 = 270 XP, level 30, ruins leg on plane 1.",
+     "Canifis Rooftop Course added: 8 obstacles at 10/8/8/10/8/10/11/175 = 240 XP, level 40 plus Priest in Peril gate, roofs across planes 2 and 3."
     ]
    },
    "visuals": {
@@ -1728,12 +1734,14 @@
     "state": "verified",
     "evidence": [
      "Draynor full lap live via MCP: every obstacle landed on its mapped tile and the lap granted exactly 120 Agility XP (13036711 -> 13036831).",
-     "Al Kharid full lap live via MCP: every obstacle landed on its mapped tile across planes 3/1/2/3/0 and the lap granted exactly 216 Agility XP (13037035 -> 13037251). Tropical tree initially failed with 'I can't reach that!' and was fixed to approach range."
+     "Al Kharid full lap live via MCP: every obstacle landed on its mapped tile across planes 3/1/2/3/0 and the lap granted exactly 216 Agility XP (13037035 -> 13037251). Tropical tree initially failed with 'I can't reach that!' and was fixed to approach range.",
+     "Varrock full lap live via MCP granted exactly 270 Agility XP (13037492 -> 13037762); balance wall fixed from operate to approach range after 'I can't reach that!'.",
+     "Canifis full lap live via MCP granted exactly 240 Agility XP (13037762 -> 13038002) with every landing on its mapped tile."
     ]
    },
    "discrepancies": [
-    "Al Kharid tightrope 1 and zip line never fail (OSRS: 1-5 damage on failure; fail rate unpublished).",
-    "Remaining rooftop courses (Varrock, Canifis, Falador, Seers', Pollnivneach, Rellekka, Ardougne), Wilderness/Barbarian/Ape Atoll/Werewolf courses, Agility Pyramid and Prifddinas are not implemented."
+    "Al Kharid tightrope 1/zip line and Varrock clothes line/wall/gap never fail (OSRS fail rates unpublished).",
+    "Remaining rooftop courses (Falador, Seers', Pollnivneach, Rellekka, Ardougne), Wilderness/Barbarian/Ape Atoll/Werewolf courses, Agility Pyramid and Prifddinas are not implemented."
    ]
   },
   "Thieving": {
