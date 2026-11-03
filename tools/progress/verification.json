@@ -1700,7 +1700,9 @@
     "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/CanifisRooftopCourse.kt",
     "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/FaladorRooftopCourse.kt",
     "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/SeersRooftopCourse.kt",
-    "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/PollnivneachRooftopCourse.kt"
+    "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/PollnivneachRooftopCourse.kt",
+    "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/RellekkaRooftopCourse.kt",
+    "content/skills/agility/src/main/kotlin/org/rsmod/content/skills/agility/RooftopObstacle.kt"
    ],
    "wikiReferences": [
     "https://oldschool.runescape.wiki/w/Gnome_Stronghold_Agility_Course",
@@ -1710,7 +1712,8 @@
     "https://oldschool.runescape.wiki/w/Canifis_Rooftop_Course",
     "https://oldschool.runescape.wiki/w/Falador_Rooftop_Course",
     "https://oldschool.runescape.wiki/w/Seers%27_Village_Rooftop_Course",
-    "https://oldschool.runescape.wiki/w/Pollnivneach_Rooftop_Course"
+    "https://oldschool.runescape.wiki/w/Pollnivneach_Rooftop_Course",
+    "https://oldschool.runescape.wiki/w/Rellekka_Rooftop_Course"
    ],
    "mechanics": {
     "state": "partial",
@@ -1723,7 +1726,8 @@
      "Canifis Rooftop Course added: 8 obstacles at 10/8/8/10/8/10/11/175 = 240 XP, level 40 plus Priest in Peril gate, roofs across planes 2 and 3.",
      "Falador Rooftop Course added: 13 obstacles at 11/22/61/27/26/61/53/30/14/13/13/14/241 = 586 XP, level 50; both ledge-3 variants (3a/3b) accepted.",
      "Seers' Village Rooftop Course added: 6 obstacles at 45/20/20/35/15/435 = 570 XP, level 60, roofs across planes 3 and 2.",
-     "Pollnivneach Rooftop Course added: 9 obstacles at 10/45/65/35/75/5/55/60/540 = 890 XP, level 70; multi-phase monkeybars and plane-dropping drying-line slide; enclosed/boundary locs handled via approach triggers."
+     "Pollnivneach Rooftop Course added: 9 obstacles at 10/45/65/35/75/5/55/60/540 = 890 XP, level 70; multi-phase monkeybars and plane-dropping drying-line slide; enclosed/boundary locs handled via approach triggers.",
+     "Rellekka Rooftop Course added: 7 obstacles at 20/30/40/85/25/105/475 = 780 XP, level 80; gap 2 leaps the street between roofs via approach trigger since the loc sits isolated in the chasm; tightropes walk diagonally across multi-tile spans."
     ]
    },
    "visuals": {
@@ -1736,7 +1740,7 @@
    "automated": {
     "state": "passed",
     "evidence": [
-     "gradlew :content:skills:agility:integration — all 9 Gnome course game tests pass after the XP correction."
+     "gradlew :content:skills:agility:integration \u00e2\u20ac\u201d all 9 Gnome course game tests pass after the XP correction."
     ]
    },
    "mcp": {
@@ -1748,12 +1752,14 @@
      "Canifis full lap live via MCP granted exactly 240 Agility XP (13037762 -> 13038002) with every landing on its mapped tile.",
      "Falador full lap live via MCP granted exactly 586 Agility XP (13038002 -> 13038588), every landing on its mapped tile.",
      "Seers' Village full lap tested in-game by the user; XP history showed per-obstacle gains matching the wiki (20, 35, 15, 435 observed; 570 total).",
-     "Pollnivneach full lap live via MCP granted exactly 890 Agility XP (13040738 -> 13041628): basket 10, stall 45, banner 65, gap 35, tree 75, rough wall 5, monkeybars 55, treetop 60, drying line 540. Rough wall is a forcedecor loc reachable only from its west face; tree landing set to (3364,2982,1). Drying line reachable only on the platform north of the y=2996 wall band; treetop landing set to (3363,2999,2). Slide lands at (3357,2989,0)."
+     "Pollnivneach full lap live via MCP granted exactly 890 Agility XP (13040738 -> 13041628): basket 10, stall 45, banner 65, gap 35, tree 75, rough wall 5, monkeybars 55, treetop 60, drying line 540. Rough wall is a forcedecor loc reachable only from its west face; tree landing set to (3364,2982,1). Drying line reachable only on the platform north of the y=2996 wall band; treetop landing set to (3363,2999,2). Slide lands at (3357,2989,0).",
+     "Rellekka full lap live via MCP granted exactly 780 Agility XP (13041628 -> 13042408): wall 20 -> (2625,3676,3), gap 30 -> (2622,3668,3), tightrope 40 -> (2628,3654,3), gap 85 -> (2641,3653,3), hurdle 25 -> (2644,3657,3), tightrope 105 -> (2655,3670,3), fish pile 475 -> (2655,3676,0). Every landing on its mapped tile, no reachability failures."
     ]
    },
    "discrepancies": [
     "Al Kharid tightrope 1/zip line and Varrock clothes line/wall/gap never fail (OSRS fail rates unpublished).",
-    "Remaining rooftop courses (Rellekka, Ardougne), Wilderness/Barbarian/Ape Atoll/Werewolf courses, Agility Pyramid and Prifddinas are not implemented."
+    "Rellekka first tightrope never fails (OSRS: fail possible below level 85, rate unpublished); Pile of fish grants 475 XP but OSRS grants 615 XP with Fremennik hard diary completed (diary rewards not implemented).",
+    "Remaining rooftop course Ardougne, Wilderness/Barbarian/Ape Atoll/Werewolf courses, Agility Pyramid and Prifddinas are not implemented."
    ]
   },
   "Thieving": {
@@ -2022,7 +2028,7 @@
    "mechanics": "in_progress",
    "notes": [
     "Added prayer-gated Ranged attack (wiki styles Crush+Ranged; fires vs Protect from Melee). mcp unverified.",
-    "Wiki mechanics: signature slam special added (forced every 6-10 attacks — hits through prayer, drains 5 prayer, disables overhead prayers); mcp unverified."
+    "Wiki mechanics: signature slam special added (forced every 6-10 attacks \u00e2\u20ac\u201d hits through prayer, drains 5 prayer, disables overhead prayers); mcp unverified."
    ]
   },
   "Gelatinnoth Mother": {
@@ -2160,7 +2166,7 @@
    "mcp": "unverified",
    "mechanics": "in_progress",
    "notes": [
-    "Wiki mechanics: colour-cycle rework — phases transmog to each colour form, incoming hits capped to 0 unless matching combat style/elemental spell, random colour rotation every 16 ticks; mcp unverified."
+    "Wiki mechanics: colour-cycle rework \u00e2\u20ac\u201d phases transmog to each colour form, incoming hits capped to 0 unless matching combat style/elemental spell, random colour rotation every 16 ticks; mcp unverified."
    ]
   },
   "Sigmund": {
@@ -2168,7 +2174,7 @@
    "mcp": "unverified",
    "mechanics": "in_progress",
    "notes": [
-    "Wiki mechanics: adaptive protection prayer — first hit of each style lands, then he protects against it (immune varns + transmog to matching _melee/_ranged/_magic NPC form); mcp unverified."
+    "Wiki mechanics: adaptive protection prayer \u00e2\u20ac\u201d first hit of each style lands, then he protects against it (immune varns + transmog to matching _melee/_ranged/_magic NPC form); mcp unverified."
    ]
   }
  }
