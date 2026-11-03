@@ -5,6 +5,7 @@ import kotlin.math.ceil
 import kotlin.math.max
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.commons.CombatEffects
+import org.rsmod.api.config.constants
 import org.rsmod.api.config.refs.params
 import org.rsmod.api.npc.isValidTarget
 import org.rsmod.api.player.protect.ProtectedAccess
@@ -63,12 +64,12 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         registerMagic("obj.wild_cave_accursed_charged_recol", condemn)
 
         val immolate = Immolate(manager)
-        registerMagic("obj.nightmare_staff_volatile", immolate)
-        registerMagic("obj.br_nightmare_staff_volatile", immolate)
-        registerMagic("obj.deadman_blighted_volatile_staff", immolate)
-        registerMagic("obj.deadman_nightmare_staff_volatile", immolate)
+        registerMelee("obj.nightmare_staff_volatile", immolate)
+        registerMelee("obj.br_nightmare_staff_volatile", immolate)
+        registerMelee("obj.deadman_blighted_volatile_staff", immolate)
+        registerMelee("obj.deadman_nightmare_staff_volatile", immolate)
 
-        registerMagic("obj.nightmare_staff_eldritch", Invocate(manager))
+        registerMelee("obj.nightmare_staff_eldritch", Invocate(manager))
     }
 
     private class BindingTentacle(private val manager: SpecialAttackManager) : MeleeSpecialAttack {
@@ -92,6 +93,12 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
             target: PathingEntity,
             attack: CombatAttack.Melee,
         ) {
+            anim("seq.slayer_whip_sp_attack")
+            spotanim(
+                "spotanim.sp_attack_abyssal_whip",
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
             val damage =
                 manager.rollMeleeDamage(
                     source = this,
@@ -130,6 +137,7 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.impale(target: PathingEntity, attack: CombatAttack.Melee) {
+            anim("seq.claw_attack")
             val damage =
                 manager.rollMeleeDamage(
                     source = this,
@@ -162,6 +170,12 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.hammerBlow(target: PathingEntity, attack: CombatAttack.Melee) {
+            anim("seq.human_blunt_pound")
+            spotanim(
+                "spotanim.granite_hammer_sa_spotanim",
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
             val damage =
                 manager.rollMeleeDamage(
                     source = this,
@@ -194,6 +208,12 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.liquify(target: PathingEntity, attack: CombatAttack.Melee) {
+            anim("seq.olaf2_brine_sabre_special")
+            spotanim(
+                "spotanim.olaf2_brine_sabre_special_spot",
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
             val damage =
                 manager.rollMeleeDamage(
                     source = this,
@@ -237,6 +257,12 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.powerstab(target: PathingEntity, attack: CombatAttack.Melee) {
+            anim("seq.dh_sword_update_dragon_special_player")
+            spotanim(
+                "spotanim.dh_sword_update_dragon_2h_sword_special_spotanim",
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
             val damage = roll(target, attack)
             manager.queueMeleeHit(this, target, damage)
             manager.giveCombatXp(this, target, attack, damage)
@@ -289,6 +315,7 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.shieldBash(target: PathingEntity, attack: CombatAttack.Melee) {
+            anim("seq.human_dinhs_bulwark_bash")
             hitTwice(target, attack)
             for (npc in npcList) {
                 if (npc === target || !npc.isValidTarget()) continue
@@ -338,6 +365,12 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
             target: PathingEntity,
             attack: CombatAttack.Melee,
         ) {
+            anim("seq.pmoon_macuahuitl_crush")
+            spotanim(
+                "spotanim.special_dual_macuahuitl_spotanim",
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
             val maxHit =
                 manager.rollMeleeMaxHit(
                     source = this,
@@ -381,6 +414,7 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.scatterAshes(target: PathingEntity, attack: CombatAttack.Melee) {
+            anim("seq.human_castwave_staff")
             hit(target, attack)
             for (npc in npcList) {
                 if (npc === target || !npc.isValidTarget()) continue
@@ -426,6 +460,12 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.wrath(target: PathingEntity, attack: CombatAttack.Melee) {
+            anim("seq.toa_keris_partisan_special01")
+            spotanim(
+                "spotanim.keris_partisan_special01",
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
             val damage =
                 manager.rollMeleeDamage(
                     source = this,
@@ -442,6 +482,12 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
 
     private class TumekensLight : InstantSpecialAttack {
         override suspend fun ProtectedAccess.activate(): Boolean {
+            anim("seq.toa_keris_partisan_special01")
+            spotanim(
+                "spotanim.keris_partisan_special01",
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
             player.statSub("stat.prayer", 50, 0)
             val overheal = max(0, player.stat("stat.hitpoints") / 5)
             if (overheal > 0) {
@@ -456,6 +502,7 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
             target: Npc,
             attack: CombatAttack.Melee,
         ): Boolean {
+            anim("seq.human_castwave_staff")
             val damage = random.of(75..150)
             manager.queueMeleeHit(this, target, damage)
             manager.giveCombatXp(this, target, attack, damage)
@@ -487,6 +534,7 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
 
         private fun ProtectedAccess.condemn(target: PathingEntity, attack: CombatAttack.Staff) {
+            anim("seq.human_special_accursed")
             val damage = roll(target, attack)
             manager.queueMagicHit(
                 source = this,
@@ -541,10 +589,10 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
         }
     }
 
-    private class Immolate(private val manager: SpecialAttackManager) : MagicSpecialAttack {
+    private class Immolate(private val manager: SpecialAttackManager) : MeleeSpecialAttack {
         override suspend fun ProtectedAccess.attack(
             target: Npc,
-            attack: CombatAttack.Staff,
+            attack: CombatAttack.Melee,
         ): Boolean {
             immolate(target, attack)
             return true
@@ -552,20 +600,29 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
 
         override suspend fun ProtectedAccess.attack(
             target: Player,
-            attack: CombatAttack.Staff,
+            attack: CombatAttack.Melee,
         ): Boolean {
             immolate(target, attack)
             return true
         }
 
-        private fun ProtectedAccess.immolate(target: PathingEntity, attack: CombatAttack.Staff) {
+        private fun ProtectedAccess.immolate(target: PathingEntity, attack: CombatAttack.Melee) {
+            anim("seq.nightmare_staff_volatile_cast")
+            spotanim(
+                "spotanim.nightmare_staff_volatile_cast_spotanim",
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
+            target.spotanim("spotanim.nightmare_staff_volatile_hit_spotanim", height = 96)
             val baseMaxHit =
-                getInvObj(attack.weapon)?.paramOrNull(params.spell_maxhit) ?: DEFAULT_BASE_MAX_HIT
+                attack.weapon
+                    ?.let { getInvObj(it) }
+                    ?.paramOrNull(params.spell_maxhit) ?: DEFAULT_BASE_MAX_HIT
             val accurate =
                 manager.rollStaffAccuracy(
                     source = this,
                     target = target,
-                    attackStyle = attack.style,
+                    attackStyle = null,
                     multiplier = 1.5,
                 )
             val damage =
@@ -587,15 +644,20 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
                 damage = damage,
                 clientDelay = 40,
             )
-            manager.giveCombatXp(this, target, attack, damage)
+            val staffAttack = attack.weapon?.let { CombatAttack.Staff(it, null) }
+            if (staffAttack != null) {
+                manager.giveCombatXp(this, target, staffAttack, damage)
+            } else {
+                manager.giveCombatXp(this, target, attack, damage)
+            }
             manager.continueCombat(this, target)
         }
     }
 
-    private class Invocate(private val manager: SpecialAttackManager) : MagicSpecialAttack {
+    private class Invocate(private val manager: SpecialAttackManager) : MeleeSpecialAttack {
         override suspend fun ProtectedAccess.attack(
             target: Npc,
-            attack: CombatAttack.Staff,
+            attack: CombatAttack.Melee,
         ): Boolean {
             invocate(target, attack)
             return true
@@ -603,20 +665,29 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
 
         override suspend fun ProtectedAccess.attack(
             target: Player,
-            attack: CombatAttack.Staff,
+            attack: CombatAttack.Melee,
         ): Boolean {
             invocate(target, attack)
             return true
         }
 
-        private fun ProtectedAccess.invocate(target: PathingEntity, attack: CombatAttack.Staff) {
+        private fun ProtectedAccess.invocate(target: PathingEntity, attack: CombatAttack.Melee) {
+            anim("seq.nightmare_staff_eldritch_player_cast")
+            spotanim(
+                "spotanim.nightmare_staff_eldritch_cast_spotanim",
+                slot = constants.spotanim_slot_combat,
+                height = 96,
+            )
+            target.spotanim("spotanim.nightmare_staff_eldritch_hit_spotanim", height = 96)
             val baseMaxHit =
-                getInvObj(attack.weapon)?.paramOrNull(params.spell_maxhit) ?: DEFAULT_BASE_MAX_HIT
+                attack.weapon
+                    ?.let { getInvObj(it) }
+                    ?.paramOrNull(params.spell_maxhit) ?: DEFAULT_BASE_MAX_HIT
             val accurate =
                 manager.rollStaffAccuracy(
                     source = this,
                     target = target,
-                    attackStyle = attack.style,
+                    attackStyle = null,
                     multiplier = 1.0,
                 )
             val damage =
@@ -636,7 +707,12 @@ class ModernWeaponSpecialAttacks @Inject constructor(private val npcList: NpcLis
                 damage = damage,
                 clientDelay = 40,
             )
-            manager.giveCombatXp(this, target, attack, damage)
+            val staffAttack = attack.weapon?.let { CombatAttack.Staff(it, null) }
+            if (staffAttack != null) {
+                manager.giveCombatXp(this, target, staffAttack, damage)
+            } else {
+                manager.giveCombatXp(this, target, attack, damage)
+            }
             if (damage > 0) {
                 player.statAdd("stat.prayer", minOf(damage / 2, 120), 0)
             }

@@ -227,6 +227,50 @@ internal suspend fun ProtectedAccess.activateShieldSpecial(
     specials: SpecialAttackRegistry,
 ): Boolean = TODO()
 
+/**
+ * Weapon specials override an autocast spell entirely: when the special activates, it replaces
+ * the cast for that attack. Only weapon-bound specials ([SpecialAttack.Melee] /
+ * [SpecialAttack.Magic]) can fire this way — e.g., the Nightmare staves' specials work both with
+ * and without an autocast spell set.
+ */
+internal suspend fun ProtectedAccess.activateSpellWeaponSpecial(
+    target: PathingEntity,
+    attack: CombatAttack.Spell,
+    specials: SpecialAttackRegistry,
+    energy: SpecialAttackEnergy,
+): Boolean {
+    val weapon = attack.weapon ?: return false
+    val special = specials[weapon] ?: return false
+    val energyInHundreds =
+        when (special) {
+            is SpecialAttack.Melee -> special.energyInHundreds
+            is SpecialAttack.Magic -> special.energyInHundreds
+            else -> return false
+        }
+
+    val specializedEnergy = energy.isSpecializedRequirement(energyInHundreds)
+    if (!specializedEnergy) {
+        val hasRequiredEnergy = energy.hasSpecialEnergy(player, energyInHundreds)
+        if (!hasRequiredEnergy) {
+            mes("You don't have enough power left.")
+            return false
+        }
+    }
+
+    val reduceEnergy =
+        when (special) {
+            is SpecialAttack.Melee ->
+                special.attack(this, target, CombatAttack.Melee(weapon, null, null, combatStance))
+            is SpecialAttack.Magic ->
+                special.attack(this, target, CombatAttack.Staff(weapon, null))
+            else -> return false
+        }
+    if (reduceEnergy) {
+        energy.takeSpecialEnergy(player, energyInHundreds)
+    }
+    return true
+}
+
 internal fun ProtectedAccess.setPkVars(target: Player) {
     pkPrey2 = pkPrey1
     pkPrey1 = target.uid

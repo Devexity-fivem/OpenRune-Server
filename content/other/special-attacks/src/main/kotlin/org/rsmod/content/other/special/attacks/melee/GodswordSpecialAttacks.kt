@@ -19,22 +19,26 @@ import org.rsmod.game.entity.Player
 
 class GodswordSpecialAttacks : SpecialAttackMap {
     override fun SpecialAttackRepository.register(manager: SpecialAttackManager) {
-        val armadyl = Armadyl(manager)
-        for (obj in listOf("obj.ags", "obj.agsg", "obj.br_ags", "obj.deadman_ags", "obj.deadman_blighted_ags")) {
+        val armadyl = Armadyl(manager, "seq.ags_special_player")
+        val armadylOrnate = Armadyl(manager, "seq.ags_special_ornate_player")
+        val armadylBlighted = Armadyl(manager, "seq.ags_special_blighted_player")
+        for (obj in listOf("obj.ags", "obj.br_ags", "obj.deadman_ags")) {
             registerMelee(obj, armadyl)
         }
-        val bandos = Bandos(manager)
-        for (obj in listOf("obj.bgs", "obj.bgsg")) {
-            registerMelee(obj, bandos)
-        }
-        val saradomin = Saradomin(manager)
-        for (obj in listOf("obj.sgs", "obj.sgsg")) {
-            registerMelee(obj, saradomin)
-        }
-        val zamorak = Zamorak(manager)
-        for (obj in listOf("obj.zgs", "obj.zgsg")) {
-            registerMelee(obj, zamorak)
-        }
+        registerMelee("obj.agsg", armadylOrnate)
+        registerMelee("obj.deadman_blighted_ags", armadylBlighted)
+        val bandos = Bandos(manager, "seq.bgs_special_player")
+        val bandosOrnate = Bandos(manager, "seq.bgs_special_ornate_player")
+        registerMelee("obj.bgs", bandos)
+        registerMelee("obj.bgsg", bandosOrnate)
+        val saradomin = Saradomin(manager, "seq.sgs_special_player")
+        val saradominOrnate = Saradomin(manager, "seq.sgs_special_ornate_player")
+        registerMelee("obj.sgs", saradomin)
+        registerMelee("obj.sgsg", saradominOrnate)
+        val zamorak = Zamorak(manager, "seq.zgs_special_player")
+        val zamorakOrnate = Zamorak(manager, "seq.zgs_special_ornate_player")
+        registerMelee("obj.zgs", zamorak)
+        registerMelee("obj.zgsg", zamorakOrnate)
         val ancient = AncientGodsword(manager)
         for (obj in listOf("obj.ancient_godsword", "obj.br_ancient_godsword")) {
             registerMelee(obj, ancient)
@@ -89,8 +93,8 @@ class GodswordSpecialAttacks : SpecialAttackMap {
         protected open fun ProtectedAccess.effect(target: PathingEntity, damage: Int) {}
     }
 
-    private class Armadyl(manager: SpecialAttackManager) : Godsword(manager) {
-        override val anim = "seq.ags_special_player"
+    private class Armadyl(manager: SpecialAttackManager, override val anim: String) :
+        Godsword(manager) {
         override val spot = "spotanim.godwars_godsword_armadyl_spot"
 
         override fun ProtectedAccess.roll(target: PathingEntity, attack: CombatAttack.Melee): Int =
@@ -104,8 +108,8 @@ class GodswordSpecialAttacks : SpecialAttackMap {
             )
     }
 
-    private class Bandos(manager: SpecialAttackManager) : Godsword(manager) {
-        override val anim = "seq.bgs_special_player"
+    private class Bandos(manager: SpecialAttackManager, override val anim: String) :
+        Godsword(manager) {
         override val spot = "spotanim.godwars_godsword_bandos_spot"
 
         override fun ProtectedAccess.roll(target: PathingEntity, attack: CombatAttack.Melee): Int =
@@ -125,8 +129,8 @@ class GodswordSpecialAttacks : SpecialAttackMap {
         }
     }
 
-    private class Saradomin(manager: SpecialAttackManager) : Godsword(manager) {
-        override val anim = "seq.sgs_special_player"
+    private class Saradomin(manager: SpecialAttackManager, override val anim: String) :
+        Godsword(manager) {
         override val spot = "spotanim.godwars_godsword_saradomin_spot"
 
         override fun ProtectedAccess.roll(target: PathingEntity, attack: CombatAttack.Melee): Int =
@@ -147,8 +151,8 @@ class GodswordSpecialAttacks : SpecialAttackMap {
         }
     }
 
-    private class Zamorak(manager: SpecialAttackManager) : Godsword(manager) {
-        override val anim = "seq.zgs_special_player"
+    private class Zamorak(manager: SpecialAttackManager, override val anim: String) :
+        Godsword(manager) {
         override val spot = "spotanim.godwars_godsword_zamorak_spot"
 
         override fun ProtectedAccess.roll(target: PathingEntity, attack: CombatAttack.Melee): Int =

@@ -115,6 +115,7 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
             ammoType: ItemServerType?,
             fromStored: Boolean,
             travelOverride: String? = null,
+            launchOverride: String? = null,
         ): Pair<Int, Int>? {
             val usingThrown = righthandType.isCategoryType("category.throwing_weapon")
             val projSource = if (usingThrown) righthandType else ammoType ?: return null
@@ -127,9 +128,10 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
             val projanimType = RSCM.getReverseMapping(RSCMType.PROJANIM, projectileID)
 
             val launchSpotanim =
-                projSource.paramOrNull(params.proj_launch)?.let {
-                    RSCM.getReverseMapping(RSCMType.SPOTANIM, it.id)
-                }
+                launchOverride
+                    ?: projSource.paramOrNull(params.proj_launch)?.let {
+                        RSCM.getReverseMapping(RSCMType.SPOTANIM, it.id)
+                    }
             if (launchSpotanim != null) {
                 spotanim(launchSpotanim, height = 96, slot = constants.spotanim_slot_combat)
             }
@@ -506,7 +508,16 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
             attack: CombatAttack.Ranged,
         ): Boolean {
             val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
-            val delays = fireProjectile(target, righthandType, ammoType, fromStored)
+            anim("seq.human_dragon_taxe_spec")
+            val delays =
+                fireProjectile(
+                    target,
+                    righthandType,
+                    ammoType,
+                    fromStored,
+                    travelOverride = "spotanim.dragon_taxe_travel_spec",
+                    launchOverride = "spotanim.dragon_taxe_launch_spec",
+                )
             val (serverDelay, clientDelay) = delays ?: (1 to 0)
             val damage = rollDamage(target, attack, accuracyMultiplier = 1.0)
             manager.giveCombatXp(this, target, attack, damage)
@@ -530,7 +541,15 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
             attack: CombatAttack.Ranged,
         ): Boolean {
             val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
-            val delays = fireProjectile(target, righthandType, ammoType, fromStored)
+            anim("seq.weapon_morrigans_throwingaxe_special01")
+            val delays =
+                fireProjectile(
+                    target,
+                    righthandType,
+                    ammoType,
+                    fromStored,
+                    travelOverride = "spotanim.morrigans_taxe_travel",
+                )
             val (serverDelay, clientDelay) = delays ?: (1 to 0)
             val damage =
                 rollDamage(target, attack, accuracyMultiplier = 1.0, maxHitMultiplier = 1.2)
@@ -561,7 +580,16 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
             attack: CombatAttack.Ranged,
         ): Boolean {
             val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
-            val delays = fireProjectile(target, righthandType, ammoType, fromStored)
+            anim("seq.chainhit")
+            val delays =
+                fireProjectile(
+                    target,
+                    righthandType,
+                    ammoType,
+                    fromStored,
+                    travelOverride = "spotanim.sp_attack_chainhit_travel_spotanim",
+                    launchOverride = "spotanim.sp_attack_chainhit_launch_spotanim",
+                )
             val (serverDelay, clientDelay) = delays ?: (1 to 0)
             val damage = rollDamage(target, attack, accuracyMultiplier = 1.0)
             manager.giveCombatXp(this, target, attack, damage)
