@@ -219,17 +219,11 @@ constructor(
     // ---- Mixer levers ----------------------------------------------------------
 
     private suspend fun ProtectedAccess.pullLever(paste: Paste) {
-        if (vars[paste.availableVb] < PASTE_PER_LETTER) {
-            mes("The hopper doesn't contain enough ${paste.key} paste.")
-            return
-        }
-        vars[paste.availableVb] = vars[paste.availableVb] - PASTE_PER_LETTER
         val slots = SLOT_VBS.map { vars[it] }
         val firstEmpty = slots.indexOf(0)
         if (firstEmpty >= 0) {
             vars[SLOT_VBS[firstEmpty]] = paste.slot
         } else {
-            Paste.ofSlot(slots[0])?.let { vars[it.availableVb] = vars[it.availableVb] + PASTE_PER_LETTER }
             vars[SLOT_VBS[0]] = slots[1]
             vars[SLOT_VBS[1]] = slots[2]
             vars[SLOT_VBS[2]] = paste.slot
@@ -257,6 +251,25 @@ constructor(
         if (player.stat("stat.herblore") < recipe.level) {
             mes("You need level ${recipe.level} Herblore to make this potion.")
             return
+        }
+        val need = IntArray(4)
+        for (letter in recipe.letters) {
+            need[
+                when (letter) {
+                    'm' -> 1
+                    'a' -> 2
+                    else -> 3
+                },
+            ]++
+        }
+        for (paste in Paste.entries) {
+            if (vars[paste.availableVb] < need[paste.slot] * PASTE_PER_LETTER) {
+                mes("The hopper doesn't contain enough ${paste.key} paste.")
+                return
+            }
+        }
+        for (paste in Paste.entries) {
+            vars[paste.availableVb] = vars[paste.availableVb] - need[paste.slot] * PASTE_PER_LETTER
         }
         vars[VB_VESSEL_READY] = 0
         for (vb in SLOT_VBS) vars[vb] = 0
@@ -428,9 +441,6 @@ constructor(
             2 -> 1.2
             3 -> 1.4
             else -> 1.0
-        }
-        if (deposited > 1) {
-            xp = (xp * bonus).toInt()
         }
         if (xp > 0) statAdvance("stat.herblore", xp.toDouble())
         addResin(Paste.MOX, (resin[1] * bonus).toInt())
@@ -742,7 +752,7 @@ constructor(
         const val SKILL_XP = 14
         const val SKILL_MISS = 4
         const val AGITATOR_WINDOW_AT = 20
-        const val AGITATOR_WINDOW_TICKS = 4
+        const val AGITATOR_WINDOW_TICKS = 2
         const val AGITATOR_WINDOWS = 1
         const val PUMP_TICKS = 9
         const val PUMP_TARGET = 4
