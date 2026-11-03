@@ -10,8 +10,12 @@ import org.rsmod.api.bosses.runtime.BossCombat
 import org.rsmod.api.bosses.runtime.BossDeps
 import org.rsmod.api.bosses.runtime.BossPluginScript
 import org.rsmod.api.bosses.spec.BossSpec
+import org.rsmod.api.bosses.spec.Condition
 import org.rsmod.api.bosses.spec.Effect
 import org.rsmod.api.bosses.spec.StatDrainEntry
+import org.rsmod.api.player.stat.stat
+import org.rsmod.api.player.stat.statBase
+import org.rsmod.api.player.stat.statSub
 import org.rsmod.api.npc.events.NpcHitEvents
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.hit.HitType
@@ -157,20 +161,40 @@ class Glough @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     }
 }
 
-// Legends' Quest — Nezikchened: drains all prayer at fight start, melee up to ~18.
+// Legends' Quest — Nezikchened: drains prayer to a tenth of the target's level
+// as each fight opens, and his melee hits drain a point unless protected.
 class Nezikchened @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
+    init {
+        deps.extensionRegistry.register("nezikchened.entry_drain") { ctx ->
+            val base = ctx.target.statBase("stat.prayer")
+            val current = ctx.target.stat("stat.prayer")
+            val leave = base / 10
+            if (current > leave) {
+                ctx.target.statSub("stat.prayer", current - leave, 0)
+            }
+        }
+    }
+
     override val spec: BossSpec = boss("npc.nezikchened") {
         stats(attackRate = 5)
-        val drain = ability("drain_prayer") { statDrainPercent("stat.prayer", percent = 100) }
+        triggers { on(Condition.Always) runs external("nezikchened.entry_drain") }
         val melee = ability("melee") {
             anim("seq.demon_attack")
-            hit { damage(0..18).roll(); type(Melee); onHit(Effect.StatDrain(listOf(StatDrainEntry("stat.prayer", amount = 1)))) }
+            hit {
+                damage(0..18).roll()
+                type(Melee)
+                onHit(
+                    Effect.Whenever(
+                        Condition.Not(Condition.TargetPraying(Melee)),
+                        Effect.StatDrain(listOf(StatDrainEntry("stat.prayer", amount = 1))),
+                    )
+                )
+            }
         }
         val magic = ability("magic") {
             projectile(spotanim = "spotanim.fireblast_travel", hit = Effect.Hit(damage = Roll(0..18), type = Magic))
         }
         phase("combat") {
-            entry = drain.name
             weightedSelectorRandom {
                 +random(melee, weight = 3, requires = WithinMeleeRange)
                 +random(magic, weight = 2)
@@ -227,6 +251,8 @@ class Sigmund @Inject constructor(private val deps: BossDeps) : PluginScript() {
                 else -> return
             }
         val npc = event.npc
+        // The mace-drained variant can no longer pray at all.
+        if (nameByTypeId[npc.type.id]?.endsWith("_noprayer") == true) return
         if (npc.vars["varn.immune_$style"] == 1) return
         if (npc.vars[SWITCHING_VARN] != 0) return
         npc.vars[SWITCHING_VARN] = 1

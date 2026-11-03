@@ -31,12 +31,14 @@ class Obor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                     damage(0..16).roll()
                     type(Melee)
                 }
-                knockback(
-                    "seq.agilityarena_player_spikedback",
-                    Area(
-                        TargetExpr.Offset(TargetExpr.CurrentTargetTile, -3, -3),
-                        TargetExpr.Offset(TargetExpr.CurrentTargetTile, 3, 3),
-                    ),
+                include(
+                    knockback(
+                        "seq.agilityarena_player_spikedback",
+                        Area(
+                            TargetExpr.Offset(TargetExpr.CurrentTargetTile, -3, -3),
+                            TargetExpr.Offset(TargetExpr.CurrentTargetTile, 3, 3),
+                        ),
+                    )
                 )
             }
 

@@ -244,13 +244,13 @@ class Cerberus @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             val lavaPools =
                 ability("lava_pools") {
                     anim("seq.cerberus_special_attack_spray")
-                    external("cerberus.lava_pools")
+                    include(external("cerberus.lava_pools"))
                 }
 
             val flameWall =
                 ability("flame_wall") {
                     anim("seq.cerberus_special_attack_flame")
-                    external("cerberus.flame_wall")
+                    include(external("cerberus.flame_wall"))
                 }
 
             phase("combat", transmog = CERBERUS_ATTACKING) {

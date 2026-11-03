@@ -200,29 +200,26 @@ class Maledict @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
         }
 }
 
-// The Great Brain Robbery — Barrelchest: melee anchor-smash up to ~15.
+// The Great Brain Robbery — Barrelchest: in melee range every anchor swing
+// knocks out all prayers and drains prayer; outside melee he slams the ground
+// for an earthquake up to 25.
 class Barrelchest @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
     override val spec: BossSpec = boss("npc.brain_barrel_chest") {
         stats(attackRate = 5)
         val melee = ability("melee") {
             anim("seq.giant_attack")
+            include(Effect.DisablePrayers(overheadsOnly = false))
+            include(Effect.StatDrain(listOf(StatDrainEntry("stat.prayer", amount = 1))))
             hit { damage(0..35).roll(); type(Melee) }
         }
         val ranged = ability("ranged") {
-            projectile(spotanim = "spotanim.myarm_rock_roc_travel", hit = Effect.Hit(damage = Roll(0..35), type = Ranged))
-        }
-        // Signature slam: hits through prayer, drains prayer and disables overheads.
-        val slam = ability("slam") {
             anim("seq.giant_attack")
-            include(Effect.DisablePrayers(overheadsOnly = true))
-            include(Effect.StatDrain(listOf(StatDrainEntry("stat.prayer", amount = 5))))
-            hit { damage(0..35).roll(); type(Melee); penetration(100) }
+            projectile(spotanim = "spotanim.myarm_rock_roc_travel", hit = Effect.Hit(damage = Roll(0..25), type = Ranged))
         }
         phase("combat") {
-            forceEveryAttacks(6, 10, slam)
             weightedSelectorRandom {
-                +random(melee, weight = 3, requires = WithinMeleeRange and !TargetPraying(Melee))
-                +random(ranged, weight = 2, requires = TargetPraying(Melee))
+                +random(melee, weight = 1, requires = WithinMeleeRange)
+                +random(ranged, weight = 1, requires = !WithinMeleeRange)
             }
         }
     }

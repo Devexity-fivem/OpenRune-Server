@@ -93,7 +93,7 @@ internal fun doomSpec(delve: DoomDelve): BossSpec =
             if (delve.carSlams > 0) ability(DoomCar.SHOT_ABILITY, DoomAttacks.burrowShot(delve))
             ability(DoomCar.EMERGE_ABILITY, DoomCar.emerge(emergenceRock))
             ability(DoomCar.ROCK_HIT_ABILITY) {
-                knockback("seq.agilityarena_player_spikedback", DoomArena.AREA)
+                include(knockback("seq.agilityarena_player_spikedback", DoomArena.AREA))
                 hit {
                     delay = 1
                     damage(10..21).roll()

@@ -160,10 +160,10 @@ class Chronozon @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
             anim("seq.demon_attack")
             hit { damage(0..18).roll(); type(Melee) }
         }
-        val markWind = ability("mark_wind") { external("chronozon.mark_blast", params = 1) }
-        val markWater = ability("mark_water") { external("chronozon.mark_blast", params = 2) }
-        val markEarth = ability("mark_earth") { external("chronozon.mark_blast", params = 4) }
-        val markFire = ability("mark_fire") { external("chronozon.mark_blast", params = 8) }
+        val markWind = ability("mark_wind", external("chronozon.mark_blast", params = 1))
+        val markWater = ability("mark_water", external("chronozon.mark_blast", params = 2))
+        val markEarth = ability("mark_earth", external("chronozon.mark_blast", params = 4))
+        val markFire = ability("mark_fire", external("chronozon.mark_blast", params = 8))
         onIncomingHit(markWind, withObj = listOf("obj.41_wind_blast"))
         onIncomingHit(markWater, withObj = listOf("obj.47_water_blast"))
         onIncomingHit(markEarth, withObj = listOf("obj.53_earth_blast"))

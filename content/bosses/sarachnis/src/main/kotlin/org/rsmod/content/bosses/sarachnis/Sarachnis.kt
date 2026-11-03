@@ -68,7 +68,9 @@ class Sarachnis @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                             ),
                     )
                     delay(WEB_REPOSITION_DELAY)
-                    teleport(TargetExpr.RandomWalkableTile(WEB_REPOSITION_RADIUS, of = TargetExpr.SpawnTile()))
+                    include(
+                        teleport(TargetExpr.RandomWalkableTile(WEB_REPOSITION_RADIUS, of = TargetExpr.SpawnTile()))
+                    )
                 }
 
             val spawns =

@@ -347,7 +347,7 @@ class Araxxor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 ability("melee") {
                     anim("seq.npc_araxxor_01_attack_melee_01")
                     hit { damage((0..MELEE_MAX).roll()); type(Melee) }
-                    external("araxxor.venom")
+                    include(external("araxxor.venom"))
                 }
 
             val magic =
@@ -358,7 +358,7 @@ class Araxxor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                         impact = "spotanim.araxxor_magic_impact",
                         hit = Effect.Hit(damage = (0..MAGIC_MAX).roll(), type = Magic),
                     )
-                    external("araxxor.venom")
+                    include(external("araxxor.venom"))
                 }
 
             val ranged =
@@ -368,14 +368,14 @@ class Araxxor @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                         spotanim = "spotanim.araxxor_ranged_projectile",
                         hit = Effect.Hit(damage = (0..RANGED_MAX).roll(), type = Ranged),
                     )
-                    external("araxxor.venom")
+                    include(external("araxxor.venom"))
                 }
 
             val cleave =
                 ability("cleave") {
                     anim("seq.npc_araxxor_01_attack_melee_enraged_01")
                     hit { damage((0..CLEAVE_MAX).roll()); type(Melee) }
-                    external("araxxor.cleave_pools")
+                    include(external("araxxor.cleave_pools"))
                 }
 
             ability("enrage_transition") {

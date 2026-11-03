@@ -180,7 +180,7 @@ class DagannothMotherAll @Inject constructor(deps: BossDeps) : BossPluginScript(
         }
 
     private companion object {
-        const val COLOUR_CYCLE_TICKS = 16
+        const val COLOUR_CYCLE_TICKS = 30
         val COLOURS = arrayOf("air", "water", "earth", "fire", "ranged", "melee")
         val AIR_SPELLS =
             arrayOf(
