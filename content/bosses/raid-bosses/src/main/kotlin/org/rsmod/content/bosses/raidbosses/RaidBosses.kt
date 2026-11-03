@@ -221,11 +221,11 @@ class VerzikPhase2 @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
             stats(attackRate = 5)
             val ranged = ability("ranged") {
                 anim("seq.verzik_phase2_attack_magic")
-                projectile(spotanim = "spotanim.verzik_phase2_ranged", hit = Effect.Hit(damage = Roll(0..40), type = Ranged))
+                projectile(spotanim = "spotanim.verzik_phase2_ranged", hit = Effect.Hit(damage = Roll(0..20), type = Ranged))
             }
             val melee = ability("melee") {
                 anim("seq.verzik_phase2_attack_melee")
-                hit { damage(0..45).roll(); type(Melee) }
+                hit { damage(0..36).roll(); type(Melee) }
             }
             phase("combat") {
                 weightedSelectorRandom {
@@ -241,15 +241,15 @@ class VerzikPhase3 @Inject constructor(deps: BossDeps) : BossPluginScript(deps) 
         stats(attackRate = 7)
         val melee = ability("melee") {
             anim("seq.verzik_phase3_attack_melee")
-            hit { damage(0..50).roll(); type(Melee) }
+            hit { damage(0..63).roll(); type(Melee) }
         }
         val magic = ability("magic") {
             anim("seq.verzik_phase3_attack_magic")
-            projectile(spotanim = "spotanim.verzik_phase3_mageproj", hit = Effect.Hit(damage = Roll(0..50), type = Magic))
+            projectile(spotanim = "spotanim.verzik_phase3_mageproj", hit = Effect.Hit(damage = Roll(0..33), type = Magic))
         }
         val ranged = ability("ranged") {
             anim("seq.verzik_phase3_attack_ranged")
-            projectile(spotanim = "spotanim.verzik_phase3_rangeproj", hit = Effect.Hit(damage = Roll(0..45), type = Ranged))
+            projectile(spotanim = "spotanim.verzik_phase3_rangeproj", hit = Effect.Hit(damage = Roll(0..33), type = Ranged))
         }
         phase("combat") {
             weightedSelectorRandom {
