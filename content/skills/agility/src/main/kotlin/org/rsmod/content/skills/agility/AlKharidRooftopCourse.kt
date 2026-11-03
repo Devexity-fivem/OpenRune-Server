@@ -7,6 +7,7 @@ import org.rsmod.api.config.Constants.em_face_west
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.agilityLvl
 import org.rsmod.api.player.stat.statAdvance
+import org.rsmod.api.script.onApLoc1
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
@@ -19,7 +20,9 @@ class AlKharidRooftopCourse @Inject constructor(private val marks: MarkOfGrace) 
         onOpLoc1("loc.rooftops_kharid_tightrope_1") { crossFirstTightrope() }
         onOpLoc1("loc.rooftops_kharid_rope_swing") { swingCable() }
         onOpLoc1("loc.rooftops_kharid_slide_side") { rideZipLine() }
-        onOpLoc1("loc.rooftops_kharid_bamboo_tree_top") { swingTropicalTree() }
+        onApLoc1("loc.rooftops_kharid_bamboo_tree_top") {
+            if (isWithinApRange(it.loc, TREE_AP_RANGE)) swingTropicalTree()
+        }
         onOpLoc1("loc.rooftops_kharid_wallclimb_2") { climbBeams() }
         onOpLoc1("loc.rooftops_kharid_tightrope_4") { crossSecondTightrope() }
         onOpLoc1("loc.rooftops_kharid_leapdown") { jumpGap() }
@@ -58,6 +61,7 @@ class AlKharidRooftopCourse @Inject constructor(private val marks: MarkOfGrace) 
         anim("seq.zipline_slide")
         exactMove(coords, ZIP_LINE_END, delay1 = 0, delay2 = ZIP_LINE_CYCLES, dir = em_face_east)
         delay(ZIP_LINE_TICKS)
+        resetAnim()
         statAdvance(AGILITY, ZIP_LINE_XP)
         player.advanceCourse(OBSTACLE_ZIP_LINE)
     }
@@ -143,6 +147,7 @@ class AlKharidRooftopCourse @Inject constructor(private val marks: MarkOfGrace) 
         const val ZIP_LINE_TICKS = 6
         const val ZIP_LINE_CYCLES = ZIP_LINE_TICKS * CYCLES_PER_TICK
         const val TREE_TICKS = 3
+        const val TREE_AP_RANGE = 1
         const val GAP_TICKS = 2
 
         val ROUGH_WALL_TOP = CoordGrid(3273, 3192, 3)
