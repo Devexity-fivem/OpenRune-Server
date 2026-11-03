@@ -21,9 +21,10 @@ internal object HunllefVarns {
     const val RANGED = 0
     const val MAGIC = 1
 
-    const val PROTECT_MELEE = 0
-    const val PROTECT_RANGED = 1
-    const val PROTECT_MAGIC = 2
+    const val PROTECT_NONE = 0
+    const val PROTECT_MELEE = 1
+    const val PROTECT_RANGED = 2
+    const val PROTECT_MAGIC = 3
 }
 
 @Singleton
@@ -246,7 +247,7 @@ class HunllefSpecs @Inject constructor() {
             transmog(type, Int.MAX_VALUE),
             setVarn(HunllefVarns.PROTECT, protectValue),
             setVarn(HunllefVarns.OFF_PRAYER, 0),
-            headIcon(HEAD_ICON_SLOT, HEAD_ICON_GRAPHIC, protectValue),
+            headIcon(HEAD_ICON_SLOT, HEAD_ICON_GRAPHIC, protectValue - 1),
         )
 
     private fun standsUnder(npc: Npc, target: Player): Boolean {
@@ -272,7 +273,7 @@ class HunllefSpecs @Inject constructor() {
         private const val ATTACK_RATE = 5
         private const val TRANSITION_DELAY = 2
         private const val TORNADO_DELAY = 3
-        private const val TORNADO_LIFETIME = 21
+        private const val TORNADO_LIFETIME = 20
         private const val TORNADO_RADIUS = 5
         private const val ARENA_CENTRE_OFFSET = 2
         private const val TORNADO_MIN_ATTACKS = 8
