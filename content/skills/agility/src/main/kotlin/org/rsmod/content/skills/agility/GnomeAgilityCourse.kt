@@ -8,13 +8,11 @@ import org.rsmod.api.config.Constants.em_face_west
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.agilityLvl
 import org.rsmod.api.player.stat.statAdvance
-import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.random.GameRandom
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.script.onApLoc1
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.game.entity.Npc
-import org.rsmod.game.entity.Player
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
 import org.rsmod.map.zone.ZoneKey
@@ -169,23 +167,15 @@ class GnomeAgilityCourse @Inject constructor(
         statAdvance(AGILITY, PIPE_XP)
         spam("You pull yourself through the pipes.")
 
-        completeObstacle(OBSTACLE_PIPE)
-        if (player.courseProgress == OBSTACLE_PIPE) {
+        trainerBark()
+        if (player.completeLap(OBSTACLE_PIPE)) {
             statAdvance(AGILITY, LAP_BONUS_XP)
-            player.courseProgress = 0
             marks.onLapCompleted(player, MARK_SPAWN, REQUIRED_LVL)
         }
     }
 
-    // Progress counts only consecutive in-order obstacles; anything else restarts the lap.
-    // The log restart keeps progress=1 so a fresh lap always begins cleanly.
     private fun ProtectedAccess.completeObstacle(index: Int) {
-        player.courseProgress =
-            when {
-                index == OBSTACLE_LOG -> OBSTACLE_LOG
-                player.courseProgress == index - 1 -> index
-                else -> 0
-            }
+        player.advanceCourse(index)
         trainerBark()
     }
 
@@ -215,12 +205,12 @@ class GnomeAgilityCourse @Inject constructor(
         const val PIPE_AP_RANGE = 1
         const val BARK_RANGE = 15
 
-        const val LOG_XP = 7.5
-        const val NET_XP = 7.5
-        const val BRANCH_XP = 5.0
-        const val ROPE_XP = 7.5
+        const val LOG_XP = 10.0
+        const val NET_XP = 10.0
+        const val BRANCH_XP = 6.5
+        const val ROPE_XP = 10.0
         const val PIPE_XP = 7.5
-        const val LAP_BONUS_XP = 39.0
+        const val LAP_BONUS_XP = 50.0
 
         const val OBSTACLE_LOG = 1
         const val OBSTACLE_NET_UP = 2
@@ -268,5 +258,3 @@ class GnomeAgilityCourse @Inject constructor(
             )
     }
 }
-
-private var Player.courseProgress by intVarp("varp.agility_course_progress")

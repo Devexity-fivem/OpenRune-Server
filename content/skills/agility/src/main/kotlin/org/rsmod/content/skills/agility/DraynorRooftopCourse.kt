@@ -6,9 +6,7 @@ import org.rsmod.api.config.Constants.em_face_south
 import org.rsmod.api.config.Constants.em_face_west
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.statAdvance
-import org.rsmod.api.player.vars.intVarp
 import org.rsmod.api.script.onOpLoc1
-import org.rsmod.game.entity.Player
 import org.rsmod.map.CoordGrid
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -82,21 +80,12 @@ class DraynorRooftopCourse @Inject constructor(private val marks: MarkOfGrace) :
         delay(CRATE_TICKS)
         telejump(CRATE_GROUND)
         statAdvance(AGILITY, CRATE_XP)
-        completeObstacle(OBSTACLE_CRATE)
-        if (player.courseProgress == OBSTACLE_CRATE) {
-            player.courseProgress = 0
+        if (player.completeLap(OBSTACLE_CRATE)) {
             marks.onLapCompleted(player, MARK_SPAWN, REQUIRED_LVL)
         }
     }
 
-    private fun ProtectedAccess.completeObstacle(index: Int) {
-        player.courseProgress =
-            when {
-                index == OBSTACLE_ROUGH_WALL -> OBSTACLE_ROUGH_WALL
-                player.courseProgress == index - 1 -> index
-                else -> 0
-            }
-    }
+    private fun ProtectedAccess.completeObstacle(index: Int) = player.advanceCourse(index)
 
     private companion object {
         const val AGILITY = "stat.agility"
@@ -139,5 +128,3 @@ class DraynorRooftopCourse @Inject constructor(private val marks: MarkOfGrace) :
         val MARK_SPAWN = CoordGrid(3098, 3259, 3)
     }
 }
-
-private var Player.courseProgress by intVarp("varp.agility_course_progress")
