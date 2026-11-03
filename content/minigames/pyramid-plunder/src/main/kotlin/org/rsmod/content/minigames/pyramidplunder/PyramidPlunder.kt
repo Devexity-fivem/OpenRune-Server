@@ -382,6 +382,9 @@ constructor(
         if (random.of(0, 999) == 0) {
             invAdd(inv, "obj.ntk_jewelled_sceptre_3")
             mes("<col=ff0000>You have found a Pharaoh's Sceptre!</col>")
+            clearSession()
+            teleport(EXIT_NORTH)
+            mes("You are ejected from the pyramid.")
         }
     }
 
@@ -448,7 +451,7 @@ constructor(
         const val URN_BASE = 128
         const val URN_ROOM_STEP = 6
         const val DOOR_BASE = 40
-        const val DOOR_LOCKPICK = 24
+        const val DOOR_LOCKPICK = 30
         const val CHEST_TRAP_MAX = 48
 
         const val DOOR_CLOSED = 0
