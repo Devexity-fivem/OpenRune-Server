@@ -218,7 +218,7 @@ internal object ThievingTables {
                 emptyLoc = null,
                 level = 5,
                 xp = 16.0,
-                restockTicks = 4,
+                restockTicks = 16,
                 owners = listOf("npc.baker_merchant"),
                 guards = keldagrimGuards,
                 attemptMessage = "You attempt to steal some baked goods from the stall.",
