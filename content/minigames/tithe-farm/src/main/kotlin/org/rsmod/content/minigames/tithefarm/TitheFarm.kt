@@ -105,7 +105,10 @@ constructor(
         }
         session.plots.clear()
         session.inside = false
+        session.carry = 0
+        session.deposited = 0
         vars[VB_TYPE] = 0
+        vars[VB_SCORE] = 0
         for (seed in Seed.entries) {
             invDel(inv, seed.seedObj, inv.count(seed.seedObj))
             invDel(inv, seed.fruitObj, inv.count(seed.fruitObj))
@@ -123,6 +126,10 @@ constructor(
             )
         ) { selection ->
             val seed = Seed.entries.firstOrNull { it.seedObj == selection.entry.internal } ?: return@openSkillMulti
+            if (player.farmingLvl < seed.level) {
+                mes("You need a Farming level of ${seed.level} to take those seeds.")
+                return@openSkillMulti
+            }
             if (selection.amount > 0) {
                 invAdd(inv, seed.seedObj, selection.amount)
             }
@@ -245,7 +252,7 @@ constructor(
         var sackFilled = false
         for ((seed, count) in carried) {
             for (i in 0 until count) {
-                if (sack >= SACK_LIMIT) {
+                if (sack >= SACK_LIMIT || session.deposited >= FRUIT_LIMIT) {
                     break
                 }
                 if (invDel(inv, seed.fruitObj, 1).failure) {
@@ -253,15 +260,18 @@ constructor(
                 }
                 sack++
                 session.carry++
+                session.deposited++
                 if (session.carry >= 3) {
                     session.carry -= 3
                     addPoints(1)
                 }
-                val xp = if (sack >= BONUS_FROM) seed.depositXp * 2 else seed.depositXp
+                val xp = if (sack >= DOUBLE_XP_FROM) seed.depositXp * 2 else seed.depositXp
                 statAdvance("stat.farming", xp.toDouble())
+                if (sack == DOUBLE_XP_FROM) {
+                    statAdvance("stat.farming", (seed.harvestXp * 250).toDouble())
+                }
                 deposited++
                 if (sack == SACK_LIMIT) {
-                    statAdvance("stat.farming", (seed.harvestXp * 250).toDouble())
                     addPoints(SACK_BONUS)
                     sack = 0
                     sackFilled = true
@@ -423,6 +433,7 @@ constructor(
     private class TitheSession {
         val plots = mutableMapOf<CoordGrid, Plot>()
         var carry = 0
+        var deposited = 0
         var inside = false
         var armed = false
     }
@@ -528,8 +539,9 @@ constructor(
         const val FERT_TICKS = 50
         const val TICK_INTERVAL = 1
         const val SACK_LIMIT = 100
-        const val BONUS_FROM = 100
+        const val DOUBLE_XP_FROM = 75
         const val SACK_BONUS = 2
+        const val FRUIT_LIMIT = 10000
         const val POINTS_CAP = 16000
         const val CAN_CHARGES_MAX = 1000
         const val SEED_TAKE_LIMIT = 10000
