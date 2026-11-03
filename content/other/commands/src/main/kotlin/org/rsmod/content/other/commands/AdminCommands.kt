@@ -172,7 +172,7 @@ constructor(
         onCommand("invadd", "Spawn obj into inv", ::invAdd)
         onCommand("item", "Spawn obj into inv (ex: ::item 995 100 or ::item coins 100)", ::invAdd)
 
-        onCommand("invclear", "Remove all objs from inv", ::invClear)
+        onCommand("invclear", "Remove all objs from inv", ::invClear, aliases = listOf("empty"))
         onCommand("varp", "Set varp value", ::setVarp) {
             invalidArgs = "Use as ::varp debugNameOrId value (ex: option_run 1)"
         }
