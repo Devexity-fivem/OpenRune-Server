@@ -20,6 +20,7 @@ object ValeTotemsTables {
     const val WOOD_DURABILITY = 5
     const val WOOD_OFFERINGS = 6
     const val WOOD_LOG = 7
+    const val WOOD_VISIT_UNIT = 8
 
     fun woods() =
         dbTable("dbtable.vale_totems_woods", serverOnly = true) {
@@ -31,6 +32,7 @@ object ValeTotemsTables {
             column("durability", WOOD_DURABILITY, VarType.INT)
             column("offerings", WOOD_OFFERINGS, VarType.INT)
             column("log", WOOD_LOG, VarType.OBJ)
+            column("visit_unit", WOOD_VISIT_UNIT, VarType.INT)
 
             row("dbrow.vale_totems_wood_oak") {
                 column(WOOD_ID, 1)
@@ -41,6 +43,7 @@ object ValeTotemsTables {
                 column(WOOD_DURABILITY, 2)
                 column(WOOD_OFFERINGS, 20)
                 columnRSCM(WOOD_LOG, "obj.oak_logs")
+                column(WOOD_VISIT_UNIT, 20)
             }
 
             row("dbrow.vale_totems_wood_willow") {
@@ -52,6 +55,7 @@ object ValeTotemsTables {
                 column(WOOD_DURABILITY, 3)
                 column(WOOD_OFFERINGS, 30)
                 columnRSCM(WOOD_LOG, "obj.willow_logs")
+                column(WOOD_VISIT_UNIT, 20)
             }
 
             row("dbrow.vale_totems_wood_maple") {
@@ -63,6 +67,7 @@ object ValeTotemsTables {
                 column(WOOD_DURABILITY, 4)
                 column(WOOD_OFFERINGS, 40)
                 columnRSCM(WOOD_LOG, "obj.maple_logs")
+                column(WOOD_VISIT_UNIT, 20)
             }
 
             row("dbrow.vale_totems_wood_yew") {
@@ -74,6 +79,7 @@ object ValeTotemsTables {
                 column(WOOD_DURABILITY, 5)
                 column(WOOD_OFFERINGS, 65)
                 columnRSCM(WOOD_LOG, "obj.yew_logs")
+                column(WOOD_VISIT_UNIT, 25)
             }
 
             row("dbrow.vale_totems_wood_magic") {
@@ -85,6 +91,7 @@ object ValeTotemsTables {
                 column(WOOD_DURABILITY, 6)
                 column(WOOD_OFFERINGS, 90)
                 columnRSCM(WOOD_LOG, "obj.magic_logs")
+                column(WOOD_VISIT_UNIT, 30)
             }
 
             row("dbrow.vale_totems_wood_redwood") {
@@ -96,6 +103,7 @@ object ValeTotemsTables {
                 column(WOOD_DURABILITY, 7)
                 column(WOOD_OFFERINGS, 105)
                 columnRSCM(WOOD_LOG, "obj.redwood_logs")
+                column(WOOD_VISIT_UNIT, 30)
             }
         }
 

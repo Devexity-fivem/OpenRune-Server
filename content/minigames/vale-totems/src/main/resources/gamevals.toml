@@ -28,5 +28,9 @@ shop_currency_vale_research = 63862
 [gamevals.enum]
 vale_totems_decoration_wood = 64476
 
+[gamevals.queue]
+ent_totems_action = 60002
+ent_totems_visit_reward = 60003
+
 [gamevals.timer]
 ent_totems_visit = 427

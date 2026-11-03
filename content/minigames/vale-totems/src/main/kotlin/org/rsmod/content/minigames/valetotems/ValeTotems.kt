@@ -8,6 +8,7 @@ import dev.openrune.types.ItemServerType
 import dev.openrune.types.MoveRestrict
 import dev.openrune.types.NpcMode
 import jakarta.inject.Inject
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 import kotlin.random.Random
 import org.rsmod.api.attr.AttributeKey
@@ -15,6 +16,7 @@ import org.rsmod.api.player.output.UpdateRun
 import org.rsmod.api.player.output.mes
 import org.rsmod.api.player.output.spam
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.api.player.stat.constructionLvl
 import org.rsmod.api.player.stat.fletchingLvl
 import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 import org.rsmod.api.repo.loc.LocRepository
@@ -30,12 +32,14 @@ import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.script.onPlayerCoordsChanged
 import org.rsmod.api.script.onPlayerLogin
+import org.rsmod.api.script.onPlayerQueueWithArgs
 import org.rsmod.api.script.onPlayerTimer
 import org.rsmod.api.shops.Shops
 import org.rsmod.api.shops.operation.ShopOperationMap
 import org.rsmod.api.stats.xpmod.XpModifiers
 import org.rsmod.api.table.ValeTotemsSitesRow
 import org.rsmod.api.table.ValeTotemsWoodsRow
+import org.rsmod.api.table.fletching.FletchingRecipesRow
 import org.rsmod.content.skills.Material
 import org.rsmod.content.skills.SkillMultiConfig
 import org.rsmod.content.skills.SkillMultiEntry
@@ -100,6 +104,10 @@ constructor(
         onOpNpc3("npc.ent_totems_intro_ranulph_2op") { openExchange() }
 
         onPlayerTimer(VISIT_TIMER) { visitCycle() }
+        onPlayerQueueWithArgs<TotemTask>(ACTION_QUEUE) { processAction(it.args) }
+        onPlayerQueueWithArgs<List<Int>>(REWARD_QUEUE) {
+            it.args.forEach { site -> grantOfferings(site) }
+        }
 
         onPlayerLogin {
             ensureWorldSpawned()
@@ -149,25 +157,35 @@ constructor(
             if (player.base(site) != 0 || player.points(site) >= OFFERINGS_SOFT_CAP) {
                 return@openSkillMulti
             }
-            invDel(inv, wood.log, 1)
-            player.setBase(site, wood.id)
-            player.setBaseCarved(site, 0)
-            player.setSection(site, Section.LOW, wood.id)
-            player.setSection(site, Section.MID, wood.id)
-            player.setSection(site, Section.TOP, wood.id)
-            player.setDecorations(site, 0)
-            player.setDecay(site, wood.durability)
             anim(CARVE_ANIM)
-            grantActionXp(wood)
+            weakQueue(ACTION_QUEUE, ACTION_QUEUE_CYCLES, TotemTask.build(site, wood.id))
+        }
+    }
+
+    private fun ProtectedAccess.applyBuild(site: Int, woodId: Int) {
+        val wood = WOODS.firstOrNull { it.id == woodId } ?: return
+        if (player.base(site) != 0 || player.points(site) >= OFFERINGS_SOFT_CAP) return
+        if (!hasKnife() || inv.count(wood.log) == 0 || player.fletchingLvl < wood.level) return
+        invDel(inv, wood.log, 1)
+        player.setBase(site, wood.id)
+        player.setBaseCarved(site, 0)
+        player.setSection(site, Section.LOW, wood.id)
+        player.setSection(site, Section.MID, wood.id)
+        player.setSection(site, Section.TOP, wood.id)
+        player.setDecorations(site, 0)
+        player.setDecay(site, wood.durability)
+        anim(CARVE_ANIM)
+        grantActionXp(wood)
+        if (vars["varbit.poh_house_location"] != 0) {
             statAdvance(
                 "stat.construction",
-                wood.level.toDouble() * xpMods.get(player, "stat.construction"),
+                player.constructionLvl.toDouble() * xpMods.get(player, "stat.construction"),
             )
-            player.runEnergy = (player.runEnergy + BUILD_ENERGY_RESTORE).coerceAtMost(10_000)
-            UpdateRun.energy(player, player.runEnergy)
-            spam("You build a ${wood.name.lowercase()} frame on the totem site.")
-            player.timerAt(VISIT_TIMER, worldClock.cycle, VISIT_INTERVAL)
         }
+        player.runEnergy = (player.runEnergy + BUILD_ENERGY_RESTORE).coerceAtMost(10_000)
+        UpdateRun.energy(player, player.runEnergy)
+        spam("You build a ${wood.name.lowercase()} frame on the totem site.")
+        player.timerAt(VISIT_TIMER, worldClock.cycle, VISIT_INTERVAL)
     }
 
     private suspend fun ProtectedAccess.carve(section: Section, wood: Wood, loc: BoundLocInfo) {
@@ -205,16 +223,33 @@ constructor(
                 } ?: return@openSkillMulti
             val target = if (section == Section.BASE) player.nextUncarved(site) else section
             if (target == null || !hasKnife()) return@openSkillMulti
-            player.setSection(site, target, CARVED_BASE + animal.index)
             anim(CARVE_ANIM)
-            grantActionXp(wood)
-            spam("You carve the spirit of the ${animal.spirit} into the totem.")
-            if (player.allSectionsCarved(site)) {
-                player.setBaseCarved(site, 1)
-                if (vars["varbit.ent_totems_carve_chat"] == 0) {
-                    vars["varbit.ent_totems_carve_chat"] = 1
-                    mes("Your totem is fully carved - you can now decorate its base.")
-                }
+            weakQueue(
+                ACTION_QUEUE,
+                ACTION_QUEUE_CYCLES,
+                TotemTask.carve(site, wood.id, target, animal.index),
+            )
+        }
+    }
+
+    private fun ProtectedAccess.applyCarve(
+        site: Int,
+        woodId: Int,
+        section: Section,
+        animalIndex: Int,
+    ) {
+        if (player.base(site) != woodId || !hasKnife()) return
+        if (player.sectionValue(site, section) >= CARVED_BASE) return
+        val animal = ANIMALS.firstOrNull { it.index == animalIndex } ?: return
+        player.setSection(site, section, CARVED_BASE + animalIndex)
+        anim(CARVE_ANIM)
+        WOODS.firstOrNull { it.id == woodId }?.let { grantActionXp(it) }
+        spam("You carve the spirit of the ${animal.spirit} into the totem.")
+        if (player.allSectionsCarved(site)) {
+            player.setBaseCarved(site, 1)
+            if (vars["varbit.ent_totems_carve_chat"] == 0) {
+                vars["varbit.ent_totems_carve_chat"] = 1
+                mes("Your totem is fully carved - you can now decorate its base.")
             }
         }
     }
@@ -225,13 +260,14 @@ constructor(
             mes("The totem is already fully decorated.")
             return
         }
-        val held = decorationObjs(wood.id).filter { inv.count(it) > 0 }
+        val held =
+            decorationObjs(wood.id).filter { inv.count(it) > 0 && canFletchDecoration(it) }
         if (held.isEmpty()) {
             mes("You don't have any suitable decorations for this totem.")
             return
         }
         if (held.size == 1) {
-            decorate(site, wood, held.first())
+            startDecorate(site, wood, held.first())
             return
         }
         openSkillMulti(
@@ -242,7 +278,7 @@ constructor(
                 titleOverride = "Which decoration would you like to add?",
             )
         ) { selection ->
-            decorate(site, wood, selection.entry.internal)
+            startDecorate(site, wood, selection.entry.internal)
         }
     }
 
@@ -252,22 +288,65 @@ constructor(
             mes("That item isn't a suitable decoration for this totem.")
             return
         }
-        decorate(site, wood, RSCM.getReverseMapping(RSCMType.OBJ, obj.id))
+        val internal = RSCM.getReverseMapping(RSCMType.OBJ, obj.id)
+        val level = DECORATION_LEVELS[internal] ?: 0
+        if (player.fletchingLvl < level) {
+            mes("You need a Fletching level of $level to attach that.")
+            return
+        }
+        startDecorate(site, wood, internal)
     }
 
-    private fun ProtectedAccess.decorate(site: Int, wood: Wood, obj: String) {
+    private fun ProtectedAccess.canFletchDecoration(internal: String): Boolean =
+        player.fletchingLvl >= (DECORATION_LEVELS[internal] ?: 0)
+
+    private fun ProtectedAccess.startDecorate(site: Int, wood: Wood, obj: String) {
         if (player.decorations(site) >= MAX_DECORATIONS || inv.count(obj) == 0) return
+        anim(CARVE_ANIM)
+        weakQueue(ACTION_QUEUE, ACTION_QUEUE_CYCLES, TotemTask.decorate(site, wood.id, obj))
+    }
+
+    private fun ProtectedAccess.applyDecorate(site: Int, woodId: Int, obj: String) {
+        val wood = WOODS.firstOrNull { it.id == woodId } ?: return
+        if (player.base(site) != woodId || player.baseCarved(site) == 0) return
+        if (player.decorations(site) >= MAX_DECORATIONS || inv.count(obj) == 0) return
+        if (DECORATION_WOOD_IDS[obj.asRSCM(RSCMType.OBJ)] != woodId) return
+        if (!canFletchDecoration(obj)) return
         invDel(inv, obj, 1)
         player.setDecorations(site, player.decorations(site) + 1)
         anim(CARVE_ANIM)
         val wrong = wrongCarves(site)
-        var xp = wood.decorXp10 / 10.0
-        repeat(wrong) { xp *= WRONG_CARVE_XP_FACTOR }
+        val xp = wood.decorXp10 / 10.0 * (1.0 - WRONG_CARVE_PENALTY * wrong)
         statAdvance("stat.fletching", xp * xpMods.get(player, "stat.fletching"))
         spam("You attach a decoration to the totem.")
         if (wrong > 0 && vars["varbit.ent_totems_decorate_chat"] == 0) {
             vars["varbit.ent_totems_decorate_chat"] = 1
             mes("The spirits seem displeased with the animals carved on this totem.")
+        }
+        if (player.decorations(site) < MAX_DECORATIONS) {
+            val next = nextDecoration(wood, obj) ?: return
+            anim(CARVE_ANIM)
+            weakQueue(ACTION_QUEUE, ACTION_QUEUE_CYCLES, TotemTask.decorate(site, woodId, next))
+        }
+    }
+
+    // Once a decoration type is selected it is used until exhausted, then the next
+    // compatible item in inventory order is attached.
+    private fun ProtectedAccess.nextDecoration(wood: Wood, current: String): String? {
+        if (inv.count(current) > 0 && canFletchDecoration(current)) return current
+        for (held in inv.objs) {
+            if (held == null || DECORATION_WOOD_IDS[held.id] != wood.id) continue
+            val internal = RSCM.getReverseMapping(RSCMType.OBJ, held.id)
+            if (canFletchDecoration(internal)) return internal
+        }
+        return null
+    }
+
+    private fun ProtectedAccess.processAction(task: TotemTask) {
+        when (task.action) {
+            TotemAction.BUILD -> applyBuild(task.site, task.woodId)
+            TotemAction.CARVE -> applyCarve(task.site, task.woodId, task.section, task.animalIndex)
+            TotemAction.DECORATE -> applyDecorate(task.site, task.woodId, task.obj)
         }
     }
 
@@ -319,15 +398,46 @@ constructor(
             roll < 8 -> reward("obj.fletching_knife", 1)
             roll < 10 -> reward("obj.greenman_mask", 1)
             else -> {
-                val tableRoll = Random.nextInt(399)
+                val tableRoll = Random.nextInt(RUMMAGE_TOTAL)
                 var acc = 0
                 for (drop in RUMMAGE_TABLE) {
                     acc += drop.weight
                     if (tableRoll < acc) {
-                        reward(drop.obj, Random.nextInt(drop.lo, drop.hi + 1))
+                        applyRummageDrop(drop)
                         return
                     }
                 }
+            }
+        }
+    }
+
+    private fun ProtectedAccess.applyRummageDrop(drop: RummageDrop) {
+        when (drop.obj) {
+            SEEDS -> rollSeedReward()
+            in NEST_OBJS -> reward(drop.obj, nestQuantity())
+            else -> reward(drop.obj, Random.nextInt(drop.lo, drop.hi + 1))
+        }
+    }
+
+    // One nest drops below 80 Fletching; two at 80 and above.
+    private fun ProtectedAccess.nestQuantity(): Int = if (player.fletchingLvl >= 80) 2 else 1
+
+    private fun ProtectedAccess.rollSeedReward() {
+        val tier =
+            when {
+                player.fletchingLvl >= 90 -> SEEDS_90
+                player.fletchingLvl >= 80 -> SEEDS_80
+                player.fletchingLvl >= 65 -> SEEDS_65
+                player.fletchingLvl >= 50 -> SEEDS_50
+                else -> SEEDS_0
+            }
+        val roll = Random.nextInt(tier.sumOf { it.weight })
+        var acc = 0
+        for (drop in tier) {
+            acc += drop.weight
+            if (roll < acc) {
+                reward(drop.obj, Random.nextInt(drop.lo, drop.hi + 1))
+                return
             }
         }
     }
@@ -386,26 +496,29 @@ constructor(
         for (site in SITES) {
             player.rollTrio(site)
         }
+        val admired = mutableListOf<Int>()
         for (site in SITES) {
             if (player.base(site) == 0 || !player.allSectionsCarved(site)) continue
-            val decay = player.decay(site) - 1
-            if (decay <= 0) {
-                collapse(site)
-                spam("Your totem has fallen apart.")
-            } else {
-                player.setDecay(site, decay)
-                grantOfferings(site)
-            }
+            player.setDecay(site, player.decay(site) - 1)
+            admired += site
+        }
+        if (admired.isNotEmpty()) {
+            player.queue(REWARD_QUEUE, ADMIRE_TICKS, admired.toList())
         }
         spawnTrail()
         player.timerAt(VISIT_TIMER, worldClock.cycle, VISIT_INTERVAL)
     }
 
+    // The ent admires a totem for 14 ticks before leaving offerings; decorations
+    // attached during that window still count towards the visit's payout.
     private fun ProtectedAccess.grantOfferings(site: Int) {
         val wood = WOODS.firstOrNull { it.id == player.base(site) } ?: return
+        if (player.base(site) == 0 || !player.allSectionsCarved(site)) return
         val correct = player.correctCarves(site)
         val decors = player.decorations(site)
-        var amount = wood.offerings * (1 + correct) * (1 + decors) / 20.0
+        var amount =
+            ceil(wood.visitUnit10 * (1 + decors) / 10.0) *
+                (1.0 - WRONG_CARVE_PENALTY * (SECTIONS.size - correct))
         if (vars["varbit.ent_totems_site_${site}_trail_buff_active"] != 0) {
             amount *= 2
             vars["varbit.ent_totems_site_${site}_trail_buff_active"] = 0
@@ -414,6 +527,10 @@ constructor(
         val gained = amount.roundToInt()
         if (gained > 0) {
             player.setPoints(site, (player.points(site) + gained).coerceAtMost(POINTS_MAX))
+        }
+        if (player.decay(site) <= 0) {
+            collapse(site)
+            spam("Your totem has fallen apart.")
         }
     }
 
@@ -604,6 +721,9 @@ constructor(
         setVar("varbit.ent_totems_site_${site}_base", v)
     }
 
+    private fun Player.baseCarved(site: Int): Int =
+        vars["varbit.ent_totems_site_${site}_base_carved"]
+
     private fun Player.setBaseCarved(site: Int, v: Int) {
         setVar("varbit.ent_totems_site_${site}_base_carved", v)
     }
@@ -663,6 +783,31 @@ constructor(
         E(4, 'e', "scorpion"),
     }
 
+    private enum class TotemAction {
+        BUILD,
+        CARVE,
+        DECORATE,
+    }
+
+    private data class TotemTask(
+        val action: TotemAction,
+        val site: Int,
+        val woodId: Int,
+        val section: Section = Section.BASE,
+        val animalIndex: Int = 0,
+        val obj: String = "",
+    ) {
+        companion object {
+            fun build(site: Int, woodId: Int) = TotemTask(TotemAction.BUILD, site, woodId)
+
+            fun carve(site: Int, woodId: Int, section: Section, animalIndex: Int) =
+                TotemTask(TotemAction.CARVE, site, woodId, section, animalIndex)
+
+            fun decorate(site: Int, woodId: Int, obj: String) =
+                TotemTask(TotemAction.DECORATE, site, woodId, obj = obj)
+        }
+    }
+
     private data class Wood(
         val id: Int,
         val key: String,
@@ -673,6 +818,7 @@ constructor(
         val durability: Int,
         val offerings: Int,
         val log: String,
+        val visitUnit10: Int,
     )
 
     private companion object {
@@ -696,6 +842,8 @@ constructor(
         const val CARVE_ANIM = "seq.brut_human_knifeuse"
         const val VISIT_TIMER = "timer.ent_totems_visit"
         const val RESEARCH_CURRENCY = "currency.vale_research_points"
+        const val ACTION_QUEUE = "queue.ent_totems_action"
+        const val REWARD_QUEUE = "queue.ent_totems_visit_reward"
 
         const val VISIT_INTERVAL = 80
         const val INTRO_DONE = 127
@@ -705,7 +853,14 @@ constructor(
         const val POINTS_MAX = 16_383
         const val RUMMAGE_COST = 100
         const val RUMMAGE_HASTY_COST = 500
-        const val WRONG_CARVE_XP_FACTOR = 0.75
+        const val WRONG_CARVE_PENALTY = 0.25
+
+        // Build/carve/decorate take two game ticks; queues scheduled mid-processing
+        // decrement once on the same tick, so an extra cycle is queued.
+        const val ACTION_QUEUE_CYCLES = 3
+
+        // Ents admire a totem for 14 ticks before leaving offerings.
+        const val ADMIRE_TICKS = 14
         const val TRAIL_XP_BONUS = 1.15
         const val TRAIL_XP_ACTIONS = 4
         const val TRAIL_LIFETIME = 200
@@ -753,7 +908,17 @@ constructor(
                     durability = row.durability,
                     offerings = row.offerings,
                     log = row.log.internalName,
+                    visitUnit10 = row.visitUnit,
                 )
+            }
+        }
+
+        val DECORATION_LEVELS: Map<String, Int> by lazy {
+            buildMap {
+                for (row in FletchingRecipesRow.all()) {
+                    val level = row.statReq.firstOrNull()?.t1 ?: continue
+                    put(row.output.internalName, level)
+                }
             }
         }
 
@@ -774,18 +939,123 @@ constructor(
             enum.values.mapKeys { (k, _) -> k as Int }.mapValues { (_, v) -> v as Int }
         }
 
+        // The wiki's rummage rates are per 399; weights here are x10 so the
+        // fractional entries (7.2, 32.5, 0.5) stay exact integers.
+        const val RUMMAGE_TOTAL = 3990
+
         val RUMMAGE_TABLE =
             listOf(
-                RummageDrop("obj.dirty_arrowtips", 26, 32, 80),
-                RummageDrop("obj.ent_branch", 1, 1, 65),
-                RummageDrop("obj.flax", 5, 6, 50),
-                RummageDrop("obj.blessed_bone_shard", 70, 90, 35),
-                RummageDrop("obj.forestry_currency", 70, 90, 25),
-                RummageDrop("obj.feather", 400, 500, 15),
-                RummageDrop("obj.magic_roots", 2, 3, 30),
-                RummageDrop("obj.yew_roots", 3, 4, 30),
-                RummageDrop("obj.maple_roots", 3, 4, 20),
-                RummageDrop("obj.willow_roots", 3, 4, 20),
+                RummageDrop("obj.dirty_arrowtips", 26, 32, 800),
+                RummageDrop("obj.ent_branch", 1, 1, 650),
+                RummageDrop("obj.flax_bale", 5, 6, 500),
+                RummageDrop("obj.blessed_bone_shard", 70, 90, 350),
+                RummageDrop("obj.forestry_currency", 70, 90, 250),
+                RummageDrop("obj.feather", 400, 500, 150),
+                RummageDrop("obj.magic_roots", 2, 3, 72),
+                RummageDrop("obj.yew_roots", 3, 4, 72),
+                RummageDrop("obj.maple_roots", 3, 4, 48),
+                RummageDrop("obj.willow_roots", 3, 4, 48),
+                RummageDrop("obj.bird_nest_seeds", 0, 0, 325),
+                RummageDrop("obj.bird_nest_ring", 0, 0, 160),
+                RummageDrop("obj.bird_nest_egg_red", 0, 0, 5),
+                RummageDrop("obj.bird_nest_egg_green", 0, 0, 5),
+                RummageDrop("obj.bird_nest_egg_blue", 0, 0, 5),
+                RummageDrop(SEEDS, 0, 0, 550),
+            )
+
+        const val SEEDS = "seeds"
+
+        val NEST_OBJS =
+            setOf(
+                "obj.bird_nest_seeds",
+                "obj.bird_nest_ring",
+                "obj.bird_nest_egg_red",
+                "obj.bird_nest_egg_green",
+                "obj.bird_nest_egg_blue",
+            )
+
+        // Seed sub-tables per Fletching-level tier; weights are per 1000 within the
+        // 55/399 seed roll, scaled from the wiki's empirical drop rates.
+        val SEEDS_0 =
+            listOf(
+                RummageDrop("obj.cadavaberry_bush_seed", 7, 11, 251),
+                RummageDrop("obj.apple_tree_seed", 1, 2, 197),
+                RummageDrop("obj.watermelon_seed", 5, 8, 162),
+                RummageDrop("obj.limpwurt_seed", 3, 6, 150),
+                RummageDrop("obj.pineapple_tree_seed", 1, 2, 99),
+                RummageDrop("obj.acorn", 3, 6, 99),
+                RummageDrop("obj.papaya_tree_seed", 1, 2, 25),
+                RummageDrop("obj.willow_seed", 1, 2, 14),
+                RummageDrop("obj.maple_seed", 1, 2, 2),
+                RummageDrop("obj.palm_tree_seed", 1, 2, 1),
+            )
+
+        val SEEDS_50 =
+            listOf(
+                RummageDrop("obj.cadavaberry_bush_seed", 7, 11, 197),
+                RummageDrop("obj.apple_tree_seed", 1, 2, 160),
+                RummageDrop("obj.limpwurt_seed", 3, 6, 133),
+                RummageDrop("obj.watermelon_seed", 5, 8, 132),
+                RummageDrop("obj.acorn", 3, 6, 89),
+                RummageDrop("obj.pineapple_tree_seed", 1, 2, 89),
+                RummageDrop("obj.willow_seed", 1, 2, 61),
+                RummageDrop("obj.papaya_tree_seed", 1, 2, 52),
+                RummageDrop("obj.maple_seed", 1, 2, 36),
+                RummageDrop("obj.palm_tree_seed", 1, 2, 20),
+                RummageDrop("obj.yew_seed", 1, 2, 20),
+                RummageDrop("obj.magic_tree_seed", 1, 2, 10),
+                RummageDrop("obj.dragonfruit_tree_seed", 1, 2, 1),
+            )
+
+        val SEEDS_65 =
+            listOf(
+                RummageDrop("obj.willow_seed", 1, 2, 166),
+                RummageDrop("obj.papaya_tree_seed", 1, 2, 117),
+                RummageDrop("obj.maple_seed", 1, 2, 110),
+                RummageDrop("obj.limpwurt_seed", 3, 6, 95),
+                RummageDrop("obj.cadavaberry_bush_seed", 7, 11, 86),
+                RummageDrop("obj.apple_tree_seed", 1, 2, 70),
+                RummageDrop("obj.acorn", 3, 6, 67),
+                RummageDrop("obj.pineapple_tree_seed", 1, 2, 67),
+                RummageDrop("obj.palm_tree_seed", 1, 2, 65),
+                RummageDrop("obj.yew_seed", 1, 2, 65),
+                RummageDrop("obj.watermelon_seed", 5, 8, 58),
+                RummageDrop("obj.magic_tree_seed", 1, 2, 33),
+                RummageDrop("obj.dragonfruit_tree_seed", 1, 2, 1),
+            )
+
+        val SEEDS_80 =
+            listOf(
+                RummageDrop("obj.willow_seed", 1, 2, 238),
+                RummageDrop("obj.papaya_tree_seed", 1, 2, 158),
+                RummageDrop("obj.maple_seed", 1, 2, 157),
+                RummageDrop("obj.palm_tree_seed", 1, 2, 95),
+                RummageDrop("obj.yew_seed", 1, 2, 95),
+                RummageDrop("obj.limpwurt_seed", 3, 6, 71),
+                RummageDrop("obj.pineapple_tree_seed", 1, 2, 52),
+                RummageDrop("obj.acorn", 3, 6, 52),
+                RummageDrop("obj.magic_tree_seed", 1, 2, 47),
+                RummageDrop("obj.cadavaberry_bush_seed", 7, 11, 12),
+                RummageDrop("obj.apple_tree_seed", 1, 2, 12),
+                RummageDrop("obj.watermelon_seed", 5, 8, 9),
+                RummageDrop("obj.dragonfruit_tree_seed", 1, 2, 2),
+            )
+
+        val SEEDS_90 =
+            listOf(
+                RummageDrop("obj.willow_seed", 1, 2, 249),
+                RummageDrop("obj.maple_seed", 1, 2, 165),
+                RummageDrop("obj.papaya_tree_seed", 1, 2, 165),
+                RummageDrop("obj.yew_seed", 1, 2, 100),
+                RummageDrop("obj.palm_tree_seed", 1, 2, 99),
+                RummageDrop("obj.limpwurt_seed", 3, 6, 67),
+                RummageDrop("obj.acorn", 3, 6, 50),
+                RummageDrop("obj.pineapple_tree_seed", 1, 2, 50),
+                RummageDrop("obj.magic_tree_seed", 1, 2, 50),
+                RummageDrop("obj.dragonfruit_tree_seed", 1, 2, 2),
+                RummageDrop("obj.watermelon_seed", 5, 8, 1),
+                RummageDrop("obj.apple_tree_seed", 1, 2, 1),
+                RummageDrop("obj.cadavaberry_bush_seed", 7, 11, 1),
             )
 
         private val TRAIL_STEPPED_ATTR: AttributeKey<MutableSet<Int>> = AttributeKey(temp = true)

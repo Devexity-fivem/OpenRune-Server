@@ -6,6 +6,7 @@ import dev.openrune.map.loc.MapLocDefinition
 import dev.openrune.map.loc.MapLocListDecoder
 import dev.openrune.map.util.InlineByteBuf
 import dev.openrune.rscm.RSCM
+import dev.openrune.rscm.RSCMType
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode
 import org.junit.jupiter.api.parallel.ResourceLock
 import org.rsmod.api.table.ValeTotemsSitesRow
 import org.rsmod.api.table.ValeTotemsWoodsRow
+import org.rsmod.api.table.fletching.FletchingRecipesRow
 import org.rsmod.map.square.MapSquareKey
 
 @Execution(ExecutionMode.SAME_THREAD)
@@ -114,6 +116,8 @@ class ValeTotemsTest {
         assertEquals(6, rows.size)
         val names = listOf("Oak", "Willow", "Maple", "Yew", "Magic", "Redwood")
         val levels = listOf(20, 35, 50, 65, 80, 90)
+        // Per-visit base offerings x10, matching the wiki: 2/2/2/2.5/3/3.
+        val visitUnits = listOf(20, 20, 20, 25, 30, 30)
         rows.forEachIndexed { i, row ->
             assertEquals(i + 1, row.key)
             assertTrue(row.name.startsWith(names[i]), "row $i name=${row.name}")
@@ -121,7 +125,87 @@ class ValeTotemsTest {
             assertTrue(row.actionXp > 0 && row.decorXp > 0)
             assertTrue(row.durability in 2..7)
             assertTrue(row.offerings > 0)
+            assertEquals(visitUnits[i], row.visitUnit, "row $i visit unit")
             assertNotNull(row.log.internalName)
+        }
+    }
+
+    @Test
+    fun `per visit offerings match the wiki table`() {
+        // ceil(unit x (1 + decorations)) for 0..4 decorations, all correct carves.
+        val expected =
+            listOf(
+                intArrayOf(2, 4, 6, 8, 10),
+                intArrayOf(2, 4, 6, 8, 10),
+                intArrayOf(2, 4, 6, 8, 10),
+                intArrayOf(3, 5, 8, 10, 13),
+                intArrayOf(3, 6, 9, 12, 15),
+                intArrayOf(3, 6, 9, 12, 15),
+            )
+        val rows = ValeTotemsWoodsRow.all()
+        rows.forEachIndexed { i, row ->
+            for (decorations in 0..4) {
+                val perVisit = kotlin.math.ceil(row.visitUnit * (1 + decorations) / 10.0).toInt()
+                assertEquals(
+                    expected[i][decorations],
+                    perVisit,
+                    "row $i with $decorations decorations",
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `decoration fletching levels match the wiki creation table`() {
+        val levelsByOutput =
+            FletchingRecipesRow.all().associate { it.output.internalName to it.statReq.first().t1 }
+        val expected =
+            mapOf(
+                "obj.oak_shortbow" to 20,
+                "obj.unstrung_oak_shortbow" to 20,
+                "obj.oak_longbow" to 25,
+                "obj.unstrung_oak_longbow" to 25,
+                "obj.oak_shield" to 27,
+                "obj.xbows_crossbow_stock_oak" to 24,
+                "obj.willow_shortbow" to 35,
+                "obj.unstrung_willow_shortbow" to 35,
+                "obj.willow_longbow" to 40,
+                "obj.unstrung_willow_longbow" to 40,
+                "obj.willow_shield" to 42,
+                "obj.xbows_crossbow_stock_willow" to 39,
+                "obj.maple_shortbow" to 50,
+                "obj.unstrung_maple_shortbow" to 50,
+                "obj.maple_longbow" to 55,
+                "obj.unstrung_maple_longbow" to 55,
+                "obj.maple_shield" to 57,
+                "obj.xbows_crossbow_stock_maple" to 54,
+                "obj.yew_shortbow" to 65,
+                "obj.unstrung_yew_shortbow" to 65,
+                "obj.yew_longbow" to 70,
+                "obj.unstrung_yew_longbow" to 70,
+                "obj.yew_shield" to 72,
+                "obj.xbows_crossbow_stock_yew" to 69,
+                "obj.magic_shortbow" to 80,
+                "obj.unstrung_magic_shortbow" to 80,
+                "obj.magic_longbow" to 85,
+                "obj.unstrung_magic_longbow" to 85,
+                "obj.magic_shield" to 87,
+                "obj.xbows_crossbow_stock_magic" to 78,
+                "obj.redwood_hiking_staff" to 90,
+                "obj.redwood_shield" to 92,
+            )
+        val enum =
+            checkNotNull(
+                ServerCacheManager.getEnum(RSCM.getRSCM("enum.vale_totems_decoration_wood")),
+            )
+        for ((key, _) in enum.values) {
+            val internal = RSCM.getReverseMapping(RSCMType.OBJ, key as Int)
+            val expectedLevel = expected[internal] ?: continue
+            assertEquals(
+                expectedLevel,
+                levelsByOutput[internal],
+                "fletching level for $internal",
+            )
         }
     }
 
