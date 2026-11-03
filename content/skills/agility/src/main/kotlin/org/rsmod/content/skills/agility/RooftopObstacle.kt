@@ -62,8 +62,11 @@ internal const val ROOFTOP_SIDESTEP = "seq.human_walk_sidestepl"
 internal const val FACE_SOUTH = 0
 internal const val FACE_SOUTHWEST = 256
 internal const val FACE_WEST = 512
+internal const val FACE_NORTHWEST = 768
 internal const val FACE_NORTH = 1024
+internal const val FACE_NORTHEAST = 1280
 internal const val FACE_EAST = 1536
+internal const val FACE_SOUTHEAST = 1792
 
 private const val CYCLES_PER_TICK = 30
 private const val ROOFTOP_MOVE_TICKS = 2
