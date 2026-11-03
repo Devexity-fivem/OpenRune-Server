@@ -51,6 +51,8 @@ class DragonWeaponSpecialAttacks @Inject constructor(private val collision: Coll
             )
         registerMelee("obj.dragon_warhammer", smash)
         registerMelee("obj.dragon_warhammer_ornament", smash)
+        registerMelee("obj.br_dragon_warhammer", smash)
+        registerMelee("obj.bh_dragon_warhammer_corrupted", smash)
 
         val statiusSmash =
             DefenceDrainer(
@@ -61,6 +63,8 @@ class DragonWeaponSpecialAttacks @Inject constructor(private val collision: Coll
                 spot = "spotanim.dragon_warhammer_sa_spotanim",
             )
         registerMelee("obj.statius_warhammer", statiusSmash)
+        registerMelee("obj.statius_warhammer_bh", statiusSmash)
+        registerMelee("obj.br_statius_warhammer", statiusSmash)
 
         val pulverize =
             DefenceDrainer(
@@ -72,10 +76,16 @@ class DragonWeaponSpecialAttacks @Inject constructor(private val collision: Coll
                 targetSpot = "spotanim.spotanim_elder_maul_special_impact",
             )
         registerMelee("obj.elder_maul", pulverize)
-        registerMelee("obj.dragon_mace", Shatter(manager))
-        registerMelee("obj.granite_maul", QuickSmash(manager))
-        registerMelee("obj.granite_maul_pretty", QuickSmash(manager))
-        registerMelee("obj.granite_maul_plus", QuickSmash(manager))
+        registerMelee("obj.elder_maul_ornament", pulverize)
+        registerMelee("obj.br_elder_maul", pulverize)
+        val shatter = Shatter(manager)
+        for (obj in DRAGON_MACES) {
+            registerMelee(obj, shatter)
+        }
+        val quickSmash = QuickSmash(manager)
+        for (obj in GRANITE_MAULS) {
+            registerMelee(obj, quickSmash)
+        }
 
         val backstab = Backstab(manager)
         for (obj in BONE_DAGGERS) {
@@ -83,8 +93,9 @@ class DragonWeaponSpecialAttacks @Inject constructor(private val collision: Coll
         }
 
         val feint = Feint(manager)
-        registerMelee("obj.vestas_longsword", feint)
-        registerMelee("obj.vestas_longsword_bh", feint)
+        for (obj in VESTAS_LONGSWORDS) {
+            registerMelee(obj, feint)
+        }
     }
 
     private class Puncture(private val manager: SpecialAttackManager) : MeleeSpecialAttack {
@@ -524,15 +535,45 @@ class DragonWeaponSpecialAttacks @Inject constructor(private val collision: Coll
                 "obj.dragon_dagger_p",
                 "obj.dragon_dagger_p+",
                 "obj.dragon_dagger_p++",
+                "obj.br_dragon_dagger",
+                "obj.bh_dragon_dagger_corrupted",
+                "obj.bh_dragon_dagger_p_corrupted",
+                "obj.bh_dragon_dagger_p+_corrupted",
+                "obj.bh_dragon_dagger_p++_corrupted",
             )
-        val DRAGON_CLAWS = listOf("obj.dragon_claws", "obj.dragon_claws_ornament")
-        val DRAGON_SCIMITARS = listOf("obj.dragon_scimitar", "obj.dragon_scimitar_ornament")
+        val DRAGON_CLAWS =
+            listOf(
+                "obj.dragon_claws",
+                "obj.dragon_claws_ornament",
+                "obj.br_dragon_claws",
+                "obj.bh_dragon_claws_corrupted",
+                "obj.deadman_blighted_dragon_claws",
+            )
+        val DRAGON_SCIMITARS =
+            listOf(
+                "obj.dragon_scimitar",
+                "obj.dragon_scimitar_ornament",
+                "obj.br_dragon_scimitar",
+                "obj.bh_dragon_scimitar_corrupted",
+            )
         val SHOVE_SPEARS =
             listOf(
                 "obj.dragon_spear",
                 "obj.dragon_spear_p",
+                "obj.dragon_spear_p+",
+                "obj.dragon_spear_p++",
+                "obj.tbwt_dragon_spear_kp",
+                "obj.brut_dragon_spear",
+                "obj.brut_dragon_spear_p",
+                "obj.brut_dragon_spear_p+",
+                "obj.brut_dragon_spear_p++",
+                "obj.brut_dragon_spear_kp",
                 "obj.zamorak_spear",
                 "obj.zamorak_hasta",
+                "obj.bh_dragon_spear_corrupted",
+                "obj.bh_dragon_spear_p_corrupted",
+                "obj.bh_dragon_spear_p+_corrupted",
+                "obj.bh_dragon_spear_p++_corrupted",
             )
         val BONE_DAGGERS =
             listOf(
@@ -540,6 +581,27 @@ class DragonWeaponSpecialAttacks @Inject constructor(private val collision: Coll
                 "obj.dttd_bone_dagger_p",
                 "obj.dttd_bone_dagger_p+",
                 "obj.dttd_bone_dagger_p++",
+            )
+        val DRAGON_MACES =
+            listOf(
+                "obj.dragon_mace",
+                "obj.bh_dragon_mace_imbue",
+                "obj.bh_dragon_mace_corrupted",
+            )
+        val GRANITE_MAULS =
+            listOf(
+                "obj.granite_maul",
+                "obj.granite_maul_pretty",
+                "obj.granite_maul_plus",
+                "obj.granite_maul_pretty_plus",
+                "obj.br_granite_maul",
+            )
+        val VESTAS_LONGSWORDS =
+            listOf(
+                "obj.vestas_longsword",
+                "obj.vestas_longsword_bh",
+                "obj.bh_vestas_longsword",
+                "obj.br_vestas_longsword",
             )
     }
 }

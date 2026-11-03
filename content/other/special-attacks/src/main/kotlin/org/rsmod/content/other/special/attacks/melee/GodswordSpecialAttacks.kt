@@ -19,11 +19,26 @@ import org.rsmod.game.entity.Player
 
 class GodswordSpecialAttacks : SpecialAttackMap {
     override fun SpecialAttackRepository.register(manager: SpecialAttackManager) {
-        registerMelee("obj.ags", Armadyl(manager))
-        registerMelee("obj.bgs", Bandos(manager))
-        registerMelee("obj.sgs", Saradomin(manager))
-        registerMelee("obj.zgs", Zamorak(manager))
-        registerMelee("obj.ancient_godsword", AncientGodsword(manager))
+        val armadyl = Armadyl(manager)
+        for (obj in listOf("obj.ags", "obj.agsg", "obj.br_ags", "obj.deadman_ags", "obj.deadman_blighted_ags")) {
+            registerMelee(obj, armadyl)
+        }
+        val bandos = Bandos(manager)
+        for (obj in listOf("obj.bgs", "obj.bgsg")) {
+            registerMelee(obj, bandos)
+        }
+        val saradomin = Saradomin(manager)
+        for (obj in listOf("obj.sgs", "obj.sgsg")) {
+            registerMelee(obj, saradomin)
+        }
+        val zamorak = Zamorak(manager)
+        for (obj in listOf("obj.zgs", "obj.zgsg")) {
+            registerMelee(obj, zamorak)
+        }
+        val ancient = AncientGodsword(manager)
+        for (obj in listOf("obj.ancient_godsword", "obj.br_ancient_godsword")) {
+            registerMelee(obj, ancient)
+        }
     }
 
     private abstract class Godsword(protected val manager: SpecialAttackManager) :

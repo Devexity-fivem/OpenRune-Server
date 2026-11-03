@@ -3,7 +3,6 @@ package org.rsmod.content.other.special.attacks.ranged
 import dev.openrune.rscm.RSCM
 import dev.openrune.rscm.RSCMType
 import dev.openrune.types.ItemServerType
-import dev.openrune.types.aconverted.SpotanimType
 import jakarta.inject.Inject
 import org.rsmod.api.combat.commons.CombatAttack
 import org.rsmod.api.combat.manager.RangedAmmoManager
@@ -30,6 +29,9 @@ class DarkBowSpecialAttack @Inject constructor(private val ammunition: RangedAmm
         registerRanged("obj.darkbow_yellow", DarkBow(manager, ammunition))
         registerRanged("obj.darkbow_white", DarkBow(manager, ammunition))
         registerRanged("obj.bh_darkbow_imbue", DarkBow(manager, ammunition))
+        registerRanged("obj.br_darkbow", DarkBow(manager, ammunition))
+        registerRanged("obj.deadman_darkbow", DarkBow(manager, ammunition))
+        registerRanged("obj.deadman_blighted_dark_bow", DarkBow(manager, ammunition))
     }
 
     private class DarkBow(
@@ -96,7 +98,7 @@ class DarkBowSpecialAttack @Inject constructor(private val ammunition: RangedAmm
             anim("seq.human_bow")
             soundSynth("synth.darkbow_doublefire")
             soundSynth("synth.darkbow_shadow_attack")
-            spotanim(RSCM.getReverseMapping(RSCMType.SPOTANIM,launchSpot!!.id), height = 96, slot = constants.spotanim_slot_combat)
+            spotanim(RSCM.getReverseMapping(RSCMType.SPOTANIM, launchSpot!!.id), height = 96, slot = constants.spotanim_slot_combat)
 
             val descentTravel = "spotanim.darkbow_generic_smoke_arrow_flight"
             val descentImpact = "spotanim.darkbow_smoke_arrow_impact"
@@ -154,7 +156,7 @@ class DarkBowSpecialAttack @Inject constructor(private val ammunition: RangedAmm
             anim("seq.human_bow")
             soundSynth("synth.darkbow_doublefire")
             soundSynth("synth.darkbow_dragon_attack")
-            spotanim(RSCM.getReverseMapping(RSCMType.SPOTANIM,launchSpot!!.id), height = 96, slot = constants.spotanim_slot_combat)
+            spotanim(RSCM.getReverseMapping(RSCMType.SPOTANIM, launchSpot!!.id), height = 96, slot = constants.spotanim_slot_combat)
 
             val descentTravel = "spotanim.darkbow_dragon_head_flying_projanim"
             val descentImpact = "spotanim.darkbow_dragon_head_flying_impact_anim"

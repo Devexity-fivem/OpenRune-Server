@@ -32,23 +32,47 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
     SpecialAttackMap {
     override fun SpecialAttackRepository.register(manager: SpecialAttackManager) {
         val snapshot = Snapshot(manager, ammunition)
-        registerRanged("obj.magic_shortbow", snapshot)
-        registerRanged("obj.magic_shortbow_i", snapshot)
+        for (obj in listOf("obj.magic_shortbow", "obj.magic_shortbow_i", "obj.br_magic_bow", "obj.daganoth_cave_magic_shortbow")) {
+            registerRanged(obj, snapshot)
+        }
 
         val powershot = Powershot(manager, ammunition)
         registerRanged("obj.magic_longbow", powershot)
         registerRanged("obj.trail_composite_bow_magic", powershot)
 
         val lightBallista = ConcentratedShot(manager, ammunition, "seq.ballista_special_attack", 10)
-        registerRanged("obj.light_ballista", lightBallista)
+        for (obj in listOf("obj.light_ballista", "obj.br_light_ballista")) {
+            registerRanged(obj, lightBallista)
+        }
         val heavyBallista = ConcentratedShot(manager, ammunition, "seq.ballista02_special_attack", 11)
-        registerRanged("obj.heavy_ballista", heavyBallista)
+        for (obj in listOf("obj.heavy_ballista", "obj.heavy_ballista_ornament", "obj.br_heavy_ballista")) {
+            registerRanged(obj, heavyBallista)
+        }
 
-        registerRanged("obj.acb", ArmadylEye(manager, ammunition))
-        registerRanged("obj.xbows_crossbow_dragon", Annihilate(manager, ammunition, npcList))
+        val armadylEye = ArmadylEye(manager, ammunition)
+        for (obj in listOf("obj.acb", "obj.br_acb")) {
+            registerRanged(obj, armadylEye)
+        }
+        val annihilate = Annihilate(manager, ammunition, npcList)
+        for (obj in listOf("obj.xbows_crossbow_dragon", "obj.bh_xbows_crossbow_dragon_corrupted", "obj.br_xbows_crossbow_dragon")) {
+            registerRanged(obj, annihilate)
+        }
         registerRanged("obj.dttd_bone_crossbow", Snipe(manager, ammunition))
-        registerRanged("obj.morrigans_javelin", PhantomStrike(manager, ammunition))
+        val phantomStrike = PhantomStrike(manager, ammunition)
+        for (obj in listOf("obj.morrigans_javelin", "obj.morrigans_javelin_bh", "obj.br_morrigans_javelin")) {
+            registerRanged(obj, phantomStrike)
+        }
         registerRanged("obj.wild_cave_webweaver_charged", Swarm(manager, ammunition))
+
+        val momentumThrow = MomentumThrow(manager, ammunition)
+        registerRanged("obj.dragon_thrownaxe", momentumThrow)
+        registerRanged("obj.br_dragon_thrownaxe", momentumThrow)
+
+        val hamstring = Hamstring(manager, ammunition)
+        registerRanged("obj.morrigans_thrownaxe", hamstring)
+        registerRanged("obj.morrigans_thrownaxe_bh", hamstring)
+
+        registerRanged("obj.rune_thrownaxe", Chainhit(manager, ammunition, npcList))
     }
 
     private abstract class BowSpecial(
@@ -469,6 +493,105 @@ constructor(private val ammunition: RangedAmmoManager, private val npcList: NpcL
             }
             if (hitDamage > 0 && target is Player) {
                 CombatEffects.poison(target, 4)
+            }
+            manager.continueCombat(this, target)
+            return true
+        }
+    }
+
+    private class MomentumThrow(manager: SpecialAttackManager, ammunition: RangedAmmoManager) :
+        BowSpecial(manager, ammunition) {
+        override fun ProtectedAccess.fire(
+            target: PathingEntity,
+            attack: CombatAttack.Ranged,
+        ): Boolean {
+            val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
+            val delays = fireProjectile(target, righthandType, ammoType, fromStored)
+            val (serverDelay, clientDelay) = delays ?: (1 to 0)
+            val damage = rollDamage(target, attack, accuracyMultiplier = 1.0)
+            manager.giveCombatXp(this, target, attack, damage)
+            manager.queueRangedHit(
+                this,
+                target,
+                righthandType,
+                damage,
+                clientDelay,
+                serverDelay,
+            )
+            manager.continueCombat(this, target)
+            return true
+        }
+    }
+
+    private class Hamstring(manager: SpecialAttackManager, ammunition: RangedAmmoManager) :
+        BowSpecial(manager, ammunition) {
+        override fun ProtectedAccess.fire(
+            target: PathingEntity,
+            attack: CombatAttack.Ranged,
+        ): Boolean {
+            val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
+            val delays = fireProjectile(target, righthandType, ammoType, fromStored)
+            val (serverDelay, clientDelay) = delays ?: (1 to 0)
+            val damage =
+                rollDamage(target, attack, accuracyMultiplier = 1.0, maxHitMultiplier = 1.2)
+            manager.giveCombatXp(this, target, attack, damage)
+            manager.queueRangedHit(
+                this,
+                target,
+                righthandType,
+                damage,
+                clientDelay,
+                serverDelay,
+            )
+            if (damage > 0 && target is Player) {
+                target.runEnergy = (target.runEnergy - damage * 600).coerceAtLeast(0)
+            }
+            manager.continueCombat(this, target)
+            return true
+        }
+    }
+
+    private class Chainhit(
+        manager: SpecialAttackManager,
+        ammunition: RangedAmmoManager,
+        private val npcList: NpcList,
+    ) : BowSpecial(manager, ammunition) {
+        override fun ProtectedAccess.fire(
+            target: PathingEntity,
+            attack: CombatAttack.Ranged,
+        ): Boolean {
+            val (righthandType, ammoType, fromStored) = resolveWeaponAmmo(attack) ?: return false
+            val delays = fireProjectile(target, righthandType, ammoType, fromStored)
+            val (serverDelay, clientDelay) = delays ?: (1 to 0)
+            val damage = rollDamage(target, attack, accuracyMultiplier = 1.0)
+            manager.giveCombatXp(this, target, attack, damage)
+            manager.queueRangedHit(
+                this,
+                target,
+                righthandType,
+                damage,
+                clientDelay,
+                serverDelay,
+            )
+
+            if (damage > 0) {
+                var hitCount = 0
+                for (npc in npcList) {
+                    if (hitCount >= 5) break
+                    if (npc === target || !npc.isValidTarget()) continue
+                    if (!npc.visType.hasOp(InteractionOp.Op2.slot)) continue
+                    if (npc.coords.chebyshevDistance(target.coords) > 3) continue
+                    val bounceDamage = rollDamage(npc, attack, accuracyMultiplier = 1.0)
+                    manager.giveCombatXp(this, npc, attack, bounceDamage)
+                    manager.queueRangedDamage(
+                        this,
+                        npc,
+                        righthandType,
+                        bounceDamage,
+                        hitDelay = serverDelay + 1,
+                    )
+                    hitCount++
+                }
             }
             manager.continueCombat(this, target)
             return true

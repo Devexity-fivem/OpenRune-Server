@@ -177,7 +177,23 @@ class AbyssalSpecialAttacks : SpecialAttackMap {
 
     private companion object {
         val ABYSSAL_WHIPS =
-            listOf("obj.abyssal_whip", "obj.abyssal_whip_ice", "obj.abyssal_whip_lava")
-        val ABYSSAL_DAGGERS = listOf("obj.abyssal_dagger", "obj.abyssal_dagger_p")
+            listOf(
+                "obj.abyssal_whip",
+                "obj.abyssal_whip_ice",
+                "obj.abyssal_whip_lava",
+                "obj.br_abyssal_whip",
+                "obj.league_3_whip",
+            )
+        val ABYSSAL_DAGGERS =
+            listOf(
+                "obj.abyssal_dagger",
+                "obj.abyssal_dagger_p",
+                "obj.abyssal_dagger_p+",
+                "obj.abyssal_dagger_p++",
+                "obj.bh_abyssal_dagger_imbue",
+                "obj.bh_abyssal_dagger_p_imbue",
+                "obj.bh_abyssal_dagger_p+_imbue",
+                "obj.bh_abyssal_dagger_p++_imbue",
+            )
     }
 }

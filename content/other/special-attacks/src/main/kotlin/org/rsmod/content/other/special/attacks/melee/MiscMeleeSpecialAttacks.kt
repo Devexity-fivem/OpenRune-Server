@@ -24,22 +24,34 @@ class MiscMeleeSpecialAttacks @Inject constructor(private val npcList: NpcList) 
     SpecialAttackMap {
     override fun SpecialAttackRepository.register(manager: SpecialAttackManager) {
         registerMelee("obj.saradomin_sword", SaradominSword(manager, "seq.saradomin_sword_special_player"))
-        registerMelee(
-            "obj.blessed_saradomin_sword",
-            SaradominSword(manager, "seq.blessed_saradomin_sword_special_player"),
-        )
+        val blessedSs = SaradominSword(manager, "seq.blessed_saradomin_sword_special_player")
+        for (obj in listOf("obj.blessed_saradomin_sword", "obj.blessed_saradomin_sword_degraded")) {
+            registerMelee(obj, blessedSs)
+        }
 
-        registerMelee("obj.voidwaker", Disrupt(manager))
-        registerMelee("obj.osmumtens_fang", Eviscerate(manager))
+        val disrupt = Disrupt(manager)
+        for (obj in listOf("obj.voidwaker", "obj.br_voidwaker", "obj.deadman_voidwaker", "obj.deadman_blighted_voidwaker")) {
+            registerMelee(obj, disrupt)
+        }
+        val eviscerate = Eviscerate(manager)
+        for (obj in listOf("obj.osmumtens_fang", "obj.osmumtens_fang_ornament", "obj.br_osmumtens_fang")) {
+            registerMelee(obj, eviscerate)
+        }
         registerMelee("obj.ancient_goblin_mace", FavourOfTheWarGod(manager))
-        registerMelee("obj.brain_anchor", Sunder(manager))
+        val sunder = Sunder(manager)
+        for (obj in listOf("obj.brain_anchor", "obj.bh_brain_anchor_imbue")) {
+            registerMelee(obj, sunder)
+        }
 
         val weaken = Weaken(manager)
         for (obj in DEMONBLADES) {
             registerMelee(obj, weaken)
         }
 
-        registerMelee("obj.vestas_spear", SpearWall(manager, npcList))
+        val spearWall = SpearWall(manager, npcList)
+        for (obj in listOf("obj.vestas_spear", "obj.vestas_spear_bh")) {
+            registerMelee(obj, spearWall)
+        }
         registerMelee("obj.wild_cave_ursine_charged", BearDown(manager))
     }
 
@@ -422,6 +434,12 @@ class MiscMeleeSpecialAttacks @Inject constructor(private val npcList: NpcList) 
     }
 
     private companion object {
-        val DEMONBLADES = listOf("obj.darklight", "obj.arclight")
+        val DEMONBLADES =
+            listOf(
+                "obj.darklight",
+                "obj.arclight",
+                "obj.arclight_inactive",
+                "obj.emberlight",
+            )
     }
 }
