@@ -363,3 +363,6 @@ aggro_call_help=65574
 greegree=65571
 vyre_noble=65572
 mourner_gear=65573
+immune_melee=65575
+immune_ranged=65576
+immune_magic=65577

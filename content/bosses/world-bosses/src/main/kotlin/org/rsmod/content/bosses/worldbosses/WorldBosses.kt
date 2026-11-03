@@ -222,13 +222,6 @@ class Dusk @Inject constructor(deps: BossDeps) : BossPluginScript(deps) {
                 anim("seq.gargoyle_marble_attack")
                 hit { damage(0..30).roll(); type(Melee) }
             }
-            triggers {
-                on(Condition.Always) runs
-                    sequence(
-                        setVarn("varn.immune_magic", 1),
-                        setVarn("varn.immune_ranged", 1),
-                    )
-            }
             phase("combat") { weightedSelectorRandom { +random(melee, weight = 1) } }
         }
 }

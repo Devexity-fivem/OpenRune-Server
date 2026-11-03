@@ -4,6 +4,7 @@ import dev.openrune.rscm.RSCM
 import dev.openrune.rscm.RSCMType
 import dev.openrune.types.HitmarkTypeGroup
 import dev.openrune.types.ItemServerType
+import org.rsmod.api.config.aliases.ParamInt
 import org.rsmod.api.config.refs.done.BaseHitmarkGroups
 import org.rsmod.api.config.refs.done.hitmark_groups
 import org.rsmod.api.config.refs.params
@@ -225,11 +226,13 @@ public fun Npc.visHitmark(): HitmarkTypeGroup {
 
 public fun Npc.isStyleImmuneTo(type: HitType): Boolean =
     when (type) {
-        HitType.Melee -> vars["varn.immune_melee"] == 1
-        HitType.Ranged -> vars["varn.immune_ranged"] == 1
-        HitType.Magic -> vars["varn.immune_magic"] == 1
+        HitType.Melee -> vars["varn.immune_melee"] == 1 || immuneParam(params.immune_melee)
+        HitType.Ranged -> vars["varn.immune_ranged"] == 1 || immuneParam(params.immune_ranged)
+        HitType.Magic -> vars["varn.immune_magic"] == 1 || immuneParam(params.immune_magic)
         HitType.Typeless -> false
     }
+
+private fun Npc.immuneParam(param: ParamInt): Boolean = visType.paramOrNull(param) == 1
 
 private fun Npc.modifyAndQueueHit(delay: Int, builder: HitBuilder, modifier: NpcHitModifier): Hit {
     modifier.modify(builder, this)

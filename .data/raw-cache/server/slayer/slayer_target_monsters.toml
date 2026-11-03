@@ -272,7 +272,7 @@ targets = ["npc.slayer_gargoyle_1", "npc.slayer_gargoyle_dead", "npc.slayer_cave
 
 [[slayer_target_monster]]
 targetId = 46
-targets = ["npc.gargboss_dusk_phase1_defensive", "npc.gargboss_dusk_phase1_transition", "npc.gargboss_dusk_phase1_flytransition", "npc.gargboss_dusk_phase2_attacking", "npc.gargboss_dusk_phase3_defensive", "npc.gargboss_dusk_phase3_transition", "npc.gargboss_dusk_phase4_spawn", "npc.gargboss_dusk_phase4", "npc.gargboss_dusk_death", "npc.superior_gargoyle_dead", "npc.league_superior_gargoyle_dead"]
+targets = ["npc.gargboss_dusk_phase1_defensive", "npc.gargboss_dusk_phase1_transition", "npc.gargboss_dusk_phase1_flytransition", "npc.gargboss_dusk_phase2_attacking", "npc.gargboss_dusk_phase3_defensive", "npc.gargboss_dusk_phase3_transition", "npc.gargboss_dusk_phase4_spawn", "npc.gargboss_dusk_phase4", "npc.gargboss_dusk_death", "npc.gargboss_dawn_death", "npc.gargboss_dawn_phase1", "npc.gargboss_dawn_phase1_transition", "npc.gargboss_dawn_phase3", "npc.superior_gargoyle_dead", "npc.league_superior_gargoyle_dead"]
 
 [[slayer_target_monster]]
 targetId = 12
@@ -723,7 +723,7 @@ targets = ["npc.abyssalsire_sire_stasis_sleeping", "npc.abyssalsire_sire_stasis_
 [[slayer_target_monster]]
 targetId = 98
 bossId = 22
-targets = ["npc.gargboss_dusk_phase1_defensive", "npc.gargboss_dusk_phase1_transition", "npc.gargboss_dusk_phase1_flytransition", "npc.gargboss_dusk_phase2_attacking", "npc.gargboss_dusk_phase3_defensive", "npc.gargboss_dusk_phase3_transition", "npc.gargboss_dusk_phase4_spawn", "npc.gargboss_dusk_phase4", "npc.gargboss_dusk_death"]
+targets = ["npc.gargboss_dusk_phase1_defensive", "npc.gargboss_dusk_phase1_transition", "npc.gargboss_dusk_phase1_flytransition", "npc.gargboss_dusk_phase2_attacking", "npc.gargboss_dusk_phase3_defensive", "npc.gargboss_dusk_phase3_transition", "npc.gargboss_dusk_phase4_spawn", "npc.gargboss_dusk_phase4", "npc.gargboss_dusk_death", "npc.gargboss_dawn_death", "npc.gargboss_dawn_phase1", "npc.gargboss_dawn_phase1_transition", "npc.gargboss_dawn_phase3"]
 
 [[slayer_target_monster]]
 targetId = 98

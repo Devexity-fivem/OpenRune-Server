@@ -1012,3 +1012,24 @@ isServerOnly = true
 type = "INT"
 defaultInt = 0
 isMembers = true
+
+[[params]]
+id = "param.immune_melee"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.immune_ranged"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true
+
+[[params]]
+id = "param.immune_magic"
+isServerOnly = true
+type = "INT"
+defaultInt = 0
+isMembers = true

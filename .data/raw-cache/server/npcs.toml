@@ -2120,6 +2120,8 @@ inherit = "npc.gargboss_dusk_death"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 "param.killcount_varp"="varp.total_gargboss_kills"
 
 [[npc]]
@@ -18447,6 +18449,8 @@ inherit = "npc.gargboss_dusk_spawn"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 
 [[npc]]
 id = "npc.gargboss_dawn_spawn"
@@ -18461,6 +18465,8 @@ inherit = "npc.gargboss_dusk_phase1_defensive"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 
 [[npc]]
 id = "npc.gargboss_dawn_phase1"
@@ -18482,6 +18488,8 @@ inherit = "npc.gargboss_dusk_phase1_transition"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 
 [[npc]]
 id = "npc.gargboss_dusk_phase1_flytransition"
@@ -18489,6 +18497,8 @@ inherit = "npc.gargboss_dusk_phase1_flytransition"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 
 [[npc]]
 id = "npc.wild_cave_black_dragon"
@@ -18777,6 +18787,8 @@ inherit = "npc.gargboss_dusk_phase2_attacking"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 
 [[npc]]
 id = "npc.gargboss_dusk_phase3_defensive"
@@ -18784,6 +18796,8 @@ inherit = "npc.gargboss_dusk_phase3_defensive"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 
 [[npc]]
 id = "npc.gargboss_dawn_phase3"
@@ -18798,6 +18812,8 @@ inherit = "npc.gargboss_dusk_phase3_transition"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 
 [[npc]]
 id = "npc.gargboss_dusk_phase4_spawn"
@@ -18805,6 +18821,8 @@ inherit = "npc.gargboss_dusk_phase4_spawn"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 
 [[npc]]
 id = "npc.gargboss_dusk_phase4"
@@ -18812,6 +18830,8 @@ inherit = "npc.gargboss_dusk_phase4"
 [npc.params]
 "param.elemental_weakness_type"=2
 "param.elemental_weakness_percent"=40
+"param.immune_ranged"=1
+"param.immune_magic"=1
 
 [[npc]]
 id = "npc.nzone_hosidiusquest_snake_normal"
