@@ -13,6 +13,15 @@ public enum class TeleportType {
     /** Minigame teleports - cannot be used anywhere in the Wilderness. */
     Minigame,
 
-    /** Bypasses wilderness teleport restrictions (e.g. admin commands). */
+    /**
+     * Physical movement such as ladders, stairs, and cave passages - not a teleport, so it is not
+     * affected by Tele Block or Wilderness level restrictions.
+     */
+    Movement,
+
+    /**
+     * Bypasses the Wilderness level restriction but is still blocked by Tele Block (e.g. levers,
+     * obelisks, admin commands).
+     */
     Exempt,
 }

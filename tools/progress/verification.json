@@ -2076,6 +2076,67 @@
       "discrepancies": [
         "Only the fly-fishing Lure option exercised live; other spot types (net, harpoon, cage, big net, karambwan vessel, minnows) not individually spot-checked."
       ]
+    },
+    "Wilderness": {
+      "status": "IN PROGRESS",
+      "implementationPaths": [
+        "content/areas/wilderness/src/main/kotlin/org/rsmod/content/areas/wilderness/locs/WildernessLevers.kt",
+        "content/areas/wilderness/src/main/kotlin/org/rsmod/content/areas/wilderness/locs/WildernessObelisks.kt",
+        "content/areas/wilderness/src/main/kotlin/org/rsmod/content/areas/wilderness/locs/MageArenaTravel.kt",
+        "content/areas/wilderness/src/main/kotlin/org/rsmod/content/areas/wilderness/locs/RevenantCaves.kt",
+        "content/areas/wilderness/src/main/kotlin/org/rsmod/content/areas/wilderness/locs/WildernessResourceArea.kt",
+        "content/areas/wilderness/src/main/kotlin/org/rsmod/content/areas/wilderness/WildernessDeathHook.kt",
+        "api/player/src/main/kotlin/org/rsmod/api/player/protect/ProtectedAccess.kt"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Wilderness_Obelisk",
+        "https://oldschool.runescape.wiki/w/Resource_Area",
+        "https://oldschool.runescape.wiki/w/Revenant_Caves",
+        "https://oldschool.runescape.wiki/w/Mage_Arena",
+        "https://oldschool.runescape.wiki/w/Lever",
+        "https://oldschool.runescape.wiki/w/Tele_Block"
+      ],
+      "mechanics": {
+        "state": "partial",
+        "evidence": [
+          "Wilderness levers: Ardougne (2561,3311) and Edgeville (3090,3475) levers show the blockwarning_standard-gated warning then teleport to the Deserted Keep (3154,3924); the keep lever (1815) returns to Ardougne with no warning. LostCity script flow matched: pull animation, 'You pull the lever...', teleport.",
+          "Wilderness obelisks: Activate arms all four pillar locs, swapping them to the activated variant (14825) for 8 ticks via a player soft timer + LocRepository.change; players inside the 3x3 centre zone at fire time teleport to a uniformly random site (same-site rolls included) with 'Ancient magic teleports you somewhere in the Wilderness!' and the obelisk glow spotanim. Teleblocked players are skipped individually. Teleport to Destination fires the configured site, Set Destination is gated on varbit.wilderness_diary_hard_complete and persists a 3-bit-per-site packed varp.wild_obelisk_dest.",
+          "Revenant Caves: entrance fee 100,000 coins with don't-ask-again confirmation, paid state in varp.wild_cave_fee_paid (persists until death, reset by WildernessDeathHook on cave death or any PvP death), one-way entrances, bank-fallback payment.",
+          "Resource Area gate (26760): diary-tiered fees 7,500/7,500/6,000/3,750/free for none/easy/medium/hard/elite wilderness diary, charged from inventory then bank.",
+          "Mage Arena travel corrected against LostCity area_mage_arena scripts + Wiki: hut lever (9706) -> bank (2509,4689), arena-side lever (9707) -> outside the hut, bank pool (2879) -> god-cape chamber (2542,4718), chamber pool (2878) -> bank. Pools and the magearena_scan barrier gate on Mage Arena I via QuestRequirements.hasCompleted('quest_magearena1') (passes under the world's assume-completed policy; 'Your boots get wet.' / 'You cannot enter without the permission of Kolodion.' otherwise); the barrier also refuses players carrying weapons/armour (Entrana-style wearpos+combat-bonus scan). Cellar levers 5959/5960 use the LostCity movecoord offset (-549,+756), landing at (2541,4712)/(3088,3956).",
+          "KBD corridor lever (1816) enters the instance antechamber with the lever-pull prelude; room lever (1817) returns to the corridor.",
+          "Added TeleportType.Movement for physical ladders/stairs (bypasses wildy-level and teleblock checks, matching OSRS where climbing is not teleporting); re-pointed ladder/stair/stile climbs from Exempt."
+        ]
+      },
+      "automated": {
+        "state": "unverified",
+        "evidence": [
+          ":content:areas:wilderness:compileKotlin passes; spotlessApply clean; mergePluginGamevals + buildCache succeeded (new timer.wild_obelisk_armed, varp.wild_obelisk_dest, varp.wild_cave_fee_paid gamevals merged)."
+        ]
+      },
+      "mcp": {
+        "state": "verified",
+        "evidence": [
+          "Live: Ardougne lever warned then teleported to (3154,3924); keep lever returned to Ardougne with no warning; Edgeville lever round-trip identical.",
+          "Live: lvl-13 obelisk Activate played pillar-glow, stepping into the 3x3 zone before the 8-tick fire teleported to the lvl-44 site (2979,3867) with the correct ancient-magic message; user confirmed a manual run landing at the lvl-19 site. Set Destination refused without hard diary.",
+          "Live: Revenant cave empty-inventory entry refused with the 100k message; funded entry showed the Pay 100,000 confirmation, charged from bank, landed at (3245,10200) where a level-135 Revenant dragon aggroed immediately; re-entry skipped the fee; high exit stairs surfaced at (3124,3832).",
+          "Live: Resource Area gate (26760) produced 'You need to pay a 7,500 coins fee to enter. This can be taken from your inventory, bank, or both.' mesbox on a no-diary account.",
+          "Live: Mage Arena hut lever (9706) -> bank; arena lever (9707) -> (3105,3955) outside; bank pool -> chamber (2542,4718); chamber pool -> bank (2509,4689); hut cellar lever (5959) -> cellar (2541,4712); cellar lever (5960) -> hut (3088,3956).",
+          "Live: KBD corridor lever (1816) -> instance antechamber; antechamber lever (1817) -> corridor."
+        ]
+      },
+      "discrepancies": [
+        "loc.magearena_scan (Mystic portal 2880) is not spawned at the LostCity-mapped wall positions in this revision's map; the barrier handler is registered and correct but currently unexercised live.",
+        "loc.magearena_ladder_to_cellar / ladder_from_cellar do not appear in this map revision (the hut uses the cellar levers instead); bindings remain for wherever the locs exist.",
+        "The Mage Arena I gate resolves through the world's assume-completed quest policy; the real miniquest (Kolodion fight) is not implemented.",
+        "Obelisk Set Destination choice UI lists the five other sites; OSRS uses a dedicated map/interface picker.",
+        "Revenant Caves lower (lvl 17) exit position not yet live-verified; high (lvl 40) exit verified.",
+        "Grave relocation scope for wilderness PvM deaths (all levels vs 20+) remains an unresolved Wiki ambiguity, noted in WildernessDeathHook."
+      ],
+      "limitations": [
+        "Multiplayer semantics (two clients on one obelisk platform, teleblock-skipped observers) not exercised with a second client.",
+        "KBD instance loot/fight correctness not re-audited this pass."
+      ]
     }
   },
   "records": {

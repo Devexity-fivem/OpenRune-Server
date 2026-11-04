@@ -1,5 +1,6 @@
 package org.rsmod.content.generic.locs.staircase
 
+import org.rsmod.api.player.hook.TeleportType
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.game.loc.BoundLocInfo
@@ -30,7 +31,10 @@ class StraightStaircaseScript : PluginScript() {
 
     private suspend fun ProtectedAccess.climb(loc: BoundLocInfo, stairs: StraightStairs) {
         arriveDelay()
-        telejump(loc.rotate(stairs.dx, stairs.dz).translateLevel(stairs.dLevel))
+        telejump(
+            loc.rotate(stairs.dx, stairs.dz).translateLevel(stairs.dLevel),
+            TeleportType.Movement,
+        )
     }
 
     private fun BoundLocInfo.rotate(dx: Int, dz: Int): CoordGrid =

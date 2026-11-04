@@ -35,7 +35,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Cooking_icon.png?a0156" height="20" alt=""> [Cooking](content/skills/cooking) | 1,429 loc | [wiki](https://oldschool.runescape.wiki/w/Cooking) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Herblore_icon.png?ffa9e" height="20" alt=""> [Herblore](content/skills/herblore) | 1,189 loc | [wiki](https://oldschool.runescape.wiki/w/Herblore) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Fishing_icon.png?15a98" height="20" alt=""> [Fishing](content/skills/fishing) | 1,727 loc | [wiki](https://oldschool.runescape.wiki/w/Fishing) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Agility_icon.png?389e0" height="20" alt=""> [Agility](content/skills/agility) | 2,135 loc | [wiki](https://oldschool.runescape.wiki/w/Agility) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Agility_icon.png?389e0" height="20" alt=""> [Agility](content/skills/agility) | 2,171 loc | [wiki](https://oldschool.runescape.wiki/w/Agility) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Thieving_icon.png?973fe" height="20" alt=""> [Thieving](content/skills/thieving) | 1,360 loc | [wiki](https://oldschool.runescape.wiki/w/Thieving) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Crafting_icon.png?a1f71" height="20" alt=""> [Crafting](content/skills/crafting) | 6,349 loc | [wiki](https://oldschool.runescape.wiki/w/Crafting) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> [Fletching](content/skills/fletching) | 698 loc | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
@@ -130,7 +130,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kamil.png/48px-Kamil.png?68693" height="20" alt=""> Kamil | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Kamil) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Karamel.png/48px-Karamel.png?f69b4" height="20" alt=""> Karamel | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Karamel) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kephri.png/48px-Kephri.png?4c3cd" height="20" alt=""> Kephri | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Kephri) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/King_Black_Dragon.png/48px-King_Black_Dragon.png?d25f0" height="20" alt=""> [King Black Dragon](content/bosses/kbd) | 143 loc | [wiki](https://oldschool.runescape.wiki/w/King_Black_Dragon) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/King_Black_Dragon.png/48px-King_Black_Dragon.png?d25f0" height="20" alt=""> [King Black Dragon](content/bosses/kbd) | 151 loc | [wiki](https://oldschool.runescape.wiki/w/King_Black_Dragon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Koschei_the_deathless.png/48px-Koschei_the_deathless.png?37d97" height="20" alt=""> Koschei the deathless | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Koschei_the_deathless) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kraken.png/48px-Kraken.png?a4955" height="20" alt=""> [Kraken](content/bosses/kraken) | 110 loc | [wiki](https://oldschool.runescape.wiki/w/Kraken) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/48px-Kree%27arra.png?ba75c" height="20" alt=""> [Kree'arra](content/bosses/kreearra) | 233 loc | [wiki](https://oldschool.runescape.wiki/w/Kree'arra) |
@@ -269,7 +269,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/desert/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/draynor` | 17 | 3,791 | 4 | 0 | 2026-10-31 |
 | `areas/city/draynor/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
-| `areas/city/edgeville` | 4 | 374 | 0 | 0 | 2026-10-25 |
+| `areas/city/edgeville` | 4 | 375 | 0 | 0 | 2026-10-25 |
 | `areas/city/edgeville/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/city/falador` | 9 | 1,729 | 0 | 1 | 2026-10-25 |
 | `areas/city/falador/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
@@ -311,7 +311,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/misc/wizards_tower` | 4 | 1,123 | 0 | 0 | 2026-09-23 |
 | `areas/misc/wizards_tower/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `areas/misc/zanaris` | 1 | 36 | 0 | 0 | 2026-10-21 |
-| `areas/wilderness` | 22 | 1,594 | 0 | 0 | 2026-10-28 |
+| `areas/wilderness` | 27 | 2,167 | 0 | 0 | 2026-10-28 |
 | `areas/wilderness/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/zeah` | 3 | 234 | 0 | 0 | 2026-08-18 |
 | `bosses/abyssal-sire` | 1 | 271 | 1 | 0 | 2026-10-27 |
@@ -338,7 +338,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/graardor` | 2 | 172 | 0 | 0 | 2026-11-02 |
 | `bosses/hespori` | 2 | 330 | 1 | 0 | 2026-10-27 |
 | `bosses/kalphite-queen` | 1 | 209 | 1 | 0 | 2026-11-02 |
-| `bosses/kbd` | 2 | 143 | 0 | 1 | 2026-09-30 |
+| `bosses/kbd` | 2 | 151 | 0 | 0 | 2026-09-30 |
 | `bosses/kraken` | 1 | 110 | 1 | 0 | 2026-10-27 |
 | `bosses/kreearra` | 2 | 233 | 0 | 0 | 2026-11-02 |
 | `bosses/kril` | 2 | 198 | 0 | 0 | 2026-11-02 |
@@ -377,7 +377,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `events/shooting-stars/pack` | 2 | 440 | 0 | 0 | 2026-08-21 |
 | `generic/generic-items` | 2 | 150 | 2 | 0 | 2026-10-31 |
 | `generic/generic-items/pack` | 2 | 140 | 0 | 0 | 2026-10-31 |
-| `generic/generic-locs` | 32 | 1,693 | 5 | 1 | 2026-10-31 |
+| `generic/generic-locs` | 32 | 1,699 | 5 | 1 | 2026-10-31 |
 | `generic/generic-locs/pack` | 1 | 6 | 0 | 0 | 2026-10-21 |
 | `generic/generic-npcs` | 10 | 1,672 | 3 | 3 | 2026-10-31 |
 | `generic/generic-npcs/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
@@ -447,7 +447,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
 | `raids/tfa` | 111 | 16,903 | 8 | 0 | 2026-11-01 |
 | `raids/tfa/pack` | 8 | 196 | 0 | 0 | 2026-11-01 |
-| `skills/agility` | 15 | 2,129 | 5 | 0 | 2026-11-03 |
+| `skills/agility` | 15 | 2,165 | 5 | 0 | 2026-11-03 |
 | `skills/agility/pack` | 1 | 6 | 0 | 0 | 2026-11-03 |
 | `skills/cooking` | 13 | 1,429 | 0 | 0 | 2026-10-31 |
 | `skills/crafting` | 30 | 3,684 | 1 | 0 | 2026-10-31 |

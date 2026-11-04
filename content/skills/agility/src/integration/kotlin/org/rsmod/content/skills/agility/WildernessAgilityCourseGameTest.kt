@@ -48,11 +48,11 @@ class WildernessAgilityCourseGameTest {
         random.next = 0
         player.teleport(CoordGrid(3004, 3937, 0))
         player.opLoc1(locs.pipe)
-        advance(8)
+        advance(10)
         assertEquals(1, player.wildernessProgress)
         player.teleport(CoordGrid(3005, 3953, 0))
         player.opLoc1(locs.swing)
-        advance(6)
+        advance(8)
         assertEquals(2, player.wildernessProgress)
         player.teleport(CoordGrid(3002, 3960, 0))
         player.opLoc1(locs.stone)
@@ -71,10 +71,10 @@ class WildernessAgilityCourseGameTest {
             random.next = 0
             player.teleport(CoordGrid(3002, 3945, 0))
             player.opLoc1(locs.log)
-            advance(8)
+            advance(12)
             assertEquals(4, player.wildernessProgress)
 
-            player.teleport(CoordGrid(2994, 3938, 0))
+            player.teleport(CoordGrid(2994, 3937, 0))
             player.opLoc1(locs.rocks)
             advance(6)
             assertEquals(0, player.wildernessProgress)
@@ -91,9 +91,9 @@ class WildernessAgilityCourseGameTest {
             random.next = 255
             player.teleport(CoordGrid(3005, 3953, 0))
             player.opLoc1(locs.swing)
-            advance(6)
+            advance(8)
             assertEquals(0, player.wildernessProgress)
-            assertEquals(CoordGrid(2997, 10357, 0), player.coords)
+            assertEquals(CoordGrid(3004, 10357, 0), player.coords)
         }
 
     @Test
@@ -105,10 +105,10 @@ class WildernessAgilityCourseGameTest {
             random.next = 0
             player.teleport(CoordGrid(3004, 3937, 0))
             player.opLoc1(locs.pipe)
-            advance(8)
+            advance(10)
             player.teleport(CoordGrid(3005, 3953, 0))
             player.opLoc1(locs.swing)
-            advance(6)
+            advance(8)
             assertEquals(2, player.wildernessProgress)
 
             random.next = 255
@@ -136,17 +136,17 @@ class WildernessAgilityCourseGameTest {
             random.next = 255
             player.teleport(CoordGrid(3002, 3945, 0))
             player.opLoc1(locs.log)
-            advance(8)
+            advance(12)
             assertEquals(3, player.wildernessProgress)
             assertEquals(CoordGrid(2998, 10345, 0), player.coords)
 
             random.next = 0
             player.teleport(CoordGrid(3002, 3945, 0))
             player.opLoc1(locs.log)
-            advance(8)
+            advance(12)
             assertEquals(4, player.wildernessProgress)
 
-            player.teleport(CoordGrid(2994, 3938, 0))
+            player.teleport(CoordGrid(2994, 3937, 0))
             player.opLoc1(locs.rocks)
             advance(6)
             assertEquals(0, player.wildernessProgress)
@@ -164,8 +164,35 @@ class WildernessAgilityCourseGameTest {
             random.next = 0
             player.teleport(CoordGrid(3004, 3937, 0))
             player.opLoc1(locs.pipe)
-            advance(8)
+            advance(10)
             assertEquals(1, player.wildernessProgress)
+        }
+
+    @Test
+    fun GameTestState.`out of range pipe click does not fire remotely`() =
+        runGameTest(WildernessAgilityCourse::class) {
+            val locs = placeCourse()
+            setAgility(52)
+
+            random.next = 0
+            player.teleport(CoordGrid(3004, 3933, 0))
+            player.opLoc1(locs.pipe)
+            advance(3)
+            assertEquals(0, player.wildernessProgress)
+            assertEquals(0, player.statMap.getFineXP("stat.agility"))
+        }
+
+    @Test
+    fun GameTestState.`out of range dispenser click does not fire remotely`() =
+        runGameTest(WildernessAgilityCourse::class) {
+            val locs = placeCourse()
+            setAgility(52)
+
+            player.runEnergy = 400
+            player.teleport(CoordGrid(3005, 3950, 0))
+            player.opLoc1(locs.dispenser)
+            advance(2)
+            assertTrue(player.runEnergy < 1000)
         }
 
     @Test
@@ -219,8 +246,8 @@ class WildernessAgilityCourseGameTest {
             random.next = 0
             player.teleport(CoordGrid(3002, 3945, 0))
             player.opLoc1(locs.log)
-            advance(8)
-            player.teleport(CoordGrid(2994, 3938, 0))
+            advance(12)
+            player.teleport(CoordGrid(2994, 3937, 0))
             player.opLoc1(locs.rocks)
             advance(6)
 

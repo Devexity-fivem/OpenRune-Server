@@ -1,11 +1,11 @@
 package org.rsmod.content.generic.locs.staircase
 
+import org.rsmod.api.player.hook.TeleportType
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpContentLoc1
 import org.rsmod.api.script.onOpContentLoc2
 import org.rsmod.api.script.onOpContentLoc3
 import org.rsmod.api.script.onOpLoc2
-import org.rsmod.api.script.onOpLoc3
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.map.util.Translation
@@ -54,7 +54,7 @@ class SpiralStaircaseScript : PluginScript() {
 
     private fun ProtectedAccess.climb(loc: BoundLocInfo, translation: Translation) {
         val dest = loc.coords.translate(translation)
-        telejump(dest)
+        telejump(dest, TeleportType.Movement)
     }
 
     private suspend fun ProtectedAccess.climOption(loc: BoundLocInfo) {
@@ -68,7 +68,7 @@ class SpiralStaircaseScript : PluginScript() {
                     title = "Climb up or down the stairs?",
                 )
             val dest = loc.coords.translate(translation)
-            telejump(dest)
+            telejump(dest, TeleportType.Movement)
         }
     }
 

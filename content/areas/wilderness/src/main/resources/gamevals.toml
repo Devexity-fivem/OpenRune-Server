@@ -1,3 +1,10 @@
 [gamevals.synth]
 wilderness_ditch_jump = 2462
 tight_gap_squeeze = 2451
+
+[gamevals.timer]
+wild_obelisk_activate = 65524
+
+[gamevals.varp]
+wild_obelisk_dest = 65663
+wild_cave_fee_paid = 65664

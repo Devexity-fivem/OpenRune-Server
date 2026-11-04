@@ -15,7 +15,7 @@ private const val FACE_NORTH = 1024
 private const val FACE_EAST = 1536
 
 internal fun ProtectedAccess.climbOver(start: CoordGrid, dest: CoordGrid) {
-    exactMove(start, dest, STEP_DELAY, CROSS_DELAY, facing(start, dest), TeleportType.Exempt)
+    exactMove(start, dest, STEP_DELAY, CROSS_DELAY, facing(start, dest), TeleportType.Movement)
     anim("seq.human_walk_style", delay = STEP_DELAY)
 }
 

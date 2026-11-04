@@ -3,6 +3,7 @@ package org.rsmod.content.areas.wilderness.locs
 import dev.openrune.ServerCacheManager
 import dev.openrune.rscm.RSCM
 import dev.openrune.rscm.RSCMType
+import org.rsmod.api.player.hook.TeleportType
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.statBase
 import org.rsmod.api.script.onOpLoc1
@@ -44,7 +45,7 @@ class ChaosTempleLadder : PluginScript() {
         arriveDelay()
         anim("seq.human_reachforladder")
         delay(1)
-        telejump(coords.translateLevel(levels))
+        telejump(coords.translateLevel(levels), TeleportType.Movement)
     }
 
     private fun ProtectedAccess.wearsZamorakRobes(): Boolean =

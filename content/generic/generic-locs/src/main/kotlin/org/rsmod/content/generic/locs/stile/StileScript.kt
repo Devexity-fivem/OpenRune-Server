@@ -44,7 +44,7 @@ class StileScript : PluginScript() {
     }
 
     private fun ProtectedAccess.stepTo(dest: CoordGrid) {
-        teleport(dest, TeleportType.Exempt)
+        teleport(dest, TeleportType.Movement)
     }
 
     private companion object {

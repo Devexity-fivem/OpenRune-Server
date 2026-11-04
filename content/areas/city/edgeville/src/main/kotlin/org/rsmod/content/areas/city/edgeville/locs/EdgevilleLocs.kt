@@ -5,6 +5,7 @@ import dev.openrune.rscm.RSCMType
 import dev.openrune.types.ObjectServerType
 import jakarta.inject.Inject
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.player.hook.TeleportType
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.script.onOpLoc1
@@ -53,7 +54,7 @@ class EdgevilleLocs @Inject constructor(private val locRepo: LocRepository) : Pl
         mes("You climb down through the trapdoor...")
         anim("seq.human_pickupfloor")
         delay(1)
-        telejump(DUNGEON_LANDING)
+        telejump(DUNGEON_LANDING, TeleportType.Movement)
     }
 
     /**
@@ -74,7 +75,7 @@ class EdgevilleLocs @Inject constructor(private val locRepo: LocRepository) : Pl
             }
         anim(RSCM.getReverseMapping(RSCMType.SEQ, type.param(params.climb_anim).id))
         delay(1)
-        telejump(dest)
+        telejump(dest, TeleportType.Movement)
     }
 
     private suspend fun ProtectedAccess.openCoffin(coffin: BoundLocInfo) {
@@ -95,14 +96,14 @@ class EdgevilleLocs @Inject constructor(private val locRepo: LocRepository) : Pl
         arriveDelay()
         anim("seq.human_pickupfloor")
         delay(1)
-        telejump(DAVES_CELLAR)
+        telejump(DAVES_CELLAR, TeleportType.Movement)
     }
 
     private suspend fun ProtectedAccess.leaveDavesCellar() {
         arriveDelay()
         anim("seq.human_reachforladder_walkmerge", delay = 5)
         delay(1)
-        telejump(DAVES_KITCHEN)
+        telejump(DAVES_KITCHEN, TeleportType.Movement)
     }
 
     private companion object {

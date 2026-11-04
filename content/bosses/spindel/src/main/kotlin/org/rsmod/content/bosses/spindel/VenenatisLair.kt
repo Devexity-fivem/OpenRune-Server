@@ -58,14 +58,14 @@ constructor(private val playerList: PlayerList) : PluginScript() {
         arriveDelay()
         tryPayWildernessBossFee(ENTRY_FEE) { source ->
             mes("<col=ef1020>You enter the lair and $FEE_TEXT is taken from $source to pay the entry fee.")
-            telejump(entry.enter, TeleportType.Exempt)
+            telejump(entry.enter, TeleportType.Movement)
         }
     }
 
     private suspend fun ProtectedAccess.leaveLair(exit: BoundLocInfo) {
         arriveDelay()
         val entry = entries.firstOrNull { it.exitLoc == exit.coords } ?: return
-        telejump(entry.exit, TeleportType.Exempt)
+        telejump(entry.exit, TeleportType.Movement)
     }
 
     private fun ProtectedAccess.peekLair(entry: Entry) {

@@ -4,6 +4,7 @@ import dev.openrune.rscm.RSCM
 import dev.openrune.rscm.RSCMType
 import dev.openrune.types.ObjectServerType
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.player.hook.TeleportType
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpContentLoc1
 import org.rsmod.api.script.onOpContentLoc2
@@ -43,7 +44,7 @@ class LadderScript : PluginScript() {
         val dest = player.coords.translateLevel(translateLevel)
         anim(type.climbAnim())
         delay(1)
-        telejump(dest)
+        telejump(dest, TeleportType.Movement)
     }
 
     private suspend fun ProtectedAccess.climbOption(type: ObjectServerType) = startDialogue {
@@ -52,7 +53,7 @@ class LadderScript : PluginScript() {
         val dest = player.coords.translateLevel(translate)
         anim(type.climbAnim())
         delay(2)
-        telejump(dest)
+        telejump(dest, TeleportType.Movement)
     }
 
     private fun ObjectServerType.climbAnim(): String = RSCM.getReverseMapping(RSCMType.SEQ, param(params.climb_anim).id)

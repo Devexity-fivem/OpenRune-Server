@@ -1018,3 +1018,15 @@ isServerOnly = true
 id = "varp.pp_doors"
 scope = "Temp"
 transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.wild_obelisk_dest"
+scope = "Perm"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.wild_cave_fee_paid"
+scope = "Perm"
+transmit = "Never"

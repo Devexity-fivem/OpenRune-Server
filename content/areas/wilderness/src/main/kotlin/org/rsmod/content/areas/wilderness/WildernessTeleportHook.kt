@@ -14,6 +14,10 @@ public class WildernessTeleportHook @Inject constructor() : PlayerTeleportValida
         type: TeleportType,
         areaChecker: AreaChecker,
     ): String? {
+        if (type == TeleportType.Movement) {
+            return null
+        }
+
         val level = player.coords.wildernessLevel(areaChecker)
         if (level < 0) {
             return null
@@ -46,6 +50,7 @@ public class WildernessTeleportHook @Inject constructor() : PlayerTeleportValida
                 TeleportType.Standard -> STANDARD_MAX_WILDERNESS_LEVEL
                 TeleportType.Chronicle,
                 TeleportType.Minigame,
+                TeleportType.Movement,
                 TeleportType.Exempt,
                 -> return null
             }

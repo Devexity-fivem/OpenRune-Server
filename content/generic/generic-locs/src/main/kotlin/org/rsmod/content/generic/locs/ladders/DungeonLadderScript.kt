@@ -5,6 +5,7 @@ import dev.openrune.rscm.RSCMType
 import dev.openrune.types.ObjectServerType
 import dev.openrune.types.SequenceServerType
 import org.rsmod.api.config.refs.params
+import org.rsmod.api.player.hook.TeleportType
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpContentLoc1
 import org.rsmod.plugin.scripts.PluginScript
@@ -23,9 +24,9 @@ class DungeonLadderScript : PluginScript() {
     private suspend fun ProtectedAccess.climb(type: ObjectServerType, translateZ: Int) {
         arriveDelay()
         val dest = player.coords.translateZ(translateZ)
-        anim(RSCM.getReverseMapping(RSCMType.SEQ,type.climbAnim().id))
+        anim(RSCM.getReverseMapping(RSCMType.SEQ, type.climbAnim().id))
         delay(1)
-        telejump(dest)
+        telejump(dest, TeleportType.Movement)
     }
 
     private fun ObjectServerType.climbAnim(): SequenceServerType = param(params.climb_anim)

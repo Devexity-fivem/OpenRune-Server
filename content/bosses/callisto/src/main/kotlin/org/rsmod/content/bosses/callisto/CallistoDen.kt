@@ -61,7 +61,7 @@ constructor(private val playerList: PlayerList, private val random: GameRandom) 
             mes("<col=ef1020>You enter the cave and $FEE_TEXT is taken from $source to pay the entry fee.")
             anim(CRAWL_SEQ)
             delay(1)
-            telejump(entrance.arrival, TeleportType.Exempt)
+            telejump(entrance.arrival, TeleportType.Movement)
             anim(LAND_SEQ)
         }
     }
@@ -88,7 +88,7 @@ constructor(private val playerList: PlayerList, private val random: GameRandom) 
     private suspend fun ProtectedAccess.leaveDen() {
         arriveDelay()
         val entrance = entrances.firstOrNull { it.den.contains(player.coords) } ?: return
-        telejump(entrance.exits[random.of(entrance.exits.size)], TeleportType.Exempt)
+        telejump(entrance.exits[random.of(entrance.exits.size)], TeleportType.Movement)
     }
 
     private companion object {

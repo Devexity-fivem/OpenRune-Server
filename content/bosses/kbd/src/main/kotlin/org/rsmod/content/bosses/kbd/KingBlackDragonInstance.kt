@@ -8,11 +8,7 @@ import org.rsmod.api.instances.InstanceScript
 import org.rsmod.api.instances.RegionLocal
 import org.rsmod.api.instances.enterLocObjects
 import org.rsmod.api.player.protect.ProtectedAccess
-import org.rsmod.api.repo.region.RegionTemplate
-import org.rsmod.api.script.onOpLoc1
-import org.rsmod.map.CoordGrid
 import org.rsmod.api.script.onOpLoc2
-import org.rsmod.api.script.onOpLoc3
 import org.rsmod.api.script.onOpLoc5
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -27,16 +23,26 @@ class KingBlackDragonInstance @Inject constructor(
     override fun ScriptContext.configure() {
         val row = settingsRowData()
 
-        //TODO MAKE THE LEAVER LIKE YOU PULLED IT AND CORRECT ANIM
-
         onEnterObject { enterPublicRoom(INSTANCE) }
+        onEnterPrelude { _, enter ->
+            anim(LEVER_SEQ)
+            mes("You pull the lever...")
+            delay(1)
+            enter()
+            mes("...and find yourself in the King Black Dragon's lair.")
+        }
 
         row.enterLocObjects().forEach { loc ->
             onOpLoc5(loc) { defaultInstanceEntry() }
             onOpLoc2(loc) { peekPublicRoom() }
         }
 
-        onExitObject { defaultLeaveFlow() }
+        onExitObject {
+            anim(LEVER_SEQ)
+            mes("You pull the lever...")
+            delay(1)
+            defaultLeaveFlow()
+        }
     }
 
     private fun ProtectedAccess.peekPublicRoom() {
@@ -50,6 +56,8 @@ class KingBlackDragonInstance @Inject constructor(
     }
 
     private companion object {
+        private const val LEVER_SEQ = "seq.human_leverdown"
+
         private val INSTANCE = InstanceArea.copyRegions(
             regionIds = listOf(9033),
             npcSpawns = listOf(InstanceNpc("npc.king_dragon", RegionLocal(0, 35, 73, 31, 22))),

@@ -12,10 +12,16 @@ import org.rsmod.api.death.PlayerDeathDrops.Companion.wildernessKeepCount
 import org.rsmod.api.death.PlayerDeathHandling
 import org.rsmod.api.death.PlayerDeathHook
 import org.rsmod.api.death.UntradeableHandling
+import org.rsmod.api.player.vars.VarPlayerIntMapSetter
 
 public class WildernessDeathHook @Inject constructor() : PlayerDeathHook {
     override fun handleDeath(context: PlayerDeathContext): PlayerDeathHandling? {
         if (!context.inWilderness) return null
+        // The Revenant Caves entry fee must be repaid after dying inside the caves or to another
+        // player anywhere in the Wilderness.
+        if (context.inRevenantCaves || context.isPvpDeath) {
+            VarPlayerIntMapSetter.set(context.player, REV_CAVE_FEE_VARP, 0)
+        }
         if (context.inInstance) return wildernessInstance(context)
         if (context.isPvpDeath) return wildernessPvpDeath(context)
         if (context.inRevenantCaves) return revenantCaves(context)
@@ -72,5 +78,6 @@ public class WildernessDeathHook @Inject constructor() : PlayerDeathHook {
 
     private companion object {
         private const val ABOVE_20_THRESHOLD = 20
+        private const val REV_CAVE_FEE_VARP = "varp.wild_cave_fee_paid"
     }
 }

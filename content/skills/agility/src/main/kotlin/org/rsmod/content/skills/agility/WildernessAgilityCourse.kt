@@ -44,9 +44,9 @@ class WildernessAgilityCourse @Inject constructor(
         onApLoc1("loc.steppingstone1") { apCrossStones(it.loc) }
         onApLoc1("loc.wilderness_log_balance1") { apCrossLog(it.loc) }
         onApLoc1("loc.wildclimbingrock") { apClimbRocks(it.loc) }
-        onApLoc1("loc.wildy_agility_pillar") { apTagDispenser() }
-        onApLoc2("loc.wildy_agility_pillar") { apPayDispenser() }
-        onApLoc3("loc.wildy_agility_pillar") { apRedeemDispenser() }
+        onApLoc1("loc.wildy_agility_pillar") { apTagDispenser(it.loc) }
+        onApLoc2("loc.wildy_agility_pillar") { apPayDispenser(it.loc) }
+        onApLoc3("loc.wildy_agility_pillar") { apRedeemDispenser(it.loc) }
     }
 
     private suspend fun ProtectedAccess.apEnterRidge(door: BoundLocInfo) {
@@ -58,19 +58,17 @@ class WildernessAgilityCourse @Inject constructor(
         spam("You go through the gate and try to edge over the ridge...")
         swingOpen(door, GATE_OPEN_TICKS)
         anim("seq.human_walk_logbalance")
-        exactMove(coords, RIDGE_MID, delay1 = 0, delay2 = RIDGE_LEG_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
-        delay(RIDGE_LEG_TICKS)
+        forceWalk(RIDGE_MID, em_face_north)
         if (failRoll(RIDGE_LOW, RIDGE_HIGH)) {
             failRidge()
             return
         }
-        exactMove(coords, RIDGE_TOP, delay1 = 0, delay2 = RIDGE_LEG_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
-        delay(RIDGE_LEG_TICKS)
+        forceWalk(RIDGE_TOP, em_face_north)
         resetAnim()
         spam("You skillfully balance across the ridge...")
         statAdvance(AGILITY, RIDGE_XP)
         openCourseGates()
-        telejump(RIDGE_INSIDE, TeleportType.Exempt)
+        telejump(RIDGE_INSIDE, TeleportType.Movement)
     }
 
     private suspend fun ProtectedAccess.apExitRidge(gate: BoundLocInfo) {
@@ -78,28 +76,27 @@ class WildernessAgilityCourse @Inject constructor(
         spam("You go through the gate and try to edge over the ridge...")
         openCourseGates()
         anim("seq.human_walk_logbalance")
-        exactMove(coords, RIDGE_TOP, delay1 = 0, delay2 = RIDGE_ALIGN_CYCLES, dir = em_face_south, teleportType = TeleportType.Exempt)
-        delay(RIDGE_ALIGN_TICKS)
-        exactMove(coords, RIDGE_MID, delay1 = 0, delay2 = RIDGE_LEG_CYCLES, dir = em_face_south, teleportType = TeleportType.Exempt)
-        delay(RIDGE_LEG_TICKS)
+        forceWalk(RIDGE_TOP, em_face_south)
+        forceWalk(RIDGE_MID, em_face_south)
         if (failRoll(RIDGE_LOW, RIDGE_HIGH)) {
             failRidge()
             return
         }
-        exactMove(coords, RIDGE_BOTTOM, delay1 = 0, delay2 = RIDGE_LEG_CYCLES, dir = em_face_south, teleportType = TeleportType.Exempt)
-        delay(RIDGE_LEG_TICKS)
+        forceWalk(RIDGE_BOTTOM, em_face_south)
         resetAnim()
         spam("You skillfully balance across the ridge...")
         statAdvance(AGILITY, RIDGE_XP)
-        telejump(RIDGE_OUTSIDE, TeleportType.Exempt)
+        telejump(RIDGE_OUTSIDE, TeleportType.Movement)
     }
 
     private suspend fun ProtectedAccess.failRidge() {
         anim("seq.human_walk_logbalance_stumble")
         spam("You lose your footing and fall into the wolf pit.")
-        exactMove(coords, CoordGrid(coords.x + RIDGE_FALL_X, coords.z - 1, 0), delay1 = 0, delay2 = RIDGE_FALL_CYCLES, dir = em_face_east, teleportType = TeleportType.Exempt)
-        delay(RIDGE_FALL_TICKS)
+        faceSquare(CoordGrid(coords.x - 2, coords.z, 0))
+        delay(1)
         resetAnim()
+        exactMove(coords, CoordGrid(coords.x + RIDGE_FALL_X, coords.z - 1, 0), delay1 = 0, delay2 = RIDGE_FALL_CYCLES, dir = em_face_east, teleportType = TeleportType.Movement)
+        delay(RIDGE_FALL_TICKS)
     }
 
     private fun ProtectedAccess.swingOpen(door: BoundLocInfo, ticks: Int) {
@@ -128,18 +125,22 @@ class WildernessAgilityCourse @Inject constructor(
             spam("The pipe is being used.")
             return
         }
-        squeezePipe()
+        squeezePipe(pipe)
     }
 
-    private suspend fun ProtectedAccess.squeezePipe() {
+    private suspend fun ProtectedAccess.squeezePipe(pipe: BoundLocInfo) {
+        val px = pipe.coords.x
+        val pz = pipe.coords.z
         pipeUsedUntil = player.currentMapClock + PIPE_BUSY_TICKS
-        anim("seq.human_doublepipesqueeze")
-        exactMove(coords, PIPE_MID, delay1 = 0, delay2 = PIPE_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
-        delay(PIPE_TICKS)
-        telejump(PIPE_SECOND, TeleportType.Exempt)
-        anim("seq.human_doublepipesqueeze")
-        exactMove(coords, PIPE_END, delay1 = 0, delay2 = PIPE_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
-        delay(PIPE_TICKS)
+        anim("seq.human_doublepipesqueeze", delay = PIPE_ANIM_DELAY)
+        exactMove(CoordGrid(px, pz - 1, 0), CoordGrid(px, pz + 2, 0), delay1 = PIPE_MOVE_START, delay2 = PIPE_MOVE_END, dir = em_face_north, teleportType = TeleportType.Movement)
+        delay(PIPE_SEGMENT_TICKS)
+        delay(1)
+        telejump(CoordGrid(px, pz + PIPE_TELE_OFFSET, 0), TeleportType.Movement)
+        delay(1)
+        anim("seq.human_doublepipesqueeze", delay = PIPE_ANIM_DELAY)
+        exactMove(CoordGrid(px, pz + PIPE_TELE_OFFSET, 0), CoordGrid(px, pz + PIPE_END_OFFSET, 0), delay1 = PIPE_MOVE_START, delay2 = PIPE_MOVE_END, dir = em_face_north, teleportType = TeleportType.Movement)
+        delay(PIPE_SEGMENT_TICKS)
         resetAnim()
         spam("You pull yourself through the pipes.")
         statAdvance(AGILITY, PIPE_XP)
@@ -147,20 +148,22 @@ class WildernessAgilityCourse @Inject constructor(
     }
 
     private suspend fun ProtectedAccess.apSwing(swing: BoundLocInfo) {
-        if (swing.coords.x != SWING.x || !isWithinApRange(swing, AP_RANGE)) return
-        if (coords.z > SWING_START.z) {
+        if (!isWithinApRange(swing, AP_RANGE)) return
+        val start = CoordGrid(swing.coords.x, swing.coords.z + 1, swing.coords.level)
+        if (coords.z > start.z) {
             mes("You cannot do that from here.")
             return
         }
-        telejump(SWING_START, TeleportType.Exempt)
-        if (!checkLevel(OBSTACLE_LVL, "to use this obstacle")) return
+        val steps = distanceTo(start)
+        delay(1)
+        telejump(start, TeleportType.Movement)
+        if (steps > 0) {
+            delay(steps)
+        }
         if (failRoll(SWING_LOW, SWING_HIGH)) {
-            telejump(SWING_PIT, TeleportType.Exempt)
-            anim("seq.human_climbing_fall")
+            telejump(SWING_PIT, TeleportType.Movement)
             applyFailDamage(FAIL_PER_MILLE_LOW)
             spam("You slip and fall to the pit below.")
-            delay(1)
-            resetAnim()
             return
         }
         if (player.currentMapClock < swingUsedUntil) {
@@ -168,9 +171,9 @@ class WildernessAgilityCourse @Inject constructor(
             return
         }
         swingUsedUntil = player.currentMapClock + SWING_BUSY_TICKS
-        anim("seq.human_ropeswing")
+        anim("seq.human_ropeswing_long", delay = SWING_ANIM_DELAY)
         worldRepo.locAnim(swing, "seq.ropeswing_long")
-        exactMove(coords, SWING_LANDING, delay1 = 0, delay2 = SWING_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
+        exactMove(start, CoordGrid(start.x, start.z + SWING_TILES, start.level), delay1 = SWING_MOVE_START, delay2 = SWING_MOVE_END, dir = em_face_north, teleportType = TeleportType.Movement)
         delay(SWING_TICKS)
         spam("You skillfully swing across.")
         statAdvance(AGILITY, SWING_XP)
@@ -178,24 +181,16 @@ class WildernessAgilityCourse @Inject constructor(
     }
 
     private suspend fun ProtectedAccess.apCrossStones(stone: BoundLocInfo) {
-        if (stone.coords != STONE || !isWithinApRange(stone, AP_RANGE)) return
-        if (coords.x <= STONE.x) {
-            mes("You cannot do that from here.")
-            return
-        }
-        if (!checkLevel(OBSTACLE_LVL, "to use this obstacle")) return
-        crossStones()
-    }
-
-    private suspend fun ProtectedAccess.crossStones() {
-        anim("seq.human_spot_jump")
+        if (!isWithinApRange(stone, AP_RANGE)) return
+        spam("You carefully start crossing the stepping stones...")
         for (hop in 1..STONE_FAIL_HOP) {
-            hopStone(hop)
+            hopStone(stone, hop)
         }
         if (failRoll(STONE_LOW, STONE_HIGH)) {
-            exactMove(coords, CoordGrid(coords.x, coords.z + 2, 0), delay1 = 0, delay2 = HOP_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
-            delay(HOP_TICKS)
-            telejump(STONE_FAIL, TeleportType.Exempt)
+            anim("seq.human_walk_logbalance_stumble")
+            faceSquare(CoordGrid(coords.x, coords.z + 2, 0))
+            delay(1)
+            telejump(CoordGrid(stone.coords.x + 1, stone.coords.z + 3, 0), TeleportType.Movement)
             applyFailDamage(FAIL_PER_MILLE_STONE)
             spam("...You lose your footing and fall into the lava.")
             delay(1)
@@ -203,7 +198,7 @@ class WildernessAgilityCourse @Inject constructor(
             return
         }
         for (hop in STONE_FAIL_HOP + 1..STONE_HOPS) {
-            hopStone(hop)
+            hopStone(stone, hop)
         }
         resetAnim()
         spam("...You safely cross to the other side.")
@@ -211,40 +206,40 @@ class WildernessAgilityCourse @Inject constructor(
         player.advanceWilderness(OBSTACLE_STONES)
     }
 
-    private suspend fun ProtectedAccess.hopStone(hop: Int) {
-        val dest = CoordGrid(STONE.x + 1 - hop, STONE.z, 0)
-        exactMove(coords, dest, delay1 = 0, delay2 = HOP_CYCLES, dir = em_face_west, teleportType = TeleportType.Exempt)
+    private suspend fun ProtectedAccess.hopStone(stone: BoundLocInfo, hop: Int) {
+        anim("seq.human_spot_jump")
+        exactMove(
+            CoordGrid(stone.coords.x + 2 - hop, stone.coords.z, 0),
+            CoordGrid(stone.coords.x + 1 - hop, stone.coords.z, 0),
+            delay1 = HOP_MOVE_START,
+            delay2 = HOP_MOVE_END,
+            dir = em_face_west,
+            teleportType = TeleportType.Movement,
+        )
         delay(HOP_TICKS)
     }
 
     private suspend fun ProtectedAccess.apCrossLog(log: BoundLocInfo) {
-        if (log.coords != LOG || !isWithinApRange(log, AP_RANGE)) return
-        if (!checkLevel(OBSTACLE_LVL, "to use this obstacle")) return
-        crossLog()
-    }
-
-    private suspend fun ProtectedAccess.crossLog() {
-        telejump(LOG_START, TeleportType.Exempt)
+        if (!isWithinApRange(log, AP_RANGE)) return
+        telejump(CoordGrid(log.coords.x + 1, log.coords.z, 0), TeleportType.Movement)
+        delay(1)
         spam("You walk carefully across the slippery log...")
         anim("seq.human_walk_logbalance")
-        exactMove(coords, LOG_MID, delay1 = 0, delay2 = LOG_CYCLES, dir = em_face_west, teleportType = TeleportType.Exempt)
-        delay(LOG_TICKS)
+        forceWalk(CoordGrid(log.coords.x - 3, log.coords.z, 0), em_face_west)
         if (failRoll(LOG_LOW, LOG_HIGH)) {
-            exactMove(coords, CoordGrid(coords.x, coords.z + 2, 0), delay1 = 0, delay2 = HOP_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
-            delay(HOP_TICKS)
-            telejump(LOG_PIT, TeleportType.Exempt)
-            anim("seq.human_climbing_fall")
+            anim("seq.human_walk_logbalance_stumble")
+            faceSquare(CoordGrid(coords.x, coords.z + 2, 0))
+            delay(1)
+            telejump(LOG_PIT, TeleportType.Movement)
             applyFailDamage(FAIL_PER_MILLE_LOW)
             spam("You slip and fall onto the spikes below.")
             delay(1)
             resetAnim()
             return
         }
-        exactMove(coords, LOG_NEAR, delay1 = 0, delay2 = LOG_CYCLES, dir = em_face_west, teleportType = TeleportType.Exempt)
-        delay(LOG_TICKS)
+        forceWalk(CoordGrid(log.coords.x - 6, log.coords.z, 0), em_face_west)
         spam("You skillfully edge across the gap.")
-        exactMove(coords, LOG_END, delay1 = 0, delay2 = HOP_CYCLES, dir = em_face_west, teleportType = TeleportType.Exempt)
-        delay(HOP_TICKS)
+        forceWalk(CoordGrid(log.coords.x - 7, log.coords.z, 0), em_face_west)
         resetAnim()
         statAdvance(AGILITY, LOG_XP)
         player.advanceWilderness(OBSTACLE_LOG)
@@ -252,21 +247,20 @@ class WildernessAgilityCourse @Inject constructor(
 
     private suspend fun ProtectedAccess.apClimbRocks(rock: BoundLocInfo) {
         if (!isWithinApRange(rock, AP_RANGE)) return
-        if (!checkLevel(OBSTACLE_LVL, "to use this obstacle")) return
+        delay(1)
         anim("seq.human_climbing")
-        exactMove(coords, rock.coords, delay1 = 0, delay2 = ROCK_CYCLES, dir = em_face_south, teleportType = TeleportType.Exempt)
-        delay(ROCK_TICKS)
-        exactMove(coords, CoordGrid(rock.coords.x, rock.coords.z - ROCK_DESCENT, 0), delay1 = 0, delay2 = ROCK_CYCLES, dir = em_face_south, teleportType = TeleportType.Exempt)
-        delay(ROCK_TICKS)
+        forceWalk(rock.coords, em_face_south)
+        forceWalk(CoordGrid(rock.coords.x, rock.coords.z - ROCK_DESCENT, 0), em_face_south)
         resetAnim()
-        spam("You reach the top.")
         if (player.advanceWilderness(OBSTACLE_ROCKS)) {
+            spam("You reach the top.")
             statAdvance(AGILITY, ROCKS_XP)
             player.wildernessTagPending = 1
         }
     }
 
-    private suspend fun ProtectedAccess.apTagDispenser() {
+    private suspend fun ProtectedAccess.apTagDispenser(dispenser: BoundLocInfo) {
+        if (!isWithinApRange(dispenser, AP_RANGE)) return
         player.runEnergy = RUN_FULL
         spam("You feel rejuvenated.")
         if (player.wildernessTagPending != 0) {
@@ -276,7 +270,8 @@ class WildernessAgilityCourse @Inject constructor(
         }
     }
 
-    private suspend fun ProtectedAccess.apPayDispenser() {
+    private suspend fun ProtectedAccess.apPayDispenser(dispenser: BoundLocInfo) {
+        if (!isWithinApRange(dispenser, AP_RANGE)) return
         if (player.wildernessLootPaid != 0) {
             mes("You have already paid the fee.")
             return
@@ -289,7 +284,8 @@ class WildernessAgilityCourse @Inject constructor(
         spam("You pay the dispenser fee.")
     }
 
-    private suspend fun ProtectedAccess.apRedeemDispenser() {
+    private suspend fun ProtectedAccess.apRedeemDispenser(dispenser: BoundLocInfo) {
+        if (!isWithinApRange(dispenser, AP_RANGE)) return
         val count = player.inv.count(TICKET)
         if (count == 0) {
             mes("You don't have any tickets to redeem.")
@@ -305,6 +301,13 @@ class WildernessAgilityCourse @Inject constructor(
         invDel(player.inv, TICKET, count)
         statAdvance(AGILITY, (count * TICKET_XP * bonus).toInt().toDouble())
         spam("The dispenser accepts your tickets.")
+    }
+
+    private suspend fun ProtectedAccess.forceWalk(dest: CoordGrid, dir: Int) {
+        val tiles = distanceTo(dest)
+        if (tiles == 0) return
+        exactMove(coords, dest, delay1 = 0, delay2 = tiles * TICK_CYCLES, dir = dir, teleportType = TeleportType.Movement)
+        delay(tiles)
     }
 
     private fun ProtectedAccess.checkLevel(level: Int, action: String): Boolean {
@@ -329,9 +332,9 @@ class WildernessAgilityCourse @Inject constructor(
 
         const val RIDGE_LVL = 52
         const val OBSTACLE_LVL = 49
-        const val AP_RANGE = 3
+        const val AP_RANGE = 1
         const val RATE_SCALE = 256
-        const val OPEN_DOOR = "loc.prisondooropen"
+        const val OPEN_DOOR = "loc.poshdooropen"
 
         const val RIDGE_XP = 15.0
         const val PIPE_XP = 12.5
@@ -358,27 +361,28 @@ class WildernessAgilityCourse @Inject constructor(
         const val FAIL_PER_MILLE_LOW = 150
         const val FAIL_PER_MILLE_STONE = 216
 
-        const val RIDGE_LEG_TICKS = 6
-        const val RIDGE_LEG_CYCLES = RIDGE_LEG_TICKS * 30
-        const val RIDGE_ALIGN_TICKS = 1
-        const val RIDGE_ALIGN_CYCLES = RIDGE_ALIGN_TICKS * 30
+        const val TICK_CYCLES = 30
         const val RIDGE_FALL_TICKS = 1
         const val RIDGE_FALL_CYCLES = 25
         const val RIDGE_FALL_X = 3
-        const val PIPE_TICKS = 3
-        const val PIPE_CYCLES = PIPE_TICKS * 30
+        const val PIPE_ANIM_DELAY = 30
+        const val PIPE_MOVE_START = 30
+        const val PIPE_MOVE_END = 126
+        const val PIPE_SEGMENT_TICKS = 3
+        const val PIPE_TELE_OFFSET = 9
+        const val PIPE_END_OFFSET = 12
         const val PIPE_BUSY_TICKS = 11
-        const val SWING_TICKS = 4
-        const val SWING_CYCLES = SWING_TICKS * 30
+        const val SWING_ANIM_DELAY = 20
+        const val SWING_MOVE_START = 45
+        const val SWING_MOVE_END = 70
+        const val SWING_TICKS = 1
+        const val SWING_TILES = 5
         const val SWING_BUSY_TICKS = 2
+        const val HOP_MOVE_START = 15
+        const val HOP_MOVE_END = 30
         const val HOP_TICKS = 1
-        const val HOP_CYCLES = HOP_TICKS * 30
         const val STONE_HOPS = 6
         const val STONE_FAIL_HOP = 3
-        const val LOG_TICKS = 3
-        const val LOG_CYCLES = LOG_TICKS * 30
-        const val ROCK_TICKS = 2
-        const val ROCK_CYCLES = ROCK_TICKS * 30
         const val ROCK_DESCENT = 3
         const val GATE_OPEN_TICKS = 5
 
@@ -397,20 +401,7 @@ class WildernessAgilityCourse @Inject constructor(
         const val REDEEM_BONUS_2 = 1.10
         const val REDEEM_BONUS_3 = 1.15
 
-        val PIPE_MID = CoordGrid(3004, 3940, 0)
-        val PIPE_SECOND = CoordGrid(3004, 3947, 0)
-        val PIPE_END = CoordGrid(3004, 3950, 0)
-        val SWING = CoordGrid(3005, 3954, 0)
-        val SWING_START = CoordGrid(3005, 3955, 0)
-        val SWING_LANDING = CoordGrid(3005, 3960, 0)
-        val SWING_PIT = CoordGrid(2997, 10357, 0)
-        val STONE = CoordGrid(3001, 3960, 0)
-        val STONE_FAIL = CoordGrid(3002, 3963, 0)
-        val LOG = CoordGrid(3001, 3945, 0)
-        val LOG_START = CoordGrid(3002, 3945, 0)
-        val LOG_MID = CoordGrid(2998, 3945, 0)
-        val LOG_NEAR = CoordGrid(2995, 3945, 0)
-        val LOG_END = CoordGrid(2994, 3945, 0)
+        val SWING_PIT = CoordGrid(3004, 10357, 0)
         val LOG_PIT = CoordGrid(2998, 10345, 0)
         val RIDGE_MID = CoordGrid(2998, 3924, 0)
         val RIDGE_TOP = CoordGrid(2998, 3930, 0)
