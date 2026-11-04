@@ -4,6 +4,7 @@ import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.vars.intVarBit
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
+import org.rsmod.content.quest.area.varrock.demonslayer.DemonSlayerDialogue.traibornEntry
 import org.rsmod.content.quest.manager.menu
 import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
@@ -13,7 +14,7 @@ class WizardsTowerNpcs : PluginScript() {
     private var Player.rickOpenedShop by intVarBit("varbit.rick_has_opened_shop")
 
     override fun ScriptContext.startup() {
-        onOpNpc1("npc.traiborn") { startDialogue(it.npc) { traiborn() } }
+        onOpNpc1("npc.traiborn") { startDialogue(it.npc) { traibornEntry { traiborn() } } }
         onOpNpc1("npc.armourmaking_wizard") { startDialogue(it.npc) { jalarast() } }
         onOpNpc3("npc.armourmaking_wizard") { startDialogue(it.npc) { jalarastShop() } }
         onOpNpc1("npc.telecrystal_wizard") { startDialogue(it.npc) { rick() } }

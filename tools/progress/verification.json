@@ -2281,6 +2281,38 @@
           "Limitation: exact OSRS approach re-fire delay/range not measurable from live cache (hunt defs are server-side); range 5 chosen to match Romeo's wander radius."
         ]
       }
+    },
+    "Demon Slayer": {
+      "status": "COMPLETE",
+      "implementationPaths": [
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/varrock/demonslayer/DemonSlayer.kt",
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/varrock/demonslayer/DemonSlayerDialogue.kt",
+        "content/quest/pack/src/main/resources/pack/configs/demon_slayer_vars.toml",
+        "content/quest/pack/src/main/resources/gamevals.toml",
+        "content/areas/misc/wizards_tower/src/main/kotlin/org/rsmod/content/areas/misc/wizards_tower/npcs/WizardsTowerNpcs.kt"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Demon_Slayer",
+        "https://oldschool.runescape.wiki/w/Transcript:Demon_Slayer",
+        "https://oldschool.runescape.wiki/w/Delrith"
+      ],
+      "mechanics": {
+        "state": "verified",
+        "evidence": [
+          "Live MCP end-to-end on rev 241 cache: Aris Talk-to opens crystal-ball scry + Wally/Silverlight/incantation topic menus; farewell option starts quest -> varbit.demonslayer_main (2561) 0->1 on the real client progress varbit.",
+          "Sir Prysin (3204,3469, palace): full dialogue tree incl. all three key explanations and the drain story branch verified verbatim vs Transcript:Demon Slayer.",
+          "Drain/sewer key: bucket of water on questdrain (2843) -> pour anim + varbit 2568 0->1 (key washed into sewer); sewer key multiloc resolves 17431->17429 (rusty key w/ Take) -> take grants item 2399 + varbit 2568->2, loc reverts to examine-only Mud (17430).",
+          "Captain Rovin (3204,3495,2): authentic rant option path completed -> key item 2400.",
+          "Wizard Traiborn delegation through WizardsTowerNpcs: 25-bone ritual accepts incremental turn-ins (7+9+9 tested, counter reports remaining correctly), completion scene plays qip_ds bone anims -> key item 2401.",
+          "Silverlight case: all-keys branch hands Silverlight (2402) with case-open sequence -> varbit 2561 ->2.",
+          "Stone circle finale: area entry summons Denath + 4 young dark wizards chanting (qip_ds_dark_wizard_chanting), table explosion seq, Denath deleted, Delrith (5079) spawns at (3228,3368) with qip_ds_delrith_summoned + queueCombatRetaliate.",
+          "Silverlight-gated weaken: hit under threshold transmogs 5079->5080 (same npc), sets hp 1, plays qip_ds_delrith_struck_down + weakening messages.",
+          "Banish op on weakened form opens incantation choice; varbits 2562-2566 stored order [2,3,4,0,1]=Purchai/Camerinthum/Carlem/Aber/Gabindo; correct picks through shrinking choice5->choice2 menus + auto-pick on final word -> qip_ds_delrith_banished + weakened_portal anims, npcRepo.del, varbit 2561 ->3, quest list FINISHED.",
+          "Wrong-order pick verified: wrongIncantation path transmogs back to base Delrith, restores hp, resumes attack (authentic regain-strength flow).",
+          "FIX during verification: pickIncantationWord else-branch indexed remaining[1] on a 1-element list (IndexOutOfBoundsException) -> auto-pick last word via -1/firstOrNull.",
+          "Post-quest Aris verified: gift branch grants 2x antique lamp (23072) once (ds_lamps_claimed flag), then hero lines with option menu; no repeat reward on second Talk-to."
+        ]
+      }
     }
   },
   "records": {

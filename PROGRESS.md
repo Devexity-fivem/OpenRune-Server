@@ -92,7 +92,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dagannoth_mother_white.png/48px-Dagannoth_mother_white.png?945b1" height="20" alt=""> Dagannoth mother | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dagannoth_mother) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Damis_first_form.png/48px-Damis_first_form.png?ee7b6" height="20" alt=""> Damis | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Damis) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dawn.png/48px-Dawn.png?8b8ea" height="20" alt=""> Dawn | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Dawn) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Delrith.png/48px-Delrith.png?ceece" height="20" alt=""> Delrith | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Delrith) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Delrith.png/48px-Delrith.png?ceece" height="20" alt=""> Delrith | no module, code in content/bosses/quest-bosses, content/quest/src | [wiki](https://oldschool.runescape.wiki/w/Delrith) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Demonic_Brutus.png/48px-Demonic_Brutus.png?eda9e" height="20" alt=""> [Demonic Brutus](content/bosses/brutus) | 1,411 loc | [wiki](https://oldschool.runescape.wiki/w/Demonic_Brutus) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Deranged_archaeologist.png/48px-Deranged_archaeologist.png?32c7e" height="20" alt=""> [Deranged archaeologist](content/bosses/deranged-archaeologist) | 76 loc | [wiki](https://oldschool.runescape.wiki/w/Deranged_archaeologist) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Dessourt.png/48px-Dessourt.png?c2392" height="20" alt=""> Dessourt | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Dessourt) |
@@ -308,7 +308,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/misc/stronghold_of_security/pack` | 2 | 134 | 0 | 0 | 2026-10-06 |
 | `areas/misc/tutorial-island` | 5 | 1,203 | 1 | 0 | 2026-10-26 |
 | `areas/misc/ver_sinhaza` | 1 | 139 | 0 | 0 | 2026-09-25 |
-| `areas/misc/wizards_tower` | 4 | 1,123 | 0 | 0 | 2026-09-23 |
+| `areas/misc/wizards_tower` | 4 | 1,124 | 0 | 0 | 2026-09-23 |
 | `areas/misc/wizards_tower/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `areas/misc/zanaris` | 1 | 36 | 0 | 0 | 2026-10-21 |
 | `areas/wilderness` | 27 | 2,167 | 0 | 0 | 2026-11-04 |
@@ -420,7 +420,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `minigames/tithe-farm` | 2 | 635 | 0 | 0 | 2026-11-03 |
 | `minigames/vale-totems` | 1 | 1,066 | 1 | 0 | 2026-11-03 |
 | `minigames/vale-totems/pack` | 1 | 148 | 0 | 0 | 2026-11-03 |
-| `other/commands` | 5 | 1,743 | 0 | 0 | 2026-11-04 |
+| `other/commands` | 5 | 1,761 | 0 | 0 | 2026-11-04 |
 | `other/consumables` | 40 | 8,638 | 5 | 0 | 2026-10-29 |
 | `other/dave/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `other/discord` | 2 | 80 | 0 | 0 | 2026-07-01 |
@@ -442,7 +442,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/special-weapons` | 13 | 2,081 | 2 | 1 | 2026-10-25 |
 | `other/windmill` | 2 | 133 | 0 | 0 | 2026-09-23 |
 | `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
-| `quest` | 94 | 21,900 | 16 | 4 | 2026-11-04 |
+| `quest` | 96 | 23,707 | 16 | 4 | 2026-11-04 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-11-04 |
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
 | `raids/tfa` | 111 | 16,903 | 8 | 0 | 2026-11-01 |

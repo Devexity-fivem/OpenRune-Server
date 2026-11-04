@@ -52,6 +52,7 @@ import org.rsmod.api.registry.region.RegionRegistry
 import org.rsmod.api.repo.loc.LocRepository
 import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.spells.autocast.MagicSpellbookManager
+import org.rsmod.api.table.QuestRow
 import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.api.utils.system.SafeServiceExit
 import org.rsmod.content.quest.manager.QUEST_STAGE_MAP_ATTR
@@ -192,6 +193,9 @@ constructor(
         }
         onCommand("queststage", "Set quest stage", ::setQuestStage) {
             invalidArgs = "Use as ::queststage questKey stage (ex: hunt 3)"
+        }
+        onCommand("questrow", "Dump quest dbrow metadata", ::questRow) {
+            invalidArgs = "Use as ::questrow dbrowKey (ex: quest_demonslayer)"
         }
         onCommand("reboot", "Reboots the game world, applying packed changes", ::reboot)
         onCommand("slowreboot", "Reboots the game world, with a timer", ::slowReboot)
@@ -856,6 +860,20 @@ constructor(
                 return
             }
             player.mes("Varbit '${args[0]}' (id=$typeId) = ${player.vars[type]}")
+        }
+
+    private fun questRow(cheat: Cheat) =
+        with(cheat) {
+            val rowId = "dbrow.${args[0]}".asRSCM() and 0xFFFF
+            val row = runCatching { QuestRow.getRow(rowId) }.getOrNull()
+            if (row == null) {
+                player.mes("No quest dbrow for: ${args[0]}")
+                return
+            }
+            player.mes(
+                "id=${row.id} name='${row.displayname}' qp=${row.questpoints} " +
+                    "endstate=${row.endstate} startcoord=${row.startcoord} members=${row.members}"
+            )
         }
 
     private fun setQuestStage(cheat: Cheat) =

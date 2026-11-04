@@ -86,6 +86,7 @@ daddyshome_state = 64064
 waterfall_state = 64310
 sheep_shearer_state = 65472
 pirates_treasure_state = 63712
+demon_slayer_state = 63720
 
 [gamevals.varbit]
 restless_ghost_progress = 63702
@@ -113,6 +114,10 @@ pt_crate_bananas = 63708
 pt_crate_rum = 63709
 pt_employed = 63710
 pt_gardener_provoked = 63715
+ds_bones_given = 63721
+ds_traiborn_key = 63722
+ds_lamps_claimed = 63723
+ds_prysin_briefed = 63724
 sheep_shearer_saw_thing = 65448
 
 [gamevals.bas]
