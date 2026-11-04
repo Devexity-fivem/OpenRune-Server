@@ -221,7 +221,7 @@ class GoblinDiplomacy @Inject constructor(private val objRepo: ObjRepository) :
         private const val VisOrange = 1
         private const val VisBlue = 2
 
-        private const val CraftingXpReward = 2000.0
+        private const val CraftingXpReward = 200.0
         private const val GoldBarReward = 1
 
         private const val Crate1Searched = "varbit.gobdip_crate1_searched"

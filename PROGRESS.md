@@ -81,7 +81,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Commander_Zilyana.png/48px-Commander_Zilyana.png?c5eaa" height="20" alt=""> [Commander Zilyana](content/bosses/zilyana) | 164 loc | [wiki](https://oldschool.runescape.wiki/w/Commander_Zilyana) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Corporeal_Beast.png/48px-Corporeal_Beast.png?52ebb" height="20" alt=""> [Corporeal Beast](content/bosses/corporeal-beast) | 351 loc | [wiki](https://oldschool.runescape.wiki/w/Corporeal_Beast) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Corrupted_Hunllef.png/48px-Corrupted_Hunllef.png?0cd55" height="20" alt=""> Corrupted Hunllef | no module, code in content/minigames/gauntlet | [wiki](https://oldschool.runescape.wiki/w/Corrupted_Hunllef) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Count_Draynor.png/48px-Count_Draynor.png?95156" height="20" alt=""> Count Draynor | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Count_Draynor) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Count_Draynor.png/48px-Count_Draynor.png?95156" height="20" alt=""> Count Draynor | no module, code in content/bosses/quest-bosses, content/quest/src | [wiki](https://oldschool.runescape.wiki/w/Count_Draynor) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Crazy_archaeologist.png/48px-Crazy_archaeologist.png?78fa1" height="20" alt=""> [Crazy archaeologist](content/bosses/crazy-archaeologist) | 82 loc | [wiki](https://oldschool.runescape.wiki/w/Crazy_archaeologist) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Crystalline_Hunllef.png/48px-Crystalline_Hunllef.png?7737a" height="20" alt=""> Crystalline Hunllef | no module, code in content/minigames/gauntlet | [wiki](https://oldschool.runescape.wiki/w/Crystalline_Hunllef) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Culinaromancer.png/48px-Culinaromancer.png?1076b" height="20" alt=""> Culinaromancer | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Culinaromancer) |
@@ -267,7 +267,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/barbarian-village/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/city/desert` | 1 | 36 | 0 | 0 | 2026-10-22 |
 | `areas/city/desert/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
-| `areas/city/draynor` | 17 | 3,791 | 4 | 0 | 2026-10-31 |
+| `areas/city/draynor` | 17 | 3,799 | 4 | 0 | 2026-10-31 |
 | `areas/city/draynor/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `areas/city/edgeville` | 4 | 375 | 0 | 0 | 2026-11-04 |
 | `areas/city/edgeville/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
@@ -285,7 +285,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/rimmington` | 6 | 766 | 0 | 0 | 2026-10-25 |
 | `areas/city/rimmington/pack` | 1 | 6 | 0 | 0 | 2026-09-22 |
 | `areas/city/taverley` | 2 | 111 | 0 | 0 | 2026-10-15 |
-| `areas/city/varrock` | 10 | 948 | 1 | 2 | 2026-10-21 |
+| `areas/city/varrock` | 11 | 1,011 | 1 | 2 | 2026-10-21 |
 | `areas/city/varrock/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/godwars` | 2 | 176 | 0 | 0 | 2026-10-27 |
 | `areas/misc/ape-atoll` | 3 | 103 | 0 | 0 | 2026-10-30 |
@@ -295,7 +295,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/misc/dog_shelter` | 2 | 151 | 0 | 0 | 2026-09-25 |
 | `areas/misc/dwarven-mine` | 5 | 896 | 1 | 0 | 2026-10-15 |
 | `areas/misc/dwarven-mine/pack` | 1 | 6 | 0 | 0 | 2026-10-15 |
-| `areas/misc/goblin-village` | 5 | 323 | 0 | 0 | 2026-10-22 |
+| `areas/misc/goblin-village` | 5 | 323 | 0 | 0 | 2026-11-04 |
 | `areas/misc/goblin-village/pack` | 1 | 6 | 0 | 0 | 2026-10-15 |
 | `areas/misc/lobbies` | 5 | 944 | 3 | 1 | 2026-10-30 |
 | `areas/misc/lobbies/pack` | 1 | 87 | 0 | 0 | 2026-10-29 |
@@ -442,7 +442,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/special-weapons` | 13 | 2,081 | 2 | 1 | 2026-10-25 |
 | `other/windmill` | 2 | 133 | 0 | 0 | 2026-09-23 |
 | `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
-| `quest` | 88 | 18,742 | 16 | 4 | 2026-11-03 |
+| `quest` | 90 | 19,097 | 16 | 4 | 2026-11-04 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-10-25 |
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
 | `raids/tfa` | 111 | 16,903 | 8 | 0 | 2026-11-01 |

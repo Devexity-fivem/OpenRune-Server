@@ -12,6 +12,8 @@ import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.shops.Shops
 import org.rsmod.content.areas.city.draynor.npcs.DiangoHolidayItems.Companion.openHolidayItems
 import org.rsmod.content.interfaces.omnishop.openOmnishop
+import org.rsmod.content.quest.area.draynor.vampyreslayer.VampyreSlayerDialogue
+import org.rsmod.content.quest.manager.Quest
 import org.rsmod.content.quest.manager.QuestRequirements
 import org.rsmod.content.quest.manager.menu
 import org.rsmod.game.entity.Player
@@ -25,7 +27,8 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
     private var Player.metForester by intVarBit("varbit.forestry_forester_met")
 
     override fun ScriptContext.startup() {
-        onOpNpc1("npc.morgan") { startDialogue(it.npc) { morgan() } }
+        onOpNpc1("npc.morgan_pre") { startDialogue(it.npc) { morgan() } }
+        onOpNpc1("npc.morgan_post") { startDialogue(it.npc) { morgan() } }
         onOpNpc1("npc.wgs_lucien_spy") { startDialogue(it.npc) { shadyStranger() } }
         onOpNpc1("npc.wgs_spy2") { startDialogue(it.npc) { suspiciousOutsider() } }
         onOpNpc1("npc.aggie") { startDialogue(it.npc) { aggie() } }
@@ -49,6 +52,11 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
     }
 
     private suspend fun Dialogue.morgan() {
+        val vampyreSlayer = Quest.get(VAMPYRE_SLAYER)
+        if (vampyreSlayer != null && !vampyreSlayer.isQuestCompleted(player)) {
+            with(VampyreSlayerDialogue) { morgan() }
+            return
+        }
         if (!QuestRequirements.hasCompleted(player, VAMPYRE_SLAYER)) {
             chatNpc(worried, "Please, please help us, bold adventurer!")
             return
