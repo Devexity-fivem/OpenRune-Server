@@ -1,5 +1,5 @@
 [gamevals.timer]
-gotr_tick = 434
+gotr_tick = 65523
 
 [gamevals.varp]
 gotr_elemental_reward_points = 63480

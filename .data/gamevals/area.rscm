@@ -80,3 +80,6 @@ zalcano_arena=30051
 ape_atoll=30052
 tfa_lobby=30020
 mess_hall=30030
+random_event_none=32441
+random_event_bank=32442
+random_event_underwater=32443
