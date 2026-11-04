@@ -16,6 +16,9 @@ dependencies {
     implementation(projects.api.pluginCommons)
     implementation(projects.api.realm)
     implementation(projects.api.spellsAutocast)
+    implementation(projects.api.attr)
+
+    implementation(projects.content.quest)
 
     implementation(projects.api.utils.utilsSystem)
     implementation(projects.engine.utilsBits)

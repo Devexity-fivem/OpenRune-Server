@@ -2210,6 +2210,43 @@
           "Limitation: per-instance attack/strength/defence garlic debuff not supported by npc stat API; HP reduction implemented."
         ]
       }
+    },
+    "Pirate's Treasure": {
+      "status": "COMPLETE",
+      "implementationPaths": [
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/falador/piratestreasure/PiratesTreasure.kt",
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/falador/piratestreasure/PiratesTreasureDialogue.kt",
+        "content/quest/pack/src/main/resources/pack/configs/pirates_treasure_vars.toml",
+        "content/quest/pack/src/main/resources/gamevals.toml",
+        "content/areas/city/port-sarim/src/main/kotlin/org/rsmod/content/areas/city/portsarim/travel/KaramjaFerryScript.kt",
+        "content/areas/city/port-sarim/src/main/kotlin/org/rsmod/content/areas/city/portsarim/npcs/PortSarimShopkeepersScript.kt",
+        "content/areas/city/port-sarim/src/main/kotlin/org/rsmod/content/areas/city/portsarim/npcs/RustyAnchorScript.kt",
+        "content/other/commands/src/main/kotlin/org/rsmod/content/other/commands/AdminCommands.kt"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Pirate%27s_Treasure",
+        "https://oldschool.runescape.wiki/w/Transcript:Pirate%27s_Treasure",
+        "https://oldschool.runescape.wiki/w/Gardener",
+        "LostCity quest_hunt scripts (redbeard_frank/luthas/dig/pirate_message/banana_crate/food_store/customs)"
+      ],
+      "mechanics": {
+        "state": "verified",
+        "evidence": [
+          "Live MCP end-to-end: Frank stage-0 options + I'm in search of treasure -> varp.hunt 0->1; rum-on-Frank use chain -> item dialog + chest key (432) -> stage 2.",
+          "Zembo booze shop (Karamja Wines, Spirits, and Beers.) sells Karamjan rum 30gp; Luthas employment sets pt_employed PLANTATION flag + customs hint dialogue verified.",
+          "Customs officer (customs_officer_1op 14984, Talk-to op1 + Travel op3): topic menu branches (Why?/unusual customs), Spot inspection + 'Aha, trying to smuggle rum eh?' confiscation line, fare 30gp, sail Karamja->Port Sarim (3029,3217) verified. Employed-by-Luthas branch skips inspection entirely (rum carried aboard) - authentic LostCity behaviour.",
+          "Banana crate (2072): use-rum stash 'You stash the rum in the crate.'; search states 'completely empty', 'some rum in here, although with no bananas to cover it. It is a little obvious.', 'The crate is full of bananas. There is also some rum stashed in here too.'; Fill packs exactly 10 bananas. Luthas pays 30gp on full crate; bananas reset, rum transitions to food-store state.",
+          "Wydin: apron-required employment chain, 'put your apron on before going in there' door refusal, pass-through door while wearing white apron; grocery crate (2071) search returns the smuggled rum.",
+          "Blue Moon chest (2079): 'The chest is locked.' without key; key use -> 'All that's in the chest is a message...' + 'You take the message from the chest.'; pirate message (433) opens letterscroll with authentic text 'Visit the city of the White Knights, in the park Saradomin points to the X which marks the spot.' -> stage 3.",
+          "Falador dig spot (2999,3383): first dig spawns a level-4 gardener (falador_gardener 3275, marked via varn.generic_state_2) who says 'First moles, now this! Take this, vandal!' and attacks; second dig while hunted -> 'I can't dig up anything with him attacking me!'; after kill OR after fleeing the park (target lost) the next dig -> 'You dig a hole in the ground...' + 'and find a little chest of treasure.' + 450 coins + gold ring + emerald + quest complete.",
+          "Rewards verified live: +2 Quest Points (varp.qp), completion jingle + message, varp.hunt -> 4 (endstate).",
+          "FIX during verification: customs officer cache defs are op1=Talk-to/op3=Travel (_1op 14984) and op3=Port Sarim/op4=The Pandemonium (_2op 14985), not op2; bindings moved to the spawned variant ids.",
+          "Modern-OSRS dig differs from LostCity-era: rev-241 spawns a generic Gardener (not Wyson) and BLOCKS digging while he hunts you; implemented via pt_gardener_provoked varbit + marked npc lifecycle.",
+          "New ::queststage <questKey> <stage> admin command writes the attr-backed quest stage + varp mirror (varp quests store real state in quest_stages attr, not the varp).",
+          "Known gap: Pandemonium customs officer (customs_officer_2op) has no map spawn in OpenRune/upstream map data, so its Port Sarim/The Pandemonium ops are bound but dormant until sailing content lands.",
+          "Limitation: the dig-interrupt gardener despawns when his hunt target is lost (>combat_activecombat_delay) or on next dig rather than a strict park-boundary check."
+        ]
+      }
     }
   },
   "records": {

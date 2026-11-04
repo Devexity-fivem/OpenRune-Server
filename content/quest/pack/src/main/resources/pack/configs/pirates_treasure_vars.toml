@@ -1,0 +1,33 @@
+[[varp]]
+isServerOnly = true
+id = "varp.pirates_treasure_state"
+scope = "Perm"
+transmit = "Never"
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.pt_crate_bananas"
+varp = "varp.pirates_treasure_state"
+startBit = 0
+endBit = 3
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.pt_crate_rum"
+varp = "varp.pirates_treasure_state"
+startBit = 4
+endBit = 5
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.pt_employed"
+varp = "varp.pirates_treasure_state"
+startBit = 6
+endBit = 7
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.pt_gardener_provoked"
+varp = "varp.pirates_treasure_state"
+startBit = 8
+endBit = 8

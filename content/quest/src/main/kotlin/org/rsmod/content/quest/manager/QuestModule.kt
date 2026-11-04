@@ -8,6 +8,7 @@ import org.rsmod.content.generic.locs.bookcases.BookcaseSearchHook
 import org.rsmod.content.quest.area.baxtorianfalls.waterfall.TouristCentreBookcases
 import org.rsmod.content.quest.area.falador.doricsquest.DoricsQuest
 import org.rsmod.content.quest.area.falador.knightssword.KnightsSwordQuest
+import org.rsmod.content.quest.area.falador.piratestreasure.PiratesTreasure
 import org.rsmod.content.quest.area.lumbridge.RuneMysteriesQuest
 import org.rsmod.content.quest.area.lumbridge.idesofmilk.IdesOfMilkQuest
 import org.rsmod.content.quest.area.lumbridge.xmarksthespot.XMarksTheSpotQuest
@@ -30,6 +31,7 @@ public class QuestModule : PluginModule() {
         addSetBinding<AggressionGate>(QuestAggressionGate::class.java)
         addSetBinding<BookcaseSearchHook>(TouristCentreBookcases::class.java)
         addSetBinding<SpadeDigHook>(XMarksTheSpotQuest::class.java)
+        addSetBinding<SpadeDigHook>(PiratesTreasure::class.java)
         addSetBinding<NpcDeathKillHook>(WitchsPotionRatTail::class.java)
     }
 }

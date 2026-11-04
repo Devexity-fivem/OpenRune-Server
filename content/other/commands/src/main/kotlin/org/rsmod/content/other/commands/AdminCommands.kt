@@ -54,6 +54,8 @@ import org.rsmod.api.repo.npc.NpcRepository
 import org.rsmod.api.spells.autocast.MagicSpellbookManager
 import org.rsmod.api.utils.format.formatAmount
 import org.rsmod.api.utils.system.SafeServiceExit
+import org.rsmod.content.quest.manager.QUEST_STAGE_MAP_ATTR
+import org.rsmod.content.quest.manager.Quest
 import org.rsmod.game.GameUpdate
 import org.rsmod.game.cheat.Cheat
 import org.rsmod.game.entity.Npc
@@ -187,6 +189,9 @@ constructor(
         }
         onCommand("getvarbit", "Get varbit value", ::getVarBit) {
             invalidArgs = "Use as ::getvarbit debugNameOrId (ex: emote_hotline_bling)"
+        }
+        onCommand("queststage", "Set quest stage", ::setQuestStage) {
+            invalidArgs = "Use as ::queststage questKey stage (ex: hunt 3)"
         }
         onCommand("reboot", "Reboots the game world, applying packed changes", ::reboot)
         onCommand("slowreboot", "Reboots the game world, with a timer", ::slowReboot)
@@ -851,6 +856,29 @@ constructor(
                 return
             }
             player.mes("Varbit '${args[0]}' (id=$typeId) = ${player.vars[type]}")
+        }
+
+    private fun setQuestStage(cheat: Cheat) =
+        with(cheat) {
+            val quest = Quest.get(args[0])
+            if (quest == null) {
+                player.mes("That quest does not exist: ${args[0]}")
+                return
+            }
+            val stage = args[1].toInt()
+            player.attr.getOrPut(QUEST_STAGE_MAP_ATTR) { mutableMapOf() }[quest.key] = stage
+            val varbit = quest.questVarbit
+            if (varbit != null) {
+                ServerCacheManager.getVarbit(varbit.asRSCM())?.let {
+                    VarPlayerIntMapSetter.set(player, it, stage)
+                }
+            } else {
+                ServerCacheManager.getVarp(quest.questVarp.asRSCM())?.let {
+                    player.vars.backing[it.id] = stage
+                    player.resyncVar(it)
+                }
+            }
+            player.mes("Set quest '${quest.key}' stage to $stage.")
         }
 
     @OptIn(InternalApi::class)

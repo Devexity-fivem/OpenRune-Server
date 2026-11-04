@@ -267,7 +267,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/barbarian-village/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/city/desert` | 1 | 36 | 0 | 0 | 2026-10-22 |
 | `areas/city/desert/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
-| `areas/city/draynor` | 17 | 3,799 | 4 | 0 | 2026-10-31 |
+| `areas/city/draynor` | 17 | 3,799 | 4 | 0 | 2026-11-04 |
 | `areas/city/draynor/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `areas/city/edgeville` | 4 | 375 | 0 | 0 | 2026-11-04 |
 | `areas/city/edgeville/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
@@ -277,7 +277,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/karamja/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/lumbridge` | 27 | 6,332 | 1 | 4 | 2026-10-28 |
 | `areas/city/lumbridge/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
-| `areas/city/port-sarim` | 13 | 1,975 | 0 | 0 | 2026-10-19 |
+| `areas/city/port-sarim` | 13 | 2,170 | 0 | 0 | 2026-10-19 |
 | `areas/city/port-sarim/pack` | 1 | 6 | 0 | 0 | 2026-09-22 |
 | `areas/city/prifddinas` | 1 | 82 | 0 | 0 | 2026-08-18 |
 | `areas/city/rellekka` | 1 | 46 | 0 | 0 | 2026-10-22 |
@@ -285,7 +285,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/rimmington` | 6 | 766 | 0 | 0 | 2026-10-25 |
 | `areas/city/rimmington/pack` | 1 | 6 | 0 | 0 | 2026-09-22 |
 | `areas/city/taverley` | 2 | 111 | 0 | 0 | 2026-10-15 |
-| `areas/city/varrock` | 11 | 1,011 | 1 | 2 | 2026-10-21 |
+| `areas/city/varrock` | 11 | 1,011 | 1 | 2 | 2026-11-04 |
 | `areas/city/varrock/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/godwars` | 2 | 176 | 0 | 0 | 2026-10-27 |
 | `areas/misc/ape-atoll` | 3 | 103 | 0 | 0 | 2026-10-30 |
@@ -420,7 +420,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `minigames/tithe-farm` | 2 | 635 | 0 | 0 | 2026-11-03 |
 | `minigames/vale-totems` | 1 | 1,066 | 1 | 0 | 2026-11-03 |
 | `minigames/vale-totems/pack` | 1 | 148 | 0 | 0 | 2026-11-03 |
-| `other/commands` | 5 | 1,715 | 0 | 0 | 2026-11-03 |
+| `other/commands` | 5 | 1,743 | 0 | 0 | 2026-11-03 |
 | `other/consumables` | 40 | 8,638 | 5 | 0 | 2026-10-29 |
 | `other/dave/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `other/discord` | 2 | 80 | 0 | 0 | 2026-07-01 |
@@ -442,7 +442,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/special-weapons` | 13 | 2,081 | 2 | 1 | 2026-10-25 |
 | `other/windmill` | 2 | 133 | 0 | 0 | 2026-09-23 |
 | `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
-| `quest` | 90 | 19,097 | 16 | 4 | 2026-11-04 |
+| `quest` | 92 | 19,970 | 16 | 4 | 2026-11-04 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-10-25 |
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
 | `raids/tfa` | 111 | 16,903 | 8 | 0 | 2026-11-01 |
