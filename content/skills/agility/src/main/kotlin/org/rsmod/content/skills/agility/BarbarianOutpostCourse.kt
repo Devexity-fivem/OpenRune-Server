@@ -319,6 +319,6 @@ class BarbarianOutpostCourse @Inject constructor(
         val WALL_1 = CoordGrid(2536, 3553, 0)
         val WALL_2 = CoordGrid(2539, 3553, 0)
         val WALL_3 = CoordGrid(2542, 3553, 0)
-        val MARK_SPAWN = CoordGrid(2543, 3553, 0)
+        val MARK_SPAWN = CoordGrid(2532, 3546, 1)
     }
 }

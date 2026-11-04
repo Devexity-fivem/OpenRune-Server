@@ -29,6 +29,7 @@ class RellekkaRooftopCourse @Inject constructor(private val marks: MarkOfGrace) 
             RooftopCourseSpec(
                 requiredLevel = 80,
                 markSpawn = CoordGrid(2646, 3660, 3),
+                markDenominator = 5,
                 obstacles =
                     listOf(
                         RooftopObstacle(

@@ -13,10 +13,9 @@ import org.rsmod.map.CoordGrid
 // - A roll happens on each completed course lap, gated by a 3-minute cooldown that is indexed to
 //   whole game minutes and persists across logout (hence a Perm varp).
 // - If the player's unboosted level is >= 20 over the course requirement the chance is 80% lower.
+//   OSRS bug: the reduction does not apply on the Canifis rooftop course (applyLevelPenalty=false).
 // - Marks are player-specific, stack on the same tile (refreshing the timer), and despawn after
-//   10 minutes. Base roll is 2/6 (the documented rate for courses without a special rate; the
-//   Gnome Stronghold figure is unpublished, and 2/6 reproduces the wiki's 10-12 marks/hour band
-//   at ~40s laps). Gnome has a single spawn tile: the platform before the branch climb-down.
+//   10 minutes. Base roll is 2/6; Canifis and Ardougne are 2/3 and Rellekka is 2/5.
 @Singleton
 class MarkOfGrace @Inject constructor(
     private val objRepo: ObjRepository,
@@ -27,6 +26,7 @@ class MarkOfGrace @Inject constructor(
         spawn: CoordGrid,
         levelRequirement: Int,
         denominator: Int = BASE_DENOMINATOR,
+        applyLevelPenalty: Boolean = true,
     ): Boolean {
         if (player.observerUUID == null) {
             return false
@@ -36,7 +36,7 @@ class MarkOfGrace @Inject constructor(
             return false
         }
         var roll = denominator
-        if (player.baseAgilityLvl >= levelRequirement + LEVEL_PENALTY_LEVELS) {
+        if (applyLevelPenalty && player.baseAgilityLvl >= levelRequirement + LEVEL_PENALTY_LEVELS) {
             roll *= LEVEL_PENALTY_DIVISOR
         }
         if (random.of(roll) >= MARK_NUMERATOR) {

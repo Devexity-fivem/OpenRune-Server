@@ -22,6 +22,8 @@ internal class RooftopCourseSpec(
     val requiredLevel: Int,
     val markSpawn: CoordGrid,
     val obstacles: List<RooftopObstacle>,
+    val markDenominator: Int = 6,
+    val markLevelPenalty: Boolean = true,
 ) {
     val lastIndex: Int = obstacles.maxOf { it.index }
 }
@@ -52,7 +54,13 @@ internal suspend fun ProtectedAccess.attemptRooftop(
     if (obstacle.index < course.lastIndex) {
         player.advanceCourse(obstacle.index)
     } else if (player.completeLap(course.lastIndex)) {
-        marks.onLapCompleted(player, course.markSpawn, course.requiredLevel)
+        marks.onLapCompleted(
+            player,
+            course.markSpawn,
+            course.requiredLevel,
+            denominator = course.markDenominator,
+            applyLevelPenalty = course.markLevelPenalty,
+        )
     }
 }
 

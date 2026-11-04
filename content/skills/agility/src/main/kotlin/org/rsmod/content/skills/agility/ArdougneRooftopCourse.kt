@@ -29,6 +29,7 @@ class ArdougneRooftopCourse @Inject constructor(private val marks: MarkOfGrace) 
             RooftopCourseSpec(
                 requiredLevel = 90,
                 markSpawn = CoordGrid(2666, 3297, 0),
+                markDenominator = 3,
                 obstacles =
                     listOf(
                         RooftopObstacle(

@@ -46,7 +46,7 @@ class CanifisRooftopCourse @Inject constructor(private val marks: MarkOfGrace) :
         telejump(FINISH_GROUND)
         statAdvance(AGILITY, GAP_6_XP)
         if (player.completeLap(OBSTACLE_GAP_6)) {
-            marks.onLapCompleted(player, MARK_SPAWN, REQUIRED_LVL)
+            marks.onLapCompleted(player, MARK_SPAWN, REQUIRED_LVL, denominator = 3, applyLevelPenalty = false)
         }
     }
 
