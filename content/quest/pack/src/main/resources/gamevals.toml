@@ -88,6 +88,7 @@ sheep_shearer_state = 65472
 pirates_treasure_state = 63712
 demon_slayer_state = 63720
 corsair_curse_state = 63725
+prince_keystatus = 63733
 
 [gamevals.varbit]
 restless_ghost_progress = 63702

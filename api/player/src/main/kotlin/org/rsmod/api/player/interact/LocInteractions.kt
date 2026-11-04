@@ -7,12 +7,14 @@ import dev.openrune.types.ObjectServerType
 import dev.openrune.types.varp.baseVar
 import dev.openrune.types.varp.bits
 import jakarta.inject.Inject
+import org.rsmod.api.player.events.interact.ApDefaultEvent
 import org.rsmod.api.player.events.interact.ApEvent
 import org.rsmod.api.player.events.interact.LocCategoryEvents
 import org.rsmod.api.player.events.interact.LocContentEvents
 import org.rsmod.api.player.events.interact.LocDefaultEvents
 import org.rsmod.api.player.events.interact.LocEvents
 import org.rsmod.api.player.events.interact.LocUnimplementedEvents
+import org.rsmod.api.player.events.interact.OpDefaultEvent
 import org.rsmod.api.player.events.interact.OpEvent
 import org.rsmod.api.route.BoundValidator
 import org.rsmod.events.EventBus
@@ -81,7 +83,7 @@ constructor(private val boundValidator: BoundValidator, private val eventBus: Ev
         if (multiLoc != null) {
             val multiLocType = ServerCacheManager.getObject(multiLoc.id)!!
             val multiLocTrigger = opTrigger(player, multiLoc, op, multiLocType, base)
-            if (multiLocTrigger != null) {
+            if (multiLocTrigger != null && multiLocTrigger !is OpDefaultEvent) {
                 return multiLocTrigger
             }
         }
@@ -133,7 +135,7 @@ constructor(private val boundValidator: BoundValidator, private val eventBus: Ev
         if (multiLoc != null) {
             val multiLocType = ServerCacheManager.getObject(multiLoc.id)!!
             val multiLocTrigger = apTrigger(player, multiLoc, op, multiLocType, base)
-            if (multiLocTrigger != null) {
+            if (multiLocTrigger != null && multiLocTrigger !is ApDefaultEvent) {
                 return multiLocTrigger
             }
         }

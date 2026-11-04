@@ -5,11 +5,13 @@ import dev.openrune.types.NpcServerType
 import dev.openrune.types.varp.baseVar
 import dev.openrune.types.varp.bits
 import jakarta.inject.Inject
+import org.rsmod.api.player.events.interact.ApDefaultEvent
 import org.rsmod.api.player.events.interact.ApEvent
 import org.rsmod.api.player.events.interact.NpcContentEvents
 import org.rsmod.api.player.events.interact.NpcDefaultEvents
 import org.rsmod.api.player.events.interact.NpcEvents
 import org.rsmod.api.player.events.interact.NpcUnimplementedEvents
+import org.rsmod.api.player.events.interact.OpDefaultEvent
 import org.rsmod.api.player.events.interact.OpEvent
 import org.rsmod.events.EventBus
 import org.rsmod.game.entity.Npc
@@ -46,7 +48,7 @@ public class NpcInteractions @Inject constructor(private val eventBus: EventBus)
         val multiNpcType = multiNpc(type, player.vars)
         if (multiNpcType != null) {
             val multiNpcTrigger = opTrigger(player, npc, op, multiNpcType)
-            if (multiNpcTrigger != null) {
+            if (multiNpcTrigger != null && multiNpcTrigger !is OpDefaultEvent) {
                 return multiNpcTrigger
             }
         }
@@ -86,7 +88,7 @@ public class NpcInteractions @Inject constructor(private val eventBus: EventBus)
         val multiNpcType = multiNpc(type, player.vars)
         if (multiNpcType != null) {
             val multiNpcTrigger = apTrigger(player, npc, op, multiNpcType)
-            if (multiNpcTrigger != null) {
+            if (multiNpcTrigger != null && multiNpcTrigger !is ApDefaultEvent) {
                 return multiNpcTrigger
             }
         }

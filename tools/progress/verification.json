@@ -2344,6 +2344,40 @@
           "Post-quest Aris verified: gift branch grants 2x antique lamp (23072) once (ds_lamps_claimed flag), then hero lines with option menu; no repeat reward on second Talk-to."
         ]
       }
+    },
+    "Prince Ali Rescue": {
+      "status": "COMPLETE",
+      "implementationPaths": [
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/draynor/princealirescue/PrinceAliRescue.kt",
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/draynor/princealirescue/PrinceAliRescueDialogue.kt",
+        "content/quest/pack/src/main/resources/pack/configs/prince_ali_vars.toml",
+        "content/quest/pack/src/main/resources/gamevals.toml",
+        "content/areas/city/al-kharid/src/main/kotlin/org/rsmod/content/areas/city/alkharid/BorderGate.kt",
+        "content/areas/city/draynor/src/main/kotlin/org/rsmod/content/areas/city/draynor/npcs/DraynorVillageNpcs.kt",
+        "api/player/src/main/kotlin/org/rsmod/api/player/interact/NpcInteractions.kt",
+        "api/player/src/main/kotlin/org/rsmod/api/player/interact/LocInteractions.kt",
+        ".data/raw-cache/map/npcs/draynor.toml"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Prince_Ali_Rescue",
+        "https://oldschool.runescape.wiki/w/Transcript:Prince_Ali_Rescue",
+        "https://oldschool.runescape.wiki/w/Al_Kharid"
+      ],
+      "mechanics": {
+        "state": "verified",
+        "evidence": [
+          "Live MCP end-to-end on rev 241 cache as devin ai 2: Hassan \"Can I help you?\" option -> varp.princequest (273) 0->10; Osman plan rundown -> 20; Leela item-aware prep checklist -> 30.",
+          "Item chain verified live: wool x3 to Ned -> plain wig; yellow dye + plain wig -> blond wig (2419); Aggie skin paste (ash+flour+redberries+water) consumed for paste; soft clay on Keli -> key print; key print + bronze bar on Osman -> prince_keystatus 1; Leela handoff -> Princes key 2418 + keystatus 2.",
+          "Joe: beer x3 use-on -> drink loop -> stage 40 (drunk); rope on Lady Keli -> \"You overpower Keli, tie her up, and put her in a cupboard.\" -> stage 50 + multi transform -1.",
+          "Prison gate (2881 @ 3123,3243): south-side Open -> \"The door is locked.\" + synth.locked; north-side key-use at stage 50 -> unlock, gate swap to open loc, player teleported onto door tile per LostCity alidoor.rs2.",
+          "Rescue: Talk-to Ali at stage 50 with all 4 items -> consumes key/blond wig/pink skirt/paste (plain wig preserved), stage 100, prison Ali despawns + palace Ali (11580) spawns at (3290,3163).",
+          "Finale: Hassan at stage 100 -> 700 coins + completeQuest -> stage 110; reward scroll shows 3 QP/700 coins/free toll gate, Total QP 7; quest journal 112 FINISHED.",
+          "ENGINE FIX verified live: multi-npc leaf ops fell through to global OpDefaultEvent before parent-type bindings -> Aggie Talk-to dead. Patched NpcInteractions/LocInteractions to continue parent chain when recursion returns only the default event; Aggie full dialogue now works.",
+          "MAP FIX verified live: removed doubled _vis spawns of lady_keli/joe from draynor.toml (upstream dump artifact; real cache has single multi-parent spawns, transform tables hide Keli at varp 43+).",
+          "Toll gate (BorderGate.kt, LostCity border_gate.rs2): post-quest (stage>=100) Open passes free both directions on both panels (3267<->3268); pre-quest Open -> guard dialogue \"Can I come through this gate?\"/\"You must pay a toll of 10 gold coins to pass.\" with 3 authentic options; Yes->\"You pay the guard.\" charges 10 (700->690) and passes; Pay-toll(10gp) is GAME_OBJECT_FOURTH_OPTION -> onOpLoc4 charges 10 (690->680) + passes; guards face player; panels swing via GateTranslations + inviswall for 4 ticks and restore cleanly.",
+          "Caveat recorded: paStage() reads QUEST_STAGE_MAP_ATTR for varp-quests, so ::varp does not set stage - use ::queststage quest_princealirescue N (writes attr + varp)."
+        ]
+      }
     }
   },
   "records": {

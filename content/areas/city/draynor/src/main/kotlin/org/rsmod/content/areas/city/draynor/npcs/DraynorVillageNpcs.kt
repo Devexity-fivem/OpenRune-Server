@@ -12,6 +12,8 @@ import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.shops.Shops
 import org.rsmod.content.areas.city.draynor.npcs.DiangoHolidayItems.Companion.openHolidayItems
 import org.rsmod.content.interfaces.omnishop.openOmnishop
+import org.rsmod.content.quest.area.draynor.princealirescue.PrinceAliRescue
+import org.rsmod.content.quest.area.draynor.princealirescue.PrinceAliRescueDialogue
 import org.rsmod.content.quest.area.draynor.vampyreslayer.VampyreSlayerDialogue
 import org.rsmod.content.quest.manager.Quest
 import org.rsmod.content.quest.manager.QuestRequirements
@@ -93,14 +95,17 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
         val dyes =
             if (player.metAggie == 0) "What could you make for me?" to AggieTopic.WhatCanYouMake
             else "Can you make dyes for me, please?" to AggieTopic.MakeDyes
-        val topic =
-            menu(
-                "Cool, do you turn people into frogs?" to AggieTopic.Frogs,
-                dyes,
-                "You mad old witch, you can't help me." to AggieTopic.Insult,
-                "I'm okay, thanks." to AggieTopic.Leave,
-            )
-        when (topic) {
+        val options =
+            buildList {
+                add("Cool, do you turn people into frogs?" to AggieTopic.Frogs)
+                add(dyes)
+                if (midPrinceAliRescue()) {
+                    add("Could you think of a way to make skin paste?" to AggieTopic.SkinPaste)
+                }
+                add("You mad old witch, you can't help me." to AggieTopic.Insult)
+                add("I'm okay, thanks." to AggieTopic.Leave)
+            }
+        when (menu(options)) {
             AggieTopic.Frogs -> {
                 chatPlayer(happy, "Cool, do you turn people into frogs?")
                 chatNpc(
@@ -125,6 +130,7 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
                 chatPlayer(quiz, "Can you make dyes for me, please?")
                 aggieDyes()
             }
+            AggieTopic.SkinPaste -> with(PrinceAliRescueDialogue) { aggiePaste() }
             AggieTopic.Insult -> aggieInsult()
             AggieTopic.Leave -> chatPlayer(neutral, "I'm okay, thanks.")
         }
@@ -137,19 +143,34 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
 
     private suspend fun Dialogue.dyeMenu(includeDecline: Boolean) {
         val options = buildList {
-            for (dye in Dye.entries) add("What do you need to make ${dye.colour} dye?" to dye)
-            if (includeDecline) add("No thanks, I am happy the colour I am." to null)
+            for (dye in Dye.entries) {
+                add("What do you need to make ${dye.colour} dye?" to DyeMenuOpt.Colour(dye))
+            }
+            if (midPrinceAliRescue()) {
+                add(
+                    "Actually, I don't need dye. Can you make skin paste instead?" to
+                        DyeMenuOpt.Paste
+                )
+            }
+            if (includeDecline) add("No thanks, I am happy the colour I am." to DyeMenuOpt.Decline)
         }
-        val dye = menu(options)
-        if (dye == null) {
-            chatPlayer(neutral, "No thanks, I am happy the colour I am.")
-            chatNpc(
-                shifty,
-                "You are easily pleased with yourself then. When you need dyes, come to me.",
-            )
-            return
+        when (val opt = menu(options)) {
+            is DyeMenuOpt.Colour -> dyeRecipe(opt.dye)
+            DyeMenuOpt.Paste -> with(PrinceAliRescueDialogue) { aggiePaste() }
+            DyeMenuOpt.Decline -> {
+                chatPlayer(neutral, "No thanks, I am happy the colour I am.")
+                chatNpc(
+                    shifty,
+                    "You are easily pleased with yourself then. When you need dyes, come to me.",
+                )
+            }
         }
-        dyeRecipe(dye)
+    }
+
+    private fun Dialogue.midPrinceAliRescue(): Boolean {
+        val princeAli = Quest.get(PRINCE_ALI_RESCUE) ?: return false
+        val stage = princeAli.getQuestStage(player)
+        return stage in PrinceAliRescue.StageSpokenOsman until PrinceAliRescue.StageSaved
     }
 
     private suspend fun Dialogue.dyeRecipe(dye: Dye) {
@@ -263,6 +284,7 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
     }
 
     private suspend fun Dialogue.ned() {
+        val midRescue = midPrinceAliRescue()
         if (!QuestRequirements.hasCompleted(player, DRAGON_SLAYER)) {
             chatNpc(
                 neutral,
@@ -270,10 +292,18 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
                     "was a man of the sea, but it's past me now. Could I be making or selling " +
                     "you some rope?",
             )
-            if (menu("Yes, I would like some rope." to true, NED_DECLINE to false)) {
-                access.openRopeShop()
-            } else {
-                nedDecline()
+            val options =
+                buildList {
+                    add("Yes, I would like some rope." to NedTopic.Rope)
+                    if (midRescue) {
+                        add("Ned, could you make other things from wool?" to NedTopic.WoolThings)
+                    }
+                    add(NED_DECLINE to NedTopic.Leave)
+                }
+            when (menu(options)) {
+                NedTopic.Rope -> access.openRopeShop()
+                NedTopic.WoolThings -> with(PrinceAliRescueDialogue) { nedOtherThings() }
+                else -> nedDecline()
             }
             return
         }
@@ -284,9 +314,14 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
         )
         val topic =
             menu(
-                "How did you get back from Crandor?" to NedTopic.Crandor,
-                "Yes, I would like some rope." to NedTopic.Rope,
-                NED_DECLINE to NedTopic.Leave,
+                buildList {
+                    add("How did you get back from Crandor?" to NedTopic.Crandor)
+                    add("Yes, I would like some rope." to NedTopic.Rope)
+                    if (midRescue) {
+                        add("Ned, could you make other things from wool?" to NedTopic.WoolThings)
+                    }
+                    add(NED_DECLINE to NedTopic.Leave)
+                }
             )
         when (topic) {
             NedTopic.Crandor -> {
@@ -295,9 +330,17 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
                 chatNpc(happy, "Anyway, would you like me to make some rope while you're here?")
                 val next =
                     menu(
-                        "Can you take me to Crandor again?" to NedTopic.Crandor,
-                        "Yes, I would like some rope." to NedTopic.Rope,
-                        NED_DECLINE to NedTopic.Leave,
+                        buildList {
+                            add("Can you take me to Crandor again?" to NedTopic.Crandor)
+                            add("Yes, I would like some rope." to NedTopic.Rope)
+                            if (midRescue) {
+                                add(
+                                    "Ned, could you make other things from wool?" to
+                                        NedTopic.WoolThings
+                                )
+                            }
+                            add(NED_DECLINE to NedTopic.Leave)
+                        }
                     )
                 when (next) {
                     NedTopic.Crandor -> {
@@ -309,10 +352,12 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
                         )
                     }
                     NedTopic.Rope -> nedRope()
+                    NedTopic.WoolThings -> with(PrinceAliRescueDialogue) { nedOtherThings() }
                     NedTopic.Leave -> nedDecline()
                 }
             }
             NedTopic.Rope -> nedRope()
+            NedTopic.WoolThings -> with(PrinceAliRescueDialogue) { nedOtherThings() }
             NedTopic.Leave -> nedDecline()
         }
     }
@@ -458,7 +503,13 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
     }
 
     private suspend fun Dialogue.leela() {
-        if (!QuestRequirements.hasCompleted(player, PRINCE_ALI_RESCUE)) {
+        val princeAli = Quest.get(PRINCE_ALI_RESCUE)
+        val stage = princeAli?.getQuestStage(player) ?: 0
+        if (princeAli != null && stage in PrinceAliRescue.StageSpokenOsman until PrinceAliRescue.StageSaved) {
+            with(PrinceAliRescueDialogue) { leelaQuestDialogue() }
+            return
+        }
+        if (stage < PrinceAliRescue.StageSaved) {
             chatPlayer(quiz, "What are you waiting here for?")
             chatNpc(neutral, "That is no concern of yours, adventurer.")
             return
@@ -1194,8 +1245,17 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
         Frogs,
         WhatCanYouMake,
         MakeDyes,
+        SkinPaste,
         Insult,
         Leave,
+    }
+
+    private sealed interface DyeMenuOpt {
+        data class Colour(val dye: Dye) : DyeMenuOpt
+
+        data object Paste : DyeMenuOpt
+
+        data object Decline : DyeMenuOpt
     }
 
     private enum class DyeChoice {
@@ -1209,6 +1269,7 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
     private enum class NedTopic {
         Crandor,
         Rope,
+        WoolThings,
         Leave,
     }
 
