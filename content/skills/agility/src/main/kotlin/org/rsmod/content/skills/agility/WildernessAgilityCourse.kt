@@ -1,6 +1,7 @@
 package org.rsmod.content.skills.agility
 
 import jakarta.inject.Inject
+import org.rsmod.api.config.Constants.em_face_east
 import org.rsmod.api.config.Constants.em_face_north
 import org.rsmod.api.config.Constants.em_face_south
 import org.rsmod.api.config.Constants.em_face_west
@@ -17,6 +18,7 @@ import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.script.onApLoc1
 import org.rsmod.api.script.onApLoc2
 import org.rsmod.api.script.onApLoc3
+import org.rsmod.content.generic.locs.doors.DoorTranslations
 import org.rsmod.game.hit.HitType
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.map.CoordGrid
@@ -34,9 +36,9 @@ class WildernessAgilityCourse @Inject constructor(
     private var swingUsedUntil = 0
 
     override fun ScriptContext.startup() {
-        onApLoc1("loc.balancegate52a") { apOpenEntrance(it.loc) }
-        onApLoc1("loc.balancegate52b_left") { apCrossRidge(it.loc) }
-        onApLoc1("loc.balancegate52b_right") { apCrossRidge(it.loc) }
+        onApLoc1("loc.balancegate52a") { apEnterRidge(it.loc) }
+        onApLoc1("loc.balancegate52b_left") { apExitRidge(it.loc) }
+        onApLoc1("loc.balancegate52b_right") { apExitRidge(it.loc) }
         onApLoc1("loc.obstical_pipe2") { apSqueezePipe(it.loc) }
         onApLoc1("loc.obstical_ropeswing2") { apSwing(it.loc) }
         onApLoc1("loc.steppingstone1") { apCrossStones(it.loc) }
@@ -47,39 +49,72 @@ class WildernessAgilityCourse @Inject constructor(
         onApLoc3("loc.wildy_agility_pillar") { apRedeemDispenser() }
     }
 
-    private suspend fun ProtectedAccess.apOpenEntrance(door: BoundLocInfo) {
+    private suspend fun ProtectedAccess.apEnterRidge(door: BoundLocInfo) {
         if (!isWithinApRange(door, AP_RANGE)) return
-        locRepo.del(door, DOOR_OPEN_TICKS)
-        spam("You open the door.")
-    }
-
-    private suspend fun ProtectedAccess.apCrossRidge(gate: BoundLocInfo) {
-        if (!isWithinApRange(gate, AP_RANGE)) return
-        if (coords.z > gate.coords.z) {
-            crossRidge(em_face_south, RIDGE_EXIT_Z)
+        if (player.agilityLvl < RIDGE_LVL) {
+            mes("You need an Agility level of $RIDGE_LVL to attempt balancing on the ridge.")
             return
         }
-        if (!checkLevel(GATE_LVL, "to enter the course")) return
-        crossRidge(em_face_north, RIDGE_ENTRY_Z)
-    }
-
-    private suspend fun ProtectedAccess.crossRidge(facing: Int, destZ: Int) {
         spam("You go through the gate and try to edge over the ridge...")
+        swingOpen(door, GATE_OPEN_TICKS)
         anim("seq.human_walk_logbalance")
-        if (facing == em_face_north && failRoll(GATE_LOW, GATE_HIGH)) {
-            exactMove(coords, CoordGrid(coords.x, coords.z + 2, 0), delay1 = 0, delay2 = RIDGE_FAIL_CYCLES, dir = facing, teleportType = TeleportType.Exempt)
-            delay(RIDGE_FAIL_TICKS)
-            telejump(CoordGrid(coords.x + 2, coords.z, 0), TeleportType.Exempt)
-            spam("You lose your footing and fall into the wolf pit.")
-            delay(1)
-            resetAnim()
+        exactMove(coords, RIDGE_MID, delay1 = 0, delay2 = RIDGE_LEG_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
+        delay(RIDGE_LEG_TICKS)
+        if (failRoll(RIDGE_LOW, RIDGE_HIGH)) {
+            failRidge()
             return
         }
-        exactMove(coords, CoordGrid(coords.x, destZ, 0), delay1 = 0, delay2 = RIDGE_CYCLES, dir = facing, teleportType = TeleportType.Exempt)
-        delay(RIDGE_TICKS)
+        exactMove(coords, RIDGE_TOP, delay1 = 0, delay2 = RIDGE_LEG_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
+        delay(RIDGE_LEG_TICKS)
         resetAnim()
         spam("You skillfully balance across the ridge...")
         statAdvance(AGILITY, RIDGE_XP)
+        openCourseGates()
+        telejump(RIDGE_INSIDE, TeleportType.Exempt)
+    }
+
+    private suspend fun ProtectedAccess.apExitRidge(gate: BoundLocInfo) {
+        if (!isWithinApRange(gate, AP_RANGE)) return
+        spam("You go through the gate and try to edge over the ridge...")
+        openCourseGates()
+        anim("seq.human_walk_logbalance")
+        exactMove(coords, RIDGE_TOP, delay1 = 0, delay2 = RIDGE_ALIGN_CYCLES, dir = em_face_south, teleportType = TeleportType.Exempt)
+        delay(RIDGE_ALIGN_TICKS)
+        exactMove(coords, RIDGE_MID, delay1 = 0, delay2 = RIDGE_LEG_CYCLES, dir = em_face_south, teleportType = TeleportType.Exempt)
+        delay(RIDGE_LEG_TICKS)
+        if (failRoll(RIDGE_LOW, RIDGE_HIGH)) {
+            failRidge()
+            return
+        }
+        exactMove(coords, RIDGE_BOTTOM, delay1 = 0, delay2 = RIDGE_LEG_CYCLES, dir = em_face_south, teleportType = TeleportType.Exempt)
+        delay(RIDGE_LEG_TICKS)
+        resetAnim()
+        spam("You skillfully balance across the ridge...")
+        statAdvance(AGILITY, RIDGE_XP)
+        telejump(RIDGE_OUTSIDE, TeleportType.Exempt)
+    }
+
+    private suspend fun ProtectedAccess.failRidge() {
+        anim("seq.human_walk_logbalance_stumble")
+        spam("You lose your footing and fall into the wolf pit.")
+        exactMove(coords, CoordGrid(coords.x + RIDGE_FALL_X, coords.z - 1, 0), delay1 = 0, delay2 = RIDGE_FALL_CYCLES, dir = em_face_east, teleportType = TeleportType.Exempt)
+        delay(RIDGE_FALL_TICKS)
+        resetAnim()
+    }
+
+    private fun ProtectedAccess.swingOpen(door: BoundLocInfo, ticks: Int) {
+        val openCoords = DoorTranslations.translateOpen(door.coords, door.shape, door.angle)
+        locRepo.del(door, ticks)
+        locRepo.add(openCoords, OPEN_DOOR, ticks, door.turnAngle(rotations = 1), door.shape)
+        soundSynth("synth.door_open")
+    }
+
+    private fun ProtectedAccess.openCourseGates() {
+        for (loc in
+            locRepo.findAll(CoordGrid(GATE_SOUTH_X, GATE_Z, 0)) +
+                locRepo.findAll(CoordGrid(GATE_NORTH_X, GATE_Z, 0))) {
+            locRepo.del(loc, GATE_OPEN_TICKS)
+        }
     }
 
     private suspend fun ProtectedAccess.apSqueezePipe(pipe: BoundLocInfo) {
@@ -122,7 +157,7 @@ class WildernessAgilityCourse @Inject constructor(
         if (failRoll(SWING_LOW, SWING_HIGH)) {
             telejump(SWING_PIT, TeleportType.Exempt)
             anim("seq.human_climbing_fall")
-            applyFailDamage(FAIL_PERCENT_LOW)
+            applyFailDamage(FAIL_PER_MILLE_LOW)
             spam("You slip and fall to the pit below.")
             delay(1)
             resetAnim()
@@ -161,7 +196,7 @@ class WildernessAgilityCourse @Inject constructor(
             exactMove(coords, CoordGrid(coords.x, coords.z + 2, 0), delay1 = 0, delay2 = HOP_CYCLES, dir = em_face_north, teleportType = TeleportType.Exempt)
             delay(HOP_TICKS)
             telejump(STONE_FAIL, TeleportType.Exempt)
-            applyFailDamage(FAIL_PERCENT_STONE)
+            applyFailDamage(FAIL_PER_MILLE_STONE)
             spam("...You lose your footing and fall into the lava.")
             delay(1)
             resetAnim()
@@ -199,7 +234,7 @@ class WildernessAgilityCourse @Inject constructor(
             delay(HOP_TICKS)
             telejump(LOG_PIT, TeleportType.Exempt)
             anim("seq.human_climbing_fall")
-            applyFailDamage(FAIL_PERCENT_LOW)
+            applyFailDamage(FAIL_PER_MILLE_LOW)
             spam("You slip and fall onto the spikes below.")
             delay(1)
             resetAnim()
@@ -283,8 +318,8 @@ class WildernessAgilityCourse @Inject constructor(
         return random.of(RATE_SCALE) >= success
     }
 
-    private fun ProtectedAccess.applyFailDamage(percent: Int) {
-        val damage = (player.hitpoints * percent) / 100 + 1
+    private fun ProtectedAccess.applyFailDamage(perMille: Int) {
+        val damage = (player.hitpoints * perMille) / 1000 + 1
         player.takeInstantHit(HitType.Typeless, damage, hitProcessor)
     }
 
@@ -292,10 +327,11 @@ class WildernessAgilityCourse @Inject constructor(
         const val AGILITY = "stat.agility"
         const val TICKET = "obj.wildy_agility_token"
 
-        const val GATE_LVL = 52
+        const val RIDGE_LVL = 52
         const val OBSTACLE_LVL = 49
         const val AP_RANGE = 3
         const val RATE_SCALE = 256
+        const val OPEN_DOOR = "loc.prisondooropen"
 
         const val RIDGE_XP = 15.0
         const val PIPE_XP = 12.5
@@ -310,25 +346,28 @@ class WildernessAgilityCourse @Inject constructor(
         const val OBSTACLE_LOG = 4
         const val OBSTACLE_ROCKS = 5
 
-        const val GATE_LOW = 180
-        const val GATE_HIGH = 245
-        const val SWING_LOW = 175
-        const val SWING_HIGH = 245
-        const val STONE_LOW = 185
-        const val STONE_HIGH = 240
-        const val LOG_LOW = 170
+        const val RIDGE_LOW = 200
+        const val RIDGE_HIGH = 250
+        const val SWING_LOW = 200
+        const val SWING_HIGH = 250
+        const val STONE_LOW = 180
+        const val STONE_HIGH = 250
+        const val LOG_LOW = 200
         const val LOG_HIGH = 250
 
-        const val FAIL_PERCENT_LOW = 15
-        const val FAIL_PERCENT_STONE = 20
+        const val FAIL_PER_MILLE_LOW = 150
+        const val FAIL_PER_MILLE_STONE = 216
 
-        const val RIDGE_TICKS = 5
-        const val RIDGE_CYCLES = RIDGE_TICKS * 30
-        const val RIDGE_FAIL_TICKS = 2
-        const val RIDGE_FAIL_CYCLES = RIDGE_FAIL_TICKS * 30
+        const val RIDGE_LEG_TICKS = 6
+        const val RIDGE_LEG_CYCLES = RIDGE_LEG_TICKS * 30
+        const val RIDGE_ALIGN_TICKS = 1
+        const val RIDGE_ALIGN_CYCLES = RIDGE_ALIGN_TICKS * 30
+        const val RIDGE_FALL_TICKS = 1
+        const val RIDGE_FALL_CYCLES = 25
+        const val RIDGE_FALL_X = 3
         const val PIPE_TICKS = 3
         const val PIPE_CYCLES = PIPE_TICKS * 30
-        const val PIPE_BUSY_TICKS = 4
+        const val PIPE_BUSY_TICKS = 11
         const val SWING_TICKS = 4
         const val SWING_CYCLES = SWING_TICKS * 30
         const val SWING_BUSY_TICKS = 2
@@ -341,11 +380,12 @@ class WildernessAgilityCourse @Inject constructor(
         const val ROCK_TICKS = 2
         const val ROCK_CYCLES = ROCK_TICKS * 30
         const val ROCK_DESCENT = 3
-        const val DOOR_OPEN_TICKS = 500
+        const val GATE_OPEN_TICKS = 5
 
         const val PIPE_MIN_Z = 3939
-        const val RIDGE_ENTRY_Z = 3936
-        const val RIDGE_EXIT_Z = 3926
+        const val GATE_Z = 3931
+        const val GATE_SOUTH_X = 2997
+        const val GATE_NORTH_X = 2998
 
         const val RUN_FULL = 1000
         const val PAY_FEE = 150_000
@@ -363,7 +403,7 @@ class WildernessAgilityCourse @Inject constructor(
         val SWING = CoordGrid(3005, 3954, 0)
         val SWING_START = CoordGrid(3005, 3955, 0)
         val SWING_LANDING = CoordGrid(3005, 3960, 0)
-        val SWING_PIT = CoordGrid(3004, 10357, 0)
+        val SWING_PIT = CoordGrid(2997, 10357, 0)
         val STONE = CoordGrid(3001, 3960, 0)
         val STONE_FAIL = CoordGrid(3002, 3963, 0)
         val LOG = CoordGrid(3001, 3945, 0)
@@ -372,5 +412,10 @@ class WildernessAgilityCourse @Inject constructor(
         val LOG_NEAR = CoordGrid(2995, 3945, 0)
         val LOG_END = CoordGrid(2994, 3945, 0)
         val LOG_PIT = CoordGrid(2998, 10345, 0)
+        val RIDGE_MID = CoordGrid(2998, 3924, 0)
+        val RIDGE_TOP = CoordGrid(2998, 3930, 0)
+        val RIDGE_BOTTOM = CoordGrid(2998, 3918, 0)
+        val RIDGE_INSIDE = CoordGrid(2998, 3932, 0)
+        val RIDGE_OUTSIDE = CoordGrid(2998, 3916, 0)
     }
 }

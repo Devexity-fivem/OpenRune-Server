@@ -17,6 +17,7 @@ import org.rsmod.map.CoordGrid
 class WildernessAgilityCourseGameTest {
 
     private class CourseLocs(
+        val door: BoundLocInfo,
         val gate: BoundLocInfo,
         val pipe: BoundLocInfo,
         val swing: BoundLocInfo,
@@ -28,6 +29,7 @@ class WildernessAgilityCourseGameTest {
 
     private fun GameTestScope.placeCourse(): CourseLocs =
         CourseLocs(
+            door = placeMapLoc(CoordGrid(2998, 3917, 0), "loc.balancegate52a"),
             gate = placeMapLoc(CoordGrid(2998, 3931, 0), "loc.balancegate52b_left"),
             pipe = placeMapLoc(CoordGrid(3004, 3938, 0), "loc.obstical_pipe2"),
             swing = placeMapLoc(CoordGrid(3005, 3954, 0), "loc.obstical_ropeswing2"),
@@ -91,7 +93,7 @@ class WildernessAgilityCourseGameTest {
             player.opLoc1(locs.swing)
             advance(6)
             assertEquals(0, player.wildernessProgress)
-            assertEquals(CoordGrid(3004, 10357, 0), player.coords)
+            assertEquals(CoordGrid(2997, 10357, 0), player.coords)
         }
 
     @Test
@@ -167,30 +169,44 @@ class WildernessAgilityCourseGameTest {
         }
 
     @Test
-    fun GameTestState.`gate rejects below level 52`() =
+    fun GameTestState.`door rejects below level 52`() =
         runGameTest(WildernessAgilityCourse::class) {
             val locs = placeCourse()
             setAgility(45)
-            player.teleport(CoordGrid(2998, 3929, 0))
-            player.opLoc1(locs.gate)
+            player.teleport(CoordGrid(2998, 3916, 0))
+            player.opLoc1(locs.door)
             advance(8)
             assertEquals(0, player.wildernessProgress)
             assertEquals(0, player.statMap.getFineXP("stat.agility"))
-            assertTrue(player.coords.z < 3931)
+            assertEquals(CoordGrid(2998, 3916, 0), player.coords)
         }
 
     @Test
-    fun GameTestState.`gate crossing grants entry xp`() =
+    fun GameTestState.`door crossing grants entry xp`() =
         runGameTest(WildernessAgilityCourse::class) {
             val locs = placeCourse()
             setAgility(52)
 
             random.next = 0
-            player.teleport(CoordGrid(2998, 3929, 0))
-            player.opLoc1(locs.gate)
-            advance(8)
+            player.teleport(CoordGrid(2998, 3916, 0))
+            player.opLoc1(locs.door)
+            advance(16)
             assertEquals(150, player.statMap.getFineXP("stat.agility"))
-            assertTrue(player.coords.z > 3931)
+            assertEquals(CoordGrid(2998, 3932, 0), player.coords)
+        }
+
+    @Test
+    fun GameTestState.`gate exit grants leave xp`() =
+        runGameTest(WildernessAgilityCourse::class) {
+            val locs = placeCourse()
+            setAgility(52)
+
+            random.next = 0
+            player.teleport(CoordGrid(2998, 3932, 0))
+            player.opLoc1(locs.gate)
+            advance(16)
+            assertEquals(150, player.statMap.getFineXP("stat.agility"))
+            assertEquals(CoordGrid(2998, 3916, 0), player.coords)
         }
 
     @Test

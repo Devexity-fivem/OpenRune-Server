@@ -9,6 +9,7 @@ dependencies {
     implementation(projects.api.random)
     implementation(projects.api.registry)
     implementation(projects.api.repo)
+    implementation(projects.content.generic.genericLocs)
     implementation(projects.content.quest)
     implementation(projects.content.skills.utils)
     testImplementation(libs.fastutil)
