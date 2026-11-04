@@ -37107,3 +37107,9 @@ inherit = "npc.tfa_dagonhai_rift"
 id = "npc.tfa_dagonhai_demon"
 inherit = "npc.tfa_dagonhai_demon"
 maxRange = 30
+
+[[npc]]
+id = "npc.romeo"
+inherit = "npc.romeo"
+huntMode = 24
+huntRange = 5

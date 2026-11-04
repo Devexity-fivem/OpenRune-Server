@@ -2247,6 +2247,40 @@
           "Limitation: the dig-interrupt gardener despawns when his hunt target is lost (>combat_activecombat_delay) or on next dig rather than a strict park-boundary check."
         ]
       }
+    },
+    "Romeo & Juliet": {
+      "status": "COMPLETE",
+      "implementationPaths": [
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/varrock/romeojuliet/RomeoAndJuliet.kt",
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/varrock/romeojuliet/RomeoAndJulietDialogue.kt",
+        ".data/gamevals/stalk.rscm",
+        ".data/gamevals/queue.rscm",
+        ".data/raw-cache/server/hunt.toml",
+        ".data/raw-cache/server/npcs.toml"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Romeo_%26_Juliet",
+        "https://oldschool.runescape.wiki/w/Transcript:Romeo_%26_Juliet",
+        "LostCity 2004scape quest_romeo/quest_juliet scripts (stage values 0/10/20/30/40/50/60/100, journal text)"
+      ],
+      "mechanics": {
+        "state": "verified",
+        "evidence": [
+          "Live MCP end-to-end: Romeo stage-0 Talk-to opener (exact rev-241 transcript), option menus (Yes I have seen her actually! / No sorry I haven't seen her / Perhaps I could help), decline loop and accept -> varp.rjquest 0->10 + quest journal start message.",
+          "Juliet upstairs (3159,3426,1): message handover, Phillipa interrupt line via chatNpcSpecific, cadava potion delivery -> balcony scene -> stage 60; potion consumed.",
+          "Romeo message delivery -> stage 30; Father Lawrence at church -> stage 40 + congregation scene with Zzzzzzzzz overhead text and camera pan.",
+          "Apothecary (3195,3404): R&J option, no-berries branch ('Keep searching for those Cadavaberries'), berries handover -> cadava potion (756) + stage 50, repeat 'Thank you for the Cadava potion' branch verified.",
+          "Cadava berries picked via generic Pickables dbtable at SE Varrock mine bushes (3264-3277,3366-3374); bush transforms to picked variant.",
+          "Crypt finale: Romeo stage-60 dialogue triggers crypt cutscene (scene Romeo + Phillipa spawned, 'Who's Juliet?' betrayal), Juliet visibility restored via varbit, quest complete -> varp.rjquest 100 + completion scroll +5 QP (varp.qp 14->19).",
+          "Cadava potion Drink: refused outside apothecary shop; in-shop confirm -> drink anim + 'Urk!' + HP dropped to 1 + apothecary revive line, matching transcript.",
+          "Post-quest dialogue verified for Romeo (completion-protection lines), and transcript cross-checked verbatim for all tested branches.",
+          "Romeo ambient approach (authentic 'one of the few NPCs that will initiate a conversation'): new hunt mode stalk romeo_approach=24 (type Player, findNewMode ApPlayer1, checkVar1 rjquest==0) + npcs.toml huntMode/huntRange=5; onAiApPlayer1 queues a player-side romeo_approach queue (queue.rscm symbol) that resolves Romeo by uid and opens romeoDialogue, then resetMode() clears the NPC interaction so re-hunts fire.",
+          "Live approach tests: at stage 100 Romeo ignores the player (40+ ticks adjacent); at stage 0 he walks up and opens dialogue with authentic randomized openers ('Oh woe is me that I cannot find my Juliet!' and 'Blub! Blub...where is my Juliet? Have you seen her?'); decline path completes and Romeo re-approaches while the player stays at stage 0 (persistent-Romeo matches LostCity behaviour).",
+          "FIX during verification: Ap1 interaction previously stayed active after firing so NpcPlayerHuntProcessor's !hasInteraction() gate blocked all future approaches; resetMode() added to the handler.",
+          "Known gap: a static juliet (5035) map spawn coexists with the multinpc-driven juliet_multi_visible (6268) upstairs, so a duplicate Juliet renders until the crypt-stage varbit flips; same data exists upstream - faithful cache quirk, not scripted.",
+          "Limitation: exact OSRS approach re-fire delay/range not measurable from live cache (hunt defs are server-side); range 5 chosen to match Romeo's wander radius."
+        ]
+      }
     }
   },
   "records": {

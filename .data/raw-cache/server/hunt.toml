@@ -84,3 +84,16 @@ id = "stalk.tfa_jelly"
 type = "Player"
 findKeepHunting = true
 findNewMode = "OpPlayer2"
+
+[[hunt]]
+id = "stalk.romeo_quest"
+type = "Player"
+checkVis = "LineOfSight"
+checkNotCombat = 65522
+checkNotCombatSelf = 1
+checkNotBusy = true
+findNewMode = "ApPlayer1"
+[hunt.checkVar1]
+varp = "varp.rjquest"
+operator = "Equals"
+required = 0
