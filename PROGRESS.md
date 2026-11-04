@@ -308,7 +308,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/misc/stronghold_of_security/pack` | 2 | 134 | 0 | 0 | 2026-10-06 |
 | `areas/misc/tutorial-island` | 5 | 1,203 | 1 | 0 | 2026-10-26 |
 | `areas/misc/ver_sinhaza` | 1 | 139 | 0 | 0 | 2026-09-25 |
-| `areas/misc/wizards_tower` | 4 | 1,124 | 0 | 0 | 2026-09-23 |
+| `areas/misc/wizards_tower` | 4 | 1,124 | 0 | 0 | 2026-11-04 |
 | `areas/misc/wizards_tower/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `areas/misc/zanaris` | 1 | 36 | 0 | 0 | 2026-10-21 |
 | `areas/wilderness` | 27 | 2,167 | 0 | 0 | 2026-11-04 |
@@ -442,7 +442,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/special-weapons` | 13 | 2,081 | 2 | 1 | 2026-10-25 |
 | `other/windmill` | 2 | 133 | 0 | 0 | 2026-09-23 |
 | `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
-| `quest` | 96 | 23,707 | 16 | 4 | 2026-11-04 |
+| `quest` | 98 | 25,727 | 17 | 4 | 2026-11-04 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-11-04 |
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
 | `raids/tfa` | 111 | 16,903 | 8 | 0 | 2026-11-01 |

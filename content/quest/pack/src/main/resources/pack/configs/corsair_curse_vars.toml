@@ -1,0 +1,54 @@
+[[varp]]
+isServerOnly = true
+id = "varp.corsair_curse_state"
+scope = "Perm"
+transmit = "Never"
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.cc_evid_gnocci"
+varp = "varp.corsair_curse_state"
+startBit = 0
+endBit = 0
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.cc_evid_arsen"
+varp = "varp.corsair_curse_state"
+startBit = 1
+endBit = 1
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.cc_evid_colin"
+varp = "varp.corsair_curse_state"
+startBit = 2
+endBit = 2
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.cc_tock_told"
+varp = "varp.corsair_curse_state"
+startBit = 3
+endBit = 3
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.cc_prove_ready"
+varp = "varp.corsair_curse_state"
+startBit = 4
+endBit = 4
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.cc_ithoi_dead"
+varp = "varp.corsair_curse_state"
+startBit = 5
+endBit = 5
+
+[[varbit]]
+isServerOnly = true
+id = "varbit.cc_kill_ordered"
+varp = "varp.corsair_curse_state"
+startBit = 6
+endBit = 6

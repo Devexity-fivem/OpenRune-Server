@@ -2282,6 +2282,37 @@
         ]
       }
     },
+    "The Corsair Curse": {
+      "status": "COMPLETE",
+      "implementationPaths": [
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/rimmington/corsaircurse/CorsairCurse.kt",
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/rimmington/corsaircurse/CorsairCurseDialogue.kt",
+        "content/quest/pack/src/main/resources/pack/configs/corsair_curse_vars.toml",
+        "content/quest/pack/src/main/resources/gamevals.toml",
+        "content/quest/src/test/kotlin/org/rsmod/content/quest/CorsairDefProbe.kt"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/The_Corsair_Curse",
+        "https://oldschool.runescape.wiki/w/Transcript:The_Corsair_Curse",
+        "https://oldschool.runescape.wiki/w/Corsair_Cove"
+      ],
+      "mechanics": {
+        "state": "verified",
+        "evidence": [
+          "Live MCP end-to-end on rev 241 cache as 'devin ai 2': Captain Tock intro -> ferry to Corsair Cove sets varbit.corscurs_progress (6071) through StageAccepted->StageAtCove; sick crew flashback stories for Colin/Gnocci/Arsen verified incl. cutscene playback.",
+          "Telescope (2528,2835,1) Observe plays ogre-cave reveal -> corscurs_cabinboy bits->2; reporting to each crew member advances the per-crew varbits (6072 cabinboy, 6073 cook, 6074 thief).",
+          "Clockwork doll: spade-on-Sand (OpLocU on multiloc 31720 leaf 31718/31719, 2504,2839) opens search dialogue -> cook bits->2, doll spawn verified; Chief Tess ogre-cave exchange consumes ogre artefact (21837) for toothpick -> thief bits->3; Arsen report -> thief bits->4.",
+          "Ruled-out report to Tock -> progress 45; Ithoi accusation branch (cooked-meal intel gated on per-crew evid flags) -> StageConfessed 48; Tock demands proof; Ithoi prove-it branch sets cc_prove_ready.",
+          "Tinderbox-on-driftwood (OpLocU on multiloc 31724 leaf 31721, 2530,2837) burns pile -> progress 50->51 (exposed) with extinguished/wet driftwood multiloc swap; Ithoi exposure scene verified.",
+          "Kill order: Tock greeting pivots post-exposure, choice response sets cc_kill_ordered + progress 57; coords-change hook spawns combat Ithoi (7964, lvl35, attacks on approach). Death queue fires 'Ithoi the Navigator is dead.' + cc_ithoi_dead.",
+          "Finale re-verified live on fixed build: Tock post-kill topic 'I've killed Ithoi for poisoning your crew.' -> all transcript lines -> completeQuest writes maxSteps=60 + corsair_cove_resource_entry (6076)=1, dialogue closed cleanly, zero exceptions in server log.",
+          "FIX during verification: removed player.setProgress(62) after completeQuest - the cache multinpc/loc transform tables (CorsairDefProbe dump) index post-quest leaves on varbit value 60 exactly (banker 7994[60]=7982 allops, booth 11394[60]=10583 open, ship 1064/7980[60]=7967 Colin); 62 fell through to defaults, leaving Yusuf at 1op and the booth closed.",
+          "FIX during verification: removed VarPlayerIntMapSetter 'varp.bank_corsair_cove_teleport' - a client var/varn id (15677), not a registered player varp; write threw Missing mapping and crashed the completion coroutine after stage applied.",
+          "Post-quest at 60 verified live: Yusuf resolves 7982 (Talk-to/Bank/Collect) and Bank opens interface 12+15; bank deposit box (31726) Deposit opens interface 192; sick crew multinpcs resolve -1 (recovered, beds empty); Cabin Boy Colin replaces Tock as ferryman on BOTH docks (7967 Talk-to/Travel); Travel cove->Rimmington verified landing (2910,3225).",
+          "Quest list reports FINISHED; questState varp stores real stage 60 per engine convention."
+        ]
+      }
+    },
     "Demon Slayer": {
       "status": "COMPLETE",
       "implementationPaths": [
