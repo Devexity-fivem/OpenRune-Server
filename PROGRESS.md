@@ -269,7 +269,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/desert/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/draynor` | 17 | 3,791 | 4 | 0 | 2026-10-31 |
 | `areas/city/draynor/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
-| `areas/city/edgeville` | 4 | 375 | 0 | 0 | 2026-10-25 |
+| `areas/city/edgeville` | 4 | 375 | 0 | 0 | 2026-11-04 |
 | `areas/city/edgeville/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/city/falador` | 9 | 1,729 | 0 | 1 | 2026-10-25 |
 | `areas/city/falador/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
@@ -295,7 +295,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/misc/dog_shelter` | 2 | 151 | 0 | 0 | 2026-09-25 |
 | `areas/misc/dwarven-mine` | 5 | 896 | 1 | 0 | 2026-10-15 |
 | `areas/misc/dwarven-mine/pack` | 1 | 6 | 0 | 0 | 2026-10-15 |
-| `areas/misc/goblin-village` | 4 | 253 | 0 | 0 | 2026-10-22 |
+| `areas/misc/goblin-village` | 5 | 323 | 0 | 0 | 2026-10-22 |
 | `areas/misc/goblin-village/pack` | 1 | 6 | 0 | 0 | 2026-10-15 |
 | `areas/misc/lobbies` | 5 | 944 | 3 | 1 | 2026-10-30 |
 | `areas/misc/lobbies/pack` | 1 | 87 | 0 | 0 | 2026-10-29 |
@@ -311,7 +311,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/misc/wizards_tower` | 4 | 1,123 | 0 | 0 | 2026-09-23 |
 | `areas/misc/wizards_tower/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
 | `areas/misc/zanaris` | 1 | 36 | 0 | 0 | 2026-10-21 |
-| `areas/wilderness` | 27 | 2,167 | 0 | 0 | 2026-10-28 |
+| `areas/wilderness` | 27 | 2,167 | 0 | 0 | 2026-11-04 |
 | `areas/wilderness/pack` | 1 | 6 | 0 | 0 | 2026-10-17 |
 | `areas/zeah` | 3 | 234 | 0 | 0 | 2026-08-18 |
 | `bosses/abyssal-sire` | 1 | 271 | 1 | 0 | 2026-10-27 |
@@ -321,7 +321,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/barrows` | 16 | 1,566 | 1 | 0 | 2026-10-21 |
 | `bosses/brutus` | 9 | 1,411 | 3 | 2 | 2026-10-19 |
 | `bosses/bryophyta` | 2 | 153 | 1 | 0 | 2026-11-02 |
-| `bosses/callisto` | 2 | 568 | 0 | 0 | 2026-09-30 |
+| `bosses/callisto` | 2 | 568 | 0 | 0 | 2026-11-04 |
 | `bosses/calvarion` | 1 | 234 | 1 | 0 | 2026-10-27 |
 | `bosses/cerberus` | 1 | 324 | 1 | 0 | 2026-11-02 |
 | `bosses/chaos-elemental` | 1 | 154 | 1 | 0 | 2026-10-25 |
@@ -338,7 +338,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/graardor` | 2 | 172 | 0 | 0 | 2026-11-02 |
 | `bosses/hespori` | 2 | 330 | 1 | 0 | 2026-10-27 |
 | `bosses/kalphite-queen` | 1 | 209 | 1 | 0 | 2026-11-02 |
-| `bosses/kbd` | 2 | 151 | 0 | 0 | 2026-09-30 |
+| `bosses/kbd` | 2 | 151 | 0 | 0 | 2026-11-04 |
 | `bosses/kraken` | 1 | 110 | 1 | 0 | 2026-10-27 |
 | `bosses/kreearra` | 2 | 233 | 0 | 0 | 2026-11-02 |
 | `bosses/kril` | 2 | 198 | 0 | 0 | 2026-11-02 |
@@ -356,7 +356,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/scorpia` | 1 | 133 | 0 | 0 | 2026-10-25 |
 | `bosses/scurrius` | 2 | 384 | 0 | 0 | 2026-10-01 |
 | `bosses/skotizo` | 1 | 264 | 1 | 0 | 2026-10-27 |
-| `bosses/spindel` | 2 | 522 | 0 | 0 | 2026-10-21 |
+| `bosses/spindel` | 2 | 522 | 0 | 0 | 2026-11-04 |
 | `bosses/thermy` | 2 | 125 | 1 | 0 | 2026-11-02 |
 | `bosses/tormented-demon` | 2 | 531 | 0 | 0 | 2026-10-01 |
 | `bosses/tztokjad` | 1 | 223 | 1 | 0 | 2026-10-29 |
@@ -377,7 +377,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `events/shooting-stars/pack` | 2 | 440 | 0 | 0 | 2026-08-21 |
 | `generic/generic-items` | 2 | 150 | 2 | 0 | 2026-10-31 |
 | `generic/generic-items/pack` | 2 | 140 | 0 | 0 | 2026-10-31 |
-| `generic/generic-locs` | 32 | 1,699 | 5 | 1 | 2026-10-31 |
+| `generic/generic-locs` | 32 | 1,699 | 5 | 1 | 2026-11-04 |
 | `generic/generic-locs/pack` | 1 | 6 | 0 | 0 | 2026-10-21 |
 | `generic/generic-npcs` | 10 | 1,672 | 3 | 3 | 2026-10-31 |
 | `generic/generic-npcs/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
@@ -442,12 +442,12 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/special-weapons` | 13 | 2,081 | 2 | 1 | 2026-10-25 |
 | `other/windmill` | 2 | 133 | 0 | 0 | 2026-09-23 |
 | `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-09-23 |
-| `quest` | 86 | 18,045 | 16 | 4 | 2026-11-03 |
+| `quest` | 88 | 18,742 | 16 | 4 | 2026-11-03 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-10-25 |
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
 | `raids/tfa` | 111 | 16,903 | 8 | 0 | 2026-11-01 |
 | `raids/tfa/pack` | 8 | 196 | 0 | 0 | 2026-11-01 |
-| `skills/agility` | 15 | 2,165 | 5 | 0 | 2026-11-03 |
+| `skills/agility` | 15 | 2,165 | 5 | 0 | 2026-11-04 |
 | `skills/agility/pack` | 1 | 6 | 0 | 0 | 2026-11-03 |
 | `skills/cooking` | 13 | 1,429 | 0 | 0 | 2026-10-31 |
 | `skills/crafting` | 30 | 3,684 | 1 | 0 | 2026-10-31 |

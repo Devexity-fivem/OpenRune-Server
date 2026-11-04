@@ -4,6 +4,9 @@ import dev.openrune.types.MesAnimType
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpNpc1
+import org.rsmod.content.quest.area.falador.goblindiplomacy.GoblinDiplomacy
+import org.rsmod.content.quest.area.falador.goblindiplomacy.GoblinDiplomacyDialogue
+import org.rsmod.content.quest.manager.Quest
 import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -20,6 +23,11 @@ class GoblinGenerals : PluginScript() {
     }
 
     private suspend fun ProtectedAccess.startDialogue(npc: Npc) {
+        val gobdip = Quest.get(GoblinDiplomacy.KEY)
+        if (gobdip != null && !gobdip.isQuestCompleted(player)) {
+            with(GoblinDiplomacyDialogue) { generalsDialogue(npc) }
+            return
+        }
         val pick = random.of(maxExclusive = CONVERSATIONS)
         startDialogue(npc) {
             when (pick) {

@@ -1,0 +1,2967 @@
+[
+  {
+    "key": "quest_animalmagnetism",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_ernestthechicken",
+      "quest_restlessghost",
+      "quest_priestinperil"
+    ],
+    "requiresStats": [
+      "woodcutting,35",
+      "ranged,30",
+      "crafting,19",
+      "slayer,18"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_dragonslayer2"
+    ]
+  },
+  {
+    "key": "quest_anothersliceofham",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_deathtothedorgeshuun",
+      "quest_giantdwarf",
+      "quest_digsite"
+    ],
+    "requiresStats": [
+      "prayer,25",
+      "attack,15"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_landofthegoblins"
+    ]
+  },
+  {
+    "key": "quest_ascentofarceuus",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_clientofkourend"
+    ],
+    "requiresStats": [
+      "hunter,12"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_kingdomdivided"
+    ]
+  },
+  {
+    "key": "miniquest_barcrawl",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_horrorfromthedeep",
+      "quest_scorpioncatcher"
+    ]
+  },
+  {
+    "key": "miniquest_bearyoursoul",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_belowicemountain",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 16,
+    "unlocks": [
+      "quest_defenderofvarrock",
+      "quest_deserttreasure2"
+    ]
+  },
+  {
+    "key": "quest_betweenarock",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_dwarfcannon",
+      "quest_fishingcontest"
+    ],
+    "requiresStats": [
+      "smithing,50",
+      "mining,40",
+      "defence,30"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_bigchompybirdhunting",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "ranged,30",
+      "cooking,30",
+      "fletching,5"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "miniquest_intothetombs",
+      "quest_mourningsendpart1",
+      "quest_zogreflesheaters"
+    ]
+  },
+  {
+    "key": "quest_biohazard",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_plaguecity"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "quest_undergroundpass"
+    ]
+  },
+  {
+    "key": "quest_blackknightsfortress",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 12,
+    "unlocks": [
+      "quest_kingsransom",
+      "quest_recruitmentdrive"
+    ]
+  },
+  {
+    "key": "quest_bonevoyage",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_digsite"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_dragonslayer2"
+    ]
+  },
+  {
+    "key": "quest_cabinfever",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_rumdeal",
+      "quest_piratestreasure"
+    ],
+    "requiresStats": [
+      "smithing,50",
+      "crafting,45",
+      "ranged,40",
+      "agility,42"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_greatbrainrobbery"
+    ]
+  },
+  {
+    "key": "quest_clientofkourend",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_ascentofarceuus",
+      "quest_depthsofdespair",
+      "quest_dragonslayer2",
+      "quest_forsakentower",
+      "quest_queenofthieves",
+      "quest_taleoftherighteous"
+    ]
+  },
+  {
+    "key": "quest_clocktower",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_coldwar",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "construction,34",
+      "crafting,30",
+      "agility,30",
+      "thieving,15",
+      "hunter,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_makingfriendswithmyarm"
+    ]
+  },
+  {
+    "key": "quest_contact",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_icthlarinslittlehelper",
+      "quest_princealirescue"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_beneathcursedsands"
+    ]
+  },
+  {
+    "key": "quest_cooksassistant",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "quest_recipefordisaster"
+    ]
+  },
+  {
+    "key": "quest_corsaircurse",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_creatureoffenkenstrain",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_priestinperil",
+      "quest_restlessghost"
+    ],
+    "requiresStats": [
+      "thieving,25",
+      "crafting,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_gardenoftranquillity",
+      "quest_greatbrainrobbery"
+    ]
+  },
+  {
+    "key": "miniquest_curseoftheemptylord",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_deserttreasure",
+      "quest_restlessghost"
+    ],
+    "requiresStats": [
+      "prayer,31"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_generalsshadow"
+    ]
+  },
+  {
+    "key": "miniquest_daddyshome",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_darknessofhallowvale",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_inaidofthemyreque"
+    ],
+    "requiresStats": [
+      "strength,40",
+      "magic,33",
+      "crafting,32",
+      "agility,26",
+      "thieving,22",
+      "mining,20",
+      "construction,5"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_tasteofhope"
+    ]
+  },
+  {
+    "key": "quest_deathplateau",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_trollstronghold"
+    ]
+  },
+  {
+    "key": "quest_deathtothedorgeshuun",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_losttribe"
+    ],
+    "requiresStats": [
+      "thieving,23",
+      "agility,23"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_anothersliceofham"
+    ]
+  },
+  {
+    "key": "quest_demonslayer",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "quest_defenderofvarrock",
+      "quest_shadowofthestorm"
+    ]
+  },
+  {
+    "key": "quest_depthsofdespair",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_clientofkourend"
+    ],
+    "requiresStats": [
+      "agility,18"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_kingdomdivided"
+    ]
+  },
+  {
+    "key": "quest_deserttreasure",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_templeofikov",
+      "quest_trollstronghold",
+      "quest_touristtrap",
+      "quest_digsite",
+      "quest_waterfall",
+      "quest_priestinperil"
+    ],
+    "requiresStats": [
+      "thieving,53",
+      "magic,50",
+      "firemaking,50",
+      "slayer,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_curseoftheemptylord",
+      "miniquest_frozendoor",
+      "miniquest_hopespearswill",
+      "quest_deserttreasure2"
+    ]
+  },
+  {
+    "key": "quest_deviousminds",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_wanted",
+      "quest_trollstronghold",
+      "quest_dorics",
+      "miniquest_entertheabyss"
+    ],
+    "requiresStats": [
+      "smithing,65",
+      "runecraft,50",
+      "fletching,50"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_secretsofthenorth"
+    ]
+  },
+  {
+    "key": "quest_digsite",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "thieving,25",
+      "herblore,10",
+      "agility,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_anothersliceofham",
+      "quest_bonevoyage",
+      "quest_deserttreasure"
+    ]
+  },
+  {
+    "key": "quest_dorics",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deviousminds"
+    ]
+  },
+  {
+    "key": "quest_dragonslayer1",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 32,
+    "unlocks": [
+      "quest_heroes"
+    ]
+  },
+  {
+    "key": "quest_dragonslayer2",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_legends",
+      "quest_dreammentor",
+      "quest_tailoftwocats",
+      "quest_animalmagnetism",
+      "quest_ghostsahoy",
+      "quest_bonevoyage",
+      "quest_clientofkourend"
+    ],
+    "requiresStats": [
+      "magic,75",
+      "smithing,70",
+      "mining,68",
+      "crafting,62",
+      "agility,60",
+      "thieving,60",
+      "construction,50",
+      "hitpoints,50"
+    ],
+    "requiresQuestPoints": 200,
+    "unlocks": []
+  },
+  {
+    "key": "quest_dreammentor",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_lunardiplomacy",
+      "quest_eadgarsruse"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_dragonslayer2",
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_druidicritual",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_eadgarsruse",
+      "quest_junglepotion",
+      "quest_recruitmentdrive"
+    ]
+  },
+  {
+    "key": "quest_dwarfcannon",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_betweenarock"
+    ]
+  },
+  {
+    "key": "quest_eadgarsruse",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_trollstronghold",
+      "quest_druidicritual"
+    ],
+    "requiresStats": [
+      "herblore,31"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_dreammentor",
+      "quest_myarmsbigadventure"
+    ]
+  },
+  {
+    "key": "quest_eaglespeak",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "hunter,27"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_atfirstlight"
+    ]
+  },
+  {
+    "key": "quest_elementalworkshop1",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "mining,20",
+      "smithing,20",
+      "crafting,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_elementalworkshop2"
+    ]
+  },
+  {
+    "key": "quest_elementalworkshop2",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_elementalworkshop1"
+    ],
+    "requiresStats": [
+      "smithing,30",
+      "magic,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_enakhraslament",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "crafting,50",
+      "firemaking,45",
+      "prayer,43",
+      "magic,39"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deserttreasure2"
+    ]
+  },
+  {
+    "key": "miniquest_enchantedkey",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_makinghistory"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_enlightenedjourney",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "crafting,36",
+      "farming,30",
+      "firemaking,20"
+    ],
+    "requiresQuestPoints": 20,
+    "unlocks": [
+      "quest_monkeymadness2"
+    ]
+  },
+  {
+    "key": "miniquest_entertheabyss",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_runemysteries"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deviousminds",
+      "quest_templeoftheeye",
+      "quest_wanted"
+    ]
+  },
+  {
+    "key": "quest_ernestthechicken",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_animalmagnetism"
+    ]
+  },
+  {
+    "key": "quest_eyesofglouphrie",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_grandtree"
+    ],
+    "requiresStats": [
+      "magic,46",
+      "construction,5"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_monkeymadness2",
+      "quest_pathofglouphrie"
+    ]
+  },
+  {
+    "key": "quest_fairytale1",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_lostcity",
+      "quest_naturespirit"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_fairytale2"
+    ]
+  },
+  {
+    "key": "quest_fairytale2",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_fairytale1"
+    ],
+    "requiresStats": [
+      "herblore,57",
+      "farming,49",
+      "thieving,40"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_hopespearswill"
+    ]
+  },
+  {
+    "key": "quest_familycrest",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "magic,59",
+      "mining,40",
+      "smithing,40",
+      "crafting,40"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_familypest",
+      "quest_defenderofvarrock",
+      "quest_legends"
+    ]
+  },
+  {
+    "key": "miniquest_familypest",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_familycrest"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_feud",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "thieving,30"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_myarmsbigadventure"
+    ]
+  },
+  {
+    "key": "quest_fightarena",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_generalsshadow",
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_fishingcontest",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "fishing,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "quest_betweenarock",
+      "quest_forgettabletale",
+      "quest_landofthegoblins"
+    ]
+  },
+  {
+    "key": "quest_forgettabletale",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_giantdwarf",
+      "quest_fishingcontest"
+    ],
+    "requiresStats": [
+      "cooking,22",
+      "farming,17"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_forsakentower",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_clientofkourend"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_kingdomdivided"
+    ]
+  },
+  {
+    "key": "quest_fremennikexiles",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_fremennikisles",
+      "quest_lunardiplomacy",
+      "quest_mountaindaughter",
+      "quest_heroes"
+    ],
+    "requiresStats": [
+      "crafting,65",
+      "slayer,60",
+      "smithing,60",
+      "fishing,60",
+      "runecraft,55"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_fremennikisles",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_fremenniktrials"
+    ],
+    "requiresStats": [
+      "agility,40",
+      "construction,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_fremennikexiles"
+    ]
+  },
+  {
+    "key": "quest_fremenniktrials",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "crafting,40",
+      "woodcutting,40",
+      "fletching,25"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_fremennikisles",
+      "quest_lunardiplomacy",
+      "quest_olafs",
+      "quest_throneofmiscellania"
+    ]
+  },
+  {
+    "key": "quest_gardenoftranquillity",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_creatureoffenkenstrain"
+    ],
+    "requiresStats": [
+      "farming,25"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_defenderofvarrock",
+      "quest_swansong"
+    ]
+  },
+  {
+    "key": "miniquest_generalsshadow",
+    "implemented": false,
+    "requiresQuests": [
+      "miniquest_curseoftheemptylord",
+      "quest_fightarena"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_secretsofthenorth"
+    ]
+  },
+  {
+    "key": "quest_gertrudescat",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "miniquest_intothetombs",
+      "quest_icthlarinslittlehelper"
+    ]
+  },
+  {
+    "key": "quest_gettingahead",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "crafting,30",
+      "construction,26"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_ghostsahoy",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_priestinperil",
+      "quest_restlessghost"
+    ],
+    "requiresStats": [
+      "agility,25",
+      "cooking,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_dragonslayer2"
+    ]
+  },
+  {
+    "key": "quest_giantdwarf",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "magic,33",
+      "firemaking,16",
+      "thieving,14",
+      "crafting,12"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_anothersliceofham",
+      "quest_forgettabletale"
+    ]
+  },
+  {
+    "key": "quest_goblindiplomacy",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "quest_losttribe"
+    ]
+  },
+  {
+    "key": "quest_golem",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "thieving,25",
+      "crafting,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_shadowofthestorm"
+    ]
+  },
+  {
+    "key": "quest_grandtree",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "agility,25"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_eyesofglouphrie",
+      "quest_monkeymadness1"
+    ]
+  },
+  {
+    "key": "quest_greatbrainrobbery",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_cabinfever",
+      "quest_creatureoffenkenstrain"
+    ],
+    "requiresStats": [
+      "prayer,50",
+      "construction,30"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_grimtales",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_witchshouse"
+    ],
+    "requiresStats": [
+      "woodcutting,71",
+      "agility,59",
+      "thieving,58",
+      "herblore,52",
+      "farming,45"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_handinthesand",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "crafting,49",
+      "thieving,17"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_hauntedmine",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_priestinperil"
+    ],
+    "requiresStats": [
+      "crafting,35"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_lairoftarnrazorlor"
+    ]
+  },
+  {
+    "key": "quest_hazeelcult",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_secretsofthenorth"
+    ]
+  },
+  {
+    "key": "quest_heroes",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_dragonslayer1",
+      "quest_merlinscrystal",
+      "quest_lostcity",
+      "quest_shieldofarrav"
+    ],
+    "requiresStats": [
+      "cooking,53",
+      "fishing,53",
+      "mining,50",
+      "herblore,25"
+    ],
+    "requiresQuestPoints": 55,
+    "unlocks": [
+      "quest_fremennikexiles",
+      "quest_legends",
+      "quest_throneofmiscellania"
+    ]
+  },
+  {
+    "key": "quest_holygrail",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_merlinscrystal"
+    ],
+    "requiresStats": [
+      "attack,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_kingsransom"
+    ]
+  },
+  {
+    "key": "quest_horrorfromthedeep",
+    "implemented": false,
+    "requiresQuests": [
+      "miniquest_barcrawl"
+    ],
+    "requiresStats": [
+      "agility,35"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_ragandboneman2"
+    ]
+  },
+  {
+    "key": "quest_icthlarinslittlehelper",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_gertrudescat"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_contact",
+      "quest_ratcatchers",
+      "quest_tailoftwocats"
+    ]
+  },
+  {
+    "key": "quest_impcatcher",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_inaidofthemyreque",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_insearchofthemyreque"
+    ],
+    "requiresStats": [
+      "crafting,25",
+      "mining,15",
+      "magic,7"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_darknessofhallowvale"
+    ]
+  },
+  {
+    "key": "miniquest_insearchofknowledge",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_insearchofthemyreque",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_naturespirit"
+    ],
+    "requiresStats": [
+      "agility,25"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_inaidofthemyreque"
+    ]
+  },
+  {
+    "key": "quest_junglepotion",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_druidicritual"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_myarmsbigadventure",
+      "quest_shilovillage",
+      "quest_taibwowannaitrio",
+      "quest_zogreflesheaters"
+    ]
+  },
+  {
+    "key": "quest_kingdomdivided",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_taleoftherighteous",
+      "quest_ascentofarceuus",
+      "quest_forsakentower",
+      "quest_queenofthieves",
+      "quest_depthsofdespair"
+    ],
+    "requiresStats": [
+      "agility,54",
+      "thieving,52",
+      "woodcutting,52",
+      "herblore,50",
+      "mining,42",
+      "crafting,38",
+      "magic,35"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_kingsransom",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_holygrail",
+      "quest_onesmallfavour",
+      "quest_murdermystery",
+      "quest_blackknightsfortress"
+    ],
+    "requiresStats": [
+      "defence,65",
+      "magic,45"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_knightssword",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [
+      "mining,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_pryingtimes"
+    ]
+  },
+  {
+    "key": "miniquest_lairoftarnrazorlor",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_hauntedmine"
+    ],
+    "requiresStats": [
+      "slayer,40"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_legends",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_heroes",
+      "quest_familycrest",
+      "quest_shilovillage",
+      "quest_undergroundpass",
+      "quest_waterfall"
+    ],
+    "requiresStats": [
+      "magic,56",
+      "mining,52",
+      "woodcutting,50",
+      "thieving,50",
+      "strength,50",
+      "smithing,50",
+      "agility,50",
+      "crafting,50",
+      "herblore,45",
+      "prayer,42"
+    ],
+    "requiresQuestPoints": 107,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "quest_dragonslayer2"
+    ]
+  },
+  {
+    "key": "quest_lostcity",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "woodcutting,36",
+      "crafting,31"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "miniquest_intothetombs",
+      "quest_fairytale1",
+      "quest_heroes",
+      "quest_lunardiplomacy"
+    ]
+  },
+  {
+    "key": "quest_losttribe",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_goblindiplomacy",
+      "quest_runemysteries"
+    ],
+    "requiresStats": [
+      "mining,17",
+      "thieving,13",
+      "agility,13"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deathtothedorgeshuun",
+      "quest_wanted"
+    ]
+  },
+  {
+    "key": "quest_lunardiplomacy",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_fremenniktrials",
+      "quest_shilovillage",
+      "quest_lostcity",
+      "quest_runemysteries"
+    ],
+    "requiresStats": [
+      "magic,65",
+      "crafting,61",
+      "mining,60",
+      "woodcutting,55",
+      "firemaking,49",
+      "defence,40",
+      "herblore,5"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_dreammentor",
+      "quest_fremennikexiles"
+    ]
+  },
+  {
+    "key": "miniquest_magearena1",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "magic,60"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_magearena2"
+    ]
+  },
+  {
+    "key": "miniquest_magearena2",
+    "implemented": false,
+    "requiresQuests": [
+      "miniquest_magearena1"
+    ],
+    "requiresStats": [
+      "magic,75"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_makingfriendswithmyarm",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_myarmsbigadventure",
+      "quest_swansong",
+      "quest_coldwar",
+      "quest_romeoandjuliet"
+    ],
+    "requiresStats": [
+      "mining,72",
+      "agility,68",
+      "firemaking,66",
+      "construction,35"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_secretsofthenorth"
+    ]
+  },
+  {
+    "key": "quest_makinghistory",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_priestinperil",
+      "quest_restlessghost"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_enchantedkey",
+      "quest_songoftheelves"
+    ]
+  },
+  {
+    "key": "quest_merlinscrystal",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_heroes",
+      "quest_holygrail"
+    ]
+  },
+  {
+    "key": "quest_misthalinmystery",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_monkeymadness1",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_grandtree",
+      "quest_treegnomevillage"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs"
+    ]
+  },
+  {
+    "key": "quest_monkeymadness2",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_eyesofglouphrie",
+      "quest_trollstronghold",
+      "quest_watchtower",
+      "quest_enlightenedjourney"
+    ],
+    "requiresStats": [
+      "crafting,70",
+      "slayer,69",
+      "firemaking,60",
+      "hunter,60",
+      "agility,55",
+      "thieving,55"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_monksfriend",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_mountaindaughter",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "agility,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_fremennikexiles"
+    ]
+  },
+  {
+    "key": "quest_mourningsendpart1",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_rovingelves",
+      "quest_bigchompybirdhunting",
+      "quest_sheepherder"
+    ],
+    "requiresStats": [
+      "ranged,60",
+      "thieving,50"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_mourningsendpart2"
+    ]
+  },
+  {
+    "key": "quest_mourningsendpart2",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_mourningsendpart1"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_songoftheelves"
+    ]
+  },
+  {
+    "key": "quest_murdermystery",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "quest_kingsransom"
+    ]
+  },
+  {
+    "key": "quest_myarmsbigadventure",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_eadgarsruse",
+      "quest_feud",
+      "quest_junglepotion"
+    ],
+    "requiresStats": [
+      "farming,29",
+      "woodcutting,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_makingfriendswithmyarm"
+    ]
+  },
+  {
+    "key": "quest_naturespirit",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_priestinperil",
+      "quest_restlessghost"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "quest_fairytale1",
+      "quest_insearchofthemyreque",
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_nightatthetheatre",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_tasteofhope"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_bloodmoonrises"
+    ]
+  },
+  {
+    "key": "quest_observatory",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_olafs",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_fremenniktrials"
+    ],
+    "requiresStats": [
+      "woodcutting,50",
+      "firemaking,40"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_onesmallfavour",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_shilovillage",
+      "quest_runemysteries"
+    ],
+    "requiresStats": [
+      "agility,36",
+      "smithing,30",
+      "crafting,25",
+      "herblore,18"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_kingsransom",
+      "quest_swansong"
+    ]
+  },
+  {
+    "key": "quest_piratestreasure",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_cabinfever"
+    ]
+  },
+  {
+    "key": "quest_plaguecity",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_biohazard"
+    ]
+  },
+  {
+    "key": "quest_porcineofinterest",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_priestinperil",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_hisfaithfulservants",
+      "quest_animalmagnetism",
+      "quest_creatureoffenkenstrain",
+      "quest_deserttreasure",
+      "quest_ghostsahoy",
+      "quest_hauntedmine",
+      "quest_makinghistory",
+      "quest_naturespirit",
+      "quest_rumdeal",
+      "quest_shadesofmortton",
+      "quest_wanted"
+    ]
+  },
+  {
+    "key": "quest_princealirescue",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_contact"
+    ]
+  },
+  {
+    "key": "quest_queenofthieves",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_clientofkourend"
+    ],
+    "requiresStats": [
+      "thieving,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_kingdomdivided"
+    ]
+  },
+  {
+    "key": "quest_ragandboneman1",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_ragandboneman2"
+    ]
+  },
+  {
+    "key": "quest_ragandboneman2",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_ragandboneman1",
+      "quest_horrorfromthedeep",
+      "miniquest_skippyandthemogres"
+    ],
+    "requiresStats": [
+      "slayer,40",
+      "defence,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_ratcatchers",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_icthlarinslittlehelper"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_recipefordisaster",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_cooksassistant"
+    ],
+    "requiresStats": [
+      "cooking,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_recruitmentdrive",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_blackknightsfortress",
+      "quest_druidicritual"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_wanted"
+    ]
+  },
+  {
+    "key": "quest_regicide",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_undergroundpass"
+    ],
+    "requiresStats": [
+      "agility,56",
+      "crafting,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_rovingelves"
+    ]
+  },
+  {
+    "key": "quest_restlessghost",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_curseoftheemptylord",
+      "quest_animalmagnetism",
+      "quest_creatureoffenkenstrain",
+      "quest_ghostsahoy",
+      "quest_makinghistory",
+      "quest_naturespirit"
+    ]
+  },
+  {
+    "key": "quest_romeoandjuliet",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_defenderofvarrock",
+      "quest_makingfriendswithmyarm"
+    ]
+  },
+  {
+    "key": "quest_rovingelves",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_regicide",
+      "quest_waterfall"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_mourningsendpart1"
+    ]
+  },
+  {
+    "key": "quest_royaltrouble",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_throneofmiscellania"
+    ],
+    "requiresStats": [
+      "agility,40",
+      "slayer,40"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_rumdeal",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_zogreflesheaters",
+      "quest_priestinperil"
+    ],
+    "requiresStats": [
+      "fishing,50",
+      "prayer,47",
+      "crafting,42",
+      "slayer,42",
+      "farming,40"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_cabinfever"
+    ]
+  },
+  {
+    "key": "quest_runemysteries",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_entertheabyss",
+      "quest_losttribe",
+      "quest_lunardiplomacy",
+      "quest_onesmallfavour",
+      "quest_whatliesbelow"
+    ]
+  },
+  {
+    "key": "quest_scorpioncatcher",
+    "implemented": false,
+    "requiresQuests": [
+      "miniquest_barcrawl"
+    ],
+    "requiresStats": [
+      "prayer,31"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_seaslug",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "firemaking,30"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_slugmenace"
+    ]
+  },
+  {
+    "key": "quest_shadesofmortton",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_priestinperil"
+    ],
+    "requiresStats": [
+      "crafting,20",
+      "herblore,15",
+      "firemaking,5"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_shadowofthestorm",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_golem",
+      "quest_demonslayer"
+    ],
+    "requiresStats": [
+      "crafting,30"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs"
+    ]
+  },
+  {
+    "key": "quest_sheepherder",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_mourningsendpart1"
+    ]
+  },
+  {
+    "key": "quest_sheepshearer",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_shieldofarrav",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_defenderofvarrock",
+      "quest_ethicallyacquiredantiquities",
+      "quest_heroes"
+    ]
+  },
+  {
+    "key": "quest_shilovillage",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_junglepotion"
+    ],
+    "requiresStats": [
+      "agility,32",
+      "crafting,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_legends",
+      "quest_lunardiplomacy",
+      "quest_onesmallfavour"
+    ]
+  },
+  {
+    "key": "quest_sinsofthefather",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_tasteofhope",
+      "quest_vampyreslayer"
+    ],
+    "requiresStats": [
+      "woodcutting,62",
+      "fletching,60",
+      "crafting,56",
+      "agility,52",
+      "attack,50",
+      "slayer,50",
+      "magic,49"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_bloodmoonrises"
+    ]
+  },
+  {
+    "key": "miniquest_skippyandthemogres",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "cooking,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_ragandboneman2"
+    ]
+  },
+  {
+    "key": "quest_slugmenace",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_seaslug",
+      "quest_wanted"
+    ],
+    "requiresStats": [
+      "crafting,30",
+      "runecraft,30",
+      "slayer,30",
+      "thieving,30"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_songoftheelves",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_mourningsendpart2",
+      "quest_makinghistory"
+    ],
+    "requiresStats": [
+      "agility,70",
+      "construction,70",
+      "farming,70",
+      "herblore,70",
+      "hunter,70",
+      "mining,70",
+      "smithing,70",
+      "woodcutting,70"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_soulsbane",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_spiritsoftheelid",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "thieving,37",
+      "mining,37",
+      "ranged,37",
+      "magic,33"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_swansong",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_onesmallfavour",
+      "quest_gardenoftranquillity"
+    ],
+    "requiresStats": [
+      "magic,66",
+      "cooking,62",
+      "fishing,62",
+      "smithing,45",
+      "firemaking,42",
+      "crafting,40"
+    ],
+    "requiresQuestPoints": 100,
+    "unlocks": [
+      "quest_makingfriendswithmyarm"
+    ]
+  },
+  {
+    "key": "quest_taibwowannaitrio",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_junglepotion"
+    ],
+    "requiresStats": [
+      "firemaking,30",
+      "cooking,30",
+      "agility,15",
+      "fishing,5"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_barbariantraining"
+    ]
+  },
+  {
+    "key": "quest_tailoftwocats",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_icthlarinslittlehelper"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_dragonslayer2",
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_taleoftherighteous",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_clientofkourend"
+    ],
+    "requiresStats": [
+      "strength,16",
+      "mining,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_kingdomdivided"
+    ]
+  },
+  {
+    "key": "quest_tasteofhope",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_darknessofhallowvale"
+    ],
+    "requiresStats": [
+      "crafting,48",
+      "agility,45",
+      "attack,40",
+      "herblore,40",
+      "slayer,38"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_nightatthetheatre",
+      "quest_sinsofthefather"
+    ]
+  },
+  {
+    "key": "quest_tearsofguthix",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "firemaking,49",
+      "crafting,20",
+      "mining,20"
+    ],
+    "requiresQuestPoints": 43,
+    "unlocks": [
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_templeofikov",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "thieving,42",
+      "ranged,40"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_defenderofvarrock",
+      "quest_deserttreasure"
+    ]
+  },
+  {
+    "key": "quest_throneofmiscellania",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_heroes",
+      "quest_fremenniktrials"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_royaltrouble"
+    ]
+  },
+  {
+    "key": "quest_touristtrap",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "smithing,20",
+      "fletching,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deserttreasure"
+    ]
+  },
+  {
+    "key": "quest_toweroflife",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "construction,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_treegnomevillage",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_monkeymadness1",
+      "quest_pathofglouphrie"
+    ]
+  },
+  {
+    "key": "quest_tribaltotem",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "thieving,21"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_trollromance",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_trollstronghold"
+    ],
+    "requiresStats": [
+      "agility,28"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_curseofarrav"
+    ]
+  },
+  {
+    "key": "quest_trollstronghold",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_deathplateau"
+    ],
+    "requiresStats": [
+      "agility,15"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deserttreasure",
+      "quest_deviousminds",
+      "quest_eadgarsruse",
+      "quest_monkeymadness2",
+      "quest_trollromance"
+    ]
+  },
+  {
+    "key": "quest_undergroundpass",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_biohazard"
+    ],
+    "requiresStats": [
+      "ranged,25"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_legends",
+      "quest_regicide"
+    ]
+  },
+  {
+    "key": "quest_vampyreslayer",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_sinsofthefather"
+    ]
+  },
+  {
+    "key": "quest_wanted",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_recruitmentdrive",
+      "quest_losttribe",
+      "quest_priestinperil",
+      "miniquest_entertheabyss"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 32,
+    "unlocks": [
+      "quest_deviousminds",
+      "quest_slugmenace",
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_watchtower",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "mining,40",
+      "agility,25",
+      "thieving,15",
+      "herblore,14",
+      "magic,14"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_monkeymadness2"
+    ]
+  },
+  {
+    "key": "quest_waterfall",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deserttreasure",
+      "quest_legends",
+      "quest_pathofglouphrie",
+      "quest_rovingelves"
+    ]
+  },
+  {
+    "key": "quest_whatliesbelow",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_runemysteries"
+    ],
+    "requiresStats": [
+      "runecraft,35"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_defenderofvarrock"
+    ]
+  },
+  {
+    "key": "quest_witchshouse",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs",
+      "quest_grimtales"
+    ]
+  },
+  {
+    "key": "quest_witchspotion",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_xmarksthespot",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_zogreflesheaters",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_bigchompybirdhunting",
+      "quest_junglepotion"
+    ],
+    "requiresStats": [
+      "ranged,30",
+      "herblore,8",
+      "smithing,4"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_rumdeal"
+    ]
+  },
+  {
+    "key": "miniquest_frozendoor",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_deserttreasure"
+    ],
+    "requiresStats": [
+      "agility,70",
+      "hitpoints,70",
+      "ranged,70",
+      "strength,70"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_landofthegoblins",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_anothersliceofham",
+      "quest_fishingcontest"
+    ],
+    "requiresStats": [
+      "herblore,48",
+      "thieving,45",
+      "fishing,40",
+      "agility,38"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_hopespearswill"
+    ]
+  },
+  {
+    "key": "miniquest_hopespearswill",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_landofthegoblins",
+      "quest_deserttreasure",
+      "quest_fairytale2"
+    ],
+    "requiresStats": [
+      "prayer,50"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_templeoftheeye",
+    "implemented": false,
+    "requiresQuests": [
+      "miniquest_entertheabyss"
+    ],
+    "requiresStats": [
+      "runecraft,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deserttreasure2",
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_beneathcursedsands",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_contact"
+    ],
+    "requiresStats": [
+      "agility,62",
+      "firemaking,55",
+      "crafting,55"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_intothetombs"
+    ]
+  },
+  {
+    "key": "quest_sleepinggiants",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "smithing,15"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_gardenofdeath",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "farming,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deserttreasure2"
+    ]
+  },
+  {
+    "key": "miniquest_intothetombs",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_beneathcursedsands",
+      "quest_cooksassistant",
+      "subquest_rfd_intro",
+      "quest_fishingcontest",
+      "subquest_rfd_intro",
+      "quest_goblindiplomacy",
+      "subquest_rfd_intro",
+      "subquest_rfd_intro",
+      "quest_bigchompybirdhunting",
+      "quest_naturespirit",
+      "quest_biohazard",
+      "quest_demonslayer",
+      "quest_witchshouse",
+      "quest_murdermystery",
+      "subquest_rfd_intro",
+      "quest_shadowofthestorm",
+      "quest_gertrudescat",
+      "subquest_rfd_intro",
+      "quest_bigchompybirdhunting",
+      "quest_gertrudescat",
+      "subquest_rfd_intro",
+      "quest_legends",
+      "quest_lostcity",
+      "subquest_rfd_intro",
+      "quest_lostcity",
+      "quest_monkeymadness1",
+      "subquest_rfd_dwarf",
+      "subquest_rfd_goblins",
+      "subquest_rfd_pirate",
+      "subquest_rfd_lumbridgeguide",
+      "subquest_rfd_evildave",
+      "subquest_rfd_ogre",
+      "subquest_rfd_amikvarze",
+      "subquest_rfd_monkey"
+    ],
+    "requiresStats": [
+      "cooking,10",
+      "cooking,31",
+      "cooking,40",
+      "cooking,41",
+      "firemaking,20",
+      "cooking,70",
+      "agility,48"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_secretsofthenorth",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_makingfriendswithmyarm",
+      "miniquest_generalsshadow",
+      "quest_deviousminds",
+      "quest_hazeelcult"
+    ],
+    "requiresStats": [
+      "agility,69",
+      "thieving,64",
+      "hunter,56"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deserttreasure2"
+    ]
+  },
+  {
+    "key": "quest_deserttreasure2",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_deserttreasure",
+      "quest_secretsofthenorth",
+      "quest_enakhraslament",
+      "quest_templeoftheeye",
+      "quest_gardenofdeath",
+      "quest_belowicemountain",
+      "miniquest_hisfaithfulservants"
+    ],
+    "requiresStats": [
+      "magic,75",
+      "firemaking,75",
+      "thieving,70",
+      "herblore,62",
+      "runecraft,60",
+      "construction,60"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "miniquest_hisfaithfulservants",
+    "implemented": true,
+    "requiresQuests": [
+      "quest_priestinperil"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_deserttreasure2"
+    ]
+  },
+  {
+    "key": "quest_pathofglouphrie",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_eyesofglouphrie",
+      "quest_treegnomevillage",
+      "quest_waterfall"
+    ],
+    "requiresStats": [
+      "strength,60",
+      "slayer,56",
+      "thieving,56",
+      "ranged,47",
+      "agility,45"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_childrenofthesun",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "miniquest_valetotems",
+      "quest_atfirstlight",
+      "quest_deathontheisle",
+      "quest_ethicallyacquiredantiquities",
+      "quest_meatandgreet",
+      "quest_ribbitingtale",
+      "quest_scrambled",
+      "quest_shadowsofcustodia",
+      "quest_twilightspromise"
+    ]
+  },
+  {
+    "key": "miniquest_barbariantraining",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_taibwowannaitrio"
+    ],
+    "requiresStats": [
+      "fishing,55",
+      "firemaking,35",
+      "strength,35",
+      "agility,15",
+      "farming,15",
+      "crafting,11",
+      "smithing,5",
+      "herblore,4"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_defenderofvarrock",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_shieldofarrav",
+      "quest_templeofikov",
+      "quest_belowicemountain",
+      "quest_familycrest",
+      "quest_gardenoftranquillity",
+      "quest_whatliesbelow",
+      "quest_demonslayer",
+      "quest_romeoandjuliet"
+    ],
+    "requiresStats": [
+      "smithing,55",
+      "hunter,52"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_curseofarrav",
+      "quest_whileguthixsleeps"
+    ]
+  },
+  {
+    "key": "quest_whileguthixsleeps",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_defenderofvarrock",
+      "quest_pathofglouphrie",
+      "quest_fightarena",
+      "quest_dreammentor",
+      "quest_handinthesand",
+      "quest_wanted",
+      "quest_templeoftheeye",
+      "quest_tailoftwocats",
+      "quest_tearsofguthix",
+      "quest_naturespirit"
+    ],
+    "requiresStats": [
+      "thieving,72",
+      "magic,67",
+      "agility,66",
+      "farming,65",
+      "herblore,65",
+      "hunter,62"
+    ],
+    "requiresQuestPoints": 180,
+    "unlocks": [
+      "miniquest_fracturedarchive"
+    ]
+  },
+  {
+    "key": "quest_twilightspromise",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_childrenofthesun"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_existentialcrisis",
+      "quest_heartofdarkness",
+      "quest_perilousmoons"
+    ]
+  },
+  {
+    "key": "quest_atfirstlight",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_childrenofthesun",
+      "quest_eaglespeak"
+    ],
+    "requiresStats": [
+      "hunter,46",
+      "herblore,30",
+      "construction,27"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_perilousmoons",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_twilightspromise"
+    ],
+    "requiresStats": [
+      "slayer,48",
+      "hunter,20",
+      "fishing,20",
+      "runecraft,20",
+      "construction,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_finaldawn",
+      "quest_impendingchaos"
+    ]
+  },
+  {
+    "key": "quest_ribbitingtale",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_childrenofthesun"
+    ],
+    "requiresStats": [
+      "woodcutting,15"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_heartofdarkness",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_twilightspromise"
+    ],
+    "requiresStats": [
+      "mining,55",
+      "thieving,48",
+      "slayer,48",
+      "agility,46"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_finaldawn"
+    ]
+  },
+  {
+    "key": "quest_deathontheisle",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_childrenofthesun"
+    ],
+    "requiresStats": [
+      "thieving,34",
+      "agility,32"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_meatandgreet",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_childrenofthesun"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_ethicallyacquiredantiquities",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_childrenofthesun",
+      "quest_shieldofarrav"
+    ],
+    "requiresStats": [
+      "thieving,25"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_curseofarrav",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_defenderofvarrock",
+      "quest_trollromance"
+    ],
+    "requiresStats": [
+      "mining,64",
+      "thieving,62",
+      "ranged,62",
+      "agility,61",
+      "strength,58",
+      "slayer,37"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_finaldawn",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_heartofdarkness",
+      "quest_perilousmoons"
+    ],
+    "requiresStats": [
+      "thieving,66",
+      "fletching,52",
+      "runecraft,52"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_shadowsofcustodia",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_childrenofthesun"
+    ],
+    "requiresStats": [
+      "slayer,54",
+      "fishing,45",
+      "construction,41",
+      "hunter,36"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_scrambled",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_childrenofthesun"
+    ],
+    "requiresStats": [
+      "construction,38",
+      "cooking,36",
+      "smithing,35"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_existentialcrisis",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_twilightspromise"
+    ],
+    "requiresStats": [
+      "herblore,36"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_impendingchaos",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_perilousmoons"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "miniquest_valetotems",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_childrenofthesun"
+    ],
+    "requiresStats": [
+      "fletching,20"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_trophy_hotspot",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_pandemonium",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_burialatsea",
+      "quest_crabquest",
+      "quest_currentaffairs",
+      "quest_fallenfromgrace",
+      "quest_pryingtimes",
+      "quest_troubledtortugans"
+    ]
+  },
+  {
+    "key": "quest_pryingtimes",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_pandemonium",
+      "quest_knightssword"
+    ],
+    "requiresStats": [
+      "smithing,30",
+      "sailing,12"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_currentaffairs",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_pandemonium"
+    ],
+    "requiresStats": [
+      "sailing,22",
+      "fishing,10"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_troubledtortugans",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_pandemonium"
+    ],
+    "requiresStats": [
+      "slayer,51",
+      "construction,48",
+      "sailing,45",
+      "hunter,45",
+      "woodcutting,40",
+      "crafting,34"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": [
+      "quest_redreef"
+    ]
+  },
+  {
+    "key": "quest_redreef",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_troubledtortugans"
+    ],
+    "requiresStats": [
+      "sailing,52",
+      "smithing,48"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_burialatsea",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_pandemonium"
+    ],
+    "requiresStats": [
+      "sailing,34",
+      "smithing,32"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_fallenfromgrace",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_pandemonium"
+    ],
+    "requiresStats": [
+      "sailing,62",
+      "crafting,60",
+      "mining,53",
+      "runecraft,47"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_learningtheropes",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_idesofmilk",
+    "implemented": true,
+    "requiresQuests": [],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_bloodmoonrises",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_sinsofthefather",
+      "quest_nightatthetheatre"
+    ],
+    "requiresStats": [
+      "slayer,74",
+      "woodcutting,74",
+      "smithing,72",
+      "cooking,72",
+      "fletching,70",
+      "mining,66",
+      "hunter,65",
+      "crafting,64",
+      "herblore,64",
+      "magic,57"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_ruffsituation",
+    "implemented": false,
+    "requiresQuests": [],
+    "requiresStats": [
+      "crafting,15"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "quest_crabquest",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_pandemonium"
+    ],
+    "requiresStats": [
+      "sailing,40",
+      "fishing,30"
+    ],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  },
+  {
+    "key": "miniquest_fracturedarchive",
+    "implemented": false,
+    "requiresQuests": [
+      "quest_whileguthixsleeps"
+    ],
+    "requiresStats": [],
+    "requiresQuestPoints": 0,
+    "unlocks": []
+  }
+]
