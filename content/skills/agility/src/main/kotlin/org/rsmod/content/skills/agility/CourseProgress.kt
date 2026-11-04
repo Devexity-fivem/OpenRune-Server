@@ -27,3 +27,26 @@ internal fun Player.completeLap(finalIndex: Int): Boolean {
     courseProgress = 0
     return true
 }
+
+internal var Player.wildernessCourseProgress by intVarp("varp.wilderness_course_progress")
+internal var Player.wildernessTagPending by intVarp("varp.wilderness_agility_tag_pending")
+internal var Player.wildernessLootPaid by intVarp("varp.wilderness_agility_loot")
+
+/**
+ * Wilderness course progress is forgiving: any obstacle that is next-in-sequence or earlier
+ * moves progress to its index, so failed obstacles can be retried freely, while an
+ * out-of-sequence obstacle drags progress back to it. Returns true once the final index is
+ * reached, resetting progress for the next lap.
+ */
+internal fun Player.advanceWilderness(index: Int): Boolean {
+    if (wildernessCourseProgress + 1 >= index) {
+        wildernessCourseProgress = index
+    }
+    if (wildernessCourseProgress != WILDERNESS_FINAL_INDEX) {
+        return false
+    }
+    wildernessCourseProgress = 0
+    return true
+}
+
+private const val WILDERNESS_FINAL_INDEX = 5

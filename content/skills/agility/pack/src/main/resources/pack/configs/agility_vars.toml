@@ -9,3 +9,21 @@ isServerOnly = true
 id = "varp.agility_mark_last_minute"
 scope = "Perm"
 transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.wilderness_course_progress"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.wilderness_agility_tag_pending"
+scope = "Temp"
+transmit = "Never"
+
+[[varp]]
+isServerOnly = true
+id = "varp.wilderness_agility_loot"
+scope = "Temp"
+transmit = "Never"

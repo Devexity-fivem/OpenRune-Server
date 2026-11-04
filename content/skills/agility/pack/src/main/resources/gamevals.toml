@@ -1,3 +1,6 @@
 [gamevals.varp]
 agility_course_progress = 63739
 agility_mark_last_minute = 63740
+wilderness_course_progress = 63741
+wilderness_agility_tag_pending = 63742
+wilderness_agility_loot = 63743

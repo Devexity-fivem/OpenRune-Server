@@ -248,3 +248,6 @@ gotr_catalytic_reward_points=63481
 gotr_recharge_xp=63482
 gotr_recharge_energy=63483
 gotr_searches=63484
+wilderness_course_progress=63741
+wilderness_agility_tag_pending=63742
+wilderness_agility_loot=63743
