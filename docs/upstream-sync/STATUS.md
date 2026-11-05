@@ -14,10 +14,10 @@ Last review: 2026-11-05
 
 | Ref | Commit |
 |---|---|
-| our main / origin/main | `8440bcae0` |
+| our main / origin/main | `823ca8a99` |
 | upstream/main | `20e9d7b47` (0 commits ahead of us) |
 
-Divergence: 0 behind upstream, ~475 ahead (local content + merges).
+Divergence: 0 behind upstream, ~480 ahead (local content + merges).
 
 ## Integrated this session
 
@@ -30,6 +30,7 @@ Divergence: 0 behind upstream, ~475 ahead (local content + merges).
 | PR #447 produce sacks/baskets | `3db9af270`..`bc9f933ef` | 4 cherry-picks (stale base); +`76387c2e7` gamevals + msg fix |
 | PR #418 celastrus fletching | equivalent `fe6c8a9b3` | our fletching already covered it; added missing op1 on bark |
 | PR #451 full Corsair Curse | `8440bcae0` | replaces our lighter rimmington impl; 2 diff3-spliced npcs.toml blocks repaired |
+| PR #440 Farming allotments/flowers/herbs | `823ca8a99` | merged into farming module alongside #447 produce containers; varp/dbrow ids renumbered to avoid local clashes |
 
 ## Open upstream PR classification (2026-11-05, 24 open)
 
@@ -38,7 +39,7 @@ Divergence: 0 behind upstream, ~475 ahead (local content + merges).
 | 453 | Motherlode Mine fixes | INTEGRATED `37ef4604e` |
 | 451 | Corsair Curse | INTEGRATED `8440bcae0` (upstream impl replaced our lighter one) |
 | 447 | Produce sacks and baskets | INTEGRATED (cherry-picked `3db9af270`..`bc9f933ef`) |
-| 440 | Farming allotments/flowers/herbs | missing (no farming skill module) |
+| 440 | Farming allotments/flowers/herbs | INTEGRATED `823ca8a99` |
 | 439 | Archaeologist bosses | present: `crazy-archaeologist`, `deranged-archaeologist` |
 | 427 | Hueycoatl | present: `content/bosses/world-bosses` Hueycoatl |
 | 419 | Royal Titans | present: `content/bosses/royal-titans` |
@@ -69,12 +70,19 @@ independent implementation.
 - #447 produce sacks/baskets — small, self-contained
 - #418 celastrus fletching — verify against local fletching impl
 - #354 multicannon deployment — larger; draft upstream
-- #440/#405 farming — large skill; draft upstream, decide independent vs wait
+- #405 farming full-skill — WIP draft; #440 base layer integrated, monitor upstream
 - #342 ToA — very large raid; needs scoping
 - #228 construction — very large; needs scoping
 
 ## Known gaps / deviations
 
 - Nex, Vet'ion live-verification still pending (modules exist, untested in-game).
+- PR #440 gameval ids renumbered vs upstream: `farming_patch_31-34` varps
+  64413-16 -> 65464-67 (clashed with royal_titans/maggot_king varps); all
+  36 `farming_*` dbrows 63840-75 -> 63066-63101 (clashed with pest-control,
+  cooking-servery, vale-totems, shop dbrows). Symbol names unchanged; all
+  references are symbolic so this is internal-only.
+- Full Farming live-verification pending (rake/plant/water/compost/growth/
+  harvest cycles verified by 63 unit tests, not in-game).
 - Server boot smoke test skipped this session: dev server (pid 39408) already
   running on host ports; restarting unprompted would disrupt the environment.
