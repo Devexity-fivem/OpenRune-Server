@@ -2378,6 +2378,44 @@
           "Caveat recorded: paStage() reads QUEST_STAGE_MAP_ATTR for varp-quests, so ::varp does not set stage - use ::queststage quest_princealirescue N (writes attr + varp)."
         ]
       }
+    },
+    "Shield of Arrav": {
+      "status": "COMPLETE",
+      "implementationPaths": [
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/varrock/shieldofarrav/ShieldOfArrav.kt",
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/varrock/shieldofarrav/ShieldOfArravDialogue.kt",
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/varrock/shieldofarrav/ShieldOfArravBook.kt",
+        "content/quest/src/integration/kotlin/org/rsmod/content/quest/area/varrock/shieldofarrav/ShieldOfArravInteractionTest.kt",
+        "content/areas/city/varrock/src/main/kotlin/org/rsmod/content/areas/city/varrock/npcs/Reldo.kt",
+        "content/generic/generic-locs/src/main/kotlin/org/rsmod/content/generic/locs/staircase/StraightStaircaseScript.kt",
+        ".data/raw-cache/server/loc/misthalin/varrock.toml",
+        ".data/raw-cache/map/npcs/varrock.toml"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Shield_of_Arrav",
+        "https://oldschool.runescape.wiki/w/Transcript:Shield_of_Arrav",
+        "https://oldschool.runescape.wiki/w/The_Shield_of_Arrav_(book)"
+      ],
+      "mechanics": {
+        "state": "verified",
+        "evidence": [
+          "PHOENIX BRANCH live MCP end-to-end on rev 241 cache as devin ai 2: Reldo option 'I'm in search of a quest' -> start prompt -> varbit.shieldofarrav 0->1 + varp.phoenixgang (145) 0->1; bookcase 2402 -> book 757; book interface renders authentic pages, close/read sets phoenixgang 3 (FIX: flag previously only set on X-close path, moved to open).",
+          "Baraek: phoenixgang>=3 gate reveals 'Phoenix Gang' option -> authentic 3-choice bribe menu -> pay 20gp -> location known (phoenixgang 4). Straven 'I know who you are!' -> kill Jonny the Beard (multinpc attackable form 14139) -> intelligence report -> hand-in -> weapon key 759 + member (phoenixgang 9).",
+          "Phoenix hideout: member door opens, chest 2403 at (3235,9761) -> left shield half (arravshield1). Curator Haig Halen consumes half -> 2x left half-certificates (11173) + varbit.soa_shield_given=1; authentic 'two half-certificates' dialogue.",
+          "BLACK ARM BRANCH live MCP end-to-end: Reldo -> Charlie the Tramp -> 'Black Arm Gang' hint (blackarmgang 146=1) -> Katrine task (146=2) -> Charlie 10gp stash info ('two buildings east of the VTAM corporation building').",
+          "Weapons stash: Weaponsmaster (3246,3384 plane 1) Talk-to -> 'Stop! Thief!' + auto-attack; kill -> take 2x phoenix_crossbow (767) -> Katrine joins gang (146=3), crossbows consumed.",
+          "FIX during verification: queueCombatRetaliate(delay = 0) threw 'cycles must be greater than 0' and disconnected the client -> default delay 1 used at both call sites.",
+          "FIX during verification: crossbow guard check matched dead/respawn-queued Weaponsmasters -> lookup now filters it.isValidTarget().",
+          "FIX during verification: duplicate npc.weaponsmaster_vis spawn removed from varrock.toml (upstream dump artifact).",
+          "FIX during verification: crossbow Inspect bound to op3 (actual client opcode), not op2.",
+          "Black Arm HQ: front door 11780 had no server config (raw cache door) -> added generic closed/opened door pair to varrock.toml, authentic open + path to Katrine. Locked back door 2399 opens post-join ('heavy bolts drawn back'). Staircase 11796/11799 unhandled -> fai_varrock_stairs/stairstop added to StraightStaircaseScript enum, Climb-up and Climb-down both verified live.",
+          "Upstairs cupboard 2400 -> 'You open the cupboard and find half of a shield inside.' -> right shield half (arravshield2). Curator consumes -> 2x right half-certificates (11174) + varbit.soa_shield_given=2; branch-specific text correctly names Black Arm Gang.",
+          "Certificate flow: Inspect on a half-cert with both halves opens 'Combine the two half-certificates?' -> Yes -> full Certificate (769). King Roald 'I'm here about the Shield of Arrav' -> reward scene -> cert consumed, +600 coins, varbit.shieldofarrav 0->2, phoenixgang 9->10 / blackarmgang 3->4, quest list FINISHED.",
+          "Post-completion: lone half-cert on Roald correctly rejected ('only half the reward certificate'), no double reward.",
+          "Integration tests ./gradlew :content:quest:integration --tests '*ShieldOfArravInteractionTest*' 5/5 pass: curator turn-in (2 half-certs + shield_given varbit), cert combine via HeldUEvents, two-player use-on drop exchange (PlayerUEvents -> objRepo private obj for receiver via registerPlayer), Roald full-cert reward (+600 coins, gang varp complete, quest varbit 2), Roald lone-half rejection."
+        ],
+        "reason": "Both gang branches verified live end-to-end plus integration coverage for the multiplayer certificate exchange."
+      }
     }
   },
   "records": {

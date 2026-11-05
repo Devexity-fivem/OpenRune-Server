@@ -99,6 +99,22 @@ contentGroup = "content.opened_single_door"
 [object.params]
 "param.next_loc_stage" = "loc.fai_varrock_door"
 
+[[object]]
+id = "loc.fai_varrock_poor_door"
+inherit = "loc.fai_varrock_poor_door"
+contentGroup = "content.closed_single_door"
+
+[object.params]
+"param.next_loc_stage" = "loc.fai_varrock_poor_door_open"
+
+[[object]]
+id = "loc.fai_varrock_poor_door_open"
+inherit = "loc.fai_varrock_poor_door_open"
+contentGroup = "content.opened_single_door"
+
+[object.params]
+"param.next_loc_stage" = "loc.fai_varrock_poor_door"
+
 ## Doors end
 
 

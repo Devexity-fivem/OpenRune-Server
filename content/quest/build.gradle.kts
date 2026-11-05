@@ -1,6 +1,7 @@
 plugins {
     id("base-conventions")
     id("game-cache-test-conventions")
+    id("integration-test-suite")
 }
 
 dependencies {
@@ -19,4 +20,5 @@ dependencies {
     implementation(projects.api.death)
     implementation(projects.api.serverConfig)
     implementation(libs.rsprot.api)
+    integrationImplementation(projects.engine.coroutine)
 }
