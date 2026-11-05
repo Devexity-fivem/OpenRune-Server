@@ -5,8 +5,14 @@ import dev.openrune.rscm.RSCM.asRSCM
 import dev.openrune.rscm.RSCMType
 import dev.openrune.types.ItemServerType
 import dev.openrune.types.aconverted.interf.IfButtonOp
+import org.rsmod.api.invtx.add
+import org.rsmod.api.invtx.delete
+import org.rsmod.api.invtx.invTransaction
+import org.rsmod.api.invtx.select
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.ui.IfScriptArgs
+import org.rsmod.api.player.vars.VarPlayerIntMapSetter
+import org.rsmod.api.script.onIfClose
 import org.rsmod.api.script.onIfModalButton
 import org.rsmod.api.script.onIfScriptTrigger
 import org.rsmod.plugin.scripts.PluginScript
@@ -14,6 +20,7 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class OmnishopScript : PluginScript() {
     override fun ScriptContext.startup() {
+        onIfClose("interface.omnishop_main") { player.omnishopLastShop = -1 }
         onIfScriptTrigger<InfoArgs>("component.omnishop_main:trigger_request_info") {
             sendInfo(it.shop, it.index)
         }
@@ -38,53 +45,82 @@ class OmnishopScript : PluginScript() {
     }
 
     private fun ProtectedAccess.sendInfo(shop: Int, index: Int) {
+        if (shop != player.omnishopLastShop) return
         val stock = OmnishopStock.find(shop, index) ?: return
         player.omnishopSelectedId = index
         runClientScript(INFO_UPDATE.asRSCM(RSCMType.CLIENTSCRIPT), shop, -1, index, stock.description(), 1, 0, 1)
     }
 
-    private fun ProtectedAccess.buy(shop: Int, index: Int, option: Int) {
+    internal fun ProtectedAccess.buy(shop: Int, index: Int, option: Int) {
         if (shop != player.omnishopLastShop) return
         val stock = OmnishopStock.find(shop, index) ?: return
         if (!stock.buyable) return
-        var quantity = BUY_QUANTITIES.getOrNull(option - 1) ?: return
+        val requested = stock.buyQuantity(option) ?: return
         val costs = stock.buyCosts()
-        for ((currency, price) in costs) {
-            if (price == 0) continue
-            val affordable = currencyCount(currency) / price
-            if (affordable == 0) {
-                mes("You don't have enough ${currency.pluralName}.")
-                return
-            }
-            quantity = minOf(quantity, affordable)
-        }
+
         val fulfillment = OmnishopFulfillments.find(stock.stockRowId)
         if (fulfillment != null) {
+            for ((currency, price) in costs) {
+                if (price > 0 && currencyCount(currency) < price) {
+                    mes("You don't have enough ${currency.pluralName}.")
+                    return
+                }
+            }
             if (with(fulfillment) { fulfill(1) }) {
                 for ((currency, price) in costs) {
-                    removeCurrency(currency, price)
+                    if (price > 0) chargeCurrency(currency, price)
                 }
             }
             return
         }
-        val obj = stock.objFor(player)
-        quantity = minOf(quantity, stock.maxPurchase / stock.multiplier)
-        if (!obj.stackable) {
-            quantity = minOf(quantity, inv.freeSpace() / stock.multiplier)
-        } else if (inv.count(obj.internalName) == 0 && inv.isFull()) {
-            quantity = 0
+
+        var quantity = minOf(requested, stock.maxPurchase / stock.multiplier)
+        val payments = mutableListOf<OmnishopPayment>()
+        val paymentCurrencies = mutableListOf<OmnishopCurrency>()
+        val adapterCosts = mutableListOf<Pair<OmnishopCurrency, Long>>()
+        for ((currency, price) in costs) {
+            if (price == 0L) continue
+            if (OmnishopCurrencyAdapters.adapterFor(currency.row) != null) {
+                adapterCosts += currency to price
+            } else {
+                payments += OmnishopPayment(currency.objs, price)
+                paymentCurrencies += currency
+            }
         }
-        if (quantity <= 0) {
+        for ((i, payment) in payments.withIndex()) {
+            if (payment.balance(player) < payment.price) {
+                mes("You don't have enough ${paymentCurrencies[i].pluralName}.")
+                return
+            }
+        }
+        for ((currency, price) in adapterCosts) {
+            val balance = adapterCount(currency)
+            if (balance < price) {
+                mes("You don't have enough ${currency.pluralName}.")
+                return
+            }
+            quantity = minOf(quantity, (balance / price).toInt())
+        }
+        val bought =
+            buyOmnishopStock(
+                player,
+                payments,
+                stock.objFor(player),
+                stock.multiplier,
+                quantity,
+                cert = stock.soldNoted,
+            )
+        if (bought == 0) {
             mes("You don't have enough inventory space.")
             return
         }
-        for ((currency, price) in costs) {
-            removeCurrency(currency, price * quantity)
+        for ((currency, price) in adapterCosts) {
+            adapterCharge(currency, price * bought)
         }
-        invAdd(inv, obj.internalName, quantity * stock.multiplier)
+        redraw()
     }
 
-    private fun ProtectedAccess.sell(obj: ItemServerType, requested: Int) {
+    internal fun ProtectedAccess.sell(obj: ItemServerType, requested: Int) {
         val shop = player.omnishopLastShop
         val stock = OmnishopStock.all(shop).firstOrNull { it.obj.id == obj.id }
         if (stock == null || !stock.sellable) {
@@ -93,29 +129,56 @@ class OmnishopScript : PluginScript() {
         }
         val quantity = minOf(requested, inv.count(obj.internalName))
         if (quantity == 0) return
-        if (invDel(inv, obj.internalName, quantity).failure) return
-        for ((currency, price) in stock.sellCosts()) {
-            val currencyObj = currency.objs.firstOrNull() ?: continue
-            if (price > 0) invAdd(inv, currencyObj.internalName, price * quantity)
+        val costs = stock.sellCosts()
+        if (costs.any { (currency, price) -> currency.objs.isEmpty() || price * quantity > Int.MAX_VALUE }) return
+        val result =
+            player.invTransaction(inv, autoCommit = false) {
+                val inventory = select(inv)
+                delete(inventory, obj.id, quantity)
+                for ((currency, price) in costs) {
+                    if (price > 0) add(inventory, currency.objs.first().id, (price * quantity).toInt())
+                }
+            }
+        if (result.failure) {
+            mes("You don't have enough inventory space.")
+            return
         }
+        result.commitAll()
+        redraw()
     }
 
-    private fun ProtectedAccess.currencyCount(currency: OmnishopCurrency): Int =
-        OmnishopCurrencyAdapters.adapterFor(currency.row)?.let { adapter ->
-            adapter.run { count(currency.row) }
-        }
-            ?: currency.objs.sumOf { inv.count(it.internalName) }
+    private fun ProtectedAccess.redraw() {
+        val redraw = "varp.omnishop_redraw"
+        VarPlayerIntMapSetter.set(player, redraw, player.vars[redraw] xor 1)
+    }
 
-    private fun ProtectedAccess.removeCurrency(currency: OmnishopCurrency, amount: Int) {
+    private fun ProtectedAccess.currencyCount(currency: OmnishopCurrency): Long =
         OmnishopCurrencyAdapters.adapterFor(currency.row)?.let { adapter ->
-            adapter.run { charge(currency.row, amount) }
+            adapter.run { count(currency.row).toLong() }
+        }
+            ?: currency.objs.sumOf { inv.physicalCount(it.internalName).toLong() }
+
+    private fun ProtectedAccess.chargeCurrency(currency: OmnishopCurrency, amount: Long) {
+        OmnishopCurrencyAdapters.adapterFor(currency.row)?.let { adapter ->
+            adapter.run { charge(currency.row, amount.coerceAtMost(Int.MAX_VALUE.toLong()).toInt()) }
             return
         }
         var remaining = amount
         for (obj in currency.objs) {
-            if (remaining == 0) return
-            val take = minOf(remaining, inv.count(obj.internalName))
+            if (remaining == 0L) return
+            val take = minOf(remaining, inv.physicalCount(obj.internalName).toLong()).toInt()
             if (take > 0 && invDel(inv, obj.internalName, take).success) remaining -= take
+        }
+    }
+
+    private fun ProtectedAccess.adapterCount(currency: OmnishopCurrency): Long {
+        val adapter = OmnishopCurrencyAdapters.adapterFor(currency.row) ?: return 0L
+        return adapter.run { count(currency.row).toLong() }
+    }
+
+    private fun ProtectedAccess.adapterCharge(currency: OmnishopCurrency, amount: Long) {
+        OmnishopCurrencyAdapters.adapterFor(currency.row)?.run {
+            charge(currency.row, amount.coerceAtMost(Int.MAX_VALUE.toLong()).toInt())
         }
     }
 
@@ -127,6 +190,5 @@ class OmnishopScript : PluginScript() {
 
     private companion object {
         const val INFO_UPDATE = "clientscript.omnishop_info_update"
-        val BUY_QUANTITIES = listOf(1, 5, 10, 50)
     }
 }

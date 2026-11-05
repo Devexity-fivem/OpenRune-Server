@@ -104,7 +104,8 @@ object SpecValidator {
                                 )
                             }
                         is IncomingAction.Cap,
-                        is IncomingAction.ScalePercent -> {}
+                        is IncomingAction.ScalePercent,
+                        is IncomingAction.DivideMinOne -> {}
                     }
                 }
             }
