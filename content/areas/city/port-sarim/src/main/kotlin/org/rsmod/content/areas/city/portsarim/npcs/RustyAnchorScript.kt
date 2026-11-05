@@ -3,6 +3,8 @@ package org.rsmod.content.areas.city.portsarim.npcs
 import org.rsmod.api.config.Constants
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.script.onOpNpc1
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayer
+import org.rsmod.content.quest.area.varrock.dragonslayer.dragonQuest
 import org.rsmod.content.quest.manager.QuestRequirements
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
@@ -60,7 +62,7 @@ class RustyAnchorScript : PluginScript() {
             "Perhaps a $youngOne like yerself would like to help me? I be needing another ship " +
                 "to go a-hunting my enemy.",
         )
-        if (QuestRequirements.hasCompleted(player, DRAGON_SLAYER)) {
+        if (player.dragonQuest >= DragonSlayer.StageComplete) {
             chatPlayer(happy, "Well, I do have a ship that I'm not using. It's the Lady Lumbridge.")
             chatNpc(happy, "Arrr! That ship be known to me, and a fine lass she is.")
             chatPlayer(shifty, "I suppose she might be...")

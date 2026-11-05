@@ -4,10 +4,16 @@ import jakarta.inject.Inject
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.agilityLvl
 import org.rsmod.api.repo.loc.LocRepository
+import org.rsmod.api.repo.obj.ObjRepository
 import org.rsmod.api.repo.world.WorldRepository
 import org.rsmod.api.script.onOpLoc1
 import org.rsmod.api.script.onOpLoc2
-import org.rsmod.content.quest.manager.QuestRequirements
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayer
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayerDialogue
+import org.rsmod.content.quest.area.varrock.dragonslayer.dragonQuest
+import org.rsmod.content.quest.area.varrock.dragonslayer.gettingMapParts
+import org.rsmod.content.quest.area.varrock.dragonslayer.hasAnywhere
+import org.rsmod.content.quest.area.varrock.dragonslayer.magicDoorOpen
 import org.rsmod.game.loc.BoundLocInfo
 import org.rsmod.game.loc.LocAngle
 import org.rsmod.game.loc.LocInfo
@@ -18,7 +24,11 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class DwarvenMineLocScript
 @Inject
-constructor(private val locRepo: LocRepository, private val worldRepo: WorldRepository) : PluginScript() {
+constructor(
+    private val locRepo: LocRepository,
+    private val worldRepo: WorldRepository,
+    private val objRepo: ObjRepository,
+) : PluginScript() {
     override fun ScriptContext.startup() {
         onOpLoc1("loc.stairs_falador") { useStairs(FALADOR_HOUSE) }
         onOpLoc1("loc.stairs_cellar") {
@@ -32,7 +42,7 @@ constructor(private val locRepo: LocRepository, private val worldRepo: WorldRepo
         onOpLoc1("loc.dragon_slayer_qip_magic_door") { openMagicDoor(it.loc) }
 
         onOpLoc1("loc.oraclechestshut") { openOracleChest(it.loc) }
-        onOpLoc1("loc.oraclechestopen") { mes("You search the chest but find nothing.") }
+        onOpLoc1("loc.oraclechestopen") { searchOracleChest(it.loc) }
         onOpLoc2("loc.oraclechestopen") { locRepo.change(it.loc, "loc.oraclechestshut", CHEST_OPEN_CYCLES) }
     }
 
@@ -72,7 +82,7 @@ constructor(private val locRepo: LocRepository, private val worldRepo: WorldRepo
 
     private suspend fun ProtectedAccess.openMagicDoor(door: BoundLocInfo) {
         arriveDelay()
-        if (!QuestRequirements.hasCompleted(player, DRAGON_SLAYER)) {
+        if (!player.magicDoorOpen && player.dragonQuest < DragonSlayer.StageComplete) {
             mes("There is something in this door for me to put objects in.")
             return
         }
@@ -135,6 +145,21 @@ constructor(private val locRepo: LocRepository, private val worldRepo: WorldRepo
         anim("seq.human_openchest")
         soundSynth(CHEST_OPEN_SOUND)
         locRepo.change(chest, "loc.oraclechestopen", CHEST_OPEN_CYCLES)
+    }
+
+    private suspend fun ProtectedAccess.searchOracleChest(chest: BoundLocInfo) {
+        arriveDelay()
+        if (
+            !player.gettingMapParts ||
+            player.hasAnywhere("obj.mappart3") ||
+            player.hasAnywhere("obj.dragonmap")
+        ) {
+            mes("You search the chest but find nothing.")
+            return
+        }
+        mesbox("You find a map piece in the chest.")
+        invAddOrDrop(objRepo, "obj.mappart3")
+        locRepo.change(chest, "loc.oraclechestshut", CHEST_OPEN_CYCLES)
     }
 
     private companion object {

@@ -4,6 +4,9 @@ import jakarta.inject.Inject
 import org.rsmod.api.config.Constants
 import org.rsmod.api.player.dialogue.Dialogue
 import org.rsmod.api.script.onOpLoc1
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayer.Companion.StageComplete
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayerDialogue
+import org.rsmod.content.quest.area.varrock.dragonslayer.dragonQuest
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.script.onOpNpc4
@@ -15,7 +18,13 @@ import org.rsmod.plugin.scripts.ScriptContext
 
 class PortSarimDocksScript @Inject constructor(private val shops: Shops) : PluginScript() {
     override fun ScriptContext.startup() {
-        onOpNpc1("npc.klarense") { startDialogue(it.npc) { klarense() } }
+        onOpNpc1("npc.klarense") {
+            if (player.dragonQuest >= StageComplete) {
+                startDialogue(it.npc) { klarense() }
+            } else {
+                with(DragonSlayerDialogue) { klarenseDialogue(it.npc) }
+            }
+        }
         onOpNpc1("npc.port_task_master_port_sarim") { startDialogue(it.npc) { portMaster() } }
         onOpNpc1("npc.vc_face") { startDialogue(it.npc) { theFace() } }
 

@@ -1,6 +1,8 @@
 package org.rsmod.content.quest.manager
 
 import org.rsmod.api.combat.commons.magic.SpellQuestRequirement
+import org.rsmod.api.death.NpcAttackValidateHook
+import org.rsmod.api.death.NpcDeathDropHook
 import org.rsmod.api.death.NpcDeathKillHook
 import org.rsmod.api.npc.aggression.AggressionGate
 import org.rsmod.api.player.hook.SpadeDigHook
@@ -14,6 +16,9 @@ import org.rsmod.content.quest.area.lumbridge.idesofmilk.IdesOfMilkQuest
 import org.rsmod.content.quest.area.lumbridge.xmarksthespot.XMarksTheSpotQuest
 import org.rsmod.content.quest.area.rimmington.WitchsPotionRatTail
 import org.rsmod.content.quest.area.varrock.daddyshome.DaddysHomeQuest
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayerDrops
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayerWormbrainGate
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayerWormbrainTable
 import org.rsmod.content.quest.area.varrock.gertrudescat.GertrudesCatQuest
 import org.rsmod.plugin.module.PluginModule
 
@@ -33,5 +38,8 @@ public class QuestModule : PluginModule() {
         addSetBinding<SpadeDigHook>(XMarksTheSpotQuest::class.java)
         addSetBinding<SpadeDigHook>(PiratesTreasure::class.java)
         addSetBinding<NpcDeathKillHook>(WitchsPotionRatTail::class.java)
+        addSetBinding<NpcDeathKillHook>(DragonSlayerDrops::class.java)
+        addSetBinding<NpcDeathDropHook>(DragonSlayerWormbrainTable::class.java)
+        addSetBinding<NpcAttackValidateHook>(DragonSlayerWormbrainGate::class.java)
     }
 }

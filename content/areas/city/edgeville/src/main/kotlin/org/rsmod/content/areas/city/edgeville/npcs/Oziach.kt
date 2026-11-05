@@ -6,7 +6,10 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.api.script.onOpNpc3
 import org.rsmod.api.shops.Shops
-import org.rsmod.content.quest.manager.QuestRequirements
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayer.Companion.StageComplete
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayer.Companion.StageSpokenToOziach
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayerDialogue
+import org.rsmod.content.quest.area.varrock.dragonslayer.dragonQuest
 import org.rsmod.game.entity.Npc
 import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
@@ -20,12 +23,16 @@ class Oziach @Inject constructor(private val shops: Shops) : PluginScript() {
     }
 
     private suspend fun ProtectedAccess.talk(npc: Npc) {
-        val slayer = QuestRequirements.hasCompleted(player, DRAGON_SLAYER)
-        startDialogue(npc) { if (slayer) dragonSlayer(npc) else fairDay() }
+        when {
+            player.dragonQuest >= StageComplete -> startDialogue(npc) { dragonSlayer(npc) }
+            player.dragonQuest >= StageSpokenToOziach ->
+                with(DragonSlayerDialogue) { oziachMidQuest(npc) }
+            else -> with(DragonSlayerDialogue) { oziachQuest(npc) }
+        }
     }
 
     private suspend fun ProtectedAccess.trade(npc: Npc) {
-        if (QuestRequirements.hasCompleted(player, DRAGON_SLAYER)) {
+        if (player.dragonQuest >= StageComplete) {
             player.openRunePlateShop(npc)
             return
         }
@@ -88,7 +95,4 @@ class Oziach @Inject constructor(private val shops: Shops) : PluginScript() {
         shops.open(this, npc, "Oziach", "inv.runeplateshop")
     }
 
-    private companion object {
-        private const val DRAGON_SLAYER = "quest_dragonslayer1"
-    }
 }

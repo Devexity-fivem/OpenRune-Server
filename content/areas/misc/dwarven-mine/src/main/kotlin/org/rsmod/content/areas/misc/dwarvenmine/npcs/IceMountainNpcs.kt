@@ -1,6 +1,9 @@
 package org.rsmod.content.areas.misc.dwarvenmine.npcs
 
 import org.rsmod.api.player.protect.ProtectedAccess
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayerDialogue
+import org.rsmod.content.quest.area.varrock.dragonslayer.gettingMapParts
+import org.rsmod.content.quest.area.varrock.dragonslayer.knowsAboutOracle
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.game.entity.Npc
 import org.rsmod.plugin.scripts.PluginScript
@@ -18,12 +21,32 @@ class IceMountainNpcs : PluginScript() {
     }
 
     private suspend fun ProtectedAccess.consultOracle(npc: Npc) {
-        val wisdom = WISDOM[random.of(maxExclusive = WISDOM.size)]
+        val seekingMap = player.gettingMapParts && player.knowsAboutOracle
+        if (seekingMap) {
+            startDialogue(npc) {
+                if (
+                    choice2(
+                        "I seek a piece of the map to the island of Crandor.",
+                        true,
+                        "Can you impart your wise knowledge to me, O Oracle?",
+                        false,
+                    )
+                ) {
+                    with(DragonSlayerDialogue) { oracleMapPiece() }
+                } else {
+                    chatPlayer(quiz, "Can you impart your wise knowledge to me, O Oracle?")
+                    chatNpc(neutral, wisdom())
+                }
+            }
+            return
+        }
         startDialogue(npc) {
             chatPlayer(quiz, "Can you impart your wise knowledge to me, O Oracle?")
-            chatNpc(neutral, wisdom)
+            chatNpc(neutral, wisdom())
         }
     }
+
+    private fun ProtectedAccess.wisdom(): String = WISDOM[random.of(maxExclusive = WISDOM.size)]
 
     private companion object {
         private val WISDOM =

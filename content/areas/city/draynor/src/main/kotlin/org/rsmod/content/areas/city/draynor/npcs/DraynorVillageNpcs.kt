@@ -14,6 +14,9 @@ import org.rsmod.content.areas.city.draynor.npcs.DiangoHolidayItems.Companion.op
 import org.rsmod.content.interfaces.omnishop.openOmnishop
 import org.rsmod.content.quest.area.draynor.princealirescue.PrinceAliRescue
 import org.rsmod.content.quest.area.draynor.princealirescue.PrinceAliRescueDialogue
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayer
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayerDialogue
+import org.rsmod.content.quest.area.varrock.dragonslayer.dragonQuest
 import org.rsmod.content.quest.area.draynor.vampyreslayer.VampyreSlayerDialogue
 import org.rsmod.content.quest.manager.Quest
 import org.rsmod.content.quest.manager.QuestRequirements
@@ -285,7 +288,7 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
 
     private suspend fun Dialogue.ned() {
         val midRescue = midPrinceAliRescue()
-        if (!QuestRequirements.hasCompleted(player, DRAGON_SLAYER)) {
+        if (player.dragonQuest < DragonSlayer.StageComplete) {
             chatNpc(
                 neutral,
                 "Why, hello there, ${if (isLad()) "lad" else "lass"}. Me friends call me Ned. I " +
@@ -294,6 +297,12 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
             )
             val options =
                 buildList {
+                    if (player.dragonQuest in 2 until DragonSlayer.StageSailed) {
+                        add(
+                            "You're a sailor? Could you take me to the island of Crandor?" to
+                                NedTopic.CrandorSail
+                        )
+                    }
                     add("Yes, I would like some rope." to NedTopic.Rope)
                     if (midRescue) {
                         add("Ned, could you make other things from wool?" to NedTopic.WoolThings)
@@ -301,6 +310,7 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
                     add(NED_DECLINE to NedTopic.Leave)
                 }
             when (menu(options)) {
+                NedTopic.CrandorSail -> with(DragonSlayerDialogue) { nedSail() }
                 NedTopic.Rope -> access.openRopeShop()
                 NedTopic.WoolThings -> with(PrinceAliRescueDialogue) { nedOtherThings() }
                 else -> nedDecline()
@@ -354,11 +364,14 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
                     NedTopic.Rope -> nedRope()
                     NedTopic.WoolThings -> with(PrinceAliRescueDialogue) { nedOtherThings() }
                     NedTopic.Leave -> nedDecline()
+                    NedTopic.CrandorSail -> nedDecline()
                 }
             }
             NedTopic.Rope -> nedRope()
             NedTopic.WoolThings -> with(PrinceAliRescueDialogue) { nedOtherThings() }
             NedTopic.Leave -> nedDecline()
+            NedTopic.CrandorSail -> nedDecline()
+            NedTopic.Crandor -> nedDecline()
         }
     }
 
@@ -1267,6 +1280,7 @@ class DraynorVillageNpcs @Inject constructor(private val shops: Shops) : PluginS
     }
 
     private enum class NedTopic {
+        CrandorSail,
         Crandor,
         Rope,
         WoolThings,

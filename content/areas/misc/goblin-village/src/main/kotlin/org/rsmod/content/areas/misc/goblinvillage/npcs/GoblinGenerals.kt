@@ -6,8 +6,12 @@ import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.script.onOpNpc1
 import org.rsmod.content.quest.area.falador.goblindiplomacy.GoblinDiplomacy
 import org.rsmod.content.quest.area.falador.goblindiplomacy.GoblinDiplomacyDialogue
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayer
+import org.rsmod.content.quest.area.varrock.dragonslayer.DragonSlayerDialogue
+import org.rsmod.content.quest.area.varrock.dragonslayer.dragonQuest
 import org.rsmod.content.quest.manager.Quest
 import org.rsmod.game.entity.Npc
+import org.rsmod.game.entity.Player
 import org.rsmod.plugin.scripts.PluginScript
 import org.rsmod.plugin.scripts.ScriptContext
 
@@ -28,6 +32,12 @@ class GoblinGenerals : PluginScript() {
             with(GoblinDiplomacyDialogue) { generalsDialogue(npc) }
             return
         }
+        if (player.dragonQuest in DragonSlayer.StageSpokenToOziach until DragonSlayer.StageNedGivenMap &&
+            !player.hasMapPart()
+        ) {
+            startDialogue(npc) { with(DragonSlayerDialogue) { generalsMapPiece() } }
+            return
+        }
         val pick = random.of(maxExclusive = CONVERSATIONS)
         startDialogue(npc) {
             when (pick) {
@@ -38,6 +48,12 @@ class GoblinGenerals : PluginScript() {
             }
         }
     }
+
+    private fun Player.hasMapPart(): Boolean =
+        inv.contains("obj.mappart2") ||
+            inv.contains("obj.dragonmap") ||
+            invMap.getOrPut("inv.bank").contains("obj.mappart2") ||
+            invMap.getOrPut("inv.bank").contains("obj.dragonmap")
 
     private suspend fun Dialogue.shutUp() {
         bentnoze(angry, "Shut up Grubfoot!")
