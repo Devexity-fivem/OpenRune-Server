@@ -7,9 +7,13 @@ dependencies {
     implementation(projects.api.generated)
     implementation(projects.api.player)
     implementation(projects.api.pluginCommons)
+    implementation(projects.api.registry)
     implementation(projects.api.script)
+    implementation(projects.content.generic.genericLocs)
+    implementation(projects.content.quest)
     testImplementation(projects.api.invStorage)
     testImplementation(projects.api.gameProcess)
     testImplementation(libs.fastutil)
+    testImplementation(libs.mockk)
     testImplementation(libs.rsprot.api)
 }
