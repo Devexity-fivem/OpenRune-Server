@@ -3,6 +3,7 @@ package org.rsmod.content.skills.fletching
 import jakarta.inject.Inject
 import org.rsmod.api.player.protect.ProtectedAccess
 import org.rsmod.api.player.stat.fletchingLvl
+import org.rsmod.api.script.onOpHeld1
 import org.rsmod.api.script.onOpHeldU
 import org.rsmod.api.script.onPlayerQueueWithArgs
 import org.rsmod.api.stats.xpmod.XpModifiers
@@ -37,6 +38,16 @@ class FletchingEvents @Inject constructor(
         for ((key, products) in recipesByPair) {
             val (first, second) = pairOrder.getValue(key)
             onOpHeldU(first, second) { startFromClick(products) }
+        }
+        // Celastrus bark has a native "Fletch" op; it shares the knife-on-bark flow.
+        onOpHeld1("obj.celastrus_wood") {
+            if (inv[it.slot]?.id != it.obj.id) return@onOpHeld1
+            val bark = recipes.filter { r -> r.inputs.any { m -> m.internal == "obj.celastrus_wood" } }
+            if (bark.isNotEmpty() && !hasTool("obj.knife")) {
+                mes("You need a knife to do that.")
+                return@onOpHeld1
+            }
+            startFromClick(bark)
         }
         onPlayerQueueWithArgs<FletchTask>("queue.fletching_craft") { processTick(it.args) }
     }
