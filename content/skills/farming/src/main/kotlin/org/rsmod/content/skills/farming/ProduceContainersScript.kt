@@ -58,7 +58,7 @@ class ProduceContainersScript : PluginScript() {
             return
         }
         if (transform(slot, form, given = amount) && requested == 1) {
-            fruit(form)?.let { player.spam("You take ${article(it)} $it out of the $it basket.") }
+            fruit(form)?.let { player.spam("You take ${article(it)} $it out of the fruit basket.") }
         }
     }
 
