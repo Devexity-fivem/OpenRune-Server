@@ -27,20 +27,20 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Magic_icon.png?334cf" height="20" alt=""> [Magic](content/skills/magic) | 5,764 loc | [wiki](https://oldschool.runescape.wiki/w/Magic) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Prayer_icon.png?7e70b" height="20" alt=""> [Prayer](content/skills/prayer) | 2,617 loc | [wiki](https://oldschool.runescape.wiki/w/Prayer) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Runecraft_icon.png?c278c" height="20" alt=""> [Runecraft](content/skills/runecrafting) | 2,654 loc | [wiki](https://oldschool.runescape.wiki/w/Runecraft) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Slayer_icon.png?cd34f" height="20" alt=""> [Slayer](content/skills/slayer) | 6,012 loc | [wiki](https://oldschool.runescape.wiki/w/Slayer) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Slayer_icon.png?cd34f" height="20" alt=""> [Slayer](content/skills/slayer) | 6,033 loc | [wiki](https://oldschool.runescape.wiki/w/Slayer) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Mining_icon.png?00870" height="20" alt=""> [Mining](content/skills/mining) | 1,041 loc | [wiki](https://oldschool.runescape.wiki/w/Mining) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Smithing_icon.png?d26c5" height="20" alt=""> [Smithing](content/skills/smithing) | 2,139 loc | [wiki](https://oldschool.runescape.wiki/w/Smithing) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Woodcutting_icon.png?6ead4" height="20" alt=""> [Woodcutting](content/skills/woodcutting) | 522 loc | [wiki](https://oldschool.runescape.wiki/w/Woodcutting) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Firemaking_icon.png?45ea0" height="20" alt=""> [Firemaking](content/skills/firemaking) | 589 loc | [wiki](https://oldschool.runescape.wiki/w/Firemaking) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Cooking_icon.png?a0156" height="20" alt=""> [Cooking](content/skills/cooking) | 1,429 loc | [wiki](https://oldschool.runescape.wiki/w/Cooking) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Cooking_icon.png?a0156" height="20" alt=""> [Cooking](content/skills/cooking) | 1,439 loc | [wiki](https://oldschool.runescape.wiki/w/Cooking) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Herblore_icon.png?ffa9e" height="20" alt=""> [Herblore](content/skills/herblore) | 1,189 loc | [wiki](https://oldschool.runescape.wiki/w/Herblore) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Fishing_icon.png?15a98" height="20" alt=""> [Fishing](content/skills/fishing) | 1,727 loc | [wiki](https://oldschool.runescape.wiki/w/Fishing) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Agility_icon.png?389e0" height="20" alt=""> [Agility](content/skills/agility) | 2,171 loc | [wiki](https://oldschool.runescape.wiki/w/Agility) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Thieving_icon.png?973fe" height="20" alt=""> [Thieving](content/skills/thieving) | 1,360 loc | [wiki](https://oldschool.runescape.wiki/w/Thieving) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Crafting_icon.png?a1f71" height="20" alt=""> [Crafting](content/skills/crafting) | 6,349 loc | [wiki](https://oldschool.runescape.wiki/w/Crafting) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> [Fletching](content/skills/fletching) | 698 loc | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Fletching_icon.png?15cda" height="20" alt=""> [Fletching](content/skills/fletching) | 709 loc | [wiki](https://oldschool.runescape.wiki/w/Fletching) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Construction_icon.png?f9bf7" height="20" alt=""> Construction | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Construction) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> Farming | no module, code in content/areas/city | [wiki](https://oldschool.runescape.wiki/w/Farming) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/Farming_icon.png?558fa" height="20" alt=""> [Farming](content/skills/farming) | 1,919 loc | [wiki](https://oldschool.runescape.wiki/w/Farming) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/Hunter_icon.png?8762f" height="20" alt=""> [Hunter](content/skills/hunter) | 3,238 loc | [wiki](https://oldschool.runescape.wiki/w/Hunter) |
 
 ### Bosses <sup>156/178</sup>
@@ -103,7 +103,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eclipse_Moon.png/48px-Eclipse_Moon.png?c3e72" height="20" alt=""> Eclipse Moon | no module, code in content/bosses/world-bosses | [wiki](https://oldschool.runescape.wiki/w/Eclipse_Moon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Eldric_the_Ice_King.png/48px-Eldric_the_Ice_King.png?6bd48" height="20" alt=""> Eldric the Ice King | no module, code in content/bosses/royal-titans | [wiki](https://oldschool.runescape.wiki/w/Eldric_the_Ice_King) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Elidinis%27_Warden.png/48px-Elidinis%27_Warden.png?c9f68" height="20" alt=""> Elidinis' Warden | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Elidinis'_Warden) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Elvarg.png/48px-Elvarg.png?336d5" height="20" alt=""> Elvarg | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Elvarg) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Elvarg.png/48px-Elvarg.png?336d5" height="20" alt=""> Elvarg | no module, code in content/quest/src, content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Elvarg) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Evil_spirit.png/48px-Evil_spirit.png?40157" height="20" alt=""> Evil spirit | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Evil_spirit) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Fareed.png/48px-Fareed.png?537e7" height="20" alt=""> Fareed | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Fareed) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Flambeed.png/48px-Flambeed.png?7ad3e" height="20" alt=""> Flambeed | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Flambeed) |
@@ -132,7 +132,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kephri.png/48px-Kephri.png?4c3cd" height="20" alt=""> Kephri | no module, code in content/bosses/raid-bosses | [wiki](https://oldschool.runescape.wiki/w/Kephri) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/King_Black_Dragon.png/48px-King_Black_Dragon.png?d25f0" height="20" alt=""> [King Black Dragon](content/bosses/kbd) | 151 loc | [wiki](https://oldschool.runescape.wiki/w/King_Black_Dragon) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Koschei_the_deathless.png/48px-Koschei_the_deathless.png?37d97" height="20" alt=""> Koschei the deathless | no module, code in content/bosses/quest-bosses | [wiki](https://oldschool.runescape.wiki/w/Koschei_the_deathless) |
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kraken.png/48px-Kraken.png?a4955" height="20" alt=""> [Kraken](content/bosses/kraken) | 110 loc | [wiki](https://oldschool.runescape.wiki/w/Kraken) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kraken.png/48px-Kraken.png?a4955" height="20" alt=""> [Kraken](content/bosses/kraken) | 712 loc | [wiki](https://oldschool.runescape.wiki/w/Kraken) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Kree%27arra.png/48px-Kree%27arra.png?ba75c" height="20" alt=""> [Kree'arra](content/bosses/kreearra) | 233 loc | [wiki](https://oldschool.runescape.wiki/w/Kree'arra) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mad_Angel.webp/48px-Mad_Angel.webp?c7990" height="20" alt=""> [Mad Angel](content/bosses/mad-angel) | 1,122 loc | [wiki](https://oldschool.runescape.wiki/w/Mad_Angel) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Maggot_King.png/48px-Maggot_King.png?a6790" height="20" alt=""> [Maggot King](content/bosses/maggot-king) | 1,480 loc | [wiki](https://oldschool.runescape.wiki/w/Maggot_King) |
@@ -230,7 +230,7 @@ the module table at the bottom before reading a 0 as "nothing exists".
 
 | | Feature | Status | |
 |---|---|---|---|
-| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Giants%27_Foundry.png/48px-Giants%27_Foundry.png?70b44" height="20" alt=""> [Giants' Foundry](content/minigames/giants-foundry) | 4,471 loc | [wiki](https://oldschool.runescape.wiki/w/Giants'_Foundry) |
+| 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Giants%27_Foundry.png/48px-Giants%27_Foundry.png?70b44" height="20" alt=""> [Giants' Foundry](content/minigames/giants-foundry) | 4,468 loc | [wiki](https://oldschool.runescape.wiki/w/Giants'_Foundry) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Guardians_of_the_Rift.png/48px-Guardians_of_the_Rift.png?79d31" height="20" alt=""> [Guardians of the Rift](content/minigames/guardians-of-the-rift) | 1,473 loc | [wiki](https://oldschool.runescape.wiki/w/Guardians_of_the_Rift) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Inferno_entrance.png/48px-Inferno_entrance.png?daf3a" height="20" alt=""> [Inferno](content/minigames/inferno) | 527 loc | [wiki](https://oldschool.runescape.wiki/w/Inferno) |
 | 🟢 | <img src="https://oldschool.runescape.wiki/images/thumb/Mastering_Mixology_room.png/48px-Mastering_Mixology_room.png?e26f0" height="20" alt=""> [Mastering Mixology](content/minigames/mastering-mixology) | 833 loc | [wiki](https://oldschool.runescape.wiki/w/Mastering_Mixology) |
@@ -267,9 +267,9 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/barbarian-village/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/desert` | 1 | 36 | 0 | 0 | 2026-10-22 |
 | `areas/city/desert/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
-| `areas/city/draynor` | 17 | 3,860 | 4 | 0 | 2026-11-04 |
+| `areas/city/draynor` | 17 | 3,874 | 4 | 0 | 2026-11-05 |
 | `areas/city/draynor/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
-| `areas/city/edgeville` | 4 | 375 | 0 | 0 | 2026-11-04 |
+| `areas/city/edgeville` | 4 | 379 | 0 | 0 | 2026-11-05 |
 | `areas/city/edgeville/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/falador` | 9 | 1,729 | 0 | 1 | 2026-10-25 |
 | `areas/city/falador/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
@@ -277,7 +277,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/karamja/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/lumbridge` | 27 | 6,332 | 1 | 4 | 2026-10-28 |
 | `areas/city/lumbridge/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
-| `areas/city/port-sarim` | 13 | 2,170 | 0 | 0 | 2026-11-04 |
+| `areas/city/port-sarim` | 13 | 2,181 | 0 | 0 | 2026-11-05 |
 | `areas/city/port-sarim/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/city/prifddinas` | 1 | 82 | 0 | 0 | 2026-10-22 |
 | `areas/city/rellekka` | 1 | 46 | 0 | 0 | 2026-10-22 |
@@ -289,20 +289,21 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/varrock/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/godwars` | 2 | 176 | 0 | 0 | 2026-10-27 |
 | `areas/misc/ape-atoll` | 3 | 103 | 0 | 0 | 2026-10-30 |
-| `areas/misc/black-knights-fortress` | 1 | 43 | 0 | 0 | 2026-10-22 |
+| `areas/misc/black-knights-fortress` | 1 | 43 | 0 | 0 | 2026-11-04 |
+| `areas/misc/corsaircove` | 1 | 103 | 0 | 0 | 2026-11-02 |
 | `areas/misc/deaths-office` | 5 | 1,357 | 4 | 2 | 2026-11-02 |
 | `areas/misc/deaths-office/pack` | 2 | 79 | 0 | 0 | 2026-10-25 |
 | `areas/misc/dog_shelter` | 2 | 151 | 0 | 0 | 2026-10-22 |
-| `areas/misc/dwarven-mine` | 5 | 896 | 1 | 0 | 2026-10-22 |
+| `areas/misc/dwarven-mine` | 5 | 944 | 1 | 0 | 2026-11-05 |
 | `areas/misc/dwarven-mine/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
-| `areas/misc/goblin-village` | 5 | 323 | 0 | 0 | 2026-11-04 |
+| `areas/misc/goblin-village` | 5 | 339 | 0 | 0 | 2026-11-05 |
 | `areas/misc/goblin-village/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/misc/lobbies` | 5 | 944 | 3 | 1 | 2026-10-30 |
 | `areas/misc/lobbies/pack` | 1 | 87 | 0 | 0 | 2026-10-29 |
 | `areas/misc/mining-guild` | 8 | 714 | 0 | 0 | 2026-10-22 |
 | `areas/misc/monastery` | 3 | 370 | 1 | 0 | 2026-10-22 |
-| `areas/misc/motherlode-mine` | 13 | 1,402 | 0 | 0 | 2026-10-22 |
-| `areas/misc/motherlode-mine/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
+| `areas/misc/motherlode-mine` | 14 | 1,550 | 0 | 0 | 2026-11-04 |
+| `areas/misc/motherlode-mine/pack` | 1 | 6 | 0 | 0 | 2026-11-04 |
 | `areas/misc/multiways` | 2 | 36 | 0 | 0 | 2026-10-22 |
 | `areas/misc/stronghold_of_security` | 7 | 1,437 | 2 | 0 | 2026-10-22 |
 | `areas/misc/stronghold_of_security/pack` | 2 | 134 | 0 | 0 | 2026-10-22 |
@@ -339,7 +340,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/hespori` | 2 | 330 | 1 | 0 | 2026-10-27 |
 | `bosses/kalphite-queen` | 1 | 209 | 1 | 0 | 2026-11-02 |
 | `bosses/kbd` | 2 | 151 | 0 | 0 | 2026-11-04 |
-| `bosses/kraken` | 1 | 110 | 1 | 0 | 2026-10-27 |
+| `bosses/kraken` | 4 | 712 | 1 | 0 | 2026-11-05 |
 | `bosses/kreearra` | 2 | 233 | 0 | 0 | 2026-11-02 |
 | `bosses/kril` | 2 | 198 | 0 | 0 | 2026-11-02 |
 | `bosses/leviathan` | 8 | 1,397 | 0 | 0 | 2026-10-22 |
@@ -369,7 +370,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `bosses/zalcano` | 2 | 556 | 0 | 0 | 2026-10-29 |
 | `bosses/zilyana` | 2 | 164 | 0 | 0 | 2026-11-02 |
 | `bosses/zulrah` | 4 | 639 | 1 | 0 | 2026-11-02 |
-| `drops` | 253 | 14,610 | 1 | 0 | 2026-10-31 |
+| `drops` | 253 | 14,610 | 1 | 0 | 2026-11-05 |
 | `events/raging-echoes-league` | 2 | 49 | 0 | 0 | 2026-10-22 |
 | `events/random-events` | 1 | 367 | 1 | 0 | 2026-11-02 |
 | `events/random-events/pack` | 1 | 6 | 0 | 0 | 2026-11-02 |
@@ -377,7 +378,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `events/shooting-stars/pack` | 2 | 440 | 0 | 0 | 2026-10-22 |
 | `generic/generic-items` | 2 | 150 | 2 | 0 | 2026-10-31 |
 | `generic/generic-items/pack` | 2 | 140 | 0 | 0 | 2026-10-31 |
-| `generic/generic-locs` | 32 | 1,702 | 5 | 1 | 2026-11-04 |
+| `generic/generic-locs` | 32 | 1,717 | 5 | 1 | 2026-11-05 |
 | `generic/generic-locs/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `generic/generic-npcs` | 10 | 1,672 | 3 | 3 | 2026-10-31 |
 | `generic/generic-npcs/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
@@ -394,7 +395,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `interfaces/journal-tab` | 4 | 283 | 0 | 0 | 2026-10-22 |
 | `interfaces/logout-tab` | 1 | 30 | 0 | 0 | 2026-10-22 |
 | `interfaces/menu` | 1 | 23 | 0 | 1 | 2026-10-22 |
-| `interfaces/omnishop` | 2 | 338 | 0 | 0 | 2026-11-01 |
+| `interfaces/omnishop` | 3 | 472 | 1 | 0 | 2026-11-05 |
 | `interfaces/prayer-tab` | 10 | 797 | 0 | 0 | 2026-10-30 |
 | `interfaces/settings` | 10 | 1,126 | 2 | 0 | 2026-10-25 |
 | `interfaces/settings/pack` | 2 | 222 | 0 | 0 | 2026-10-22 |
@@ -405,7 +406,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `minigames/chompy-hunting` | 4 | 450 | 0 | 0 | 2026-11-03 |
 | `minigames/fight-cave` | 3 | 486 | 0 | 0 | 2026-10-29 |
 | `minigames/gauntlet` | 35 | 3,515 | 2 | 0 | 2026-11-03 |
-| `minigames/giants-foundry` | 17 | 4,126 | 5 | 2 | 2026-10-27 |
+| `minigames/giants-foundry` | 17 | 4,123 | 5 | 2 | 2026-11-05 |
 | `minigames/giants-foundry/pack` | 2 | 345 | 0 | 0 | 2026-10-27 |
 | `minigames/guardians-of-the-rift` | 1 | 1,307 | 7 | 0 | 2026-11-03 |
 | `minigames/guardians-of-the-rift/pack` | 2 | 166 | 0 | 0 | 2026-11-02 |
@@ -439,23 +440,26 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/spawn` | 1 | 333 | 0 | 0 | 2026-10-22 |
 | `other/spawn/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `other/special-attacks` | 11 | 3,633 | 0 | 0 | 2026-11-02 |
-| `other/special-weapons` | 13 | 2,081 | 2 | 1 | 2026-10-25 |
+| `other/special-weapons` | 13 | 2,081 | 2 | 1 | 2026-11-05 |
 | `other/windmill` | 2 | 133 | 0 | 0 | 2026-10-22 |
 | `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
-| `quest` | 105 | 30,253 | 19 | 4 | 2026-11-04 |
-| `quest/pack` | 4 | 279 | 0 | 0 | 2026-11-04 |
+| `quest` | 115 | 34,122 | 20 | 4 | 2026-11-05 |
+| `quest/pack` | 4 | 279 | 0 | 0 | 2026-11-05 |
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
 | `raids/tfa` | 111 | 16,903 | 8 | 0 | 2026-11-01 |
 | `raids/tfa/pack` | 8 | 196 | 0 | 0 | 2026-11-01 |
 | `skills/agility` | 15 | 2,165 | 5 | 0 | 2026-11-04 |
 | `skills/agility/pack` | 1 | 6 | 0 | 0 | 2026-11-03 |
-| `skills/cooking` | 13 | 1,429 | 0 | 0 | 2026-10-31 |
+| `skills/cooking` | 13 | 1,433 | 0 | 0 | 2026-11-05 |
+| `skills/cooking/pack` | 1 | 6 | 0 | 0 | 2026-11-05 |
 | `skills/crafting` | 30 | 3,684 | 1 | 0 | 2026-10-31 |
 | `skills/crafting/pack` | 2 | 2,665 | 0 | 0 | 2026-10-30 |
+| `skills/farming` | 12 | 1,274 | 6 | 0 | 2026-11-05 |
+| `skills/farming/pack` | 5 | 645 | 0 | 0 | 2026-11-05 |
 | `skills/firemaking` | 6 | 589 | 0 | 0 | 2026-10-30 |
 | `skills/fishing` | 15 | 1,521 | 2 | 0 | 2026-10-30 |
 | `skills/fishing/pack` | 3 | 206 | 0 | 0 | 2026-10-22 |
-| `skills/fletching` | 1 | 276 | 1 | 0 | 2026-10-30 |
+| `skills/fletching` | 1 | 287 | 1 | 0 | 2026-11-05 |
 | `skills/fletching/pack` | 2 | 422 | 0 | 0 | 2026-10-30 |
 | `skills/herblore` | 11 | 1,189 | 1 | 0 | 2026-10-31 |
 | `skills/hunter` | 8 | 2,668 | 1 | 0 | 2026-10-31 |
@@ -472,11 +476,11 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `skills/prayer` | 30 | 2,617 | 0 | 0 | 2026-10-30 |
 | `skills/runecrafting` | 24 | 2,648 | 2 | 0 | 2026-11-02 |
 | `skills/runecrafting/pack` | 1 | 6 | 0 | 0 | 2026-11-02 |
-| `skills/slayer` | 52 | 6,006 | 8 | 0 | 2026-11-02 |
+| `skills/slayer` | 52 | 6,027 | 8 | 1 | 2026-11-05 |
 | `skills/slayer/pack` | 1 | 6 | 0 | 0 | 2026-10-30 |
 | `skills/smithing` | 15 | 2,139 | 1 | 1 | 2026-10-30 |
 | `skills/thieving` | 3 | 1,360 | 1 | 0 | 2026-11-03 |
-| `skills/utils` | 2 | 355 | 0 | 0 | 2026-10-27 |
+| `skills/utils` | 2 | 374 | 0 | 0 | 2026-11-05 |
 | `skills/woodcutting` | 6 | 522 | 3 | 3 | 2026-10-31 |
 | `travel/canoe` | 6 | 1,122 | 1 | 2 | 2026-10-22 |
 
