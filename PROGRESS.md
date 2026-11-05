@@ -289,7 +289,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `areas/city/varrock/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
 | `areas/godwars` | 2 | 176 | 0 | 0 | 2026-10-27 |
 | `areas/misc/ape-atoll` | 3 | 103 | 0 | 0 | 2026-10-30 |
-| `areas/misc/black-knights-fortress` | 1 | 45 | 0 | 0 | 2026-10-22 |
+| `areas/misc/black-knights-fortress` | 1 | 43 | 0 | 0 | 2026-10-22 |
 | `areas/misc/deaths-office` | 5 | 1,357 | 4 | 2 | 2026-11-02 |
 | `areas/misc/deaths-office/pack` | 2 | 79 | 0 | 0 | 2026-10-25 |
 | `areas/misc/dog_shelter` | 2 | 151 | 0 | 0 | 2026-10-22 |
@@ -442,7 +442,7 @@ Found the same way `settings.gradle.kts` finds them: any dir with a `build.gradl
 | `other/special-weapons` | 13 | 2,081 | 2 | 1 | 2026-10-25 |
 | `other/windmill` | 2 | 133 | 0 | 0 | 2026-10-22 |
 | `other/windmill/pack` | 1 | 6 | 0 | 0 | 2026-10-22 |
-| `quest` | 103 | 29,663 | 18 | 4 | 2026-11-04 |
+| `quest` | 105 | 30,253 | 19 | 4 | 2026-11-04 |
 | `quest/pack` | 4 | 279 | 0 | 0 | 2026-11-04 |
 | `raids/party` | 2 | 212 | 2 | 0 | 2026-10-25 |
 | `raids/tfa` | 111 | 16,903 | 8 | 0 | 2026-11-01 |

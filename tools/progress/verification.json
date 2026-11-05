@@ -1743,7 +1743,7 @@
       "automated": {
         "state": "passed",
         "evidence": [
-          "gradlew :content:skills:agility:integration \u00e2\u20ac\u201d all 9 Gnome course game tests pass after the XP correction."
+          "gradlew :content:skills:agility:integration â€” all 9 Gnome course game tests pass after the XP correction."
         ]
       },
       "mcp": {
@@ -2416,6 +2416,40 @@
         ],
         "reason": "Both gang branches verified live end-to-end plus integration coverage for the multiplayer certificate exchange."
       }
+    },
+    "Black Knights' Fortress": {
+      "status": "COMPLETE",
+      "implementationPaths": [
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/falador/blackknightsfortress/BlackKnightsFortress.kt",
+        "content/quest/src/main/kotlin/org/rsmod/content/quest/area/falador/blackknightsfortress/BlackKnightsFortressDialogue.kt",
+        "content/quest/pack/src/main/resources/pack/configs/black_knights_fortress_vars.toml",
+        "content/quest/pack/src/main/resources/gamevals.toml",
+        ".data/gamevals/varbit.rscm",
+        "content/areas/misc/black-knights-fortress/src/main/kotlin/org/rsmod/content/areas/misc/blackknights/FortressGuard.kt",
+        "content/quest/src/integration/kotlin/org/rsmod/content/quest/area/falador/blackknightsfortress/BlackKnightsFortressInteractionTest.kt"
+      ],
+      "wikiReferences": [
+        "https://oldschool.runescape.wiki/w/Black_Knights%27_Fortress_(quest)",
+        "https://oldschool.runescape.wiki/w/Transcript:Black_Knights%27_Fortress",
+        "LostCity quest_blackknight.rs2 + fortress_guard.rs2 + sir_amik_varze.rs2 (check_axis door semantics, guard dialogue, cabbage swap, aggro)"
+      ],
+      "mechanics": {
+        "state": "verified",
+        "evidence": [
+          "Live MCP end-to-end on rev 241 cache as devin ai 2: Sir Amik Varze prequest -> 'I seek a quest' -> varp.qp 9 produced 'You need at least 12 quest points before you may attempt this quest.' (requirement gate verified), qp set to 12 -> accept chain -> varp.spy (130) 0->1.",
+          "Front door bkfortressdoor1 (2337) check_axis semantics: uniformless open from the outside line produced the fortress guard intercept 'Hey, you can't come in here!|This is a high security military installation.' plus authentic 3-option dialogue incl. uniform hint 'It's iron chain mail and a medium bronze helmet.' Wearing bronze med helm (1139) + iron chainbody (1101) opened the door.",
+          "Secret wall bksecretdoor (2341) Push -> 'You push against the wall. You find a secret passage.' -> player moved through the wall; swapped to inviswall for the pass duration.",
+          "Banquet door bkfortressdoor2 (2338): off-axis open produced the guard warning 'I wouldn't go in there if I woz you...' -> 'I don't care. I'm going in anyway.' -> door opened and Black Knights aggressed with 'Die intruder!!!' overhead; on-axis open from the doorway line gave a plain open with no guard or aggro (LC check_axis parity).",
+          "Ladder door bkfortressdoor3 (2339): on-axis open plain; off-axis open from the garrison side (3026,3511,1) triggered black_knights_aggro - 'Die intruder!!!' + 3 Black Knights (517/11953) attacking.",
+          "Grill witchgrill (2342) Listen-at at stage 1 -> full eavesdrop chain (grillknight/fortwitch/greldo chatNpcSpecific) -> varp.spy 1->2; re-listen produced 'I can't hear much right now.'",
+          "FIX during verification: cabbage bindings were swapped vs LostCity - regular cabbage (obj.cabbage, 1965) is the sabotage item, Draynor Manor magic cabbage (obj.magic_cabbage, 1967) is 'the wrong sort'. Corrected and re-verified live: 1967 -> 'This is the wrong sort of cabbage!' + 'You are meant to be hindering the witch.' + 'Not helping her.'; 1965 -> 'You drop a cabbage down the hole.' + 3 cauldron messages + player line 'Right I think that's successfully sabotaged the secret weapon.' -> varp.spy 2->3, cabbage consumed.",
+          "Unopenable doors inaclefayeunopenabledoorl/r (73/74) both produce 'You can't open this door.'; inactive swap variant inacbkfortressdoor (2340) bound to 'It's locked.' per LC (the swapped loc exposes no client op in this rev, unreachable through normal clicks).",
+          "Completion: stage-3 hand-in at Sir Amik -> authentic 'withdraw their demands' chain -> reward scroll 3 QP + 2500 coins (coins 1850->4350, varp.qp ->15), varp.spy ->4 matching the cache dbrow endstate; post-quest 'Hello, friend!' greeting verified; stage 1/2 in-progress lines verified via ::varp spy.",
+          "Quest state uses real varp.spy (130) with server-only varbit.blackknightsfortress_progress overlay (bits 0-2) added via pack config + gamevals.",
+          "Integration tests ./gradlew :content:quest:integration --tests '*BlackKnightsFortressInteractionTest*' 7/7 pass: <12 QP rejection, quest acceptance, grill eavesdrop stage 1->2, Draynor cabbage rejection, plain cabbage sabotage + consumption, pre-eavesdrop 'why would I' guard, Sir Amik reward (2500 coins + 3 QP + stage 4)."
+        ],
+        "reason": "Full quest verified live end-to-end on both cabbage paths after the LC-parity fix, with door axis/aggro semantics checked against LostCity."
+      }
     }
   },
   "records": {
@@ -2515,7 +2549,7 @@
       "mechanics": "in_progress",
       "notes": [
         "Added prayer-gated Ranged attack (wiki styles Crush+Ranged; fires vs Protect from Melee). mcp unverified.",
-        "Wiki mechanics: signature slam special added (forced every 6-10 attacks \u00e2\u20ac\u201d hits through prayer, drains 5 prayer, disables overhead prayers); mcp unverified."
+        "Wiki mechanics: signature slam special added (forced every 6-10 attacks â€” hits through prayer, drains 5 prayer, disables overhead prayers); mcp unverified."
       ]
     },
     "Gelatinnoth Mother": {
@@ -2653,7 +2687,7 @@
       "mcp": "unverified",
       "mechanics": "in_progress",
       "notes": [
-        "Wiki mechanics: colour-cycle rework \u00e2\u20ac\u201d phases transmog to each colour form, incoming hits capped to 0 unless matching combat style/elemental spell, random colour rotation every 16 ticks; mcp unverified."
+        "Wiki mechanics: colour-cycle rework â€” phases transmog to each colour form, incoming hits capped to 0 unless matching combat style/elemental spell, random colour rotation every 16 ticks; mcp unverified."
       ]
     },
     "Sigmund": {
@@ -2661,7 +2695,7 @@
       "mcp": "unverified",
       "mechanics": "in_progress",
       "notes": [
-        "Wiki mechanics: adaptive protection prayer \u00e2\u20ac\u201d first hit of each style lands, then he protects against it (immune varns + transmog to matching _melee/_ranged/_magic NPC form); mcp unverified."
+        "Wiki mechanics: adaptive protection prayer â€” first hit of each style lands, then he protects against it (immune varns + transmog to matching _melee/_ranged/_magic NPC form); mcp unverified."
       ]
     }
   }

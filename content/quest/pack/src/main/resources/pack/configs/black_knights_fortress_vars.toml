@@ -1,0 +1,6 @@
+[[varbit]]
+isServerOnly = true
+id = "varbit.blackknightsfortress_progress"
+varp = "varp.spy"
+startBit = 0
+endBit = 2
